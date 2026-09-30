@@ -144,7 +144,7 @@ class TaskCreator(context: EngineContext) {
         case arg: Expression =>
           val outParams = argToOutputParams(arg).l
           outParams
-            .filterNot(_.method.isExternal)
+            .filterNot(p => p.method.isExternal || context.semantics.forMethod(p.method).isDefined)
             .map { p =>
               val newStack =
                 arg.inCall.headOption.map { x => x :: result.callSiteStack }.getOrElse(result.callSiteStack)

@@ -33,6 +33,11 @@ class QueryDiagnosticsTests extends AnyWordSpec with Matchers {
         tasks.map(_.sink) shouldBe Vector(output)
         tasks.head.callSiteStack shouldBe List(call, outer)
         tasks.head.callDepth shouldBe 2
+        val semantics = io.joern.dataflowengineoss
+          .DefaultSemantics()
+          .plus(List(io.joern.dataflowengineoss.semanticsloader.FlowSemantic.from("mutate", List((1, 1), (1, -1)))))
+        semantics.initialize(cpg)
+        new TaskCreator(EngineContext(semantics = semantics)).createFromResults(Vector(result)) shouldBe empty
       } finally cpg.close()
     }
   }
