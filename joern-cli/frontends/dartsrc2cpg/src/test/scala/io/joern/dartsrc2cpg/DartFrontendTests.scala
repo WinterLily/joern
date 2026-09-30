@@ -1001,28 +1001,37 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
       ) { (cpg, _) =>
         for (
           (name, expected) <- Seq(
-            "readValue"          -> true,
-            "nestedValue"        -> true,
-            "aliasValue"         -> true,
-            "caughtValue"        -> true,
-            "readOther"          -> false,
-            "nestedOther"        -> false,
-            "independentMember"  -> false,
-            "aliasOther"         -> false,
-            "independentObjects" -> false,
-            "caughtOther"        -> false
+            "readValue"              -> true,
+            "nestedValue"            -> true,
+            "aliasValue"             -> true,
+            "copiedField"            -> true,
+            "aliasWrite"             -> true,
+            "guardedAlias"           -> true,
+            "aliasWriteOther"        -> false,
+            "reboundBase"            -> false,
+            "capturedRebinding"      -> false,
+            "overwrittenField"       -> false,
+            "conditionalOverwrite"   -> true,
+            "bothBranchesOverwrite"  -> false,
+            "throwingOverwrite"      -> true,
+            "reintroducedField"      -> true,
+            "readBeforeOverwrite"    -> true,
+            "parentFieldOverwrite"   -> false,
+            "otherParentOverwrite"   -> true,
+            "optionalLoopOverwrite"  -> true,
+            "mandatoryLoopOverwrite" -> false,
+            "caughtValue"            -> true,
+            "readOther"              -> false,
+            "nestedOther"            -> false,
+            "independentMember"      -> false,
+            "aliasOther"             -> false,
+            "independentObjects"     -> false,
+            "caughtOther"            -> false
           )
         ) {
           val method = cpg.method.nameExact(name).head
           withClue(name) {
             method.ast.isReturn.reachableByFlows(method.parameter.nameExact("input")).nonEmpty shouldBe expected
-          }
-        }
-        // Receiver-alias writes and field overwrites still lack precise heap effects.
-        for ((name, observed) <- Seq("copiedField" -> false, "overwrittenField" -> true)) {
-          val method = cpg.method.nameExact(name).head
-          withClue(s"Known heap approximation: $name") {
-            method.ast.isReturn.reachableByFlows(method.parameter.nameExact("input")).nonEmpty shouldBe observed
           }
         }
       }

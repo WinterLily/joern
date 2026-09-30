@@ -92,9 +92,9 @@
       "exporter": "analyzer constructor, field and accessor identities",
       "lowering": "DartFrontendTests: returned instances and bare returns; receiver evaluation retained once",
       "resolution": "resolved constructor and accessor targets; general virtual dispatch unqualified",
-      "cfg": "constructor initializers and generated receiver captures; strong heap updates unqualified",
-      "valueFlow": "ReturnedFieldTests and DartFrontendTests: bounded constant-field demands across internal calls, nested fields, read aliases and caught objects",
-      "negative": "unrelated fields and inputs; opaque summaries remain conservative; alias writes and field overwrites have recorded failures",
+      "cfg": "constructor initializers, generated receiver captures and replacement stores on every route to a field read",
+      "valueFlow": "ReturnedFieldTests and DartFrontendTests: bounded constant-field demands across internal calls, nested fields, stable direct reference copies and caught objects",
+      "negative": "unrelated fields and inputs, same-code independent storage, constant-field overwrites; opaque summaries remain conservative",
       "interaction": "astgen/test/returned_fields_test.dart: calls, aliases, explicit copies, overwrite, independent objects and exceptions"
     },
     "exceptions": {
@@ -338,7 +338,7 @@
       "exporterCase": "ConstructorDeclaration",
       "contract": "heap",
       "qualification": "unqualified",
-      "reason": "Construction and returned-field isolation tested; receiver-alias writes, strong updates and general heap identity remain open."
+      "reason": "Construction, stable direct aliases and intraprocedural constant-field overwrites tested; mutable aliases, interprocedural updates and general heap identity remain open."
     },
     {
       "construct": "ConstructorFieldInitializer",
@@ -802,7 +802,7 @@
       "exporterCase": "InstanceCreationExpression",
       "contract": "heap",
       "qualification": "unqualified",
-      "reason": "Construction and returned-field isolation tested; receiver-alias writes, strong updates and general heap identity remain open."
+      "reason": "Construction, stable direct aliases and intraprocedural constant-field overwrites tested; mutable aliases, interprocedural updates and general heap identity remain open."
     },
     {
       "construct": "IntegerLiteral",
@@ -1114,7 +1114,7 @@
       "exporterCase": "PrefixedIdentifier",
       "contract": "heap",
       "qualification": "unqualified",
-      "reason": "Constant-field paths across calls tested; alias writes, strong updates and broader identity/dispatch obligations remain open."
+      "reason": "Constant-field paths across calls, stable aliases and intraprocedural overwrites tested; mutable aliases, interprocedural updates and broader identity/dispatch obligations remain open."
     },
     {
       "construct": "PrefixExpression",
@@ -1146,7 +1146,7 @@
       "exporterCase": "PropertyAccess",
       "contract": "heap",
       "qualification": "unqualified",
-      "reason": "Constant-field paths across calls tested; alias writes, strong updates and broader identity/dispatch obligations remain open."
+      "reason": "Constant-field paths across calls, stable aliases and intraprocedural overwrites tested; mutable aliases, interprocedural updates and broader identity/dispatch obligations remain open."
     },
     {
       "construct": "RecordLiteral",

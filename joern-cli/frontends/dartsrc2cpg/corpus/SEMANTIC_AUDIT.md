@@ -376,8 +376,20 @@ The shared regression queries two fields and two unrelated inputs together,
 through an internal wrapper, with direct field copies and with an opaque summary.
 Opaque summaries remain conservative about object layout. Dart checks add nested
 members, read aliases and caught objects, with an independent execution oracle.
-Two further gaps remain explicit: writing through the captured receiver alias
-loses the `copiedField` dependency, while `overwrittenField` retains old taint after
-a constant write. Those observations are regression records of limitations, not
-expected Dart semantics. General alias mutation and strong heap updates remain
-open obligations.
+Stable direct reference copies now preserve receiver-alias writes, including the
+lowering's generated receiver captures. The alias must have one definition that
+dominates its use, with no rebinding or mutable closure capture. This policy is
+limited to Dart; the shared regression retains C's value-copy isolation. Field
+dependencies and definition kills compare storage identities instead of relying
+on equal source text. Independent objects with identical field-access code have
+a reduced regression.
+
+Intraprocedural constant-field overwrites now remove an older value only when
+every CFG route from its definition to the read crosses a replacement store.
+Regressions cover both-branch replacement, an optional branch, zero-iteration and
+mandatory loops, assignment exceptions, parent-field replacement, reintroduced
+input and a value saved before the overwrite. The independent Dart oracle checks
+both branch outcomes and bounded loop counts. Opaque summaries, mutable aliases,
+closure effects, collection slots and interprocedural heap updates remain outside
+this qualified subset; this does not establish general allocation-sensitive
+heap analysis.

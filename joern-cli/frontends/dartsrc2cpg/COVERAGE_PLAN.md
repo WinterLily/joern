@@ -32,7 +32,9 @@ and normal-return-summary regressions. Unavailable external and implicit runtime
 payloads remain explicit query limitations. The frontend is an
 initial implementation. Constant-field demands now survive internal calls and
 reject the documented returned-object unrelated-field false positive. Receiver
-alias writes and strong field overwrites remain separate reduced failures. This is
+alias writes now preserve stable direct reference copies, and constant-field
+overwrites discard old values only when every CFG route crosses a replacement
+store. Mutable aliases and interprocedural heap updates remain unqualified. This is
 not complete language or runtime analysis support.
 This plan supersedes the completion assumptions in the original implementation
 plan in `agents/plan.md`; it does not mark the remaining work as done.
@@ -70,8 +72,8 @@ Dependencies are resolved but their bodies are generally outside each graph.
 The original committed queries check 67 selected relationships: 46 expected flows and 21
 expected non-flows. Stock semantics matches 65/67; the optional summaries match
 67/67. The Gate 1 increments add nine positive controls (76 total); see the semantic
-audit for current results. Two stock false positives and separate alias-write and
-field-overwrite limitations are documented. These are counts of endpoint expectations, not counts
+audit for current results. Two stock false positives and the bounded alias/field
+contracts are documented. These are counts of endpoint expectations, not counts
 of independently verified paths or estimates of whole-program precision/recall.
 
 The work included source-grounded expectations, positive/negative queries,
@@ -193,8 +195,9 @@ required contract is a blocking dependency, not a completed frontend feature.
       points-to approximation and distinguish callable identity from object state.
 - [ ] Heap model: fields of the same object, independent objects of the same type,
       aliases, writes/overwrites, constructor results, records and collection slots.
-      The initial `Box(input).other` false positive is fixed; receiver-alias writes
-      and field overwrites now have separate reduced failures.
+      The initial `Box(input).other` false positive, stable receiver-alias writes
+      and intraprocedural constant-field overwrites have reduced regressions;
+      mutable aliases, collection slots and interprocedural updates remain open.
 - [ ] Verify positive and negative dependencies across file/package boundaries,
       callback boundaries and repeated calls with unrelated inputs.
 - [ ] Test several bounded call-depth settings, recursion and large methods.
