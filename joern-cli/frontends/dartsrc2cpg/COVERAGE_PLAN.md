@@ -24,8 +24,10 @@ oracles and an explicit report field. Generated enum values, ordinal/name storag
 concrete accessors and default conversions have override and execution regressions;
 interface dispatch and heap qualification remain open. Ordered catch filters,
 explicit caught-value bindings and pending returns across handled cleanup failures
-now have focused regressions and execution checks; thrown-payload dataflow remains
-open. The frontend is an
+now have focused regressions and execution checks. Intraprocedural throw/rethrow
+payloads preserve separate value/stack channels across cleanup, including exit
+replacement by return, throw and outward loop jumps. Exception payloads across
+calls remain open. The frontend is an
 initial implementation, not complete language or runtime analysis support.
 This plan supersedes the completion assumptions in the original implementation
 plan in `agents/plan.md`; it does not mark the remaining work as done.

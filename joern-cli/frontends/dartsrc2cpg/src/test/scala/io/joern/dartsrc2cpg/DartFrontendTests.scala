@@ -115,6 +115,42 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         cpg.unknown.size shouldBe 0
       }
     }
+    "carry thrown values through catches and cleanup without mixing channels" in {
+      fixture(
+        Files.readString(frontend.resolve("src/test/resources/semantics/catch_dispatch.dart")),
+        "void main() {}"
+      ) { (cpg, _) =>
+        for (
+          (name, expected) <- Seq(
+            "caughtValue"            -> true,
+            "caughtConstructed"      -> true,
+            "forwardedRethrow"       -> true,
+            "throughFinally"         -> true,
+            "throughHandledCleanup"  -> true,
+            "localBreakInCleanup"    -> true,
+            "localContinueInCleanup" -> true,
+            "caughtTrace"            -> false,
+            "caughtReplacement"      -> false,
+            "independentHandler"     -> false,
+            "replacedInCleanup"      -> false,
+            "returnedFromCleanup"    -> false,
+            "breakFromCleanup"       -> false,
+            "continueFromCleanup"    -> false
+          )
+        ) {
+          val method = cpg.method.nameExact(name).head
+          withClue(name) {
+            method.ast.isReturn.reachableByFlows(method.parameter.nameExact("input")).nonEmpty shouldBe expected
+          }
+        }
+        val handled = cpg.method.nameExact("throughHandledCleanup").head
+        handled.call
+          .nameExact("toString")
+          .argument(0)
+          .reachableByFlows(handled.parameter.nameExact("input"))
+          .isEmpty shouldBe true
+      }
+    }
     "preserve pending return flow when cleanup handles its own failure" in {
       fixture(
         Files.readString(frontend.resolve("src/test/resources/semantics/catch_dispatch.dart")),

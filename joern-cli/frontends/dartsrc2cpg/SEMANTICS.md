@@ -64,12 +64,20 @@ unmatched typed clauses leave through an explicit rethrow. Rethrow arguments
 retain the active exception and stack values. Nested functions do not inherit
 that lexical rethrow context. Type tests retain both successors; this is not a
 path-sensitive exception-type analysis. Calls remain conservatively throwable.
-The caught-value intrinsics currently identify channels without linking thrown
-payloads across handlers or calls; general exception dataflow remains open.
+Explicit throw operands feed their lexical catch dispatcher's value channel.
+An explicit second operand feeds only the stack channel, so rethrow preserves
+the two separately. These dependencies are intraprocedural and require a CFG
+route that preserves the pending exception through intervening cleanup. A
+cleanup-local handler receives its own exception; the suspended outer value
+continues to its enclosing handler. Calls throwing across method boundaries and
+implicit runtime exception payloads remain unmodeled.
 
 Finally bodies intercept pending exits. An explicit exception handled entirely
 inside a cleanup preserves its pending return dependency. An exception escaping
 that cleanup, a rethrow, or a replacement return discards the earlier value.
+A break/continue leaving cleanup also discards the pending value, while a jump
+to a loop or label inside cleanup preserves it. The same boundary checks apply
+to pending return and exception values.
 The shared CFG joins pending exits conservatively; these regression cases do not
 establish arbitrary path feasibility.
 

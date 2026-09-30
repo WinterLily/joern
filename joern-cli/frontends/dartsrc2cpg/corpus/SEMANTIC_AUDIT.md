@@ -327,3 +327,19 @@ baselines. Runtime checks exercise typed/fallback selection, overlapping filters
 unmatched propagation, rethrow object identity and handled cleanup failures.
 Thrown-payload dependencies between handlers and calls remain an open engine
 contract; the new intrinsics identify channels without claiming that flow.
+
+## Intraprocedural caught-value flow
+
+The follow-up shared-engine regressions connect explicit throw operands to their
+lexical catch channels. Value and stack operands remain separate, including
+rethrow and constructed exceptions. Pending exception values now traverse normal
+cleanup and cleanup-local handled failures. Replacement throws, returns, and
+break/continue leaving cleanup discard the suspended value. Local loop jumps
+preserve it. The jump regression initially admitted the original exception after
+a cleanup break reached a later potentially throwing call; it now rejects that
+route. The same exit-preservation walk checks pending returns.
+
+The Dart fixture checks positive flows and isolation at actual return statements,
+rather than relying on a parameter-to-method-exit shortcut. Runtime checks verify
+object identity, cleanup traces, replacement constants, and local/outward jumps.
+Exception payloads thrown across calls and implicit runtime failures remain open.

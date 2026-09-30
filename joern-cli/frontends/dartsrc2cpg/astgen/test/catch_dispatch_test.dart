@@ -35,8 +35,44 @@ void main() {
     },
   );
 
+  test(
+    'caught values preserve identity while replacement and later handlers stay independent',
+    () {
+      final input = Object();
+      expect(identical(fixture.caughtValue(input), input), isTrue);
+      expect(
+        (fixture.caughtConstructed(input) as fixture.Failure).value,
+        same(input),
+      );
+      expect(identical(fixture.forwardedRethrow(input), input), isTrue);
+      expect(fixture.caughtTrace(input), isA<StackTrace>());
+      expect(fixture.caughtReplacement(input), 'constant');
+      expect(fixture.independentHandler(input), 'constant');
+    },
+  );
+
   test('a failure handled inside cleanup preserves the pending return', () {
     expect(fixture.preservedReturn('input'), 'input');
     expect(fixture.trace, ['handled']);
+  });
+
+  test('cleanup preserves or replaces the pending exception value', () {
+    final input = Object();
+    expect(fixture.throughFinally(input), same(input));
+    expect(fixture.trace, ['normal']);
+    fixture.trace.clear();
+    expect(fixture.throughHandledCleanup(input), same(input));
+    expect(fixture.trace, ['cleanup']);
+    expect(fixture.replacedInCleanup(input), 'constant');
+    expect(fixture.returnedFromCleanup(input), 'constant');
+  });
+
+  test('only jumps leaving cleanup discard its pending exception', () {
+    final input = Object();
+    expect(fixture.breakFromCleanup(input), 'constant');
+    expect(fixture.continueFromCleanup(input), 'constant');
+    expect(fixture.trace, ['after break', 'after continue']);
+    expect(fixture.localBreakInCleanup(input), same(input));
+    expect(fixture.localContinueInCleanup(input), same(input));
   });
 }
