@@ -14,7 +14,12 @@ The distribution includes `dataflow/async.semantics`, an opt-in summary for
 inputs in the receiver, keeps each input's identity, and prevents error/trace
 cross-contamination. The method has no returned value. It does not model delivery
 to a Future consumer. Focused positive/negative tests and the real `async`
-package exercise this contract.
+package exercise this contract. The default-zone execution oracle checks the
+error/trace identity, an independent successful future and repeated-completion
+failure. A separate zone oracle demonstrates error replacement before storage.
+Arbitrary zone interception, scheduling, delivery and allocation-sensitive future
+identity remain outside the static summary. The real-project positive control
+queries error-to-receiver storage, not a field-read node against itself.
 
 Load it for queries against an existing OSS dataflow overlay:
 

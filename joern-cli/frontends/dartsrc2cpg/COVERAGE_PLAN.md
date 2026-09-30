@@ -59,7 +59,7 @@ Dependencies are resolved but their bodies are generally outside each graph.
 
 The original committed queries check 67 selected relationships: 46 expected flows and 21
 expected non-flows. Stock semantics matches 65/67; the optional summaries match
-67/67. The Gate 1 increment adds eight positive controls (75 total); see the semantic
+67/67. The Gate 1 increments add nine positive controls (76 total); see the semantic
 audit for current results. Two stock false positives and a separate returned-object field precision
 limitation are documented. These are counts of endpoint expectations, not counts
 of independently verified paths or estimates of whole-program precision/recall.

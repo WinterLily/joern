@@ -10,6 +10,9 @@ import io.shiftleft.codepropertygraph.generated.Cpg
 import io.shiftleft.semanticcpg.language.*
 import io.shiftleft.semanticcpg.validation.{PostFrontendValidator, ValidationLevel}
 import java.nio.file.{Files, Path}
+import java.nio.charset.StandardCharsets.UTF_8
+import java.security.MessageDigest
+import scala.jdk.CollectionConverters.*
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
@@ -28,6 +31,47 @@ class DartCorpusTests extends AnyWordSpec with Matchers {
   private val projects = ujson.read(Files.readString(corpus.resolve("projects.json"))).arr.toSeq
 
   private val baseline = ujson.read(Files.readString(corpus.resolve("graph-baseline.json"))).arr.toSeq
+
+  private lazy val analysisSources = {
+    val roots = Seq(
+      "joern-cli/frontends/dartsrc2cpg/src",
+      "joern-cli/frontends/dartsrc2cpg/astgen/lib",
+      "joern-cli/frontends/dartsrc2cpg/astgen/bin",
+      "joern-cli/frontends/x2cpg/src/main",
+      "dataflowengineoss/src/main",
+      "semanticcpg/src/main",
+      "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.lock",
+      "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.yaml",
+      "joern-cli/frontends/dartsrc2cpg/build.sbt",
+      "joern-cli/frontends/x2cpg/build.sbt",
+      "joern-cli/build.sbt",
+      "dataflowengineoss/build.sbt",
+      "semanticcpg/build.sbt",
+      "build.sbt",
+      "project/Versions.scala",
+      "project/Projects.scala"
+    )
+    val files = roots
+      .flatMap { root =>
+        val stream = Files.walk(repository.resolve(root))
+        try stream.iterator().asScala.filter(Files.isRegularFile(_)).toList
+        finally stream.close()
+      }
+      .sortBy(path => repository.relativize(path).toString.replace('\\', '/'))
+    val digest = MessageDigest.getInstance("SHA-256")
+    files.foreach { file =>
+      digest.update(repository.relativize(file).toString.replace('\\', '/').getBytes(UTF_8))
+      digest.update(0.toByte)
+      digest.update(Files.readAllBytes(file))
+      digest.update(0.toByte)
+    }
+    ujson.Obj(
+      "algorithm" -> "sha256-path-nul-content-nul",
+      "sha256"    -> java.util.HexFormat.of().formatHex(digest.digest()),
+      "files"     -> files.size,
+      "roots"     -> ujson.Arr.from(roots)
+    )
+  }
 
   private def audit(cpg: Cpg, packageName: String): Seq[String] = {
     val errors                                          = scala.collection.mutable.ArrayBuffer.empty[String]
@@ -167,9 +211,10 @@ class DartCorpusTests extends AnyWordSpec with Matchers {
             root.resolve("dataflow-audit.json"),
             ujson.write(
               ujson.Obj(
-                "source"     -> project,
-                "coverage"   -> ujson.read(Files.readString(root.resolve("coverage.json"))),
-                "modelFiles" -> ujson.Obj.from(List("async", "worker_manager", "iterable", "bytes").map { name =>
+                "analysisSources" -> analysisSources,
+                "source"          -> project,
+                "coverage"        -> ujson.read(Files.readString(root.resolve("coverage.json"))),
+                "modelFiles"      -> ujson.Obj.from(List("async", "worker_manager", "iterable", "bytes").map { name =>
                   name -> ujson.Str(Files.readString(frontend.resolve(s"dataflow/$name.semantics")))
                 }),
                 "defaultSemantics" -> defaultFlows,

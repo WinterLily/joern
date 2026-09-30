@@ -1,6 +1,29 @@
 [
   {
     "project": "path-1.9.1",
+    "analysisSources": {
+      "algorithm": "sha256-path-nul-content-nul",
+      "sha256": "1decf64a47b453fcf81904085696cfff0d2dabf4d6b1abdb89ec292cb504c7bc",
+      "files": 351,
+      "roots": [
+        "joern-cli/frontends/dartsrc2cpg/src",
+        "joern-cli/frontends/dartsrc2cpg/astgen/lib",
+        "joern-cli/frontends/dartsrc2cpg/astgen/bin",
+        "joern-cli/frontends/x2cpg/src/main",
+        "dataflowengineoss/src/main",
+        "semanticcpg/src/main",
+        "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.lock",
+        "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.yaml",
+        "joern-cli/frontends/dartsrc2cpg/build.sbt",
+        "joern-cli/frontends/x2cpg/build.sbt",
+        "joern-cli/build.sbt",
+        "dataflowengineoss/build.sbt",
+        "semanticcpg/build.sbt",
+        "build.sbt",
+        "project/Versions.scala",
+        "project/Projects.scala"
+      ]
+    },
     "source": {
       "name": "path",
       "version": "1.9.1",
@@ -43,6 +66,7 @@
         "stockPassed": true,
         "modeledFlow": true,
         "modeledPassed": true,
+        "distinctEndpoints": true,
         "viaSatisfied": true,
         "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "flow-observed",
@@ -69,6 +93,7 @@
         "stockPassed": true,
         "modeledFlow": true,
         "modeledPassed": true,
+        "distinctEndpoints": true,
         "viaSatisfied": true,
         "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "flow-observed",
@@ -95,6 +120,7 @@
         "stockPassed": true,
         "modeledFlow": true,
         "modeledPassed": true,
+        "distinctEndpoints": true,
         "viaSatisfied": true,
         "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "flow-observed",
@@ -121,6 +147,7 @@
         "stockPassed": true,
         "modeledFlow": false,
         "modeledPassed": true,
+        "distinctEndpoints": true,
         "viaSatisfied": true,
         "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "no-flow-observed-within-limits",
@@ -133,7 +160,11 @@
           "stock": 0,
           "modeled": 0
         },
-        "positiveControl": "set-extension-suffix"
+        "positiveControl": "set-extension-suffix",
+        "positiveControlSatisfied": {
+          "stock": true,
+          "modeled": true
+        }
       },
       {
         "id": "cross-file-basename",
@@ -144,6 +175,7 @@
         "stockPassed": true,
         "modeledFlow": true,
         "modeledPassed": true,
+        "distinctEndpoints": true,
         "viaSatisfied": true,
         "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "flow-observed",
@@ -161,6 +193,29 @@
   },
   {
     "project": "collection-1.19.1",
+    "analysisSources": {
+      "algorithm": "sha256-path-nul-content-nul",
+      "sha256": "1decf64a47b453fcf81904085696cfff0d2dabf4d6b1abdb89ec292cb504c7bc",
+      "files": 351,
+      "roots": [
+        "joern-cli/frontends/dartsrc2cpg/src",
+        "joern-cli/frontends/dartsrc2cpg/astgen/lib",
+        "joern-cli/frontends/dartsrc2cpg/astgen/bin",
+        "joern-cli/frontends/x2cpg/src/main",
+        "dataflowengineoss/src/main",
+        "semanticcpg/src/main",
+        "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.lock",
+        "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.yaml",
+        "joern-cli/frontends/dartsrc2cpg/build.sbt",
+        "joern-cli/frontends/x2cpg/build.sbt",
+        "joern-cli/build.sbt",
+        "dataflowengineoss/build.sbt",
+        "semanticcpg/build.sbt",
+        "build.sbt",
+        "project/Versions.scala",
+        "project/Projects.scala"
+      ]
+    },
     "source": {
       "name": "collection",
       "version": "1.19.1",
@@ -203,6 +258,7 @@
         "stockPassed": true,
         "modeledFlow": true,
         "modeledPassed": true,
+        "distinctEndpoints": true,
         "viaSatisfied": true,
         "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "flow-observed",
@@ -225,6 +281,7 @@
         "stockPassed": true,
         "modeledFlow": true,
         "modeledPassed": true,
+        "distinctEndpoints": true,
         "viaSatisfied": true,
         "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "flow-observed",
@@ -247,6 +304,7 @@
         "stockPassed": true,
         "modeledFlow": false,
         "modeledPassed": true,
+        "distinctEndpoints": true,
         "viaSatisfied": true,
         "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "no-flow-observed-within-limits",
@@ -259,7 +317,11 @@
           "stock": 0,
           "modeled": 0
         },
-        "positiveControl": "search-list-not-key-control"
+        "positiveControl": "search-list-not-key-control",
+        "positiveControlSatisfied": {
+          "stock": true,
+          "modeled": true
+        }
       },
       {
         "id": "reverse-loop-element",
@@ -270,6 +332,7 @@
         "stockPassed": true,
         "modeledFlow": true,
         "modeledPassed": true,
+        "distinctEndpoints": true,
         "viaSatisfied": true,
         "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "flow-observed",
@@ -292,6 +355,7 @@
         "stockPassed": true,
         "modeledFlow": false,
         "modeledPassed": true,
+        "distinctEndpoints": true,
         "viaSatisfied": true,
         "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "no-flow-observed-within-limits",
@@ -304,7 +368,11 @@
           "stock": 0,
           "modeled": 0
         },
-        "positiveControl": "constant-not-found-control"
+        "positiveControl": "constant-not-found-control",
+        "positiveControlSatisfied": {
+          "stock": true,
+          "modeled": true
+        }
       },
       {
         "id": "search-list-not-key-control",
@@ -315,6 +383,7 @@
         "stockPassed": true,
         "modeledFlow": true,
         "modeledPassed": true,
+        "distinctEndpoints": true,
         "viaSatisfied": true,
         "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "flow-observed",
@@ -337,6 +406,7 @@
         "stockPassed": true,
         "modeledFlow": true,
         "modeledPassed": true,
+        "distinctEndpoints": true,
         "viaSatisfied": true,
         "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "flow-observed",
@@ -354,6 +424,29 @@
   },
   {
     "project": "meta-1.17.0",
+    "analysisSources": {
+      "algorithm": "sha256-path-nul-content-nul",
+      "sha256": "1decf64a47b453fcf81904085696cfff0d2dabf4d6b1abdb89ec292cb504c7bc",
+      "files": 351,
+      "roots": [
+        "joern-cli/frontends/dartsrc2cpg/src",
+        "joern-cli/frontends/dartsrc2cpg/astgen/lib",
+        "joern-cli/frontends/dartsrc2cpg/astgen/bin",
+        "joern-cli/frontends/x2cpg/src/main",
+        "dataflowengineoss/src/main",
+        "semanticcpg/src/main",
+        "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.lock",
+        "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.yaml",
+        "joern-cli/frontends/dartsrc2cpg/build.sbt",
+        "joern-cli/frontends/x2cpg/build.sbt",
+        "joern-cli/build.sbt",
+        "dataflowengineoss/build.sbt",
+        "semanticcpg/build.sbt",
+        "build.sbt",
+        "project/Versions.scala",
+        "project/Projects.scala"
+      ]
+    },
     "source": {
       "name": "meta",
       "version": "1.17.0",
@@ -396,6 +489,7 @@
         "stockPassed": true,
         "modeledFlow": true,
         "modeledPassed": true,
+        "distinctEndpoints": true,
         "viaSatisfied": true,
         "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "flow-observed",
@@ -418,6 +512,7 @@
         "stockPassed": true,
         "modeledFlow": false,
         "modeledPassed": true,
+        "distinctEndpoints": true,
         "viaSatisfied": true,
         "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "no-flow-observed-within-limits",
@@ -430,7 +525,11 @@
           "stock": 0,
           "modeled": 0
         },
-        "positiveControl": "named-reason-to-reason"
+        "positiveControl": "named-reason-to-reason",
+        "positiveControlSatisfied": {
+          "stock": true,
+          "modeled": true
+        }
       },
       {
         "id": "named-parameterDefined-to-reason",
@@ -441,6 +540,7 @@
         "stockPassed": true,
         "modeledFlow": false,
         "modeledPassed": true,
+        "distinctEndpoints": true,
         "viaSatisfied": true,
         "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "no-flow-observed-within-limits",
@@ -453,7 +553,11 @@
           "stock": 0,
           "modeled": 0
         },
-        "positiveControl": "named-parameterDefined-to-parameterDefined"
+        "positiveControl": "named-parameterDefined-to-parameterDefined",
+        "positiveControlSatisfied": {
+          "stock": true,
+          "modeled": true
+        }
       },
       {
         "id": "named-parameterDefined-to-parameterDefined",
@@ -464,6 +568,7 @@
         "stockPassed": true,
         "modeledFlow": true,
         "modeledPassed": true,
+        "distinctEndpoints": true,
         "viaSatisfied": true,
         "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "flow-observed",
@@ -486,6 +591,7 @@
         "stockPassed": true,
         "modeledFlow": false,
         "modeledPassed": true,
+        "distinctEndpoints": true,
         "viaSatisfied": true,
         "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "no-flow-observed-within-limits",
@@ -498,7 +604,11 @@
           "stock": 0,
           "modeled": 0
         },
-        "positiveControl": "constant-field-not-reason-control"
+        "positiveControl": "constant-field-not-reason-control",
+        "positiveControlSatisfied": {
+          "stock": true,
+          "modeled": true
+        }
       },
       {
         "id": "target-kind-displayString",
@@ -509,6 +619,7 @@
         "stockPassed": true,
         "modeledFlow": false,
         "modeledPassed": true,
+        "distinctEndpoints": true,
         "viaSatisfied": true,
         "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "no-flow-observed-within-limits",
@@ -521,7 +632,11 @@
           "stock": 0,
           "modeled": 0
         },
-        "positiveControl": "target-kind-displayString-control"
+        "positiveControl": "target-kind-displayString-control",
+        "positiveControlSatisfied": {
+          "stock": true,
+          "modeled": true
+        }
       },
       {
         "id": "target-kind-name",
@@ -532,6 +647,7 @@
         "stockPassed": true,
         "modeledFlow": true,
         "modeledPassed": true,
+        "distinctEndpoints": true,
         "viaSatisfied": true,
         "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "flow-observed",
@@ -554,6 +670,7 @@
         "stockPassed": true,
         "modeledFlow": true,
         "modeledPassed": true,
+        "distinctEndpoints": true,
         "viaSatisfied": true,
         "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "flow-observed",
@@ -576,6 +693,7 @@
         "stockPassed": true,
         "modeledFlow": true,
         "modeledPassed": true,
+        "distinctEndpoints": true,
         "viaSatisfied": true,
         "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "flow-observed",
@@ -593,6 +711,29 @@
   },
   {
     "project": "args-2.7.0",
+    "analysisSources": {
+      "algorithm": "sha256-path-nul-content-nul",
+      "sha256": "1decf64a47b453fcf81904085696cfff0d2dabf4d6b1abdb89ec292cb504c7bc",
+      "files": 351,
+      "roots": [
+        "joern-cli/frontends/dartsrc2cpg/src",
+        "joern-cli/frontends/dartsrc2cpg/astgen/lib",
+        "joern-cli/frontends/dartsrc2cpg/astgen/bin",
+        "joern-cli/frontends/x2cpg/src/main",
+        "dataflowengineoss/src/main",
+        "semanticcpg/src/main",
+        "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.lock",
+        "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.yaml",
+        "joern-cli/frontends/dartsrc2cpg/build.sbt",
+        "joern-cli/frontends/x2cpg/build.sbt",
+        "joern-cli/build.sbt",
+        "dataflowengineoss/build.sbt",
+        "semanticcpg/build.sbt",
+        "build.sbt",
+        "project/Versions.scala",
+        "project/Projects.scala"
+      ]
+    },
     "source": {
       "name": "args",
       "version": "2.7.0",
@@ -635,6 +776,7 @@
         "stockPassed": true,
         "modeledFlow": true,
         "modeledPassed": true,
+        "distinctEndpoints": true,
         "viaSatisfied": true,
         "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "flow-observed",
@@ -661,6 +803,7 @@
         "stockPassed": true,
         "modeledFlow": true,
         "modeledPassed": true,
+        "distinctEndpoints": true,
         "viaSatisfied": true,
         "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "flow-observed",
@@ -683,6 +826,7 @@
         "stockPassed": true,
         "modeledFlow": false,
         "modeledPassed": true,
+        "distinctEndpoints": true,
         "viaSatisfied": true,
         "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "inconclusive-query-limits",
@@ -699,7 +843,11 @@
           "stock": 0,
           "modeled": 0
         },
-        "positiveControl": "option-value-return"
+        "positiveControl": "option-value-return",
+        "positiveControlSatisfied": {
+          "stock": true,
+          "modeled": true
+        }
       },
       {
         "id": "forwarded-constructor-name",
@@ -710,6 +858,7 @@
         "stockPassed": true,
         "modeledFlow": true,
         "modeledPassed": true,
+        "distinctEndpoints": true,
         "viaSatisfied": true,
         "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "flow-observed",
@@ -736,6 +885,7 @@
         "stockPassed": true,
         "modeledFlow": false,
         "modeledPassed": true,
+        "distinctEndpoints": true,
         "viaSatisfied": true,
         "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "inconclusive-query-limits",
@@ -752,7 +902,11 @@
           "stock": 0,
           "modeled": 0
         },
-        "positiveControl": "forwarded-constructor-parsed-control"
+        "positiveControl": "forwarded-constructor-parsed-control",
+        "positiveControlSatisfied": {
+          "stock": true,
+          "modeled": true
+        }
       },
       {
         "id": "forwarded-constructor-parsed-control",
@@ -763,6 +917,7 @@
         "stockPassed": true,
         "modeledFlow": true,
         "modeledPassed": true,
+        "distinctEndpoints": true,
         "viaSatisfied": true,
         "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "flow-observed",
@@ -784,6 +939,29 @@
   },
   {
     "project": "async-2.13.0",
+    "analysisSources": {
+      "algorithm": "sha256-path-nul-content-nul",
+      "sha256": "1decf64a47b453fcf81904085696cfff0d2dabf4d6b1abdb89ec292cb504c7bc",
+      "files": 351,
+      "roots": [
+        "joern-cli/frontends/dartsrc2cpg/src",
+        "joern-cli/frontends/dartsrc2cpg/astgen/lib",
+        "joern-cli/frontends/dartsrc2cpg/astgen/bin",
+        "joern-cli/frontends/x2cpg/src/main",
+        "dataflowengineoss/src/main",
+        "semanticcpg/src/main",
+        "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.lock",
+        "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.yaml",
+        "joern-cli/frontends/dartsrc2cpg/build.sbt",
+        "joern-cli/frontends/x2cpg/build.sbt",
+        "joern-cli/build.sbt",
+        "dataflowengineoss/build.sbt",
+        "semanticcpg/build.sbt",
+        "build.sbt",
+        "project/Versions.scala",
+        "project/Projects.scala"
+      ]
+    },
     "source": {
       "name": "async",
       "version": "2.13.0",
@@ -826,6 +1004,7 @@
         "stockPassed": false,
         "modeledFlow": false,
         "modeledPassed": true,
+        "distinctEndpoints": true,
         "viaSatisfied": true,
         "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "flow-observed",
@@ -842,7 +1021,11 @@
           "stock": 0,
           "modeled": 0
         },
-        "positiveControl": "error-to-error-argument"
+        "positiveControl": "error-stored-in-completer",
+        "positiveControlSatisfied": {
+          "stock": true,
+          "modeled": true
+        }
       },
       {
         "id": "error-to-error-argument",
@@ -853,6 +1036,7 @@
         "stockPassed": true,
         "modeledFlow": true,
         "modeledPassed": true,
+        "distinctEndpoints": false,
         "viaSatisfied": true,
         "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "flow-observed",
@@ -879,6 +1063,7 @@
         "stockPassed": true,
         "modeledFlow": true,
         "modeledPassed": true,
+        "distinctEndpoints": false,
         "viaSatisfied": true,
         "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "flow-observed",
@@ -905,6 +1090,7 @@
         "stockPassed": true,
         "modeledFlow": true,
         "modeledPassed": true,
+        "distinctEndpoints": true,
         "viaSatisfied": true,
         "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "flow-observed",
@@ -917,11 +1103,61 @@
           "stock": 0,
           "modeled": 0
         }
+      },
+      {
+        "id": "error-stored-in-completer",
+        "expectedFlow": true,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": true,
+        "stockPassed": true,
+        "modeledFlow": true,
+        "modeledPassed": true,
+        "distinctEndpoints": true,
+        "viaSatisfied": true,
+        "semanticReview": "see source review ledger; not path certification",
+        "stockOutcome": "flow-observed",
+        "modeledOutcome": "flow-observed",
+        "limitations": {
+          "stock": [
+            "call-depth"
+          ],
+          "modeled": [
+            "call-depth"
+          ]
+        },
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        }
       }
     ]
   },
   {
     "project": "http_parser-4.1.2",
+    "analysisSources": {
+      "algorithm": "sha256-path-nul-content-nul",
+      "sha256": "1decf64a47b453fcf81904085696cfff0d2dabf4d6b1abdb89ec292cb504c7bc",
+      "files": 351,
+      "roots": [
+        "joern-cli/frontends/dartsrc2cpg/src",
+        "joern-cli/frontends/dartsrc2cpg/astgen/lib",
+        "joern-cli/frontends/dartsrc2cpg/astgen/bin",
+        "joern-cli/frontends/x2cpg/src/main",
+        "dataflowengineoss/src/main",
+        "semanticcpg/src/main",
+        "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.lock",
+        "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.yaml",
+        "joern-cli/frontends/dartsrc2cpg/build.sbt",
+        "joern-cli/frontends/x2cpg/build.sbt",
+        "joern-cli/build.sbt",
+        "dataflowengineoss/build.sbt",
+        "semanticcpg/build.sbt",
+        "build.sbt",
+        "project/Versions.scala",
+        "project/Projects.scala"
+      ]
+    },
     "source": {
       "name": "http_parser",
       "version": "4.1.2",
@@ -964,6 +1200,7 @@
         "stockPassed": true,
         "modeledFlow": true,
         "modeledPassed": true,
+        "distinctEndpoints": true,
         "viaSatisfied": true,
         "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "flow-observed",
@@ -986,6 +1223,7 @@
         "stockPassed": true,
         "modeledFlow": true,
         "modeledPassed": true,
+        "distinctEndpoints": true,
         "viaSatisfied": true,
         "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "flow-observed",
@@ -1008,6 +1246,7 @@
         "stockPassed": true,
         "modeledFlow": false,
         "modeledPassed": true,
+        "distinctEndpoints": true,
         "viaSatisfied": true,
         "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "no-flow-observed-within-limits",
@@ -1020,7 +1259,11 @@
           "stock": 0,
           "modeled": 0
         },
-        "positiveControl": "chunk-return-buffer"
+        "positiveControl": "chunk-return-buffer",
+        "positiveControlSatisfied": {
+          "stock": true,
+          "modeled": true
+        }
       },
       {
         "id": "captured-media-type",
@@ -1031,6 +1274,7 @@
         "stockPassed": true,
         "modeledFlow": true,
         "modeledPassed": true,
+        "distinctEndpoints": true,
         "viaSatisfied": true,
         "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "flow-observed",
@@ -1053,6 +1297,7 @@
         "stockPassed": true,
         "modeledFlow": true,
         "modeledPassed": true,
+        "distinctEndpoints": true,
         "viaSatisfied": true,
         "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "flow-observed",
@@ -1070,6 +1315,29 @@
   },
   {
     "project": "analyzer-8.4.1",
+    "analysisSources": {
+      "algorithm": "sha256-path-nul-content-nul",
+      "sha256": "1decf64a47b453fcf81904085696cfff0d2dabf4d6b1abdb89ec292cb504c7bc",
+      "files": 351,
+      "roots": [
+        "joern-cli/frontends/dartsrc2cpg/src",
+        "joern-cli/frontends/dartsrc2cpg/astgen/lib",
+        "joern-cli/frontends/dartsrc2cpg/astgen/bin",
+        "joern-cli/frontends/x2cpg/src/main",
+        "dataflowengineoss/src/main",
+        "semanticcpg/src/main",
+        "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.lock",
+        "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.yaml",
+        "joern-cli/frontends/dartsrc2cpg/build.sbt",
+        "joern-cli/frontends/x2cpg/build.sbt",
+        "joern-cli/build.sbt",
+        "dataflowengineoss/build.sbt",
+        "semanticcpg/build.sbt",
+        "build.sbt",
+        "project/Versions.scala",
+        "project/Projects.scala"
+      ]
+    },
     "source": {
       "name": "analyzer",
       "version": "8.4.1",
@@ -1114,6 +1382,7 @@
         "stockPassed": true,
         "modeledFlow": true,
         "modeledPassed": true,
+        "distinctEndpoints": true,
         "viaSatisfied": true,
         "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "flow-observed",
@@ -1140,6 +1409,7 @@
         "stockPassed": true,
         "modeledFlow": true,
         "modeledPassed": true,
+        "distinctEndpoints": true,
         "viaSatisfied": true,
         "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "flow-observed",
@@ -1166,6 +1436,7 @@
         "stockPassed": true,
         "modeledFlow": false,
         "modeledPassed": true,
+        "distinctEndpoints": true,
         "viaSatisfied": true,
         "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "no-flow-observed-within-limits",
@@ -1178,7 +1449,11 @@
           "stock": 0,
           "modeled": 0
         },
-        "positiveControl": "write-byte-not-reset-control"
+        "positiveControl": "write-byte-not-reset-control",
+        "positiveControlSatisfied": {
+          "stock": true,
+          "modeled": true
+        }
       },
       {
         "id": "list-element-callback",
@@ -1189,6 +1464,7 @@
         "stockPassed": true,
         "modeledFlow": true,
         "modeledPassed": true,
+        "distinctEndpoints": true,
         "viaSatisfied": true,
         "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "flow-observed",
@@ -1215,6 +1491,7 @@
         "stockPassed": true,
         "modeledFlow": true,
         "modeledPassed": true,
+        "distinctEndpoints": true,
         "viaSatisfied": true,
         "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "flow-observed",
@@ -1241,6 +1518,7 @@
         "stockPassed": true,
         "modeledFlow": true,
         "modeledPassed": true,
+        "distinctEndpoints": true,
         "viaSatisfied": true,
         "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "flow-observed",

@@ -966,6 +966,13 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         controlled("passed").bool shouldBe true
         controlled("positiveControlSatisfied").bool shouldBe true
         controlled("outcome").str shouldBe "no-flow-observed-within-limits"
+        val identityControl = ujson.read(ujson.write(probe))
+        identityControl("sink") = identityControl("source")
+        val identity = CorpusDataflow.audit(cpg, Seq(identityControl, negative), DefaultSemantics()).arr
+        identity.head("passed").bool shouldBe true
+        identity.last("passed").bool shouldBe false
+        identity.last("positiveControlSatisfied").bool shouldBe false
+        identity.last("outcome").str shouldBe "inconclusive-positive-control"
         negative("maxCallDepth") = 1
         CorpusDataflow.audit(cpg, Seq(probe, negative), DefaultSemantics()).arr.last("passed").bool shouldBe false
         probe("source")("name") = "missing"

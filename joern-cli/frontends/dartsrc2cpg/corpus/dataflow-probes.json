@@ -527,7 +527,7 @@
       },
       "expected": false,
       "rationale": "The error and stackTrace fields are separate arguments.",
-      "positiveControl": "error-to-error-argument"
+      "positiveControl": "error-stored-in-completer"
     },
     {
       "id": "error-to-error-argument",
@@ -584,6 +584,25 @@
       },
       "expected": true,
       "rationale": "A cascade passes the factory value to the completer."
+    },
+    {
+      "id": "error-stored-in-completer",
+      "source": {
+        "file": "src/result/error.dart",
+        "method": "complete",
+        "kind": "call",
+        "field": "error",
+        "name": "<operator>.fieldAccess"
+      },
+      "sink": {
+        "file": "src/result/error.dart",
+        "method": "complete",
+        "kind": "call",
+        "argument": 0,
+        "name": "completeError"
+      },
+      "expected": true,
+      "rationale": "Completer.completeError stores the error in its receiver. This distinct-node dependency checks the overlay and modeled write effect; the error-argument identity check alone cannot qualify a negative search."
     }
   ],
   "http_parser": [

@@ -119,6 +119,7 @@ private[dartsrc2cpg] object CorpusDataflow {
         "passed"                 -> passed,
         "sources"                -> sources.size,
         "sinks"                  -> sinks.size,
+        "distinctEndpoints"      -> (endpointsValid && sources.head != sinks.head),
         "paths"                  -> paths.size,
         "viaSatisfied"           -> via,
         "elapsedMillis"          -> ujson.Num((System.nanoTime() - started) / 1000000.0),
@@ -145,7 +146,7 @@ private[dartsrc2cpg] object CorpusDataflow {
       if (!probe("expected").bool) {
         val control   = probe.obj.get("positiveControl").flatMap(id => byId.get(id.str))
         val satisfied = control.exists(c =>
-          c("expected").bool && c("passed").bool && c("source") == probe("source") &&
+          c("expected").bool && c("passed").bool && c("distinctEndpoints").bool && c("source") == probe("source") &&
             c("maxCallDepth") == result("maxCallDepth")
         )
         result("positiveControl") = probe.obj.getOrElse("positiveControl", ujson.Null)

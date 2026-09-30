@@ -1,11 +1,13 @@
 # Semantic evidence audit
 
 Gate 1 is in progress. Endpoint regression success is distinct from reviewed
-value-flow correctness. The original 67 expectations remain; eight additional
-positive controls bring the suite to 75 expectations (54 positive, 21 negative).
+value-flow correctness. The original 67 expectations remain; nine additional
+positive controls bring the suite to 76 expectations (55 positive, 21 negative).
 All negative probes now name a positive control with the same source selector.
 A control must resolve unique endpoints, observe a flow through any required
-callee, and use the same call depth. This detects missing source connectivity;
+callee, have distinct source and sink nodes, and use the same call depth.
+Node-to-itself probes remain structural identity checks and cannot qualify a
+negative result. This detects missing source connectivity;
 it does not prove completeness of the negative query's search.
 
 `CorpusDataflow` retains every returned witness by default. An explicit reporting
@@ -23,7 +25,12 @@ Missing controls make a negative result inconclusive and fail the regression.
 The harness requires the dataflow overlay and keeps semantic review `pending`.
 
 Corpus reports include pinned source metadata, the actual exporter protocol
-header, file coverage and the exact optional model text. Stock and optional
+header, file coverage and the exact optional model text. New reports also include
+`analysisSources`, a SHA-256 fingerprint of the listed frontend/exporter/harness,
+shared engine, semantic traversal, CFG/linking and build/dependency source roots.
+The hash uses sorted repository-relative paths, NUL, file contents and NUL. It
+identifies those checked-out sources, not a signed binary or the complete host
+environment. Stock and optional
 model results remain separate. Full reports are generated under
 `agents/dart-corpus/*/dataflow-audit.json` and
 `agents/application-corpus/results/*/dataflow-audit.json`.
@@ -61,7 +68,7 @@ callback-to-result summary cannot provide that contract.
 
 ## Further witness findings
 
-The [source review ledger](semantic-reviews.json) records all 75 expectations,
+The [source review ledger](semantic-reviews.json) records the original 75 expectations,
 source hashes, relevant conditions and endpoint dispositions. It preserves the
 historical exporter 0.3.2 witnesses for comparison; it does not certify each hop.
 The originally flagged route families now have reduced fixtures and complete
@@ -236,3 +243,31 @@ These totals include budget-limited negative queries and are not a count of
 qualified semantic guarantees.
 Both holdout graph checks, four staged CLI integration checks and 14 console
 checks also passed with exporter 0.3.10.
+
+## Positive-control qualification
+
+A failing audit regression showed that a node-to-itself witness could qualify
+an unrelated negative search. The harness now requires distinct control endpoints
+and records `distinctEndpoints`. The original async error/value argument checks
+remain explicit structural identities. A new error-to-completer control observes
+an actual receiver-write dependency; its complete stock/modeled transition and
+SDK source review are in [completer-control-review.json](completer-control-review.json).
+The compact report now retains `positiveControlSatisfied` for both model sets;
+the old summarizer incorrectly looked for a nonexistent `positiveControlPassed`.
+
+The default-zone runtime oracle observes the supplied error and stack trace on
+the selected future, independent successful completion, and rejection of a second
+completion. A separate zone oracle replaces the error with a constant object.
+This demonstrates a real boundary of the optional summary: arbitrary zone
+interception is not modeled. Neither oracle proves static callback delivery.
+The completeError negative search still records discarded call-depth work and
+remains inconclusive. Positive controls do not override query-limit diagnostics.
+
+Validation: 98 frontend/runner/mutation checks, all seven package audits, all
+three application audits and both holdout audits passed. Both new completer
+runtime oracles and Dart analysis passed. The recorded source fingerprint was
+independently recomputed and matches across all 12 projects. The 76 original-corpus
+expectations match 74 stock and 76 modeled; four stock and five modeled negative
+searches are still inconclusive because of call-depth omissions. The four holdout
+expectations match in both modes. Matching an expected absence is not qualification
+of an inconclusive negative.

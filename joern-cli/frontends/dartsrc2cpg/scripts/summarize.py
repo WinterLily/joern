@@ -30,23 +30,27 @@ def main():
                 id=stock["id"], expectedFlow=stock["expected"], sources=stock["sources"], sinks=stock["sinks"],
                 stockFlow=stock["paths"] > 0, stockPassed=stock["passed"],
                 modeledFlow=modeled["paths"] > 0, modeledPassed=modeled["passed"],
-                viaSatisfied=modeled["viaSatisfied"], semanticReview="see source review ledger; not path certification",
+                distinctEndpoints=modeled["distinctEndpoints"], viaSatisfied=modeled["viaSatisfied"], semanticReview="see source review ledger; not path certification",
                 stockOutcome=stock["outcome"], modeledOutcome=modeled["outcome"],
                 limitations={"stock": stock["limitations"], "modeled": modeled["limitations"]},
                 omittedWitnesses={"stock": stock["omittedWitnesses"], "modeled": modeled["omittedWitnesses"]},
             )
-            for key in ("positiveControl", "positiveControlPassed"):
-                if key in modeled:
-                    check[key] = modeled[key]
+            if "positiveControl" in modeled:
+                check["positiveControl"] = modeled["positiveControl"]
+                check["positiveControlSatisfied"] = {
+                    "stock": stock["positiveControlSatisfied"], "modeled": modeled["positiveControlSatisfied"]
+                }
             checks.append(check)
         results.append(dict(
-            project=name, source=audit["source"], exporter=audit["coverage"]["exporter"], overlay=overlay,
+            project=name, analysisSources=audit["analysisSources"], source=audit["source"], exporter=audit["coverage"]["exporter"], overlay=overlay,
             stringConversionOrder=audit["coverage"]["stringConversionOrder"],
             modelFiles=audit["modelFiles"], reachingDefEdges=audit["reachingDefEdges"],
             maxCallDepth=audit["maxCallDepth"], pathSelection="longest-per-endpoint-pair", checks=checks,
         ))
         print(f"{name}: {len(checks)} endpoints; "
-              f"stock {sum(c['stockPassed'] for c in checks)}, modeled {sum(c['modeledPassed'] for c in checks)}")
+              f"stock {sum(c['stockPassed'] for c in checks)}, modeled {sum(c['modeledPassed'] for c in checks)}; "
+              f"inconclusive stock {sum(c['stockOutcome'].startswith('inconclusive-') for c in checks)}, "
+              f"modeled {sum(c['modeledOutcome'].startswith('inconclusive-') for c in checks)}")
     (corpus / "dataflow-results.json").write_text(json.dumps(results, indent=2) + "\n")
 
 
