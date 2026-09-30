@@ -14,7 +14,7 @@ import 'package:analyzer/source/line_info.dart';
 import 'package:path/path.dart' as p;
 
 const protocolVersion = 1;
-const exporterVersion = '0.3.10';
+const exporterVersion = '0.3.11';
 const analyzerVersion = '8.4.1';
 const supportedSdkVersion = '3.9.2';
 
@@ -833,6 +833,7 @@ class _UnitEncoder {
         child('finally', ast.finallyBlock);
       case CatchClause():
         kind = 'CatchClause';
+        child('type', ast.exceptionType);
         child('exception', ast.exceptionParameter);
         child('stack', ast.stackTraceParameter);
         child('body', ast.body);

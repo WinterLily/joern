@@ -306,3 +306,24 @@ and two holdout audits passed with the expanded witness metadata. The snapshot
 validation test passed. Graph baselines and endpoint expectations are unchanged.
 The complete native suite passed 61 tests with Flutter and JIT/AOT/dart2js checks
 enabled, including the snapshot validation and both completer execution oracles.
+
+## Ordered catch dispatch (exporter 0.3.11)
+
+The exporter now retains resolved catch filters. Lowering creates one total
+catch dispatcher per protected body, saves exception and stack channels once,
+and selects clauses in source order with an explicit unmatched rethrow. Clause
+locals bind to separate saved channels; a rethrow uses its lexical handler's
+values. The shared engine regression checks the actual return-to-exit dependency,
+because an endpoint query alone found a parameter-to-exit shortcut even when
+that return edge was missing. Exceptions handled inside cleanup preserve the
+pending return; outer catches, rethrows and replacement returns do not.
+
+The reviewed call-count delta is four calls per dispatcher, one per catch
+parameter binding and one per typed filter: 1,681 calls across the original ten
+projects and 30 across shelf/yaml. Exporting filter type subtrees adds 173 and four
+AST nodes respectively. Internal method and file counts are unchanged. These
+counts were derived independently from exporter records before updating graph
+baselines. Runtime checks exercise typed/fallback selection, overlapping filters,
+unmatched propagation, rethrow object identity and handled cleanup failures.
+Thrown-payload dependencies between handlers and calls remain an open engine
+contract; the new intrinsics identify channels without claiming that flow.

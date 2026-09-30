@@ -1,7 +1,7 @@
 # Distribution and operational checks
 
 The native exporter is built per host. CI targets Linux x86-64/arm64, macOS
-x86-64/arm64 and Windows x86-64 with Dart 3.9.2, analyzer 8.4.1, exporter 0.3.10,
+x86-64/arm64 and Windows x86-64 with Dart 3.9.2, analyzer 8.4.1, exporter 0.3.11,
 protocol 1 and JDK 21. Linux x86-64 has been verified locally; the other targets
 require successful runs of `.github/workflows/dart.yml` before claiming release
 validation. Windows arm64 distributions use the x86-64 exporter under emulation;

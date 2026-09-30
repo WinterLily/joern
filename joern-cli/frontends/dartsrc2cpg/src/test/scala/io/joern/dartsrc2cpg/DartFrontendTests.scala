@@ -77,6 +77,55 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
   }
 
   "Dart frontend" should {
+    "retain ordered catch filters and bind caught values explicitly" in {
+      fixture(
+        Files.readString(frontend.resolve("src/test/resources/semantics/catch_dispatch.dart")),
+        "void main() {}",
+        dataflow = false
+      ) { (cpg, _) =>
+        val method  = cpg.method.nameExact("choose").head
+        val filters = method.call.nameExact("<operator>.instanceOf").l.sortBy(_.order)
+        filters.flatMap(_.argument.isTypeRef.code).toSet shouldBe Set("FormatException", "StateError")
+        val first       = filters.find(_.argument.isTypeRef.codeExact("FormatException").nonEmpty).get
+        val second      = filters.find(_.argument.isTypeRef.codeExact("StateError").nonEmpty).get
+        val firstBranch = first.astParent.asInstanceOf[io.shiftleft.codepropertygraph.generated.nodes.ControlStructure]
+        firstBranch._falseBodyOut
+          .cast[io.shiftleft.codepropertygraph.generated.nodes.AstNode]
+          .ast
+          .isCall
+          .toSet should contain(second)
+        firstBranch._trueBodyOut
+          .cast[io.shiftleft.codepropertygraph.generated.nodes.AstNode]
+          .ast
+          .isCall
+          .toSet should not contain second
+        first._cfgOut.toSet should contain(second.argument(1))
+        first.argument.isTypeRef.typeFullName.head should include("FormatException")
+        method.controlStructure.controlStructureType("CATCH").size shouldBe 1
+        method.call.nameExact("<operator>.caughtException").size shouldBe 1
+        method.call.nameExact("<operator>.caughtStackTrace").size shouldBe 1
+        method.local.nameExact("error").size shouldBe 3
+        method.call.nameExact("<operator>.assignment").argument(1).isIdentifier.nameExact("error").size shouldBe 3
+        cpg.method.nameExact("nested").controlStructure.codeExact("rethrow").flatMap(_._argumentOut).size shouldBe 2
+        val unmatched = cpg.method.nameExact("filtered").controlStructure.codeExact("<unmatched catch: rethrow>").head
+        unmatched._argumentOut.size shouldBe 2
+        method.local.nameExact("error").foreach { local =>
+          local._refIn.cast[io.shiftleft.codepropertygraph.generated.nodes.Identifier].size should be >= 2
+        }
+        cpg.unknown.size shouldBe 0
+      }
+    }
+    "preserve pending return flow when cleanup handles its own failure" in {
+      fixture(
+        Files.readString(frontend.resolve("src/test/resources/semantics/catch_dispatch.dart")),
+        "void main() {}"
+      ) { (cpg, _) =>
+        val method = cpg.method.nameExact("preservedReturn").head
+        val paths  = Iterator.single(method.methodReturn).reachableByFlows(method.parameter.nameExact("input")).l
+        paths.nonEmpty shouldBe true
+        method.ast.isReturn.codeExact("return input;").head._reachingDefOut.toSet should contain(method.methodReturn)
+      }
+    }
     "represent generated enum storage and concrete enum accessors" in {
       fixture(
         Files.readString(frontend.resolve("src/test/resources/semantics/enum_members.dart")),
@@ -1987,7 +2036,7 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         val coverage = ujson.read(Files.readString(report))
         coverage("includedFiles").num shouldBe 0
         coverage("stringConversionOrder").str shouldBe "after-expression-evaluation"
-        coverage("exporter")("exporterVersion").str shouldBe "0.3.10"
+        coverage("exporter")("exporterVersion").str shouldBe "0.3.11"
         coverage("exporter")("sdkVersion").str shouldBe "3.9.2"
         coverage("exporter")("analyzerVersion").str shouldBe "8.4.1"
         Files.writeString(dir.resolve("excluded.dart"), "void excluded() {}")
@@ -2007,7 +2056,7 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         "offsetEncoding"  -> "utf-16",
         "analyzerVersion" -> "8.4.1",
         "sdkVersion"      -> "3.9.2",
-        "exporterVersion" -> "0.3.10"
+        "exporterVersion" -> "0.3.11"
       )
       intercept[IllegalArgumentException](ExportProtocol.units(Seq(valid)))
       intercept[IllegalArgumentException](

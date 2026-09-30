@@ -22,7 +22,10 @@ operators retain conservative dispatch. Interpolation retains user conversions,
 nullable branches and operand isolation with distinct pinned VM/dart2js ordering
 oracles and an explicit report field. Generated enum values, ordinal/name storage,
 concrete accessors and default conversions have override and execution regressions;
-interface dispatch and heap qualification remain open. The frontend is an
+interface dispatch and heap qualification remain open. Ordered catch filters,
+explicit caught-value bindings and pending returns across handled cleanup failures
+now have focused regressions and execution checks; thrown-payload dataflow remains
+open. The frontend is an
 initial implementation, not complete language or runtime analysis support.
 This plan supersedes the completion assumptions in the original implementation
 plan in `agents/plan.md`; it does not mark the remaining work as done.

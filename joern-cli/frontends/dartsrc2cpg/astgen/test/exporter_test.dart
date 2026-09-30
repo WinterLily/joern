@@ -36,6 +36,46 @@ void main() {
   tearDown(() => project.deleteSync(recursive: true));
 
   test(
+    'export catch filters separately from exception and stack bindings',
+    () async {
+      write('main.dart', """
+void choose(Object input) {
+  try { throw input; }
+  on FormatException catch (error, stack) { print(error); print(stack); }
+  catch (error) { print(error); }
+}
+""");
+      final unit = units(await export()).single;
+      expect(unit['status'], 'resolved');
+      final nodes = entries(unit, 'nodes');
+      final clauses = nodes
+          .where((node) => node['kind'] == 'CatchClause')
+          .toList();
+      final typed = (clauses.first['children'] as List).cast<Map>();
+      final filter =
+          nodes[typed.singleWhere((child) => child['role'] == 'type')['node']
+              as int];
+      expect(filter['kind'], 'NamedType');
+      expect(filter['typeId'], contains('FormatException'));
+      final bindings = typed
+          .where((child) => ['exception', 'stack'].contains(child['role']))
+          .map((child) => nodes[child['node'] as int])
+          .toList();
+      expect(bindings.map((binding) => binding['name']), ['error', 'stack']);
+      expect(
+        bindings.map((binding) => binding['declaration']).toSet().length,
+        2,
+      );
+      expect(
+        (clauses.last['children'] as List).cast<Map>().where(
+          (child) => child['role'] == 'type',
+        ),
+        isEmpty,
+      );
+    },
+  );
+
+  test(
     'distinguish list, set and map collection literals after resolution',
     () async {
       write(

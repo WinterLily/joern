@@ -56,6 +56,23 @@ explicit condition/body edges. Switch cases with statements have implicit breaks
 For-in loops evaluate the iterable once and lower to iterator/moveNext/current.
 Short-circuit boolean operators use Joern's standard logical operators.
 
+A try statement has one catch dispatcher. It reads `<operator>.caughtException`
+and `<operator>.caughtStackTrace` once into distinct temporaries, tests typed
+clauses in source order, and binds each clause's locals on its selected branch.
+The dispatcher has an explicit true CONDITION: incoming exceptions enter it;
+unmatched typed clauses leave through an explicit rethrow. Rethrow arguments
+retain the active exception and stack values. Nested functions do not inherit
+that lexical rethrow context. Type tests retain both successors; this is not a
+path-sensitive exception-type analysis. Calls remain conservatively throwable.
+The caught-value intrinsics currently identify channels without linking thrown
+payloads across handlers or calls; general exception dataflow remains open.
+
+Finally bodies intercept pending exits. An explicit exception handled entirely
+inside a cleanup preserves its pending return dependency. An exception escaping
+that cleanup, a rethrow, or a replacement return discards the earlier value.
+The shared CFG joins pending exits conservatively; these regression cases do not
+establish arbitrary path feasibility.
+
 Null-aware access and access chains use a temporary plus a conditional. Receivers
 are evaluated once and skipped arguments stay inside the non-null branch.
 Coalescing and null assignment use conditionals; assignment locations retain

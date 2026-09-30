@@ -87,6 +87,15 @@
       "valueFlow": "final storage represented; allocation-sensitive heap and values-slot propagation unqualified",
       "negative": "DartFrontendTests: user name/toString overrides and private name storage; enum_members_test.dart: values mutation rejection",
       "interaction": "astgen/test/enum_members_test.dart: enhanced named constructors, explicit EnumName dispatch, super and bound default conversions"
+    },
+    "exceptions": {
+      "exporter": "astgen/test/exporter_test.dart: export catch filters separately from exception and stack bindings",
+      "lowering": "DartFrontendTests: retain ordered catch filters and bind caught values explicitly",
+      "resolution": "analyzer filter type identities and clause-local REF edges; explicit active exception/stack for rethrow",
+      "cfg": "source-ordered filters with unmatched rethrow; explicit total dispatcher; shared FinallyExitTests",
+      "valueFlow": "FinallyReturnTests and DartFrontendTests: pending return survives failures handled inside cleanup; thrown payload channels not linked",
+      "negative": "FinallyReturnTests: outer catch, rethrow and replacement return do not preserve discarded values",
+      "interaction": "astgen/test/catch_dispatch_test.dart: bounded typed/fallback selection, overlap, unmatched propagation, rethrow identity and handled cleanup"
     }
   },
   "constructs": [
@@ -238,17 +247,17 @@
       "construct": "CatchClause",
       "scope": "dart-3.9",
       "exporterCase": "CatchClause",
-      "contract": "syntax",
-      "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "contract": "exceptions",
+      "qualification": "conservative",
+      "reason": "Ordered handler and explicit exception/stack representation; runtime cases exercised, exception payload flow and path feasibility remain open."
     },
     {
       "construct": "CatchClauseParameter",
       "scope": "dart-3.9",
       "exporterCase": "CatchClauseParameter",
-      "contract": "syntax",
-      "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "contract": "exceptions",
+      "qualification": "conservative",
+      "reason": "Ordered handler and explicit exception/stack representation; runtime cases exercised, exception payload flow and path feasibility remain open."
     },
     {
       "construct": "ClassDeclaration",
@@ -1206,9 +1215,9 @@
       "construct": "RethrowExpression",
       "scope": "dart-3.9",
       "exporterCase": "RethrowExpression",
-      "contract": "syntax",
-      "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "contract": "exceptions",
+      "qualification": "conservative",
+      "reason": "Ordered handler and explicit exception/stack representation; runtime cases exercised, exception payload flow and path feasibility remain open."
     },
     {
       "construct": "ReturnStatement",
@@ -1374,9 +1383,9 @@
       "construct": "ThrowExpression",
       "scope": "dart-3.9",
       "exporterCase": "ThrowExpression",
-      "contract": "syntax",
-      "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "contract": "exceptions",
+      "qualification": "conservative",
+      "reason": "Ordered handler and explicit exception/stack representation; runtime cases exercised, exception payload flow and path feasibility remain open."
     },
     {
       "construct": "TopLevelVariableDeclaration",
@@ -1390,9 +1399,9 @@
       "construct": "TryStatement",
       "scope": "dart-3.9",
       "exporterCase": "TryStatement",
-      "contract": "syntax",
-      "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "contract": "exceptions",
+      "qualification": "conservative",
+      "reason": "Ordered handler and explicit exception/stack representation; runtime cases exercised, exception payload flow and path feasibility remain open."
     },
     {
       "construct": "TypeArgumentList",

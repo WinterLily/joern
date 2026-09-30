@@ -57,28 +57,29 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
     .toSet
 
   override def run(diffGraph: DiffGraphBuilder): Unit = units.foreach { unit =>
-    val filename                           = java.net.URI.create(unit("file").str).getPath
-    val library                            = string(unit, "library", filename)
-    val source                             = unit("source").str
-    val nodes                              = unit("nodes").arr
-    val declarations                       = mutable.Map.empty[String, NewNode]
-    val extraMethods                       = mutable.ArrayBuffer.empty[Ast]
-    var owner                              = s"$library:<global>"
-    var ownerType                          = "NAMESPACE_BLOCK"
-    var currentType                        = "ANY"
-    var returnsInstance                    = false
-    var instanceFields                     = Seq.empty[Value]
-    var initializerContext                 = ""
-    val lateLocals                         = mutable.Map.empty[String, Option[String]]
-    val functionValues                     = mutable.Map.empty[String, String]
-    val boundTargets                       = mutable.Map.empty[String, String]
-    var cascadeReceiver: Option[() => Ast] = None
-    var temporary                          = 0
-    val receiverOverrides                  = mutable.Map.empty[Int, () => Ast]
-    val labelTargets                       = mutable.Map.empty[String, (String, String)]
-    val continueTargets                    = mutable.Map.empty[Int, String]
-    val collectionBodies                   = mutable.Map.empty[Int, () => Seq[Ast]]
-    val guardedAccesses                    = mutable.Set.empty[Int]
+    val filename                             = java.net.URI.create(unit("file").str).getPath
+    val library                              = string(unit, "library", filename)
+    val source                               = unit("source").str
+    val nodes                                = unit("nodes").arr
+    val declarations                         = mutable.Map.empty[String, NewNode]
+    val extraMethods                         = mutable.ArrayBuffer.empty[Ast]
+    var owner                                = s"$library:<global>"
+    var ownerType                            = "NAMESPACE_BLOCK"
+    var currentType                          = "ANY"
+    var returnsInstance                      = false
+    var instanceFields                       = Seq.empty[Value]
+    var initializerContext                   = ""
+    val lateLocals                           = mutable.Map.empty[String, Option[String]]
+    val functionValues                       = mutable.Map.empty[String, String]
+    val boundTargets                         = mutable.Map.empty[String, String]
+    var cascadeReceiver: Option[() => Ast]   = None
+    var caughtValues: Option[() => Seq[Ast]] = None
+    var temporary                            = 0
+    val receiverOverrides                    = mutable.Map.empty[Int, () => Ast]
+    val labelTargets                         = mutable.Map.empty[String, (String, String)]
+    val continueTargets                      = mutable.Map.empty[Int, String]
+    val collectionBodies                     = mutable.Map.empty[Int, () => Seq[Ast]]
+    val guardedAccesses                      = mutable.Set.empty[Int]
 
     def children(syntax: Value, role: String): Seq[Value] =
       syntax("children").arr.filter(_("role").str == role).map(entryNode => nodes(entryNode("node").num.toInt)).toSeq
@@ -1038,12 +1039,12 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
           children(syntax, "arguments").headOption,
           receiver =>
             Seq(
-              enumAssignment(
+              syntheticAssignment(
                 syntax,
                 enumField(syntax, receiver(), "index", "int"),
                 literal(syntax, syntax("ordinal").num.toInt.toString, "int")
               ),
-              enumAssignment(
+              syntheticAssignment(
                 syntax,
                 enumField(syntax, receiver(), "<enumName>", "String"),
                 literal(syntax, ujson.write(string(syntax, "name")), "String")
@@ -1250,12 +1251,84 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
         }
         if (nullAware(syntax)) guarded(syntax, expression(child(syntax, "target")))(cascade)
         else saved(syntax, expression(child(syntax, "target")))(cascade)
-      case "FunctionExpression"                    => closure(syntax, syntax)
-      case "ThrowExpression" | "RethrowExpression" =>
-        Ast(located(NewControlStructure().controlStructureType(ControlStructureTypes.THROW).code(code(syntax)), syntax))
-          .withChildren(children(syntax, "expression").map(expression))
-      case _ => unknown(syntax)
+      case "FunctionExpression" => closure(syntax, syntax)
+      case "ThrowExpression"    => throwAst(syntax, children(syntax, "expression").map(expression))
+      case "RethrowExpression"  => throwAst(syntax, caughtValues.toSeq.flatMap(_()))
+      case _                    => unknown(syntax)
     }
+    def throwAst(syntax: Value, values: Seq[Ast]): Ast =
+      args(
+        located(NewControlStructure().controlStructureType(ControlStructureTypes.THROW).code(code(syntax)), syntax),
+        values
+      )
+
+    def catchDispatch(syntax: Value, clauses: Seq[Value]): Ast = {
+      def caught(name: String, typ: String): Ast = {
+        val value = operator(syntax, s"<operator>.$name", Nil)
+        value.root.collect { case call: NewCall =>
+          call.code = s"<$name@${syntax("id").num.toInt}>"
+          call.typeFullName = typ
+        }
+        value
+      }
+      val dispatch = savedSequence(syntax, caught("caughtException", "Object")) { exception =>
+        Seq(savedSequence(syntax, caught("caughtStackTrace", "StackTrace")) { stack =>
+          def choose(remaining: Seq[Value]): Ast = remaining.headOption match {
+            case None =>
+              val rethrow = throwAst(syntax, Seq(exception(), stack()))
+              rethrow.root.collect { case control: NewControlStructure => control.code = "<unmatched catch: rethrow>" }
+              rethrow
+            case Some(clause) =>
+              val previousDeclarations = declarations.toMap
+              val previousCaught       = caughtValues
+              caughtValues = Some(() => Seq(exception(), stack()))
+              def bind(role: String, value: () => Ast): Seq[Ast] = children(clause, role).flatMap { parameter =>
+                val local      = statements(parameter)
+                val assignment = syntheticAssignment(
+                  parameter,
+                  identifier(
+                    parameter,
+                    string(parameter, "name"),
+                    string(parameter, "declaration"),
+                    tpe(symbol(parameter))
+                  ),
+                  value()
+                )
+                local :+ assignment
+              }
+              val body =
+                block(clause, bind("exception", exception) ++ bind("stack", stack) ++ statements(child(clause, "body")))
+              caughtValues = previousCaught
+              declarations.clear(); declarations ++= previousDeclarations
+              children(clause, "type").headOption match {
+                case Some(typ) =>
+                  val condition = operator(
+                    clause,
+                    Operators.instanceOf,
+                    Seq(exception(), Ast(NewTypeRef().code(code(typ)).typeFullName(tpe(typ))))
+                  )
+                  condition.root.collect { case call: NewCall => call.code = s"<caught exception> is ${code(typ)}" }
+                  control(clause, ControlStructureTypes.IF, condition, body, Some(choose(remaining.tail)))
+                case None if remaining.tail.nonEmpty =>
+                  control(
+                    clause,
+                    ControlStructureTypes.IF,
+                    literal(clause, "true", "bool"),
+                    body,
+                    Some(choose(remaining.tail))
+                  )
+                case None => body
+              }
+          }
+          Seq(choose(clauses))
+        })
+      }
+      val handler =
+        located(NewControlStructure().controlStructureType(ControlStructureTypes.CATCH).code(code(syntax)), syntax)
+      val condition = literal(syntax, "true", "bool")
+      Ast(handler).withChild(condition).withConditionEdge(handler, condition.root.get).withChild(dispatch)
+    }
+
     def control(syntax: Value, typ: String, condition: Ast, body: Ast, otherwise: Option[Ast] = None): Ast = {
       val out = located(NewControlStructure().controlStructureType(typ).code(code(syntax)), syntax)
       var ast = Ast(out).withChild(condition).withConditionEdge(out, condition.root.get).withChild(body)
@@ -1533,16 +1606,12 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
       case "TryStatement" =>
         val out =
           located(NewControlStructure().controlStructureType(ControlStructureTypes.TRY).code(code(syntax)), syntax)
-        val body = block(syntax, statements(child(syntax, "body")))
-        var ast  = Ast(out).withChild(body).withTryBodyEdge(out, body.root.get)
-        children(syntax, "catch").foreach { clauseNode =>
-          val bodySyntax = block(
-            clauseNode,
-            children(clauseNode, "exception").flatMap(statements) ++ children(clauseNode, "stack").flatMap(
-              statements
-            ) ++ statements(child(clauseNode, "body"))
-          )
-          ast = ast.withChild(bodySyntax).withCatchBodyEdge(out, bodySyntax.root.get)
+        val body    = block(syntax, statements(child(syntax, "body")))
+        var ast     = Ast(out).withChild(body).withTryBodyEdge(out, body.root.get)
+        val clauses = children(syntax, "catch")
+        if (clauses.nonEmpty) {
+          val dispatcher = catchDispatch(syntax, clauses)
+          ast = ast.withChild(dispatcher).withCatchBodyEdge(out, dispatcher.root.get)
         }
         children(syntax, "finally").foreach { fieldSyntax =>
           val bodySyntax = block(fieldSyntax, statements(fieldSyntax))
@@ -1671,8 +1740,10 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
       }
     }
     def method(syntax: Value, function: Value, forcedId: Option[String] = None, prefix: Seq[Ast] = Nil): Ast = {
-      val outer = declarations.toMap
-      val id    = forcedId.getOrElse(
+      val outer          = declarations.toMap
+      val previousCaught = caughtValues
+      caughtValues = None
+      val id = forcedId.getOrElse(
         string(syntax, "declaration", s"$filename#${syntax("offset").num.toInt}:${string(syntax, "name")}")
       )
       val target                  = sym(boundTargets.getOrElse(id, id))
@@ -1860,6 +1931,7 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
         .withChildren(modifiers.map(memberSyntax => Ast(NewModifier().modifierType(memberSyntax))))
         .withChildren(annotations)
       returnsInstance = previousReturnsInstance
+      caughtValues = previousCaught
       declarations.clear(); declarations ++= outer
       ast
     }
@@ -1869,7 +1941,7 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
       result.root.collect { case node: NewCall => node.code = s"$base.$name"; node.typeFullName = typ }
       result
     }
-    def enumAssignment(syntax: Value, left: Ast, right: Ast): Ast = {
+    def syntheticAssignment(syntax: Value, left: Ast, right: Ast): Ast = {
       val result                 = operator(syntax, Operators.assignment, Seq(left, right))
       def text(ast: Ast): String = ast.root.collect { case node: ExpressionNew => node.code }.getOrElse("")
       result.root.collect { case node: NewCall =>
@@ -2110,7 +2182,7 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
           node.typeFullName = typ
           node.code = children(syntax, "constant").map(string(_, "name")).mkString("const [", ", ", "]")
         }
-        Seq(enumAssignment(syntax, enumField(syntax, identifier(syntax, owner, "", owner), "values", typ), values))
+        Seq(syntheticAssignment(syntax, enumField(syntax, identifier(syntax, owner, "", owner), "values", typ), values))
       } else Nil
       val out = NewMethod()
         .name(name)

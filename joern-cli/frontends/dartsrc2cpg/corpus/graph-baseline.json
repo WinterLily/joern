@@ -3,7 +3,7 @@
     "project": "path-1.9.1",
     "files": 13,
     "methods": 199,
-    "calls": 1853,
+    "calls": 1864,
     "unknown": 0,
     "unknownKinds": {}
   },
@@ -27,7 +27,7 @@
     "project": "args-2.7.0",
     "files": 12,
     "methods": 156,
-    "calls": 2180,
+    "calls": 2192,
     "unknown": 0,
     "unknownKinds": {}
   },
@@ -35,7 +35,7 @@
     "project": "async-2.13.0",
     "files": 45,
     "methods": 537,
-    "calls": 3135,
+    "calls": 3187,
     "unknown": 0,
     "unknownKinds": {}
   },
@@ -43,7 +43,7 @@
     "project": "http_parser-4.1.2",
     "files": 11,
     "methods": 81,
-    "calls": 1102,
+    "calls": 1110,
     "unknown": 0,
     "unknownKinds": {}
   },
@@ -51,7 +51,7 @@
     "project": "analyzer-8.4.1",
     "files": 458,
     "methods": 22754,
-    "calls": 211208,
+    "calls": 211847,
     "unknown": 0,
     "unknownKinds": {}
   }
