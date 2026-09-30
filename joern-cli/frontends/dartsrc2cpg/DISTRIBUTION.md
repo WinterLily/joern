@@ -31,6 +31,22 @@ import through an isolated installation. Release workflows run the same native
 preparation before Sbt distribution staging. CI uploads the standalone stage and
 corpus measurements for each platform; it does not bundle an analysis SDK.
 
+The Dart workflow has three tiers. Changes to the frontend, shared CFG/dataflow
+engine, semantic traversals or build configuration first run Linux native,
+frontend, mutation and shared-engine regressions. Pull requests then run the
+pinned package corpus, Flutter fixture and staged CLI on Linux. Relevant master
+pushes, manual dispatches and the weekly schedule run that installation suite on
+all five configured platforms. The Linux installation tier also runs the VM,
+AOT and dart2js/Node execution oracle.
+
+Scheduled and manually dispatched runs additionally prepare and audit the pinned
+server/parser regression corpus. Its earlier holdout status does not make it a
+fresh generalization sample. Jobs have explicit timeouts and retain test reports
+and available coverage/query diagnostics even on failure. Compact report artifacts
+are generated under `agents/`; failed runs do not upload a committed baseline as
+if it were a fresh result. Local validation of these commands and workflow YAML
+does not establish a successful hosted or non-Linux run.
+
 Copy the whole standalone stage, including `bin` and `lib`, to install it. Set
 `DART_SDK` on the destination machine and invoke `bin/dartsrc2cpg` (or `.bat`).
 `DART_ASTGEN` / `--dart-astgen` can override the bundled executable. The script

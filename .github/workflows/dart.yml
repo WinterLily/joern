@@ -6,16 +6,68 @@ on:
       - '.github/workflows/dart.yml'
       - '.github/actions/prepare-dart/**'
       - 'joern-cli/build.sbt'
+      - 'joern-cli/frontends/x2cpg/**'
+      - 'dataflowengineoss/**'
+      - 'semanticcpg/**'
+      - 'build.sbt'
       - 'project/**'
   workflow_dispatch:
+  schedule:
+    - cron: '17 2 * * 3'
   push:
     branches: [master]
+    paths:
+      - 'joern-cli/frontends/dartsrc2cpg/**'
+      - '.github/workflows/dart.yml'
+      - '.github/actions/prepare-dart/**'
+      - 'joern-cli/build.sbt'
+      - 'joern-cli/frontends/x2cpg/**'
+      - 'dataflowengineoss/**'
+      - 'semanticcpg/**'
+      - 'build.sbt'
+      - 'project/**'
+permissions:
+  contents: read
+concurrency:
+  group: dart-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 jobs:
+  semantic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6
+        with:
+          distribution: temurin
+          java-version: 21
+          cache: sbt
+      - uses: sbt/setup-sbt@6158cb0903b8ceeae04f830055f3155e1b6a5ad7
+      - uses: ./.github/actions/prepare-dart
+      - name: Native semantic regressions
+        working-directory: joern-cli/frontends/dartsrc2cpg/astgen
+        run: dart analyze && dart test
+      - name: Shared and frontend semantic regressions
+        run: >-
+          sbt 'dataflowengineoss/scalafmtCheck' 'dataflowengineoss/Test/scalafmtCheck'
+          'dartsrc2cpg/scalafmtCheck' 'dartsrc2cpg/Test/scalafmtCheck'
+          'dataflowengineoss/testOnly *'
+          'x2cpg/testOnly *FinallyExitTests *CfgCreationControlStructureEdgeTests'
+          'c2cpg/testOnly io.joern.c2cpg.dataflow.*'
+          'dartsrc2cpg/testOnly *DartFrontendTests *DartMutationTests *ExporterRunnerTests'
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        if: always()
+        with:
+          name: dart-semantic-reports
+          path: target/**/test-reports/**
+          retention-days: 14
   native:
+    needs: semantic
+    timeout-minutes: 60
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, ubuntu-24.04-arm, macos-15-intel, macos-latest, windows-latest]
+        os: ${{ fromJSON(github.event_name == 'pull_request' && '["ubuntu-latest"]' || '["ubuntu-latest", "ubuntu-24.04-arm", "macos-15-intel", "macos-latest", "windows-latest"]') }}
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
@@ -39,13 +91,17 @@ jobs:
           echo 'DART_FLUTTER_TESTS=1' >> "$GITHUB_ENV"
       - name: Exporter tests
         working-directory: joern-cli/frontends/dartsrc2cpg/astgen
+        env:
+          DART_RUNTIME_TESTS: ${{ matrix.os == 'ubuntu-latest' && '1' || '0' }}
         run: dart analyze && dart test
       - name: Prepare and measure pinned corpus
         run: python joern-cli/frontends/dartsrc2cpg/scripts/corpus.py --prepare --check
       - name: Scala tests and staging
         env:
           DART_CORPUS_TESTS: '1'
-        run: sbt 'dartsrc2cpg/scalafmtCheck' 'dartsrc2cpg/Test/scalafmtCheck' 'dartsrc2cpg/test' 'dartsrc2cpg/stage'
+        run: sbt 'dartsrc2cpg/scalafmtCheck' 'dartsrc2cpg/Test/scalafmtCheck' 'dartsrc2cpg/testOnly *' 'dartsrc2cpg/stage'
+      - name: Summarize corpus query evidence
+        run: python joern-cli/frontends/dartsrc2cpg/scripts/summarize.py packages --output agents/dart-corpus-dataflow-results.json
       - name: Test staged installation
         shell: bash
         run: |
@@ -58,8 +114,48 @@ jobs:
           fi
           sbt 'joerncli/testOnly *DartIntegrationTests *JoernParseTests' 'console/testOnly *LanguageHelperTests'
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        if: always()
         with:
           name: dart-${{ matrix.os }}
           path: |
             agents/dart-stage.tar.gz
             agents/dart-corpus-results.json
+            agents/dart-corpus/*/coverage.json
+            agents/dart-corpus/*/dataflow-audit.json
+            agents/dart-corpus/*/dataflow-overlay.json
+            agents/dart-corpus-dataflow-results.json
+            target/**/test-reports/**
+          retention-days: 14
+  holdout:
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    needs: semantic
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6
+        with:
+          distribution: temurin
+          java-version: 21
+          cache: sbt
+      - uses: sbt/setup-sbt@6158cb0903b8ceeae04f830055f3155e1b6a5ad7
+      - uses: ./.github/actions/prepare-dart
+      - name: Prepare pinned server and parser regressions
+        run: python joern-cli/frontends/dartsrc2cpg/scripts/holdout.py --prepare
+      - name: Audit holdout graphs
+        env:
+          DART_HOLDOUT_TESTS: '1'
+        run: sbt 'dartsrc2cpg/testOnly *DartCorpusTests'
+      - name: Summarize query evidence
+        run: python joern-cli/frontends/dartsrc2cpg/scripts/summarize.py holdout --output agents/dart-holdout-dataflow-results.json
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        if: always()
+        with:
+          name: dart-holdout-reports
+          path: |
+            agents/dart-holdout/*/coverage.json
+            agents/dart-holdout/*/dataflow-audit.json
+            agents/dart-holdout/*/dataflow-overlay.json
+            agents/dart-holdout-dataflow-results.json
+            target/**/test-reports/**
+          retention-days: 14
