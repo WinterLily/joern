@@ -77,6 +77,26 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
   }
 
   "Dart frontend" should {
+    "route returns through finally and exclude values replaced by abrupt cleanup" in {
+      for (
+        (cleanup, expected) <- Seq("cleanup();" -> true, "return 'constant';" -> false, "throw 'failure';" -> false)
+      ) {
+        fixture(
+          s"void cleanup() {} String relay(String value) { try { return value; } finally { $cleanup } }",
+          "void main(List<String> args) { final input = args[0]; sink(relay(input)); }"
+        ) { (cpg, _) =>
+          val original = cpg.method.nameExact("relay").ast.isReturn.codeExact("return value;").head
+          original
+            .out(io.shiftleft.codepropertygraph.generated.EdgeTypes.CFG)
+            .exists(_.isInstanceOf[io.shiftleft.codepropertygraph.generated.nodes.MethodReturn]) shouldBe false
+          cpg.call
+            .nameExact("sink")
+            .argument
+            .reachableByFlows(cpg.identifier.nameExact("input"))
+            .nonEmpty shouldBe expected
+        }
+      }
+    }
     "write late locals without first reading an uninitialized value" in {
       fixture(
         "",

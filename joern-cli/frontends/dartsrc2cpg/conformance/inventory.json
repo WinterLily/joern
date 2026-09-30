@@ -11,7 +11,7 @@
       "exporter": "astgen/test/exporter_test.dart",
       "lowering": "src/main/scala/io/joern/dartsrc2cpg/AstCreationPass.scala",
       "resolution": "analyzer 8.4.1 declaration identities",
-      "cfg": "shared CFG; exceptions/finally not qualified",
+      "cfg": "shared CFG; finally exits tested, catch filters and path feasibility conservative",
       "valueFlow": "shared OSS engine; reviewed corpus limits apply",
       "negative": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
       "interaction": "unqualified"
@@ -1461,6 +1461,24 @@
       "negative": "DartFrontendTests: defer late local initializers in capturing thunks and guard reads and final writes (constant initializer)",
       "interaction": "astgen/test/late_evaluation_test.dart: cache null, independent objects, retries, overwrite, local capture timing",
       "limitation": "Initialization predicates are represented explicitly but are not interpreted path-sensitively by the heap/dataflow engine."
+    },
+    "finally-exits": {
+      "constructs": [
+        "TryStatement",
+        "ReturnStatement",
+        "ThrowExpression",
+        "RethrowExpression",
+        "BreakStatement",
+        "ContinueStatement"
+      ],
+      "exporter": "astgen/test/exporter_test.dart: control flow syntax export",
+      "lowering": "DartFrontendTests: route returns through finally and exclude values replaced by abrupt cleanup",
+      "resolution": "x2cpg FinallyExitTests: outward labels versus jumps inside a protected body",
+      "cfg": "x2cpg FinallyExitTests: nested cleanup and abrupt exit replacement",
+      "valueFlow": "dataflowengineoss FinallyReturnTests: pending values replaced by return or throw",
+      "negative": "DartFrontendTests: overriding constant return and throwing cleanup",
+      "interaction": "astgen/test/exception_evaluation_test.dart: nested cleanup, loop exits and rethrow",
+      "limitation": "Shared cleanup joins pending exits conservatively; exact catch-type selection and path feasibility are not established."
     }
   }
 }

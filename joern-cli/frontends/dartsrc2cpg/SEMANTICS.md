@@ -215,3 +215,21 @@ retry, write-before-read and local capture timing. See Dart's
 [late variable semantics](https://dart.dev/language/variables#late-variables).
 Non-late static/top-level initializer timing remains a separate qualification
 obligation; the existing `<clinit>` representation is retained for those variables.
+
+## Exception exits and cleanup
+
+The shared CFG builder carries pending returns, throws and outward jumps through
+enclosing finally bodies. Abrupt cleanup replaces the pending exit. Nested
+cleanup runs inside-out; jumps to labels within the protected body stay inside it.
+The DDG excludes return values that cannot reach method exit without another
+return or throw replacing them. Calls in protected regions have conservative
+exceptional paths, including calls before the last statement, and empty catches
+retain a continuation.
+
+Catch-type selection remains conservative. A shared finally body joins pending
+exits, so the CFG can combine incoming states and outgoing continuations; it is
+not a path-feasibility proof. Existing fringe-based exception edges are retained
+for frontends without complete exception representations. The Dart fixture and
+execution oracle cover normal cleanup, overriding return/throw, nested cleanup,
+break, continue and rethrow. Language-independent and C/C++ regressions cover
+the shared changes.

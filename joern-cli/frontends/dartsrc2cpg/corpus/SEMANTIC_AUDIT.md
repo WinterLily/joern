@@ -101,3 +101,12 @@ boolean predicate detour and records no discarded-work limitation. External
 string/byte transformations still rely on summaries. Other queries do record
 depth exhaustion, including negative probes; their endpoint match does not
 remove the `inconclusive-query-limits` disposition.
+
+## Shared finally regression
+
+The pending-exit/return-dependency change passed 83 Dart frontend/runner/package
+checks, all three applications, both holdouts, the focused shared CFG/DDG tests
+and the C/C++ dataflow/CFG regressions. The C++ early-call expectation now includes
+its exceptional path and empty-catch continuation. A broader x2cpg run passed
+114 tests but failed three artifact-download tests with DNS resolution errors;
+those network-dependent operational checks are not reported as passed.

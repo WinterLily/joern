@@ -6,7 +6,8 @@ review ledger, pinned AST inventory, aliases, callable tear-offs, null-aware
 collections, case labels, VM/web selection and first server/parser holdout are
 implemented. Resolved user operators, null-aware updates and guarded late
 field/local initialization now have focused regressions and execution oracles;
-semantic and lifecycle qualification obligations remain open. The frontend is an
+shared finally/abrupt-exit routing and overridden return dependencies are also
+covered. Semantic and lifecycle qualification obligations remain open. The frontend is an
 initial implementation, not complete language or runtime analysis support.
 This plan supersedes the completion assumptions in the original implementation
 plan in `agents/plan.md`; it does not mark the remaining work as done.

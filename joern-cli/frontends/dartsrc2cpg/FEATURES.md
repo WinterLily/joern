@@ -42,7 +42,7 @@ surface separately from semantic qualification.
 
 Unsupported syntax still produces diagnostics and UNKNOWN nodes. Exact pattern
 failure exceptions, general higher-order
-callback dispatch, stream scheduling and precise exception routing are not
+callback dispatch, stream scheduling and path-sensitive catch selection are not
 established by these tests. Future syntax accepted by the analyzer is not
 implicitly supported. See [runtime summary requirements](RUNTIME_SUMMARIES.md).
 
