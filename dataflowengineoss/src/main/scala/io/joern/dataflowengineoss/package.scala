@@ -1,9 +1,11 @@
 package io.joern
 
-import io.shiftleft.codepropertygraph.generated.nodes.{Declaration, Expression, Identifier, Literal}
+import io.shiftleft.codepropertygraph.generated.nodes.*
+import io.shiftleft.codepropertygraph.generated.Operators
 import io.shiftleft.semanticcpg.language.*
 import io.shiftleft.semanticcpg.language.operatorextension.OpNodes.Assignment
 import io.shiftleft.semanticcpg.utils.MemberAccess.isFieldAccess
+import scala.collection.mutable
 
 package object dataflowengineoss {
 
@@ -36,16 +38,61 @@ package object dataflowengineoss {
   }
 
   def identifierToFirstUsages(node: Identifier): List[Identifier] =
-    node.refsTo.flatMap(firstIdentifierFromCapturedScopes).l
+    node.refsTo.flatMap(firstIdentifierFromCapturedScopes(_)).l
 
-  def firstIdentifierFromCapturedScopes(i: Declaration): List[Identifier] =
-    i.capturedByMethodRef.referencedMethod
-      .flatMap(m =>
-        m.ast.isIdentifier // this includes closures defined under method
-          .nameExact(i.name)
-          .sortBy(x => (x.lineNumber, x.columnNumber))
-          .headOption
-      )
-      .l
+  def firstIdentifierFromCapturedScopes(
+    declaration: Declaration,
+    includeModeledInputs: Boolean = false
+  ): List[Identifier] = {
+    val result  = mutable.LinkedHashSet.empty[Identifier]
+    val visited = mutable.HashSet.empty[(ClosureBinding, MethodRef)]
+
+    def captured(source: Declaration, eligible: MethodRef => Boolean): Unit = {
+      source.closureBinding.foreach { binding =>
+        binding._captureIn.collectAll[MethodRef].filter(eligible).foreach { reference =>
+          if (visited.add((binding, reference))) reference.referencedMethod.foreach { method =>
+            val proxies = method.local
+              .filter(local => binding.closureBindingId.nonEmpty && local.closureBindingId == binding.closureBindingId)
+              .toSet
+            val declarations: Set[Declaration]          = proxies.toSet[Declaration] + source
+            def refers(identifier: Identifier): Boolean = identifier.refsTo.exists(declarations.contains)
+            // Some frontends also use captures for modeled callback inputs, without lexical proxy uses.
+            if (
+              includeModeledInputs && source
+                .isInstanceOf[MethodParameterIn] && !method.ast.isIdentifier.exists(refers) &&
+              proxies.forall(_.closureBinding.isEmpty)
+            ) result ++= method.ast.isIdentifier
+            def replaces(call: Call): Boolean = call.name == Operators.assignment &&
+              call.argumentOption(1).exists {
+                case identifier: Identifier => refers(identifier)
+                case _                      => false
+              }
+            val seen    = mutable.HashSet.empty[CfgNode]
+            val pending = mutable.ArrayDeque[CfgNode](method)
+            while (pending.nonEmpty) {
+              val node = pending.removeHead()
+              if (seen.add(node)) {
+                node match {
+                  case identifier: Identifier
+                      if refers(identifier) && !identifier.inCall
+                        .exists(call => replaces(call) && identifier.argumentIndex == 1) =>
+                    result += identifier
+                  case _ =>
+                }
+                node match {
+                  case call: Call if replaces(call) =>
+                  case _                            => pending ++= node._cfgOut.cast[CfgNode]
+                }
+              }
+            }
+            proxies.foreach(proxy => captured(proxy, seen.contains))
+          }
+        }
+      }
+    }
+
+    captured(declaration, _ => true)
+    result.toList
+  }
 
 }

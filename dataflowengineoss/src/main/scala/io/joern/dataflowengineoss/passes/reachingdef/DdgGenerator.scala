@@ -1,6 +1,6 @@
 package io.joern.dataflowengineoss.passes.reachingdef
 
-import io.joern.dataflowengineoss.{globalFromLiteral, identifierToFirstUsages}
+import io.joern.dataflowengineoss.{firstIdentifierFromCapturedScopes, globalFromLiteral, identifierToFirstUsages}
 import io.joern.dataflowengineoss.queryengine.AccessPathUsage.toTrackedBaseAndAccessPathSimple
 import io.joern.dataflowengineoss.queryengine.OutputChannel
 import io.joern.dataflowengineoss.semanticsloader.Semantics
@@ -254,7 +254,7 @@ class DdgGenerator(semantics: Semantics) {
           addEdge(src, dst, nodeToEdgeLabel(src))
         }
       method.parameter.foreach { param =>
-        param.capturedByMethodRef.referencedMethod.ast.isIdentifier.foreach { identifier =>
+        firstIdentifierFromCapturedScopes(param, includeModeledInputs = true).foreach { identifier =>
           addEdge(param, identifier, nodeToEdgeLabel(param))
         }
       }
