@@ -38,9 +38,11 @@ class ReferenceAliases(method: Option[Method]) {
         .filter { case (_, identifiers) =>
           val declarations = identifiers.flatMap(_.refsTo).distinct
           declarations.size > 1 || declarations.exists {
-            case local: Local                 => local._refIn.exists(_.isInstanceOf[ClosureBinding])
-            case parameter: MethodParameterIn => parameter._refIn.exists(_.isInstanceOf[ClosureBinding])
-            case _                            => false
+            // Dart closures may mutate captured variables, but cannot rebind `this`.
+            case local: Local => local.name != "this" && local._refIn.exists(_.isInstanceOf[ClosureBinding])
+            case parameter: MethodParameterIn =>
+              parameter.name != "this" && parameter._refIn.exists(_.isInstanceOf[ClosureBinding])
+            case _ => false
           }
         }
         .keySet

@@ -2,7 +2,7 @@ package io.joern.dataflowengineoss.queryengine
 
 import flatgraph.misc.TestUtils.*
 import io.joern.dataflowengineoss.DefaultSemantics
-import io.joern.dataflowengineoss.passes.reachingdef.ReachingDefPass
+import io.joern.dataflowengineoss.passes.reachingdef.{ReachingDefPass, ReferenceAliases}
 import io.joern.dataflowengineoss.semanticsloader.{FlowSemantic, Semantics}
 import io.joern.x2cpg.{Ast, ValidationMode}
 import io.joern.x2cpg.passes.base.{ContainsEdgePass, MethodDecoratorPass, MethodStubCreator}
@@ -11,11 +11,50 @@ import io.joern.x2cpg.passes.controlflow.CfgCreationPass
 import io.shiftleft.codepropertygraph.generated.{Cpg, DispatchTypes, EdgeTypes, EvaluationStrategies, Operators}
 import io.shiftleft.codepropertygraph.generated.nodes.*
 import io.shiftleft.semanticcpg.language.*
+import io.shiftleft.semanticcpg.accesspath.TrackedNamedVariable
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
 class ReturnedFieldTests extends AnyWordSpec with Matchers {
   "Returned object fields" should {
+    "preserve captured Dart receivers without assuming captured variables cannot be rebound" in {
+      for (language <- Seq("DART", "C"); name <- Seq("this", "owner"); local <- Seq(false, true)) {
+        val cpg = Cpg.empty
+        try {
+          cpg.graph.addNode(NewMetaData().language(language))
+          val method      = cpg.graph.addNode(NewMethod().name("write").fullName("write"))
+          val declaration =
+            if (local) cpg.graph.addNode(NewLocal().name(name))
+            else cpg.graph.addNode(NewMethodParameterIn().name(name).index(0))
+          val binding = cpg.graph.addNode(NewClosureBinding().closureBindingId("closure:" + name))
+          val alias   = cpg.graph.addNode(NewLocal().name("alias"))
+          val target  = cpg.graph.addNode(NewIdentifier().name("alias").argumentIndex(1))
+          val source  = cpg.graph.addNode(NewIdentifier().name(name).argumentIndex(2))
+          val copy    = cpg.graph.addNode(NewCall().name(Operators.assignment).methodFullName(Operators.assignment))
+          val use     = cpg.graph.addNode(NewIdentifier().name("alias"))
+          val edges   = Cpg.newDiffGraphBuilder
+          Seq(declaration, alias, copy, use).foreach(edges.addEdge(method, _, EdgeTypes.AST))
+          Seq(source, target).foreach { operand =>
+            edges.addEdge(copy, operand, EdgeTypes.AST)
+            edges.addEdge(copy, operand, EdgeTypes.ARGUMENT)
+          }
+          edges.addEdge(binding, declaration, EdgeTypes.REF)
+          edges.addEdge(source, declaration, EdgeTypes.REF)
+          edges.addEdge(target, alias, EdgeTypes.REF)
+          edges.addEdge(use, alias, EdgeTypes.REF)
+          edges.addEdge(method, source, EdgeTypes.CFG)
+          edges.addEdge(source, copy, EdgeTypes.CFG)
+          edges.addEdge(copy, use, EdgeTypes.CFG)
+          edges.apply(cpg.graph)
+          new ContainsEdgePass(cpg).createAndApply()
+          val expected = if (language == "DART" && name == "this") "this" else "alias"
+          withClue(s"$language $name local=$local: ") {
+            ReferenceAliases.forNode(use).base(TrackedNamedVariable("alias"), use) shouldBe
+              TrackedNamedVariable(expected)
+          }
+        } finally cpg.close()
+      }
+    }
     "bound repeated field projection by widening the suffix" in {
       val cpg = Cpg.empty
       try {
