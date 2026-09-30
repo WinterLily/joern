@@ -1,7 +1,7 @@
 package io.joern.x2cpg.passes.controlflow.cfgcreation
 
 import io.shiftleft.codepropertygraph.generated.nodes.CfgNode
-import io.joern.x2cpg.passes.controlflow.cfgcreation.Cfg.CfgEdgeType
+import io.joern.x2cpg.passes.controlflow.cfgcreation.Cfg.{CfgEdgeType, ExitKind}
 import org.slf4j.LoggerFactory
 
 /** A control flow graph that is under construction, consisting of:
@@ -29,7 +29,9 @@ import org.slf4j.LoggerFactory
   *   unresolved continues collected along the way together with an integer value which indicates the number of
   *   loop/switch levels after which to continue
   * @param jumpsToLabel
-  *   unresolved gotos, labeled break and labeld continues collected along the way
+  *   unresolved gotos, labeled break and labeled continues collected along the way
+  * @param exits
+  *   pending returns and exceptions that enclosing finally bodies must intercept before method exit
   */
 case class Cfg(
   entryNode: Option[CfgNode] = None,
@@ -39,7 +41,8 @@ case class Cfg(
   breaks: List[(CfgNode, Int)] = List(),
   continues: List[(CfgNode, Int)] = List(),
   caseLabels: List[CfgNode] = List(),
-  jumpsToLabel: List[(CfgNode, String)] = List()
+  jumpsToLabel: List[(CfgNode, String)] = List(),
+  exits: List[(CfgNode, ExitKind)] = List()
 ) {
 
   import Cfg._
@@ -62,7 +65,8 @@ case class Cfg(
         labeledNodes = this.labeledNodes ++ other.labeledNodes,
         breaks = this.breaks ++ other.breaks,
         continues = this.continues ++ other.continues,
-        caseLabels = this.caseLabels ++ other.caseLabels
+        caseLabels = this.caseLabels ++ other.caseLabels,
+        exits = this.exits ++ other.exits
       )
     }
   }
@@ -103,10 +107,15 @@ case class CfgEdge(src: CfgNode, dst: CfgNode, edgeType: CfgEdgeType)
 
 object Cfg {
 
+  enum ExitKind {
+    case Returned, Thrown
+  }
+
   private val logger = LoggerFactory.getLogger(getClass)
 
   def from(cfgs: Cfg*): Cfg = {
     Cfg(
+      exits = cfgs.flatMap(_.exits).toList,
       jumpsToLabel = cfgs.map(_.jumpsToLabel).reduceOption((x, y) => x ++ y).getOrElse(List()),
       breaks = cfgs.map(_.breaks).reduceOption((x, y) => x ++ y).getOrElse(List()),
       continues = cfgs.map(_.continues).reduceOption((x, y) => x ++ y).getOrElse(List()),

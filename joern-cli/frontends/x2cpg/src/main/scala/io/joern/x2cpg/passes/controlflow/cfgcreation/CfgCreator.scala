@@ -54,12 +54,20 @@ class CfgCreator(entryNode: Method, diffGraph: DiffGraphBuilder) {
     * nodes representing formal return parameters, of which there exists exactly one per method.
     */
   private val exitNode: MethodReturn = entryNode.methodReturn
+  private var protectedDepth         = 0
+
+  private def cfgForProtected(node: AstNode): Cfg = {
+    protectedDepth += 1
+    try cfgFor(node)
+    finally protectedDepth -= 1
+  }
 
   /** We return the CFG as a sequence of Diff Graphs that is calculated by first obtaining the CFG for the method and
     * then resolving gotos.
     */
   def run(): Unit = {
-    cfgForMethod(entryNode).withResolvedJumpToLabel().edges.foreach { edge =>
+    val cfg = cfgForMethod(entryNode).withResolvedJumpToLabel()
+    (cfg.edges ++ cfg.exits.flatMap { case (node, _) => singleEdge(node, exitNode) }).distinct.foreach { edge =>
       // TODO: we are ignoring edge.edgeType because the
       //  CFG spec doesn't define an edge type at the moment
       diffGraph.addEdge(edge.src, edge.dst, EdgeTypes.CFG)
@@ -85,15 +93,6 @@ class CfgCreator(entryNode: Method, diffGraph: DiffGraphBuilder) {
   private def cfgForChildren(node: AstNode): Cfg =
     node.astChildren.l.map(cfgFor).reduceOption((accumCfg, nextCfg) => accumCfg ++ nextCfg).getOrElse(Cfg.empty)
 
-  /** Returns true if this node is a child to some `try` control structure, false if otherwise.
-    */
-  private def withinATryBlock(node: AstNode): Boolean = {
-    if (node._astIn.hasNext) {
-      val parentNode = node.parentBlock.astParent
-      parentNode.isControlStructure.isTry.nonEmpty
-    } else false
-  }
-
   /** This method dispatches AST nodes by type and calls corresponding conversion methods.
     */
   protected def cfgFor(node: AstNode): Cfg =
@@ -106,8 +105,6 @@ class CfgCreator(entryNode: Method, diffGraph: DiffGraphBuilder) {
         cfgForControlStructure(controlStructure)
       case jumpTarget: JumpTarget =>
         cfgForJumpTarget(jumpTarget)
-      case ret: Return if withinATryBlock(ret) =>
-        cfgForReturn(ret, inheritFringe = true)
       case ret: Return =>
         cfgForReturn(ret)
       case call: Call if call.name == Operators.logicalAnd =>
@@ -122,7 +119,10 @@ class CfgCreator(entryNode: Method, diffGraph: DiffGraphBuilder) {
         cfgForChildren(block)
       case _: Block =>
         cfgForChildren(node) ++ cfgForSingleNode(node.asInstanceOf[CfgNode])
-      case _: Call | _: FieldIdentifier | _: Identifier | _: Literal | _: Block | _: Unknown =>
+      case call: Call =>
+        val own = cfgForSingleNode(call)
+        cfgForChildren(call) ++ (if (protectedDepth > 0) own.copy(exits = List(call -> ExitKind.Thrown)) else own)
+      case _: FieldIdentifier | _: Identifier | _: Literal | _: Block | _: Unknown =>
         cfgForChildren(node) ++ cfgForSingleNode(node.asInstanceOf[CfgNode])
       case _ =>
         cfgForChildren(node)
@@ -198,8 +198,7 @@ class CfgCreator(entryNode: Method, diffGraph: DiffGraphBuilder) {
       .headOption
       .map(cfgFor)
       .getOrElse(Cfg.empty)
-    val concatedNatedCfg = throwExprCfg ++ Cfg(entryNode = Option(node))
-    concatedNatedCfg.copy(edges = concatedNatedCfg.edges ++ singleEdge(node, exitNode))
+    throwExprCfg ++ Cfg(entryNode = Option(node), exits = List(node -> ExitKind.Thrown))
   }
 
   /** The CFG for a break/continue statements contains only the break/continue statement as a single entry node. The
@@ -309,20 +308,10 @@ class CfgCreator(entryNode: Method, diffGraph: DiffGraphBuilder) {
 
   /** Return statements may contain expressions as return values, and therefore, the CFG for a return statement consists
     * of the CFG for calculation of that expression, appended to a CFG containing only the return node, connected with a
-    * single edge to the method exit node. The fringe is empty.
-    *
-    * @param inheritFringe
-    *   indicates if the resulting Cfg object must contain the fringe value of the return value's children.
+    * pending method exit. Enclosing finally bodies may intercept or replace it. The normal fringe is empty.
     */
-  protected def cfgForReturn(actualRet: Return, inheritFringe: Boolean = false): Cfg = {
-    val childrenCfg = cfgForChildren(actualRet)
-    childrenCfg ++
-      Cfg(
-        entryNode = Option(actualRet),
-        edges = singleEdge(actualRet, exitNode),
-        if (inheritFringe) childrenCfg.fringe else List()
-      )
-  }
+  protected def cfgForReturn(actualRet: Return): Cfg =
+    cfgForChildren(actualRet) ++ Cfg(entryNode = Option(actualRet), exits = List(actualRet -> ExitKind.Returned))
 
   /** The right hand side of a logical AND expression is only evaluated if the left hand side is true as the entire
     * expression can only be true if both expressions are true. This is encoded in the corresponding control flow graph
@@ -599,10 +588,9 @@ class CfgCreator(entryNode: Method, diffGraph: DiffGraphBuilder) {
   /** CFG creation for try statements of the form `try { tryBody ] catch { catchBody } `, optionally followed by
     * `finally { finallyBody }`.
     *
-    * To avoid very large CFGs for try statements, only edges from the last statement in the `try` block to each `catch`
-    * block (and optionally the `finally` block) are created. The last statement in each `catch` block should then have
-    * an outgoing edge to the `finally` block if it exists (and not to any subsequent catch blocks), or otherwise * be
-    * part of the fringe.
+    * Calls and explicit throws in protected bodies have conservative exceptional exits. Catch selection remains
+    * conservative because not all frontends represent type filters. Finally bodies intercept pending returns,
+    * exceptions and outward jumps; their normal fringe resumes those exits, while abrupt cleanup replaces them.
     *
     * By default, the first child of the `TRY` node is treated as the try body, while every subsequent node is treated
     * as a `catch`, with no `finally` present. To treat the last child of the node as the `finally` block, the `code`
@@ -619,12 +607,19 @@ class CfgCreator(entryNode: Method, diffGraph: DiffGraphBuilder) {
       )
       .headOption
 
-    val tryBodyCfg: Cfg = maybeTryBlock.map(cfgFor).getOrElse(Cfg.empty)
+    val tryBodyCfg: Cfg = maybeTryBlock.map(cfgForProtected).getOrElse(Cfg.empty)
 
     val catchControlStructures =
       (node.astChildren.isControlStructure.isCatch ++ node.astChildren.isControlStructure.isElse).toList
+    val explicitFinally   = node._finallyBodyOut.cast[AstNode].toSet
     val catchBodyFallback =
-      if (catchControlStructures.isEmpty) node.astChildren.order(2)
+      if (catchControlStructures.isEmpty) node.astChildren.order(2).filterNot { child =>
+        explicitFinally.contains(child) || (child match {
+          case block: Block              => block.code == "finally"
+          case control: ControlStructure => control.controlStructureType == ControlStructureTypes.FINALLY
+          case _                         => false
+        })
+      }
       else catchControlStructures.iterator
 
     val catchBodyCfgs = Iterator(node)
@@ -635,7 +630,14 @@ class CfgCreator(entryNode: Method, diffGraph: DiffGraphBuilder) {
           catchBodyFallback
         }
       )
-      .map(cfgFor)
+      .map { body =>
+        val cfg = cfgForProtected(body)
+        if (cfg.entryNode.isEmpty) body match {
+          case node: CfgNode => cfgForSingleNode(node)
+          case _             => cfg
+        }
+        else cfg
+      }
       .toList match {
       case Nil  => List(Cfg.empty)
       case asts => asts
@@ -644,7 +646,7 @@ class CfgCreator(entryNode: Method, diffGraph: DiffGraphBuilder) {
     val finallyControlStructures = node.astChildren.isControlStructure.isFinally.toList
     val finallyBodyFallback      =
       if (catchControlStructures.isEmpty && finallyControlStructures.isEmpty) {
-        node.astChildren.order(3)
+        (node.astChildren.isBlock.codeExact("finally") ++ node.astChildren.order(3)).toList.distinct.iterator
       } else {
         finallyControlStructures.iterator
       }
@@ -661,42 +663,43 @@ class CfgCreator(entryNode: Method, diffGraph: DiffGraphBuilder) {
       .headOption // Assume there can only be one
       .toList
 
-    val tryToCatchEdges = catchBodyCfgs.flatMap { catchBodyCfg =>
-      edgesFromFringeTo(tryBodyCfg, catchBodyCfg.entryNode)
-    }
+    val protectedCfg      = Cfg.from((tryBodyCfg :: catchBodyCfgs)*)
+    val catchEntries      = catchBodyCfgs.flatMap(_.entryNode)
+    val throwToCatchEdges = tryBodyCfg.exits
+      .collect { case (node, ExitKind.Thrown) => node }
+      .flatMap(node => catchEntries.flatMap(target => singleEdge(node, target)))
+    val tryToCatchEdges = catchBodyCfgs.flatMap(catchCfg => edgesFromFringeTo(tryBodyCfg, catchCfg.entryNode))
+    val protectedEdges  = tryBodyCfg.edges ++ catchBodyCfgs.flatMap(_.edges) ++ tryToCatchEdges ++ throwToCatchEdges
+    val normalFringe    = tryBodyCfg.fringe ++ catchBodyCfgs.flatMap(_.fringe)
 
-    val catchToFinallyEdges = (
-      for (
-        catchBodyCfg   <- catchBodyCfgs;
-        finallyBodyCfg <- maybeFinallyBodyCfg
-      ) yield edgesFromFringeTo(catchBodyCfg, finallyBodyCfg.entryNode)
-    ).flatten
-
-    val tryToFinallyEdges = maybeFinallyBodyCfg.flatMap { cfg =>
-      edgesFromFringeTo(tryBodyCfg, cfg.entryNode)
-    }
-
-    val diffGraphs = tryToCatchEdges ++ catchToFinallyEdges ++ tryToFinallyEdges
-
-    if (maybeTryBlock.isEmpty) {
-      // This case deals with the situation where the try block is empty. In this case,
-      // no catch block can be executed since nothing can be thrown, but the finally block
-      // will still be executed.
-      maybeFinallyBodyCfg.headOption.getOrElse(Cfg.empty)
-    } else {
-      Cfg
-        .from(Seq(tryBodyCfg) ++ catchBodyCfgs ++ maybeFinallyBodyCfg*)
-        .copy(
-          entryNode = tryBodyCfg.entryNode,
-          edges =
-            diffGraphs ++ tryBodyCfg.edges ++ catchBodyCfgs.flatMap(_.edges) ++ maybeFinallyBodyCfg.flatMap(_.edges),
-          fringe = if (maybeFinallyBodyCfg.flatMap(_.entryNode).nonEmpty) {
-            maybeFinallyBodyCfg.head.fringe
-          } else {
-            tryBodyCfg.fringe ++ catchBodyCfgs.flatMap(_.fringe)
+    if (maybeTryBlock.isEmpty) maybeFinallyBodyCfg.headOption.getOrElse(Cfg.empty)
+    else
+      maybeFinallyBodyCfg.headOption.filter(_.entryNode.nonEmpty) match {
+        case None => protectedCfg.copy(entryNode = tryBodyCfg.entryNode, edges = protectedEdges, fringe = normalFringe)
+        case Some(finallyCfg) =>
+          val (localJumps, leavingJumps) = protectedCfg.jumpsToLabel.partition { case (_, label) =>
+            protectedCfg.labeledNodes.contains(label)
           }
-        )
-    }
+          val abruptNodes = (protectedCfg.exits.map(_._1) ++ protectedCfg.breaks.map(_._1) ++
+            protectedCfg.continues.map(_._1) ++ leavingJumps.map(_._1)).distinct
+          val cleanupEdges = (normalFringe.map(_._1) ++ abruptNodes).distinct
+            .flatMap(node => finallyCfg.entryNode.toList.flatMap(target => singleEdge(node, target)))
+          // A shared finally body joins pending exits conservatively. An abrupt cleanup has no
+          // normal fringe, so it replaces every pending exit instead of resuming one.
+          def resume[T](pending: List[(CfgNode, T)]): List[(CfgNode, T)] =
+            pending.flatMap { case (_, target) => finallyCfg.fringe.map { case (node, _) => node -> target } }.distinct
+          Cfg
+            .from(protectedCfg, finallyCfg)
+            .copy(
+              entryNode = tryBodyCfg.entryNode,
+              edges = protectedEdges ++ cleanupEdges ++ finallyCfg.edges,
+              fringe = if (normalFringe.nonEmpty) finallyCfg.fringe else Nil,
+              exits = finallyCfg.exits ++ resume(protectedCfg.exits),
+              breaks = finallyCfg.breaks ++ resume(protectedCfg.breaks),
+              continues = finallyCfg.continues ++ resume(protectedCfg.continues),
+              jumpsToLabel = localJumps ++ finallyCfg.jumpsToLabel ++ resume(leavingJumps)
+            )
+      }
   }
 
   /** The CFGs for match cases are modeled after PHP match expressions and assumes that a case will always consist of

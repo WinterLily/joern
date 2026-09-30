@@ -4,7 +4,7 @@ import io.joern.dataflowengineoss.{globalFromLiteral, identifierToFirstUsages}
 import io.joern.dataflowengineoss.queryengine.AccessPathUsage.toTrackedBaseAndAccessPathSimple
 import io.joern.dataflowengineoss.semanticsloader.Semantics
 import io.shiftleft.codepropertygraph.generated.nodes.*
-import io.shiftleft.codepropertygraph.generated.{EdgeTypes, Operators}
+import io.shiftleft.codepropertygraph.generated.{ControlStructureTypes, EdgeTypes, Operators}
 import io.shiftleft.semanticcpg.accesspath.MatchResult
 import io.shiftleft.semanticcpg.language.*
 import io.shiftleft.codepropertygraph.generated.DiffGraphBuilder
@@ -16,6 +16,28 @@ import scala.collection.{Set, mutable}
 class DdgGenerator(semantics: Semantics) {
 
   implicit val s: Semantics = semantics
+
+  private def returnsReachingExit(method: Method): Set[Return] = {
+    val reachable = mutable.HashSet.empty[CfgNode]
+    val forward   = mutable.ArrayDeque[CfgNode](method)
+    while (forward.nonEmpty) {
+      val node = forward.removeHead()
+      if (reachable.add(node)) forward ++= node._cfgOut.cast[CfgNode]
+    }
+    val visited  = mutable.HashSet.empty[CfgNode]
+    val returns  = mutable.HashSet.empty[Return]
+    val backward = mutable.ArrayDeque[CfgNode](method.methodReturn)
+    while (backward.nonEmpty) {
+      val node = backward.removeHead()
+      if (reachable.contains(node) && visited.add(node)) node match {
+        // A later return or throw replaces the value of any earlier pending return.
+        case ret: Return                                                                              => returns += ret
+        case control: ControlStructure if control.controlStructureType == ControlStructureTypes.THROW =>
+        case _ => backward ++= node._cfgIn.cast[CfgNode]
+      }
+    }
+    returns.toSet
+  }
 
   /** Once reaching definitions have been computed, we create a data dependence graph by checking which reaching
     * definitions are relevant, meaning that a symbol is propagated that is used by the target node.
@@ -41,6 +63,7 @@ class DdgGenerator(semantics: Semantics) {
 
     val allNodes      = in.keys.toList
     val usageAnalyzer = new UsageAnalyzer(problem, in)
+    val exitReturns   = returnsReachingExit(method)
 
     /** Add an edge from the entry node to each node that does not have other incoming definitions.
       */
@@ -125,7 +148,7 @@ class DdgGenerator(semantics: Semantics) {
           addEdge(method, ret)
         }
       }
-      addEdge(ret, method.methodReturn, "<RET>")
+      if (exitReturns.contains(ret)) addEdge(ret, method.methodReturn, "<RET>")
     }
 
     def addEdgesToMethodParameterOut(paramOut: MethodParameterOut): Unit = {
