@@ -9,7 +9,9 @@ field/local initialization now have focused regressions and execution oracles;
 shared finally/abrupt-exit routing and overridden return dependencies are also
 covered. Nested collection loops now accumulate element values with explicit
 list/set/map updates and bounded execution traces. Semantic and lifecycle
-qualification obligations remain open. The frontend is an
+qualification obligations remain open. Selected SDK conformance cases now expose
+and cover separate shared-case guard/body captures and distinct logical-or joins;
+metamorphic pairs and targeted mutations check the graph contracts. The frontend is an
 initial implementation, not complete language or runtime analysis support.
 This plan supersedes the completion assumptions in the original implementation
 plan in `agents/plan.md`; it does not mark the remaining work as done.
@@ -110,7 +112,7 @@ coverage wording if any positive exists only through an unjustified shortcut.
 - [ ] Create a machine-readable matrix linking each construct to exporter,
       lowering, resolution, CFG, value-flow, negative and interaction tests.
       Mark structural-only, conservative and unsupported cells explicitly.
-- [ ] Select or adapt upstream conformance cases with license/provenance records.
+- [x] Select or adapt upstream conformance cases with license/provenance records.
       Separate valid syntax, deliberate diagnostic cases and unimplemented syntax.
 - [ ] Build executable microprograms with instrumented evaluation traces to check
       order, side effects, dispatch, exceptions and callback behavior. Observed

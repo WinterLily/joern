@@ -30,3 +30,14 @@ include numeric updates from -1 through 1 and nested collection counts from 0
 through 2. Execution establishes the behavior of those paths only. In particular,
 a predicate that changes collection membership may change observable output
 without contributing an explicit element value.
+
+`upstream/manifest.json` records selected SDK language tests at the pinned SDK
+revision, original/adapted hashes, license and the exact adaptations. Valid
+runtime cases retain their original bodies and expected values; only the expect
+import changes to a small local assertion adapter. A separate reduced diagnostic
+case must remain partial and preserve both expected type errors. The runtime
+suite executes null-aware evaluation order, late-field initialization and pattern
+guard captures. These selections supplement the inventory, not the entire SDK
+conformance suite. The shared-case capture test exposed merged guard/body storage
+and missing common-body selection; both now have frontend regressions. A related
+identity test separates two logical-or joins in one function.

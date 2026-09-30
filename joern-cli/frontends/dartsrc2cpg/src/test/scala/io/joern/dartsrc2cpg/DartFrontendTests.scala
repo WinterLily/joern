@@ -77,6 +77,44 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
   }
 
   "Dart frontend" should {
+    "lower the selected SDK collection and late-field cases without executable holes" in {
+      val upstream = frontend.resolve("conformance/upstream")
+      for (name <- Seq("null_aware_evaluation.dart", "late_field_initializers.dart")) {
+        withClue(name) {
+          fixture(
+            Files.readString(upstream.resolve(name)),
+            "void main() {}",
+            dataflow = false,
+            extraFiles = Map("lib/expect.dart" -> Files.readString(upstream.resolve("expect.dart")))
+          ) { (cpg, _) =>
+            cpg.unknown.size shouldBe 0
+            cpg.method.isExternal(false).nameExact("main").size shouldBe 2
+            cpg.call.nameExact("equals").callee.isExternal.toSet shouldBe Set(false)
+          }
+        }
+      }
+    }
+    "preserve SDK shared-case guard captures separately from the body variable" in {
+      val upstream = frontend.resolve("conformance/upstream")
+      fixture(
+        Files.readString(upstream.resolve("guard_capture.dart")),
+        "void main() {}",
+        extraFiles = Map("lib/expect.dart" -> Files.readString(upstream.resolve("expect.dart")))
+      ) { (cpg, _) =>
+        cpg.unknown.size shouldBe 0
+        for (name <- Seq("sharedCaseUseInBody", "sharedCaseOnlyGuards")) {
+          val captured = cpg.closureBinding.refOut.collect {
+            case local: io.shiftleft.codepropertygraph.generated.nodes.Local
+                if local.method.name.contains(name) && local.name == "a" =>
+              local.id
+          }.toSet
+          withClue(name) { captured.size shouldBe 3 }
+        }
+        val body = cpg.method.nameExact("sharedCaseUseInBody").head
+        body.ast.isIdentifier.nameExact("a").refsTo.toSet.size shouldBe 4
+        body.ast.isCall.nameExact("<operator>.logicalOr").size shouldBe 2
+      }
+    }
     "preserve dependencies under source transformations and reject constant replacements" in {
       val variants = Seq(
         ("inline", "", "String relay(String value) => value;", "relay(input)", true),
@@ -1540,7 +1578,7 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         scan(config.copy(report = report.toString))
         val coverage = ujson.read(Files.readString(report))
         coverage("includedFiles").num shouldBe 0
-        coverage("exporter")("exporterVersion").str shouldBe "0.3.6"
+        coverage("exporter")("exporterVersion").str shouldBe "0.3.7"
         coverage("exporter")("sdkVersion").str shouldBe "3.9.2"
         coverage("exporter")("analyzerVersion").str shouldBe "8.4.1"
         Files.writeString(dir.resolve("excluded.dart"), "void excluded() {}")
@@ -1558,7 +1596,7 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         "offsetEncoding"  -> "utf-16",
         "analyzerVersion" -> "8.4.1",
         "sdkVersion"      -> "3.9.2",
-        "exporterVersion" -> "0.3.6"
+        "exporterVersion" -> "0.3.7"
       )
       intercept[IllegalArgumentException](ExportProtocol.units(Seq(valid)))
       intercept[IllegalArgumentException](

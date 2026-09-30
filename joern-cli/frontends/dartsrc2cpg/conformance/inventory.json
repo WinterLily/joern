@@ -51,6 +51,15 @@
       "valueFlow": "DartFrontendTests: accumulate values across nested collection loops without treating conditions as elements",
       "negative": "same regression: loop bound and selection-only inputs are not element-value flow",
       "interaction": "astgen/test/collection_evaluation_test.dart: bounded 0..2 nested iterations, null-aware evaluation, set deduplication and map overwrite execution oracle"
+    },
+    "pattern-joins": {
+      "exporter": "astgen/test/exporter_test.dart: keep separate logical-or joins distinct within one function; upstream_conformance_test.dart: shared-case source/target identities",
+      "lowering": "DartFrontendTests: preserve SDK shared-case guard captures separately from the body variable",
+      "resolution": "analyzer pattern bindings, logical-or joins and explicit shared-case body joins",
+      "cfg": "DartFrontendTests: shared-case short-circuit OR conditions and guarded body copies",
+      "valueFlow": "DartFrontendTests: preserve positive and negative flow through switch expression bindings",
+      "negative": "separate captured guard locals and body storage; pattern mismatch/path feasibility remain conservative",
+      "interaction": "astgen/test/upstream_conformance_test.dart: pinned SDK guard_capture runtime oracle"
     }
   },
   "constructs": [
@@ -842,9 +851,9 @@
       "construct": "LogicalOrPattern",
       "scope": "dart-3.9",
       "exporterCase": "LogicalOrPattern",
-      "contract": "syntax",
-      "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "contract": "pattern-joins",
+      "qualification": "conservative",
+      "reason": "Logical-or identities and shared-case guard/body captures tested against pinned SDK cases; exact pattern matching and callback-container execution remain conservative."
     },
     {
       "construct": "MapLiteralEntry",
@@ -1306,9 +1315,9 @@
       "construct": "SwitchPatternCase",
       "scope": "dart-3.9",
       "exporterCase": "SwitchPatternCase",
-      "contract": "syntax",
-      "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "contract": "pattern-joins",
+      "qualification": "conservative",
+      "reason": "Logical-or identities and shared-case guard/body captures tested against pinned SDK cases; exact pattern matching and callback-container execution remain conservative."
     },
     {
       "construct": "SwitchStatement",
@@ -1489,5 +1498,6 @@
       "interaction": "astgen/test/exception_evaluation_test.dart: nested cleanup, loop exits and rethrow",
       "limitation": "Shared cleanup joins pending exits conservatively; exact catch-type selection and path feasibility are not established."
     }
-  }
+  },
+  "upstreamCases": "upstream/manifest.json"
 }

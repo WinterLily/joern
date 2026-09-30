@@ -13,7 +13,7 @@ import 'package:analyzer/source/line_info.dart';
 import 'package:path/path.dart' as p;
 
 const protocolVersion = 1;
-const exporterVersion = '0.3.6';
+const exporterVersion = '0.3.7';
 const analyzerVersion = '8.4.1';
 const supportedSdkVersion = '3.9.2';
 
@@ -188,6 +188,61 @@ class _UnitEncoder {
   final Map<String, Map<String, Object?>> symbols = {};
   final List<Map<String, Object?>> nodes = [];
   final Set<String> unsupported = {};
+  final Set<JoinPatternVariableElement> sharedCaseJoins = {};
+
+  Iterable<PatternVariableElement> patternVariables(AstNode ast) sync* {
+    if (ast is DeclaredVariablePattern) {
+      final element = ast.declaredFragment?.element;
+      if (element != null) yield element;
+    }
+    for (final child in ast.childEntities.whereType<AstNode>()) {
+      yield* patternVariables(child);
+    }
+  }
+
+  void prepareSharedCases(AstNode ast) {
+    if (ast is SwitchStatement) {
+      final group = <SwitchMember>[];
+      for (final member in ast.members) {
+        group.add(member);
+        if (member.statements.isNotEmpty) {
+          if (group.length > 1) {
+            for (final clause in group.whereType<SwitchPatternCase>()) {
+              for (var variable in patternVariables(
+                clause.guardedPattern.pattern,
+              )) {
+                while (variable.join != null) {
+                  variable = variable.join!;
+                }
+                if (variable is JoinPatternVariableElement) {
+                  sharedCaseJoins.add(variable);
+                }
+              }
+            }
+          }
+          group.clear();
+        }
+      }
+    }
+    for (final child in ast.childEntities.whereType<AstNode>()) {
+      prepareSharedCases(child);
+    }
+  }
+
+  List<Map<String, Object?>> caseJoins(SwitchPatternCase ast) {
+    final bindings = <String?, Map<String, Object?>>{};
+    for (var variable in patternVariables(ast.guardedPattern.pattern)) {
+      while (variable.join != null &&
+          !sharedCaseJoins.contains(variable.join)) {
+        variable = variable.join!;
+      }
+      if (sharedCaseJoins.contains(variable.join)) {
+        final target = symbol(variable.join);
+        bindings[target] = {'source': symbol(variable), 'target': target};
+      }
+    }
+    return bindings.values.toList();
+  }
 
   _UnitEncoder(this.root, this.file, this.source, this.lines);
 
@@ -202,7 +257,9 @@ class _UnitEncoder {
 
   String? symbol(Element? element) {
     if (element == null) return null;
-    while (element is PatternVariableElement && element.join != null) {
+    while (element is PatternVariableElement &&
+        element.join != null &&
+        !sharedCaseJoins.contains(element.join)) {
       element = element.join!;
     }
     element = element!.baseElement;
@@ -220,12 +277,14 @@ class _UnitEncoder {
         fragment.nameOffset ??
         (fragment is ConstructorFragment ||
                 fragment is LocalFunctionFragment ||
+                fragment is JoinPatternVariableFragment ||
                 fragment is ExtensionFragment
             ? fragment.offset
             : element.enclosingElement?.firstFragment.nameOffset ?? -1);
     final owner = element.enclosingElement;
-    final slot =
-        element is FormalParameterElement && fragment.nameOffset == null
+    final slot = element is JoinPatternVariableElement
+        ? (sharedCaseJoins.contains(element) ? ':caseJoin' : ':patternJoin')
+        : element is FormalParameterElement && fragment.nameOffset == null
         ? ':${symbol(owner)}:${owner is FunctionTypedElement ? owner.formalParameters.indexOf(element) : -1}:${element.type.getDisplayString()}'
         : '';
     final id = '$location#$offset:${element.kind.name}:${element.name}$slot';
@@ -305,6 +364,7 @@ class _UnitEncoder {
     String? library,
     bool resolved = true,
   }) {
+    prepareSharedCases(unit);
     node(unit);
     return {
       'record': 'unit',
@@ -729,6 +789,7 @@ class _UnitEncoder {
         many('statement', ast.statements);
       case SwitchPatternCase():
         kind = 'SwitchPatternCase';
+        record['joins'] = caseJoins(ast);
         child('guard', ast.guardedPattern);
         many('statement', ast.statements);
       case SwitchExpression():

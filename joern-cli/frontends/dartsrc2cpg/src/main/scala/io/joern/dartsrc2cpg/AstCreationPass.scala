@@ -1289,17 +1289,52 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
         withSwitchLabels(syntax) {
           Seq(saved(syntax, expression(child(syntax, "condition"))) { ref =>
             def cases(remaining: List[Value]): Ast = remaining match {
-              case head :: tail =>
-                val cond = string(head, "kind") match {
-                  case "SwitchDefault"     => literal(head, "true", "bool")
-                  case "SwitchPatternCase" => guard(child(head, "guard"), ref)
-                  case _ => operator(head, Operators.equals, Seq(ref(), expression(child(head, "expression"))))
+              case head :: _ =>
+                val (empty, rest)                    = remaining.span(children(_, "statement").isEmpty)
+                val group                            = empty ++ rest.headOption
+                val tail                             = rest.drop(1)
+                def joins(member: Value): Seq[Value] = member.obj.get("joins").toSeq.flatMap(_.arr)
+                val locals                           =
+                  group.flatMap(joins).map(string(_, "target")).distinct.filterNot(declarations.contains).map { id =>
+                    val local = located(
+                      NewLocal().name(string(sym(id), "name")).code(string(sym(id), "name")).typeFullName(tpe(sym(id))),
+                      head
+                    )
+                    declarations(id) = local
+                    Ast(local)
+                  }
+                val conditions = group.map { member =>
+                  val matched = string(member, "kind") match {
+                    case "SwitchDefault"     => literal(member, "true", "bool")
+                    case "SwitchPatternCase" => guard(child(member, "guard"), ref)
+                    case _ => operator(member, Operators.equals, Seq(ref(), expression(child(member, "expression"))))
+                  }
+                  val copies = joins(member).map { binding =>
+                    val source = string(binding, "source")
+                    val target = string(binding, "target")
+                    operator(
+                      member,
+                      Operators.assignment,
+                      Seq(
+                        identifier(member, string(sym(target), "name"), target, tpe(sym(target))),
+                        identifier(member, string(sym(source), "name"), source, tpe(sym(source)))
+                      )
+                    )
+                  }
+                  if (copies.isEmpty) matched
+                  else
+                    operator(
+                      member,
+                      Operators.logicalAnd,
+                      Seq(matched, block(member, copies :+ literal(member, "true", "bool")))
+                    )
                 }
+                val cond = conditions.reduceLeft((left, right) => operator(head, Operators.logicalOr, Seq(left, right)))
                 control(
                   head,
                   ControlStructureTypes.IF,
-                  cond,
-                  block(head, caseLabels(head) ++ children(head, "statement").flatMap(statements)),
+                  if (locals.isEmpty) cond else block(head, locals :+ cond),
+                  block(head, group.flatMap(caseLabels) ++ group.flatMap(children(_, "statement")).flatMap(statements)),
                   if (tail.nonEmpty) Some(cases(tail)) else None
                 )
               case Nil => block(syntax, Nil)

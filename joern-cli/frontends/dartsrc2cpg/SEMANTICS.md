@@ -237,3 +237,11 @@ for frontends without complete exception representations. The Dart fixture and
 execution oracle cover normal cleanup, overriding return/throw, nested cleanup,
 break, continue and rethrow. Language-independent and C/C++ regressions cover
 the shared changes.
+
+Shared pattern cases combine their guards in source order with short-circuit OR
+and execute their common body when any guard succeeds. Each guard retains its
+own pattern-variable storage; successful guards copy values into separate body
+locals. Logical-or alternatives inside one pattern share their join identity.
+The pinned SDK guard-capture oracle checks which closures observe subsequent
+writes; CPG regressions check separate capture identities and the grouped CFG.
+Callback-container execution and path feasibility remain conservative.

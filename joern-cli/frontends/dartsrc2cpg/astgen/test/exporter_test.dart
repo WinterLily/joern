@@ -53,6 +53,25 @@ void main() {
     },
   );
 
+  test('keep separate logical-or joins distinct within one function', () async {
+    write('main.dart', """
+void choose(Object value) {
+  if (value case [var item] || (var item,)) { print(item); }
+  if (value case [var item] || (var item,)) { print(item); }
+}
+""");
+    final unit = units(await export()).single;
+    expect(unit['status'], 'resolved');
+    final bindings = entries(unit, 'nodes')
+        .where((node) => node['kind'] == 'DeclaredVariablePattern')
+        .map((node) => node['declaration'])
+        .toList();
+    expect(bindings.length, 4);
+    expect(bindings[0], bindings[1]);
+    expect(bindings[2], bindings[3]);
+    expect(bindings[0], isNot(bindings[2]));
+  });
+
   test('retain late storage and synthetic accessor identities', () async {
     write('main.dart', """
 class Box { late final int? initialized = null; late final int assigned; }

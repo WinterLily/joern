@@ -1,0 +1,49 @@
+{
+  "sdk": "3.9.2",
+  "revision": "a29e08c72e2ce21813c1edf50cbcdfcac7a7acdd",
+  "repository": "https://github.com/dart-lang/sdk",
+  "license": "LICENSE",
+  "authors": "AUTHORS",
+  "cases": [
+    {
+      "file": "null_aware_evaluation.dart",
+      "upstreamPath": "tests/language/null_aware_elements/evaluation_order_test.dart",
+      "upstreamSha256": "e41a90e1f1e0ce1365184bd395e4e4bb756f70d16dc0522be7f06befce90051a",
+      "adaptedSha256": "05291bda35ed3e7eeb0c40cb5010fa77cd5d7784f4bb911a23fb0fd43e45b2a4",
+      "classification": "valid",
+      "adaptation": "Only the expect import uses the local assertion adapter; test bodies and expected values unchanged.",
+      "qualification": "runtime oracle and exporter/CPG structure; feature-specific flow obligations remain separate"
+    },
+    {
+      "file": "late_field_initializers.dart",
+      "upstreamPath": "tests/language/nnbd/late/instance_field_initializers_test.dart",
+      "upstreamSha256": "c7899b3f5ce65ea48b1ba2c97307df1b73bf033c148c0cadec096f53d38198eb",
+      "adaptedSha256": "c978a94861f927096acae48e8cc0c102fb6a0662d51b2c7f7df71d3f233aa5b6",
+      "classification": "valid",
+      "adaptation": "Only the expect import uses the local assertion adapter; test bodies and expected values unchanged.",
+      "qualification": "runtime oracle and exporter/CPG structure; feature-specific flow obligations remain separate"
+    },
+    {
+      "file": "guard_capture.dart",
+      "upstreamPath": "tests/language/patterns/guard_capture_test.dart",
+      "upstreamSha256": "ce7944fec4ed32a48da2248f0af9c8575bf5593250b05dcd30956a8536d913ee",
+      "adaptedSha256": "2a259a1c53c50b597c3e45075b74484a1f2606464de9333608d57b36636c5c03",
+      "classification": "valid",
+      "adaptation": "Only the expect import uses the local assertion adapter; test bodies and expected values unchanged.",
+      "qualification": "runtime oracle and exporter/CPG structure; feature-specific flow obligations remain separate"
+    },
+    {
+      "file": "null_aware_type_errors.dart",
+      "upstreamPath": "tests/language/null_aware_elements/type_inference_simple_error_test.dart",
+      "upstreamSha256": "83fe985b3e30ca8592faaac5f9c58fc963299577ee0c6f239db501c0f705a882",
+      "adaptedSha256": "8ac2cbabf1d2d40d80aade3cf75446ffdb5f4ecb825108a94e6128b0c5211939",
+      "classification": "deliberate-diagnostic",
+      "adaptation": "Selected nullable-string-to-num-list and nullable-string-to-bool-set cases; omitted static type helper, recovery syntax and warning-only cases.",
+      "expectedDiagnostics": [
+        "list_element_type_not_assignable",
+        "set_element_type_not_assignable"
+      ],
+      "qualification": "partial status and diagnostic preservation; not a runtime oracle"
+    }
+  ]
+}
