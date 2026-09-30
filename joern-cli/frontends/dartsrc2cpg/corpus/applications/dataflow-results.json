@@ -1,0 +1,412 @@
+[
+  {
+    "project": "localsend-1.17.0",
+    "exporterVersion": "0.3.2",
+    "coverage": {
+      "exportedFiles": 260,
+      "includedFiles": 260,
+      "skippedFiles": 0,
+      "parsedFiles": 0,
+      "partialFiles": 0,
+      "unsupportedConstructs": 2,
+      "unresolvedCalls": 341
+    },
+    "overlay": {
+      "methods": 21014,
+      "maxDefinitions": 1287,
+      "definitionLimit": 20000,
+      "aboveDefaultLimit": {}
+    },
+    "reachingDefEdges": 668861,
+    "maxCallDepth": 4,
+    "checks": [
+      {
+        "id": "certificate-to-hash",
+        "expectedFlow": true,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": true,
+        "stockPassed": true,
+        "modeledFlow": true,
+        "modeledPassed": true,
+        "viaSatisfied": true
+      },
+      {
+        "id": "certificate-not-algorithm",
+        "expectedFlow": false,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": false,
+        "stockPassed": true,
+        "modeledFlow": false,
+        "modeledPassed": true,
+        "viaSatisfied": true
+      },
+      {
+        "id": "save-path-to-file",
+        "expectedFlow": true,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": true,
+        "stockPassed": true,
+        "modeledFlow": true,
+        "modeledPassed": true,
+        "viaSatisfied": true
+      },
+      {
+        "id": "save-path-forwarding",
+        "expectedFlow": true,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": true,
+        "stockPassed": true,
+        "modeledFlow": true,
+        "modeledPassed": true,
+        "viaSatisfied": true
+      },
+      {
+        "id": "save-name-not-stream",
+        "expectedFlow": false,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": false,
+        "stockPassed": true,
+        "modeledFlow": false,
+        "modeledPassed": true,
+        "viaSatisfied": true
+      },
+      {
+        "id": "uri-suffix-encoding",
+        "expectedFlow": true,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": true,
+        "stockPassed": true,
+        "modeledFlow": true,
+        "modeledPassed": true,
+        "viaSatisfied": true
+      },
+      {
+        "id": "uri-suffix-not-tree",
+        "expectedFlow": false,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": false,
+        "stockPassed": true,
+        "modeledFlow": false,
+        "modeledPassed": true,
+        "viaSatisfied": true
+      },
+      {
+        "id": "tree-uri-decoding",
+        "expectedFlow": true,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": true,
+        "stockPassed": true,
+        "modeledFlow": true,
+        "modeledPassed": true,
+        "viaSatisfied": true
+      },
+      {
+        "id": "tree-uri-null-result",
+        "expectedFlow": false,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": false,
+        "stockPassed": true,
+        "modeledFlow": false,
+        "modeledPassed": true,
+        "viaSatisfied": true
+      },
+      {
+        "id": "filename-extension",
+        "expectedFlow": true,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": true,
+        "stockPassed": true,
+        "modeledFlow": true,
+        "modeledPassed": true,
+        "viaSatisfied": true
+      }
+    ]
+  },
+  {
+    "project": "saber-0.26.0",
+    "exporterVersion": "0.3.2",
+    "coverage": {
+      "exportedFiles": 143,
+      "includedFiles": 143,
+      "skippedFiles": 0,
+      "parsedFiles": 0,
+      "partialFiles": 0,
+      "unsupportedConstructs": 7,
+      "unresolvedCalls": 177
+    },
+    "overlay": {
+      "methods": 7220,
+      "maxDefinitions": 1159,
+      "definitionLimit": 20000,
+      "aboveDefaultLimit": {}
+    },
+    "reachingDefEdges": 351721,
+    "maxCallDepth": 4,
+    "checks": [
+      {
+        "id": "stored-bytes-encoding",
+        "expectedFlow": true,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": true,
+        "stockPassed": true,
+        "modeledFlow": true,
+        "modeledPassed": true,
+        "viaSatisfied": true
+      },
+      {
+        "id": "stored-bytes-null",
+        "expectedFlow": false,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": false,
+        "stockPassed": true,
+        "modeledFlow": false,
+        "modeledPassed": true,
+        "viaSatisfied": true
+      },
+      {
+        "id": "stored-bytes-decoding",
+        "expectedFlow": true,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": true,
+        "stockPassed": true,
+        "modeledFlow": true,
+        "modeledPassed": true,
+        "viaSatisfied": true
+      },
+      {
+        "id": "stored-bytes-identity",
+        "expectedFlow": true,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": true,
+        "stockPassed": true,
+        "modeledFlow": true,
+        "modeledPassed": true,
+        "viaSatisfied": true
+      },
+      {
+        "id": "config-json-upload",
+        "expectedFlow": true,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": true,
+        "stockPassed": true,
+        "modeledFlow": true,
+        "modeledPassed": true,
+        "viaSatisfied": true
+      },
+      {
+        "id": "config-not-directory",
+        "expectedFlow": false,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": false,
+        "stockPassed": true,
+        "modeledFlow": false,
+        "modeledPassed": true,
+        "viaSatisfied": true
+      },
+      {
+        "id": "path-encryption-capture",
+        "expectedFlow": true,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": true,
+        "stockPassed": true,
+        "modeledFlow": true,
+        "modeledPassed": true,
+        "viaSatisfied": true
+      },
+      {
+        "id": "path-not-work-priority",
+        "expectedFlow": false,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": true,
+        "stockPassed": false,
+        "modeledFlow": false,
+        "modeledPassed": true,
+        "viaSatisfied": true
+      },
+      {
+        "id": "quota-decoder-input",
+        "expectedFlow": true,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": true,
+        "stockPassed": true,
+        "modeledFlow": true,
+        "modeledPassed": true,
+        "viaSatisfied": true
+      },
+      {
+        "id": "quota-encoder-values",
+        "expectedFlow": true,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": true,
+        "stockPassed": true,
+        "modeledFlow": true,
+        "modeledPassed": true,
+        "viaSatisfied": true
+      },
+      {
+        "id": "path-encryption-result",
+        "expectedFlow": true,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": true,
+        "stockPassed": true,
+        "modeledFlow": true,
+        "modeledPassed": true,
+        "viaSatisfied": true
+      }
+    ]
+  },
+  {
+    "project": "dart-sass-1.89.2",
+    "exporterVersion": "0.3.2",
+    "coverage": {
+      "exportedFiles": 348,
+      "includedFiles": 348,
+      "skippedFiles": 0,
+      "parsedFiles": 0,
+      "partialFiles": 0,
+      "unsupportedConstructs": 48,
+      "unresolvedCalls": 207
+    },
+    "overlay": {
+      "methods": 6057,
+      "maxDefinitions": 3085,
+      "definitionLimit": 20000,
+      "aboveDefaultLimit": {}
+    },
+    "reachingDefEdges": 448365,
+    "maxCallDepth": 4,
+    "checks": [
+      {
+        "id": "source-to-parser",
+        "expectedFlow": true,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": true,
+        "stockPassed": true,
+        "modeledFlow": true,
+        "modeledPassed": true,
+        "viaSatisfied": true
+      },
+      {
+        "id": "source-not-verbosity",
+        "expectedFlow": false,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": false,
+        "stockPassed": true,
+        "modeledFlow": false,
+        "modeledPassed": true,
+        "viaSatisfied": true
+      },
+      {
+        "id": "public-source-forwarding",
+        "expectedFlow": true,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": true,
+        "stockPassed": true,
+        "modeledFlow": true,
+        "modeledPassed": true,
+        "viaSatisfied": true
+      },
+      {
+        "id": "scss-source-forwarding",
+        "expectedFlow": true,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": true,
+        "stockPassed": true,
+        "modeledFlow": true,
+        "modeledPassed": true,
+        "viaSatisfied": true
+      },
+      {
+        "id": "css-source-forwarding",
+        "expectedFlow": true,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": true,
+        "stockPassed": true,
+        "modeledFlow": true,
+        "modeledPassed": true,
+        "viaSatisfied": true
+      },
+      {
+        "id": "trim-source-result",
+        "expectedFlow": true,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": true,
+        "stockPassed": true,
+        "modeledFlow": true,
+        "modeledPassed": true,
+        "viaSatisfied": true
+      },
+      {
+        "id": "trim-scan-input",
+        "expectedFlow": true,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": true,
+        "stockPassed": true,
+        "modeledFlow": true,
+        "modeledPassed": true,
+        "viaSatisfied": true
+      },
+      {
+        "id": "plural-count-not-name",
+        "expectedFlow": false,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": false,
+        "stockPassed": true,
+        "modeledFlow": false,
+        "modeledPassed": true,
+        "viaSatisfied": true
+      },
+      {
+        "id": "plural-name-result",
+        "expectedFlow": true,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": true,
+        "stockPassed": true,
+        "modeledFlow": true,
+        "modeledPassed": true,
+        "viaSatisfied": true
+      },
+      {
+        "id": "indent-source-result",
+        "expectedFlow": true,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": true,
+        "stockPassed": true,
+        "modeledFlow": true,
+        "modeledPassed": true,
+        "viaSatisfied": true
+      }
+    ]
+  }
+]

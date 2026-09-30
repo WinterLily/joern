@@ -52,6 +52,11 @@ private[dartsrc2cpg] object CorpusDataflow {
         .get("line")
         .forall(line => n.lineNumber.contains(line.num.toInt))
     )
+    selector.obj.get("argumentName") match {
+      case Some(name) =>
+        return matching.collect { case call: Call => call }.iterator.argument.argumentNameExact(name.str).l
+      case None =>
+    }
     selector.obj.get("argument") match {
       case Some(index) => matching.collect { case call: Call => call }.iterator.argument(index.num.toInt).l
       case None        => matching

@@ -1,5 +1,8 @@
 # OSS Dart corpus audit
 
+For full application/compiler checkouts, see the [LocalSend, Saber and Dart Sass
+corpus](applications/README.md), including source-to-sink dataflow checks.
+
 This corpus scans production `lib/` sources from seven open-source pub.dev
 releases. It spans a three-file annotation library through the Dart analyzer.
 Package tests, examples and dependency source trees are not included in each CPG.

@@ -1,0 +1,565 @@
+{
+  "localsend": [
+    {
+      "id": "certificate-to-hash",
+      "source": {
+        "file": "util/security_helper.dart",
+        "method": "calculateHashOfCertificate",
+        "kind": "parameter",
+        "name": "certificate"
+      },
+      "sink": {
+        "file": "util/security_helper.dart",
+        "method": "calculateHashOfCertificate",
+        "kind": "call",
+        "name": "getHash",
+        "argument": 1
+      },
+      "expected": true,
+      "rationale": "PEM input is decoded to DER bytes before hashing."
+    },
+    {
+      "id": "certificate-not-algorithm",
+      "source": {
+        "file": "util/security_helper.dart",
+        "method": "calculateHashOfCertificate",
+        "kind": "parameter",
+        "name": "certificate"
+      },
+      "sink": {
+        "file": "util/security_helper.dart",
+        "method": "calculateHashOfCertificate",
+        "kind": "call",
+        "name": "getHash",
+        "argumentName": "algorithmName"
+      },
+      "expected": false,
+      "rationale": "The SHA-256 algorithm name is a fixed literal."
+    },
+    {
+      "id": "save-path-to-file",
+      "source": {
+        "file": "util/native/file_saver.dart",
+        "method": "saveFile",
+        "kind": "parameter",
+        "name": "destinationPath"
+      },
+      "sink": {
+        "file": "util/native/file_saver.dart",
+        "method": "saveFile",
+        "kind": "call",
+        "name": "<init>",
+        "code": "File(destinationPath)",
+        "argument": 1
+      },
+      "expected": true,
+      "rationale": "The requested path constructs the output file."
+    },
+    {
+      "id": "save-path-forwarding",
+      "source": {
+        "file": "util/native/file_saver.dart",
+        "method": "saveFile",
+        "kind": "parameter",
+        "name": "destinationPath"
+      },
+      "sink": {
+        "file": "util/native/file_saver.dart",
+        "method": "_saveFile",
+        "kind": "parameter",
+        "name": "destinationPath"
+      },
+      "expected": true,
+      "rationale": "Both platform branches forward the destination path.",
+      "via": "_saveFile"
+    },
+    {
+      "id": "save-name-not-stream",
+      "source": {
+        "file": "util/native/file_saver.dart",
+        "method": "saveFile",
+        "kind": "parameter",
+        "name": "name"
+      },
+      "sink": {
+        "file": "util/native/file_saver.dart",
+        "method": "_saveFile",
+        "kind": "parameter",
+        "name": "stream"
+      },
+      "expected": false,
+      "rationale": "The display name is independent of the incoming byte stream."
+    },
+    {
+      "id": "uri-suffix-encoding",
+      "source": {
+        "file": "util/native/content_uri_helper.dart",
+        "method": "convertTreeUriToDocumentUri",
+        "kind": "parameter",
+        "name": "suffix"
+      },
+      "sink": {
+        "file": "util/native/content_uri_helper.dart",
+        "method": "convertTreeUriToDocumentUri",
+        "kind": "call",
+        "name": "encodeComponent",
+        "argument": 1
+      },
+      "expected": true,
+      "rationale": "A document suffix is URI-encoded before interpolation."
+    },
+    {
+      "id": "uri-suffix-not-tree",
+      "source": {
+        "file": "util/native/content_uri_helper.dart",
+        "method": "convertTreeUriToDocumentUri",
+        "kind": "parameter",
+        "name": "suffix"
+      },
+      "sink": {
+        "file": "util/native/content_uri_helper.dart",
+        "method": "convertTreeUriToDocumentUri",
+        "kind": "call",
+        "name": "substring",
+        "argument": 0
+      },
+      "expected": false,
+      "rationale": "The tree prefix is computed independently of the optional suffix."
+    },
+    {
+      "id": "tree-uri-decoding",
+      "source": {
+        "file": "util/native/content_uri_helper.dart",
+        "method": "getPathFromTreeUri",
+        "kind": "parameter",
+        "name": "uri"
+      },
+      "sink": {
+        "file": "util/native/content_uri_helper.dart",
+        "method": "getPathFromTreeUri",
+        "kind": "return",
+        "code": "return Uri.decodeComponent(uri.substring(index + 6));"
+      },
+      "expected": true,
+      "rationale": "A valid tree URI is sliced and decoded."
+    },
+    {
+      "id": "tree-uri-null-result",
+      "source": {
+        "file": "util/native/content_uri_helper.dart",
+        "method": "getPathFromTreeUri",
+        "kind": "parameter",
+        "name": "uri"
+      },
+      "sink": {
+        "file": "util/native/content_uri_helper.dart",
+        "method": "getPathFromTreeUri",
+        "kind": "return",
+        "code": "return null;"
+      },
+      "expected": false,
+      "rationale": "The invalid-URI branch returns a constant null."
+    },
+    {
+      "id": "filename-extension",
+      "source": {
+        "file": "util/file_path_helper.dart",
+        "method": "withFileNameKeepExtension",
+        "kind": "parameter",
+        "name": "fileNameWithoutExt"
+      },
+      "sink": {
+        "file": "util/file_path_helper.dart",
+        "method": "withFileNameKeepExtension",
+        "kind": "return"
+      },
+      "expected": true,
+      "rationale": "The requested name is interpolated with the existing extension."
+    }
+  ],
+  "saber": [
+    {
+      "id": "stored-bytes-encoding",
+      "source": {
+        "file": "data/codecs/base64_codec.dart",
+        "method": "convert",
+        "kind": "parameter",
+        "name": "input",
+        "owner": "Base64StowEncoder"
+      },
+      "sink": {
+        "file": "data/codecs/base64_codec.dart",
+        "method": "convert",
+        "kind": "return",
+        "owner": "Base64StowEncoder",
+        "code": "return base64.encode(input);"
+      },
+      "expected": true,
+      "rationale": "Persisted byte data is encoded as base64."
+    },
+    {
+      "id": "stored-bytes-null",
+      "source": {
+        "file": "data/codecs/base64_codec.dart",
+        "method": "convert",
+        "kind": "parameter",
+        "name": "input",
+        "owner": "Base64StowEncoder"
+      },
+      "sink": {
+        "file": "data/codecs/base64_codec.dart",
+        "method": "convert",
+        "kind": "return",
+        "owner": "Base64StowEncoder",
+        "code": "return null;"
+      },
+      "expected": false,
+      "rationale": "The absent-value branch returns a fixed null."
+    },
+    {
+      "id": "stored-bytes-decoding",
+      "source": {
+        "file": "data/codecs/base64_codec.dart",
+        "method": "convert",
+        "kind": "parameter",
+        "name": "input",
+        "owner": "Base64StowDecoder"
+      },
+      "sink": {
+        "file": "data/codecs/base64_codec.dart",
+        "method": "convert",
+        "kind": "call",
+        "name": "decode",
+        "owner": "Base64StowDecoder",
+        "argument": 1
+      },
+      "expected": true,
+      "rationale": "A stored string is fed to base64 decoding."
+    },
+    {
+      "id": "stored-bytes-identity",
+      "source": {
+        "file": "data/codecs/base64_codec.dart",
+        "method": "convert",
+        "kind": "parameter",
+        "name": "input",
+        "owner": "Base64StowDecoder"
+      },
+      "sink": {
+        "file": "data/codecs/base64_codec.dart",
+        "method": "convert",
+        "kind": "return",
+        "owner": "Base64StowDecoder",
+        "code": "return input;"
+      },
+      "expected": true,
+      "rationale": "Already-decoded bytes are returned unchanged."
+    },
+    {
+      "id": "config-json-upload",
+      "source": {
+        "file": "data/nextcloud/nextcloud_client_extension.dart",
+        "method": "setConfig",
+        "kind": "parameter",
+        "name": "config"
+      },
+      "sink": {
+        "file": "data/nextcloud/nextcloud_client_extension.dart",
+        "method": "setConfig",
+        "kind": "call",
+        "name": "put",
+        "argument": 1
+      },
+      "expected": true,
+      "rationale": "Configuration is JSON encoded, converted to bytes and uploaded."
+    },
+    {
+      "id": "config-not-directory",
+      "source": {
+        "file": "data/nextcloud/nextcloud_client_extension.dart",
+        "method": "setConfig",
+        "kind": "parameter",
+        "name": "config"
+      },
+      "sink": {
+        "file": "data/nextcloud/nextcloud_client_extension.dart",
+        "method": "setConfig",
+        "kind": "call",
+        "name": "mkcol",
+        "argument": 1
+      },
+      "expected": false,
+      "rationale": "The application root directory is fixed independently of configuration contents."
+    },
+    {
+      "id": "path-encryption-capture",
+      "source": {
+        "file": "data/nextcloud/saber_syncer.dart",
+        "method": "encryptPath",
+        "kind": "parameter",
+        "name": "path"
+      },
+      "sink": {
+        "file": "data/nextcloud/saber_syncer.dart",
+        "method": "<lambda>",
+        "kind": "call",
+        "name": "encrypt",
+        "code": "encrypter.encrypt(path, iv: iv)",
+        "argument": 1
+      },
+      "expected": true,
+      "rationale": "The worker closure captures the file path passed to encryption; scheduling is not inferred."
+    },
+    {
+      "id": "path-not-work-priority",
+      "source": {
+        "file": "data/nextcloud/saber_syncer.dart",
+        "method": "encryptPath",
+        "kind": "parameter",
+        "name": "path"
+      },
+      "sink": {
+        "file": "data/nextcloud/saber_syncer.dart",
+        "method": "encryptPath",
+        "kind": "call",
+        "name": "execute",
+        "argumentName": "priority"
+      },
+      "expected": false,
+      "rationale": "Work priority is independent of the path being encrypted."
+    },
+    {
+      "id": "quota-decoder-input",
+      "source": {
+        "file": "data/codecs/quota_codec.dart",
+        "method": "convert",
+        "kind": "parameter",
+        "name": "input",
+        "owner": "_QuotaDecoder"
+      },
+      "sink": {
+        "file": "data/codecs/quota_codec.dart",
+        "method": "convert",
+        "kind": "call",
+        "name": "tryParse",
+        "owner": "_QuotaDecoder",
+        "code": "int.tryParse(input[0])",
+        "argument": 1
+      },
+      "expected": true,
+      "rationale": "The quota decoder parses the used-byte count from the first element."
+    },
+    {
+      "id": "quota-encoder-values",
+      "source": {
+        "file": "data/codecs/quota_codec.dart",
+        "method": "convert",
+        "kind": "parameter",
+        "name": "input",
+        "owner": "_QuotaEncoder"
+      },
+      "sink": {
+        "file": "data/codecs/quota_codec.dart",
+        "method": "convert",
+        "kind": "return",
+        "owner": "_QuotaEncoder"
+      },
+      "expected": true,
+      "rationale": "Both quota fields are serialized into a string list."
+    },
+    {
+      "id": "path-encryption-result",
+      "source": {
+        "file": "data/nextcloud/saber_syncer.dart",
+        "method": "encryptPath",
+        "kind": "parameter",
+        "name": "path"
+      },
+      "sink": {
+        "file": "data/nextcloud/saber_syncer.dart",
+        "method": "encryptPath",
+        "kind": "return",
+        "code": "return encrypted;"
+      },
+      "expected": true,
+      "rationale": "The captured path reaches the returned encryption result under the worker execution summary; this does not prove scheduling."
+    }
+  ],
+  "dart-sass": [
+    {
+      "id": "source-to-parser",
+      "source": {
+        "file": "src/compile.dart",
+        "method": "compileString",
+        "kind": "parameter",
+        "name": "source"
+      },
+      "sink": {
+        "file": "src/ast/sass/statement/stylesheet.dart",
+        "method": "parse",
+        "kind": "parameter",
+        "name": "contents"
+      },
+      "expected": true,
+      "rationale": "Compilation passes the source text into the stylesheet parser.",
+      "via": "parse"
+    },
+    {
+      "id": "source-not-verbosity",
+      "source": {
+        "file": "src/compile.dart",
+        "method": "compileString",
+        "kind": "parameter",
+        "name": "source"
+      },
+      "sink": {
+        "file": "src/compile.dart",
+        "method": "compileString",
+        "kind": "call",
+        "name": "<init>",
+        "code": "DeprecationProcessingLogger(\n    logger ?? Logger.stderr(),\n    silenceDeprecations: {...?silenceDeprecations},\n    fatalDeprecations: {...?fatalDeprecations},\n    futureDeprecations: {...?futureDeprecations},\n    limitRepetition: !verbose,\n  )",
+        "argumentName": "limitRepetition"
+      },
+      "expected": false,
+      "rationale": "Deprecation repetition policy depends on verbose, not source text."
+    },
+    {
+      "id": "public-source-forwarding",
+      "source": {
+        "file": "sass.dart",
+        "method": "compileString",
+        "kind": "parameter",
+        "name": "source"
+      },
+      "sink": {
+        "file": "sass.dart",
+        "method": "compileStringToResult",
+        "kind": "parameter",
+        "name": "source"
+      },
+      "expected": true,
+      "rationale": "The public string API delegates to the result API.",
+      "via": "compileStringToResult"
+    },
+    {
+      "id": "scss-source-forwarding",
+      "source": {
+        "file": "src/ast/sass/statement/stylesheet.dart",
+        "method": "parse",
+        "kind": "parameter",
+        "name": "contents"
+      },
+      "sink": {
+        "file": "src/ast/sass/statement/stylesheet.dart",
+        "method": "parseScss",
+        "kind": "parameter",
+        "name": "contents"
+      },
+      "expected": true,
+      "rationale": "The SCSS branch forwards source text to its parser factory.",
+      "via": "parseScss"
+    },
+    {
+      "id": "css-source-forwarding",
+      "source": {
+        "file": "src/ast/sass/statement/stylesheet.dart",
+        "method": "parse",
+        "kind": "parameter",
+        "name": "contents"
+      },
+      "sink": {
+        "file": "src/ast/sass/statement/stylesheet.dart",
+        "method": "parseCss",
+        "kind": "parameter",
+        "name": "contents"
+      },
+      "expected": true,
+      "rationale": "The CSS branch forwards source text to its parser factory.",
+      "via": "parseCss"
+    },
+    {
+      "id": "trim-source-result",
+      "source": {
+        "file": "src/utils.dart",
+        "method": "trimAscii",
+        "kind": "parameter",
+        "name": "string"
+      },
+      "sink": {
+        "file": "src/utils.dart",
+        "method": "trimAscii",
+        "kind": "return"
+      },
+      "expected": true,
+      "rationale": "The compiler trims the source string using computed bounds."
+    },
+    {
+      "id": "trim-scan-input",
+      "source": {
+        "file": "src/utils.dart",
+        "method": "trimAscii",
+        "kind": "parameter",
+        "name": "string"
+      },
+      "sink": {
+        "file": "src/utils.dart",
+        "method": "_firstNonWhitespace",
+        "kind": "parameter",
+        "name": "string"
+      },
+      "expected": true,
+      "rationale": "Trimming passes source text into the whitespace scanner.",
+      "via": "_firstNonWhitespace"
+    },
+    {
+      "id": "plural-count-not-name",
+      "source": {
+        "file": "src/utils.dart",
+        "method": "pluralize",
+        "kind": "parameter",
+        "name": "number"
+      },
+      "sink": {
+        "file": "src/utils.dart",
+        "method": "pluralize",
+        "kind": "return",
+        "code": "return name;"
+      },
+      "expected": false,
+      "rationale": "The count controls a branch but does not taint the singular name."
+    },
+    {
+      "id": "plural-name-result",
+      "source": {
+        "file": "src/utils.dart",
+        "method": "pluralize",
+        "kind": "parameter",
+        "name": "name"
+      },
+      "sink": {
+        "file": "src/utils.dart",
+        "method": "pluralize",
+        "kind": "return",
+        "code": "return name;"
+      },
+      "expected": true,
+      "rationale": "The singular branch preserves its supplied name."
+    },
+    {
+      "id": "indent-source-result",
+      "source": {
+        "file": "src/utils.dart",
+        "method": "indent",
+        "kind": "parameter",
+        "name": "string"
+      },
+      "sink": {
+        "file": "src/utils.dart",
+        "method": "indent",
+        "kind": "return"
+      },
+      "expected": true,
+      "rationale": "Indentation maps lines from the input string through a closure."
+    }
+  ]
+}

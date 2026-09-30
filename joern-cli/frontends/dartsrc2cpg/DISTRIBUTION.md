@@ -1,7 +1,7 @@
 # Distribution and operational checks
 
 The native exporter is built per host. CI targets Linux x86-64/arm64, macOS
-x86-64/arm64 and Windows x86-64 with Dart 3.9.2, analyzer 8.4.1, exporter 0.3.1,
+x86-64/arm64 and Windows x86-64 with Dart 3.9.2, analyzer 8.4.1, exporter 0.3.2,
 protocol 1 and JDK 21. Linux x86-64 has been verified locally; the other targets
 require successful runs of `.github/workflows/dart.yml` before claiming release
 validation. Windows arm64 distributions use the x86-64 exporter under emulation;
@@ -113,3 +113,9 @@ checks per-method definition budgets, and executes the committed positive/negati
 queries with stock semantics and the optional `dataflow/async.semantics` model.
 The staged distribution includes that model; see
 [RUNTIME_SUMMARIES.md](RUNTIME_SUMMARIES.md) for explicit query-time loading.
+
+The [application corpus](corpus/applications/README.md) adds pinned LocalSend,
+Saber and Dart Sass checkouts with dependency locks and explicit protobuf
+preparation. Run it with `DART_APPLICATION_TESTS=1`; retain `DART_CORPUS_TESTS=1`
+for the original library corpus in a separate invocation. The staged frontend
+also includes the optional `dataflow/worker_manager.semantics` summary.

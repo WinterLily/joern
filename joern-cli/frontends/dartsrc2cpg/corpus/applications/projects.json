@@ -1,0 +1,49 @@
+[
+  {
+    "name": "localsend",
+    "version": "1.17.0",
+    "repository": "https://github.com/localsend/localsend",
+    "commit": "7f21d1f9082a43803e05c37f021912e012145aa5",
+    "checkout": "localsend/app",
+    "package": "localsend_app",
+    "probe": "withCount",
+    "librarySha256": "1993189465fb077d90d45d3e89217c82a22762ce278c1961b5084dbd5be6e095",
+    "flutter": {
+      "version": "3.24.5",
+      "commit": "dec2ee5c1f98f8e84a7d5380c05eb8a3d0a81668",
+      "engine": "a18df97ca57a249df5d8d68cd0820600223ce262",
+      "skyEngineSha256": "0ee0af6df98d7218c787c57087b36d57cb162d789c656b54a4c0f40a2fc4d4f1"
+    }
+  },
+  {
+    "name": "saber",
+    "version": "0.26.0",
+    "repository": "https://github.com/saber-notes/saber",
+    "commit": "8c7ea9e6a19a6690285ddb6b137a936609af9f8d",
+    "checkout": "saber",
+    "package": "saber",
+    "probe": "main",
+    "defaultFailures": [
+      "path-not-work-priority"
+    ],
+    "librarySha256": "c8bffc931b553a147a72ebb949212752ef42ff2b8430ca6144372d78f4fb60a3",
+    "flutter": {
+      "version": "3.35.3"
+    }
+  },
+  {
+    "name": "dart-sass",
+    "version": "1.89.2",
+    "repository": "https://github.com/sass/dart-sass",
+    "commit": "1250380bc56d1feecc5fead0752731a313b97e2e",
+    "checkout": "dart-sass",
+    "package": "sass",
+    "probe": "compileString",
+    "librarySha256": "2a6fb63888b0a94b86020c2321f8237c2867f53c8ddefbc28b9c08a842f8744e",
+    "protocol": {
+      "repository": "https://github.com/sass/sass",
+      "commit": "dae75bd941e507f0e88f53b2616fbebe0b4a6572",
+      "protoc": "36.1"
+    }
+  }
+]

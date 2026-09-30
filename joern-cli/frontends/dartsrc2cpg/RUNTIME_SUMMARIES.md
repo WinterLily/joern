@@ -38,6 +38,19 @@ semantics format treats a literal hash as a comment delimiter. This summary is
 not enabled automatically by `run.ossdataflow`; the corpus reports stock and
 modeled outcomes separately.
 
+## Optional worker_manager summary
+
+`dataflow/worker_manager.semantics` models `Executor.execute` from worker_manager
+7.2.6, used by Saber. Task and priority inputs are stored in the executor; the
+returned cancelable result carries the task dependency. Neither input is copied
+into the other. Application checks verify closure capture, preservation of the
+returned encryption dependency, and rejection of path-to-priority flow. The
+summary does not prove that a worker runs, nor model scheduling or cancellation.
+
+Load it using the same parser and `regex = true` setting as above. To combine
+both models, concatenate their parsed rules before `DefaultSemantics().plus`.
+Neither model is loaded automatically.
+
 ## Remaining models
 
 Future summary work needs explicit contracts and positive/negative tests:

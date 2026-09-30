@@ -154,6 +154,60 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         call.argument.argumentIndex(1).reachableByFlows(trace)(modeled).isEmpty shouldBe true
       }
     }
+    "keep implicit receivers lexical inside cascade arguments and callbacks" in {
+      fixture(
+        """class Watch {
+          |  void use(String value) {}
+          |  void listen(void Function() callback) {}
+          |}
+          |class Owner {
+          |  String value;
+          |  Owner(this.value);
+          |  String read() => value;
+          |  void accept(String value) {}
+          |  void register() {
+          |    Watch()..use(read())..listen(() { accept(value); });
+          |  }
+          |}
+          |""".stripMargin,
+        "void main() {}"
+      ) { (cpg, _) =>
+        val read = cpg.call.nameExact("read").head
+        read.receiver.isIdentifier.name.l shouldBe List("this")
+        read.receiver.isIdentifier.refsTo.map(_.label).l shouldBe List("METHOD_PARAMETER_IN")
+        val accept = cpg.call.nameExact("accept").head
+        accept.receiver.isIdentifier.name.l shouldBe List("this")
+        accept.receiver.isIdentifier.refsTo
+          .collect { case local: io.shiftleft.codepropertygraph.generated.nodes.Local => local.closureBindingId }
+          .flatten
+          .nonEmpty shouldBe true
+      }
+    }
+    "give part-file initializers unique identities and preserve symbol constants" in {
+      fixture(
+        "part 'first.dart'; part 'second.dart'; Symbol get tag => #ready;",
+        "void main() {}",
+        extraFiles = Map(
+          "lib/first.dart"  -> "part of 'helper.dart'; final first = Object();",
+          "lib/second.dart" -> "part of 'helper.dart'; final second = Object();"
+        )
+      ) { (cpg, _) =>
+        val initializers = cpg.method.nameExact("<clinit>").fullName.l
+        initializers.size shouldBe 2
+        initializers.distinct.size shouldBe 2
+        cpg.literal.codeExact("#ready").size shouldBe 1
+        cpg.unknown.size shouldBe 0
+      }
+    }
+    "link external tear-offs even when their target is never directly called" in {
+      fixture("import 'dart:convert'; Object callback() => jsonEncode;", "void main() {}") { (cpg, _) =>
+        val ref    = cpg.methodRef.codeExact("jsonEncode").head
+        val target = cpg.method.fullNameExact(ref.methodFullName).l
+        target.size shouldBe 1
+        target.head.isExternal shouldBe true
+        target.head.parameter.index.l.sorted shouldBe List(1, 2)
+      }
+    }
     "reject flow through a constant argument" in {
       fixture(
         "String relay(String value) => value;",
@@ -989,7 +1043,7 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         "offsetEncoding"  -> "utf-16",
         "analyzerVersion" -> "8.4.1",
         "sdkVersion"      -> "3.9.2",
-        "exporterVersion" -> "0.3.1"
+        "exporterVersion" -> "0.3.2"
       )
       intercept[IllegalArgumentException](ExportProtocol.units(Seq(valid)))
       intercept[IllegalArgumentException](

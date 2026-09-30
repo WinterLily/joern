@@ -116,6 +116,8 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
       assignment.root.collect { case call: NewCall => call.code = s"$name = ${code(syntax)}" }
       block(syntax, Seq(Ast(local), assignment) ++ body(() => ref()))
     }
+    def cascadeBase(syntax: Value): Option[Ast] =
+      cascadeReceiver.filter(_ => bool(syntax, "cascaded")).map(_())
     def saved(syntax: Value, value: Ast)(body: (() => Ast) => Ast): Ast =
       savedSequence(syntax, value)(ref => Seq(body(ref)))
     def nonNull(syntax: Value, value: Ast): Ast =
@@ -322,7 +324,7 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
         case "IndexExpression" =>
           val target = children(left, "target").headOption
             .map(expression)
-            .orElse(cascadeReceiver.map(_()))
+            .orElse(cascadeBase(left))
             .getOrElse(thisAst(left))
           saved(syntax, target)(base =>
             saved(syntax, expression(child(left, "index")))(index => {
@@ -333,7 +335,7 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
         case "PropertyAccess" | "PrefixedIdentifier" =>
           val base = children(left, "receiver").headOption
             .map(expression)
-            .orElse(cascadeReceiver.map(_()))
+            .orElse(cascadeBase(left))
             .getOrElse(thisAst(left))
           if (bool(left, "nullAware")) guarded(syntax, base)(access) else saved(syntax, base)(access)
         case _ => access(() => thisAst(left))
@@ -630,8 +632,8 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
         )
       case "ForElement"       => block(syntax, statements(syntax))
       case "SimpleIdentifier" => reference(syntax, string(syntax, "reference"), string(syntax, "name"), None)
-      case "ThisExpression" | "SuperExpression"                                                    => thisAst(syntax)
-      case "StringLiteral" | "IntegerLiteral" | "DoubleLiteral" | "BooleanLiteral" | "NullLiteral" =>
+      case "ThisExpression" | "SuperExpression" => thisAst(syntax)
+      case "StringLiteral" | "SymbolLiteral" | "IntegerLiteral" | "DoubleLiteral" | "BooleanLiteral" | "NullLiteral" =>
         literal(syntax, code(syntax), tpe(syntax))
       case "NamedExpression" =>
         val ast = expression(child(syntax, "expression"))
@@ -648,7 +650,7 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
         val receiver       =
           (if (functionValue) Some(identifier(syntax, name, originalTarget, tpe(sym(originalTarget)))) else None)
             .orElse(children(syntax, "receiver").headOption.map(expression))
-            .orElse(cascadeReceiver.map(_()))
+            .orElse(cascadeBase(syntax))
             .orElse(if (string(target, "kind") == "METHOD" && !bool(target, "static")) Some(thisAst(syntax)) else None)
         if (functionValue && string(target, "kind") == "CONSTRUCTOR")
           newInstance(syntax, targetId, name, Some(child(syntax, "arguments")))
@@ -716,7 +718,7 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
         val receiver =
           children(syntax, "receiver").headOption
             .map(expression)
-            .orElse(cascadeReceiver.map(_()))
+            .orElse(cascadeBase(syntax))
             .getOrElse(thisAst(syntax))
         if (nullAware(syntax))
           guarded(syntax, receiver)(ref =>
@@ -727,7 +729,7 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
         val base =
           children(syntax, "target").headOption
             .map(expression)
-            .orElse(cascadeReceiver.map(_()))
+            .orElse(cascadeBase(syntax))
             .getOrElse(thisAst(syntax))
         if (nullAware(syntax))
           guarded(syntax, base)(ref =>
@@ -813,7 +815,7 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
           }
         } else {
           val value = if (readId.nonEmpty && string(operand, "kind") != "IndexExpression") {
-            val receiver = children(operand, "receiver").headOption.map(expression).orElse(cascadeReceiver.map(_()))
+            val receiver = children(operand, "receiver").headOption.map(expression).orElse(cascadeBase(operand))
             reference(operand, readId, string(operand, "name"), receiver)
           } else expression(operand)
           operator(syntax, name, Seq(value))
@@ -1501,9 +1503,9 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
         val previousType        = ownerType
         val previousCurrentType = currentType
         val previousFields      = instanceFields
-        owner = string(syntax, "declaration")
+        owner = string(syntax, "declaration", s"$filename#${syntax("offset").num.toInt}:TYPE:${string(syntax, "name")}")
         ownerType = "TYPE_DECL"
-        currentType = string(syntax, "declaration")
+        currentType = owner
         val members        = children(syntax, "member")
         val representation = children(syntax, "representation")
         val constants      = children(syntax, "constant")
@@ -1589,7 +1591,8 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
       .flatMap(syntax => children(child(syntax, "variables"), "variable"))
       .filter(syntax => children(syntax, "initializer").nonEmpty)
     val initializers =
-      if (globalFields.nonEmpty) Seq(initializerMethod(nodes.head, globalFields, s"$owner:<clinit>", "<clinit>", false))
+      if (globalFields.nonEmpty)
+        Seq(initializerMethod(nodes.head, globalFields, s"$filename:<global>:<clinit>", "<clinit>", false))
       else Nil
     val file = NewFile().name(filename)
     if (!config.disableFileContent) file.content(source)

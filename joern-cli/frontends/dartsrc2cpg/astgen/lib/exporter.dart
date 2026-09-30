@@ -10,7 +10,7 @@ import 'package:analyzer/source/line_info.dart';
 import 'package:path/path.dart' as p;
 
 const protocolVersion = 1;
-const exporterVersion = '0.3.1';
+const exporterVersion = '0.3.2';
 const analyzerVersion = '8.4.1';
 const supportedSdkVersion = '3.9.2';
 
@@ -83,8 +83,19 @@ Stream<Map<String, Object?>> exportProject({
       String? content;
       try {
         content = File(file).readAsStringSync();
-        final context = collection.contextFor(file);
-        result = await context.currentSession.getResolvedUnit(file);
+        // Explicit scan inputs include generated files excluded from lint analysis.
+        final contexts =
+            collection.contexts
+                .where(
+                  (context) => p.isWithin(context.contextRoot.root.path, file),
+                )
+                .toList()
+              ..sort(
+                (a, b) => b.contextRoot.root.path.length.compareTo(
+                  a.contextRoot.root.path.length,
+                ),
+              );
+        result = await contexts.first.currentSession.getResolvedUnit(file);
       } on Exception catch (error) {
         result = error;
       } on StateError catch (error) {
@@ -697,6 +708,7 @@ class _UnitEncoder {
         child('arguments', ast.argumentList);
       case PropertyAccess():
         kind = 'PropertyAccess';
+        record['cascaded'] = ast.isCascaded;
         record['nullAware'] = ast.isNullAware;
         record['reference'] = symbol(ast.propertyName.element);
         record['name'] = ast.propertyName.name;
@@ -869,6 +881,7 @@ class _UnitEncoder {
         child('type', ast.type);
       case MethodInvocation():
         kind = 'MethodInvocation';
+        record['cascaded'] = ast.isCascaded;
         record['target'] = symbol(ast.methodName.element);
         record['nullAware'] = ast.isNullAware;
         child('receiver', ast.target);
@@ -915,6 +928,7 @@ class _UnitEncoder {
         many('argument', ast.arguments);
       case IndexExpression():
         kind = 'IndexExpression';
+        record['cascaded'] = ast.isCascaded;
         record['nullAware'] = ast.isNullAware;
         child('target', ast.target);
         child('index', ast.index);
@@ -930,6 +944,8 @@ class _UnitEncoder {
         record['operator'] = ast.operator.lexeme;
         child('left', ast.leftOperand);
         child('right', ast.rightOperand);
+      case SymbolLiteral():
+        kind = 'SymbolLiteral';
       case SimpleStringLiteral():
         kind = 'StringLiteral';
         record['value'] = ast.value;

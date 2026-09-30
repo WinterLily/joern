@@ -186,3 +186,10 @@ break goes after the labeled statement; labeled continue goes to the loop update
 or condition, bypassing the remaining body. Switch-case labels remain unsupported.
 Dynamic object-pattern fields retain field access on the matched value when the
 analyzer cannot resolve a getter, instead of creating an unbound identifier.
+
+Application corpus regressions also distinguish cascade accesses from implicit
+calls nested in their arguments and closures. Only accesses marked `cascaded` by
+the analyzer use the cascade temporary. Symbol literals are typed LITERALs.
+Part files have distinct top-level initializer identities; parsed fallback types
+use file/offset identities when declarations are unavailable. External function
+tear-offs receive method stubs even without a direct CALL site.

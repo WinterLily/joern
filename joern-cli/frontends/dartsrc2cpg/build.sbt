@@ -24,6 +24,6 @@ Universal / mappings ++= Seq("README.md", "FEATURES.md", "SEMANTICS.md", "RUNTIM
   fileConverter.value.toVirtualFile((baseDirectory.value / name).toPath) -> s"docs/$name"
 }
 
-Universal / mappings += {
-  fileConverter.value.toVirtualFile((baseDirectory.value / "dataflow/async.semantics").toPath) -> "dataflow/async.semantics"
+Universal / mappings ++= Seq("async", "worker_manager").map { name =>
+  fileConverter.value.toVirtualFile((baseDirectory.value / s"dataflow/$name.semantics").toPath) -> s"dataflow/$name.semantics"
 }

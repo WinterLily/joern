@@ -20,10 +20,12 @@ class DartCorpusTests extends AnyWordSpec with Matchers {
     .takeWhile(_ != null)
     .find(path => Files.exists(path.resolve("project/Projects.scala")))
     .get
-  private val frontend = repository.resolve("joern-cli/frontends/dartsrc2cpg")
-  private val projects = ujson.read(Files.readString(frontend.resolve("corpus/projects.json"))).arr.toSeq
+  private val frontend     = repository.resolve("joern-cli/frontends/dartsrc2cpg")
+  private val applications = sys.env.contains("DART_APPLICATION_TESTS")
+  private val corpus       = frontend.resolve(if (applications) "corpus/applications" else "corpus")
+  private val projects     = ujson.read(Files.readString(corpus.resolve("projects.json"))).arr.toSeq
 
-  private val baseline = ujson.read(Files.readString(frontend.resolve("corpus/graph-baseline.json"))).arr.toSeq
+  private val baseline = ujson.read(Files.readString(corpus.resolve("graph-baseline.json"))).arr.toSeq
 
   private def audit(cpg: Cpg, packageName: String): Seq[String] = {
     val errors                                          = scala.collection.mutable.ArrayBuffer.empty[String]
@@ -52,9 +54,14 @@ class DartCorpusTests extends AnyWordSpec with Matchers {
         check(identifier.name == target.name, s"REF name mismatch: ${identifier.name} -> ${target.name}")
       }
     }
-    cpg.method.isExternal(true).fullName.filter(_.startsWith(s"package:$packageName/")).foreach { name =>
-      errors += s"Internal method modeled as external: $name"
-    }
+    // Deferred imports expose a compiler-provided loadLibrary function with no source body.
+    cpg.method
+      .isExternal(true)
+      .fullName
+      .filter(name => name.startsWith(s"package:$packageName/") && !name.endsWith("#-1:FUNCTION:loadLibrary"))
+      .foreach { name =>
+        errors += s"Internal method modeled as external: $name"
+      }
     cpg.unknown.foreach { node =>
       check(node.parserTypeName == "GenericTypeAlias", s"Lost executable syntax: ${node.parserTypeName}")
     }
@@ -80,15 +87,30 @@ class DartCorpusTests extends AnyWordSpec with Matchers {
     projects.foreach { project =>
       val name = s"${project("name").str}-${project("version").str}"
       s"produce consistent, reloadable graphs for $name" in {
-        if (!sys.env.contains("DART_CORPUS_TESTS")) cancel("Prepare scripts/corpus.py and set DART_CORPUS_TESTS=1")
-        val root   = repository.resolve(s"agents/dart-corpus/$name")
-        val output = root.resolve("cpg.bin")
-        val config = Config()
-          .withInputPath(root.resolve("lib").toString)
+        if (!applications && !sys.env.contains("DART_CORPUS_TESTS"))
+          cancel("Prepare scripts/corpus.py and set DART_CORPUS_TESTS=1")
+        val root = repository.resolve(
+          if (applications) s"agents/application-corpus/results/$name" else s"agents/dart-corpus/$name"
+        )
+        Files.createDirectories(root)
+        val source = project.obj
+          .get("checkout")
+          .map(p => repository.resolve(s"agents/application-corpus/${p.str}"))
+          .getOrElse(root)
+        val packageName = project.obj.get("package").map(_.str).getOrElse(project("name").str)
+        val output      = root.resolve("cpg.bin")
+        val config      = Config(report = root.resolve("coverage.json").toString)
+          .withInputPath(source.resolve("lib").toString)
           .withOutputPath(output.toString)
           .withSchemaValidation(ValidationMode.Enabled)
         val cpg = new DartSrc2Cpg().createCpg(config).get
         try {
+          if (applications) {
+            val coverage = ujson.read(Files.readString(root.resolve("coverage.json")))
+            coverage("parsedFiles").num shouldBe 0
+            coverage("partialFiles").num shouldBe 0
+            coverage("skippedFiles").num shouldBe 0
+          }
           new PostFrontendValidator(cpg, ValidationLevel.V3).createAndApply()
           X2Cpg.applyDefaultOverlays(cpg)
           cpg.method.isExternal(false).size should be > 0
@@ -128,10 +150,13 @@ class DartCorpusTests extends AnyWordSpec with Matchers {
           reloaded.method.nameExact(project("probe").str).isExternal(false).size should be > 0
           reloaded.call.callee.isExternal(false).size should be > 0
           val probes =
-            ujson.read(Files.readString(frontend.resolve("corpus/dataflow-probes.json")))(project("name").str).arr.toSeq
+            ujson.read(Files.readString(corpus.resolve("dataflow-probes.json")))(project("name").str).arr.toSeq
+          probes should not be empty
           val defaultFlows = CorpusDataflow.audit(reloaded, probes, DefaultSemantics())
-          val summaries    = new FullNameSemanticsParser()
-            .parseFile(frontend.resolve("dataflow/async.semantics").toString)
+          val summaries    = List("async", "worker_manager")
+            .flatMap { name =>
+              new FullNameSemanticsParser().parseFile(frontend.resolve(s"dataflow/$name.semantics").toString)
+            }
             .map(_.copy(regex = true))
           val flows = CorpusDataflow.audit(reloaded, probes, DefaultSemantics().plus(summaries))
           Files.writeString(
@@ -147,10 +172,13 @@ class DartCorpusTests extends AnyWordSpec with Matchers {
             )
           )
           reloaded.metaData.overlays.l should contain("dataflowOss")
-          val defaultFailures = defaultFlows.arr.filterNot(_("passed").bool).map(_("id").str).toSet
-          defaultFailures shouldBe (if (project("name").str == "async") Set("error-not-stacktrace")
-                                    else Set.empty[String])
-          val errors = audit(reloaded, project("name").str)
+          val defaultFailures         = defaultFlows.arr.filterNot(_("passed").bool).map(_("id").str).toSet
+          val expectedDefaultFailures = project.obj
+            .get("defaultFailures")
+            .map(_.arr.map(_.str).toSet)
+            .getOrElse(if (project("name").str == "async") Set("error-not-stacktrace") else Set.empty[String])
+          defaultFailures shouldBe expectedDefaultFailures
+          val errors = audit(reloaded, packageName)
           val report = ujson.Obj(
             "project"      -> name,
             "files"        -> reloaded.file.name.filter(_.endsWith(".dart")).size,
@@ -164,7 +192,11 @@ class DartCorpusTests extends AnyWordSpec with Matchers {
               reloaded.identifier.filter(_.refsTo.isEmpty).map(n => s"${n.method.fullName}: ${n.name}").toSeq.distinct
             ),
             "externalInternalTargets" -> ujson.Arr.from(
-              reloaded.method.isExternal(true).fullName.filter(_.startsWith(s"package:${project("name").str}/")).toSeq
+              reloaded.method
+                .isExternal(true)
+                .fullName
+                .filter(name => name.startsWith(s"package:$packageName/") && !name.endsWith("#-1:FUNCTION:loadLibrary"))
+                .toSeq
             ),
             "errors" -> ujson.Arr.from(errors)
           )

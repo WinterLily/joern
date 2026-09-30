@@ -101,24 +101,43 @@ void main() {
     );
   });
 
+  test('explicitly scanned analysis-option exclusions still resolve', () async {
+    write(
+      'analysis_options.yaml',
+      'analyzer:\n  exclude:\n    - excluded.dart\n',
+    );
+    write('excluded.dart', 'void excluded() {}');
+    write('good.dart', 'void good() {}');
+    final files = units(await export());
+    expect(files, hasLength(2));
+    expect(files.every((unit) => unit['status'] == 'resolved'), isTrue);
+    expect(
+      entries(
+        files.singleWhere((unit) => unit['file'] == 'excluded.dart'),
+        'nodes',
+      ).any((node) => node['kind'] == 'FunctionDeclaration'),
+      isTrue,
+    );
+  });
+
   test(
-    'analysis-option exclusions retain syntax when resolution is unavailable',
+    'cascade markers distinguish nested implicit calls and symbols',
     () async {
-      write(
-        'analysis_options.yaml',
-        'analyzer:\n  exclude:\n    - excluded.dart\n',
-      );
-      write('excluded.dart', 'void excluded() {}');
-      write('good.dart', 'void good() {}');
-      final files = units(await export());
-      expect(files, hasLength(2));
-      expect(
-        entries(
-          files.singleWhere((unit) => unit['file'] == 'excluded.dart'),
-          'nodes',
-        ).any((node) => node['kind'] == 'FunctionDeclaration'),
-        isTrue,
-      );
+      write('main.dart', r"""
+      class Owner {
+        Object value() => #ready;
+        void take(Object value) {}
+        void run() { Owner()..take(value()); }
+      }
+    """);
+      final unit = units(await export()).single;
+      final nodes = entries(unit, 'nodes');
+      final calls = nodes
+          .where((n) => n['kind'] == 'MethodInvocation')
+          .toList();
+      expect(calls.map((n) => n['cascaded']), [true, false]);
+      expect(nodes.where((n) => n['kind'] == 'SymbolLiteral'), hasLength(1));
+      expect(unit['unsupportedKinds'], isEmpty);
     },
   );
 
