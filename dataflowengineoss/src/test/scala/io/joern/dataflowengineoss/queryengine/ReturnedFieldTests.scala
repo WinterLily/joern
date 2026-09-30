@@ -5,7 +5,8 @@ import io.joern.dataflowengineoss.DefaultSemantics
 import io.joern.dataflowengineoss.passes.reachingdef.ReachingDefPass
 import io.joern.dataflowengineoss.semanticsloader.{FlowSemantic, Semantics}
 import io.joern.x2cpg.{Ast, ValidationMode}
-import io.joern.x2cpg.passes.base.{ContainsEdgePass, MethodDecoratorPass}
+import io.joern.x2cpg.passes.base.{ContainsEdgePass, MethodDecoratorPass, MethodStubCreator}
+import io.joern.x2cpg.passes.callgraph.StaticCallLinker
 import io.joern.x2cpg.passes.controlflow.CfgCreationPass
 import io.shiftleft.codepropertygraph.generated.{Cpg, DispatchTypes, EdgeTypes, EvaluationStrategies, Operators}
 import io.shiftleft.codepropertygraph.generated.nodes.*
@@ -45,6 +46,7 @@ class ReturnedFieldTests extends AnyWordSpec with Matchers {
     "preserve field demands across calls and keep opaque summaries conservative" in {
       for (
         summarized <- Seq(false, true); copied <- Seq(false, true); captured <- Seq(false, true);
+        replaced   <- Seq(false, true);
         language   <- Seq("DART", "C")
       ) {
         val cpg = Cpg.empty
@@ -89,18 +91,34 @@ class ReturnedFieldTests extends AnyWordSpec with Matchers {
               .withChild(Ast(NewBlock()).withChildren(body))
               .withChild(Ast(NewMethodReturn().code("RET").typeFullName("Object")))
 
-          val value = parameter("value", 1)
-          val box   = NewLocal().name("box").code("box").typeFullName("Box")
-          val alias = NewLocal().name("alias").code("alias").typeFullName("Box")
-          val make  = method(
+          val value       = parameter("value", 1)
+          val box         = NewLocal().name("box").code("box").typeFullName("Box")
+          val alias       = NewLocal().name("alias").code("alias").typeFullName("Box")
+          val independent = NewLocal().name("independent").code("independent").typeFullName("Box")
+          val make        = method(
             "make",
             Seq(value),
             Seq(
               Ast(box),
+              Ast(independent),
+              call(Operators.assignment, "box = alloc", Seq(read("box", box), call(Operators.alloc, "alloc box", Nil))),
+              call(
+                Operators.assignment,
+                "independent = alloc",
+                Seq(read("independent", independent), call(Operators.alloc, "alloc independent", Nil))
+              ),
               call(
                 Operators.assignment,
                 "box.value = value",
                 Seq(field(read("box", box), "value", "box.value"), read("value", value))
+              ),
+              call(
+                Operators.assignment,
+                "independent.value = constant",
+                Seq(
+                  field(read("independent", independent), "value", "box.value"),
+                  Ast(NewLiteral().code("constant").typeFullName("String"))
+                )
               )
             ) ++ (if (captured)
                     Seq(
@@ -116,9 +134,23 @@ class ReturnedFieldTests extends AnyWordSpec with Matchers {
                   if (copied) field(read("box", box), "value", "box.value")
                   else Ast(NewLiteral().code("constant").typeFullName("String"))
                 )
-              ),
-              returned(read("box", box))
-            )
+              )
+            ) ++ (if (replaced)
+                    Seq(
+                      call(
+                        Operators.assignment,
+                        "replace value",
+                        Seq(
+                          field(
+                            if (captured) read("alias", alias) else read("box", box),
+                            "value",
+                            if (captured) "alias.value" else "box.value"
+                          ),
+                          Ast(NewLiteral().code("constant").typeFullName("String"))
+                        )
+                      )
+                    )
+                  else Nil) ++ Seq(returned(read("box", box)))
           )
           val forwarded = parameter("forwarded", 1)
           val inner     = call("make", "make(forwarded)", Seq(read("forwarded", forwarded)))
@@ -135,12 +167,10 @@ class ReturnedFieldTests extends AnyWordSpec with Matchers {
           diff.addNode(NewMetaData().language(language).version("0.1"))
           Seq(make, forward, caller).foreach(Ast.storeInDiffGraph(_, diff))
           diff.apply(cpg.graph)
-          val links = Cpg.newDiffGraphBuilder
-          for (name <- Seq("make", "forward"); invocation <- cpg.call.nameExact(name))
-            links.addEdge(invocation, cpg.method.nameExact(name).head, EdgeTypes.CALL)
-          links.apply(cpg.graph)
+          new MethodStubCreator(cpg).createAndApply()
           new MethodDecoratorPass(cpg).createAndApply()
           new ContainsEdgePass(cpg).createAndApply()
+          new StaticCallLinker(cpg).createAndApply()
           new CfgCreationPass(cpg).createAndApply()
           new ReachingDefPass(cpg).createAndApply()
           val engine = new Engine(EngineContext(semantics = semantics))
@@ -150,9 +180,11 @@ class ReturnedFieldTests extends AnyWordSpec with Matchers {
               cpg.method.nameExact("caller").parameter.toList
             )
             val endpoints = paths.map(p => p.path.head.node.code -> p.path.last.node.code).toSet
-            val fields    =
-              if (summarized || copied && (!captured || language == "DART")) Seq("value", "other") else Seq("value")
-            withClue(s"$language summary=$summarized copy=$copied capture=$captured") {
+            val fields    = Seq(
+              "value" -> (summarized || !replaced || captured && language == "C"),
+              "other" -> (summarized || copied && (!captured || language == "DART"))
+            ).collect { case (name, true) => name }
+            withClue(s"$language summary=$summarized copy=$copied capture=$captured replace=$replaced") {
               endpoints shouldBe (for (source <- Seq("input", "safe"); field <- fields)
                 yield source -> s"forward($source).$field").toSet
             }

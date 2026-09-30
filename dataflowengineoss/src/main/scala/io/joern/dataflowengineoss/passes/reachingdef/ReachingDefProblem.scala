@@ -3,6 +3,8 @@ package io.joern.dataflowengineoss.passes.reachingdef
 import io.shiftleft.codepropertygraph.generated.nodes.*
 import io.shiftleft.codepropertygraph.generated.{EdgeTypes, Operators}
 import io.shiftleft.semanticcpg.language.*
+import io.shiftleft.semanticcpg.accesspath.MatchResult
+import io.joern.dataflowengineoss.queryengine.AccessPathUsage.toTrackedBaseAndAccessPathSimple
 import io.shiftleft.semanticcpg.utils.MemberAccess.{isFieldAccess, isGenericMemberAccessName}
 import org.slf4j.{Logger, LoggerFactory}
 
@@ -277,6 +279,13 @@ class ReachingDefTransferFunction(flowGraph: ReachingDefFlowGraph) extends Trans
         case call: Call =>
           allCalls(call.code).iterator
             .filter(x => x.id != call.id)
+            .filter { other =>
+              if (isFieldAccess(call.name) && isFieldAccess(other.name)) {
+                val (base, path)           = toTrackedBaseAndAccessPathSimple(call)
+                val (otherBase, otherPath) = toTrackedBaseAndAccessPathSimple(other)
+                base == otherBase && path.matchAndDiff(otherPath.elements)._1 == MatchResult.EXACT_MATCH
+              } else true
+            }
         case _ => Iterator.empty
       }
       definedNodes

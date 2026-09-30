@@ -52,7 +52,10 @@ private[queryengine] object FieldDemand {
     (location(current, aliases), location(parent, aliases)) match {
       case (Some((currentBase, currentFields)), Some((parentBase, parentFields))) if currentBase == parentBase =>
         val requested = currentFields ++ demand
-        if (requested.startsWith(parentFields)) Some(requested.drop(parentFields.size))
+        val selected  = if (parentFields.startsWith(requested)) parentFields else requested
+        if (!requested.startsWith(parentFields) && !parentFields.startsWith(requested)) None
+        else if (aliases.overwritten(parent, current, currentBase, selected)) None
+        else if (requested.startsWith(parentFields)) Some(requested.drop(parentFields.size))
         else if (parentFields.startsWith(requested)) Some(Nil)
         else None
       case _ => Some(demand)

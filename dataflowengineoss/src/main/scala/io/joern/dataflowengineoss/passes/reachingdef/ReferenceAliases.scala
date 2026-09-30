@@ -3,6 +3,8 @@ package io.joern.dataflowengineoss.passes.reachingdef
 import io.shiftleft.codepropertygraph.generated.{Cpg, Operators}
 import io.shiftleft.codepropertygraph.generated.nodes.*
 import io.shiftleft.semanticcpg.accesspath.{TrackedBase, TrackedNamedVariable}
+import io.shiftleft.semanticcpg.accesspath.ConstantAccess
+import io.joern.dataflowengineoss.queryengine.AccessPathUsage
 import io.shiftleft.semanticcpg.language.*
 
 import scala.collection.mutable
@@ -43,7 +45,24 @@ class ReferenceAliases(method: Option[Method]) {
         }
         .keySet
     else Set.empty[String]
-  private val dominance      = mutable.Map.empty[(Call, CfgNode), Boolean]
+  private val dominance        = mutable.Map.empty[(Call, CfgNode), Boolean]
+  private val killed           = mutable.Map.empty[(CfgNode, CfgNode, String, List[String]), Boolean]
+  private lazy val fieldWrites = assignments.flatMap { assignment =>
+    assignment.argumentOption(1).flatMap { target =>
+      val (root, path) = AccessPathUsage.toTrackedBaseAndAccessPathSimple(target)
+      val elements     = path.elements.elements.toList
+      base(root, target) match {
+        case TrackedNamedVariable(name) if elements.forall(_.isInstanceOf[ConstantAccess]) =>
+          val fields       = elements.collect { case ConstantAccess(field) => field }
+          val bindingWrite = target match {
+            case identifier: Identifier => identifier.name == name
+            case _                      => false
+          }
+          Option.when(fields.nonEmpty || bindingWrite)((name, fields, assignment))
+        case _ => None
+      }
+    }
+  }
   private lazy val reachable = {
     val seen    = mutable.HashSet.empty[CfgNode]
     val pending = mutable.ArrayDeque.from[CfgNode](method)
@@ -105,5 +124,36 @@ class ReferenceAliases(method: Option[Method]) {
       case _                             => None
     }
     enabled && (for (a <- name(left); b <- name(right)) yield canonical(a, left) == canonical(b, right)).contains(true)
+  }
+
+  def overwritten(definition: CfgNode, use: CfgNode, root: TrackedBase, fields: List[String]): Boolean = root match {
+    case TrackedNamedVariable(name) if enabled && fields.nonEmpty && reachable.contains(use) =>
+      killed.getOrElseUpdate(
+        (definition, use, name, fields), {
+          val blockers = fieldWrites.collect {
+            case (`name`, written, assignment) if fields.startsWith(written) => assignment
+          }.toSet
+          val origin = definition match {
+            case _: MethodParameterIn => method.get
+            // An assignment's output becomes available after its store, not at the evaluation of its left operand.
+            case expression: Expression if expression.argumentIndex == 1 =>
+              expression.inCall.find(_.name.startsWith("<operator>.assignment")).getOrElse(definition)
+            case _ => definition
+          }
+          def reaches(blocked: Set[Call]): Boolean = {
+            val seen    = mutable.HashSet.empty[CfgNode]
+            val pending = mutable.ArrayDeque.from(origin._cfgOut.cast[CfgNode])
+            var found   = false
+            while (pending.nonEmpty && !found) {
+              val node = pending.removeHead()
+              if (node == use) found = true
+              else if (!blocked.contains(node) && seen.add(node)) pending ++= node._cfgOut.cast[CfgNode]
+            }
+            found
+          }
+          blockers.nonEmpty && origin != use && reaches(Set.empty) && !reaches(blockers)
+        }
+      )
+    case _ => false
   }
 }
