@@ -2,6 +2,9 @@
 # Joern-specifics #
 ###################
 
+/AGENTS.md
+/agents/
+
 project/project
 project/target
 target
