@@ -30,13 +30,15 @@ the release archive hash before extraction and the same library digest afterward
 Preparation replaces scratch checkouts, so do not run it alongside graph tests.
 
 Each test creates `agents/dart-corpus/<package>-<version>/cpg.bin`, applies default
-overlays, closes/reopens it, and writes `audit.json`. Tests enable schema and V3
+overlays and OSS dataflow, closes/reopens it, and writes `audit.json`,
+`dataflow-overlay.json` and `dataflow-audit.json`. Tests enable schema and V3
 post-frontend validation. The subsequent walk checks unique method identities,
 AST ownership, argument indices and explicit parameter bindings, reference names
 and lexical targets, method references, internal methods incorrectly represented
 as external, unexpected executable UNKNOWN nodes, and CFG edges crossing methods.
 A named API probe per package also guards against empty or unrelated graphs.
-Argument zero is the callable receiver and need not have a formal parameter.
+Argument zero is an object receiver and need not have a formal parameter.
+Function-value targets have a RECEIVER edge but are not mutable argument zero.
 
 ## Results
 
@@ -47,13 +49,13 @@ resource measurements; `graph-baseline.json` records the audited graph counts.
 
 | Package | Files | Internal methods | Calls | UNKNOWN declarations |
 | --- | ---: | ---: | ---: | ---: |
-| path-1.9.1 | 13 | 191 | 1,696 | 0 |
-| collection-1.19.1 | 29 | 685 | 4,300 | 0 |
-| meta-1.17.0 | 3 | 35 | 270 | 0 |
-| args-2.7.0 | 12 | 154 | 1,842 | 0 |
-| async-2.13.0 | 45 | 532 | 2,850 | 5 |
-| http_parser-4.1.2 | 11 | 64 | 848 | 0 |
-| analyzer-8.4.1 | 458 | 21,884 | 190,502 | 66 |
+| path-1.9.1 | 13 | 191 | 1,754 | 0 |
+| collection-1.19.1 | 29 | 685 | 4,441 | 0 |
+| meta-1.17.0 | 3 | 35 | 319 | 0 |
+| args-2.7.0 | 12 | 154 | 1,913 | 0 |
+| async-2.13.0 | 45 | 532 | 3,039 | 5 |
+| http_parser-4.1.2 | 11 | 64 | 906 | 0 |
+| analyzer-8.4.1 | 458 | 21,884 | 198,056 | 66 |
 
 The remaining 71 UNKNOWN declarations are generic type aliases (5 in `async`,
 66 in `analyzer`); none contains an omitted executable body. Exporter unsupported
@@ -61,9 +63,49 @@ counts also include documentation/type syntax beneath those aliases, so they
 are larger than graph UNKNOWN counts. Unresolved invocation counts include
 function-value calls and external/dynamic behavior; zero audit failures is not
 a claim of complete runtime resolution or exhaustive Dart semantic correctness.
-Full-corpus OSS dataflow overlays are not part of this audit. Focused regressions
-exercise CFG and dataflow, including flow through an enhanced enum method, and
-the existing positive/negative frontend and Flutter tests remain enabled.
+
+## Dataflow assessment
+
+OSS dataflow is generated for all 23,545 internal methods, then queried after
+saving and reopening each graph. The definition limit is explicitly 20,000:
+analyzer's `CompileTimeErrorCode.<clinit>` has 6,675 generated definitions and
+would be skipped by the stock 4,000 limit. The test counts definitions for every
+method and fails if any exceeds the configured limit.
+
+`dataflow-probes.json` defines 36 source-grounded positive and negative queries
+against the unmodified package code. Each endpoint must select exactly one node;
+selected interprocedural checks also require a witness through the named callee.
+Checks cover constructor fields, named argument isolation, returned values,
+forwarding across files, callback arguments, loops, byte buffers, arithmetic and
+error messages. Queries use the engine's default maximum call depth of four.
+These are sampled semantic checks, not exhaustive path or program verification.
+
+| Package | Checks | Stock semantics passing | With Dart summary passing |
+| --- | ---: | ---: | ---: |
+| path | 5 | 5 | 5 |
+| collection | 5 | 5 | 5 |
+| meta | 7 | 7 | 7 |
+| args | 5 | 5 | 5 |
+| async | 4 | 3 | 4 |
+| http_parser | 5 | 5 | 5 |
+| analyzer | 5 | 5 | 5 |
+
+The stock failure is a false positive from `ErrorResult.error` to the unrelated
+stack-trace argument of `Completer.completeError`. Default external-call
+semantics mix its arguments through the receiver. The optional
+[SDK summary](../RUNTIME_SUMMARIES.md) preserves both inputs in the completer
+without copying them into each other. Both modes are tested and reported; the
+corpus test explicitly expects the stock failure instead of hiding it.
+`dataflow-results.json` records counts and individual outcomes. Scratch reports
+include source locations and up to three witness paths per query.
+
+A focused regression also records the shared engine's field approximation:
+`Box(input).other` can be tainted even when `other` is constant, because the
+returned object carries constructor input across method boundaries. This is a
+known false positive, not precise field isolation. Dynamic callback resolution,
+Future/Stream scheduling and framework lifecycle remain outside this assessment.
+A depth-eight corpus experiment exhausted the test JVM heap during an analyzer
+query; the completed assessment uses depth four and makes no deeper-path claim.
 
 ## Defects reproduced and fixed
 
@@ -81,10 +123,20 @@ the existing positive/negative frontend and Flutter tests remain enabled.
 - Dynamic object patterns in `analyzer` emitted unbound property identifiers.
   They now access the matched receiver before binding the pattern variable.
 
+The dataflow assessment additionally reproduced and fixed:
+
+- Missing constructor-to-result flow, including `path.Context.setExtension`:
+  allocation, initialization and the returned object now share a local, and
+  generative constructors return `this` in the graph.
+- False flow through function-value targets, including `collection.binarySearch`:
+  a callable target is no longer treated as mutable argument zero.
+
 Focused regressions accompany these fixes. Remaining language and runtime limits
 are described in [../SEMANTICS.md](../SEMANTICS.md) and [../FEATURES.md](../FEATURES.md).
 
-Validation completed with 59 frontend/runner/corpus tests and 17 exporter tests,
-including the resolved Flutter fixture, with no failures or skips. Dart analysis,
-Scala formatting/lint checks and the repeated exporter resource-budget check also
-passed. Scratch graphs and detailed logs are excluded from version control.
+Validation passed all 56 frontend/runner tests, including resolved Flutter, and
+all seven corpus tests, with no skips. After adjusting expected CALL counts for
+the added allocation/result assignments, the seven corpus tests were rerun and
+passed. Staging, Scala formatting and lint checks passed; the staged SDK summary
+matches the source file. All seven library source hashes still match the pinned
+manifest. Scratch graphs and detailed logs are excluded from version control.

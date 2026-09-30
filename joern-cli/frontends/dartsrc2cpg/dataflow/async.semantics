@@ -1,0 +1,4 @@
+# Completer.completeError stores the error and stack trace in the completer.
+# It does not copy either argument into the other and has no return value.
+# Load these method names as regular expressions; declaration offsets may vary.
+"dart:async/future[.]dart\x23[0-9]+:METHOD:completeError" 0 -> 0 1 -> 1 2 -> 2 1 -> 0 2 -> 0

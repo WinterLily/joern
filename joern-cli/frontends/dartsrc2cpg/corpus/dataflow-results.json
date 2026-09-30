@@ -1,0 +1,491 @@
+[
+  {
+    "project": "path-1.9.1",
+    "overlay": {
+      "methods": 191,
+      "maxDefinitions": 322,
+      "definitionLimit": 20000,
+      "aboveDefaultLimit": {}
+    },
+    "reachingDefEdges": 13014,
+    "maxCallDepth": 4,
+    "checks": [
+      {
+        "id": "normalize-fast-return",
+        "expectedFlow": true,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": true,
+        "stockPassed": true,
+        "modeledFlow": true,
+        "modeledPassed": true,
+        "viaSatisfied": true
+      },
+      {
+        "id": "set-extension-path",
+        "expectedFlow": true,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": true,
+        "stockPassed": true,
+        "modeledFlow": true,
+        "modeledPassed": true,
+        "viaSatisfied": true
+      },
+      {
+        "id": "set-extension-suffix",
+        "expectedFlow": true,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": true,
+        "stockPassed": true,
+        "modeledFlow": true,
+        "modeledPassed": true,
+        "viaSatisfied": true
+      },
+      {
+        "id": "extension-not-parse-input",
+        "expectedFlow": false,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": false,
+        "stockPassed": true,
+        "modeledFlow": false,
+        "modeledPassed": true,
+        "viaSatisfied": true
+      },
+      {
+        "id": "cross-file-basename",
+        "expectedFlow": true,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": true,
+        "stockPassed": true,
+        "modeledFlow": true,
+        "modeledPassed": true,
+        "viaSatisfied": true
+      }
+    ]
+  },
+  {
+    "project": "collection-1.19.1",
+    "overlay": {
+      "methods": 685,
+      "maxDefinitions": 181,
+      "definitionLimit": 20000,
+      "aboveDefaultLimit": {}
+    },
+    "reachingDefEdges": 33021,
+    "maxCallDepth": 4,
+    "checks": [
+      {
+        "id": "identity",
+        "expectedFlow": true,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": true,
+        "stockPassed": true,
+        "modeledFlow": true,
+        "modeledPassed": true,
+        "viaSatisfied": true
+      },
+      {
+        "id": "search-key",
+        "expectedFlow": true,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": true,
+        "stockPassed": true,
+        "modeledFlow": true,
+        "modeledPassed": true,
+        "viaSatisfied": true
+      },
+      {
+        "id": "search-list-not-key",
+        "expectedFlow": false,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": false,
+        "stockPassed": true,
+        "modeledFlow": false,
+        "modeledPassed": true,
+        "viaSatisfied": true
+      },
+      {
+        "id": "reverse-loop-element",
+        "expectedFlow": true,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": true,
+        "stockPassed": true,
+        "modeledFlow": true,
+        "modeledPassed": true,
+        "viaSatisfied": true
+      },
+      {
+        "id": "constant-not-found",
+        "expectedFlow": false,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": false,
+        "stockPassed": true,
+        "modeledFlow": false,
+        "modeledPassed": true,
+        "viaSatisfied": true
+      }
+    ]
+  },
+  {
+    "project": "meta-1.17.0",
+    "overlay": {
+      "methods": 35,
+      "maxDefinitions": 208,
+      "definitionLimit": 20000,
+      "aboveDefaultLimit": {}
+    },
+    "reachingDefEdges": 2826,
+    "maxCallDepth": 4,
+    "checks": [
+      {
+        "id": "named-reason-to-reason",
+        "expectedFlow": true,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": true,
+        "stockPassed": true,
+        "modeledFlow": true,
+        "modeledPassed": true,
+        "viaSatisfied": true
+      },
+      {
+        "id": "named-reason-to-parameterDefined",
+        "expectedFlow": false,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": false,
+        "stockPassed": true,
+        "modeledFlow": false,
+        "modeledPassed": true,
+        "viaSatisfied": true
+      },
+      {
+        "id": "named-parameterDefined-to-reason",
+        "expectedFlow": false,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": false,
+        "stockPassed": true,
+        "modeledFlow": false,
+        "modeledPassed": true,
+        "viaSatisfied": true
+      },
+      {
+        "id": "named-parameterDefined-to-parameterDefined",
+        "expectedFlow": true,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": true,
+        "stockPassed": true,
+        "modeledFlow": true,
+        "modeledPassed": true,
+        "viaSatisfied": true
+      },
+      {
+        "id": "constant-field-not-reason",
+        "expectedFlow": false,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": false,
+        "stockPassed": true,
+        "modeledFlow": false,
+        "modeledPassed": true,
+        "viaSatisfied": true
+      },
+      {
+        "id": "target-kind-displayString",
+        "expectedFlow": false,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": false,
+        "stockPassed": true,
+        "modeledFlow": false,
+        "modeledPassed": true,
+        "viaSatisfied": true
+      },
+      {
+        "id": "target-kind-name",
+        "expectedFlow": true,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": true,
+        "stockPassed": true,
+        "modeledFlow": true,
+        "modeledPassed": true,
+        "viaSatisfied": true
+      }
+    ]
+  },
+  {
+    "project": "args-2.7.0",
+    "overlay": {
+      "methods": 154,
+      "maxDefinitions": 173,
+      "definitionLimit": 20000,
+      "aboveDefaultLimit": {}
+    },
+    "reachingDefEdges": 13146,
+    "maxCallDepth": 4,
+    "checks": [
+      {
+        "id": "option-value-return",
+        "expectedFlow": true,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": true,
+        "stockPassed": true,
+        "modeledFlow": true,
+        "modeledPassed": true,
+        "viaSatisfied": true
+      },
+      {
+        "id": "deprecated-forwarder",
+        "expectedFlow": true,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": true,
+        "stockPassed": true,
+        "modeledFlow": true,
+        "modeledPassed": true,
+        "viaSatisfied": true
+      },
+      {
+        "id": "value-not-default",
+        "expectedFlow": false,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": false,
+        "stockPassed": true,
+        "modeledFlow": false,
+        "modeledPassed": true,
+        "viaSatisfied": true
+      },
+      {
+        "id": "forwarded-constructor-name",
+        "expectedFlow": true,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": true,
+        "stockPassed": true,
+        "modeledFlow": true,
+        "modeledPassed": true,
+        "viaSatisfied": true
+      },
+      {
+        "id": "forwarded-constructor-parsed",
+        "expectedFlow": false,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": false,
+        "stockPassed": true,
+        "modeledFlow": false,
+        "modeledPassed": true,
+        "viaSatisfied": true
+      }
+    ]
+  },
+  {
+    "project": "async-2.13.0",
+    "overlay": {
+      "methods": 532,
+      "maxDefinitions": 110,
+      "definitionLimit": 20000,
+      "aboveDefaultLimit": {}
+    },
+    "reachingDefEdges": 21110,
+    "maxCallDepth": 4,
+    "checks": [
+      {
+        "id": "error-not-stacktrace",
+        "expectedFlow": false,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": true,
+        "stockPassed": false,
+        "modeledFlow": false,
+        "modeledPassed": true,
+        "viaSatisfied": true
+      },
+      {
+        "id": "error-to-error-argument",
+        "expectedFlow": true,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": true,
+        "stockPassed": true,
+        "modeledFlow": true,
+        "modeledPassed": true,
+        "viaSatisfied": true
+      },
+      {
+        "id": "value-to-event-sink",
+        "expectedFlow": true,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": true,
+        "stockPassed": true,
+        "modeledFlow": true,
+        "modeledPassed": true,
+        "viaSatisfied": true
+      },
+      {
+        "id": "cancellation-cascade",
+        "expectedFlow": true,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": true,
+        "stockPassed": true,
+        "modeledFlow": true,
+        "modeledPassed": true,
+        "viaSatisfied": true
+      }
+    ]
+  },
+  {
+    "project": "http_parser-4.1.2",
+    "overlay": {
+      "methods": 64,
+      "maxDefinitions": 138,
+      "definitionLimit": 20000,
+      "aboveDefaultLimit": {}
+    },
+    "reachingDefEdges": 7012,
+    "maxCallDepth": 4,
+    "checks": [
+      {
+        "id": "chunk-interprocedural-copy",
+        "expectedFlow": true,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": true,
+        "stockPassed": true,
+        "modeledFlow": true,
+        "modeledPassed": true,
+        "viaSatisfied": true
+      },
+      {
+        "id": "chunk-return-buffer",
+        "expectedFlow": true,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": true,
+        "stockPassed": true,
+        "modeledFlow": true,
+        "modeledPassed": true,
+        "viaSatisfied": true
+      },
+      {
+        "id": "chunk-empty-return",
+        "expectedFlow": false,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": false,
+        "stockPassed": true,
+        "modeledFlow": false,
+        "modeledPassed": true,
+        "viaSatisfied": true
+      },
+      {
+        "id": "captured-media-type",
+        "expectedFlow": true,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": true,
+        "stockPassed": true,
+        "modeledFlow": true,
+        "modeledPassed": true,
+        "viaSatisfied": true
+      },
+      {
+        "id": "error-message-value",
+        "expectedFlow": true,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": true,
+        "stockPassed": true,
+        "modeledFlow": true,
+        "modeledPassed": true,
+        "viaSatisfied": true
+      }
+    ]
+  },
+  {
+    "project": "analyzer-8.4.1",
+    "overlay": {
+      "methods": 21884,
+      "maxDefinitions": 6675,
+      "definitionLimit": 20000,
+      "aboveDefaultLimit": {
+        "package:analyzer/src/error/codes.g.dart#693:CLASS:CompileTimeErrorCode:<clinit>": 6675
+      }
+    },
+    "reachingDefEdges": 1582927,
+    "maxCallDepth": 4,
+    "checks": [
+      {
+        "id": "binary-byte-write",
+        "expectedFlow": true,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": true,
+        "stockPassed": true,
+        "modeledFlow": true,
+        "modeledPassed": true,
+        "viaSatisfied": true
+      },
+      {
+        "id": "uint32-high-byte",
+        "expectedFlow": true,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": true,
+        "stockPassed": true,
+        "modeledFlow": true,
+        "modeledPassed": true,
+        "viaSatisfied": true
+      },
+      {
+        "id": "write-byte-not-reset",
+        "expectedFlow": false,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": false,
+        "stockPassed": true,
+        "modeledFlow": false,
+        "modeledPassed": true,
+        "viaSatisfied": true
+      },
+      {
+        "id": "list-element-callback",
+        "expectedFlow": true,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": true,
+        "stockPassed": true,
+        "modeledFlow": true,
+        "modeledPassed": true,
+        "viaSatisfied": true
+      },
+      {
+        "id": "fork-offset-field",
+        "expectedFlow": true,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": true,
+        "stockPassed": true,
+        "modeledFlow": true,
+        "modeledPassed": true,
+        "viaSatisfied": true
+      }
+    ]
+  }
+]

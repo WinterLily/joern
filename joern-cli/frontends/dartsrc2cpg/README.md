@@ -33,7 +33,7 @@ On Windows, compile as `bin/dart_astgen.exe`. Staging packages the native export
 it still requires the analysis SDK at runtime. Dependency installation and native
 compilation are explicit preparation steps, never scan side effects. See [distribution, platform validation, corpus budgets and operational limits](DISTRIBUTION.md)
 for native preparation scripts, CI targets and validation status. The
-[OSS corpus audit](corpus/README.md) records pinned projects, reproducible graph
+[OSS corpus audit](corpus/README.md) records pinned projects, reproducible graph and dataflow
 checks, findings and remaining limitations.
 
 Test the staged frontend through `joern-parse` and the real console import helper:

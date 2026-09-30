@@ -38,6 +38,7 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
     var owner                              = s"$library:<global>"
     var ownerType                          = "NAMESPACE_BLOCK"
     var currentType                        = "ANY"
+    var returnsInstance                    = false
     var instanceFields                     = Seq.empty[Value]
     val functionValues                     = mutable.Map.empty[String, String]
     val boundTargets                       = mutable.Map.empty[String, String]
@@ -129,7 +130,8 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
       targetId: String,
       name: String,
       argumentList: Option[Value],
-      receiver: Option[Ast] = None
+      receiver: Option[Ast] = None,
+      callableReceiver: Boolean = false
     ): Ast = {
       val target   = sym(boundTargets.getOrElse(targetId, targetId))
       val params   = strings(target, "parameters")
@@ -169,13 +171,29 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
           ),
         syntax
       )
-      val ast = args(
-        out,
-        receiver.toSeq ++ explicit ++ defaults.map(_._1),
-        receiver.toSeq.map(_ => 0) ++ bindings ++ defaults.map(_._2)
-      )
-      receiver.flatMap(_.root).fold(ast)(receiverRoot => ast.withReceiverEdge(out, receiverRoot))
+      val base   = receiver.filterNot(_ => callableReceiver)
+      val values = base.toSeq ++ explicit ++ defaults.map(_._1)
+      val ast    = args(out, values, base.toSeq.map(_ => 0) ++ bindings ++ defaults.map(_._2))
+      receiver.flatMap(_.root).fold(ast) { receiverRoot =>
+        // The callable is evaluated, but is not a mutable `this` argument.
+        val withReceiver = if (callableReceiver) {
+          values.flatMap(_.root).collect { case expr: ExpressionNew => expr.order += 1 }
+          receiverRoot match {
+            case expr: ExpressionNew => expr.order = 1; expr.argumentIndex = -1
+            case _                   =>
+          }
+          ast.withChild(receiver.get)
+        } else ast
+        withReceiver.withReceiverEdge(out, receiverRoot)
+      }
     }
+    // Keep allocation, initialization and the resulting object tied to the same local.
+    def newInstance(syntax: Value, targetId: String, name: String, arguments: Option[Value]): Ast =
+      if (bool(sym(targetId), "factory")) saved(syntax, call(syntax, targetId, name, arguments))(ref => ref())
+      else
+        savedSequence(syntax, operator(syntax, Operators.alloc, Nil)) { receiver =>
+          Seq(call(syntax, targetId, name, arguments, Some(receiver())), receiver())
+        }
     def methodRef(syntax: Value, id: String): Ast = {
       val ref = located(NewMethodRef().code(code(syntax)).methodFullName(id).typeFullName(tpe(syntax)), syntax)
       Ast(ref)
@@ -632,9 +650,18 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
             .orElse(children(syntax, "receiver").headOption.map(expression))
             .orElse(cascadeReceiver.map(_()))
             .orElse(if (string(target, "kind") == "METHOD" && !bool(target, "static")) Some(thisAst(syntax)) else None)
-        if (nullAware(syntax) && receiver.nonEmpty)
+        if (functionValue && string(target, "kind") == "CONSTRUCTOR")
+          newInstance(syntax, targetId, name, Some(child(syntax, "arguments")))
+        else if (nullAware(syntax) && receiver.nonEmpty)
           guarded(syntax, receiver.get)(ref =>
-            call(syntax, targetId, name, Some(child(syntax, "arguments")), Some(ref()))
+            call(
+              syntax,
+              targetId,
+              name,
+              Some(child(syntax, "arguments")),
+              Some(ref()),
+              callableReceiver = functionValue
+            )
           )
         else
           call(
@@ -642,25 +669,19 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
             if (functionValue && targetId == originalTarget) "" else targetId,
             name,
             Some(child(syntax, "arguments")),
-            if (bool(target, "static") && !functionValue) None else receiver
+            if (bool(target, "static") && !functionValue) None else receiver,
+            callableReceiver = functionValue
           )
       case "EnumConstantDeclaration" =>
         val constructorName = string(symbol(syntax, "target"), "name", "new")
-        call(
+        newInstance(
           syntax,
           string(syntax, "target"),
           if (constructorName == "new") "<init>" else constructorName,
-          children(syntax, "arguments").headOption,
-          Some(operator(syntax, Operators.alloc, Nil))
+          children(syntax, "arguments").headOption
         )
       case "InstanceCreationExpression" =>
-        call(
-          syntax,
-          string(syntax, "target"),
-          string(syntax, "name"),
-          Some(child(syntax, "arguments")),
-          if (bool(symbol(syntax, "target"), "factory")) None else Some(operator(syntax, Operators.alloc, Nil))
-        )
+        newInstance(syntax, string(syntax, "target"), string(syntax, "name"), Some(child(syntax, "arguments")))
       case "ConstructorInvocation" =>
         call(
           syntax,
@@ -680,10 +701,17 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
           .collect { case ref: NewMethodRef => ref.methodFullName }
           .orElse(functionValues.get(string(receiver, "reference")))
           .getOrElse("")
-        val base = if (string(sym(targetId), "kind") == "CONSTRUCTOR") {
-          if (bool(sym(targetId), "factory")) None else Some(operator(syntax, Operators.alloc, Nil))
-        } else Some(value)
-        call(syntax, targetId, string(receiver, "name", "<invoke>"), Some(child(syntax, "arguments")), base)
+        if (string(sym(targetId), "kind") == "CONSTRUCTOR")
+          newInstance(syntax, targetId, string(receiver, "name", "<init>"), Some(child(syntax, "arguments")))
+        else
+          call(
+            syntax,
+            targetId,
+            string(receiver, "name", "<invoke>"),
+            Some(child(syntax, "arguments")),
+            Some(value),
+            callableReceiver = true
+          )
       case "PropertyAccess" | "PrefixedIdentifier" =>
         val receiver =
           children(syntax, "receiver").headOption
@@ -860,7 +888,13 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
         }
       case "ExpressionStatement" => Seq(expression(child(syntax, "expression")))
       case "ReturnStatement"     =>
-        Seq(args(located(NewReturn().code(code(syntax)), syntax), children(syntax, "expression").map(expression)))
+        val values = children(syntax, "expression").map(expression)
+        Seq(
+          args(
+            located(NewReturn().code(code(syntax)), syntax),
+            if (values.isEmpty && returnsInstance) Seq(thisAst(syntax)) else values
+          )
+        )
       case "IfStatement" =>
         Seq(
           control(
@@ -1147,10 +1181,12 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
       val id    = forcedId.getOrElse(
         string(syntax, "declaration", s"$filename#${syntax("offset").num.toInt}:${string(syntax, "name")}")
       )
-      val target      = sym(id)
-      val constructor = string(syntax, "kind") == "ConstructorDeclaration"
-      val instance    = ownerType == "TYPE_DECL" && !bool(syntax, "static") && !bool(syntax, "factory")
-      val receiver    = if (instance) {
+      val target                  = sym(id)
+      val constructor             = string(syntax, "kind") == "ConstructorDeclaration"
+      val previousReturnsInstance = returnsInstance
+      returnsInstance = constructor && !bool(syntax, "factory")
+      val instance = ownerType == "TYPE_DECL" && !bool(syntax, "static") && !bool(syntax, "factory")
+      val receiver = if (instance) {
         val out = NewMethodParameterIn()
           .name("this")
           .code("this")
@@ -1245,11 +1281,19 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
             .dispatchType(DispatchTypes.STATIC_DISPATCH),
           redirect
         )
-        val allocation = if (bool(sym(targetId), "factory")) Nil else Seq(operator(syntax, Operators.alloc, Nil))
-        args(
-          located(NewReturn().code(code(redirect)), redirect),
-          Seq(args(out, allocation ++ forwarded.map(_._1), allocation.map(_ => 0) ++ forwarded.map(_._2)))
-        )
+        val invocation =
+          if (bool(sym(targetId), "factory"))
+            args(out, forwarded.map(_._1), forwarded.map(_._2))
+          else
+            savedSequence(redirect, operator(redirect, Operators.alloc, Nil)) { receiver =>
+              val base = receiver()
+              Seq(
+                args(out, base +: forwarded.map(_._1), 0 +: forwarded.map(_._2))
+                  .withReceiverEdge(out, base.root.get),
+                receiver()
+              )
+            }
+        args(located(NewReturn().code(code(redirect)), redirect), Seq(invocation))
       }
       val superCalls =
         if (
@@ -1299,9 +1343,13 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
       val modifiers   = Seq(if (bool(target, "private")) ModifierTypes.PRIVATE else ModifierTypes.PUBLIC) ++
         (if (constructor) Seq(ModifierTypes.CONSTRUCTOR) else Nil) ++ (if (!instance) Seq(ModifierTypes.STATIC)
                                                                        else Nil)
+      val result =
+        if (constructor && !bool(syntax, "factory"))
+          Seq(args(NewReturn().code("return this"), Seq(thisAst(syntax))))
+        else Nil
       val ast = Ast(out)
         .withChildren(receiver ++ parameters)
-        .withChild(block(body.getOrElse(syntax), prefix ++ initializers ++ superCalls ++ bodyAsts))
+        .withChild(block(body.getOrElse(syntax), prefix ++ initializers ++ superCalls ++ bodyAsts ++ result))
         .withChild(
           Ast(
             NewMethodReturn()
@@ -1312,6 +1360,7 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
         )
         .withChildren(modifiers.map(memberSyntax => Ast(NewModifier().modifierType(memberSyntax))))
         .withChildren(annotations)
+      returnsInstance = previousReturnsInstance
       declarations.clear(); declarations ++= outer
       ast
     }
@@ -1364,14 +1413,26 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
         .code(name)
         .filename(filename)
         .isExternal(false)
-        .signature("void(0)")
+        .signature(s"${if (instance) currentType else "void"}(0)")
         .astParentType(ownerType)
         .astParentFullName(owner)
       val ast = Ast(out)
         .withChildren(parameters)
-        .withChild(block(syntax, values ++ (if (instance) implicitSuper(syntax, id, Nil) else Nil)))
         .withChild(
-          Ast(NewMethodReturn().typeFullName("void").code("RET").evaluationStrategy(EvaluationStrategies.BY_VALUE))
+          block(
+            syntax,
+            values ++ (if (instance)
+                         implicitSuper(syntax, id, Nil) :+ args(NewReturn().code("return this"), Seq(thisAst(syntax)))
+                       else Nil)
+          )
+        )
+        .withChild(
+          Ast(
+            NewMethodReturn()
+              .typeFullName(if (instance) currentType else "void")
+              .code("RET")
+              .evaluationStrategy(EvaluationStrategies.BY_VALUE)
+          )
         )
         .withChild(Ast(NewModifier().modifierType(if (instance) ModifierTypes.CONSTRUCTOR else ModifierTypes.STATIC)))
       declarations.clear(); declarations ++= old
@@ -1421,7 +1482,7 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
       )
       val ast = Ast(out)
         .withChildren(parameters)
-        .withChild(block(syntax, Seq(assign)))
+        .withChild(block(syntax, Seq(assign, args(NewReturn().code("return this"), Seq(thisAst(syntax))))))
         .withChild(
           Ast(NewMethodReturn().typeFullName(currentType).code("RET").evaluationStrategy(EvaluationStrategies.BY_VALUE))
         )

@@ -23,3 +23,7 @@ Universal / mappings += {
 Universal / mappings ++= Seq("README.md", "FEATURES.md", "SEMANTICS.md", "RUNTIME_SUMMARIES.md", "DISTRIBUTION.md").map { name =>
   fileConverter.value.toVirtualFile((baseDirectory.value / name).toPath) -> s"docs/$name"
 }
+
+Universal / mappings += {
+  fileConverter.value.toVirtualFile((baseDirectory.value / "dataflow/async.semantics").toPath) -> "dataflow/async.semantics"
+}

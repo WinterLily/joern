@@ -1,0 +1,673 @@
+{
+  "meta": [
+    {
+      "id": "named-reason-to-reason",
+      "source": {
+        "file": "meta.dart",
+        "method": "unless",
+        "kind": "parameter",
+        "owner": "UseResult",
+        "name": "reason"
+      },
+      "sink": {
+        "file": "meta.dart",
+        "method": "unless",
+        "kind": "fieldWrite",
+        "owner": "UseResult",
+        "name": "reason"
+      },
+      "expected": true,
+      "rationale": "Named constructor formals initialize only their corresponding fields."
+    },
+    {
+      "id": "named-reason-to-parameterDefined",
+      "source": {
+        "file": "meta.dart",
+        "method": "unless",
+        "kind": "parameter",
+        "owner": "UseResult",
+        "name": "reason"
+      },
+      "sink": {
+        "file": "meta.dart",
+        "method": "unless",
+        "kind": "fieldWrite",
+        "owner": "UseResult",
+        "name": "parameterDefined"
+      },
+      "expected": false,
+      "rationale": "Named constructor formals initialize only their corresponding fields."
+    },
+    {
+      "id": "named-parameterDefined-to-reason",
+      "source": {
+        "file": "meta.dart",
+        "method": "unless",
+        "kind": "parameter",
+        "owner": "UseResult",
+        "name": "parameterDefined"
+      },
+      "sink": {
+        "file": "meta.dart",
+        "method": "unless",
+        "kind": "fieldWrite",
+        "owner": "UseResult",
+        "name": "reason"
+      },
+      "expected": false,
+      "rationale": "Named constructor formals initialize only their corresponding fields."
+    },
+    {
+      "id": "named-parameterDefined-to-parameterDefined",
+      "source": {
+        "file": "meta.dart",
+        "method": "unless",
+        "kind": "parameter",
+        "owner": "UseResult",
+        "name": "parameterDefined"
+      },
+      "sink": {
+        "file": "meta.dart",
+        "method": "unless",
+        "kind": "fieldWrite",
+        "owner": "UseResult",
+        "name": "parameterDefined"
+      },
+      "expected": true,
+      "rationale": "Named constructor formals initialize only their corresponding fields."
+    },
+    {
+      "id": "constant-field-not-reason",
+      "source": {
+        "file": "meta.dart",
+        "method": "<init>",
+        "kind": "parameter",
+        "owner": "UseResult",
+        "name": "reason"
+      },
+      "sink": {
+        "file": "meta.dart",
+        "method": "<init>",
+        "kind": "fieldWrite",
+        "owner": "UseResult",
+        "name": "parameterDefined"
+      },
+      "expected": false,
+      "rationale": "The unnamed constructor sets parameterDefined to null independently of reason."
+    },
+    {
+      "id": "target-kind-displayString",
+      "source": {
+        "file": "meta_meta.dart",
+        "method": "_",
+        "kind": "parameter",
+        "owner": "TargetKind",
+        "name": "displayString"
+      },
+      "sink": {
+        "file": "meta_meta.dart",
+        "method": "_",
+        "kind": "fieldWrite",
+        "owner": "TargetKind",
+        "name": "name"
+      },
+      "expected": false,
+      "rationale": "Two positional constructor fields must remain independent."
+    },
+    {
+      "id": "target-kind-name",
+      "source": {
+        "file": "meta_meta.dart",
+        "method": "_",
+        "kind": "parameter",
+        "owner": "TargetKind",
+        "name": "name"
+      },
+      "sink": {
+        "file": "meta_meta.dart",
+        "method": "_",
+        "kind": "fieldWrite",
+        "owner": "TargetKind",
+        "name": "name"
+      },
+      "expected": true,
+      "rationale": "Two positional constructor fields must remain independent."
+    }
+  ],
+  "path": [
+    {
+      "id": "normalize-fast-return",
+      "source": {
+        "file": "src/context.dart",
+        "method": "normalize",
+        "kind": "parameter",
+        "name": "path"
+      },
+      "sink": {
+        "file": "src/context.dart",
+        "method": "normalize",
+        "kind": "return",
+        "code": "return path;"
+      },
+      "expected": true,
+      "rationale": "An already-normalized path is returned unchanged."
+    },
+    {
+      "id": "set-extension-path",
+      "source": {
+        "file": "src/context.dart",
+        "method": "setExtension",
+        "kind": "parameter",
+        "name": "path"
+      },
+      "sink": {
+        "file": "src/context.dart",
+        "method": "setExtension",
+        "kind": "return"
+      },
+      "expected": true,
+      "rationale": "setExtension calls withoutExtension before appending the extension.",
+      "via": "withoutExtension"
+    },
+    {
+      "id": "set-extension-suffix",
+      "source": {
+        "file": "src/context.dart",
+        "method": "setExtension",
+        "kind": "parameter",
+        "name": "extension"
+      },
+      "sink": {
+        "file": "src/context.dart",
+        "method": "setExtension",
+        "kind": "return"
+      },
+      "expected": true,
+      "rationale": "The requested suffix is concatenated into the result."
+    },
+    {
+      "id": "extension-not-parse-input",
+      "source": {
+        "file": "src/context.dart",
+        "method": "setExtension",
+        "kind": "parameter",
+        "name": "extension"
+      },
+      "sink": {
+        "file": "src/context.dart",
+        "method": "withoutExtension",
+        "kind": "call",
+        "argument": 1,
+        "name": "_parse"
+      },
+      "expected": false,
+      "rationale": "The extension argument is not supplied to withoutExtension or _parse."
+    },
+    {
+      "id": "cross-file-basename",
+      "source": {
+        "file": "path.dart",
+        "method": "basename",
+        "kind": "parameter",
+        "name": "path"
+      },
+      "sink": {
+        "file": "src/context.dart",
+        "method": "basename",
+        "kind": "call",
+        "argument": 1,
+        "name": "_parse"
+      },
+      "expected": true,
+      "rationale": "The public API forwards path to Context.basename in another file.",
+      "via": "basename"
+    }
+  ],
+  "collection": [
+    {
+      "id": "identity",
+      "source": {
+        "file": "src/utils.dart",
+        "method": "identity",
+        "kind": "parameter",
+        "name": "value"
+      },
+      "sink": {
+        "file": "src/utils.dart",
+        "method": "identity",
+        "kind": "return"
+      },
+      "expected": true,
+      "rationale": "identity returns its parameter."
+    },
+    {
+      "id": "search-key",
+      "source": {
+        "file": "src/algorithms.dart",
+        "method": "binarySearch",
+        "kind": "parameter",
+        "name": "value"
+      },
+      "sink": {
+        "file": "src/algorithms.dart",
+        "method": "binarySearchBy",
+        "kind": "call",
+        "argument": 1,
+        "name": "keyOf",
+        "code": "keyOf(value)"
+      },
+      "expected": true,
+      "rationale": "binarySearch forwards its value to binarySearchBy, which computes the search key.",
+      "via": "binarySearchBy"
+    },
+    {
+      "id": "search-list-not-key",
+      "source": {
+        "file": "src/algorithms.dart",
+        "method": "binarySearch",
+        "kind": "parameter",
+        "name": "sortedList"
+      },
+      "sink": {
+        "file": "src/algorithms.dart",
+        "method": "binarySearchBy",
+        "kind": "call",
+        "argument": 1,
+        "code": "keyOf(value)",
+        "name": "keyOf"
+      },
+      "expected": false,
+      "rationale": "The searched list must not become the search key value."
+    },
+    {
+      "id": "reverse-loop-element",
+      "source": {
+        "file": "src/algorithms.dart",
+        "method": "_reverse",
+        "kind": "call",
+        "code": "elements[i]",
+        "name": "<operator>.indexAccess",
+        "line": 139
+      },
+      "sink": {
+        "file": "src/algorithms.dart",
+        "method": "_reverse",
+        "kind": "call",
+        "code": "elements[j] = tmp",
+        "name": "<operator>.assignment"
+      },
+      "expected": true,
+      "rationale": "A loop temporary carries the old element into the opposite slot."
+    },
+    {
+      "id": "constant-not-found",
+      "source": {
+        "file": "src/algorithms.dart",
+        "method": "binarySearchBy",
+        "kind": "parameter",
+        "name": "value"
+      },
+      "sink": {
+        "file": "src/algorithms.dart",
+        "method": "binarySearchBy",
+        "kind": "return",
+        "code": "return -1;"
+      },
+      "expected": false,
+      "rationale": "Search data controls the branch but not the constant -1 value; this audit checks explicit dataflow."
+    }
+  ],
+  "args": [
+    {
+      "id": "option-value-return",
+      "source": {
+        "file": "src/option.dart",
+        "method": "valueOrDefault",
+        "kind": "parameter",
+        "name": "value"
+      },
+      "sink": {
+        "file": "src/option.dart",
+        "method": "valueOrDefault",
+        "kind": "return",
+        "code": "return value;"
+      },
+      "expected": true,
+      "rationale": "A supplied option value is returned directly."
+    },
+    {
+      "id": "deprecated-forwarder",
+      "source": {
+        "file": "src/option.dart",
+        "method": "getOrDefault",
+        "kind": "parameter",
+        "name": "value"
+      },
+      "sink": {
+        "file": "src/option.dart",
+        "method": "getOrDefault",
+        "kind": "return"
+      },
+      "expected": true,
+      "rationale": "The deprecated getter forwards to valueOrDefault.",
+      "via": "valueOrDefault"
+    },
+    {
+      "id": "value-not-default",
+      "source": {
+        "file": "src/option.dart",
+        "method": "valueOrDefault",
+        "kind": "parameter",
+        "name": "value"
+      },
+      "sink": {
+        "file": "src/option.dart",
+        "method": "valueOrDefault",
+        "kind": "return",
+        "code": "return defaultsTo;"
+      },
+      "expected": false,
+      "rationale": "The fallback reads the default field, not the supplied value."
+    },
+    {
+      "id": "forwarded-constructor-name",
+      "source": {
+        "file": "src/arg_results.dart",
+        "method": "newArgResults",
+        "kind": "parameter",
+        "name": "name"
+      },
+      "sink": {
+        "file": "src/arg_results.dart",
+        "method": "_",
+        "kind": "fieldWrite",
+        "owner": "ArgResults",
+        "name": "name"
+      },
+      "expected": true,
+      "rationale": "The helper forwards six constructor arguments; only name initializes the name field.",
+      "via": "_"
+    },
+    {
+      "id": "forwarded-constructor-parsed",
+      "source": {
+        "file": "src/arg_results.dart",
+        "method": "newArgResults",
+        "kind": "parameter",
+        "name": "parsed"
+      },
+      "sink": {
+        "file": "src/arg_results.dart",
+        "method": "_",
+        "kind": "fieldWrite",
+        "owner": "ArgResults",
+        "name": "name"
+      },
+      "expected": false,
+      "rationale": "The helper forwards six constructor arguments; only name initializes the name field."
+    }
+  ],
+  "async": [
+    {
+      "id": "error-not-stacktrace",
+      "source": {
+        "file": "src/result/error.dart",
+        "method": "complete",
+        "kind": "call",
+        "field": "error",
+        "name": "<operator>.fieldAccess"
+      },
+      "sink": {
+        "file": "src/result/error.dart",
+        "method": "complete",
+        "kind": "call",
+        "argument": 2,
+        "name": "completeError"
+      },
+      "expected": false,
+      "rationale": "The error and stackTrace fields are separate arguments."
+    },
+    {
+      "id": "error-to-error-argument",
+      "source": {
+        "file": "src/result/error.dart",
+        "method": "complete",
+        "kind": "call",
+        "field": "error",
+        "name": "<operator>.fieldAccess"
+      },
+      "sink": {
+        "file": "src/result/error.dart",
+        "method": "complete",
+        "kind": "call",
+        "argument": 1,
+        "name": "completeError"
+      },
+      "expected": true,
+      "rationale": "ErrorResult forwards its error field to Completer.completeError."
+    },
+    {
+      "id": "value-to-event-sink",
+      "source": {
+        "file": "src/result/value.dart",
+        "method": "addTo",
+        "kind": "call",
+        "field": "value",
+        "name": "<operator>.fieldAccess"
+      },
+      "sink": {
+        "file": "src/result/value.dart",
+        "method": "addTo",
+        "kind": "call",
+        "argument": 1,
+        "name": "add"
+      },
+      "expected": true,
+      "rationale": "ValueResult forwards the stored value to EventSink.add."
+    },
+    {
+      "id": "cancellation-cascade",
+      "source": {
+        "file": "src/cancelable_operation.dart",
+        "method": "fromValue",
+        "kind": "parameter",
+        "name": "value"
+      },
+      "sink": {
+        "file": "src/cancelable_operation.dart",
+        "method": "fromValue",
+        "kind": "call",
+        "argument": 1,
+        "name": "complete"
+      },
+      "expected": true,
+      "rationale": "A cascade passes the factory value to the completer."
+    }
+  ],
+  "http_parser": [
+    {
+      "id": "chunk-interprocedural-copy",
+      "source": {
+        "file": "src/chunked_coding/encoder.dart",
+        "method": "convert",
+        "kind": "parameter",
+        "name": "input"
+      },
+      "sink": {
+        "file": "src/chunked_coding/encoder.dart",
+        "method": "_convert",
+        "kind": "call",
+        "argument": 3,
+        "code": "list.setRange(cursor, cursor + end - start, bytes, start)",
+        "name": "setRange"
+      },
+      "expected": true,
+      "rationale": "ChunkedCodingEncoder.convert forwards the bytes to the output range copy.",
+      "via": "_convert"
+    },
+    {
+      "id": "chunk-return-buffer",
+      "source": {
+        "file": "src/chunked_coding/encoder.dart",
+        "method": "_convert",
+        "kind": "parameter",
+        "name": "bytes"
+      },
+      "sink": {
+        "file": "src/chunked_coding/encoder.dart",
+        "method": "_convert",
+        "kind": "return",
+        "code": "return list;"
+      },
+      "expected": true,
+      "rationale": "The returned buffer contains bytes copied by setRange (external mutation semantics)."
+    },
+    {
+      "id": "chunk-empty-return",
+      "source": {
+        "file": "src/chunked_coding/encoder.dart",
+        "method": "_convert",
+        "kind": "parameter",
+        "name": "bytes"
+      },
+      "sink": {
+        "file": "src/chunked_coding/encoder.dart",
+        "method": "_convert",
+        "kind": "return",
+        "code": "return isLast ? _doneChunk : const [];"
+      },
+      "expected": false,
+      "rationale": "The zero-length branch returns only fixed framing data."
+    },
+    {
+      "id": "captured-media-type",
+      "source": {
+        "file": "src/media_type.dart",
+        "method": "parse",
+        "kind": "parameter",
+        "name": "mediaType"
+      },
+      "sink": {
+        "file": "src/media_type.dart",
+        "method": "<lambda>",
+        "kind": "call",
+        "code": "StringScanner(mediaType)",
+        "argument": 1,
+        "name": "<init>"
+      },
+      "expected": true,
+      "rationale": "The parser closure captures the factory parameter for StringScanner."
+    },
+    {
+      "id": "error-message-value",
+      "source": {
+        "file": "src/utils.dart",
+        "method": "wrapFormatException",
+        "kind": "parameter",
+        "name": "value"
+      },
+      "sink": {
+        "file": "src/utils.dart",
+        "method": "wrapFormatException",
+        "kind": "call",
+        "code": "FormatException(\n        'Invalid $name \"$value\": ${error.message}', error.source, error.offset)",
+        "argument": 1,
+        "name": "<init>"
+      },
+      "expected": true,
+      "rationale": "The failing parse input is interpolated into FormatException text."
+    }
+  ],
+  "analyzer": [
+    {
+      "id": "binary-byte-write",
+      "source": {
+        "file": "src/binary/binary_writer.dart",
+        "method": "writeByte",
+        "kind": "parameter",
+        "name": "byte"
+      },
+      "sink": {
+        "file": "src/binary/binary_writer.dart",
+        "method": "_addByte",
+        "kind": "call",
+        "code": "_buffer[_length++] = byte",
+        "name": "<operator>.assignment"
+      },
+      "expected": true,
+      "rationale": "writeByte forwards a byte into the internal buffer write.",
+      "via": "_addByte"
+    },
+    {
+      "id": "uint32-high-byte",
+      "source": {
+        "file": "src/binary/binary_writer.dart",
+        "method": "writeUint32",
+        "kind": "parameter",
+        "name": "value"
+      },
+      "sink": {
+        "file": "src/binary/binary_writer.dart",
+        "method": "_addByte4",
+        "kind": "parameter",
+        "name": "byte1"
+      },
+      "expected": true,
+      "rationale": "Bit shifts and masks feed the first byte of the four-byte writer.",
+      "via": "_addByte4"
+    },
+    {
+      "id": "write-byte-not-reset",
+      "source": {
+        "file": "src/binary/binary_writer.dart",
+        "method": "_addByte",
+        "kind": "parameter",
+        "name": "byte"
+      },
+      "sink": {
+        "file": "src/binary/binary_writer.dart",
+        "method": "_addByte",
+        "kind": "call",
+        "code": "_length = 0",
+        "name": "<operator>.assignment"
+      },
+      "expected": false,
+      "rationale": "Flushing resets length to zero independently of byte contents."
+    },
+    {
+      "id": "list-element-callback",
+      "source": {
+        "file": "src/binary/binary_writer.dart",
+        "method": "writeList",
+        "kind": "parameter",
+        "name": "items"
+      },
+      "sink": {
+        "file": "src/binary/binary_writer.dart",
+        "method": "writeList",
+        "kind": "call",
+        "argument": 1,
+        "name": "writeItem"
+      },
+      "expected": true,
+      "rationale": "The loop sends each list element to its callback."
+    },
+    {
+      "id": "fork-offset-field",
+      "source": {
+        "file": "src/binary/binary_reader.dart",
+        "method": "fork",
+        "kind": "parameter",
+        "name": "offset"
+      },
+      "sink": {
+        "file": "src/binary/binary_reader.dart",
+        "method": "fork",
+        "kind": "fieldWrite",
+        "name": "offset"
+      },
+      "expected": true,
+      "rationale": "fork writes the requested offset to the new reader."
+    }
+  ]
+}

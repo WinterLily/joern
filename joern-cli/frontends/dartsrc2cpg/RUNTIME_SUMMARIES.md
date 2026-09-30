@@ -1,11 +1,44 @@
 # Runtime library summary requirements
 
-Syntax lowering and library behavior are separate. This milestone installs no
-Dart library-specific dataflow summaries. Ordinary resolved source calls use
-method bodies; external calls use the OSS engine's default conservative behavior.
+Syntax lowering and library behavior are separate. Ordinary resolved source calls
+use method bodies; external calls use the OSS engine's default conservative
+behavior unless an explicit summary is loaded.
 The direct async fixture proves source argument/return/await dependencies only.
 The Flutter fixture proves a captured value reaches the sink expression inside
 a callback; it does not prove that Flutter invokes that callback.
+
+## Optional Completer summary
+
+The distribution includes `dataflow/async.semantics`, an opt-in summary for
+`dart:async`'s `Completer.completeError(error, stackTrace)`. It preserves both
+inputs in the receiver, keeps each input's identity, and prevents error/trace
+cross-contamination. The method has no returned value. It does not model delivery
+to a Future consumer. Focused positive/negative tests and the real `async`
+package exercise this contract.
+
+Load it for queries against an existing OSS dataflow overlay:
+
+```scala
+import io.joern.dataflowengineoss.DefaultSemantics
+import io.joern.dataflowengineoss.semanticsloader.FullNameSemanticsParser
+import io.joern.dataflowengineoss.queryengine.EngineContext
+val rules = new FullNameSemanticsParser()
+  .parseFile("/absolute/path/to/dartsrc2cpg/dataflow/async.semantics")
+  .map(_.copy(regex = true))
+val semantics = DefaultSemantics().plus(rules)
+semantics.initialize(cpg)
+val dartContext = EngineContext(semantics = semantics)
+// Pass dartContext explicitly to a reachableByFlows query:
+// sinks.reachableByFlows(sources)(dartContext)
+```
+
+Regex matching is required because analyzer declaration offsets vary between SDK
+versions. The file encodes the declaration separator as `\x23` because the
+semantics format treats a literal hash as a comment delimiter. This summary is
+not enabled automatically by `run.ossdataflow`; the corpus reports stock and
+modeled outcomes separately.
+
+## Remaining models
 
 Future summary work needs explicit contracts and positive/negative tests:
 

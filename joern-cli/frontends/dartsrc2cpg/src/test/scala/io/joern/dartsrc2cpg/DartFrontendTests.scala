@@ -1,6 +1,8 @@
 package io.joern.dartsrc2cpg
 
 import io.joern.dataflowengineoss.language.*
+import io.joern.dataflowengineoss.DefaultSemantics
+import io.joern.dataflowengineoss.semanticsloader.FullNameSemanticsParser
 import io.joern.dataflowengineoss.queryengine.EngineContext
 import io.joern.dataflowengineoss.layers.dataflows.{OssDataFlow, OssDataFlowOptions}
 import io.joern.x2cpg.{ValidationMode, X2Cpg}
@@ -82,6 +84,74 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         val reloaded = Cpg.withStorage(dir.resolve("cpg.bin"))
         try assertFlow(reloaded, true)
         finally reloaded.close()
+      }
+    }
+    "propagate constructor field values through returned instances and bare returns" in {
+      for (body <- Seq(";", "{ return; }"); creation <- Seq("Box(value)", "Box.create(value)")) {
+        fixture(
+          s"""class Box { final String value; Box(this.value)$body
+             |  factory Box.create(String value) = Box;
+             |}
+             |String relay(String value) => $creation.value;
+             |""".stripMargin,
+          "void main(List<String> args) { final input = args[0]; sink(relay(input)); }"
+        ) { (cpg, _) =>
+          withClue(s"$creation, constructor body $body: ") { assertFlow(cpg, true) }
+        }
+      }
+    }
+    "expose the engine approximation for fields of returned objects" in {
+      fixture(
+        """class Box { final String value; final String other = 'fixed'; Box(this.value); }
+          |String relay(String value) => Box(value).other;
+          |""".stripMargin,
+        "void main(List<String> args) { final input = args[0]; sink(relay(input)); }"
+      ) { (cpg, _) => // The shared engine tracks returned objects as a whole across method boundaries.
+        assertFlow(cpg, true)
+      }
+    }
+    "keep callable targets separate from mutable call arguments" in {
+      fixture(
+        """String relay(String value) => value;
+          |String invoke(String input, String safe, String Function(String) callback) {
+          |  callback(input);
+          |  return callback(safe);
+          |}
+          |""".stripMargin,
+        "void main(List<String> args) { final input = args[0]; sink(invoke(input, 'fixed', relay)); }"
+      ) { (cpg, _) =>
+        cpg.call.nameExact("callback").l.foreach { call =>
+          call.argument.argumentIndex.l shouldBe List(1)
+          call.receiver.argumentIndex.l shouldBe List(-1)
+        }
+        assertFlow(cpg, false)
+      }
+    }
+    "preserve completeError storage without mixing the error and stack trace" in {
+      fixture(
+        """import 'dart:async';
+          |void report(Object error, StackTrace trace) {
+          |  final completer = Completer<void>();
+          |  completer.completeError(error, trace);
+          |}
+          |""".stripMargin,
+        "void main() {}"
+      ) { (cpg, _) =>
+        val rules = new FullNameSemanticsParser()
+          .parseFile(frontend.resolve("dataflow/async.semantics").toString)
+          .map(_.copy(regex = true))
+        rules.size shouldBe 1
+        val semantics = DefaultSemantics().plus(rules)
+        semantics.initialize(cpg)
+        val modeled = EngineContext(semantics = semantics)
+        val call    = cpg.call.nameExact("completeError").head
+        semantics.forMethod(call.callee.head).isDefined shouldBe true
+        val error = cpg.method.nameExact("report").parameter.nameExact("error").l
+        val trace = cpg.method.nameExact("report").parameter.nameExact("trace").l
+        call.argument.argumentIndex(0).reachableByFlows(error)(modeled).nonEmpty shouldBe true
+        call.argument.argumentIndex(0).reachableByFlows(trace)(modeled).nonEmpty shouldBe true
+        call.argument.argumentIndex(2).reachableByFlows(error)(modeled).isEmpty shouldBe true
+        call.argument.argumentIndex(1).reachableByFlows(trace)(modeled).isEmpty shouldBe true
       }
     }
     "reject flow through a constant argument" in {
@@ -608,7 +678,7 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         dataflow = false
       ) { (cpg, _) =>
         cpg.call.nameExact("create").callee.name.l shouldBe List("<init>")
-        cpg.call.nameExact("create").argument(0).isCall.name.l shouldBe List("<operator>.alloc")
+        cpg.call.nameExact("create").argument(0).isIdentifier.refsTo.size shouldBe 1
         cpg.call.nameExact("echo").callee.name.l shouldBe List("identity")
         cpg.method.nameExact("apply").parameter.name.toSet should contain("callback")
         cpg.unknown.size shouldBe 0
@@ -620,7 +690,7 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
           "String relay({required String value, required String ignored}) => value;",
           s"void main(List<String> args) { final input = args[0]; final callback = relay; sink(callback(ignored: input, value: $value)); }"
         ) { (cpg, _) =>
-          cpg.call.nameExact("callback").argument.argumentIndex.toSet shouldBe Set(0, 1, 2)
+          cpg.call.nameExact("callback").argument.argumentIndex.toSet shouldBe Set(1, 2)
           cpg.call.nameExact("callback").argument(1).code.l shouldBe List(value)
           assertFlow(cpg, value == "input")
         }
@@ -869,6 +939,7 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
           button.argument.argumentNameExact("onPressed").isMethodRef.size shouldBe 1
           button.argument
             .argumentNameExact("child")
+            .ast
             .isCall
             .methodFullName("package:flutter/.*text.dart.*")
             .size shouldBe 1

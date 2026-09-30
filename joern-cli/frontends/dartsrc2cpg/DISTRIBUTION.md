@@ -107,3 +107,9 @@ bazel test //joern-cli/frontends/dartsrc2cpg:tests \
 Tests are local and use the real checkout for fixtures and `agents/` scratch
 space. Sbt remains the release packaging path. Bazel requires access to the
 repository's pinned `bazel_tooling` Git dependency and Maven repositories.
+
+The corpus suite also creates and reloads OSS dataflow overlays for every graph,
+checks per-method definition budgets, and executes the committed positive/negative
+queries with stock semantics and the optional `dataflow/async.semantics` model.
+The staged distribution includes that model; see
+[RUNTIME_SUMMARIES.md](RUNTIME_SUMMARIES.md) for explicit query-time loading.

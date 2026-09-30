@@ -1,5 +1,10 @@
 package io.joern.dartsrc2cpg
 
+import io.joern.dataflowengineoss.DefaultSemantics
+import io.joern.dataflowengineoss.semanticsloader.FullNameSemanticsParser
+import io.joern.dataflowengineoss.passes.reachingdef.{ReachingDefProblem, ReachingDefTransferFunction}
+import io.joern.dataflowengineoss.layers.dataflows.{OssDataFlow, OssDataFlowOptions}
+import io.shiftleft.semanticcpg.layers.LayerCreatorContext
 import io.joern.x2cpg.{ValidationMode, X2Cpg}
 import io.shiftleft.codepropertygraph.generated.Cpg
 import io.shiftleft.semanticcpg.language.*
@@ -87,11 +92,64 @@ class DartCorpusTests extends AnyWordSpec with Matchers {
           new PostFrontendValidator(cpg, ValidationLevel.V3).createAndApply()
           X2Cpg.applyDefaultOverlays(cpg)
           cpg.method.isExternal(false).size should be > 0
+          val started     = System.nanoTime()
+          val definitions = cpg.method
+            .isExternal(false)
+            .map { method =>
+              val problem = ReachingDefProblem.create(method)
+              method.fullName -> problem.transferFunction
+                .asInstanceOf[ReachingDefTransferFunction]
+                .gen
+                .values
+                .map(_.size)
+                .sum
+            }
+            .toMap
+          val maxDefinitions = definitions.values.max
+          maxDefinitions should be <= 20000
+          new OssDataFlow(new OssDataFlowOptions(maxNumberOfDefinitions = 20000)).run(new LayerCreatorContext(cpg))
+          Files.writeString(
+            root.resolve("dataflow-overlay.json"),
+            ujson.write(
+              ujson.Obj(
+                "elapsedMillis"     -> ujson.Num((System.nanoTime() - started) / 1000000.0),
+                "methods"           -> definitions.size,
+                "maxDefinitions"    -> maxDefinitions,
+                "definitionLimit"   -> 20000,
+                "aboveDefaultLimit" -> ujson.Obj.from(definitions.filter(_._2 > 4000).map { case (name, count) =>
+                  name -> ujson.Num(count)
+                })
+              )
+            )
+          )
         } finally cpg.close()
         val reloaded = Cpg.withStorage(output)
         try {
           reloaded.method.nameExact(project("probe").str).isExternal(false).size should be > 0
           reloaded.call.callee.isExternal(false).size should be > 0
+          val probes =
+            ujson.read(Files.readString(frontend.resolve("corpus/dataflow-probes.json")))(project("name").str).arr.toSeq
+          val defaultFlows = CorpusDataflow.audit(reloaded, probes, DefaultSemantics())
+          val summaries    = new FullNameSemanticsParser()
+            .parseFile(frontend.resolve("dataflow/async.semantics").toString)
+            .map(_.copy(regex = true))
+          val flows = CorpusDataflow.audit(reloaded, probes, DefaultSemantics().plus(summaries))
+          Files.writeString(
+            root.resolve("dataflow-audit.json"),
+            ujson.write(
+              ujson.Obj(
+                "defaultSemantics" -> defaultFlows,
+                "dartSummaries"    -> flows,
+                "reachingDefEdges" -> reloaded.cfgNode.map(_._reachingDefIn.size.toLong).sum.toDouble,
+                "maxCallDepth"     -> 4
+              ),
+              indent = 2
+            )
+          )
+          reloaded.metaData.overlays.l should contain("dataflowOss")
+          val defaultFailures = defaultFlows.arr.filterNot(_("passed").bool).map(_("id").str).toSet
+          defaultFailures shouldBe (if (project("name").str == "async") Set("error-not-stacktrace")
+                                    else Set.empty[String])
           val errors = audit(reloaded, project("name").str)
           val report = ujson.Obj(
             "project"      -> name,
@@ -112,6 +170,8 @@ class DartCorpusTests extends AnyWordSpec with Matchers {
           )
           Files.writeString(root.resolve("audit.json"), ujson.write(report, indent = 2))
           withClue(errors.take(30).mkString("\n")) { errors shouldBe empty }
+          val failedFlows = flows.arr.filterNot(_("passed").bool).map(_("id").str)
+          withClue(s"Dataflow failures in $name: ") { failedFlows shouldBe empty }
           val expected = baseline.find(_("project").str == name).get
           expected.obj.foreach { case (key, value) =>
             withClue(s"$name: $key: ") { report(key) shouldBe value }

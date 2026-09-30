@@ -25,7 +25,12 @@ source evaluation order in `order`, parameter binding in `argumentIndex`, and
 named bindings in `argumentName`. Omitted optional arguments follow explicit
 arguments as constant literals, using exported default source or `null`.
 
-Generative creation has an allocation receiver. Initializing formals and field
+Generative creation is a block that saves an allocation in a local, initializes
+that receiver, and yields the same local. Generative constructors, including
+implicit and representation constructors, return `this` in the graph; a bare
+constructor return also yields `this`. This connects initialized fields to the
+value used by the caller. Factory results are also saved before use so field
+reads have a tracked receiver. Initializing formals and field
 initializers assign fields in constructor bodies. Redirecting constructors call
 their targets; redirecting factories forward parameters by position/name and
 return the target creation. Super formals bind to exported superclass parameters.
@@ -33,7 +38,10 @@ Implicit constructors and super calls are included. Static and top-level field
 initializers live in `<clinit>` methods. Dart's lazy initialization timing is not
 modeled by scheduling these methods at particular reads.
 
-Function values and tear-offs use METHOD_REF nodes. Closures have captured locals
+Function values and tear-offs use METHOD_REF nodes. Function-value invocation
+evaluates its target as a RECEIVER child with argument index -1, without an
+ARGUMENT edge. Only actual arguments participate in argument/parameter flow;
+otherwise a callback target can incorrectly carry taint between invocations. Closures have captured locals
 and CLOSURE_BINDING edges with BY_REFERENCE semantics. Bound instance tear-offs
 use wrapper methods capturing a receiver evaluated once. Final local function
 values with a known initializer link to that target. Arbitrary mutable function
@@ -131,6 +139,8 @@ potential throwing instruction to every applicable handler, or route every abrup
 exit through finally. Catch locals and finally bodies are retained structurally.
 Collection and field dependencies use the shared dataflow engine's heap model;
 these tests do not establish full object-sensitive heap or callback analysis.
+In particular, returned objects can carry constructor input into unrelated
+constant fields. A regression records this shared-engine approximation.
 
 ## Regression coverage
 
