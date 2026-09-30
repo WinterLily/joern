@@ -8,10 +8,10 @@
       "files": 13,
       "nodes": 6084,
       "partialFiles": 0,
-      "unsupportedConstructs": 1,
+      "unsupportedConstructs": 0,
       "unresolvedCalls": 0,
-      "elapsedMillis": 232,
-      "peakRssBytes": 112533504
+      "elapsedMillis": 226,
+      "peakRssBytes": 111173632
     },
     {
       "name": "collection",
@@ -19,10 +19,65 @@
       "files": 29,
       "nodes": 16422,
       "partialFiles": 0,
-      "unsupportedConstructs": 8,
+      "unsupportedConstructs": 0,
       "unresolvedCalls": 107,
-      "elapsedMillis": 288,
-      "peakRssBytes": 105852928
+      "elapsedMillis": 291,
+      "peakRssBytes": 106778624
+    },
+    {
+      "name": "meta",
+      "version": "1.17.0",
+      "files": 3,
+      "nodes": 532,
+      "partialFiles": 0,
+      "unsupportedConstructs": 0,
+      "unresolvedCalls": 0,
+      "elapsedMillis": 160,
+      "peakRssBytes": 104431616
+    },
+    {
+      "name": "args",
+      "version": "2.7.0",
+      "files": 12,
+      "nodes": 6195,
+      "partialFiles": 0,
+      "unsupportedConstructs": 0,
+      "unresolvedCalls": 4,
+      "elapsedMillis": 212,
+      "peakRssBytes": 104611840
+    },
+    {
+      "name": "async",
+      "version": "2.13.0",
+      "files": 45,
+      "nodes": 10087,
+      "partialFiles": 0,
+      "unsupportedConstructs": 8,
+      "unresolvedCalls": 26,
+      "elapsedMillis": 294,
+      "peakRssBytes": 114958336
+    },
+    {
+      "name": "http_parser",
+      "version": "4.1.2",
+      "files": 11,
+      "nodes": 2802,
+      "partialFiles": 0,
+      "unsupportedConstructs": 0,
+      "unresolvedCalls": 3,
+      "elapsedMillis": 237,
+      "peakRssBytes": 113717248
+    },
+    {
+      "name": "analyzer",
+      "version": "8.4.1",
+      "files": 458,
+      "nodes": 598834,
+      "partialFiles": 0,
+      "unsupportedConstructs": 150,
+      "unresolvedCalls": 209,
+      "elapsedMillis": 6613,
+      "peakRssBytes": 483332096
     }
   ]
 }

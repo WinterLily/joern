@@ -151,3 +151,28 @@ V3 and default overlays. Dataflow fixtures additionally use OSS dataflow.
 | Integration | Two-file flow and graph reload; staged CLI and console regression |
 
 For milestone 4 coverage and exact limits, see the [feature matrix](FEATURES.md).
+
+## Corpus-driven lowering checks
+
+Increment/decrement operands use analyzer read/write identities. Locals and
+synthetic fields retain standard pre/post operators. Custom accessors evaluate
+the receiver and getter once, call the setter with the updated value, and return
+the old value for postfix or the updated value for prefix expressions. Closure
+capture discovery includes read/write and invocation targets, including writes
+without reads and callable parameters.
+
+Enhanced enums are TYPE_DECLs with constant MEMBERs, constructor calls in a
+static initializer, and source-declared constructors and methods. Implicit
+constructors are retained. Generated enum `values` lists and `index`/`name`
+implementation details are not synthesized.
+
+Assertions branch on `<operator>.assertionsEnabled`, preserving both enabled
+and disabled execution. The condition executes only on the enabled path; the
+message executes only on the failure path before a THROW. This does not select
+a Dart build mode or model the precise AssertionError constructor.
+
+Labels on loops and blocks produce separate break and continue targets. Labeled
+break goes after the labeled statement; labeled continue goes to the loop update
+or condition, bypassing the remaining body. Switch-case labels remain unsupported.
+Dynamic object-pattern fields retain field access on the matched value when the
+analyzer cannot resolve a getter, instead of creating an unbound identifier.

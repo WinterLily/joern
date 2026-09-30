@@ -44,6 +44,8 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
     var cascadeReceiver: Option[() => Ast] = None
     var temporary                          = 0
     val receiverOverrides                  = mutable.Map.empty[Int, () => Ast]
+    val labelTargets                       = mutable.Map.empty[String, (String, String)]
+    val continueTargets                    = mutable.Map.empty[Int, String]
     val guardedAccesses                    = mutable.Set.empty[Int]
 
     def children(syntax: Value, role: String): Seq[Value] =
@@ -258,9 +260,65 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
           if (bool(target, "synthetic")) field(syntax, base, name)
           else call(syntax, id, name, None, if (bool(target, "static")) None else Some(base))
         case "FIELD" | "TOP_LEVEL_VARIABLE" => field(syntax, base, name)
-        case _ if id.isEmpty && Set("PropertyAccess", "PrefixedIdentifier").contains(string(syntax, "kind")) =>
+        case _
+            if id.isEmpty && Set("PropertyAccess", "PrefixedIdentifier", "PatternField").contains(
+              string(syntax, "kind")
+            ) =>
           field(syntax, base, name)
         case _ => identifier(syntax, name, id, tpe(syntax))
+      }
+    }
+    def update(syntax: Value, left: Value)(assign: (() => Ast, Ast => Ast) => Ast): Ast = {
+      def access(receiver: () => Ast): Ast = {
+        val readId                 = string(syntax, "read", string(left, "reference"))
+        val writeId                = string(syntax, "write", string(left, "reference"))
+        def read(): Ast            = reference(left, readId, string(left, "name"), Some(receiver()))
+        def write(value: Ast): Ast = {
+          if (string(sym(writeId), "kind") == "SETTER" && !bool(sym(writeId), "synthetic")) {
+            val out = located(
+              NewCall()
+                .name(string(left, "name"))
+                .methodFullName(writeId)
+                .code(code(syntax))
+                .typeFullName(tpe(syntax))
+                .dispatchType(
+                  if (bool(sym(writeId), "static")) DispatchTypes.STATIC_DISPATCH else DispatchTypes.DYNAMIC_DISPATCH
+                ),
+              syntax
+            )
+            if (bool(sym(writeId), "static")) args(out, Seq(value))
+            else {
+              val base = receiver()
+              args(out, Seq(base, value), Seq(0, 1)).withReceiverEdge(out, base.root.get)
+            }
+          } else
+            operator(
+              syntax,
+              Operators.assignment,
+              Seq(reference(left, writeId, string(left, "name"), Some(receiver())), value)
+            )
+        }
+        assign(() => read(), write)
+      }
+      string(left, "kind") match {
+        case "IndexExpression" =>
+          val target = children(left, "target").headOption
+            .map(expression)
+            .orElse(cascadeReceiver.map(_()))
+            .getOrElse(thisAst(left))
+          saved(syntax, target)(base =>
+            saved(syntax, expression(child(left, "index")))(index => {
+              def read(): Ast = operator(left, Operators.indexAccess, Seq(base(), index()))
+              assign(() => read(), value => operator(syntax, Operators.assignment, Seq(read(), value)))
+            })
+          )
+        case "PropertyAccess" | "PrefixedIdentifier" =>
+          val base = children(left, "receiver").headOption
+            .map(expression)
+            .orElse(cascadeReceiver.map(_()))
+            .getOrElse(thisAst(left))
+          if (bool(left, "nullAware")) guarded(syntax, base)(access) else saved(syntax, base)(access)
+        case _ => access(() => thisAst(left))
       }
     }
     def binaryOperators = Map(
@@ -493,6 +551,31 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
           }
           Seq(matched, result())
         }
+      case "AssertStatement" | "AssertInitializer" =>
+        val failure = Ast(
+          located(
+            NewControlStructure()
+              .controlStructureType(ControlStructureTypes.THROW)
+              .code("<assertion failure>"),
+            syntax
+          )
+        ).withChildren(children(syntax, "message").map(expression))
+        block(
+          syntax,
+          Seq(
+            control(
+              syntax,
+              ControlStructureTypes.IF,
+              operator(syntax, "<operator>.assertionsEnabled", Nil),
+              control(
+                syntax,
+                ControlStructureTypes.IF,
+                operator(syntax, Operators.logicalNot, Seq(expression(child(syntax, "condition")))),
+                failure
+              )
+            )
+          )
+        )
       case "AwaitExpression" => operator(syntax, "<operator>.await", Seq(expression(child(syntax, "expression"))))
       case "YieldStatement"  =>
         operator(
@@ -561,6 +644,15 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
             Some(child(syntax, "arguments")),
             if (bool(target, "static") && !functionValue) None else receiver
           )
+      case "EnumConstantDeclaration" =>
+        val constructorName = string(symbol(syntax, "target"), "name", "new")
+        call(
+          syntax,
+          string(syntax, "target"),
+          if (constructorName == "new") "<init>" else constructorName,
+          children(syntax, "arguments").headOption,
+          Some(operator(syntax, Operators.alloc, Nil))
+        )
       case "InstanceCreationExpression" =>
         call(
           syntax,
@@ -633,57 +725,7 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
               )
             )
         }
-        def access(receiver: () => Ast): Ast = {
-          val readId                 = string(syntax, "read", string(left, "reference"))
-          val writeId                = string(syntax, "write", string(left, "reference"))
-          def read(): Ast            = reference(left, readId, string(left, "name"), Some(receiver()))
-          def write(value: Ast): Ast = {
-            if (string(sym(writeId), "kind") == "SETTER" && !bool(sym(writeId), "synthetic")) {
-              val out = located(
-                NewCall()
-                  .name(string(left, "name"))
-                  .methodFullName(writeId)
-                  .code(code(syntax))
-                  .typeFullName(tpe(syntax))
-                  .dispatchType(
-                    if (bool(sym(writeId), "static")) DispatchTypes.STATIC_DISPATCH else DispatchTypes.DYNAMIC_DISPATCH
-                  ),
-                syntax
-              )
-              if (bool(sym(writeId), "static")) args(out, Seq(value))
-              else {
-                val base = receiver()
-                args(out, Seq(base, value), Seq(0, 1)).withReceiverEdge(out, base.root.get)
-              }
-            } else
-              operator(
-                syntax,
-                Operators.assignment,
-                Seq(reference(left, writeId, string(left, "name"), Some(receiver())), value)
-              )
-          }
-          assign(() => read(), write)
-        }
-        string(left, "kind") match {
-          case "IndexExpression" =>
-            val target = children(left, "target").headOption
-              .map(expression)
-              .orElse(cascadeReceiver.map(_()))
-              .getOrElse(thisAst(left))
-            saved(syntax, target)(base =>
-              saved(syntax, expression(child(left, "index")))(index => {
-                def read(): Ast = operator(left, Operators.indexAccess, Seq(base(), index()))
-                assign(() => read(), value => operator(syntax, Operators.assignment, Seq(read(), value)))
-              })
-            )
-          case "PropertyAccess" | "PrefixedIdentifier" =>
-            val base = children(left, "receiver").headOption
-              .map(expression)
-              .orElse(cascadeReceiver.map(_()))
-              .getOrElse(thisAst(left))
-            if (bool(left, "nullAware")) guarded(syntax, base)(access) else saved(syntax, base)(access)
-          case _ => access(() => thisAst(left))
-        }
+        update(syntax, left)(assign)
       case "BinaryExpression" =>
         if (string(syntax, "operator") == "??")
           saved(syntax, expression(child(syntax, "left")))(ref =>
@@ -720,7 +762,34 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
           case "--" => if (prefix) Operators.preDecrement else Operators.postDecrement
           case _    => "<operator>.unknown"
         }
-        operator(syntax, name, Seq(expression(child(syntax, "operand"))))
+        val operand  = child(syntax, "operand")
+        val readId   = string(syntax, "read", string(operand, "reference"))
+        val writeId  = string(syntax, "write", string(operand, "reference"))
+        val accessor = Seq(readId, writeId).exists(id =>
+          Set("GETTER", "SETTER").contains(string(sym(id), "kind")) && !bool(sym(id), "synthetic")
+        )
+        if (Set("++", "--").contains(string(syntax, "operator")) && accessor) {
+          update(syntax, operand) { (read, write) =>
+            saved(syntax, read()) { before =>
+              saved(
+                syntax,
+                operator(
+                  syntax,
+                  if (string(syntax, "operator") == "++") Operators.addition else Operators.subtraction,
+                  Seq(before(), literal(syntax, "1", "int"))
+                )
+              ) { after =>
+                block(syntax, Seq(write(after()), if (prefix) after() else before()))
+              }
+            }
+          }
+        } else {
+          val value = if (readId.nonEmpty && string(operand, "kind") != "IndexExpression") {
+            val receiver = children(operand, "receiver").headOption.map(expression).orElse(cascadeReceiver.map(_()))
+            reference(operand, readId, string(operand, "name"), receiver)
+          } else expression(operand)
+          operator(syntax, name, Seq(value))
+        }
       case "StringInterpolation" | "AdjacentStrings" =>
         operator(syntax, "<operator>.formatString", children(syntax, "element").map(expression))
       case "ListLiteral" | "SetOrMapLiteral" =>
@@ -766,6 +835,10 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
       otherwise.foreach(bodySyntax => ast = ast.withChild(bodySyntax).withFalseBodyEdge(out, bodySyntax.root.get))
       ast
     }
+    def jumpTarget(syntax: Value, name: String): Ast =
+      Ast(located(NewJumpTarget().name(name).code(name).parserTypeName("Label"), syntax))
+    def loopBody(syntax: Value): Seq[Ast] =
+      statements(child(syntax, "body")) ++ continueTargets.get(syntax("id").num.toInt).map(jumpTarget(syntax, _))
     def statements(syntax: Value): Seq[Ast] = string(syntax, "kind") match {
       case "Block"                               => children(syntax, "statement").flatMap(statements)
       case "PatternVariableDeclarationStatement" => Seq(expression(child(syntax, "declaration")))
@@ -804,7 +877,7 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
             syntax,
             if (string(syntax, "kind") == "WhileStatement") ControlStructureTypes.WHILE else ControlStructureTypes.DO,
             expression(child(syntax, "condition")),
-            block(syntax, statements(child(syntax, "body")))
+            block(syntax, loopBody(syntax))
           )
         )
       case "ForStatement" | "ForElement" =>
@@ -848,7 +921,7 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
                     Seq(call(syntax, "<unresolved>.moveNext", "moveNext", None, Some(ref())))
                   )
                 else call(syntax, "<unresolved>.moveNext", "moveNext", None, Some(ref())),
-                block(syntax, Seq(assign) ++ statements(child(syntax, "body")))
+                block(syntax, Seq(assign) ++ loopBody(syntax))
               )
             })
           declaration :+ loop
@@ -858,7 +931,7 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
           val init = block(syntax, children(parts, "init").flatMap(statements))
           val cond = children(parts, "condition").headOption.map(expression).getOrElse(literal(syntax, "true", "bool"))
           val update = block(syntax, children(parts, "update").map(expression))
-          val body   = block(syntax, statements(child(syntax, "body")))
+          val body   = block(syntax, loopBody(syntax))
           Seq(
             Ast(out)
               .withChildren(Seq(init, cond, update, body))
@@ -868,6 +941,19 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
               .withForBodyEdge(out, body.root.get)
           )
         }
+      case "LabeledStatement" =>
+        val previous = labelTargets.toMap
+        temporary += 1
+        val end         = s"<break>$temporary"
+        val next        = s"<continue>$temporary"
+        val statement   = child(syntax, "statement")
+        val statementId = statement("id").num.toInt
+        strings(syntax, "labels").foreach(label => labelTargets(label) = (end, next))
+        continueTargets(statementId) = next
+        val body = statements(statement)
+        continueTargets.remove(statementId)
+        labelTargets.clear(); labelTargets ++= previous
+        body :+ jumpTarget(syntax, end)
       case "BreakStatement" | "ContinueStatement" =>
         val out = located(
           NewControlStructure()
@@ -878,7 +964,13 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
             .code(code(syntax)),
           syntax
         )
-        Seq(Ast(out))
+        val labels = children(syntax, "label").flatMap { label =>
+          labelTargets.get(string(label, "name")).map { case (end, next) =>
+            val target = if (string(syntax, "kind") == "BreakStatement") end else next
+            Ast(NewJumpLabel().name(target).code(code(label)))
+          }
+        }
+        Seq(Ast(out).withChildren(labels))
       case "SwitchStatement"
           if children(syntax, "member").exists(memberSyntax => string(memberSyntax, "kind") == "SwitchPatternCase") =>
         Seq(saved(syntax, expression(child(syntax, "condition"))) { ref =>
@@ -967,17 +1059,15 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
       val ref      = located(NewMethodRef().code(code(syntax)).methodFullName(id).typeFullName(tpe(function)), syntax)
       var refAst   = Ast(ref)
       // Capture only referenced lexical declarations, never members or unrelated locals.
-      def references(valueSyntax: Value): Set[String] =
-        Set(
-          string(valueSyntax, "reference")
-        ) ++ (if (
-                Set("ThisExpression", "SuperExpression")
-                  .contains(string(valueSyntax, "kind")) || Set("FIELD", "GETTER", "SETTER", "METHOD")
-                  .contains(string(symbol(valueSyntax, "reference"), "kind"))
-              ) Set("this")
-              else Set.empty[String]) ++ valueSyntax("children").arr.flatMap(clauseNode =>
-          references(nodes(clauseNode("node").num.toInt))
-        )
+      def references(valueSyntax: Value): Set[String] = {
+        val referenced = Set("reference", "read", "write", "target").map(string(valueSyntax, _)).filter(_.nonEmpty)
+        val needsThis  = Set("ThisExpression", "SuperExpression").contains(string(valueSyntax, "kind")) ||
+          referenced.exists(id =>
+            Set("FIELD", "GETTER", "SETTER", "METHOD").contains(string(sym(id), "kind")) && !bool(sym(id), "static")
+          )
+        referenced ++ (if (needsThis) Set("this") else Set.empty[String]) ++
+          valueSyntax("children").arr.flatMap(clauseNode => references(nodes(clauseNode("node").num.toInt)))
+      }
       references(function).toSeq.sorted.filter(outer.contains).foreach { key =>
         outer(key) match {
           case local: NewLocal =>
@@ -1252,7 +1342,8 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
         Seq(Ast(receiver))
       } else Nil
       val values = fields.flatMap(fieldSyntax =>
-        children(fieldSyntax, "initializer").map(init =>
+        (if (string(fieldSyntax, "kind") == "EnumConstantDeclaration") Seq(fieldSyntax)
+         else children(fieldSyntax, "initializer")).map(init =>
           operator(
             fieldSyntax,
             Operators.assignment,
@@ -1343,7 +1434,8 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
       case "MethodDeclaration" | "ConstructorDeclaration"     => Seq(method(syntax, syntax))
       case "TopLevelVariableDeclaration" | "FieldDeclaration" =>
         children(child(syntax, "variables"), "variable").map(member)
-      case "ClassDeclaration" | "MixinDeclaration" | "ExtensionDeclaration" | "ExtensionTypeDeclaration" =>
+      case "ClassDeclaration" | "EnumDeclaration" | "MixinDeclaration" | "ExtensionDeclaration" |
+          "ExtensionTypeDeclaration" =>
         val previousOwner       = owner
         val previousType        = ownerType
         val previousCurrentType = currentType
@@ -1353,6 +1445,7 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
         currentType = string(syntax, "declaration")
         val members        = children(syntax, "member")
         val representation = children(syntax, "representation")
+        val constants      = children(syntax, "constant")
         val variables      = members
           .filter(memberSyntax => string(memberSyntax, "kind") == "FieldDeclaration")
           .flatMap(memberSyntax => children(child(memberSyntax, "variables"), "variable"))
@@ -1361,7 +1454,7 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
           members.filter(memberSyntax => string(memberSyntax, "kind") == "FieldDeclaration").flatMap(declaration)
         val methods =
           members.filterNot(memberSyntax => string(memberSyntax, "kind") == "FieldDeclaration").flatMap(declaration)
-        val staticFields = variables.filter(fieldSyntax =>
+        val staticFields = constants ++ variables.filter(fieldSyntax =>
           bool(symbol(fieldSyntax), "static") && children(fieldSyntax, "initializer").nonEmpty
         )
         val initializers =
@@ -1400,7 +1493,11 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
           .map(modifier => Ast(NewModifier().modifierType(modifier)))
         val annotations =
           modifiers.map(modifier => Ast(NewAnnotation().name(modifier).fullName(s"dart.$modifier").code(modifier)))
-        Seq(Ast(out).withChildren(fields ++ representationAsts ++ methods ++ initializers ++ standard ++ annotations))
+        Seq(
+          Ast(out).withChildren(
+            fields ++ constants.map(member) ++ representationAsts ++ methods ++ initializers ++ standard ++ annotations
+          )
+        )
       case _ => Seq(unknown(syntax))
     }
     strings(unit, "unsupportedKinds").foreach(kind => logger.warn(s"Unsupported Dart syntax $kind in $filename"))

@@ -277,6 +277,123 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         cpg.call.nameExact("sink").argument.reachableByFlows(cpg.identifier.nameExact("input")).nonEmpty shouldBe true
       }
     }
+    "read dynamic object pattern fields from the matched receiver" in {
+      fixture(
+        "",
+        """void main(Object? value) {
+        |  if (value case dynamic(:var runtimeType)) print(runtimeType);
+        |}""".stripMargin,
+        dataflow = false
+      ) { (cpg, _) =>
+        cpg.fieldIdentifier.canonicalNameExact("runtimeType").size shouldBe 1
+        cpg.identifier.nameExact("runtimeType").l.foreach(_.refsTo.name.l shouldBe List("runtimeType"))
+        cpg.call.nameExact("<operator>.fieldAccess").argument(1).isIdentifier.refsTo.size shouldBe 1
+      }
+    }
+    "retain enhanced enum constructors, constants and method bodies" in {
+      fixture(
+        """enum Mode {
+          |  first('one'), second.named('two');
+          |  final String text;
+          |  const Mode(this.text);
+          |  const Mode.named(this.text);
+          |  String relay(String value) => value;
+          |}
+          |enum Plain { first, second }
+          |""".stripMargin,
+        "void main(List<String> args) { final input = args[0]; sink(Mode.first.relay(input)); }"
+      ) { (cpg, _) =>
+        cpg.typeDecl.nameExact("Mode", "Plain").size shouldBe 2
+        cpg.member.nameExact("first", "second").size shouldBe 4
+        cpg.call.nameExact("relay").callee.isExternal(false).size shouldBe 1
+        cpg.method.fullName(".*:ENUM:Mode:<clinit>").ast.isCall.nameExact("<init>", "named").size shouldBe 2
+        cpg.unknown.size shouldBe 0
+        assertFlow(cpg, true)
+      }
+    }
+    "preserve assertion evaluation and route labeled loop jumps" in {
+      fixture(
+        "class Box { Box(bool flag) : assert(flag, 'invalid'); }",
+        """bool check() => true;
+          |String message() => 'failed';
+          |void main() {
+          |  assert(check(), message());
+          |  outer: for (var i = 0; i < 3; i++) {
+          |    while (check()) { if (check()) continue outer; break outer; }
+          |  }
+          |  sink('done');
+          |}
+          |""".stripMargin,
+        dataflow = false
+      ) { (cpg, _) =>
+        cpg.unknown.size shouldBe 0
+        cpg.call.nameExact("<operator>.assertionsEnabled").size shouldBe 2
+        val failure = cpg.controlStructure.codeExact("<assertion failure>").l
+        failure.size shouldBe 2
+        cpg.call.nameExact("message").cfgNext.l should contain(failure.find(_.method.name == "main").get)
+        val continued = cpg.controlStructure.codeExact("continue outer;").cfgNext.l
+        continued.map(_.code).exists(_.startsWith("<continue>")) shouldBe true
+        continued.iterator.cfgNext.code.l should contain("i")
+        val broken = cpg.controlStructure.codeExact("break outer;").cfgNext.l
+        broken.map(_.code).exists(_.startsWith("<break>")) shouldBe true
+        broken.iterator.cfgNext.code.l should contain("'done'")
+      }
+    }
+    "retain increment bindings and evaluate accessor receivers once" in {
+      fixture(
+        """class Box {
+          |  int field = 0;
+          |  int get value => field;
+          |  set value(int next) { field = next; }
+          |  Function callback() => () { field++; };
+          |}
+          |Box make() => Box();
+          |""".stripMargin,
+        "void main() { var count = 0; count++; --count; var old = make().value++; var next = ++make().value; }",
+        dataflow = false
+      ) { (cpg, _) =>
+        cpg.identifier.nameExact("count").l.foreach(_.refsTo.name.l shouldBe List("count"))
+        cpg.identifier.nameExact("field").size shouldBe 0
+        cpg.fieldIdentifier.canonicalNameExact("field").size should be > 0
+        cpg.call.nameExact("make").size shouldBe 2
+        cpg.call.callee.fullName(".*:GETTER:value").size shouldBe 2
+        cpg.call.callee.fullName(".*:SETTER:value").size shouldBe 2
+        cpg.local.filter(_.closureBindingId.nonEmpty).name.toSet shouldBe Set("this")
+        val updates = cpg.call.nameExact("<operator>.assignment").code("<tmp>.*make.*").l
+        updates.nonEmpty shouldBe true
+      }
+    }
+    "capture write-only variables, callable parameters and implicit receivers in closures" in {
+      fixture(
+        """class Box {
+          |  bool active = true;
+          |  void reset() {}
+          |  Function callback(void Function() action) {
+          |    var written = 0;
+          |    return () { active = false; written = 1; reset(); action(); };
+          |  }
+          |}
+          |""".stripMargin,
+        "void main() {}",
+        dataflow = false
+      ) { (cpg, _) =>
+        cpg.local.filter(_.closureBindingId.nonEmpty).name.toSet shouldBe Set("this", "written", "action")
+        cpg.closureBinding.size shouldBe 3
+        val captured = cpg.identifier
+          .nameExact("this", "written", "action")
+          .filter(_.refsTo.exists {
+            case local: io.shiftleft.codepropertygraph.generated.nodes.Local => local.closureBindingId.nonEmpty
+            case _                                                           => false
+          })
+          .l
+        captured.map(_.name).toSet shouldBe Set("this", "written", "action")
+        captured.foreach { id =>
+          id.refsTo.collect { case local: io.shiftleft.codepropertygraph.generated.nodes.Local =>
+            local
+          }.size shouldBe 1
+        }
+      }
+    }
     "represent closure captures, nested functions and tear-offs" in {
       fixture(
         "String relay(String value) => value;",
@@ -517,9 +634,12 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
       }
     }
     "report unhandled syntax explicitly" in {
-      fixture("String relay(String value) => value;", "enum Color { red, blue }\nvoid main() {}", dataflow = false) {
-        (cpg, _) =>
-          cpg.unknown.parserTypeName.l should contain("EnumDeclaration")
+      fixture(
+        "String relay(String value) => value;",
+        "typedef Callback = void Function();\nvoid main() {}",
+        dataflow = false
+      ) { (cpg, _) =>
+        cpg.unknown.parserTypeName.l should contain("GenericTypeAlias")
       }
     }
     "model records, destructuring, guarded patterns and switch expressions" in {
@@ -798,7 +918,7 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         "offsetEncoding"  -> "utf-16",
         "analyzerVersion" -> "8.4.1",
         "sdkVersion"      -> "3.9.2",
-        "exporterVersion" -> "0.3.0"
+        "exporterVersion" -> "0.3.1"
       )
       intercept[IllegalArgumentException](ExportProtocol.units(Seq(valid)))
       intercept[IllegalArgumentException](

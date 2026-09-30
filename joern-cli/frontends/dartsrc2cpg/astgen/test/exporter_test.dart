@@ -35,6 +35,54 @@ void main() {
 
   tearDown(() => project.deleteSync(recursive: true));
 
+  test(
+    'export update targets and executable enum and labeled syntax',
+    () async {
+      write('main.dart', '''enum Mode {
+      first(1), second(2);
+      final int value;
+      const Mode(this.value) : assert(value > 0);
+      int read() => value;
+    }
+    void main() {
+      var counter = 0;
+      outer: while (counter < 3) {
+        counter++;
+        --counter;
+        assert(counter >= 0, 'negative');
+        break outer;
+      }
+    }
+    ''');
+      final unit = units(await export()).single;
+      final nodes = entries(unit, 'nodes');
+      expect(unit['status'], 'resolved');
+      expect(unit['unsupportedKinds'], isEmpty);
+      final updates = nodes.where(
+        (n) =>
+            n['kind'] == 'PrefixExpression' || n['kind'] == 'PostfixExpression',
+      );
+      expect(updates, hasLength(2));
+      for (final update in updates) {
+        expect(update['read'], isNotNull);
+        expect(update['write'], update['read']);
+      }
+      expect(
+        nodes.where((n) => n['kind'] == 'EnumConstantDeclaration'),
+        everyElement(containsPair('target', isNotNull)),
+      );
+      expect(
+        nodes.singleWhere((n) => n['kind'] == 'LabeledStatement')['labels'],
+        ['outer'],
+      );
+      expect(
+        nodes.where((n) => n['kind'] == 'AssertInitializer'),
+        hasLength(1),
+      );
+      expect(nodes.where((n) => n['kind'] == 'AssertStatement'), hasLength(1));
+    },
+  );
+
   test('an unreadable source retains a diagnostic and other files', () async {
     File(p.join(project.path, 'broken.dart')).writeAsBytesSync([0xff, 0xfe]);
     write('good.dart', 'void good() {}');

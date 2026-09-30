@@ -10,7 +10,7 @@ import 'package:analyzer/source/line_info.dart';
 import 'package:path/path.dart' as p;
 
 const protocolVersion = 1;
-const exporterVersion = '0.3.0';
+const exporterVersion = '0.3.1';
 const analyzerVersion = '8.4.1';
 const supportedSdkVersion = '3.9.2';
 
@@ -374,6 +374,26 @@ class _UnitEncoder {
         record['declaration'] = symbol(ast.fieldFragment?.element);
         record['constructor'] = symbol(ast.constructorFragment?.element);
         child('type', ast.fieldType);
+      case EnumDeclaration():
+        kind = 'EnumDeclaration';
+        record['name'] = ast.name.lexeme;
+        record['declaration'] = symbol(ast.declaredFragment?.element);
+        record['implicitConstructor'] = ast
+            .declaredFragment
+            ?.element
+            .constructors
+            .where((c) => c.isSynthetic)
+            .map(symbol)
+            .firstOrNull;
+        child('typeParameters', ast.typeParameters);
+        many('constant', ast.constants);
+        many('member', ast.members);
+      case EnumConstantDeclaration():
+        kind = 'EnumConstantDeclaration';
+        record['name'] = ast.name.lexeme;
+        record['declaration'] = symbol(ast.declaredFragment?.element);
+        record['target'] = symbol(ast.constructorElement);
+        child('arguments', ast.arguments?.argumentList);
       case ClassDeclaration():
         kind = 'ClassDeclaration';
         record['modifiers'] = [
@@ -587,6 +607,18 @@ class _UnitEncoder {
         kind = 'DeclaredIdentifier';
         record['name'] = ast.name.lexeme;
         record['declaration'] = symbol(ast.declaredFragment?.element);
+      case AssertStatement():
+        kind = 'AssertStatement';
+        child('condition', ast.condition);
+        child('message', ast.message);
+      case AssertInitializer():
+        kind = 'AssertInitializer';
+        child('condition', ast.condition);
+        child('message', ast.message);
+      case LabeledStatement():
+        kind = 'LabeledStatement';
+        record['labels'] = ast.labels.map((label) => label.label.name).toList();
+        child('statement', ast.statement);
       case BreakStatement():
         kind = 'BreakStatement';
         child('label', ast.label);
@@ -688,10 +720,14 @@ class _UnitEncoder {
         child('else', ast.elseExpression);
       case PrefixExpression():
         kind = 'PrefixExpression';
+        record['read'] = symbol(ast.readElement);
+        record['write'] = symbol(ast.writeElement);
         record['operator'] = ast.operator.lexeme;
         child('operand', ast.operand);
       case PostfixExpression():
         kind = 'PostfixExpression';
+        record['read'] = symbol(ast.readElement);
+        record['write'] = symbol(ast.writeElement);
         record['operator'] = ast.operator.lexeme;
         child('operand', ast.operand);
       case CascadeExpression():

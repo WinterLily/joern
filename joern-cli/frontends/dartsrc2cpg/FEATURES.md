@@ -1,6 +1,6 @@
 # Dart and Flutter feature matrix
 
-Tested with Dart 3.9.2, analyzer 8.4.1, exporter 0.3.0 and Flutter 3.35.3
+Tested with Dart 3.9.2, analyzer 8.4.1, exporter 0.3.1 and Flutter 3.35.3
 (framework revision `a402d9a437`). “Parsed” means explicit exporter nodes rather
 than UNKNOWN. Resolution uses existing package configuration and SDK resources.
 Dataflow claims below refer to the OSS engine with default semantics, not Dart
@@ -34,8 +34,14 @@ and fail if their prepared package configuration is missing; see the fixture's
 [preparation and query assertions](src/test/resources/flutter/README.md).
 
 Unsupported syntax still produces diagnostics and UNKNOWN nodes. For example,
-enums are outside this milestone's implemented graph coverage. Named switch
+generic type aliases retain UNKNOWN declarations. Named switch
 labels/continue-to-case, exact pattern failure exceptions, general higher-order
 callback dispatch, stream scheduling and precise exception routing are not
 established by these tests. Future syntax accepted by the analyzer is not
 implicitly supported. See [runtime summary requirements](RUNTIME_SUMMARIES.md).
+
+Corpus hardening also covers enhanced enums (constants, constructors and method
+bodies), labeled loop break/continue, assertion evaluation, increment/decrement
+references and accessor effects, and dynamic object-pattern field access.
+Assertions have an explicit enabled/disabled branch; no build mode is assumed.
+Enum runtime-generated `values`, `index` and `name` behavior is not synthesized.

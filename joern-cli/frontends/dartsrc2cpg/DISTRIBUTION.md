@@ -1,7 +1,7 @@
 # Distribution and operational checks
 
 The native exporter is built per host. CI targets Linux x86-64/arm64, macOS
-x86-64/arm64 and Windows x86-64 with Dart 3.9.2, analyzer 8.4.1, exporter 0.3.0,
+x86-64/arm64 and Windows x86-64 with Dart 3.9.2, analyzer 8.4.1, exporter 0.3.1,
 protocol 1 and JDK 21. Linux x86-64 has been verified locally; the other targets
 require successful runs of `.github/workflows/dart.yml` before claiming release
 validation. Windows arm64 distributions use the x86-64 exporter under emulation;
@@ -67,9 +67,10 @@ default deterministic JSONL stream; the runner requests `--metrics` explicitly.
 
 ## Reproducible corpus
 
-`corpus/projects.json` pins real pub.dev releases of `path` and `collection` by
-version and archive SHA-256. Only `lib/` is scanned, with an explicit self-package
-configuration and no dependency fetching. Prepare outside ordinary unit tests:
+The seven pinned OSS packages and graph audit results are described in
+[corpus/README.md](corpus/README.md). Sources are pinned by archive and library
+SHA-256, with transitive analysis dependencies locked separately. Only production
+`lib/` sources are scanned. Preparation is explicit and ordinary tests are offline.
 
 ```sh
 python joern-cli/frontends/dartsrc2cpg/scripts/corpus.py --prepare --check
@@ -78,22 +79,18 @@ export DART_ASTGEN="$PWD/joern-cli/frontends/dartsrc2cpg/bin/dart_astgen"
 sbt 'dartsrc2cpg/testOnly *DartCorpusTests'
 ```
 
-Subsequent runs omit `--prepare` to use cached, checksum-verified archives under
-`agents/dart-corpus`. Each run re-extracts the archive to discard local changes.
-Corpus tests assert internal call resolution and named methods (`normalize`,
-`binarySearch`) before and after graph reload. The separately pinned Flutter
-3.35.3 fixture and its query assertions are documented in
-[src/test/resources/flutter/README.md](src/test/resources/flutter/README.md).
+Use `--from-cache "$HOME/.pub-cache"` instead of `--prepare` for offline preparation.
+Each preparation replaces scratch sources under `agents/dart-corpus`; run it
+before graph tests, never concurrently. `--prepare-only` skips native measurements.
+`--check` requires identical exporter coverage counts and allows five times the
+recorded elapsed time and peak RSS. These are coarse regression alarms, not
+throughput guarantees. Update baselines only after reviewing changed counts.
 
-`corpus/baseline.json` records Linux x86-64 native exporter measurements:
-13 / 29 files, 6,084 / 16,422 AST nodes, no partial files, 1 / 8 unsupported nodes,
-and 0 / 107 unresolved invocations. Initial elapsed times were 232 / 288 ms,
-with peak RSS 112,533,504 / 105,852,928 bytes. CI requires identical structural
-counts and allows five times the baseline elapsed time and memory to accommodate
-host variation. These are coarse regression alarms, not throughput guarantees.
-Update the baseline only after reviewing the changed counts and measurements.
-The graph tests provide independent semantic assertions; exporter counts alone
-are insufficient. Flutter timing is not included in these package baselines.
+The graph suite validates schema and V3 invariants, saves/reloads each CPG, and
+walks references, argument bindings, method identities, internal targets and CFG
+boundaries. It rejects unexpected executable UNKNOWN nodes. The separately
+pinned Flutter fixture remains documented in
+[src/test/resources/flutter/README.md](src/test/resources/flutter/README.md).
 
 ## Bazel
 
