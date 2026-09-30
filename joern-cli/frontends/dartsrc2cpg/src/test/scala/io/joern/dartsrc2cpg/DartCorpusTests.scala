@@ -163,6 +163,11 @@ class DartCorpusTests extends AnyWordSpec with Matchers {
             root.resolve("dataflow-audit.json"),
             ujson.write(
               ujson.Obj(
+                "source"     -> project,
+                "coverage"   -> ujson.read(Files.readString(root.resolve("coverage.json"))),
+                "modelFiles" -> ujson.Obj.from(List("async", "worker_manager").map { name =>
+                  name -> ujson.Str(Files.readString(frontend.resolve(s"dataflow/$name.semantics")))
+                }),
                 "defaultSemantics" -> defaultFlows,
                 "dartSummaries"    -> flows,
                 "reachingDefEdges" -> reloaded.cfgNode.map(_._reachingDefIn.size.toLong).sum.toDouble,

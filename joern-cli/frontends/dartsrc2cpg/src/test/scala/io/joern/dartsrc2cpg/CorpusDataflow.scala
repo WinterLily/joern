@@ -63,9 +63,12 @@ private[dartsrc2cpg] object CorpusDataflow {
     }
   }
 
-  def audit(cpg: Cpg, probes: Seq[Value], semantics: Semantics): Value = {
+  def audit(cpg: Cpg, probes: Seq[Value], semantics: Semantics, witnessLimit: Option[Int] = None): Value = {
+    require(witnessLimit.forall(_ >= 0), "Witness limit must be nonnegative")
+    require(cpg.metaData.overlays.exists(_ == "dataflowOss"), "Missing dataflow overlay")
+    require(probes.map(_("id").str).distinct.size == probes.size, "Duplicate probe IDs")
     semantics.initialize(cpg)
-    ujson.Arr.from(probes.map { probe =>
+    val results = probes.map { probe =>
       implicit val context: EngineContext = EngineContext(
         semantics = semantics,
         config = EngineConfig(maxCallDepth = probe.obj.get("maxCallDepth").map(_.num.toInt).getOrElse(4))
@@ -83,23 +86,42 @@ private[dartsrc2cpg] object CorpusDataflow {
             case _                            => false
           })
         )
-      val passed = sources.size == 1 && sinks.size == 1 && paths.nonEmpty == probe("expected").bool && via
+      val endpointsValid = sources.size == 1 && sinks.size == 1
+      val passed         = endpointsValid && paths.nonEmpty == probe("expected").bool && via
+      val retained       = witnessLimit.fold(paths)(paths.take)
+      val outcome        =
+        if (!endpointsValid) "invalid-endpoints"
+        else if (!via) "missing-required-callee"
+        else if (paths.nonEmpty) "flow-observed"
+        else "no-flow-observed-within-limits"
       ujson.Obj(
-        "id"            -> probe("id"),
-        "expected"      -> probe("expected"),
-        "passed"        -> passed,
-        "sources"       -> sources.size,
-        "sinks"         -> sinks.size,
-        "paths"         -> paths.size,
-        "viaSatisfied"  -> via,
-        "elapsedMillis" -> ujson.Num((System.nanoTime() - started) / 1000000.0),
-        "witnesses"     -> ujson.Arr.from(
-          paths
-            .take(3)
+        "id"                     -> probe("id"),
+        "expected"               -> probe("expected"),
+        "source"                 -> probe("source"),
+        "sink"                   -> probe("sink"),
+        "outcome"                -> outcome,
+        "semanticReview"         -> "pending",
+        "maxCallDepth"           -> context.config.maxCallDepth,
+        "maxArgsToAllow"         -> context.config.maxArgsToAllow,
+        "maxOutputArgsExpansion" -> context.config.maxOutputArgsExpansion,
+        "limitExhaustion"        -> "not-observable",
+        "witnessLimit"           -> witnessLimit.map(ujson.Num(_)).getOrElse(ujson.Null),
+        "retainedWitnesses"      -> retained.size,
+        "omittedWitnesses"       -> (paths.size - retained.size),
+        "passed"                 -> passed,
+        "sources"                -> sources.size,
+        "sinks"                  -> sinks.size,
+        "paths"                  -> paths.size,
+        "viaSatisfied"           -> via,
+        "elapsedMillis"          -> ujson.Num((System.nanoTime() - started) / 1000000.0),
+        "witnesses"              -> ujson.Arr.from(
+          retained
             .map(path =>
               ujson.Arr.from(
                 path.elements.map(n =>
                   ujson.Obj(
+                    "nodeId" -> n.id.toString,
+                    "label"  -> n.label,
                     "method" -> (n match { case cfg: CfgNode => cfg.method.fullName; case _ => "" }),
                     "code"   -> n.code,
                     "line"   -> n.lineNumber.getOrElse(-1)
@@ -109,6 +131,24 @@ private[dartsrc2cpg] object CorpusDataflow {
             )
         )
       )
-    })
+    }
+    val byId = results.map(result => result("id").str -> result).toMap
+    probes.zip(results).foreach { case (probe, result) =>
+      if (!probe("expected").bool) {
+        val control   = probe.obj.get("positiveControl").flatMap(id => byId.get(id.str))
+        val satisfied = control.exists(c =>
+          c("expected").bool && c("passed").bool && c("source") == probe("source") &&
+            c("maxCallDepth") == result("maxCallDepth")
+        )
+        result("positiveControl") = probe.obj.getOrElse("positiveControl", ujson.Null)
+        result("positiveControlSatisfied") = satisfied
+        if (!satisfied) {
+          result("passed") = false
+          if (result("outcome").str == "no-flow-observed-within-limits")
+            result("outcome") = "inconclusive-positive-control"
+        }
+      }
+    }
+    ujson.Arr.from(results)
   }
 }

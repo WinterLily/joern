@@ -116,3 +116,10 @@ traverse the filter predicate result and callback reference. Its endpoint
 dependency remains correct, but the route requires semantic classification; it
 is not evidence of precise iterable/callback modeling. See the first gate in the
 [coverage plan](../../COVERAGE_PLAN.md) for the required witness audit.
+
+Gate 1 adds two positive controls to the original 31 application expectations,
+for 33 checks. All negative queries now require a passing control from the same
+source at the same depth. Stock semantics matches 32/33; optional summaries
+match 33/33. The [semantic audit](../SEMANTIC_AUDIT.md) records the complete
+certificate witness review and additional unresolved routes. These endpoint
+counts do not certify the routes or discharge the remaining review obligations.

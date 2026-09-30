@@ -1,15 +1,30 @@
 [
   {
     "project": "localsend-1.17.0",
-    "exporterVersion": "0.3.2",
-    "coverage": {
-      "exportedFiles": 260,
-      "includedFiles": 260,
-      "skippedFiles": 0,
-      "parsedFiles": 0,
-      "partialFiles": 0,
-      "unsupportedConstructs": 2,
-      "unresolvedCalls": 341
+    "source": {
+      "name": "localsend",
+      "version": "1.17.0",
+      "repository": "https://github.com/localsend/localsend",
+      "commit": "7f21d1f9082a43803e05c37f021912e012145aa5",
+      "checkout": "localsend/app",
+      "package": "localsend_app",
+      "probe": "withCount",
+      "librarySha256": "1993189465fb077d90d45d3e89217c82a22762ce278c1961b5084dbd5be6e095",
+      "flutter": {
+        "version": "3.24.5",
+        "commit": "dec2ee5c1f98f8e84a7d5380c05eb8a3d0a81668",
+        "engine": "a18df97ca57a249df5d8d68cd0820600223ce262",
+        "skyEngineSha256": "0ee0af6df98d7218c787c57087b36d57cb162d789c656b54a4c0f40a2fc4d4f1"
+      }
+    },
+    "exporter": {
+      "record": "header",
+      "protocolVersion": 1,
+      "exporterVersion": "0.3.2",
+      "analyzerVersion": "8.4.1",
+      "sdkVersion": "3.9.2",
+      "offsetEncoding": "utf-16",
+      "conditionalEnvironment": "analyzer-default"
     },
     "overlay": {
       "methods": 21014,
@@ -29,7 +44,15 @@
         "stockPassed": true,
         "modeledFlow": true,
         "modeledPassed": true,
-        "viaSatisfied": true
+        "viaSatisfied": true,
+        "stockOutcome": "flow-observed",
+        "modeledOutcome": "flow-observed",
+        "semanticReview": "known-approximation",
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        },
+        "review": "../../corpus/certificate-witness-review.json"
       },
       {
         "id": "certificate-not-algorithm",
@@ -40,7 +63,17 @@
         "stockPassed": true,
         "modeledFlow": false,
         "modeledPassed": true,
-        "viaSatisfied": true
+        "viaSatisfied": true,
+        "stockOutcome": "no-flow-observed-within-limits",
+        "modeledOutcome": "no-flow-observed-within-limits",
+        "semanticReview": "pending",
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        },
+        "positiveControl": "certificate-to-hash",
+        "stockControlSatisfied": true,
+        "modeledControlSatisfied": true
       },
       {
         "id": "save-path-to-file",
@@ -51,7 +84,14 @@
         "stockPassed": true,
         "modeledFlow": true,
         "modeledPassed": true,
-        "viaSatisfied": true
+        "viaSatisfied": true,
+        "stockOutcome": "flow-observed",
+        "modeledOutcome": "flow-observed",
+        "semanticReview": "pending",
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        }
       },
       {
         "id": "save-path-forwarding",
@@ -62,7 +102,14 @@
         "stockPassed": true,
         "modeledFlow": true,
         "modeledPassed": true,
-        "viaSatisfied": true
+        "viaSatisfied": true,
+        "stockOutcome": "flow-observed",
+        "modeledOutcome": "flow-observed",
+        "semanticReview": "pending",
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        }
       },
       {
         "id": "save-name-not-stream",
@@ -73,7 +120,17 @@
         "stockPassed": true,
         "modeledFlow": false,
         "modeledPassed": true,
-        "viaSatisfied": true
+        "viaSatisfied": true,
+        "stockOutcome": "no-flow-observed-within-limits",
+        "modeledOutcome": "no-flow-observed-within-limits",
+        "semanticReview": "pending",
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        },
+        "positiveControl": "save-name-not-stream-control",
+        "stockControlSatisfied": true,
+        "modeledControlSatisfied": true
       },
       {
         "id": "uri-suffix-encoding",
@@ -84,7 +141,14 @@
         "stockPassed": true,
         "modeledFlow": true,
         "modeledPassed": true,
-        "viaSatisfied": true
+        "viaSatisfied": true,
+        "stockOutcome": "flow-observed",
+        "modeledOutcome": "flow-observed",
+        "semanticReview": "pending",
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        }
       },
       {
         "id": "uri-suffix-not-tree",
@@ -95,7 +159,17 @@
         "stockPassed": true,
         "modeledFlow": false,
         "modeledPassed": true,
-        "viaSatisfied": true
+        "viaSatisfied": true,
+        "stockOutcome": "no-flow-observed-within-limits",
+        "modeledOutcome": "no-flow-observed-within-limits",
+        "semanticReview": "pending",
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        },
+        "positiveControl": "uri-suffix-encoding",
+        "stockControlSatisfied": true,
+        "modeledControlSatisfied": true
       },
       {
         "id": "tree-uri-decoding",
@@ -106,7 +180,14 @@
         "stockPassed": true,
         "modeledFlow": true,
         "modeledPassed": true,
-        "viaSatisfied": true
+        "viaSatisfied": true,
+        "stockOutcome": "flow-observed",
+        "modeledOutcome": "flow-observed",
+        "semanticReview": "pending",
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        }
       },
       {
         "id": "tree-uri-null-result",
@@ -117,7 +198,17 @@
         "stockPassed": true,
         "modeledFlow": false,
         "modeledPassed": true,
-        "viaSatisfied": true
+        "viaSatisfied": true,
+        "stockOutcome": "no-flow-observed-within-limits",
+        "modeledOutcome": "no-flow-observed-within-limits",
+        "semanticReview": "pending",
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        },
+        "positiveControl": "tree-uri-decoding",
+        "stockControlSatisfied": true,
+        "modeledControlSatisfied": true
       },
       {
         "id": "filename-extension",
@@ -128,21 +219,61 @@
         "stockPassed": true,
         "modeledFlow": true,
         "modeledPassed": true,
-        "viaSatisfied": true
+        "viaSatisfied": true,
+        "stockOutcome": "flow-observed",
+        "modeledOutcome": "flow-observed",
+        "semanticReview": "pending",
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        }
+      },
+      {
+        "id": "save-name-not-stream-control",
+        "expectedFlow": true,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": true,
+        "stockPassed": true,
+        "modeledFlow": true,
+        "modeledPassed": true,
+        "viaSatisfied": true,
+        "stockOutcome": "flow-observed",
+        "modeledOutcome": "flow-observed",
+        "semanticReview": "pending",
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        }
       }
     ]
   },
   {
     "project": "saber-0.26.0",
-    "exporterVersion": "0.3.2",
-    "coverage": {
-      "exportedFiles": 143,
-      "includedFiles": 143,
-      "skippedFiles": 0,
-      "parsedFiles": 0,
-      "partialFiles": 0,
-      "unsupportedConstructs": 7,
-      "unresolvedCalls": 177
+    "source": {
+      "name": "saber",
+      "version": "0.26.0",
+      "repository": "https://github.com/saber-notes/saber",
+      "commit": "8c7ea9e6a19a6690285ddb6b137a936609af9f8d",
+      "checkout": "saber",
+      "package": "saber",
+      "probe": "main",
+      "defaultFailures": [
+        "path-not-work-priority"
+      ],
+      "librarySha256": "c8bffc931b553a147a72ebb949212752ef42ff2b8430ca6144372d78f4fb60a3",
+      "flutter": {
+        "version": "3.35.3"
+      }
+    },
+    "exporter": {
+      "record": "header",
+      "protocolVersion": 1,
+      "exporterVersion": "0.3.2",
+      "analyzerVersion": "8.4.1",
+      "sdkVersion": "3.9.2",
+      "offsetEncoding": "utf-16",
+      "conditionalEnvironment": "analyzer-default"
     },
     "overlay": {
       "methods": 7220,
@@ -162,7 +293,14 @@
         "stockPassed": true,
         "modeledFlow": true,
         "modeledPassed": true,
-        "viaSatisfied": true
+        "viaSatisfied": true,
+        "stockOutcome": "flow-observed",
+        "modeledOutcome": "flow-observed",
+        "semanticReview": "pending",
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        }
       },
       {
         "id": "stored-bytes-null",
@@ -173,7 +311,17 @@
         "stockPassed": true,
         "modeledFlow": false,
         "modeledPassed": true,
-        "viaSatisfied": true
+        "viaSatisfied": true,
+        "stockOutcome": "no-flow-observed-within-limits",
+        "modeledOutcome": "no-flow-observed-within-limits",
+        "semanticReview": "pending",
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        },
+        "positiveControl": "stored-bytes-encoding",
+        "stockControlSatisfied": true,
+        "modeledControlSatisfied": true
       },
       {
         "id": "stored-bytes-decoding",
@@ -184,7 +332,14 @@
         "stockPassed": true,
         "modeledFlow": true,
         "modeledPassed": true,
-        "viaSatisfied": true
+        "viaSatisfied": true,
+        "stockOutcome": "flow-observed",
+        "modeledOutcome": "flow-observed",
+        "semanticReview": "pending",
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        }
       },
       {
         "id": "stored-bytes-identity",
@@ -195,7 +350,14 @@
         "stockPassed": true,
         "modeledFlow": true,
         "modeledPassed": true,
-        "viaSatisfied": true
+        "viaSatisfied": true,
+        "stockOutcome": "flow-observed",
+        "modeledOutcome": "flow-observed",
+        "semanticReview": "pending",
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        }
       },
       {
         "id": "config-json-upload",
@@ -206,7 +368,14 @@
         "stockPassed": true,
         "modeledFlow": true,
         "modeledPassed": true,
-        "viaSatisfied": true
+        "viaSatisfied": true,
+        "stockOutcome": "flow-observed",
+        "modeledOutcome": "flow-observed",
+        "semanticReview": "pending",
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        }
       },
       {
         "id": "config-not-directory",
@@ -217,7 +386,17 @@
         "stockPassed": true,
         "modeledFlow": false,
         "modeledPassed": true,
-        "viaSatisfied": true
+        "viaSatisfied": true,
+        "stockOutcome": "no-flow-observed-within-limits",
+        "modeledOutcome": "no-flow-observed-within-limits",
+        "semanticReview": "pending",
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        },
+        "positiveControl": "config-json-upload",
+        "stockControlSatisfied": true,
+        "modeledControlSatisfied": true
       },
       {
         "id": "path-encryption-capture",
@@ -228,7 +407,14 @@
         "stockPassed": true,
         "modeledFlow": true,
         "modeledPassed": true,
-        "viaSatisfied": true
+        "viaSatisfied": true,
+        "stockOutcome": "flow-observed",
+        "modeledOutcome": "flow-observed",
+        "semanticReview": "pending",
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        }
       },
       {
         "id": "path-not-work-priority",
@@ -239,7 +425,17 @@
         "stockPassed": false,
         "modeledFlow": false,
         "modeledPassed": true,
-        "viaSatisfied": true
+        "viaSatisfied": true,
+        "stockOutcome": "flow-observed",
+        "modeledOutcome": "no-flow-observed-within-limits",
+        "semanticReview": "pending",
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        },
+        "positiveControl": "path-encryption-capture",
+        "stockControlSatisfied": true,
+        "modeledControlSatisfied": true
       },
       {
         "id": "quota-decoder-input",
@@ -250,7 +446,14 @@
         "stockPassed": true,
         "modeledFlow": true,
         "modeledPassed": true,
-        "viaSatisfied": true
+        "viaSatisfied": true,
+        "stockOutcome": "flow-observed",
+        "modeledOutcome": "flow-observed",
+        "semanticReview": "pending",
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        }
       },
       {
         "id": "quota-encoder-values",
@@ -261,7 +464,14 @@
         "stockPassed": true,
         "modeledFlow": true,
         "modeledPassed": true,
-        "viaSatisfied": true
+        "viaSatisfied": true,
+        "stockOutcome": "flow-observed",
+        "modeledOutcome": "flow-observed",
+        "semanticReview": "pending",
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        }
       },
       {
         "id": "path-encryption-result",
@@ -272,21 +482,42 @@
         "stockPassed": true,
         "modeledFlow": true,
         "modeledPassed": true,
-        "viaSatisfied": true
+        "viaSatisfied": true,
+        "stockOutcome": "flow-observed",
+        "modeledOutcome": "flow-observed",
+        "semanticReview": "pending",
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        }
       }
     ]
   },
   {
     "project": "dart-sass-1.89.2",
-    "exporterVersion": "0.3.2",
-    "coverage": {
-      "exportedFiles": 348,
-      "includedFiles": 348,
-      "skippedFiles": 0,
-      "parsedFiles": 0,
-      "partialFiles": 0,
-      "unsupportedConstructs": 48,
-      "unresolvedCalls": 207
+    "source": {
+      "name": "dart-sass",
+      "version": "1.89.2",
+      "repository": "https://github.com/sass/dart-sass",
+      "commit": "1250380bc56d1feecc5fead0752731a313b97e2e",
+      "checkout": "dart-sass",
+      "package": "sass",
+      "probe": "compileString",
+      "librarySha256": "2a6fb63888b0a94b86020c2321f8237c2867f53c8ddefbc28b9c08a842f8744e",
+      "protocol": {
+        "repository": "https://github.com/sass/sass",
+        "commit": "dae75bd941e507f0e88f53b2616fbebe0b4a6572",
+        "protoc": "36.1"
+      }
+    },
+    "exporter": {
+      "record": "header",
+      "protocolVersion": 1,
+      "exporterVersion": "0.3.2",
+      "analyzerVersion": "8.4.1",
+      "sdkVersion": "3.9.2",
+      "offsetEncoding": "utf-16",
+      "conditionalEnvironment": "analyzer-default"
     },
     "overlay": {
       "methods": 6057,
@@ -306,7 +537,14 @@
         "stockPassed": true,
         "modeledFlow": true,
         "modeledPassed": true,
-        "viaSatisfied": true
+        "viaSatisfied": true,
+        "stockOutcome": "flow-observed",
+        "modeledOutcome": "flow-observed",
+        "semanticReview": "pending",
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        }
       },
       {
         "id": "source-not-verbosity",
@@ -317,7 +555,17 @@
         "stockPassed": true,
         "modeledFlow": false,
         "modeledPassed": true,
-        "viaSatisfied": true
+        "viaSatisfied": true,
+        "stockOutcome": "no-flow-observed-within-limits",
+        "modeledOutcome": "no-flow-observed-within-limits",
+        "semanticReview": "pending",
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        },
+        "positiveControl": "source-to-parser",
+        "stockControlSatisfied": true,
+        "modeledControlSatisfied": true
       },
       {
         "id": "public-source-forwarding",
@@ -328,7 +576,14 @@
         "stockPassed": true,
         "modeledFlow": true,
         "modeledPassed": true,
-        "viaSatisfied": true
+        "viaSatisfied": true,
+        "stockOutcome": "flow-observed",
+        "modeledOutcome": "flow-observed",
+        "semanticReview": "pending",
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        }
       },
       {
         "id": "scss-source-forwarding",
@@ -339,7 +594,14 @@
         "stockPassed": true,
         "modeledFlow": true,
         "modeledPassed": true,
-        "viaSatisfied": true
+        "viaSatisfied": true,
+        "stockOutcome": "flow-observed",
+        "modeledOutcome": "flow-observed",
+        "semanticReview": "pending",
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        }
       },
       {
         "id": "css-source-forwarding",
@@ -350,7 +612,14 @@
         "stockPassed": true,
         "modeledFlow": true,
         "modeledPassed": true,
-        "viaSatisfied": true
+        "viaSatisfied": true,
+        "stockOutcome": "flow-observed",
+        "modeledOutcome": "flow-observed",
+        "semanticReview": "pending",
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        }
       },
       {
         "id": "trim-source-result",
@@ -361,7 +630,14 @@
         "stockPassed": true,
         "modeledFlow": true,
         "modeledPassed": true,
-        "viaSatisfied": true
+        "viaSatisfied": true,
+        "stockOutcome": "flow-observed",
+        "modeledOutcome": "flow-observed",
+        "semanticReview": "pending",
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        }
       },
       {
         "id": "trim-scan-input",
@@ -372,7 +648,14 @@
         "stockPassed": true,
         "modeledFlow": true,
         "modeledPassed": true,
-        "viaSatisfied": true
+        "viaSatisfied": true,
+        "stockOutcome": "flow-observed",
+        "modeledOutcome": "flow-observed",
+        "semanticReview": "pending",
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        }
       },
       {
         "id": "plural-count-not-name",
@@ -383,7 +666,17 @@
         "stockPassed": true,
         "modeledFlow": false,
         "modeledPassed": true,
-        "viaSatisfied": true
+        "viaSatisfied": true,
+        "stockOutcome": "no-flow-observed-within-limits",
+        "modeledOutcome": "no-flow-observed-within-limits",
+        "semanticReview": "pending",
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        },
+        "positiveControl": "plural-count-not-name-control",
+        "stockControlSatisfied": true,
+        "modeledControlSatisfied": true
       },
       {
         "id": "plural-name-result",
@@ -394,7 +687,14 @@
         "stockPassed": true,
         "modeledFlow": true,
         "modeledPassed": true,
-        "viaSatisfied": true
+        "viaSatisfied": true,
+        "stockOutcome": "flow-observed",
+        "modeledOutcome": "flow-observed",
+        "semanticReview": "pending",
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        }
       },
       {
         "id": "indent-source-result",
@@ -405,7 +705,32 @@
         "stockPassed": true,
         "modeledFlow": true,
         "modeledPassed": true,
-        "viaSatisfied": true
+        "viaSatisfied": true,
+        "stockOutcome": "flow-observed",
+        "modeledOutcome": "flow-observed",
+        "semanticReview": "pending",
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        }
+      },
+      {
+        "id": "plural-count-not-name-control",
+        "expectedFlow": true,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": true,
+        "stockPassed": true,
+        "modeledFlow": true,
+        "modeledPassed": true,
+        "viaSatisfied": true,
+        "stockOutcome": "flow-observed",
+        "modeledOutcome": "flow-observed",
+        "semanticReview": "pending",
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        }
       }
     ]
   }

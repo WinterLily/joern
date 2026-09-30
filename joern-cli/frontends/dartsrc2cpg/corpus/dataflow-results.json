@@ -1,6 +1,22 @@
 [
   {
     "project": "path-1.9.1",
+    "source": {
+      "name": "path",
+      "version": "1.9.1",
+      "sha256": "75cca69d1490965be98c73ceaea117e8a04dd21217b37b292c9ddbec0d955bc5",
+      "librarySha256": "cede2d192680cbb05890ba6c26fed9a73b6fa9bc67365a1b7d79d13326c8f54f",
+      "probe": "normalize"
+    },
+    "exporter": {
+      "record": "header",
+      "protocolVersion": 1,
+      "exporterVersion": "0.3.2",
+      "analyzerVersion": "8.4.1",
+      "sdkVersion": "3.9.2",
+      "offsetEncoding": "utf-16",
+      "conditionalEnvironment": "analyzer-default"
+    },
     "overlay": {
       "methods": 191,
       "maxDefinitions": 322,
@@ -19,7 +35,14 @@
         "stockPassed": true,
         "modeledFlow": true,
         "modeledPassed": true,
-        "viaSatisfied": true
+        "viaSatisfied": true,
+        "stockOutcome": "flow-observed",
+        "modeledOutcome": "flow-observed",
+        "semanticReview": "pending",
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        }
       },
       {
         "id": "set-extension-path",
@@ -30,7 +53,14 @@
         "stockPassed": true,
         "modeledFlow": true,
         "modeledPassed": true,
-        "viaSatisfied": true
+        "viaSatisfied": true,
+        "stockOutcome": "flow-observed",
+        "modeledOutcome": "flow-observed",
+        "semanticReview": "pending",
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        }
       },
       {
         "id": "set-extension-suffix",
@@ -41,7 +71,14 @@
         "stockPassed": true,
         "modeledFlow": true,
         "modeledPassed": true,
-        "viaSatisfied": true
+        "viaSatisfied": true,
+        "stockOutcome": "flow-observed",
+        "modeledOutcome": "flow-observed",
+        "semanticReview": "pending",
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        }
       },
       {
         "id": "extension-not-parse-input",
@@ -52,7 +89,17 @@
         "stockPassed": true,
         "modeledFlow": false,
         "modeledPassed": true,
-        "viaSatisfied": true
+        "viaSatisfied": true,
+        "stockOutcome": "no-flow-observed-within-limits",
+        "modeledOutcome": "no-flow-observed-within-limits",
+        "semanticReview": "pending",
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        },
+        "positiveControl": "set-extension-suffix",
+        "stockControlSatisfied": true,
+        "modeledControlSatisfied": true
       },
       {
         "id": "cross-file-basename",
@@ -63,12 +110,35 @@
         "stockPassed": true,
         "modeledFlow": true,
         "modeledPassed": true,
-        "viaSatisfied": true
+        "viaSatisfied": true,
+        "stockOutcome": "flow-observed",
+        "modeledOutcome": "flow-observed",
+        "semanticReview": "pending",
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        }
       }
     ]
   },
   {
     "project": "collection-1.19.1",
+    "source": {
+      "name": "collection",
+      "version": "1.19.1",
+      "sha256": "2f5709ae4d3d59dd8f7cd309b4e023046b57d8a6c82130785d2b0e5868084e76",
+      "librarySha256": "4f47fc544751d177fe92fc8382873875aadbde550802b093d0654062cb1285f2",
+      "probe": "binarySearch"
+    },
+    "exporter": {
+      "record": "header",
+      "protocolVersion": 1,
+      "exporterVersion": "0.3.2",
+      "analyzerVersion": "8.4.1",
+      "sdkVersion": "3.9.2",
+      "offsetEncoding": "utf-16",
+      "conditionalEnvironment": "analyzer-default"
+    },
     "overlay": {
       "methods": 685,
       "maxDefinitions": 181,
@@ -87,7 +157,14 @@
         "stockPassed": true,
         "modeledFlow": true,
         "modeledPassed": true,
-        "viaSatisfied": true
+        "viaSatisfied": true,
+        "stockOutcome": "flow-observed",
+        "modeledOutcome": "flow-observed",
+        "semanticReview": "pending",
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        }
       },
       {
         "id": "search-key",
@@ -98,7 +175,14 @@
         "stockPassed": true,
         "modeledFlow": true,
         "modeledPassed": true,
-        "viaSatisfied": true
+        "viaSatisfied": true,
+        "stockOutcome": "flow-observed",
+        "modeledOutcome": "flow-observed",
+        "semanticReview": "pending",
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        }
       },
       {
         "id": "search-list-not-key",
@@ -109,7 +193,17 @@
         "stockPassed": true,
         "modeledFlow": false,
         "modeledPassed": true,
-        "viaSatisfied": true
+        "viaSatisfied": true,
+        "stockOutcome": "no-flow-observed-within-limits",
+        "modeledOutcome": "no-flow-observed-within-limits",
+        "semanticReview": "pending",
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        },
+        "positiveControl": "search-list-not-key-control",
+        "stockControlSatisfied": true,
+        "modeledControlSatisfied": true
       },
       {
         "id": "reverse-loop-element",
@@ -120,7 +214,14 @@
         "stockPassed": true,
         "modeledFlow": true,
         "modeledPassed": true,
-        "viaSatisfied": true
+        "viaSatisfied": true,
+        "stockOutcome": "flow-observed",
+        "modeledOutcome": "flow-observed",
+        "semanticReview": "pending",
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        }
       },
       {
         "id": "constant-not-found",
@@ -131,12 +232,74 @@
         "stockPassed": true,
         "modeledFlow": false,
         "modeledPassed": true,
-        "viaSatisfied": true
+        "viaSatisfied": true,
+        "stockOutcome": "no-flow-observed-within-limits",
+        "modeledOutcome": "no-flow-observed-within-limits",
+        "semanticReview": "pending",
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        },
+        "positiveControl": "constant-not-found-control",
+        "stockControlSatisfied": true,
+        "modeledControlSatisfied": true
+      },
+      {
+        "id": "search-list-not-key-control",
+        "expectedFlow": true,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": true,
+        "stockPassed": true,
+        "modeledFlow": true,
+        "modeledPassed": true,
+        "viaSatisfied": true,
+        "stockOutcome": "flow-observed",
+        "modeledOutcome": "flow-observed",
+        "semanticReview": "pending",
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        }
+      },
+      {
+        "id": "constant-not-found-control",
+        "expectedFlow": true,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": true,
+        "stockPassed": true,
+        "modeledFlow": true,
+        "modeledPassed": true,
+        "viaSatisfied": true,
+        "stockOutcome": "flow-observed",
+        "modeledOutcome": "flow-observed",
+        "semanticReview": "pending",
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        }
       }
     ]
   },
   {
     "project": "meta-1.17.0",
+    "source": {
+      "name": "meta",
+      "version": "1.17.0",
+      "sha256": "23f08335362185a5ea2ad3a4e597f1375e78bce8a040df5c600c8d3552ef2394",
+      "librarySha256": "bc8ca749c62fd67c8c79348f272a9a7e723333b42bd8411280b7f0ed4f1c6fba",
+      "probe": "index"
+    },
+    "exporter": {
+      "record": "header",
+      "protocolVersion": 1,
+      "exporterVersion": "0.3.2",
+      "analyzerVersion": "8.4.1",
+      "sdkVersion": "3.9.2",
+      "offsetEncoding": "utf-16",
+      "conditionalEnvironment": "analyzer-default"
+    },
     "overlay": {
       "methods": 35,
       "maxDefinitions": 208,
@@ -155,7 +318,14 @@
         "stockPassed": true,
         "modeledFlow": true,
         "modeledPassed": true,
-        "viaSatisfied": true
+        "viaSatisfied": true,
+        "stockOutcome": "flow-observed",
+        "modeledOutcome": "flow-observed",
+        "semanticReview": "pending",
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        }
       },
       {
         "id": "named-reason-to-parameterDefined",
@@ -166,7 +336,17 @@
         "stockPassed": true,
         "modeledFlow": false,
         "modeledPassed": true,
-        "viaSatisfied": true
+        "viaSatisfied": true,
+        "stockOutcome": "no-flow-observed-within-limits",
+        "modeledOutcome": "no-flow-observed-within-limits",
+        "semanticReview": "pending",
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        },
+        "positiveControl": "named-reason-to-reason",
+        "stockControlSatisfied": true,
+        "modeledControlSatisfied": true
       },
       {
         "id": "named-parameterDefined-to-reason",
@@ -177,7 +357,17 @@
         "stockPassed": true,
         "modeledFlow": false,
         "modeledPassed": true,
-        "viaSatisfied": true
+        "viaSatisfied": true,
+        "stockOutcome": "no-flow-observed-within-limits",
+        "modeledOutcome": "no-flow-observed-within-limits",
+        "semanticReview": "pending",
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        },
+        "positiveControl": "named-parameterDefined-to-parameterDefined",
+        "stockControlSatisfied": true,
+        "modeledControlSatisfied": true
       },
       {
         "id": "named-parameterDefined-to-parameterDefined",
@@ -188,7 +378,14 @@
         "stockPassed": true,
         "modeledFlow": true,
         "modeledPassed": true,
-        "viaSatisfied": true
+        "viaSatisfied": true,
+        "stockOutcome": "flow-observed",
+        "modeledOutcome": "flow-observed",
+        "semanticReview": "pending",
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        }
       },
       {
         "id": "constant-field-not-reason",
@@ -199,7 +396,17 @@
         "stockPassed": true,
         "modeledFlow": false,
         "modeledPassed": true,
-        "viaSatisfied": true
+        "viaSatisfied": true,
+        "stockOutcome": "no-flow-observed-within-limits",
+        "modeledOutcome": "no-flow-observed-within-limits",
+        "semanticReview": "pending",
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        },
+        "positiveControl": "constant-field-not-reason-control",
+        "stockControlSatisfied": true,
+        "modeledControlSatisfied": true
       },
       {
         "id": "target-kind-displayString",
@@ -210,7 +417,17 @@
         "stockPassed": true,
         "modeledFlow": false,
         "modeledPassed": true,
-        "viaSatisfied": true
+        "viaSatisfied": true,
+        "stockOutcome": "no-flow-observed-within-limits",
+        "modeledOutcome": "no-flow-observed-within-limits",
+        "semanticReview": "pending",
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        },
+        "positiveControl": "target-kind-displayString-control",
+        "stockControlSatisfied": true,
+        "modeledControlSatisfied": true
       },
       {
         "id": "target-kind-name",
@@ -221,12 +438,71 @@
         "stockPassed": true,
         "modeledFlow": true,
         "modeledPassed": true,
-        "viaSatisfied": true
+        "viaSatisfied": true,
+        "stockOutcome": "flow-observed",
+        "modeledOutcome": "flow-observed",
+        "semanticReview": "pending",
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        }
+      },
+      {
+        "id": "constant-field-not-reason-control",
+        "expectedFlow": true,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": true,
+        "stockPassed": true,
+        "modeledFlow": true,
+        "modeledPassed": true,
+        "viaSatisfied": true,
+        "stockOutcome": "flow-observed",
+        "modeledOutcome": "flow-observed",
+        "semanticReview": "pending",
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        }
+      },
+      {
+        "id": "target-kind-displayString-control",
+        "expectedFlow": true,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": true,
+        "stockPassed": true,
+        "modeledFlow": true,
+        "modeledPassed": true,
+        "viaSatisfied": true,
+        "stockOutcome": "flow-observed",
+        "modeledOutcome": "flow-observed",
+        "semanticReview": "pending",
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        }
       }
     ]
   },
   {
     "project": "args-2.7.0",
+    "source": {
+      "name": "args",
+      "version": "2.7.0",
+      "sha256": "d0481093c50b1da8910eb0bb301626d4d8eb7284aa739614d2b394ee09e3ea04",
+      "librarySha256": "0943c9c27ee7c773b0736c480e6db08b752b7ca7148f580786905f55d360c432",
+      "probe": "parse"
+    },
+    "exporter": {
+      "record": "header",
+      "protocolVersion": 1,
+      "exporterVersion": "0.3.2",
+      "analyzerVersion": "8.4.1",
+      "sdkVersion": "3.9.2",
+      "offsetEncoding": "utf-16",
+      "conditionalEnvironment": "analyzer-default"
+    },
     "overlay": {
       "methods": 154,
       "maxDefinitions": 173,
@@ -245,7 +521,14 @@
         "stockPassed": true,
         "modeledFlow": true,
         "modeledPassed": true,
-        "viaSatisfied": true
+        "viaSatisfied": true,
+        "stockOutcome": "flow-observed",
+        "modeledOutcome": "flow-observed",
+        "semanticReview": "pending",
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        }
       },
       {
         "id": "deprecated-forwarder",
@@ -256,7 +539,14 @@
         "stockPassed": true,
         "modeledFlow": true,
         "modeledPassed": true,
-        "viaSatisfied": true
+        "viaSatisfied": true,
+        "stockOutcome": "flow-observed",
+        "modeledOutcome": "flow-observed",
+        "semanticReview": "pending",
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        }
       },
       {
         "id": "value-not-default",
@@ -267,7 +557,17 @@
         "stockPassed": true,
         "modeledFlow": false,
         "modeledPassed": true,
-        "viaSatisfied": true
+        "viaSatisfied": true,
+        "stockOutcome": "no-flow-observed-within-limits",
+        "modeledOutcome": "no-flow-observed-within-limits",
+        "semanticReview": "pending",
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        },
+        "positiveControl": "option-value-return",
+        "stockControlSatisfied": true,
+        "modeledControlSatisfied": true
       },
       {
         "id": "forwarded-constructor-name",
@@ -278,7 +578,14 @@
         "stockPassed": true,
         "modeledFlow": true,
         "modeledPassed": true,
-        "viaSatisfied": true
+        "viaSatisfied": true,
+        "stockOutcome": "flow-observed",
+        "modeledOutcome": "flow-observed",
+        "semanticReview": "pending",
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        }
       },
       {
         "id": "forwarded-constructor-parsed",
@@ -289,12 +596,56 @@
         "stockPassed": true,
         "modeledFlow": false,
         "modeledPassed": true,
-        "viaSatisfied": true
+        "viaSatisfied": true,
+        "stockOutcome": "no-flow-observed-within-limits",
+        "modeledOutcome": "no-flow-observed-within-limits",
+        "semanticReview": "pending",
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        },
+        "positiveControl": "forwarded-constructor-parsed-control",
+        "stockControlSatisfied": true,
+        "modeledControlSatisfied": true
+      },
+      {
+        "id": "forwarded-constructor-parsed-control",
+        "expectedFlow": true,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": true,
+        "stockPassed": true,
+        "modeledFlow": true,
+        "modeledPassed": true,
+        "viaSatisfied": true,
+        "stockOutcome": "flow-observed",
+        "modeledOutcome": "flow-observed",
+        "semanticReview": "pending",
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        }
       }
     ]
   },
   {
     "project": "async-2.13.0",
+    "source": {
+      "name": "async",
+      "version": "2.13.0",
+      "sha256": "758e6d74e971c3e5aceb4110bfd6698efc7f501675bcfe0c775459a8140750eb",
+      "librarySha256": "66ec6547216be12ef9b4b4d79ca9c09724c9d12148e29f9ea2ef52cf53e7686c",
+      "probe": "addStream"
+    },
+    "exporter": {
+      "record": "header",
+      "protocolVersion": 1,
+      "exporterVersion": "0.3.2",
+      "analyzerVersion": "8.4.1",
+      "sdkVersion": "3.9.2",
+      "offsetEncoding": "utf-16",
+      "conditionalEnvironment": "analyzer-default"
+    },
     "overlay": {
       "methods": 532,
       "maxDefinitions": 110,
@@ -313,7 +664,17 @@
         "stockPassed": false,
         "modeledFlow": false,
         "modeledPassed": true,
-        "viaSatisfied": true
+        "viaSatisfied": true,
+        "stockOutcome": "flow-observed",
+        "modeledOutcome": "no-flow-observed-within-limits",
+        "semanticReview": "pending",
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        },
+        "positiveControl": "error-to-error-argument",
+        "stockControlSatisfied": true,
+        "modeledControlSatisfied": true
       },
       {
         "id": "error-to-error-argument",
@@ -324,7 +685,14 @@
         "stockPassed": true,
         "modeledFlow": true,
         "modeledPassed": true,
-        "viaSatisfied": true
+        "viaSatisfied": true,
+        "stockOutcome": "flow-observed",
+        "modeledOutcome": "flow-observed",
+        "semanticReview": "pending",
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        }
       },
       {
         "id": "value-to-event-sink",
@@ -335,7 +703,14 @@
         "stockPassed": true,
         "modeledFlow": true,
         "modeledPassed": true,
-        "viaSatisfied": true
+        "viaSatisfied": true,
+        "stockOutcome": "flow-observed",
+        "modeledOutcome": "flow-observed",
+        "semanticReview": "pending",
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        }
       },
       {
         "id": "cancellation-cascade",
@@ -346,12 +721,35 @@
         "stockPassed": true,
         "modeledFlow": true,
         "modeledPassed": true,
-        "viaSatisfied": true
+        "viaSatisfied": true,
+        "stockOutcome": "flow-observed",
+        "modeledOutcome": "flow-observed",
+        "semanticReview": "pending",
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        }
       }
     ]
   },
   {
     "project": "http_parser-4.1.2",
+    "source": {
+      "name": "http_parser",
+      "version": "4.1.2",
+      "sha256": "178d74305e7866013777bab2c3d8726205dc5a4dd935297175b19a23a2e66571",
+      "librarySha256": "739aeba9feb50dc075b2038553b24ba716ec92a3f57e164902a275b403e21d0b",
+      "probe": "convert"
+    },
+    "exporter": {
+      "record": "header",
+      "protocolVersion": 1,
+      "exporterVersion": "0.3.2",
+      "analyzerVersion": "8.4.1",
+      "sdkVersion": "3.9.2",
+      "offsetEncoding": "utf-16",
+      "conditionalEnvironment": "analyzer-default"
+    },
     "overlay": {
       "methods": 64,
       "maxDefinitions": 138,
@@ -370,7 +768,14 @@
         "stockPassed": true,
         "modeledFlow": true,
         "modeledPassed": true,
-        "viaSatisfied": true
+        "viaSatisfied": true,
+        "stockOutcome": "flow-observed",
+        "modeledOutcome": "flow-observed",
+        "semanticReview": "pending",
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        }
       },
       {
         "id": "chunk-return-buffer",
@@ -381,7 +786,14 @@
         "stockPassed": true,
         "modeledFlow": true,
         "modeledPassed": true,
-        "viaSatisfied": true
+        "viaSatisfied": true,
+        "stockOutcome": "flow-observed",
+        "modeledOutcome": "flow-observed",
+        "semanticReview": "pending",
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        }
       },
       {
         "id": "chunk-empty-return",
@@ -392,7 +804,17 @@
         "stockPassed": true,
         "modeledFlow": false,
         "modeledPassed": true,
-        "viaSatisfied": true
+        "viaSatisfied": true,
+        "stockOutcome": "no-flow-observed-within-limits",
+        "modeledOutcome": "no-flow-observed-within-limits",
+        "semanticReview": "pending",
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        },
+        "positiveControl": "chunk-return-buffer",
+        "stockControlSatisfied": true,
+        "modeledControlSatisfied": true
       },
       {
         "id": "captured-media-type",
@@ -403,7 +825,14 @@
         "stockPassed": true,
         "modeledFlow": true,
         "modeledPassed": true,
-        "viaSatisfied": true
+        "viaSatisfied": true,
+        "stockOutcome": "flow-observed",
+        "modeledOutcome": "flow-observed",
+        "semanticReview": "pending",
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        }
       },
       {
         "id": "error-message-value",
@@ -414,12 +843,35 @@
         "stockPassed": true,
         "modeledFlow": true,
         "modeledPassed": true,
-        "viaSatisfied": true
+        "viaSatisfied": true,
+        "stockOutcome": "flow-observed",
+        "modeledOutcome": "flow-observed",
+        "semanticReview": "pending",
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        }
       }
     ]
   },
   {
     "project": "analyzer-8.4.1",
+    "source": {
+      "name": "analyzer",
+      "version": "8.4.1",
+      "sha256": "f51c8499b35f9b26820cfe914828a6a98a94efd5cc78b37bb7d03debae3a1d08",
+      "librarySha256": "36b58042491a33863cc54ad09f305719ed70f72c725b58cc17074124ef462827",
+      "probe": "parseString"
+    },
+    "exporter": {
+      "record": "header",
+      "protocolVersion": 1,
+      "exporterVersion": "0.3.2",
+      "analyzerVersion": "8.4.1",
+      "sdkVersion": "3.9.2",
+      "offsetEncoding": "utf-16",
+      "conditionalEnvironment": "analyzer-default"
+    },
     "overlay": {
       "methods": 21884,
       "maxDefinitions": 6675,
@@ -440,7 +892,14 @@
         "stockPassed": true,
         "modeledFlow": true,
         "modeledPassed": true,
-        "viaSatisfied": true
+        "viaSatisfied": true,
+        "stockOutcome": "flow-observed",
+        "modeledOutcome": "flow-observed",
+        "semanticReview": "pending",
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        }
       },
       {
         "id": "uint32-high-byte",
@@ -451,7 +910,14 @@
         "stockPassed": true,
         "modeledFlow": true,
         "modeledPassed": true,
-        "viaSatisfied": true
+        "viaSatisfied": true,
+        "stockOutcome": "flow-observed",
+        "modeledOutcome": "flow-observed",
+        "semanticReview": "pending",
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        }
       },
       {
         "id": "write-byte-not-reset",
@@ -462,7 +928,17 @@
         "stockPassed": true,
         "modeledFlow": false,
         "modeledPassed": true,
-        "viaSatisfied": true
+        "viaSatisfied": true,
+        "stockOutcome": "no-flow-observed-within-limits",
+        "modeledOutcome": "no-flow-observed-within-limits",
+        "semanticReview": "pending",
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        },
+        "positiveControl": "write-byte-not-reset-control",
+        "stockControlSatisfied": true,
+        "modeledControlSatisfied": true
       },
       {
         "id": "list-element-callback",
@@ -473,7 +949,14 @@
         "stockPassed": true,
         "modeledFlow": true,
         "modeledPassed": true,
-        "viaSatisfied": true
+        "viaSatisfied": true,
+        "stockOutcome": "flow-observed",
+        "modeledOutcome": "flow-observed",
+        "semanticReview": "pending",
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        }
       },
       {
         "id": "fork-offset-field",
@@ -484,7 +967,32 @@
         "stockPassed": true,
         "modeledFlow": true,
         "modeledPassed": true,
-        "viaSatisfied": true
+        "viaSatisfied": true,
+        "stockOutcome": "flow-observed",
+        "modeledOutcome": "flow-observed",
+        "semanticReview": "pending",
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        }
+      },
+      {
+        "id": "write-byte-not-reset-control",
+        "expectedFlow": true,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": true,
+        "stockPassed": true,
+        "modeledFlow": true,
+        "modeledPassed": true,
+        "viaSatisfied": true,
+        "stockOutcome": "flow-observed",
+        "modeledOutcome": "flow-observed",
+        "semanticReview": "pending",
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        }
       }
     ]
   }

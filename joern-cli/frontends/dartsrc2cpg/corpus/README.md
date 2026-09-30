@@ -75,7 +75,8 @@ analyzer's `CompileTimeErrorCode.<clinit>` has 6,675 generated definitions and
 would be skipped by the stock 4,000 limit. The test counts definitions for every
 method and fails if any exceeds the configured limit.
 
-`dataflow-probes.json` defines 36 source-grounded positive and negative queries
+`dataflow-probes.json` defines 42 positive and negative endpoint queries (36 original
+expectations and six added positive controls)
 against the unmodified package code. Each endpoint must select exactly one node;
 selected interprocedural checks also require a witness through the named callee.
 Checks cover constructor fields, named argument isolation, returned values,
@@ -86,12 +87,12 @@ These are sampled semantic checks, not exhaustive path or program verification.
 | Package | Checks | Stock semantics passing | With Dart summary passing |
 | --- | ---: | ---: | ---: |
 | path | 5 | 5 | 5 |
-| collection | 5 | 5 | 5 |
-| meta | 7 | 7 | 7 |
-| args | 5 | 5 | 5 |
+| collection | 7 | 7 | 7 |
+| meta | 9 | 9 | 9 |
+| args | 6 | 6 | 6 |
 | async | 4 | 3 | 4 |
 | http_parser | 5 | 5 | 5 |
-| analyzer | 5 | 5 | 5 |
+| analyzer | 6 | 6 | 6 |
 
 The stock failure is a false positive from `ErrorResult.error` to the unrelated
 stack-trace argument of `Completer.completeError`. Default external-call
@@ -100,7 +101,9 @@ semantics mix its arguments through the receiver. The optional
 without copying them into each other. Both modes are tested and reported; the
 corpus test explicitly expects the stock failure instead of hiding it.
 `dataflow-results.json` records counts and individual outcomes. Scratch reports
-include source locations and up to three witness paths per query.
+include source locations and all returned witness paths per query, with explicit
+counts for any requested reporting truncation. See the [semantic audit](SEMANTIC_AUDIT.md)
+for query limits, positive controls and unresolved witness findings.
 
 A focused regression also records the shared engine's field approximation:
 `Box(input).other` can be tainted even when `other` is constant, because the

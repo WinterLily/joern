@@ -1,0 +1,502 @@
+{
+  "schemaVersion": 1,
+  "query": "certificate-to-hash",
+  "source": {
+    "name": "localsend",
+    "version": "1.17.0",
+    "repository": "https://github.com/localsend/localsend",
+    "commit": "7f21d1f9082a43803e05c37f021912e012145aa5",
+    "checkout": "localsend/app",
+    "package": "localsend_app",
+    "probe": "withCount",
+    "librarySha256": "1993189465fb077d90d45d3e89217c82a22762ce278c1961b5084dbd5be6e095",
+    "flutter": {
+      "version": "3.24.5",
+      "commit": "dec2ee5c1f98f8e84a7d5380c05eb8a3d0a81668",
+      "engine": "a18df97ca57a249df5d8d68cd0820600223ce262",
+      "skyEngineSha256": "0ee0af6df98d7218c787c57087b36d57cb162d789c656b54a4c0f40a2fc4d4f1"
+    }
+  },
+  "exporter": {
+    "record": "header",
+    "protocolVersion": 1,
+    "exporterVersion": "0.3.2",
+    "analyzerVersion": "8.4.1",
+    "sdkVersion": "3.9.2",
+    "offsetEncoding": "utf-16",
+    "conditionalEnvironment": "analyzer-default"
+  },
+  "modelSets": [
+    "stock",
+    "async + worker_manager"
+  ],
+  "queryLimits": {
+    "maxCallDepth": 4,
+    "maxArgsToAllow": 1000,
+    "maxOutputArgsExpansion": 1000,
+    "limitExhaustion": "not-observable"
+  },
+  "review": {
+    "endpoint": "source-supported",
+    "witness": "known-approximation",
+    "owner": "shared dataflow query engine / Dart iterable models",
+    "issue": "DART-FLOW-001",
+    "reason": "PEM elements feed hashing, but the retained route traverses the boolean predicate and method reference as collection data. It is not a valid explicit element-value witness.",
+    "branches": "where accepts nonempty lines not starting with ---. Predicate evaluation is lazy.",
+    "regression": "DartFrontendTests: expose predicate selection as a stock external-call approximation",
+    "runtimeOracle": "astgen/test/iterable_selection_test.dart",
+    "sdkSource": "Dart 3.9.2 lib/internal/iterable.dart:460-477; WhereIterator.current reads _iterator.current, not the predicate result."
+  },
+  "sourceSelector": {
+    "file": "util/security_helper.dart",
+    "method": "calculateHashOfCertificate",
+    "kind": "parameter",
+    "name": "certificate"
+  },
+  "sinkSelector": {
+    "file": "util/security_helper.dart",
+    "method": "calculateHashOfCertificate",
+    "kind": "call",
+    "name": "getHash",
+    "argument": 1
+  },
+  "pathsReturned": 1,
+  "omittedWitnesses": 0,
+  "nodeColumns": [
+    "method",
+    "line",
+    "label",
+    "code"
+  ],
+  "nodes": [
+    [
+      "package:localsend_app/util/security_helper.dart#1069:FUNCTION:calculateHashOfCertificate",
+      33,
+      "METHOD_PARAMETER_IN",
+      "String certificate"
+    ],
+    [
+      "package:localsend_app/util/security_helper.dart#1069:FUNCTION:calculateHashOfCertificate",
+      35,
+      "IDENTIFIER",
+      "certificate"
+    ],
+    [
+      "package:localsend_app/util/security_helper.dart#1069:FUNCTION:calculateHashOfCertificate",
+      35,
+      "CALL",
+      "certificate.replaceAll('\\r\\n', '\\n')"
+    ],
+    [
+      "package:localsend_app/util/security_helper.dart#1069:FUNCTION:calculateHashOfCertificate",
+      35,
+      "CALL",
+      "certificate.replaceAll('\\r\\n', '\\n').split('\\n')"
+    ],
+    [
+      "package:localsend_app/util/security_helper.dart#1218:FUNCTION:null",
+      35,
+      "METHOD_PARAMETER_IN",
+      "line"
+    ],
+    [
+      "package:localsend_app/util/security_helper.dart#1218:FUNCTION:null",
+      35,
+      "IDENTIFIER",
+      "line"
+    ],
+    [
+      "package:localsend_app/util/security_helper.dart#1218:FUNCTION:null",
+      35,
+      "IDENTIFIER",
+      "line"
+    ],
+    [
+      "package:localsend_app/util/security_helper.dart#1218:FUNCTION:null",
+      35,
+      "CALL",
+      "line.startsWith('---')"
+    ],
+    [
+      "package:localsend_app/util/security_helper.dart#1218:FUNCTION:null",
+      35,
+      "CALL",
+      "!line.startsWith('---')"
+    ],
+    [
+      "package:localsend_app/util/security_helper.dart#1218:FUNCTION:null",
+      35,
+      "CALL",
+      "line.isNotEmpty"
+    ],
+    [
+      "package:localsend_app/util/security_helper.dart#1218:FUNCTION:null",
+      35,
+      "CALL",
+      "line.isNotEmpty && !line.startsWith('---')"
+    ],
+    [
+      "package:localsend_app/util/security_helper.dart#1218:FUNCTION:null",
+      35,
+      "RETURN",
+      "=> line.isNotEmpty && !line.startsWith('---')"
+    ],
+    [
+      "package:localsend_app/util/security_helper.dart#1218:FUNCTION:null",
+      -1,
+      "METHOD_RETURN",
+      "RET"
+    ],
+    [
+      "package:localsend_app/util/security_helper.dart#1069:FUNCTION:calculateHashOfCertificate",
+      35,
+      "METHOD_REF",
+      "(line) => line.isNotEmpty && !line.startsWith('---')"
+    ],
+    [
+      "package:localsend_app/util/security_helper.dart#1069:FUNCTION:calculateHashOfCertificate",
+      35,
+      "CALL",
+      "certificate.replaceAll('\\r\\n', '\\n').split('\\n')"
+    ],
+    [
+      "package:localsend_app/util/security_helper.dart#1218:FUNCTION:null",
+      35,
+      "METHOD_PARAMETER_IN",
+      "line"
+    ],
+    [
+      "package:localsend_app/util/security_helper.dart#1218:FUNCTION:null",
+      35,
+      "IDENTIFIER",
+      "line"
+    ],
+    [
+      "package:localsend_app/util/security_helper.dart#1218:FUNCTION:null",
+      35,
+      "IDENTIFIER",
+      "line"
+    ],
+    [
+      "package:localsend_app/util/security_helper.dart#1218:FUNCTION:null",
+      35,
+      "CALL",
+      "line.startsWith('---')"
+    ],
+    [
+      "package:localsend_app/util/security_helper.dart#1218:FUNCTION:null",
+      35,
+      "CALL",
+      "!line.startsWith('---')"
+    ],
+    [
+      "package:localsend_app/util/security_helper.dart#1218:FUNCTION:null",
+      35,
+      "CALL",
+      "line.isNotEmpty"
+    ],
+    [
+      "package:localsend_app/util/security_helper.dart#1218:FUNCTION:null",
+      35,
+      "CALL",
+      "line.isNotEmpty && !line.startsWith('---')"
+    ],
+    [
+      "package:localsend_app/util/security_helper.dart#1218:FUNCTION:null",
+      35,
+      "RETURN",
+      "=> line.isNotEmpty && !line.startsWith('---')"
+    ],
+    [
+      "package:localsend_app/util/security_helper.dart#1218:FUNCTION:null",
+      -1,
+      "METHOD_RETURN",
+      "RET"
+    ],
+    [
+      "package:localsend_app/util/security_helper.dart#1069:FUNCTION:calculateHashOfCertificate",
+      35,
+      "METHOD_REF",
+      "(line) => line.isNotEmpty && !line.startsWith('---')"
+    ],
+    [
+      "package:localsend_app/util/security_helper.dart#1069:FUNCTION:calculateHashOfCertificate",
+      35,
+      "CALL",
+      "certificate.replaceAll('\\r\\n', '\\n').split('\\n')"
+    ],
+    [
+      "package:localsend_app/util/security_helper.dart#1069:FUNCTION:calculateHashOfCertificate",
+      35,
+      "CALL",
+      "certificate.replaceAll('\\r\\n', '\\n').split('\\n').where((line) => line.isNotEmpty && !line.startsWith('---'))"
+    ],
+    [
+      "package:localsend_app/util/security_helper.dart#1069:FUNCTION:calculateHashOfCertificate",
+      35,
+      "CALL",
+      "certificate.replaceAll('\\r\\n', '\\n').split('\\n').where((line) => line.isNotEmpty && !line.startsWith('---')).join()"
+    ],
+    [
+      "package:localsend_app/util/security_helper.dart#1069:FUNCTION:calculateHashOfCertificate",
+      35,
+      "IDENTIFIER",
+      "pemContent"
+    ],
+    [
+      "package:localsend_app/util/security_helper.dart#1069:FUNCTION:calculateHashOfCertificate",
+      36,
+      "IDENTIFIER",
+      "pemContent"
+    ],
+    [
+      "package:localsend_app/util/security_helper.dart#1069:FUNCTION:calculateHashOfCertificate",
+      36,
+      "CALL",
+      "base64Decode(pemContent)"
+    ],
+    [
+      "package:localsend_app/util/security_helper.dart#1069:FUNCTION:calculateHashOfCertificate",
+      36,
+      "IDENTIFIER",
+      "der"
+    ],
+    [
+      "package:localsend_app/util/security_helper.dart#1069:FUNCTION:calculateHashOfCertificate",
+      40,
+      "IDENTIFIER",
+      "der"
+    ],
+    [
+      "package:localsend_app/util/security_helper.dart#1069:FUNCTION:calculateHashOfCertificate",
+      40,
+      "CALL",
+      "Uint8List.fromList(der)"
+    ],
+    [
+      "package:localsend_app/util/security_helper.dart#1069:FUNCTION:calculateHashOfCertificate",
+      40,
+      "IDENTIFIER",
+      "<tmp>3"
+    ],
+    [
+      "package:localsend_app/util/security_helper.dart#1069:FUNCTION:calculateHashOfCertificate",
+      40,
+      "BLOCK",
+      "Uint8List.fromList(der)"
+    ]
+  ],
+  "transitions": [
+    {
+      "from": 0,
+      "to": 1,
+      "classification": "parameter-binding",
+      "reason": "Parameter read."
+    },
+    {
+      "from": 1,
+      "to": 2,
+      "classification": "external-summary",
+      "reason": "replaceAll return assumed to depend on receiver."
+    },
+    {
+      "from": 2,
+      "to": 3,
+      "classification": "external-summary",
+      "reason": "split return assumed to contain receiver-derived elements."
+    },
+    {
+      "from": 3,
+      "to": 4,
+      "classification": "callback-invocation",
+      "reason": "Collection-to-callback binding is approximated; invocation is not proven."
+    },
+    {
+      "from": 4,
+      "to": 5,
+      "classification": "parameter-binding",
+      "reason": "Predicate reads its parameter."
+    },
+    {
+      "from": 5,
+      "to": 6,
+      "classification": "alias",
+      "reason": "Repeated read of the predicate parameter."
+    },
+    {
+      "from": 6,
+      "to": 7,
+      "classification": "external-summary",
+      "reason": "startsWith computes a boolean from the element."
+    },
+    {
+      "from": 7,
+      "to": 8,
+      "classification": "selection",
+      "reason": "Negation computes a predicate, not an output element."
+    },
+    {
+      "from": 8,
+      "to": 9,
+      "classification": "selection",
+      "reason": "Sibling predicate read; this is not transfer of a character value."
+    },
+    {
+      "from": 9,
+      "to": 10,
+      "classification": "selection",
+      "reason": "Conjunction decides element acceptance."
+    },
+    {
+      "from": 10,
+      "to": 11,
+      "classification": "return",
+      "reason": "Returns the boolean predicate."
+    },
+    {
+      "from": 11,
+      "to": 12,
+      "classification": "return",
+      "reason": "Predicate method return."
+    },
+    {
+      "from": 12,
+      "to": 13,
+      "classification": "callback-invocation",
+      "reason": "Shared engine traverses a method reference through the referenced return."
+    },
+    {
+      "from": 13,
+      "to": 14,
+      "classification": "external-summary",
+      "reason": "Unjustified predicate-result-to-collection-receiver value propagation."
+    },
+    {
+      "from": 14,
+      "to": 15,
+      "classification": "callback-invocation",
+      "reason": "Collection-to-callback binding is approximated; invocation is not proven."
+    },
+    {
+      "from": 15,
+      "to": 16,
+      "classification": "parameter-binding",
+      "reason": "Predicate reads its parameter."
+    },
+    {
+      "from": 16,
+      "to": 17,
+      "classification": "alias",
+      "reason": "Repeated read of the predicate parameter."
+    },
+    {
+      "from": 17,
+      "to": 18,
+      "classification": "external-summary",
+      "reason": "startsWith computes a boolean from the element."
+    },
+    {
+      "from": 18,
+      "to": 19,
+      "classification": "selection",
+      "reason": "Negation computes a predicate, not an output element."
+    },
+    {
+      "from": 19,
+      "to": 20,
+      "classification": "selection",
+      "reason": "Sibling predicate read; this is not transfer of a character value."
+    },
+    {
+      "from": 20,
+      "to": 21,
+      "classification": "selection",
+      "reason": "Conjunction decides element acceptance."
+    },
+    {
+      "from": 21,
+      "to": 22,
+      "classification": "return",
+      "reason": "Returns the boolean predicate."
+    },
+    {
+      "from": 22,
+      "to": 23,
+      "classification": "return",
+      "reason": "Predicate method return."
+    },
+    {
+      "from": 23,
+      "to": 24,
+      "classification": "callback-invocation",
+      "reason": "Shared engine traverses a method reference through the referenced return."
+    },
+    {
+      "from": 24,
+      "to": 25,
+      "classification": "external-summary",
+      "reason": "Unjustified predicate-result-to-collection-receiver value propagation."
+    },
+    {
+      "from": 25,
+      "to": 26,
+      "classification": "external-summary",
+      "reason": "where selects original elements; receiver flow alone is conservative."
+    },
+    {
+      "from": 26,
+      "to": 27,
+      "classification": "external-summary",
+      "reason": "join combines selected elements."
+    },
+    {
+      "from": 27,
+      "to": 28,
+      "classification": "assignment",
+      "reason": "Result assigned to pemContent."
+    },
+    {
+      "from": 28,
+      "to": 29,
+      "classification": "alias",
+      "reason": "Read of pemContent."
+    },
+    {
+      "from": 29,
+      "to": 30,
+      "classification": "external-summary",
+      "reason": "base64Decode assumed to transform PEM content into DER bytes."
+    },
+    {
+      "from": 30,
+      "to": 31,
+      "classification": "assignment",
+      "reason": "Decoded bytes assigned to der."
+    },
+    {
+      "from": 31,
+      "to": 32,
+      "classification": "alias",
+      "reason": "Read of der."
+    },
+    {
+      "from": 32,
+      "to": 33,
+      "classification": "external-summary",
+      "reason": "Uint8List.fromList assumed to copy bytes."
+    },
+    {
+      "from": 33,
+      "to": 34,
+      "classification": "assignment",
+      "reason": "Factory result temporary."
+    },
+    {
+      "from": 34,
+      "to": 35,
+      "classification": "return",
+      "reason": "Factory lowering block yields the temporary as getHash argument."
+    }
+  ],
+  "interpretation": "Transitions describe adjacent displayed witness nodes, which need not be adjacent graph edges. The repeated predicate route is retained, not collapsed. Both model sets returned this same displayed route."
+}

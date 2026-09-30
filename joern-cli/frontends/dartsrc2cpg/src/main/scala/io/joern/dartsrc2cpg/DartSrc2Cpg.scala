@@ -50,6 +50,7 @@ class DartSrc2Cpg extends X2CpgFrontend {
     try {
       val nodes  = units.flatMap(_("nodes").arr)
       val report = ujson.Obj(
+        "exporter"              -> records.head,
         "exportedFiles"         -> exported.size,
         "includedFiles"         -> units.size,
         "skippedFiles"          -> (exported.size - units.size),

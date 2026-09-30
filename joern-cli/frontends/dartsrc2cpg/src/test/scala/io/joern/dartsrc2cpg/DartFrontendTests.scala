@@ -127,6 +127,61 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         assertFlow(cpg, false)
       }
     }
+    "expose predicate selection as a stock external-call approximation" in {
+      fixture(
+        Files.readString(frontend.resolve("src/test/resources/semantics/iterable_selection.dart")),
+        "void main() {}"
+      ) { (cpg, _) =>
+        for ((name, expected) <- Seq("selected" -> true, "elements" -> true, "unrelated" -> false)) {
+          val method = cpg.method.nameExact(name).head
+          val paths  = method.ast.isReturn.reachableByFlows(method.parameter.nameExact("input")).l
+          withClue(name) { paths.nonEmpty shouldBe expected }
+          if (name == "selected") {
+            paths.exists(
+              _.elements.exists(_.isInstanceOf[io.shiftleft.codepropertygraph.generated.nodes.MethodRef])
+            ) shouldBe true
+          }
+        }
+      }
+    }
+    "report complete witnesses and explicit audit limits without certifying semantics" in {
+      fixture("String relay(String value) => value; String fixed() => 'fixed';", "void main() {}") { (cpg, _) =>
+        val probe = ujson.read("""{
+          "id": "relay", "expected": true,
+          "source": {"file": "lib/helper.dart", "method": "relay", "kind": "parameter", "name": "value"},
+          "sink": {"file": "lib/helper.dart", "method": "relay", "kind": "return"}
+        }""")
+        val complete = CorpusDataflow.audit(cpg, Seq(probe), DefaultSemantics()).arr.head
+        complete("passed").bool shouldBe true
+        complete("outcome").str shouldBe "flow-observed"
+        complete("semanticReview").str shouldBe "pending"
+        complete("omittedWitnesses").num shouldBe 0
+        complete("witnesses").arr.size.toDouble shouldBe complete("paths").num
+        complete("witnesses").arr.head.arr.head("label").str shouldBe "METHOD_PARAMETER_IN"
+        val truncated = CorpusDataflow.audit(cpg, Seq(probe), DefaultSemantics(), Some(0)).arr.head
+        truncated("passed").bool shouldBe true
+        truncated("witnesses").arr shouldBe empty
+        truncated("omittedWitnesses").num shouldBe complete("paths").num
+        val negative = ujson.read(ujson.write(probe))
+        negative("id") = "independent"
+        negative("expected") = false
+        negative("sink")("method") = "fixed"
+        val uncontrolled = CorpusDataflow.audit(cpg, Seq(probe, negative), DefaultSemantics()).arr.last
+        uncontrolled("passed").bool shouldBe false
+        uncontrolled("outcome").str shouldBe "inconclusive-positive-control"
+        negative("positiveControl") = "relay"
+        val controlled = CorpusDataflow.audit(cpg, Seq(probe, negative), DefaultSemantics()).arr.last
+        controlled("passed").bool shouldBe true
+        controlled("positiveControlSatisfied").bool shouldBe true
+        controlled("outcome").str shouldBe "no-flow-observed-within-limits"
+        negative("maxCallDepth") = 1
+        CorpusDataflow.audit(cpg, Seq(probe, negative), DefaultSemantics()).arr.last("passed").bool shouldBe false
+        probe("source")("name") = "missing"
+        val invalid = CorpusDataflow.audit(cpg, Seq(probe), DefaultSemantics()).arr.head
+        invalid("passed").bool shouldBe false
+        invalid("outcome").str shouldBe "invalid-endpoints"
+      }
+    }
     "preserve completeError storage without mixing the error and stack trace" in {
       fixture(
         """import 'dart:async';
@@ -1027,7 +1082,11 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
           finally loaded.close()
         }
         scan(config.copy(report = report.toString))
-        ujson.read(Files.readString(report))("includedFiles").num shouldBe 0
+        val coverage = ujson.read(Files.readString(report))
+        coverage("includedFiles").num shouldBe 0
+        coverage("exporter")("exporterVersion").str shouldBe "0.3.2"
+        coverage("exporter")("sdkVersion").str shouldBe "3.9.2"
+        coverage("exporter")("analyzerVersion").str shouldBe "8.4.1"
         Files.writeString(dir.resolve("excluded.dart"), "void excluded() {}")
         scan(config.copy(report = report.toString).withIgnoredFilesRegex(".*excluded[.]dart"))
         ujson.read(Files.readString(report))("skippedFiles").num shouldBe 1

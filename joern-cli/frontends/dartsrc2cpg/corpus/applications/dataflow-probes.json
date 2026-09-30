@@ -34,7 +34,8 @@
         "argumentName": "algorithmName"
       },
       "expected": false,
-      "rationale": "The SHA-256 algorithm name is a fixed literal."
+      "rationale": "The SHA-256 algorithm name is a fixed literal.",
+      "positiveControl": "certificate-to-hash"
     },
     {
       "id": "save-path-to-file",
@@ -88,7 +89,8 @@
         "name": "stream"
       },
       "expected": false,
-      "rationale": "The display name is independent of the incoming byte stream."
+      "rationale": "The display name is independent of the incoming byte stream.",
+      "positiveControl": "save-name-not-stream-control"
     },
     {
       "id": "uri-suffix-encoding",
@@ -124,7 +126,8 @@
         "argument": 0
       },
       "expected": false,
-      "rationale": "The tree prefix is computed independently of the optional suffix."
+      "rationale": "The tree prefix is computed independently of the optional suffix.",
+      "positiveControl": "uri-suffix-encoding"
     },
     {
       "id": "tree-uri-decoding",
@@ -158,7 +161,8 @@
         "code": "return null;"
       },
       "expected": false,
-      "rationale": "The invalid-URI branch returns a constant null."
+      "rationale": "The invalid-URI branch returns a constant null.",
+      "positiveControl": "tree-uri-decoding"
     },
     {
       "id": "filename-extension",
@@ -175,6 +179,26 @@
       },
       "expected": true,
       "rationale": "The requested name is interpolated with the existing extension."
+    },
+    {
+      "id": "save-name-not-stream-control",
+      "source": {
+        "file": "util/native/file_saver.dart",
+        "method": "saveFile",
+        "kind": "parameter",
+        "name": "name"
+      },
+      "sink": {
+        "file": "util/native/file_saver.dart",
+        "method": "saveFile",
+        "kind": "call",
+        "name": "lookupMimeType",
+        "argument": 1,
+        "code": "lookupMimeType(name)",
+        "line": 43
+      },
+      "expected": true,
+      "rationale": "Positive control for save-name-not-stream: the same source reaches its own field, forwarded argument or use."
     }
   ],
   "saber": [
@@ -214,7 +238,8 @@
         "code": "return null;"
       },
       "expected": false,
-      "rationale": "The absent-value branch returns a fixed null."
+      "rationale": "The absent-value branch returns a fixed null.",
+      "positiveControl": "stored-bytes-encoding"
     },
     {
       "id": "stored-bytes-decoding",
@@ -289,7 +314,8 @@
         "argument": 1
       },
       "expected": false,
-      "rationale": "The application root directory is fixed independently of configuration contents."
+      "rationale": "The application root directory is fixed independently of configuration contents.",
+      "positiveControl": "config-json-upload"
     },
     {
       "id": "path-encryption-capture",
@@ -326,7 +352,8 @@
         "argumentName": "priority"
       },
       "expected": false,
-      "rationale": "Work priority is independent of the path being encrypted."
+      "rationale": "Work priority is independent of the path being encrypted.",
+      "positiveControl": "path-encryption-capture"
     },
     {
       "id": "quota-decoder-input",
@@ -421,7 +448,8 @@
         "argumentName": "limitRepetition"
       },
       "expected": false,
-      "rationale": "Deprecation repetition policy depends on verbose, not source text."
+      "rationale": "Deprecation repetition policy depends on verbose, not source text.",
+      "positiveControl": "source-to-parser"
     },
     {
       "id": "public-source-forwarding",
@@ -526,7 +554,8 @@
         "code": "return name;"
       },
       "expected": false,
-      "rationale": "The count controls a branch but does not taint the singular name."
+      "rationale": "The count controls a branch but does not taint the singular name.",
+      "positiveControl": "plural-count-not-name-control"
     },
     {
       "id": "plural-name-result",
@@ -560,6 +589,25 @@
       },
       "expected": true,
       "rationale": "Indentation maps lines from the input string through a closure."
+    },
+    {
+      "id": "plural-count-not-name-control",
+      "source": {
+        "file": "src/utils.dart",
+        "method": "pluralize",
+        "kind": "parameter",
+        "name": "number"
+      },
+      "sink": {
+        "file": "src/utils.dart",
+        "method": "pluralize",
+        "kind": "call",
+        "code": "number == 1",
+        "name": "<operator>.equals",
+        "argument": 1
+      },
+      "expected": true,
+      "rationale": "Positive control for plural-count-not-name: the same source reaches its own field, forwarded argument or use."
     }
   ]
 }

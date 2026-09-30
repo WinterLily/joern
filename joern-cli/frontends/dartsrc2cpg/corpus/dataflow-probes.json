@@ -36,7 +36,8 @@
         "name": "parameterDefined"
       },
       "expected": false,
-      "rationale": "Named constructor formals initialize only their corresponding fields."
+      "rationale": "Named constructor formals initialize only their corresponding fields.",
+      "positiveControl": "named-reason-to-reason"
     },
     {
       "id": "named-parameterDefined-to-reason",
@@ -55,7 +56,8 @@
         "name": "reason"
       },
       "expected": false,
-      "rationale": "Named constructor formals initialize only their corresponding fields."
+      "rationale": "Named constructor formals initialize only their corresponding fields.",
+      "positiveControl": "named-parameterDefined-to-parameterDefined"
     },
     {
       "id": "named-parameterDefined-to-parameterDefined",
@@ -93,7 +95,8 @@
         "name": "parameterDefined"
       },
       "expected": false,
-      "rationale": "The unnamed constructor sets parameterDefined to null independently of reason."
+      "rationale": "The unnamed constructor sets parameterDefined to null independently of reason.",
+      "positiveControl": "constant-field-not-reason-control"
     },
     {
       "id": "target-kind-displayString",
@@ -112,7 +115,8 @@
         "name": "name"
       },
       "expected": false,
-      "rationale": "Two positional constructor fields must remain independent."
+      "rationale": "Two positional constructor fields must remain independent.",
+      "positiveControl": "target-kind-displayString-control"
     },
     {
       "id": "target-kind-name",
@@ -132,6 +136,44 @@
       },
       "expected": true,
       "rationale": "Two positional constructor fields must remain independent."
+    },
+    {
+      "id": "constant-field-not-reason-control",
+      "source": {
+        "file": "meta.dart",
+        "method": "<init>",
+        "kind": "parameter",
+        "owner": "UseResult",
+        "name": "reason"
+      },
+      "sink": {
+        "file": "meta.dart",
+        "method": "<init>",
+        "kind": "fieldWrite",
+        "owner": "UseResult",
+        "name": "reason"
+      },
+      "expected": true,
+      "rationale": "Positive control for constant-field-not-reason: the same source reaches its own field, forwarded argument or use."
+    },
+    {
+      "id": "target-kind-displayString-control",
+      "source": {
+        "file": "meta_meta.dart",
+        "method": "_",
+        "kind": "parameter",
+        "owner": "TargetKind",
+        "name": "displayString"
+      },
+      "sink": {
+        "file": "meta_meta.dart",
+        "method": "_",
+        "kind": "fieldWrite",
+        "owner": "TargetKind",
+        "name": "displayString"
+      },
+      "expected": true,
+      "rationale": "Positive control for target-kind-displayString: the same source reaches its own field, forwarded argument or use."
     }
   ],
   "path": [
@@ -201,7 +243,8 @@
         "name": "_parse"
       },
       "expected": false,
-      "rationale": "The extension argument is not supplied to withoutExtension or _parse."
+      "rationale": "The extension argument is not supplied to withoutExtension or _parse.",
+      "positiveControl": "set-extension-suffix"
     },
     {
       "id": "cross-file-basename",
@@ -277,7 +320,8 @@
         "name": "keyOf"
       },
       "expected": false,
-      "rationale": "The searched list must not become the search key value."
+      "rationale": "The searched list must not become the search key value.",
+      "positiveControl": "search-list-not-key-control"
     },
     {
       "id": "reverse-loop-element",
@@ -314,7 +358,44 @@
         "code": "return -1;"
       },
       "expected": false,
-      "rationale": "Search data controls the branch but not the constant -1 value; this audit checks explicit dataflow."
+      "rationale": "Search data controls the branch but not the constant -1 value; this audit checks explicit dataflow.",
+      "positiveControl": "constant-not-found-control"
+    },
+    {
+      "id": "search-list-not-key-control",
+      "source": {
+        "file": "src/algorithms.dart",
+        "method": "binarySearch",
+        "kind": "parameter",
+        "name": "sortedList"
+      },
+      "sink": {
+        "file": "src/algorithms.dart",
+        "method": "binarySearchBy",
+        "kind": "parameter",
+        "name": "sortedList"
+      },
+      "expected": true,
+      "rationale": "Positive control for search-list-not-key: the same source reaches its own field, forwarded argument or use."
+    },
+    {
+      "id": "constant-not-found-control",
+      "source": {
+        "file": "src/algorithms.dart",
+        "method": "binarySearchBy",
+        "kind": "parameter",
+        "name": "value"
+      },
+      "sink": {
+        "file": "src/algorithms.dart",
+        "method": "binarySearchBy",
+        "kind": "call",
+        "code": "keyOf(value)",
+        "name": "keyOf",
+        "argument": 1
+      },
+      "expected": true,
+      "rationale": "Positive control for constant-not-found: the same source reaches its own field, forwarded argument or use."
     }
   ],
   "args": [
@@ -367,7 +448,8 @@
         "code": "return defaultsTo;"
       },
       "expected": false,
-      "rationale": "The fallback reads the default field, not the supplied value."
+      "rationale": "The fallback reads the default field, not the supplied value.",
+      "positiveControl": "option-value-return"
     },
     {
       "id": "forwarded-constructor-name",
@@ -404,7 +486,26 @@
         "name": "name"
       },
       "expected": false,
-      "rationale": "The helper forwards six constructor arguments; only name initializes the name field."
+      "rationale": "The helper forwards six constructor arguments; only name initializes the name field.",
+      "positiveControl": "forwarded-constructor-parsed-control"
+    },
+    {
+      "id": "forwarded-constructor-parsed-control",
+      "source": {
+        "file": "src/arg_results.dart",
+        "method": "newArgResults",
+        "kind": "parameter",
+        "name": "parsed"
+      },
+      "sink": {
+        "file": "src/arg_results.dart",
+        "method": "_",
+        "kind": "fieldWrite",
+        "owner": "ArgResults",
+        "name": "_parsed"
+      },
+      "expected": true,
+      "rationale": "Positive control for forwarded-constructor-parsed: the same source reaches its own field, forwarded argument or use."
     }
   ],
   "async": [
@@ -425,7 +526,8 @@
         "name": "completeError"
       },
       "expected": false,
-      "rationale": "The error and stackTrace fields are separate arguments."
+      "rationale": "The error and stackTrace fields are separate arguments.",
+      "positiveControl": "error-to-error-argument"
     },
     {
       "id": "error-to-error-argument",
@@ -537,7 +639,8 @@
         "code": "return isLast ? _doneChunk : const [];"
       },
       "expected": false,
-      "rationale": "The zero-length branch returns only fixed framing data."
+      "rationale": "The zero-length branch returns only fixed framing data.",
+      "positiveControl": "chunk-return-buffer"
     },
     {
       "id": "captured-media-type",
@@ -632,7 +735,8 @@
         "name": "<operator>.assignment"
       },
       "expected": false,
-      "rationale": "Flushing resets length to zero independently of byte contents."
+      "rationale": "Flushing resets length to zero independently of byte contents.",
+      "positiveControl": "write-byte-not-reset-control"
     },
     {
       "id": "list-element-callback",
@@ -668,6 +772,24 @@
       },
       "expected": true,
       "rationale": "fork writes the requested offset to the new reader."
+    },
+    {
+      "id": "write-byte-not-reset-control",
+      "source": {
+        "file": "src/binary/binary_writer.dart",
+        "method": "_addByte",
+        "kind": "parameter",
+        "name": "byte"
+      },
+      "sink": {
+        "file": "src/binary/binary_writer.dart",
+        "method": "_addByte",
+        "kind": "call",
+        "code": "_buffer[_length++] = byte",
+        "name": "<operator>.assignment"
+      },
+      "expected": true,
+      "rationale": "Positive control for write-byte-not-reset: the same source reaches its own field, forwarded argument or use."
     }
   ]
 }

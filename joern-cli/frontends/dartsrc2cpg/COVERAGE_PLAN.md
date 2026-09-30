@@ -1,6 +1,6 @@
 # Dart coverage completion plan
 
-Status: proposed follow-on work after commit `d0f58c01e`. The frontend is an
+Status: Gate 1 implementation in progress after commit `d0f58c01e`. The frontend is an
 initial implementation, not complete language or runtime analysis support.
 This plan supersedes the completion assumptions in the original implementation
 plan in `agents/plan.md`; it does not mark the remaining work as done.
@@ -35,17 +35,18 @@ checkouts: 1,322 Dart files and 57,836 internal methods in the selected source
 roots. The application scopes are documented in [applications/README.md](corpus/applications/README.md).
 Dependencies are resolved but their bodies are generally outside each graph.
 
-The committed queries check 67 selected relationships: 46 expected flows and 21
+The original committed queries check 67 selected relationships: 46 expected flows and 21
 expected non-flows. Stock semantics matches 65/67; the optional summaries match
-67/67. Two stock false positives and a separate returned-object field precision
+67/67. The Gate 1 increment adds eight positive controls (75 total); see the semantic
+audit for current results. Two stock false positives and a separate returned-object field precision
 limitation are documented. These are counts of endpoint expectations, not counts
 of independently verified paths or estimates of whole-program precision/recall.
 
 The work included source-grounded expectations, positive/negative queries,
 inspection of failures, focused regressions, whole-graph structural walks and
 queries after graph reload. The query harness requires unique endpoints and,
-for some tests, a named callee in a witness. It retains up to three witnesses per
-query. It does not validate every witness hop, all alternative routes, path
+for some tests, a named callee in a witness. The original reports retained up to three witnesses per
+query; the Gate 1 harness now retains all returned witnesses by default. It does not validate every witness hop, all alternative routes, path
 feasibility or every negative result's reason for absence. Queries run at maximum
 call depth four. A depth-eight analyzer query exhausted the test JVM heap.
 
@@ -60,6 +61,14 @@ encoding and byte conversion, but relies on external-call behavior. Sass's
 subsequent parser/evaluator pipeline.
 
 ## Gate 1 — Audit the semantic evidence before expanding claims
+
+Progress: see the [semantic audit](corpus/SEMANTIC_AUDIT.md). Witness reporting
+now defaults to all returned paths and records any explicit reporting truncation.
+All 21 negative queries have enforced positive controls (eight new controls).
+The certificate route has a reduced Scala regression, a Dart execution oracle
+and a complete transition review. Additional suspicious routes are tracked;
+full source/route reviews and search-limit observability remain outstanding.
+
 
 - [ ] Review all 67 existing expectations against pinned source. Record exact
       endpoints, intended transformations/callees and relevant branch conditions.
