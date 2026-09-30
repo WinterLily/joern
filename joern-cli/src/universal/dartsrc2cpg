@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+SCRIPT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+export DART_ASTGEN="${DART_ASTGEN:-$SCRIPT_DIR/frontends/dartsrc2cpg/bin/dart_astgen}"
+exec "$SCRIPT_DIR/frontends/dartsrc2cpg/bin/dartsrc2cpg" "$@"

@@ -23,6 +23,7 @@ lazy val rubysrc2cpg       = Projects.rubysrc2cpg
 lazy val gosrc2cpg         = Projects.gosrc2cpg
 lazy val swiftsrc2cpg      = Projects.swiftsrc2cpg
 lazy val csharpsrc2cpg     = Projects.csharpsrc2cpg
+lazy val dartsrc2cpg = Projects.dartsrc2cpg
 lazy val abap2cpg          = Projects.abap2cpg
 lazy val rust2cpg          = Projects.rust2cpg
 lazy val linterRules       = Projects.linterRules
@@ -53,6 +54,7 @@ lazy val root = project
     swiftsrc2cpg,
     csharpsrc2cpg,
     abap2cpg,
+    dartsrc2cpg,
     rust2cpg,
     linterRules
     // linterRulesInput is intentionally NOT aggregated: it holds scalafix-testkit fixtures only

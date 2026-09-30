@@ -4,6 +4,7 @@ import io.joern.console.cpgcreation.{CpgGenerator, cpgGeneratorForLanguage, gues
 import io.joern.console.{FrontendConfig, InstallConfig}
 import io.joern.joerncli.CpgBasedTool.newCpgCreatedString
 import io.joern.x2cpg.frontendspecific.FrontendArgsDelimitor
+import io.joern.x2cpg.frontendspecific.DartLanguage
 import io.shiftleft.codepropertygraph.generated.Languages
 import io.shiftleft.semanticcpg.language.*
 
@@ -106,7 +107,9 @@ object JoernParse {
   private def buildLanguageList(): String = {
     val s = new mutable.StringBuilder()
     s ++= "Available languages (case insensitive):\n"
-    s ++= Languages.ALL.asScala.map(lang => s"- ${lang.toLowerCase}").mkString("\n")
+    s ++= (Languages.ALL.asScala.toSeq :+ DartLanguage.Name).distinct
+      .map(lang => s"- ${lang.toLowerCase}")
+      .mkString("\n")
     s.toString()
   }
 

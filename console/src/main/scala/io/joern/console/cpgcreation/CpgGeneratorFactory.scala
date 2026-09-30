@@ -2,6 +2,7 @@ package io.joern.console.cpgcreation
 
 import io.shiftleft.semanticcpg.utils.FileUtil.*
 import io.shiftleft.codepropertygraph.cpgloading.CpgLoader
+import io.joern.x2cpg.frontendspecific.DartLanguage
 import io.shiftleft.codepropertygraph.generated.Languages
 import io.joern.console.{ConsoleConfig, CpgConverter}
 import io.shiftleft.semanticcpg.utils.FileUtil
@@ -11,6 +12,7 @@ import scala.util.Try
 
 object CpgGeneratorFactory {
   private val KNOWN_LANGUAGES = Set(
+    DartLanguage.Name,
     Languages.C,
     Languages.CSHARP,
     Languages.GOLANG,

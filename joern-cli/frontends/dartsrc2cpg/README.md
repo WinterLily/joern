@@ -1,71 +1,111 @@
-# Dart frontend prototype
+# Dart source frontend
 
-The first implementation slice is the local analyzer exporter in `astgen/`.
-It does not yet construct a CPG, register a Joern language, or prove dataflow.
-The directory follows the `dartsrc2cpg` name in the implementation plan.
+`dartsrc2cpg` uses the local Dart analyzer exporter to construct CPGs for top-level
+functions, positional and named parameters, locals, literals, assignments, direct
+calls, index access, and returns. Tests prove positive and negative interprocedural
+dataflow across two files, including after saving and reopening the CPG.
+Unsupported syntax is represented by `UNKNOWN` nodes and reported in logs.
 
-## Development
+## Build and test
 
-Use Dart **3.9.2** with analyzer **8.4.1**. Dependencies are locked in
-`astgen/pubspec.lock`; the exporter rejects other analysis SDK versions.
-Install the exporter dependencies explicitly:
-
-```sh
-cd joern-cli/frontends/dartsrc2cpg/astgen
-dart pub get --enforce-lockfile
-dart analyze
-dart test
-dart format --output=none --set-exit-if-changed lib bin test
-```
-
-Tests create and remove temporary projects under the repository's `agents/`
-directory. They cover standalone files, relative and package imports, two-file
-calls, reordered named arguments and omitted defaults, inferred types, `part`
-files, Unicode, deterministic output after relocation, malformed source,
-unavailable dependencies, generated files, and CLI behavior.
-
-Run from `astgen/`:
+Use JDK 21, the repository's Sbt **2.0.9**, and Dart **3.9.2** with analyzer
+**8.4.1**. Dependencies are locked. From the repository root:
 
 ```sh
-dart run bin/dart_astgen.dart /absolute/project/root
-# Export one file while preserving package context and stable file identities:
-dart run bin/dart_astgen.dart /absolute/project/root /absolute/project/root/lib/main.dart
-# Supply an analysis SDK explicitly (required for a native executable):
-dart run bin/dart_astgen.dart /absolute/project/root /absolute/project/root/lib/main.dart /absolute/dart-sdk
+export DART_SDK=/absolute/path/to/dart-sdk
+export PATH="$DART_SDK/bin:$PATH"
+(cd joern-cli/frontends/dartsrc2cpg/astgen && dart pub get --enforce-lockfile)
+mkdir -p joern-cli/frontends/dartsrc2cpg/bin
+dart compile exe joern-cli/frontends/dartsrc2cpg/astgen/bin/dart_astgen.dart \
+  -o joern-cli/frontends/dartsrc2cpg/bin/dart_astgen
+export DART_ASTGEN="$PWD/joern-cli/frontends/dartsrc2cpg/bin/dart_astgen"
+sbt 'dartsrc2cpg/test' 'dartsrc2cpg/stage'
+(cd joern-cli/frontends/dartsrc2cpg/astgen && dart analyze && dart test)
 ```
 
-The scan uses existing package configuration. It never runs `pub get`, a build,
-or code generation in the input project. Existing generated `.dart` files are
-included; `.git` and `.dart_tool` contents and directory symlinks are excluded.
-The root must contain the input. SDK discovery uses the running Dart executable's
-location; an explicit SDK path takes precedence. A native executable still needs
-the SDK and must receive its path as the third argument.
+On Windows, compile as `bin/dart_astgen.exe`. Staging packages the native exporter;
+it still requires the analysis SDK at runtime. Dependency installation and native
+compilation are explicit preparation steps, never scan side effects. Only Linux
+x86-64 staging has been exercised. Cross-platform releases remain milestone 5 work.
 
-Output is JSON Lines on stdout; fatal failures go to stderr and set exit code 1.
-Invalid CLI usage sets exit code 64. Source diagnostics yield partial records
-and do not cause a nonzero exit. See [the protocol](astgen/PROTOCOL.md).
+Test the staged frontend through `joern-parse` and the real console import helper:
 
-## Scope and next steps
+```sh
+export DART_FRONTEND_STAGE="$PWD/joern-cli/frontends/dartsrc2cpg/target/universal/stage"
+sbt 'joerncli/testOnly *DartIntegrationTests *JoernParseTests' \
+    'console/testOnly *LanguageHelperTests'
+```
 
-The prototype exports named AST roles for the initial function/call/local/literal
-subset. It preserves remaining syntax as explicitly unsupported nodes, with
-source spans and generic children. This is an exporter coverage claim, not a
-claim of CPG, control-flow, or dataflow support.
+`DartIntegrationTests` creates an isolated installation under `agents/`, using the
+staged frontend and distribution launcher. Its staged import test is canceled when
+`DART_FRONTEND_STAGE` is absent. Frontend tests require the exporter and SDK; they
+accept `DART_ASTGEN` and `DART_SDK`, falling back to local repository development
+paths. Temporary test projects live under `agents/` and are removed after each test.
 
-The Flutter-style test intentionally has no Flutter dependency installed: it
-checks useful partial output and unsupported class/constructor reporting.
-Resolution against a real Flutter SDK remains untested. Packaging for other
-platforms, analyzer crash recovery, analysis-option exclusions, SDK-independent
-execution, stable external file identities across machines, and Scala Unicode
-conversion and protocol validation also remain future work. Syntax-only fallback
-uses the analyzer's default language feature set when resolution is unavailable.
+The frontend is registered in the root Sbt build and Joern distribution mappings.
+The complete distribution uses the repository's usual `sbt stage` build path.
 
-The repository loads with JDK 21 and Sbt 2.0.9. Inspection of the pinned CPG
-1.7.78 `Languages` class found no Dart identifier. An upstream schema addition
-and dependency update must be settled before frontend/console integration; this
-prototype does not add a competing language constant.
+## Acceptance fixture and query
 
-Next, complete the bridge acceptance checks (including resolved Flutter and the
-Scala boundary), then implement the Scala frontend and the two-file positive and
-negative dataflow proof. Exporter source is owned locally for this prototype;
-release infrastructure ownership remains undecided.
+The committed package is [src/test/resources/dataflow](src/test/resources/dataflow).
+Run the standalone staged CLI:
+
+```sh
+joern-cli/frontends/dartsrc2cpg/target/universal/stage/bin/dartsrc2cpg \
+  joern-cli/frontends/dartsrc2cpg/src/test/resources/dataflow \
+  --dart-sdk "$DART_SDK" -o agents/dart-proof.bin
+```
+
+In a full Joern distribution, detection and explicit selection are supported:
+
+```sh
+./joern-parse /absolute/path/to/dataflow --language dart -o /absolute/path/to/cpg.bin
+```
+
+The console helper applies default overlays; add OSS dataflow and query:
+
+```scala
+importCode.dart("/absolute/path/to/dataflow")
+run.ossdataflow
+cpg.call.nameExact("sink").argument.reachableByFlows(cpg.identifier.nameExact("input")).p
+```
+
+`DartFrontendTests` asserts a path containing the `relay` parameter, resolution to
+`lib/helper.dart`, and the same query after graph reload. Passing `'constant'` to
+`relay`, passing `input` to an unused named parameter, or overwriting the forwarded
+local must produce no path.
+
+## Graph conventions
+
+- The shared `DartLanguage.Name` is `DART`. CPG 1.7.78 has no generated Dart
+  constant; replace this integration identifier when an upstream constant becomes
+  available. No schema fork is required.
+- Exported declaration identities become method full names and call targets.
+  They are relative to the package root. Single-file scans discover the nearest
+  `pubspec.yaml` to preserve context.
+- Parameters are indexed from one. Argument `order` follows source evaluation
+  order; `argumentIndex` follows exported parameter bindings. Named arguments also
+  carry `argumentName`. This satisfies the engine's index-based call-boundary lookup
+  without changing CFG evaluation order. Reordered-argument regressions cover both
+  flow and absence of flow from an unused parameter.
+- Source snippets use UTF-16 offsets, matching JVM strings. Line and column numbers
+  are one-based; columns remain UTF-16 code units. A non-BMP literal preceding a
+  call is covered at the Scala boundary.
+- Tests enable AST schema validation, post-frontend validation at V3, default
+  overlays, and optional OSS dataflow.
+
+## Exporter and limitations
+
+See [the JSON Lines protocol](astgen/PROTOCOL.md). The runner rejects incompatible
+protocol/SDK/analyzer versions and missing summary records. Source diagnostics
+produce partial graphs and are logged. Scans use existing package configuration
+and never fetch dependencies, build applications, or generate code. Existing
+generated Dart files are included; `.git`, `.dart_tool`, and directory symlinks
+are skipped by the exporter.
+
+This milestone does not provide general Dart/Flutter semantics. Classes, closures,
+control-flow constructs, async behavior, default argument insertion, and most
+operators require later milestones. Missing dependencies can leave calls unresolved.
+The Flutter-style exporter fixture tests partial output without a Flutter SDK;
+resolved Flutter analysis remains untested. Resource limits, crash recovery, full
+analysis-option exclusions, and release infrastructure ownership remain future work.

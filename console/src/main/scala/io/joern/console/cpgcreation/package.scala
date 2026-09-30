@@ -1,6 +1,7 @@
 package io.joern.console
 
 import io.shiftleft.semanticcpg.utils.FileUtil.*
+import io.joern.x2cpg.frontendspecific.DartLanguage
 import io.shiftleft.codepropertygraph.generated.Languages
 import io.shiftleft.semanticcpg.utils.FileUtil
 
@@ -21,6 +22,7 @@ package object cpgcreation {
   ): Option[CpgGenerator] = {
     lazy val conf = config.withArgs(args)
     language match {
+      case DartLanguage.Name                      => Some(DartCpgGenerator(conf, rootPath))
       case Languages.CSHARP                       => Some(CSharpCpgGenerator(conf, rootPath))
       case Languages.CSHARPSRC                    => Some(CSharpSrcCpgGenerator(conf, rootPath))
       case Languages.C | Languages.NEWC           => Some(CCpgGenerator(conf, rootPath))
@@ -102,6 +104,7 @@ package object cpgcreation {
 
   private def guessLanguageForRegularFile(file: Path): Option[String] = {
     file.fileName.toLowerCase match {
+      case fileName if fileName.endsWith(".dart")  => Some(DartLanguage.Name)
       case fileName if isJavaBinary(fileName)      => Some(Languages.JAVA)
       case fileName if isCsharpFile(fileName)      => Some(Languages.CSHARPSRC)
       case fileName if isGoFile(fileName)          => Some(Languages.GOLANG)
