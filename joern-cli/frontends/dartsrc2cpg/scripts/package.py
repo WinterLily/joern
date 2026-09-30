@@ -39,6 +39,8 @@ def main():
             with tarfile.open(archive, "r:gz") as package:
                 package.extractall(stage, filter="data")
             exporter = stage / "bin" / binary
+            for model in (FRONTEND / "dataflow").glob("*.semantics"):
+                assert (stage / "dataflow" / model.name).read_bytes() == model.read_bytes(), model.name
         project = Path(scratch) / "project"
         shutil.copytree(FRONTEND / "src/test/resources/dataflow", project, dirs_exist_ok=True)
         result = run(exporter, project, project, sdk, "--metrics", capture_output=True, encoding="utf-8")

@@ -67,6 +67,28 @@ in the shared dataflow engine. Earlier behavior admitted every argument whenever
 any argument had a return mapping. Stock results remain separately reported;
 loading this summary is an explicit choice of its narrower contract.
 
+## Optional byte-content summary
+
+`dataflow/bytes.semantics` targets Dart SDK 3.9.2 `Uint8List(length)` and standard
+`List.setRange`. Allocation length chooses a zero-filled buffer's size, but does
+not supply its element values. `setRange` copies its iterable's elements into the
+receiver; it does not copy receiver contents or range bounds back into the source
+iterable. This is a byte-content contract, not whole-object noninterference:
+length and range selection remain observable. Invalid ranges, arbitrary custom
+List overrides, exact indices, alias-sensitive overwrites and native execution
+are outside this model.
+
+The constructor rule pins its declaration offset because `dart:typed_data` also
+contains unnamed SIMD constructors with different value semantics. Requalify the
+rule when changing SDK versions. Source references are `lib/typed_data/typed_data.dart`
+(`Uint8List`), `lib/core/list.dart` (`setRange`) and the VM implementation's
+`lib/_internal/vm/lib/typed_data_patch.dart` (`_setRange`, `_slowSetRange`).
+The bounded execution oracle varies lengths 0..2 and element values 0, 1 and 255;
+CPG controls cover size-only allocation, an independent destination and source
+iterable isolation. The real `http_parser` chunk-copy query now returns a direct
+input-to-bytes parameter witness; see the complete transition review in
+[byte-copy-review.json](corpus/byte-copy-review.json). Stock results remain separate.
+
 ## Remaining models
 
 Future summary work needs explicit contracts and positive/negative tests:

@@ -13,7 +13,8 @@ qualification obligations remain open. Selected SDK conformance cases now expose
 and cover separate shared-case guard/body captures and distinct logical-or joins;
 metamorphic pairs and targeted mutations check the graph contracts. Ordinary
 static/top-level initialization now uses guarded getters with write-before-read,
-retry and reentrant-final execution checks. The frontend is an
+retry and reentrant-final execution checks. The byte-copy witness has a complete
+transition review and an opt-in SDK byte-content model with size/isolation controls. The frontend is an
 initial implementation, not complete language or runtime analysis support.
 This plan supersedes the completion assumptions in the original implementation
 plan in `agents/plan.md`; it does not mark the remaining work as done.

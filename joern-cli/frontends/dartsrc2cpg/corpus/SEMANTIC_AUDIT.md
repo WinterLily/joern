@@ -70,7 +70,7 @@ and external-call behavior, pending reduced reproduction.
 | Issue | Probe | Observed route requiring review |
 | --- | --- | --- |
 | DART-FLOW-002 | analyzer `list-element-callback` | Leaves `items` through METHOD_PARAMETER_OUT, traverses unrelated receiver fields, and re-enters the list parameter before `items[i]`. |
-| DART-FLOW-003 | http_parser `chunk-interprocedural-copy` | Reaches `bytes` through input length, buffer allocation and setRange arguments instead of a direct byte-parameter route. |
+| DART-FLOW-003 | http_parser `chunk-interprocedural-copy` | Reduced byte-content/size/isolation cases and [full transition review](byte-copy-review.json) added. Optional bytes model yields direct parameter forwarding; stock equality and external-call shortcuts remain explicitly classified. |
 | DART-FLOW-004 | path `normalize-fast-return`; Sass `scss-source-forwarding`/`css-source-forwarding` | Passes through unrelated caller sites (`fromUri`/`readFile`) before re-entering the source method. |
 | DART-FLOW-005 | LocalSend `filename-extension` | Leaves the selected return through a caller's map callback and re-enters the selected method. |
 

@@ -1,0 +1,5 @@
+# Dart SDK 3.9.2 byte-content contract for Uint8List allocation and standard List.setRange.
+# Length/range inputs select size and positions; they are not copied element values.
+# Keep the constructor offset exact: other dart:typed_data unnamed constructors include SIMD values.
+"dart:typed_data\x2336552:CONSTRUCTOR:new" 1 -> 1
+"dart:core/list[.]dart\x2329446:METHOD:setRange" 0 -> 0 1 -> 1 2 -> 2 3 -> 3 4 -> 4 3 -> 0

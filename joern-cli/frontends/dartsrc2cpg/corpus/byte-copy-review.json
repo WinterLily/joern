@@ -1,0 +1,471 @@
+{
+  "schemaVersion": 1,
+  "issue": "DART-FLOW-003",
+  "source": {
+    "name": "http_parser",
+    "version": "4.1.2",
+    "sha256": "178d74305e7866013777bab2c3d8726205dc5a4dd935297175b19a23a2e66571",
+    "librarySha256": "739aeba9feb50dc075b2038553b24ba716ec92a3f57e164902a275b403e21d0b",
+    "probe": "convert"
+  },
+  "exporter": {
+    "record": "header",
+    "protocolVersion": 1,
+    "exporterVersion": "0.3.8",
+    "analyzerVersion": "8.4.1",
+    "sdkVersion": "3.9.2",
+    "offsetEncoding": "utf-16",
+    "conditionalEnvironment": "analyzer-default"
+  },
+  "modelFiles": {
+    "async": "# Completer.completeError stores the error and stack trace in the completer.\n# It does not copy either argument into the other and has no return value.\n# Load these method names as regular expressions; declaration offsets may vary.\n\"dart:async/future[.]dart\\x23[0-9]+:METHOD:completeError\" 0 -> 0 1 -> 1 2 -> 2 1 -> 0 2 -> 0\n",
+    "worker_manager": "# Executor.execute stores the task and priority and returns its cancelable result.\n# The task's values do not change the priority argument. This does not model scheduling.\n# Tested against worker_manager 7.2.6; load the method name as a regular expression.\n\"package:worker_manager/src/scheduling/executor[.]dart\\x23[0-9]+:METHOD:execute\" 0 -> 0 1 -> 1 2 -> 2 1 -> 0 2 -> 0 1 -> -1\n",
+    "iterable": "# Dart SDK 3.9.2: lib/core/iterable.dart and lib/internal/iterable.dart.\n# Explicit element values with pure predicates/transforms and statically known callbacks.\n# Selection, lazy execution timing and callback side effects are outside this contract.\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:where\" 0 -> 0 1 -> 1 0 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:map\" 0 -> 0 1 -> 1 1 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:join\" 0 -> 0 1 -> 1 0 -> -1 1 -> -1\n",
+    "bytes": "# Dart SDK 3.9.2 byte-content contract for Uint8List allocation and standard List.setRange.\n# Length/range inputs select size and positions; they are not copied element values.\n# Keep the constructor offset exact: other dart:typed_data unnamed constructors include SIMD values.\n\"dart:typed_data\\x2336552:CONSTRUCTOR:new\" 1 -> 1\n\"dart:core/list[.]dart\\x2329446:METHOD:setRange\" 0 -> 0 1 -> 1 2 -> 2 3 -> 3 4 -> 4 3 -> 0\n"
+  },
+  "contract": "Byte-content dependency, separate from allocation size and range selection; valid standard Uint8List/List.setRange operations.",
+  "disposition": "Stock witness contains unjustified operand/argument transfers. Optional bytes model yields direct input-to-bytes parameter forwarding. Primitive equality cross-operand fallback remains a shared-engine issue.",
+  "ownership": {
+    "frontend": "resolved targets and bindings verified",
+    "library-model": "Uint8List zero allocation and List.setRange content effects",
+    "shared-engine": "stock primitive equality fallback admits cross-operand flow; reduced regression still required"
+  },
+  "reviews": [
+    {
+      "mode": "defaultSemantics",
+      "query": {
+        "id": "chunk-interprocedural-copy",
+        "expected": true,
+        "source": {
+          "file": "src/chunked_coding/encoder.dart",
+          "method": "convert",
+          "kind": "parameter",
+          "name": "input"
+        },
+        "sink": {
+          "file": "src/chunked_coding/encoder.dart",
+          "method": "_convert",
+          "kind": "call",
+          "argument": 3,
+          "code": "list.setRange(cursor, cursor + end - start, bytes, start)",
+          "name": "setRange"
+        },
+        "outcome": "flow-observed",
+        "semanticReview": "reviewed dependency transitions; not execution-path certification",
+        "maxCallDepth": 4,
+        "maxArgsToAllow": 1000,
+        "maxOutputArgsExpansion": 1000,
+        "limitations": [],
+        "searchComplete": true,
+        "pathSelection": "longest-per-endpoint-pair",
+        "alternativeRoutes": "not-returned-by-engine",
+        "witnessLimit": null,
+        "retainedWitnesses": 1,
+        "omittedWitnesses": 0,
+        "passed": true,
+        "sources": 1,
+        "sinks": 1,
+        "paths": 1,
+        "viaSatisfied": true
+      },
+      "nodes": [
+        {
+          "nodeId": "111669149749",
+          "label": "METHOD_PARAMETER_IN",
+          "method": "package:http_parser/src/chunked_coding/encoder.dart#730:METHOD:convert",
+          "code": "List<int> input",
+          "line": 21
+        },
+        {
+          "nodeId": "68719477128",
+          "label": "IDENTIFIER",
+          "method": "package:http_parser/src/chunked_coding/encoder.dart#730:METHOD:convert",
+          "code": "input",
+          "line": 22
+        },
+        {
+          "nodeId": "30064771492",
+          "label": "CALL",
+          "method": "package:http_parser/src/chunked_coding/encoder.dart#730:METHOD:convert",
+          "code": "input.length",
+          "line": 22
+        },
+        {
+          "nodeId": "111669149764",
+          "label": "METHOD_PARAMETER_IN",
+          "method": "package:http_parser/src/chunked_coding/encoder.dart#1792:FUNCTION:_convert",
+          "code": "int end",
+          "line": 60
+        },
+        {
+          "nodeId": "68719477152",
+          "label": "IDENTIFIER",
+          "method": "package:http_parser/src/chunked_coding/encoder.dart#1792:FUNCTION:_convert",
+          "code": "end",
+          "line": 61
+        },
+        {
+          "nodeId": "68719477153",
+          "label": "IDENTIFIER",
+          "method": "package:http_parser/src/chunked_coding/encoder.dart#1792:FUNCTION:_convert",
+          "code": "start",
+          "line": 61
+        },
+        {
+          "nodeId": "68719477157",
+          "label": "IDENTIFIER",
+          "method": "package:http_parser/src/chunked_coding/encoder.dart#1792:FUNCTION:_convert",
+          "code": "start",
+          "line": 63
+        },
+        {
+          "nodeId": "30064771520",
+          "label": "CALL",
+          "method": "package:http_parser/src/chunked_coding/encoder.dart#1792:FUNCTION:_convert",
+          "code": "end - start",
+          "line": 63
+        },
+        {
+          "nodeId": "68719477155",
+          "label": "IDENTIFIER",
+          "method": "package:http_parser/src/chunked_coding/encoder.dart#1792:FUNCTION:_convert",
+          "code": "size",
+          "line": 63
+        },
+        {
+          "nodeId": "68719477159",
+          "label": "IDENTIFIER",
+          "method": "package:http_parser/src/chunked_coding/encoder.dart#1792:FUNCTION:_convert",
+          "code": "size",
+          "line": 64
+        },
+        {
+          "nodeId": "30064771522",
+          "label": "CALL",
+          "method": "package:http_parser/src/chunked_coding/encoder.dart#1792:FUNCTION:_convert",
+          "code": "size.toRadixString(16)",
+          "line": 64
+        },
+        {
+          "nodeId": "68719477158",
+          "label": "IDENTIFIER",
+          "method": "package:http_parser/src/chunked_coding/encoder.dart#1792:FUNCTION:_convert",
+          "code": "sizeInHex",
+          "line": 64
+        },
+        {
+          "nodeId": "68719477164",
+          "label": "IDENTIFIER",
+          "method": "package:http_parser/src/chunked_coding/encoder.dart#1792:FUNCTION:_convert",
+          "code": "sizeInHex",
+          "line": 68
+        },
+        {
+          "nodeId": "30064771530",
+          "label": "CALL",
+          "method": "package:http_parser/src/chunked_coding/encoder.dart#1792:FUNCTION:_convert",
+          "code": "sizeInHex.length + 4 + size + footerSize",
+          "line": 68
+        },
+        {
+          "nodeId": "30064771529",
+          "label": "CALL",
+          "method": "package:http_parser/src/chunked_coding/encoder.dart#1792:FUNCTION:_convert",
+          "code": "Uint8List(sizeInHex.length + 4 + size + footerSize)",
+          "line": 68
+        },
+        {
+          "nodeId": "68719477163",
+          "label": "IDENTIFIER",
+          "method": "package:http_parser/src/chunked_coding/encoder.dart#1792:FUNCTION:_convert",
+          "code": "<tmp>4",
+          "line": 68
+        },
+        {
+          "nodeId": "25769803890",
+          "label": "BLOCK",
+          "method": "package:http_parser/src/chunked_coding/encoder.dart#1792:FUNCTION:_convert",
+          "code": "Uint8List(sizeInHex.length + 4 + size + footerSize)",
+          "line": 68
+        },
+        {
+          "nodeId": "68719477162",
+          "label": "IDENTIFIER",
+          "method": "package:http_parser/src/chunked_coding/encoder.dart#1792:FUNCTION:_convert",
+          "code": "list",
+          "line": 68
+        },
+        {
+          "nodeId": "68719477168",
+          "label": "IDENTIFIER",
+          "method": "package:http_parser/src/chunked_coding/encoder.dart#1792:FUNCTION:_convert",
+          "code": "list",
+          "line": 69
+        },
+        {
+          "nodeId": "68719477187",
+          "label": "IDENTIFIER",
+          "method": "package:http_parser/src/chunked_coding/encoder.dart#1792:FUNCTION:_convert",
+          "code": "list",
+          "line": 74
+        },
+        {
+          "nodeId": "68719477188",
+          "label": "IDENTIFIER",
+          "method": "package:http_parser/src/chunked_coding/encoder.dart#1792:FUNCTION:_convert",
+          "code": "cursor",
+          "line": 74
+        },
+        {
+          "nodeId": "30064771552",
+          "label": "CALL",
+          "method": "package:http_parser/src/chunked_coding/encoder.dart#1792:FUNCTION:_convert",
+          "code": "cursor + end - start",
+          "line": 74
+        },
+        {
+          "nodeId": "68719477192",
+          "label": "IDENTIFIER",
+          "method": "package:http_parser/src/chunked_coding/encoder.dart#1792:FUNCTION:_convert",
+          "code": "bytes",
+          "line": 74
+        }
+      ],
+      "transitions": [
+        {
+          "source": "111669149749",
+          "target": "68719477128",
+          "classification": "parameter-use",
+          "reason": "Input parameter is read."
+        },
+        {
+          "source": "68719477128",
+          "target": "30064771492",
+          "classification": "size-dependency",
+          "reason": "The length getter derives allocation/range metadata, not element values."
+        },
+        {
+          "source": "30064771492",
+          "target": "111669149764",
+          "classification": "parameter-binding",
+          "reason": "Length is passed to the end parameter."
+        },
+        {
+          "source": "111669149764",
+          "target": "68719477152",
+          "classification": "parameter-use",
+          "reason": "End is read by the empty-range check."
+        },
+        {
+          "source": "68719477152",
+          "target": "68719477153",
+          "classification": "unjustified-cross-operand",
+          "reason": "Equality does not assign end into start; stock operator fallback invents this dependency."
+        },
+        {
+          "source": "68719477153",
+          "target": "68719477157",
+          "classification": "same-variable-use",
+          "reason": "Start is reused; its contamination above remains unjustified."
+        },
+        {
+          "source": "68719477157",
+          "target": "30064771520",
+          "classification": "arithmetic",
+          "reason": "Start participates in end - start."
+        },
+        {
+          "source": "30064771520",
+          "target": "68719477155",
+          "classification": "assignment",
+          "reason": "The difference initializes size."
+        },
+        {
+          "source": "68719477155",
+          "target": "68719477159",
+          "classification": "same-variable-use",
+          "reason": "Size is read."
+        },
+        {
+          "source": "68719477159",
+          "target": "30064771522",
+          "classification": "external-summary",
+          "reason": "Integer-to-hex conversion derives a header string."
+        },
+        {
+          "source": "30064771522",
+          "target": "68719477158",
+          "classification": "assignment",
+          "reason": "The conversion initializes sizeInHex."
+        },
+        {
+          "source": "68719477158",
+          "target": "68719477164",
+          "classification": "same-variable-use",
+          "reason": "The header string is read for its length."
+        },
+        {
+          "source": "68719477164",
+          "target": "30064771530",
+          "classification": "size-dependency",
+          "reason": "Header length participates in the allocation-size expression."
+        },
+        {
+          "source": "30064771530",
+          "target": "30064771529",
+          "classification": "allocation-size",
+          "reason": "Length determines zero-filled allocation shape, not copied byte values."
+        },
+        {
+          "source": "30064771529",
+          "target": "68719477163",
+          "classification": "assignment",
+          "reason": "Allocation result is saved in a temporary."
+        },
+        {
+          "source": "68719477163",
+          "target": "25769803890",
+          "classification": "block-result",
+          "reason": "The creation block yields the saved allocation."
+        },
+        {
+          "source": "25769803890",
+          "target": "68719477162",
+          "classification": "assignment",
+          "reason": "Creation result initializes list."
+        },
+        {
+          "source": "68719477162",
+          "target": "68719477168",
+          "classification": "same-variable-use",
+          "reason": "List is used as the first setRange receiver."
+        },
+        {
+          "source": "68719477168",
+          "target": "68719477187",
+          "classification": "receiver-state",
+          "reason": "The same list is used by the payload copy after header/CRLF writes."
+        },
+        {
+          "source": "68719477187",
+          "target": "68719477188",
+          "classification": "unjustified-cross-argument",
+          "reason": "setRange does not copy receiver contents into cursor."
+        },
+        {
+          "source": "68719477188",
+          "target": "30064771552",
+          "classification": "arithmetic",
+          "reason": "Cursor participates in the range end."
+        },
+        {
+          "source": "30064771552",
+          "target": "68719477192",
+          "classification": "unjustified-cross-argument",
+          "reason": "setRange does not copy the range end into its iterable argument."
+        }
+      ]
+    },
+    {
+      "mode": "dartSummaries",
+      "query": {
+        "id": "chunk-interprocedural-copy",
+        "expected": true,
+        "source": {
+          "file": "src/chunked_coding/encoder.dart",
+          "method": "convert",
+          "kind": "parameter",
+          "name": "input"
+        },
+        "sink": {
+          "file": "src/chunked_coding/encoder.dart",
+          "method": "_convert",
+          "kind": "call",
+          "argument": 3,
+          "code": "list.setRange(cursor, cursor + end - start, bytes, start)",
+          "name": "setRange"
+        },
+        "outcome": "flow-observed",
+        "semanticReview": "reviewed dependency transitions; not execution-path certification",
+        "maxCallDepth": 4,
+        "maxArgsToAllow": 1000,
+        "maxOutputArgsExpansion": 1000,
+        "limitations": [],
+        "searchComplete": true,
+        "pathSelection": "longest-per-endpoint-pair",
+        "alternativeRoutes": "not-returned-by-engine",
+        "witnessLimit": null,
+        "retainedWitnesses": 1,
+        "omittedWitnesses": 0,
+        "passed": true,
+        "sources": 1,
+        "sinks": 1,
+        "paths": 1,
+        "viaSatisfied": true
+      },
+      "nodes": [
+        {
+          "nodeId": "111669149749",
+          "label": "METHOD_PARAMETER_IN",
+          "method": "package:http_parser/src/chunked_coding/encoder.dart#730:METHOD:convert",
+          "code": "List<int> input",
+          "line": 21
+        },
+        {
+          "nodeId": "68719477128",
+          "label": "IDENTIFIER",
+          "method": "package:http_parser/src/chunked_coding/encoder.dart#730:METHOD:convert",
+          "code": "input",
+          "line": 22
+        },
+        {
+          "nodeId": "68719477127",
+          "label": "IDENTIFIER",
+          "method": "package:http_parser/src/chunked_coding/encoder.dart#730:METHOD:convert",
+          "code": "input",
+          "line": 22
+        },
+        {
+          "nodeId": "111669149762",
+          "label": "METHOD_PARAMETER_IN",
+          "method": "package:http_parser/src/chunked_coding/encoder.dart#1792:FUNCTION:_convert",
+          "code": "List<int> bytes",
+          "line": 60
+        },
+        {
+          "nodeId": "68719477192",
+          "label": "IDENTIFIER",
+          "method": "package:http_parser/src/chunked_coding/encoder.dart#1792:FUNCTION:_convert",
+          "code": "bytes",
+          "line": 74
+        }
+      ],
+      "transitions": [
+        {
+          "source": "111669149749",
+          "target": "68719477128",
+          "classification": "parameter-use",
+          "reason": "Input parameter is read."
+        },
+        {
+          "source": "68719477128",
+          "target": "68719477127",
+          "classification": "same-variable-use",
+          "reason": "Both identifiers reference the unchanged input parameter; this dependency is not a chronological execution trace."
+        },
+        {
+          "source": "68719477127",
+          "target": "111669149762",
+          "classification": "parameter-binding",
+          "reason": "The first actual argument binds directly to _convert.bytes."
+        },
+        {
+          "source": "111669149762",
+          "target": "68719477192",
+          "classification": "parameter-use",
+          "reason": "Bytes is read as the setRange iterable argument; no receiver/range-to-iterable transfer is required."
+        }
+      ]
+    }
+  ]
+}

@@ -110,8 +110,8 @@ repository's pinned `bazel_tooling` Git dependency and Maven repositories.
 
 The corpus suite also creates and reloads OSS dataflow overlays for every graph,
 checks per-method definition budgets, and executes the committed positive/negative
-queries with stock semantics and the optional `dataflow/async.semantics` model.
-The staged distribution includes that model; see
+queries with stock semantics and the optional `async`, `worker_manager`,
+`iterable` and `bytes` models. The staged distribution includes all four models; see
 [RUNTIME_SUMMARIES.md](RUNTIME_SUMMARIES.md) for explicit query-time loading.
 
 The [application corpus](corpus/applications/README.md) adds pinned LocalSend,

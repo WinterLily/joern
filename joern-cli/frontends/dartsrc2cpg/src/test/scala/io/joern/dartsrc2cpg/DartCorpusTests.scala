@@ -157,7 +157,7 @@ class DartCorpusTests extends AnyWordSpec with Matchers {
             ujson.read(Files.readString(corpus.resolve("dataflow-probes.json")))(project("name").str).arr.toSeq
           probes should not be empty
           val defaultFlows = CorpusDataflow.audit(reloaded, probes, DefaultSemantics())
-          val summaries    = List("async", "worker_manager", "iterable")
+          val summaries    = List("async", "worker_manager", "iterable", "bytes")
             .flatMap { name =>
               new FullNameSemanticsParser().parseFile(frontend.resolve(s"dataflow/$name.semantics").toString)
             }
@@ -169,7 +169,7 @@ class DartCorpusTests extends AnyWordSpec with Matchers {
               ujson.Obj(
                 "source"     -> project,
                 "coverage"   -> ujson.read(Files.readString(root.resolve("coverage.json"))),
-                "modelFiles" -> ujson.Obj.from(List("async", "worker_manager", "iterable").map { name =>
+                "modelFiles" -> ujson.Obj.from(List("async", "worker_manager", "iterable", "bytes").map { name =>
                   name -> ujson.Str(Files.readString(frontend.resolve(s"dataflow/$name.semantics")))
                 }),
                 "defaultSemantics" -> defaultFlows,

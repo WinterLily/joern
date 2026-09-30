@@ -77,6 +77,35 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
   }
 
   "Dart frontend" should {
+    "distinguish copied byte contents from buffer size and an independent buffer" in {
+      fixture(Files.readString(frontend.resolve("src/test/resources/semantics/byte_copy.dart")), "void main() {}") {
+        (cpg, _) =>
+          val rules = new FullNameSemanticsParser()
+            .parseFile(frontend.resolve("dataflow/bytes.semantics").toString)
+            .map(_.copy(regex = true))
+          val semantics = DefaultSemantics().plus(rules)
+          semantics.initialize(cpg)
+          val modeled = EngineContext(semantics = semantics)
+          for (
+            (name, stock, expected) <- Seq(
+              ("copy", true, true),
+              ("allocate", true, false),
+              ("separate", true, false),
+              ("sourceIsolation", true, false)
+            )
+          ) {
+            val method = cpg.method.nameExact(name).head
+            withClue(name) {
+              method.ast.isReturn.reachableByFlows(method.parameter.nameExact("input")).nonEmpty shouldBe stock
+              method.ast.isReturn
+                .reachableByFlows(method.parameter.nameExact("input"))(modeled)
+                .nonEmpty shouldBe expected
+            }
+          }
+          cpg.call.nameExact("setRange").callee.l.foreach(method => semantics.forMethod(method).isDefined shouldBe true)
+          cpg.method.fullNameExact("dart:typed_data#36552:CONSTRUCTOR:new").size shouldBe 1
+      }
+    }
     "preserve returns through multiple catches without inventing a finally" in {
       fixture(
         "String relay(String value) { try { return value; } on FormatException { return 'format'; } catch (error) { return 'other'; } }",
