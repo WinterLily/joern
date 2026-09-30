@@ -838,9 +838,13 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
             pattern(child(syntax, "pattern"), ref)
           )
         case "RecordPattern" | "ObjectPattern" =>
-          val shape = operator(syntax, "<operator>.patternShape", Seq(value(), literal(syntax, code(syntax))))
-          and(typeCheck ++ Seq(shape) ++ children(syntax, "field").zipWithIndex.map { case (entry, index) =>
-            val name   = string(entry, "name", s"$$${index + 1}")
+          val shape    = operator(syntax, "<operator>.patternShape", Seq(value(), literal(syntax, code(syntax))))
+          var position = 0
+          and(typeCheck ++ Seq(shape) ++ children(syntax, "field").map { entry =>
+            val name = Option(string(entry, "name")).filter(_.nonEmpty).getOrElse {
+              position += 1
+              s"$$$position"
+            }
             val access =
               if (string(syntax, "kind") == "ObjectPattern")
                 reference(entry, string(entry, "reference"), name, Some(value()))
@@ -896,17 +900,18 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
     }
     def expressionBody(syntax: Value): Ast = string(syntax, "kind") match {
       case "RecordLiteral" =>
-        operator(
-          syntax,
-          "<operator>.record",
-          children(syntax, "field").zipWithIndex.map { case (entry, index) =>
-            operator(
-              entry,
-              "<operator>.keyValueAssociation",
-              Seq(literal(entry, string(entry, "name", s"$$${index + 1}")), expression(entry))
-            )
-          }
-        )
+        savedSequence(syntax, operator(syntax, "<operator>.record", Nil)) { ref =>
+          var position = 0
+          children(syntax, "field").map { entry =>
+            val name =
+              if (string(entry, "kind") == "NamedExpression") string(entry, "name")
+              else {
+                position += 1
+                s"$$$position"
+              }
+            operator(entry, Operators.assignment, Seq(field(entry, ref(), name), expression(entry)))
+          } :+ ref()
+        }
       case "PatternAssignment" | "PatternVariableDeclaration" =>
         savedSequence(syntax, expression(child(syntax, "expression")))(ref =>
           Seq(

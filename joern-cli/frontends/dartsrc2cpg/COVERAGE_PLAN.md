@@ -38,7 +38,9 @@ store. Stable-parameter field writes now propagate across internal calls and
 caller aliases, with conditional-write, rebinding and exceptional-exit controls.
 Mutable aliases and general interprocedural heap updates remain unqualified. Capture
 identities now have regressions for unrelated/shadowed locals,
-replacement within closures and nested captures; callback timing remains open. This is
+replacement within closures and nested captures; callback timing remains open.
+Record field-isolation, interleaved named/positional indexing and source-order
+evaluation regressions also have execution oracles. This is
 not complete language or runtime analysis support.
 This plan supersedes the completion assumptions in the original implementation
 plan in `agents/plan.md`; it does not mark the remaining work as done.

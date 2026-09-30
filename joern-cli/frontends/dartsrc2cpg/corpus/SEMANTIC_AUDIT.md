@@ -437,3 +437,21 @@ JavaScript's existing dataflow suite passes its closure checks. Its unrelated
 nested-if witness-shape assertion also fails with this change removed: it expects
 two intermediate comparison nodes absent from the returned path. That baseline
 failure is not counted as a passing cross-language suite.
+
+## Record construction and projection
+
+The record fixture exposed six unrelated-field/replacement false positives under
+the former aggregate operator. Record construction now initializes explicit
+positional and named slots in source order, so bounded field demands can isolate
+them across calls, nested records and destructuring. The positional initializer
+name comes from its slot index, not the identifier or invocation used as its
+value. Named fields can precede positional fields in Dart; they do not consume
+positional indices in either literals or patterns. Separate mixed-order cases
+exposed and cover both indexing errors.
+
+The Dart oracle checks fourteen positive/negative field relationships over two
+inputs and records the order of effectful named-field expressions. Graph tests
+check both dependency isolation and exactly-once source-order evaluation.
+The zero-argument record operator represents construction; subsequent field
+initializations establish its contents. This does not qualify constant-record
+canonicalization, arbitrary equality or all refutable pattern-shape constraints.

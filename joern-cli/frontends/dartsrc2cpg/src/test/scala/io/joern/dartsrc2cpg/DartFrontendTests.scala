@@ -2064,6 +2064,47 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         ) { (cpg, _) => assertFlow(cpg, expected) }
       }
     }
+    "isolate record fields through calls, nested records and destructuring" in {
+      fixture(Files.readString(frontend.resolve("src/test/resources/semantics/record_fields.dart")), "void main() {}") {
+        (cpg, _) =>
+          val results = Seq(
+            "first"              -> true,
+            "second"             -> false,
+            "namedField"         -> true,
+            "namedOther"         -> false,
+            "mixedField"         -> true,
+            "mixedOther"         -> false,
+            "mixedPattern"       -> true,
+            "destructuredFirst"  -> true,
+            "destructuredSecond" -> false,
+            "namedPattern"       -> false,
+            "nestedFirst"        -> true,
+            "nestedSecond"       -> false,
+            "replacedRecord"     -> false,
+            "independentRecord"  -> false
+          ).map { case (name, expected) =>
+            val method = cpg.method.nameExact(name).head
+            val actual = method.ast.isReturn.reachableByFlows(method.parameter.nameExact("input")).nonEmpty
+            (name, actual, expected)
+          }
+        results.filter { case (_, actual, expected) => actual != expected } shouldBe empty
+        val ordered = cpg.method.nameExact("ordered").head
+        ordered.call.nameExact("marked").size shouldBe 2
+        val visited = scala.collection.mutable.Set.empty[Long]
+        def marks(node: io.shiftleft.codepropertygraph.generated.nodes.CfgNode): List[String] = {
+          if (!visited.add(node.id)) Nil
+          else {
+            val current = node match {
+              case call: io.shiftleft.codepropertygraph.generated.nodes.Call if call.name == "marked" =>
+                List(call.argument(2).code)
+              case _ => Nil
+            }
+            current ++ node.cfgNext.l.flatMap(marks)
+          }
+        }
+        marks(ordered) shouldBe List("'second'", "'first'")
+      }
+    }
     "retain whole-record value dependencies through destructuring" in {
       for ((value, expected) <- Seq("input" -> true, "'constant'" -> false)) {
         fixture(

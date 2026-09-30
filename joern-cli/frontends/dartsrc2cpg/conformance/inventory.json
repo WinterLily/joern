@@ -34,6 +34,15 @@
       "negative": "language version diagnostics",
       "interaction": "not-applicable"
     },
+    "records": {
+      "exporter": "RecordLiteral/RecordPattern source fields and analyzer structural types",
+      "lowering": "DartFrontendTests: explicit record slots; positional numbering excludes interleaved named fields",
+      "resolution": "positional $1/$2 and named field identities through direct projections and destructuring",
+      "cfg": "DartFrontendTests: named field expressions evaluated once in source order",
+      "valueFlow": "DartFrontendTests: selected fields across wrappers, nested records and pattern bindings",
+      "negative": "unrelated slots, independent records and replaced record values",
+      "interaction": "astgen/test/record_fields_test.dart: positional/named mixtures, calls, nested projections, patterns and evaluation traces"
+    },
     "captures": {
       "exporter": "analyzer declaration identities for lexical references",
       "lowering": "DartFrontendTests: closure proxy locals and closure-binding REF identities",
@@ -1161,17 +1170,17 @@
       "construct": "RecordLiteral",
       "scope": "dart-3.9",
       "exporterCase": "RecordLiteral",
-      "contract": "syntax",
+      "contract": "records",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Field identities, evaluation order and bounded projection flow tested; constant canonicalization, general equality and deeper structural-type interactions remain open."
     },
     {
       "construct": "RecordPattern",
       "scope": "dart-3.9",
       "exporterCase": "RecordPattern",
-      "contract": "syntax",
+      "contract": "records",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Field extraction and binding isolation tested, including interleaved named/positional fields; general shape and branch-feasibility qualification remain open."
     },
     {
       "construct": "RecordTypeAnnotation",
