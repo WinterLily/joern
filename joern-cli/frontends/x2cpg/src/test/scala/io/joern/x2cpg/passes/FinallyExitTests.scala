@@ -10,6 +10,64 @@ import org.scalatest.wordspec.AnyWordSpec
 
 class FinallyExitTests extends AnyWordSpec with Matchers {
   "Finally control flow" should {
+    "consume protected throws at an explicitly unconditional catch without swallowing handler failures" in {
+      for (unconditional <- Seq(false, true); invocation <- Seq(false, true)) {
+        val cpg = Cpg.empty
+        try {
+          val graph     = cpg.graph
+          val method    = graph.addNode(NewMethod().name("handled").fullName("handled"))
+          val exit      = graph.addNode(NewMethodReturn().order(2))
+          val body      = graph.addNode(NewBlock().order(1))
+          val outer     = graph.addNode(NewControlStructure().controlStructureType(ControlStructureTypes.TRY).order(1))
+          val outerBody = graph.addNode(NewBlock().order(1))
+          val outerHandler = graph.addNode(NewBlock().order(2))
+          val outerRead    = graph.addNode(NewLiteral().code("outer handler").order(1))
+          val inner     = graph.addNode(NewControlStructure().controlStructureType(ControlStructureTypes.TRY).order(1))
+          val innerBody = graph.addNode(NewBlock().order(1))
+          val handler = graph.addNode(NewControlStructure().controlStructureType(ControlStructureTypes.CATCH).order(2))
+          val condition         = graph.addNode(NewLiteral().code("true").typeFullName("boolean").order(1))
+          val handlerBody       = graph.addNode(NewBlock().order(2))
+          val original: CfgNode =
+            if (invocation) graph.addNode(NewCall().name("original").code("original").order(1))
+            else
+              graph.addNode(
+                NewControlStructure().controlStructureType(ControlStructureTypes.THROW).code("original").order(1)
+              )
+          val replacement = graph.addNode(
+            NewControlStructure().controlStructureType(ControlStructureTypes.THROW).code("replacement").order(1)
+          )
+          graph.applyDiff { diff =>
+            for (
+              (parent, child) <- Seq(
+                method       -> body,
+                method       -> exit,
+                body         -> outer,
+                outer        -> outerBody,
+                outer        -> outerHandler,
+                outerHandler -> outerRead,
+                outerBody    -> inner,
+                inner        -> innerBody,
+                inner        -> handler,
+                innerBody    -> original,
+                handler      -> condition,
+                handler      -> handlerBody,
+                handlerBody  -> replacement
+              )
+            ) diff.addEdge(parent, child, EdgeTypes.AST)
+            diff.addEdge(outer, outerBody, EdgeTypes.TRY_BODY)
+            diff.addEdge(outer, outerHandler, EdgeTypes.CATCH_BODY)
+            diff.addEdge(inner, innerBody, EdgeTypes.TRY_BODY)
+            diff.addEdge(inner, handler, EdgeTypes.CATCH_BODY)
+            if (unconditional) diff.addEdge(handler, condition, EdgeTypes.CONDITION)
+          }
+          new CfgCreationPass(cpg).createAndApply()
+          val targets = original.out(EdgeTypes.CFG).cast[CfgNode].toSet
+          targets should contain(condition)
+          targets.contains(outerRead) shouldBe !unconditional
+          replacement.out(EdgeTypes.CFG).cast[CfgNode].toSet should contain(outerRead)
+        } finally cpg.close()
+      }
+    }
     "never reinterpret an explicitly linked second catch as a finally body" in {
       val cpg = Cpg.empty
       try {

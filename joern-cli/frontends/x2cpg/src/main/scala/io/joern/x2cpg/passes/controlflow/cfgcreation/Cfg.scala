@@ -32,6 +32,8 @@ import org.slf4j.LoggerFactory
   *   unresolved gotos, labeled break and labeled continues collected along the way
   * @param exits
   *   pending returns and exceptions that enclosing finally bodies must intercept before method exit
+  * @param handledExceptions
+  *   throwing nodes consumed by an unconditional handler, excluded from outer legacy fringe exception edges
   */
 case class Cfg(
   entryNode: Option[CfgNode] = None,
@@ -42,7 +44,8 @@ case class Cfg(
   continues: List[(CfgNode, Int)] = List(),
   caseLabels: List[CfgNode] = List(),
   jumpsToLabel: List[(CfgNode, String)] = List(),
-  exits: List[(CfgNode, ExitKind)] = List()
+  exits: List[(CfgNode, ExitKind)] = List(),
+  handledExceptions: Set[CfgNode] = Set.empty
 ) {
 
   import Cfg._
@@ -66,7 +69,8 @@ case class Cfg(
         breaks = this.breaks ++ other.breaks,
         continues = this.continues ++ other.continues,
         caseLabels = this.caseLabels ++ other.caseLabels,
-        exits = this.exits ++ other.exits
+        exits = this.exits ++ other.exits,
+        handledExceptions = this.handledExceptions ++ other.handledExceptions
       )
     }
   }
@@ -116,6 +120,7 @@ object Cfg {
   def from(cfgs: Cfg*): Cfg = {
     Cfg(
       exits = cfgs.flatMap(_.exits).toList,
+      handledExceptions = cfgs.flatMap(_.handledExceptions).toSet,
       jumpsToLabel = cfgs.map(_.jumpsToLabel).reduceOption((x, y) => x ++ y).getOrElse(List()),
       breaks = cfgs.map(_.breaks).reduceOption((x, y) => x ++ y).getOrElse(List()),
       continues = cfgs.map(_.continues).reduceOption((x, y) => x ++ y).getOrElse(List()),

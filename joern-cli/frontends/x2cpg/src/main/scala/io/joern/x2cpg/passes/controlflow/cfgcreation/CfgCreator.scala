@@ -623,7 +623,7 @@ class CfgCreator(entryNode: Method, diffGraph: DiffGraphBuilder) {
       }
       else catchControlStructures.iterator
 
-    val catchBodyCfgs = Iterator(node)
+    val catchBodies = Iterator(node)
       .coalesce(
         _._catchBodyOut.cast[AstNode],
         { _ =>
@@ -631,15 +631,21 @@ class CfgCreator(entryNode: Method, diffGraph: DiffGraphBuilder) {
           catchBodyFallback
         }
       )
-      .map { body =>
-        val cfg = cfgForProtected(body)
-        if (cfg.entryNode.isEmpty) body match {
-          case node: CfgNode => cfgForSingleNode(node)
-          case _             => cfg
-        }
-        else cfg
+      .toList
+    // An explicit true filter distinguishes a total handler from omitted filter information.
+    val catchesAll = catchBodies.exists {
+      case handler: ControlStructure if handler.controlStructureType == ControlStructureTypes.CATCH =>
+        handler.condition.isLiteral.codeExact("true").nonEmpty
+      case _ => false
+    }
+    val catchBodyCfgs = catchBodies.map { body =>
+      val cfg = cfgForProtected(body)
+      if (cfg.entryNode.isEmpty) body match {
+        case node: CfgNode => cfgForSingleNode(node)
+        case _             => cfg
       }
-      .toList match {
+      else cfg
+    } match {
       case Nil  => List(Cfg.empty)
       case asts => asts
     }
@@ -668,12 +674,23 @@ class CfgCreator(entryNode: Method, diffGraph: DiffGraphBuilder) {
       .headOption // Assume there can only be one
       .toList
 
-    val protectedCfg      = Cfg.from((tryBodyCfg :: catchBodyCfgs)*)
+    val handled =
+      if (catchesAll) tryBodyCfg.exits.collect { case (source, ExitKind.Thrown) => source }.toSet
+      else Set.empty[CfgNode]
+    val escapingTry = tryBodyCfg.copy(
+      exits = tryBodyCfg.exits.filterNot { case (source, kind) => kind == ExitKind.Thrown && handled(source) },
+      handledExceptions = tryBodyCfg.handledExceptions ++ handled
+    )
+    val protectedCfg      = Cfg.from((escapingTry :: catchBodyCfgs)*)
     val catchEntries      = catchBodyCfgs.flatMap(_.entryNode)
     val throwToCatchEdges = tryBodyCfg.exits
       .collect { case (node, ExitKind.Thrown) => node }
       .flatMap(node => catchEntries.flatMap(target => singleEdge(node, target)))
-    val tryToCatchEdges = catchBodyCfgs.flatMap(catchCfg => edgesFromFringeTo(tryBodyCfg, catchCfg.entryNode))
+    // A nested total handler owns these exceptions even when the call has a normal continuation.
+    val legacyFringe = tryBodyCfg.copy(fringe = tryBodyCfg.fringe.filterNot { case (source, _) =>
+      tryBodyCfg.handledExceptions(source)
+    })
+    val tryToCatchEdges = catchBodyCfgs.flatMap(catchCfg => edgesFromFringeTo(legacyFringe, catchCfg.entryNode))
     val protectedEdges  = tryBodyCfg.edges ++ catchBodyCfgs.flatMap(_.edges) ++ tryToCatchEdges ++ throwToCatchEdges
     val normalFringe    = tryBodyCfg.fringe ++ catchBodyCfgs.flatMap(_.fringe)
 
