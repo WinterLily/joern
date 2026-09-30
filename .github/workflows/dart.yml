@@ -1,0 +1,65 @@
+name: Dart frontend
+on:
+  pull_request:
+    paths:
+      - 'joern-cli/frontends/dartsrc2cpg/**'
+      - '.github/workflows/dart.yml'
+      - '.github/actions/prepare-dart/**'
+      - 'joern-cli/build.sbt'
+      - 'project/**'
+  workflow_dispatch:
+  push:
+    branches: [master]
+jobs:
+  native:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, ubuntu-24.04-arm, macos-15-intel, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6
+        with:
+          distribution: temurin
+          java-version: 21
+          cache: sbt
+      - uses: sbt/setup-sbt@6158cb0903b8ceeae04f830055f3155e1b6a5ad7
+      - uses: ./.github/actions/prepare-dart
+      - name: Prepare pinned Flutter fixture
+        if: matrix.os == 'ubuntu-latest'
+        shell: bash
+        run: |
+          mkdir -p agents/toolchains agents/flutter-fixture
+          git clone --depth 1 --branch 3.35.3 https://github.com/flutter/flutter.git agents/toolchains/flutter
+          test "$(git -C agents/toolchains/flutter rev-parse --short=10 HEAD)" = a402d9a437
+          cp -R joern-cli/frontends/dartsrc2cpg/src/test/resources/flutter/lib agents/flutter-fixture/
+          cp joern-cli/frontends/dartsrc2cpg/src/test/resources/flutter/pubspec.* agents/flutter-fixture/
+          agents/toolchains/flutter/bin/flutter pub get --enforce-lockfile --directory agents/flutter-fixture
+          echo 'DART_FLUTTER_TESTS=1' >> "$GITHUB_ENV"
+      - name: Exporter tests
+        working-directory: joern-cli/frontends/dartsrc2cpg/astgen
+        run: dart analyze && dart test
+      - name: Prepare and measure pinned corpus
+        run: python joern-cli/frontends/dartsrc2cpg/scripts/corpus.py --prepare --check
+      - name: Scala tests and staging
+        env:
+          DART_CORPUS_TESTS: '1'
+        run: sbt 'dartsrc2cpg/scalafmtCheck' 'dartsrc2cpg/Test/scalafmtCheck' 'dartsrc2cpg/test' 'dartsrc2cpg/stage'
+      - name: Test staged installation
+        shell: bash
+        run: |
+          python joern-cli/frontends/dartsrc2cpg/scripts/package.py --stage joern-cli/frontends/dartsrc2cpg/target/universal/stage
+          export DART_FRONTEND_STAGE="$PWD/joern-cli/frontends/dartsrc2cpg/target/universal/stage"
+          if [ "$RUNNER_OS" = Windows ]; then
+            export DART_ASTGEN="$DART_FRONTEND_STAGE/bin/dart_astgen.exe"
+          else
+            export DART_ASTGEN="$DART_FRONTEND_STAGE/bin/dart_astgen"
+          fi
+          sbt 'joerncli/testOnly *DartIntegrationTests *JoernParseTests' 'console/testOnly *LanguageHelperTests'
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: dart-${{ matrix.os }}
+          path: |
+            agents/dart-stage.tar.gz
+            agents/dart-corpus-results.json

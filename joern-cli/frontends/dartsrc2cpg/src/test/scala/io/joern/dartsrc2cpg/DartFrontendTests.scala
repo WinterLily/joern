@@ -17,7 +17,7 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
   implicit val resolver: ICallResolver = NoResolve
   implicit val context: EngineContext  = EngineContext()
   private val repository               = Iterator
-    .iterate(Paths.get("").toAbsolutePath)(_.getParent)
+    .iterate(Paths.get(sys.env.getOrElse("DART_TEST_REPOSITORY", "")).toAbsolutePath)(_.getParent)
     .takeWhile(_ != null)
     .find(path => Files.isRegularFile(path.resolve("project/Projects.scala")))
     .get
@@ -767,6 +767,27 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
           .isEmpty shouldBe true
       }
     }
+    "produce an empty reloadable graph and report excluded files" in {
+      val dir = Files.createTempDirectory(Files.createDirectories(repository.resolve("agents")), "empty dart λ ")
+      try {
+        val report                       = dir.resolve("report.json")
+        val output                       = dir.resolve("cpg.bin")
+        def scan(settings: Config): Unit = {
+          val cpg =
+            new DartSrc2Cpg().createCpg(settings.withInputPath(dir.toString).withOutputPath(output.toString)).get
+          cpg.method.isExternal(false).size shouldBe 0
+          cpg.close()
+          val loaded = Cpg.withStorage(output)
+          try loaded.metaData.language.l shouldBe List("DART")
+          finally loaded.close()
+        }
+        scan(config.copy(report = report.toString))
+        ujson.read(Files.readString(report))("includedFiles").num shouldBe 0
+        Files.writeString(dir.resolve("excluded.dart"), "void excluded() {}")
+        scan(config.copy(report = report.toString).withIgnoredFilesRegex(".*excluded[.]dart"))
+        ujson.read(Files.readString(report))("skippedFiles").num shouldBe 1
+      } finally FileUtil.delete(dir)
+    }
     "reject incompatible and truncated exporter output" in {
       val header = ujson.Obj("record" -> "header", "protocolVersion" -> 2)
       intercept[IllegalArgumentException](ExportProtocol.units(Seq(header)))
@@ -776,7 +797,8 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         "protocolVersion" -> 1,
         "offsetEncoding"  -> "utf-16",
         "analyzerVersion" -> "8.4.1",
-        "sdkVersion"      -> "3.9.2"
+        "sdkVersion"      -> "3.9.2",
+        "exporterVersion" -> "0.3.0"
       )
       intercept[IllegalArgumentException](ExportProtocol.units(Seq(valid)))
       intercept[IllegalArgumentException](

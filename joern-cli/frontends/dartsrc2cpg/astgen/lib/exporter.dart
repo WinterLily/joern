@@ -48,20 +48,21 @@ Stream<Map<String, Object?>> exportProject({
       'Expected Dart SDK $supportedSdkVersion, found $sdkVersion',
     );
   }
+  Iterable<File> sourceFiles(Directory directory) sync* {
+    for (final entry in directory.listSync(followLinks: false)) {
+      if (entry is Directory) {
+        if (!['.git', '.dart_tool'].contains(p.basename(entry.path))) {
+          yield* sourceFiles(entry);
+        }
+      } else if (entry is File && entry.path.endsWith('.dart')) {
+        yield entry;
+      }
+    }
+  }
+
   final files = type == FileSystemEntityType.file
       ? [input]
-      : Directory(input)
-            .listSync(recursive: true, followLinks: false)
-            .whereType<File>()
-            .map((file) => file.path)
-            .where(
-              (path) =>
-                  path.endsWith('.dart') &&
-                  !p
-                      .split(p.relative(path, from: root))
-                      .any((part) => part == '.dart_tool' || part == '.git'),
-            )
-            .toList();
+      : sourceFiles(Directory(input)).map((file) => file.path).toList();
   files.sort();
   final collection = AnalysisContextCollection(
     includedPaths: [root],
@@ -78,8 +79,17 @@ Stream<Map<String, Object?>> exportProject({
       'conditionalEnvironment': 'analyzer-default',
     };
     for (final file in files) {
-      final context = collection.contextFor(file);
-      final result = await context.currentSession.getResolvedUnit(file);
+      Object? result;
+      String? content;
+      try {
+        content = File(file).readAsStringSync();
+        final context = collection.contextFor(file);
+        result = await context.currentSession.getResolvedUnit(file);
+      } on Exception catch (error) {
+        result = error;
+      } on StateError catch (error) {
+        result = error;
+      }
       if (result is ResolvedUnitResult) {
         yield _UnitEncoder(root, file, result.content, result.lineInfo).encode(
           result.unit,
@@ -98,7 +108,7 @@ Stream<Map<String, Object?>> exportProject({
         );
       } else {
         final parsed = parseString(
-          content: File(file).readAsStringSync(),
+          content: content ?? '',
           path: file,
           throwIfDiagnostics: false,
         );
@@ -107,7 +117,7 @@ Stream<Map<String, Object?>> exportProject({
           [
             {
               'code': 'resolution_unavailable',
-              'message': 'Analyzer returned ${result.runtimeType}',
+              'message': 'Resolution unavailable: $result',
               'severity': 'ERROR',
             },
             ...parsed.errors.map(

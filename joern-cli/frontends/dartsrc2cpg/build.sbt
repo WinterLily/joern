@@ -19,3 +19,7 @@ Universal / mappings += {
   require(executable.exists, "Build the exporter first: dart compile exe astgen/bin/dart_astgen.dart -o bin/dart_astgen")
   fileConverter.value.toVirtualFile(executable.toPath) -> s"bin/$binary"
 }
+
+Universal / mappings ++= Seq("README.md", "FEATURES.md", "SEMANTICS.md", "RUNTIME_SUMMARIES.md", "DISTRIBUTION.md").map { name =>
+  fileConverter.value.toVirtualFile((baseDirectory.value / name).toPath) -> s"docs/$name"
+}

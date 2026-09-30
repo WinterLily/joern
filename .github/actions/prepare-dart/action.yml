@@ -1,0 +1,24 @@
+name: Prepare Dart exporter
+description: Install the pinned SDK and build and smoke-test the host exporter before staging
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+      with:
+        python-version: '3.12'
+    - uses: dart-lang/setup-dart@6afc89df92d6eb3834022f73cd65adc8cdfcb92d
+      with:
+        sdk: 3.9.2
+        architecture: ${{ runner.os == 'Windows' && 'x64' || runner.arch == 'ARM64' && 'arm64' || 'x64' }}
+    - shell: bash
+      run: |
+        python - <<'PY'
+        import os, pathlib, shutil
+        sdk = pathlib.Path(shutil.which('dart')).resolve().parent.parent
+        frontend = pathlib.Path('joern-cli/frontends/dartsrc2cpg').resolve()
+        binary = 'dart_astgen.exe' if os.name == 'nt' else 'dart_astgen'
+        with open(os.environ['GITHUB_ENV'], 'a') as env:
+            env.write(f'DART_SDK={sdk}\nDART_ASTGEN={frontend / "bin" / binary}\n')
+        PY
+    - shell: bash
+      run: python joern-cli/frontends/dartsrc2cpg/scripts/package.py

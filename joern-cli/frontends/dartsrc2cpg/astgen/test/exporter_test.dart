@@ -35,6 +35,45 @@ void main() {
 
   tearDown(() => project.deleteSync(recursive: true));
 
+  test('an unreadable source retains a diagnostic and other files', () async {
+    File(p.join(project.path, 'broken.dart')).writeAsBytesSync([0xff, 0xfe]);
+    write('good.dart', 'void good() {}');
+    final records = await export();
+    expect(records.last['files'], 2);
+    final files = units(records);
+    final broken = files.singleWhere((unit) => unit['file'] == 'broken.dart');
+    expect(broken['status'], 'parsed');
+    expect(
+      entries(broken, 'diagnostics').first['code'],
+      'resolution_unavailable',
+    );
+    expect(
+      files.singleWhere((unit) => unit['file'] == 'good.dart')['status'],
+      'resolved',
+    );
+  });
+
+  test(
+    'analysis-option exclusions retain syntax when resolution is unavailable',
+    () async {
+      write(
+        'analysis_options.yaml',
+        'analyzer:\n  exclude:\n    - excluded.dart\n',
+      );
+      write('excluded.dart', 'void excluded() {}');
+      write('good.dart', 'void good() {}');
+      final files = units(await export());
+      expect(files, hasLength(2));
+      expect(
+        entries(
+          files.singleWhere((unit) => unit['file'] == 'excluded.dart'),
+          'nodes',
+        ).any((node) => node['kind'] == 'FunctionDeclaration'),
+        isTrue,
+      );
+    },
+  );
+
   test('existing package configuration resolves package imports', () async {
     write(
       '.dart_tool/package_config.json',

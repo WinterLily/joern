@@ -14,7 +14,8 @@ import io.shiftleft.semanticcpg.layers.LayerCreatorContext
 import io.shiftleft.semanticcpg.utils.FileUtil
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
-import java.nio.file.{Files, Paths}
+import java.nio.file.{Files, Paths, StandardCopyOption}
+import scala.jdk.CollectionConverters.*
 import io.shiftleft.semanticcpg.utils.ExternalCommand
 
 class DartIntegrationTests extends AnyWordSpec with Matchers {
@@ -37,10 +38,19 @@ class DartIntegrationTests extends AnyWordSpec with Matchers {
         .get
       val dir = Files.createTempDirectory(Files.createDirectories(repository.resolve("agents")), "dart-integration-")
       try {
-        val install = Files.createDirectories(dir.resolve("install/frontends")).getParent
-        Files.createSymbolicLink(install.resolve("frontends/dartsrc2cpg"), stage.toAbsolutePath)
-        val wrapper = install.resolve("dartsrc2cpg")
-        Files.copy(repository.resolve("joern-cli/src/universal/dartsrc2cpg"), wrapper)
+        val install  = Files.createDirectories(dir.resolve("install/frontends")).getParent
+        val frontend = install.resolve("frontends/dartsrc2cpg")
+        val paths    = Files.walk(stage)
+        try
+          paths.iterator().asScala.foreach { path =>
+            val target = frontend.resolve(stage.relativize(path))
+            if (Files.isDirectory(path)) Files.createDirectories(target)
+            else Files.copy(path, target, StandardCopyOption.COPY_ATTRIBUTES)
+          }
+        finally paths.close()
+        val launcher = if (scala.util.Properties.isWin) "dartsrc2cpg.bat" else "dartsrc2cpg"
+        val wrapper  = install.resolve(launcher)
+        Files.copy(repository.resolve(s"joern-cli/src/universal/$launcher"), wrapper)
         wrapper.toFile.setExecutable(true)
         val source = repository.resolve("joern-cli/frontends/dartsrc2cpg/src/test/resources/dataflow")
         guessLanguage(source.toString) shouldBe Some("DART")

@@ -23,8 +23,10 @@ change status. `resolved` does not imply complete exporter syntax coverage:
 consumers must also inspect `unsupportedKinds`.
 
 Diagnostics include the analyzer code, severity, message, and source span.
-The synthetic `resolution_unavailable` diagnostic has no span. Fatal I/O or
-analyzer exceptions abort the stream, so the absence of a summary is significant.
+The synthetic `resolution_unavailable` diagnostic has no span. Per-file I/O, resolution exceptions and missing analysis contexts produce parsed
+fallback units with `resolution_unavailable` diagnostics. Unreadable source has
+empty source text. Fatal discovery/context-initialization errors still abort the
+stream, so the absence of a summary is significant.
 There is no automatic fetching of missing packages.
 
 Offsets and lengths are **zero-based UTF-16 code units**, with exclusive end
@@ -113,3 +115,10 @@ Class/mixin modifier names are explicit. Collection spreads record `nullAware`;
 collection if/for retain branch and loop roles. For statements/elements record
 `await`; yields record `star`. Function-body async/generator flags remain explicit.
 These fields describe syntax and resolution, not runtime summaries.
+
+## Optional operational measurements
+
+The CLI accepts `ROOT INPUT SDK --metrics`; only this form adds `elapsedMillis`
+and `peakRssBytes` to the summary. These nondeterministic process measurements
+are absent from default exports. Protocol consumers may ignore these optional
+fields. The Scala runner requests them for scan reports.

@@ -31,8 +31,8 @@ sbt 'dartsrc2cpg/test' 'dartsrc2cpg/stage'
 
 On Windows, compile as `bin/dart_astgen.exe`. Staging packages the native exporter;
 it still requires the analysis SDK at runtime. Dependency installation and native
-compilation are explicit preparation steps, never scan side effects. Only Linux
-x86-64 staging has been exercised. Cross-platform releases remain milestone 5 work.
+compilation are explicit preparation steps, never scan side effects. See [distribution, platform validation, corpus budgets and operational limits](DISTRIBUTION.md)
+for native preparation scripts, CI targets and validation status.
 
 Test the staged frontend through `joern-parse` and the real console import helper:
 
@@ -117,5 +117,7 @@ syntax does not establish event-loop or stream scheduling analysis. The pinned
 Flutter fixture verifies SDK resolution, widget constructors and callback captures;
 it does not model framework lifecycle or event delivery. Required future library
 summaries are specified separately in [RUNTIME_SUMMARIES.md](RUNTIME_SUMMARIES.md).
-Resource limits, crash recovery, full analysis-option exclusions, and release
-infrastructure ownership remain future work.
+The runner enforces configurable time and output limits, validates exporter output,
+and reports scan metrics with `--dart-report`. Per-file resolution failures retain
+syntax and diagnostics. See [operational details](DISTRIBUTION.md) for exclusion
+behavior, failure handling, supported versions and reproducible corpus checks.

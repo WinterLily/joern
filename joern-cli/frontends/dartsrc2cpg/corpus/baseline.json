@@ -1,0 +1,28 @@
+{
+  "platform": "Linux-7.2.7-arch1-1-x86_64-with-glibc2.44",
+  "resourceBudgetMultiplier": 5,
+  "projects": [
+    {
+      "name": "path",
+      "version": "1.9.1",
+      "files": 13,
+      "nodes": 6084,
+      "partialFiles": 0,
+      "unsupportedConstructs": 1,
+      "unresolvedCalls": 0,
+      "elapsedMillis": 232,
+      "peakRssBytes": 112533504
+    },
+    {
+      "name": "collection",
+      "version": "1.19.1",
+      "files": 29,
+      "nodes": 16422,
+      "partialFiles": 0,
+      "unsupportedConstructs": 8,
+      "unresolvedCalls": 107,
+      "elapsedMillis": 288,
+      "peakRssBytes": 105852928
+    }
+  ]
+}
