@@ -24,55 +24,77 @@ class DdgGenerator(semantics: Semantics) {
       val node = forward.removeHead()
       if (reachable.add(node)) forward ++= node._cfgOut.cast[CfgNode]
     }
-    val visited  = mutable.HashSet.empty[CfgNode]
-    val returns  = mutable.HashSet.empty[Return]
-    val backward = mutable.ArrayDeque[CfgNode](method.methodReturn)
-    while (backward.nonEmpty) {
-      val node = backward.removeHead()
-      if (reachable.contains(node) && visited.add(node)) node match {
-        // A later return or throw replaces the value of any earlier pending return.
-        case ret: Return                                                                              => returns += ret
-        case control: ControlStructure if control.controlStructureType == ControlStructureTypes.THROW =>
-        case _ => backward ++= node._cfgIn.cast[CfgNode]
+    reachable.collect {
+      case returned: Return if pendingExitReaches(returned, method.methodReturn, method) => returned
+    }.toSet
+  }
+
+  private def cleanupBoundary(origin: CfgNode, node: CfgNode, method: Method): Option[AstNode] = {
+    val originAncestors = Iterator.single(origin).inAstMinusLeaf.takeWhile(_ != method).toSet
+    val cleanups        = originAncestors
+      .collect { case control: ControlStructure => control }
+      .flatMap(_._finallyBodyOut.cast[AstNode])
+      .filterNot(originAncestors.contains)
+    Iterator.single(node).inAstMinusLeaf.takeWhile(_ != method).find(cleanups.contains)
+  }
+
+  private def handledInsideCleanup(origin: CfgNode, thrown: ControlStructure, method: Method): Boolean = {
+    cleanupBoundary(origin, thrown, method).exists { cleanup =>
+      val withinCleanup  = Iterator.single(thrown).inAstMinusLeaf.takeWhile(_ != cleanup).toList
+      val protectedNodes = (thrown :: withinCleanup).toSet
+      withinCleanup.collect { case control: ControlStructure => control }.exists { control =>
+        control._tryBodyOut.cast[AstNode].exists(protectedNodes.contains) &&
+        control._catchBodyOut.cast[AstNode].exists {
+          case handler: ControlStructure if handler.controlStructureType == ControlStructureTypes.CATCH =>
+            handler.condition.isLiteral.codeExact("true").nonEmpty
+          case _ => false
+        }
       }
     }
-    // A throw caught inside the active cleanup does not replace its pending return.
-    // Require explicit handler and cleanup edges; omitted filters remain conservative.
-    def handledInsideCleanup(ret: Return, thrown: ControlStructure): Boolean = {
-      val returnAncestors = Iterator.single(ret).inAstMinusLeaf.takeWhile(_ != method).toSet
-      val cleanups        = returnAncestors
-        .collect { case control: ControlStructure => control }
-        .flatMap(_._finallyBodyOut.cast[AstNode])
-        .filterNot(returnAncestors.contains)
-      val throwAncestors = Iterator.single(thrown).inAstMinusLeaf.takeWhile(_ != method).toList
-      throwAncestors.find(cleanups.contains).exists { cleanup =>
-        val withinCleanup  = throwAncestors.takeWhile(_ != cleanup)
-        val protectedNodes = (thrown :: withinCleanup).toSet
-        withinCleanup.collect { case control: ControlStructure => control }.exists { control =>
-          control._tryBodyOut.cast[AstNode].exists(protectedNodes.contains) &&
-          control._catchBodyOut.cast[AstNode].exists {
-            case handler: ControlStructure if handler.controlStructureType == ControlStructureTypes.CATCH =>
-              handler.condition.isLiteral.codeExact("true").nonEmpty
-            case _ => false
+  }
+
+  private def jumpLeavesCleanup(origin: CfgNode, jump: ControlStructure, method: Method): Boolean = {
+    cleanupBoundary(origin, jump, method).exists { cleanup =>
+      val argument = jump._jumpArgumentOut.cast[AstNode].headOption.orElse(jump.astChildren.order(1).headOption)
+      argument match {
+        case Some(label: JumpLabel) =>
+          !method.ast.collect { case target: JumpTarget if target.name == label.name => target }.exists { target =>
+            Iterator.single(target).inAstMinusLeaf.contains(cleanup)
           }
-        }
+        case _ =>
+          val levels       = argument.collect { case value: Literal => value.code.toInt }.getOrElse(1)
+          val localTargets =
+            Iterator.single(jump).inAstMinusLeaf.takeWhile(_ != cleanup).isControlStructure.count { control =>
+              control.controlStructureType match {
+                case ControlStructureTypes.FOR | ControlStructureTypes.WHILE | ControlStructureTypes.DO       => true
+                case ControlStructureTypes.SWITCH if jump.controlStructureType == ControlStructureTypes.BREAK => true
+                case _                                                                                        => false
+              }
+            }
+          levels > localTargets
       }
     }
-    reachable.collect { case ret: Return if !returns.contains(ret) => ret }.foreach { ret =>
-      val seen    = mutable.HashSet.empty[CfgNode]
-      val pending = mutable.ArrayDeque.from(ret._cfgOut.cast[CfgNode])
-      while (pending.nonEmpty && !returns.contains(ret)) {
-        val node = pending.removeHead()
-        if (seen.add(node)) node match {
-          case _: MethodReturn                                                                        => returns += ret
-          case _: Return                                                                              =>
-          case thrown: ControlStructure if thrown.controlStructureType == ControlStructureTypes.THROW =>
-            if (handledInsideCleanup(ret, thrown)) pending ++= thrown._cfgOut.cast[CfgNode]
-          case _ => pending ++= node._cfgOut.cast[CfgNode]
-        }
+  }
+
+  private def pendingExitReaches(origin: CfgNode, target: CfgNode, method: Method): Boolean = {
+    val seen    = mutable.HashSet.empty[CfgNode]
+    val pending = mutable.ArrayDeque.from(origin._cfgOut.cast[CfgNode])
+    var reached = false
+    while (pending.nonEmpty && !reached) {
+      val node = pending.removeHead()
+      if (node == target) reached = true
+      else if (seen.add(node)) node match {
+        case _: Return | _: MethodReturn                                                            =>
+        case thrown: ControlStructure if thrown.controlStructureType == ControlStructureTypes.THROW =>
+          if (handledInsideCleanup(origin, thrown, method)) pending ++= thrown._cfgOut.cast[CfgNode]
+        case jump: ControlStructure
+            if jump.controlStructureType == ControlStructureTypes.BREAK ||
+              jump.controlStructureType == ControlStructureTypes.CONTINUE =>
+          if (!jumpLeavesCleanup(origin, jump, method)) pending ++= jump._cfgOut.cast[CfgNode]
+        case _ => pending ++= node._cfgOut.cast[CfgNode]
       }
     }
-    returns.toSet
+    reached
   }
 
   /** Once reaching definitions have been computed, we create a data dependence graph by checking which reaching
@@ -196,26 +218,51 @@ class DdgGenerator(semantics: Semantics) {
     }
 
     def addCaughtValueEdges(): Unit = {
-      // Following arbitrary cleanup successors would conflate pending and replacement exceptions.
-      allNodes
-        .collect {
-          case call: Call if call.name == "<operator>.caughtException" || call.name == "<operator>.caughtStackTrace" =>
-            call
-        }
-        .foreach { channel =>
+      val channels = allNodes.collect {
+        case call: Call if call.name == "<operator>.caughtException" || call.name == "<operator>.caughtStackTrace" =>
+          call
+      }
+      if (channels.nonEmpty) {
+        val routedThrows = allNodes
+          .collect {
+            case thrown: ControlStructure if thrown.controlStructureType == ControlStructureTypes.THROW => thrown
+          }
+          .flatMap { thrown =>
+            val ancestors      = Iterator.single(thrown).inAstMinusLeaf.takeWhile(_ != method).toList
+            val protectedNodes = ancestors.toSet
+            val owner          = ancestors.collectFirst {
+              case control: ControlStructure
+                  if control._tryBodyOut
+                    .cast[AstNode]
+                    .exists(protectedNodes.contains) && control._catchBodyOut.nonEmpty =>
+                control
+            }
+            // Cleanup-local handlers consume their own exceptions, not the suspended outer payload.
+            owner.toList
+              .flatMap(_._catchBodyOut.cast[AstNode])
+              .collect { case handler: ControlStructure => handler }
+              .flatMap { handler =>
+                handler.condition.isLiteral
+                  .codeExact("true")
+                  .filter(pendingExitReaches(thrown, _, method))
+                  .map(_ => handler -> thrown)
+              }
+          }
+          .groupMap(_._1)(_._2)
+        channels.foreach { channel =>
           val index   = if (channel.name == "<operator>.caughtException") 1 else 2
           val handler =
             Iterator.single(channel).inAstMinusLeaf.takeWhile(_ != method).isControlStructure.isCatch.headOption
           for {
             caught  <- handler
-            entry   <- caught.condition.isLiteral.codeExact("true")
-            thrown  <- entry._cfgIn.cast[CfgNode].isControlStructure.isThrow
+            thrown  <- routedThrows.getOrElse(caught, Nil)
             operand <- thrown._argumentOut.cast[Expression].filter(_.argumentIndex == index)
           } operand match {
             case block: Block => addEdgeForBlock(block, channel)
             case _            => addEdge(operand, channel, nodeToEdgeLabel(operand))
           }
         }
+      }
     }
 
     def addEdgesToMethodParameterOut(paramOut: MethodParameterOut): Unit = {
