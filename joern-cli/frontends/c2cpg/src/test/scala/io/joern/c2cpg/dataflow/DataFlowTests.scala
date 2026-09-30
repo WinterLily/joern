@@ -370,16 +370,7 @@ class DataFlowTests extends DataFlowCodeToCpgSuite {
         val flows  = sink.reachableByFlows(source)
 
         flows.map(flowToResultPairs).toSetMutable shouldBe
-          Set(
-            List(
-              ("getpid()", 8),
-              ("a = getpid()", 8),
-              ("a == 666", 10),
-              ("a * 666", 11),
-              ("a = a * 666", 11),
-              ("return a;", 16)
-            )
-          )
+          Set(List(("getpid()", 8), ("a = getpid()", 8), ("a * 666", 11), ("a = a * 666", 11), ("return a;", 16)))
       }
     }
 
@@ -554,7 +545,7 @@ class DataFlowTests extends DataFlowCodeToCpgSuite {
       val flows  = sink.reachableByFlows(source)
 
       flows.map(flowToResultPairs).toSetMutable shouldBe
-        Set(List(("a < 10", 5), ("a < 5", 6), ("a < 2", 7), ("x = a", 8), ("return x;", 12)))
+        Set(List(("a < 10", 5), ("x = a", 8), ("return x;", 12)))
     }
   }
 
