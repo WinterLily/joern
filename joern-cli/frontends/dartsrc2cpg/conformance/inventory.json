@@ -93,9 +93,9 @@
       "lowering": "DartFrontendTests: retain ordered catch filters and bind caught values explicitly",
       "resolution": "analyzer filter type identities and clause-local REF edges; explicit active exception/stack for rethrow",
       "cfg": "source-ordered filters with unmatched rethrow; explicit total dispatcher; shared FinallyExitTests",
-      "valueFlow": "CaughtExceptionTests, FinallyReturnTests and DartFrontendTests: separate intraprocedural exception/stack channels, construction, rethrow and pending values across cleanup; cross-call exception payloads unmodeled",
-      "negative": "replacement values, stack independence, independent handlers, and outward versus cleanup-local break/continue",
-      "interaction": "astgen/test/catch_dispatch_test.dart: typed/fallback selection, overlap, unmatched propagation, rethrow identity, handled cleanup and abrupt exit replacement"
+      "valueFlow": "CaughtExceptionTests, CrossMethodExceptionTests, FinallyReturnTests and DartFrontendTests: separate exception/stack channels, internal calls, construction, rethrow and pending values across cleanup; unavailable runtime payloads reported",
+      "negative": "replacement values, stack independence, independent handlers/calls, normal-return summary isolation, depth limits and outward versus cleanup-local break/continue",
+      "interaction": "astgen/test/catch_dispatch_test.dart and exception_calls_test.dart: typed/fallback selection, overlap, unmatched propagation, wrapper/rethrow identity, handled cleanup and abrupt exit replacement"
     }
   },
   "constructs": [
@@ -249,7 +249,7 @@
       "exporterCase": "CatchClause",
       "contract": "exceptions",
       "qualification": "conservative",
-      "reason": "Ordered handler and intraprocedural exception/stack flow; cross-call payloads and path feasibility remain open."
+      "reason": "Ordered handlers and internal-call exception/stack flow; implicit/external payloads and path feasibility remain open."
     },
     {
       "construct": "CatchClauseParameter",
@@ -257,7 +257,7 @@
       "exporterCase": "CatchClauseParameter",
       "contract": "exceptions",
       "qualification": "conservative",
-      "reason": "Ordered handler and intraprocedural exception/stack flow; cross-call payloads and path feasibility remain open."
+      "reason": "Ordered handlers and internal-call exception/stack flow; implicit/external payloads and path feasibility remain open."
     },
     {
       "construct": "ClassDeclaration",
@@ -1217,7 +1217,7 @@
       "exporterCase": "RethrowExpression",
       "contract": "exceptions",
       "qualification": "conservative",
-      "reason": "Ordered handler and intraprocedural exception/stack flow; cross-call payloads and path feasibility remain open."
+      "reason": "Ordered handlers and internal-call exception/stack flow; implicit/external payloads and path feasibility remain open."
     },
     {
       "construct": "ReturnStatement",
@@ -1385,7 +1385,7 @@
       "exporterCase": "ThrowExpression",
       "contract": "exceptions",
       "qualification": "conservative",
-      "reason": "Ordered handler and intraprocedural exception/stack flow; cross-call payloads and path feasibility remain open."
+      "reason": "Ordered handlers and internal-call exception/stack flow; implicit/external payloads and path feasibility remain open."
     },
     {
       "construct": "TopLevelVariableDeclaration",
@@ -1401,7 +1401,7 @@
       "exporterCase": "TryStatement",
       "contract": "exceptions",
       "qualification": "conservative",
-      "reason": "Ordered handler and intraprocedural exception/stack flow; cross-call payloads and path feasibility remain open."
+      "reason": "Ordered handlers and internal-call exception/stack flow; implicit/external payloads and path feasibility remain open."
     },
     {
       "construct": "TypeArgumentList",

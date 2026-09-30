@@ -77,6 +77,42 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
   }
 
   "Dart frontend" should {
+    "separate exception payloads from normal values across method calls" in {
+      fixture(
+        Files.readString(frontend.resolve("src/test/resources/semantics/exception_calls.dart")),
+        "void main() {}"
+      ) { (cpg, _) =>
+        for (name <- Seq("catchForward", "catchRethrow")) {
+          val method = cpg.method.nameExact(name).head
+          for (source <- Seq("input", "normal")) {
+            val paths = method.ast.isReturn
+              .codeExact("return error;")
+              .reachableByFlows(method.parameter.nameExact(source))
+              .l
+            withClue(s"$name catch $source") { paths.nonEmpty shouldBe (source == "input") }
+            val normal = method.ast.isReturn
+              .codeNot("return error;")
+              .reachableByFlows(method.parameter.nameExact(source))
+              .l
+            withClue(s"$name return $source") { normal.nonEmpty shouldBe (source == "normal") }
+          }
+        }
+        for (
+          (name, expected) <- Seq(
+            "catchConstructed" -> true,
+            "catchSuppressed"  -> false,
+            "catchHandled"     -> false,
+            "independentCalls" -> false,
+            "catchStack"       -> false
+          )
+        ) {
+          val method = cpg.method.nameExact(name).head
+          withClue(name) {
+            method.ast.isReturn.reachableByFlows(method.parameter.nameExact("input")).nonEmpty shouldBe expected
+          }
+        }
+      }
+    }
     "retain ordered catch filters and bind caught values explicitly" in {
       fixture(
         Files.readString(frontend.resolve("src/test/resources/semantics/catch_dispatch.dart")),

@@ -66,11 +66,18 @@ that lexical rethrow context. Type tests retain both successors; this is not a
 path-sensitive exception-type analysis. Calls remain conservatively throwable.
 Explicit throw operands feed their lexical catch dispatcher's value channel.
 An explicit second operand feeds only the stack channel, so rethrow preserves
-the two separately. These dependencies are intraprocedural and require a CFG
+the two separately. These dependencies require a CFG
 route that preserves the pending exception through intervening cleanup. A
 cleanup-local handler receives its own exception; the suspended outer value
-continues to its enclosing handler. Calls throwing across method boundaries and
-implicit runtime exception payloads remain unmodeled.
+continues to its enclosing handler. Internal calls expose separate exception
+value and stack channels. Queries follow escaping throws through callee bodies,
+wrappers and rethrows with the call stack retained. Normal return summaries do
+not summarize exception payloads, and caches distinguish these channels.
+Handled or replaced exceptions do not escape their callee. External, unresolved
+and implicit runtime exception payloads remain unmodeled; searches that reach
+these boundaries report a corresponding exception-channel limitation. Call-depth
+limits apply to exception traversal too. These contracts do not establish
+path-sensitive exception types or general heap precision.
 
 Finally bodies intercept pending exits. An explicit exception handled entirely
 inside a cleanup preserves its pending return dependency. An exception escaping

@@ -26,8 +26,10 @@ interface dispatch and heap qualification remain open. Ordered catch filters,
 explicit caught-value bindings and pending returns across handled cleanup failures
 now have focused regressions and execution checks. Intraprocedural throw/rethrow
 payloads preserve separate value/stack channels across cleanup, including exit
-replacement by return, throw and outward loop jumps. Exception payloads across
-calls remain open. The frontend is an
+replacement by return, throw and outward loop jumps. Internal call exceptions now
+use separate value/stack channels with wrapper, rethrow, repeated-call isolation
+and normal-return-summary regressions. Unavailable external and implicit runtime
+payloads remain explicit query limitations. The frontend is an
 initial implementation, not complete language or runtime analysis support.
 This plan supersedes the completion assumptions in the original implementation
 plan in `agents/plan.md`; it does not mark the remaining work as done.

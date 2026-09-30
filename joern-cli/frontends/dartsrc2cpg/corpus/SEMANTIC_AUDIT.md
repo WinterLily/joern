@@ -342,4 +342,21 @@ route. The same exit-preservation walk checks pending returns.
 The Dart fixture checks positive flows and isolation at actual return statements,
 rather than relying on a parameter-to-method-exit shortcut. Runtime checks verify
 object identity, cleanup traces, replacement constants, and local/outward jumps.
-Exception payloads thrown across calls and implicit runtime failures remain open.
+The subsequent cross-call increment addresses internal explicit throws; implicit
+runtime failures remain open.
+
+## Cross-method exception values
+
+Separate query channels now carry escaping exception values and stacks from
+internal callees. The reduced shared regression queries normal results and
+caught payloads together, including repeated calls with unrelated inputs and
+normal-return summaries that either preserve or omit return flow. A call used as
+a source denotes its normal result, not its exception payload. Cache keys and
+held-task completion preserve that distinction and the active call stack.
+
+The Dart fixture exercises wrappers, rethrow, constructed exceptions, suppressed
+and handled failures, repeated calls and stack isolation at actual return
+statements. Independent runtime checks verify identity and constant replacements.
+Depth-limited searches and unavailable external, unresolved or implicit exception
+channels expose query limitations. This does not qualify arbitrary exception-type
+feasibility, native payloads or heap precision.
