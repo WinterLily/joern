@@ -28,6 +28,15 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
   private def strings(syntax: Value, key: String): Seq[String]          =
     syntax.obj.get(key).map(_.arr.map(_.str).toSeq).getOrElse(Nil)
 
+  private val lateMembers = units
+    .flatMap(_("nodes").arr)
+    .filter { node =>
+      string(node, "kind") == "VariableDeclaration" && bool(symbol(node), "late") &&
+      Set("FIELD", "TOP_LEVEL_VARIABLE").contains(string(symbol(node), "kind"))
+    }
+    .map(string(_, "declaration"))
+    .toSet
+
   override def run(diffGraph: DiffGraphBuilder): Unit = units.foreach { unit =>
     val filename                           = java.net.URI.create(unit("file").str).getPath
     val library                            = string(unit, "library", filename)
@@ -41,6 +50,7 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
     var returnsInstance                    = false
     var instanceFields                     = Seq.empty[Value]
     var initializerContext                 = ""
+    val lateLocals                         = mutable.Map.empty[String, Option[String]]
     val functionValues                     = mutable.Map.empty[String, String]
     val boundTargets                       = mutable.Map.empty[String, String]
     var cascadeReceiver: Option[() => Ast] = None
@@ -281,16 +291,119 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
           if (bool(target, "static")) methodRef(syntax, id)
           else boundMethodRef(syntax, id, receiver.getOrElse(thisAst(syntax)))
         case "GETTER" | "SETTER" =>
-          if (bool(target, "synthetic")) field(syntax, base, name)
+          if (bool(target, "synthetic") && !lateMembers.contains(string(target, "variable"))) field(syntax, base, name)
           else call(syntax, id, name, None, if (bool(target, "static")) None else Some(base))
-        case "FIELD" | "TOP_LEVEL_VARIABLE" => field(syntax, base, name)
+        case "FIELD" | "TOP_LEVEL_VARIABLE" =>
+          if (lateMembers.contains(id))
+            call(syntax, string(target, "getter"), name, None, if (bool(target, "static")) None else Some(base))
+          else field(syntax, base, name)
         case _
             if id.isEmpty && Set("PropertyAccess", "PrefixedIdentifier", "PatternField").contains(
               string(syntax, "kind")
             ) =>
           field(syntax, base, name)
-        case _ => identifier(syntax, name, id, tpe(syntax))
+        case _ if lateLocals.contains(id) => lateLocalRead(syntax, id, name)
+        case _                            => identifier(syntax, name, id, tpe(syntax))
       }
+    }
+    def lateFailure(syntax: Value, name: String): Ast = Ast(
+      NewControlStructure().controlStructureType(ControlStructureTypes.THROW).code(s"LateInitializationError($name)")
+    ).withChild(operator(syntax, "<operator>.lateInitializationError", Seq(literal(syntax, name, "String"))))
+    def lateInitialization(
+      syntax: Value,
+      name: String,
+      location: () => Ast,
+      initializer: Option[Ast],
+      isFinal: Boolean
+    ): Ast = {
+      // Initialization state is separate from the stored value, which may legitimately be null.
+      def initialized(): Ast = operator(syntax, "<operator>.isInitialized", Seq(location()))
+      val initialize         = initializer
+        .map { init =>
+          savedSequence(syntax, init) { value =>
+            (if (isFinal)
+               Seq(
+                 control(syntax, ControlStructureTypes.IF, initialized(), block(syntax, Seq(lateFailure(syntax, name))))
+               )
+             else Nil) :+
+              operator(syntax, Operators.assignment, Seq(location(), value()))
+          }
+        }
+        .getOrElse(lateFailure(syntax, name))
+      control(
+        syntax,
+        ControlStructureTypes.IF,
+        operator(syntax, Operators.logicalNot, Seq(initialized())),
+        block(syntax, Seq(initialize))
+      )
+    }
+    def lateLocalRead(syntax: Value, id: String, name: String): Ast = {
+      def location(): Ast = identifier(syntax, name, id, tpe(sym(id)))
+      val initialize      = lateLocals(id).map(thunk =>
+        call(
+          syntax,
+          thunk,
+          "<late-init>",
+          None,
+          Some(identifier(syntax, thunk, thunk, "Function")),
+          callableReceiver = true
+        )
+      )
+      block(
+        syntax,
+        Seq(lateInitialization(syntax, name, () => location(), initialize, bool(sym(id), "final")), location())
+      )
+    }
+    def lateLocalWrite(syntax: Value, id: String, name: String, value: Ast): Ast =
+      savedSequence(syntax, value) { assigned =>
+        def location(): Ast = identifier(syntax, name, id, tpe(sym(id)))
+        (if (bool(sym(id), "final"))
+           Seq(
+             control(
+               syntax,
+               ControlStructureTypes.IF,
+               operator(syntax, "<operator>.isInitialized", Seq(location())),
+               block(syntax, Seq(lateFailure(syntax, name)))
+             )
+           )
+         else Nil) ++
+          Seq(operator(syntax, Operators.assignment, Seq(location(), assigned())), assigned())
+      }
+    def lateLocalInitializer(syntax: Value, init: Value, id: String): Seq[Ast] = {
+      val thunkId = s"$id:<late-init>$initializerContext"
+      val thunk   = NewLocal().name(thunkId).code(thunkId).typeFullName("Function")
+      declarations(thunkId) = thunk
+      lateLocals(id) = Some(thunkId)
+      val value = capturedClosure(syntax, init, thunkId) { captures =>
+        val method = located(
+          NewMethod()
+            .name("<late-init>")
+            .fullName(thunkId)
+            .code(code(init))
+            .filename(filename)
+            .isExternal(false)
+            .signature(s"${tpe(init)}(0)")
+            .astParentType(ownerType)
+            .astParentFullName(owner),
+          init
+        )
+        Ast(method)
+          .withChild(block(init, captures :+ args(NewReturn().code(code(init)), Seq(expression(init)))))
+          .withChild(
+            Ast(
+              NewMethodReturn()
+                .typeFullName(tpe(init))
+                .code("RET")
+                .evaluationStrategy(EvaluationStrategies.BY_VALUE)
+            )
+          )
+          .withChild(Ast(NewModifier().modifierType(ModifierTypes.STATIC)))
+      }
+      value.root.collect { case ref: NewMethodRef => ref.typeFullName = "Function" }
+      Seq(
+        Ast(thunk),
+        operator(syntax, Operators.assignment, Seq(identifier(syntax, thunkId, thunkId, "Function"), value))
+      )
     }
     def userOperator(id: String): Boolean =
       string(sym(id), "kind") == "METHOD" && !string(sym(id), "file").startsWith("dart:")
@@ -319,7 +432,11 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
         val writeId                = string(syntax, "write", string(left, "reference"))
         def read(): Ast            = reference(left, readId, string(left, "name"), Some(receiver()))
         def write(value: Ast): Ast = {
-          if (string(sym(writeId), "kind") == "SETTER" && !bool(sym(writeId), "synthetic")) {
+          if (lateLocals.contains(writeId)) lateLocalWrite(syntax, writeId, string(left, "name"), value)
+          else if (
+            string(sym(writeId), "kind") == "SETTER" &&
+            (!bool(sym(writeId), "synthetic") || lateMembers.contains(string(sym(writeId), "variable")))
+          ) {
             val out = located(
               NewCall()
                 .name(string(left, "name"))
@@ -874,7 +991,10 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
         )
         if (
           Set("++", "--").contains(string(syntax, "operator")) &&
-          (accessor || userOperator(string(syntax, "operatorTarget")) || string(operand, "kind") == "IndexExpression")
+          (accessor || lateLocals.contains(readId) || userOperator(string(syntax, "operatorTarget")) || string(
+            operand,
+            "kind"
+          ) == "IndexExpression")
         ) {
           update(syntax, operand) { (read, write) =>
             saved(syntax, read()) { before =>
@@ -991,15 +1111,24 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
         val typ   = tpe(symbol(syntax))
         val local = located(NewLocal().name(name).code(name).typeFullName(typ), syntax)
         declarations(string(syntax, "declaration")) = local
-        Seq(Ast(local)) ++ children(syntax, "initializer").map { init =>
-          val rhs = expression(init)
-          if (bool(symbol(syntax), "final"))
-            rhs.nodes
-              .collect { case ref: NewMethodRef => ref }
-              .lastOption
-              .foreach(ref => functionValues(string(syntax, "declaration")) = ref.methodFullName)
-          operator(syntax, Operators.assignment, Seq(identifier(syntax, name, string(syntax, "declaration"), typ), rhs))
-        }
+        val id = string(syntax, "declaration")
+        if (bool(symbol(syntax), "late")) {
+          lateLocals(id) = None
+          Seq(Ast(local)) ++ children(syntax, "initializer").flatMap(init => lateLocalInitializer(syntax, init, id))
+        } else
+          Seq(Ast(local)) ++ children(syntax, "initializer").map { init =>
+            val rhs = expression(init)
+            if (bool(symbol(syntax), "final"))
+              rhs.nodes
+                .collect { case ref: NewMethodRef => ref }
+                .lastOption
+                .foreach(ref => functionValues(string(syntax, "declaration")) = ref.methodFullName)
+            operator(
+              syntax,
+              Operators.assignment,
+              Seq(identifier(syntax, name, string(syntax, "declaration"), typ), rhs)
+            )
+          }
       case "ExpressionStatement" => Seq(expression(child(syntax, "expression")))
       case "ReturnStatement"     =>
         val values = children(syntax, "expression").map(expression)
@@ -1214,6 +1343,9 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
       // Field initializers are expanded in each constructor and capture different receiver parameters.
       val id = if (initializerContext.isEmpty) sourceId else s"$sourceId:initializer:$initializerContext"
       boundTargets(id) = sourceId
+      capturedClosure(syntax, function, id)(prefix => method(syntax, function, Some(id), prefix))
+    }
+    def capturedClosure(syntax: Value, function: Value, id: String)(build: Seq[Ast] => Ast): Ast = {
       val outer    = declarations.toMap
       val captured = mutable.ArrayBuffer.empty[Ast]
       val ref      = located(NewMethodRef().code(code(syntax)).methodFullName(id).typeFullName(tpe(function)), syntax)
@@ -1225,7 +1357,8 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
           referenced.exists(id =>
             Set("FIELD", "GETTER", "SETTER", "METHOD").contains(string(sym(id), "kind")) && !bool(sym(id), "static")
           )
-        referenced ++ (if (needsThis) Set("this") else Set.empty[String]) ++
+        referenced ++ referenced.flatMap(id => lateLocals.get(id).flatten) ++
+          (if (needsThis) Set("this") else Set.empty[String]) ++
           valueSyntax("children").arr.flatMap(clauseNode => references(nodes(clauseNode("node").num.toInt)))
       }
       references(function).toSeq.sorted.filter(outer.contains).foreach { key =>
@@ -1258,7 +1391,7 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
       val previousOwnerType = ownerType
       owner = s"$library:<global>"
       ownerType = "NAMESPACE_BLOCK"
-      extraMethods += method(syntax, function, Some(id), captured.toSeq)
+      extraMethods += build(captured.toSeq)
       owner = previousOwner
       ownerType = previousOwnerType
       declarations.clear(); declarations ++= outer
@@ -1364,18 +1497,20 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
           constructor && !bool(syntax, "factory") && !children(syntax, "initializer")
             .exists(i => string(i, "kind") == "ConstructorInvocation" && code(i).startsWith("this"))
         ) {
-          instanceFields.flatMap(fieldSyntax =>
-            children(fieldSyntax, "initializer").map(init =>
-              operator(
-                fieldSyntax,
-                Operators.assignment,
-                Seq(
-                  field(fieldSyntax, thisAst(fieldSyntax), string(fieldSyntax, "name")),
-                  initializerExpression(init, id)
+          instanceFields
+            .filterNot(fieldSyntax => lateMembers.contains(string(fieldSyntax, "declaration")))
+            .flatMap(fieldSyntax =>
+              children(fieldSyntax, "initializer").map(init =>
+                operator(
+                  fieldSyntax,
+                  Operators.assignment,
+                  Seq(
+                    field(fieldSyntax, thisAst(fieldSyntax), string(fieldSyntax, "name")),
+                    initializerExpression(init, id)
+                  )
                 )
               )
             )
-          )
         } else Nil
       val initializers = fieldInitializers ++ parameterNodes.flatMap { wrapped =>
         val paramNode =
@@ -1522,6 +1657,87 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
         )
       )
     }
+    def lateAccessors(syntax: Value): Seq[Ast] = {
+      val variable = symbol(syntax)
+      val instance = !bool(variable, "static")
+      val name     = string(syntax, "name")
+      val outer    = declarations.toMap
+      Seq("getter", "setter").flatMap { kind =>
+        val id = string(variable, kind)
+        if (id.isEmpty) Nil
+        else {
+          val parameters = (if (instance) Seq("this" -> currentType) else Nil) ++
+            (if (kind == "setter") Seq("value" -> tpe(variable)) else Nil)
+          val inputs = parameters.zipWithIndex.map { case ((paramName, typ), index) =>
+            val param = NewMethodParameterIn()
+              .name(paramName)
+              .code(paramName)
+              .index(index + (if (instance) 0 else 1))
+              .order(index + (if (instance) 0 else 1))
+              .typeFullName(typ)
+              .evaluationStrategy(
+                if (paramName == "this") EvaluationStrategies.BY_REFERENCE
+                else EvaluationStrategies.BY_VALUE
+              )
+              .isVariadic(false)
+            declarations(paramName) = param
+            Ast(param)
+          }
+          def location(): Ast =
+            field(syntax, if (instance) thisAst(syntax) else identifier(syntax, owner, "", owner), name)
+          def initialized(): Ast = operator(syntax, "<operator>.isInitialized", Seq(location()))
+          def fail(): Ast        = lateFailure(syntax, name)
+          val guard              = if (kind == "getter") {
+            Seq(
+              lateInitialization(
+                syntax,
+                name,
+                () => location(),
+                children(syntax, "initializer").headOption.map(expression),
+                bool(variable, "final")
+              ),
+              args(NewReturn().code(s"return $name"), Seq(location()))
+            )
+          } else {
+            (if (bool(variable, "final"))
+               Seq(control(syntax, ControlStructureTypes.IF, initialized(), block(syntax, Seq(fail()))))
+             else Nil) :+
+              operator(
+                syntax,
+                Operators.assignment,
+                Seq(location(), identifier(syntax, "value", "value", tpe(variable)))
+              )
+          }
+          val out = located(
+            NewMethod()
+              .name(name)
+              .fullName(id)
+              .code(code(syntax))
+              .filename(filename)
+              .isExternal(false)
+              .signature(s"${if (kind == "getter") tpe(variable) else "void"}(${if (kind == "getter") 0 else 1})")
+              .astParentType(ownerType)
+              .astParentFullName(owner),
+            syntax
+          )
+          val ast = Ast(out)
+            .withChildren(inputs)
+            .withChild(block(syntax, guard))
+            .withChild(
+              Ast(
+                NewMethodReturn()
+                  .typeFullName(if (kind == "getter") tpe(variable) else "void")
+                  .code("RET")
+                  .evaluationStrategy(EvaluationStrategies.BY_VALUE)
+              )
+            )
+            .withChild(Ast(NewAnnotation().name("late").fullName("dart.late").code("late")))
+            .withChildren(if (instance) Nil else Seq(Ast(NewModifier().modifierType(ModifierTypes.STATIC))))
+          declarations.clear(); declarations ++= outer
+          Seq(ast)
+        }
+      }
+    }
     def initializerMethod(
       syntax: Value,
       fields: Seq[Value],
@@ -1567,23 +1783,25 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
         parameter
       }
       else Nil
-      val values = fields.flatMap(fieldSyntax =>
-        (if (string(fieldSyntax, "kind") == "EnumConstantDeclaration") Seq(fieldSyntax)
-         else children(fieldSyntax, "initializer")).map(init =>
-          operator(
-            fieldSyntax,
-            Operators.assignment,
-            Seq(
-              field(
-                fieldSyntax,
-                if (instance) thisAst(fieldSyntax) else identifier(fieldSyntax, owner, "", owner),
-                string(fieldSyntax, "name")
-              ),
-              initializerExpression(init, id)
+      val values = fields
+        .filterNot(fieldSyntax => lateMembers.contains(string(fieldSyntax, "declaration")))
+        .flatMap(fieldSyntax =>
+          (if (string(fieldSyntax, "kind") == "EnumConstantDeclaration") Seq(fieldSyntax)
+           else children(fieldSyntax, "initializer")).map(init =>
+            operator(
+              fieldSyntax,
+              Operators.assignment,
+              Seq(
+                field(
+                  fieldSyntax,
+                  if (instance) thisAst(fieldSyntax) else identifier(fieldSyntax, owner, "", owner),
+                  string(fieldSyntax, "name")
+                ),
+                initializerExpression(init, id)
+              )
             )
           )
         )
-      )
       val out = NewMethod()
         .name(name)
         .fullName(id)
@@ -1694,7 +1912,10 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
       case "FunctionDeclaration"                              => Seq(method(syntax, child(syntax, "function")))
       case "MethodDeclaration" | "ConstructorDeclaration"     => Seq(method(syntax, syntax))
       case "TopLevelVariableDeclaration" | "FieldDeclaration" =>
-        children(child(syntax, "variables"), "variable").map(member)
+        children(child(syntax, "variables"), "variable").flatMap { variable =>
+          Seq(member(variable)) ++ (if (lateMembers.contains(string(variable, "declaration"))) lateAccessors(variable)
+                                    else Nil)
+        }
       case "ClassDeclaration" | "ClassTypeAlias" | "EnumDeclaration" | "MixinDeclaration" | "ExtensionDeclaration" |
           "ExtensionTypeDeclaration" =>
         val previousOwner       = owner

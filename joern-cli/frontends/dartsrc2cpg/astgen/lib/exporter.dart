@@ -13,7 +13,7 @@ import 'package:analyzer/source/line_info.dart';
 import 'package:path/path.dart' as p;
 
 const protocolVersion = 1;
-const exporterVersion = '0.3.4';
+const exporterVersion = '0.3.5';
 const analyzerVersion = '8.4.1';
 const supportedSdkVersion = '3.9.2';
 
@@ -254,6 +254,7 @@ class _UnitEncoder {
           'type': element.type.getDisplayString(),
           'static': element.isStatic,
           'final': element.isFinal || element.isConst,
+          'late': element.isLate,
         },
         if (element is ExecutableElement)
           'returnType': element.returnType.getDisplayString(),
@@ -265,6 +266,10 @@ class _UnitEncoder {
       };
       if (element is VariableElement) {
         symbols[id]!['typeId'] = typeId(element.type);
+      }
+      if (element is PropertyInducingElement && element.isLate) {
+        symbols[id]!['getter'] = symbol(element.getter);
+        symbols[id]!['setter'] = symbol(element.setter);
       }
       if (element is ExecutableElement) {
         symbols[id]!['returnTypeId'] = typeId(element.returnType);

@@ -26,32 +26,32 @@
   {
     "project": "args-2.7.0",
     "files": 12,
-    "methods": 154,
-    "calls": 1913,
+    "methods": 155,
+    "calls": 1921,
     "unknown": 0,
     "unknownKinds": {}
   },
   {
     "project": "async-2.13.0",
     "files": 45,
-    "methods": 532,
-    "calls": 3039,
+    "methods": 537,
+    "calls": 3102,
     "unknown": 0,
     "unknownKinds": {}
   },
   {
     "project": "http_parser-4.1.2",
     "files": 11,
-    "methods": 64,
-    "calls": 907,
+    "methods": 66,
+    "calls": 914,
     "unknown": 0,
     "unknownKinds": {}
   },
   {
     "project": "analyzer-8.4.1",
     "files": 458,
-    "methods": 21884,
-    "calls": 199128,
+    "methods": 22221,
+    "calls": 200894,
     "unknown": 0,
     "unknownKinds": {}
   }

@@ -1445,5 +1445,22 @@
       "qualification": "unqualified",
       "reason": "Explicit exporter representation; semantic obligations tracked independently."
     }
-  ]
+  ],
+  "qualifiedCases": {
+    "late-storage": {
+      "constructs": [
+        "VariableDeclaration",
+        "SimpleIdentifier",
+        "AssignmentExpression"
+      ],
+      "exporter": "astgen/test/exporter_test.dart: retain late storage and synthetic accessor identities",
+      "lowering": "DartFrontendTests: defer late local initializers in capturing thunks and guard reads and final writes",
+      "resolution": "DartFrontendTests: defer late field initializers to guarded getters and keep uninitialized distinct from null",
+      "cfg": "DartFrontendTests: keep static and top-level late initializers out of eager initialization methods",
+      "valueFlow": "DartFrontendTests: write late locals without first reading an uninitialized value",
+      "negative": "DartFrontendTests: defer late local initializers in capturing thunks and guard reads and final writes (constant initializer)",
+      "interaction": "astgen/test/late_evaluation_test.dart: cache null, independent objects, retries, overwrite, local capture timing",
+      "limitation": "Initialization predicates are represented explicitly but are not interpreted path-sensitively by the heap/dataflow engine."
+    }
+  }
 }

@@ -77,6 +77,98 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
   }
 
   "Dart frontend" should {
+    "write late locals without first reading an uninitialized value" in {
+      fixture(
+        "",
+        """void entry(String source) {
+          |  late String assigned;
+          |  assigned = source;
+          |  sink(assigned);
+          |  late final String once;
+          |  once = source;
+          |}
+          |""".stripMargin
+      ) { (cpg, _) =>
+        val write = cpg.call.nameExact("<operator>.assignment").codeExact("assigned = source").head
+        write.argument(1).isIdentifier shouldBe true
+        cpg.call
+          .nameExact("sink")
+          .argument
+          .reachableByFlows(cpg.method.nameExact("entry").parameter.nameExact("source"))
+          .nonEmpty shouldBe true
+        cpg.controlStructure
+          .controlStructureTypeExact("THROW")
+          .codeExact("LateInitializationError(once)")
+          .size shouldBe 1
+      }
+    }
+    "defer late local initializers in capturing thunks and guard reads and final writes" in {
+      for (argument <- Seq("source", "'constant'")) {
+        fixture(
+          "String compute(String value) => value;",
+          s"""void entry(String source) {
+          |  late final result = compute($argument);
+          |  String read() => result;
+          |  sink(result);
+          |  sink(read());
+          |  late final String once;
+          |  once = 'value';
+          |}
+          |""".stripMargin
+        ) { (cpg, _) =>
+          cpg.call.nameExact("compute").size shouldBe 1
+          cpg.call.nameExact("compute").method.name.l shouldBe List("<late-init>")
+          cpg.method.nameExact("entry").call.nameExact("compute").size shouldBe 0
+          cpg.call.nameExact("<late-init>").size shouldBe 2
+          cpg.call.nameExact("<late-init>").callee.isExternal.toList shouldBe List(false, false)
+          cpg.call
+            .nameExact("sink")
+            .argument
+            .reachableByFlows(cpg.method.nameExact("entry").parameter.nameExact("source"))
+            .nonEmpty shouldBe (argument == "source")
+          cpg.method.nameExact("entry").controlStructure.controlStructureTypeExact("THROW").nonEmpty shouldBe true
+        }
+      }
+    }
+    "defer late field initializers to guarded getters and keep uninitialized distinct from null" in {
+      fixture(
+        """String? initialize() => null;
+          |class Box {
+          |  late final String? value = initialize();
+          |  late String assigned;
+          |  late final String once;
+          |  Box();
+          |  Box.named();
+          |}
+          |""".stripMargin,
+        "void main() { final box = Box(); box.value; box.assigned = 'set'; sink(box.assigned); box.once = 'once'; }",
+        dataflow = false
+      ) { (cpg, _) =>
+        cpg.method.nameExact("<init>", "named").isExternal(false).call.nameExact("initialize").size shouldBe 0
+        cpg.call.nameExact("initialize").size shouldBe 1
+        val getter = cpg.call.nameExact("initialize").method.head
+        getter.fullName should include("GETTER:value")
+        getter.call.nameExact("<operator>.isInitialized").nonEmpty shouldBe true
+        cpg.call.nameExact("value").callee.isExternal.l shouldBe List(false)
+        cpg.method.fullName(".*GETTER:assigned.*").controlStructure.controlStructureTypeExact("THROW").size shouldBe 1
+        cpg.method.fullName(".*SETTER:once.*").controlStructure.controlStructureTypeExact("THROW").size shouldBe 1
+        cpg.method.fullName(".*SETTER:assigned.*").controlStructure.controlStructureTypeExact("THROW").size shouldBe 0
+      }
+    }
+    "keep static and top-level late initializers out of eager initialization methods" in {
+      fixture(
+        """String initialize() => 'value';
+          |late String global = initialize();
+          |class Lazy { static late final String field = initialize(); }
+          |""".stripMargin,
+        "void main() { sink(global); sink(Lazy.field); }",
+        dataflow = false
+      ) { (cpg, _) =>
+        cpg.call.nameExact("initialize").size shouldBe 2
+        cpg.call.nameExact("initialize").method.fullName.toList.foreach(_ should include("GETTER"))
+        cpg.method.nameExact("<clinit>").call.nameExact("initialize").size shouldBe 0
+      }
+    }
     "resolve user operators and distinguish their returned arguments from constants" in {
       for (returned <- Seq("value", "'constant'")) {
         fixture(
@@ -148,7 +240,7 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         guard.argument(3).code shouldBe "null"
       }
     }
-    "give constructor-expanded field closures distinct identities and receiver captures" in {
+    "keep constructor-expanded and lazy field closures distinct with their receiver captures" in {
       fixture(
         """class Box {
           |  final callback = (String value) => value;
@@ -160,13 +252,14 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         "void main() { Box(); Box.named(); }"
       ) { (cpg, _) =>
         val refs = cpg.methodRef.l
-        refs.size shouldBe 4
-        refs.map(_.methodFullName).distinct.size shouldBe 4
+        refs.size shouldBe 3
+        refs.map(_.methodFullName).distinct.size shouldBe 3
         refs.foreach(ref => ref.referencedMethod.isExternal shouldBe false)
         val captures = cpg.closureBinding.refOut.collect {
           case p: io.shiftleft.codepropertygraph.generated.nodes.MethodParameterIn => p
         }.l
-        captures.map(_.method.fullName).distinct.size shouldBe 2
+        captures.map(_.method.fullName).distinct.size shouldBe 1
+        captures.head.method.fullName should include("GETTER:reader")
       }
     }
     "link two files and preserve the dataflow proof after saving and reloading" in {
@@ -1300,7 +1393,7 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         scan(config.copy(report = report.toString))
         val coverage = ujson.read(Files.readString(report))
         coverage("includedFiles").num shouldBe 0
-        coverage("exporter")("exporterVersion").str shouldBe "0.3.4"
+        coverage("exporter")("exporterVersion").str shouldBe "0.3.5"
         coverage("exporter")("sdkVersion").str shouldBe "3.9.2"
         coverage("exporter")("analyzerVersion").str shouldBe "8.4.1"
         Files.writeString(dir.resolve("excluded.dart"), "void excluded() {}")
@@ -1318,7 +1411,7 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         "offsetEncoding"  -> "utf-16",
         "analyzerVersion" -> "8.4.1",
         "sdkVersion"      -> "3.9.2",
-        "exporterVersion" -> "0.3.4"
+        "exporterVersion" -> "0.3.5"
       )
       intercept[IllegalArgumentException](ExportProtocol.units(Seq(valid)))
       intercept[IllegalArgumentException](

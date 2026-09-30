@@ -193,3 +193,25 @@ the analyzer use the cascade temporary. Symbol literals are typed LITERALs.
 Part files have distinct top-level initializer identities; parsed fallback types
 use file/offset identities when declarations are unavailable. External function
 tear-offs receive method stubs even without a direct CALL site.
+
+## Late initialization
+
+Late fields and top-level variables use analyzer-identified getter/setter methods.
+Initializers live in getters rather than constructors or eager initialization
+methods. Late locals keep their initializer in a closure that captures referenced
+lexical storage; reads invoke it conditionally. Nested closures capture both the
+late local and its initializer closure. Writes do not read the old value first.
+
+`<operator>.isInitialized` tests storage state independently of its value, so null
+is not used as the uninitialized sentinel. A successful initializer writes the
+slot; an exception leaves it uninitialized. Reads without an initializer and
+repeated writes to late final slots have explicit error branches. An initializer
+of a late final variable also checks for reentrant initialization before storing.
+These are CFG/state representations, not a path-sensitive heap interpreter: the
+OSS engine does not prove initialization predicates or invocation counts.
+
+The executable oracle covers null caching, separate objects, failed-initializer
+retry, write-before-read and local capture timing. See Dart's
+[late variable semantics](https://dart.dev/language/variables#late-variables).
+Non-late static/top-level initializer timing remains a separate qualification
+obligation; the existing `<clinit>` representation is retained for those variables.

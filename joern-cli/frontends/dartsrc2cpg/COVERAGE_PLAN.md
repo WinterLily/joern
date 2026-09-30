@@ -4,7 +4,9 @@ Status: implementation in progress. Shared-engine regressions for nested output
 arguments and argument-specific return summaries are committed. The source
 review ledger, pinned AST inventory, aliases, callable tear-offs, null-aware
 collections, case labels, VM/web selection and first server/parser holdout are
-implemented; semantic and lifecycle qualification obligations remain open. The frontend is an
+implemented. Resolved user operators, null-aware updates and guarded late
+field/local initialization now have focused regressions and execution oracles;
+semantic and lifecycle qualification obligations remain open. The frontend is an
 initial implementation, not complete language or runtime analysis support.
 This plan supersedes the completion assumptions in the original implementation
 plan in `agents/plan.md`; it does not mark the remaining work as done.
@@ -74,7 +76,7 @@ and a complete transition review. Additional suspicious routes are tracked;
 full source/route reviews and search-limit observability remain outstanding.
 
 
-- [ ] Review all 67 existing expectations against pinned source. Record exact
+- [x] Review all 67 existing expectations against pinned source. Record exact
       endpoints, intended transformations/callees and relevant branch conditions.
 - [ ] Review at least one complete witness for every positive query, every
       distinct route family and every suspicious alternative. Remove the
@@ -82,7 +84,7 @@ full source/route reviews and search-limit observability remain outstanding.
 - [ ] Classify each transition: assignment, parameter binding, return, field,
       alias, capture, collection element, callback invocation or external summary.
       Separate explicit value flow from control/selection dependencies.
-- [ ] Investigate the certificate-hashing route above first. Add a reduced
+- [x] Investigate the certificate-hashing route above first. Add a reduced
       predicate-versus-element regression before choosing a modeling fix.
 - [ ] For every negative query, add a nearby positive control and demonstrate
       that absence is not caused by missing targets, missing overlays, missing

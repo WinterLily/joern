@@ -35,6 +35,32 @@ void main() {
 
   tearDown(() => project.deleteSync(recursive: true));
 
+  test('retain late storage and synthetic accessor identities', () async {
+    write('main.dart', """
+class Box { late final int? initialized = null; late final int assigned; }
+void main() { late int local = 1; print(local); }
+""");
+    final unit = units(await export()).single;
+    expect(unit['status'], 'resolved');
+    final symbols = entries(unit, 'symbols');
+    final initialized = symbols.singleWhere(
+      (s) => s['kind'] == 'FIELD' && s['name'] == 'initialized',
+    );
+    final assigned = symbols.singleWhere(
+      (s) => s['kind'] == 'FIELD' && s['name'] == 'assigned',
+    );
+    expect(initialized['late'], isTrue);
+    expect(initialized['getter'], contains('GETTER:initialized'));
+    expect(initialized['setter'], isNull);
+    expect(assigned['setter'], contains('SETTER:assigned'));
+    expect(
+      symbols.singleWhere(
+        (s) => s['kind'] == 'LOCAL_VARIABLE' && s['name'] == 'local',
+      )['late'],
+      isTrue,
+    );
+  });
+
   test(
     'export operator dispatch separately from indexed read and write targets',
     () async {

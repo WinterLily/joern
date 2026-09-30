@@ -17,8 +17,8 @@ under `agents/dart-holdout`. No package build scripts or code generation run.
 The first shelf run found duplicate closure identities in a field initializer
 expanded into multiple constructors. The regression now distinguishes those
 expansions and their receiver captures. This is one discovered defect, not an
-estimate of general precision. Shelf's late field execution remains a separate
-lifecycle qualification obligation. YAML passed structural checks on first run.
+estimate of general precision. Shelf's late field initializer now lives in a guarded getter, with a
+separate initialization-state predicate and runtime oracle. YAML passed structural checks on first run.
 Four initial endpoint checks pair request/body and parser/source forwarding with
 status/recovery-mode isolation controls. They do not cover HTTP delivery or the
 complete YAML parser pipeline. After using these releases to fix a defect, they
