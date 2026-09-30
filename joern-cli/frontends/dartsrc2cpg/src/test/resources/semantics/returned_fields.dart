@@ -117,6 +117,117 @@ String overwrittenField(String input) {
   return box.value;
 }
 
+void replaceValue(Box box) {
+  box.value = 'constant';
+}
+
+void replaceOther(Box box) {
+  box.other = 'constant';
+}
+
+void writeValue(Box box, String input) {
+  box.value = input;
+}
+
+String calleeOverwrite(String input) {
+  final box = make(input);
+  replaceValue(box);
+  return box.value;
+}
+
+String calleeOtherOverwrite(String input) {
+  final box = make(input);
+  replaceOther(box);
+  return box.value;
+}
+
+String calleeWrite(String input) {
+  final box = make('constant');
+  writeValue(box, input);
+  return box.value;
+}
+
+String calleeWriteOther(String input) {
+  final box = make('constant');
+  writeValue(box, input);
+  return box.other;
+}
+
+String calleeIndependent(String input) {
+  final first = make('constant');
+  final second = make('constant');
+  writeValue(first, input);
+  writeValue(second, 'constant');
+  return second.value;
+}
+
+String calleeAliasOverwrite(String input) {
+  final box = make(input);
+  final alias = box;
+  replaceValue(alias);
+  return box.value;
+}
+
+String calleeAliasPreserved(String input) {
+  final box = make('constant');
+  box.other = input;
+  final alias = box;
+  replaceValue(alias);
+  return box.other;
+}
+
+void replaceConditional(Box box, bool flag) {
+  if (flag) box.value = 'constant';
+}
+
+String calleeConditional(String input, bool flag) {
+  final box = make(input);
+  replaceConditional(box, flag);
+  return box.value;
+}
+
+void replaceThrowing(Box box, bool flag) {
+  box.value = replacement(flag);
+}
+
+String calleeThrowing(String input, bool flag) {
+  final box = make(input);
+  try {
+    replaceThrowing(box, flag);
+  } catch (_) {}
+  return box.value;
+}
+
+Never replaceThenThrow(Box box) {
+  box.value = 'constant';
+  throw 'failed';
+}
+
+String calleeThrowAfterWrite(String input) {
+  final box = make(input);
+  try {
+    replaceThenThrow(box);
+  } catch (_) {}
+  return box.value;
+}
+
+void rebind(Box box) {
+  box = make('constant');
+}
+
+String calleeRebind(String input) {
+  final box = make(input);
+  rebind(box);
+  return box.value;
+}
+
+String calleeSavedValue(String input) {
+  final box = make(input);
+  final before = box.value;
+  replaceValue(box);
+  return before;
+}
+
 String conditionalOverwrite(String input, bool flag) {
   final box = make(input);
   if (flag) box.value = 'constant';

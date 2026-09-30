@@ -392,9 +392,25 @@ Regressions cover both-branch replacement, an optional branch, zero-iteration an
 mandatory loops, assignment exceptions, parent-field replacement, reintroduced
 input and a value saved before the overwrite. The independent Dart oracle checks
 both branch outcomes and bounded loop counts. Opaque summaries, mutable aliases,
-closure effects, collection slots and interprocedural heap updates remain outside
+closure effects, collection slots and general interprocedural heap updates remain outside
 this qualified subset; this does not establish general allocation-sensitive
 heap analysis.
+
+Stable reference parameters now carry field replacement through internal calls.
+Output parameters have no physical CFG position, so replacement is checked at
+method exit, including potentially escaping calls before the store. A throwing
+right-hand side can preserve the old field; throwing after replacement does not
+restore it. Rebinding a parameter is excluded from this replacement rule because
+it does not replace the caller's object. Definition kills and subsequent uses
+also follow stable direct aliases, preventing stale pre-call fields from bypassing
+an update through an aliased argument while preserving unaffected fields.
+
+The shared field matrix includes direct and called replacements, caller aliases,
+opaque summaries and unchanged C value-copy behavior. Dart execution and graph
+checks add conditional writes, saved pre-write values, independent objects,
+unrelated fields, parameter rebinding and exceptions before/after a write.
+This remains a bounded constant-field contract: general mutable points-to,
+effects after parameter rebinding and callback-driven heap mutation remain open.
 
 ## Captured binding isolation
 

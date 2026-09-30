@@ -11,6 +11,11 @@ void main() {
         fixture.aliasValue,
         fixture.copiedField,
         fixture.capturedReceiver,
+        fixture.calleeOtherOverwrite,
+        fixture.calleeWrite,
+        fixture.calleeAliasPreserved,
+        fixture.calleeRebind,
+        fixture.calleeSavedValue,
         fixture.aliasWrite,
         fixture.reintroducedField,
         fixture.readBeforeOverwrite,
@@ -25,6 +30,11 @@ void main() {
         fixture.independentMember,
         fixture.aliasOther,
         fixture.overwrittenField,
+        fixture.calleeOverwrite,
+        fixture.calleeWriteOther,
+        fixture.calleeIndependent,
+        fixture.calleeAliasOverwrite,
+        fixture.calleeThrowAfterWrite,
         fixture.independentObjects,
         fixture.caughtOther,
         fixture.aliasWriteOther,
@@ -39,6 +49,11 @@ void main() {
       expect(fixture.compoundOtherField(input), 'constant!');
       expect(fixture.guardedAlias(input, false), 'constant');
       for (final flag in [false, true]) {
+        expect(
+          fixture.calleeConditional(input, flag),
+          flag ? 'constant' : input,
+        );
+        expect(fixture.calleeThrowing(input, flag), flag ? input : 'constant');
         expect(
           fixture.conditionalOverwrite(input, flag),
           flag ? 'constant' : input,

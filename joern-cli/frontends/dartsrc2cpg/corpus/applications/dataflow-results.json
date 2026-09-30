@@ -3,7 +3,7 @@
     "project": "localsend-1.17.0",
     "analysisSources": {
       "algorithm": "sha256-path-nul-content-nul",
-      "sha256": "bad2d3b252770e4bd13af32cb69b5725c904289d9a46b3ad3623412e16726e4a",
+      "sha256": "1339440bf07fb2eb4ec3d768e1fb20c72046ae811d90712f1118c67df393958a",
       "files": 358,
       "roots": [
         "joern-cli/frontends/dartsrc2cpg/src",
@@ -62,7 +62,7 @@
       "iterable": "# Dart SDK 3.9.2: lib/core/iterable.dart and lib/internal/iterable.dart.\n# Explicit element values with pure predicates/transforms and statically known callbacks.\n# Selection, lazy execution timing and callback side effects are outside this contract.\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:where\" 0 -> 0 1 -> 1 0 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:map\" 0 -> 0 1 -> 1 1 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:join\" 0 -> 0 1 -> 1 0 -> -1 1 -> -1\n",
       "bytes": "# Dart SDK 3.9.2 byte-content contract for Uint8List allocation and standard List.setRange.\n# Length/range inputs select size and positions; they are not copied element values.\n# Keep the constructor offset exact: other dart:typed_data unnamed constructors include SIMD values.\n\"dart:typed_data\\x2336552:CONSTRUCTOR:new\" 1 -> 1\n\"dart:core/list[.]dart\\x2329446:METHOD:setRange\" 0 -> 0 1 -> 1 2 -> 2 3 -> 3 4 -> 4 3 -> 0\n"
     },
-    "reachingDefEdges": 742725,
+    "reachingDefEdges": 742975,
     "maxCallDepth": 4,
     "maxFieldDepth": 4,
     "pathSelection": "longest-per-endpoint-pair",
@@ -360,7 +360,7 @@
     "project": "saber-0.26.0",
     "analysisSources": {
       "algorithm": "sha256-path-nul-content-nul",
-      "sha256": "bad2d3b252770e4bd13af32cb69b5725c904289d9a46b3ad3623412e16726e4a",
+      "sha256": "1339440bf07fb2eb4ec3d768e1fb20c72046ae811d90712f1118c67df393958a",
       "files": 358,
       "roots": [
         "joern-cli/frontends/dartsrc2cpg/src",
@@ -419,7 +419,7 @@
       "iterable": "# Dart SDK 3.9.2: lib/core/iterable.dart and lib/internal/iterable.dart.\n# Explicit element values with pure predicates/transforms and statically known callbacks.\n# Selection, lazy execution timing and callback side effects are outside this contract.\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:where\" 0 -> 0 1 -> 1 0 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:map\" 0 -> 0 1 -> 1 1 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:join\" 0 -> 0 1 -> 1 0 -> -1 1 -> -1\n",
       "bytes": "# Dart SDK 3.9.2 byte-content contract for Uint8List allocation and standard List.setRange.\n# Length/range inputs select size and positions; they are not copied element values.\n# Keep the constructor offset exact: other dart:typed_data unnamed constructors include SIMD values.\n\"dart:typed_data\\x2336552:CONSTRUCTOR:new\" 1 -> 1\n\"dart:core/list[.]dart\\x2329446:METHOD:setRange\" 0 -> 0 1 -> 1 2 -> 2 3 -> 3 4 -> 4 3 -> 0\n"
     },
-    "reachingDefEdges": 386588,
+    "reachingDefEdges": 386805,
     "maxCallDepth": 4,
     "maxFieldDepth": 4,
     "pathSelection": "longest-per-endpoint-pair",
@@ -712,7 +712,7 @@
     "project": "dart-sass-1.89.2",
     "analysisSources": {
       "algorithm": "sha256-path-nul-content-nul",
-      "sha256": "bad2d3b252770e4bd13af32cb69b5725c904289d9a46b3ad3623412e16726e4a",
+      "sha256": "1339440bf07fb2eb4ec3d768e1fb20c72046ae811d90712f1118c67df393958a",
       "files": 358,
       "roots": [
         "joern-cli/frontends/dartsrc2cpg/src",
@@ -770,7 +770,7 @@
       "iterable": "# Dart SDK 3.9.2: lib/core/iterable.dart and lib/internal/iterable.dart.\n# Explicit element values with pure predicates/transforms and statically known callbacks.\n# Selection, lazy execution timing and callback side effects are outside this contract.\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:where\" 0 -> 0 1 -> 1 0 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:map\" 0 -> 0 1 -> 1 1 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:join\" 0 -> 0 1 -> 1 0 -> -1 1 -> -1\n",
       "bytes": "# Dart SDK 3.9.2 byte-content contract for Uint8List allocation and standard List.setRange.\n# Length/range inputs select size and positions; they are not copied element values.\n# Keep the constructor offset exact: other dart:typed_data unnamed constructors include SIMD values.\n\"dart:typed_data\\x2336552:CONSTRUCTOR:new\" 1 -> 1\n\"dart:core/list[.]dart\\x2329446:METHOD:setRange\" 0 -> 0 1 -> 1 2 -> 2 3 -> 3 4 -> 4 3 -> 0\n"
     },
-    "reachingDefEdges": 460108,
+    "reachingDefEdges": 461530,
     "maxCallDepth": 4,
     "maxFieldDepth": 4,
     "pathSelection": "longest-per-endpoint-pair",

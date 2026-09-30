@@ -34,7 +34,9 @@ initial implementation. Constant-field demands now survive internal calls and
 reject the documented returned-object unrelated-field false positive. Receiver
 alias writes now preserve stable direct reference copies, and constant-field
 overwrites discard old values only when every CFG route crosses a replacement
-store. Mutable aliases and interprocedural heap updates remain unqualified. Capture
+store. Stable-parameter field writes now propagate across internal calls and
+caller aliases, with conditional-write, rebinding and exceptional-exit controls.
+Mutable aliases and general interprocedural heap updates remain unqualified. Capture
 identities now have regressions for unrelated/shadowed locals,
 replacement within closures and nested captures; callback timing remains open. This is
 not complete language or runtime analysis support.
@@ -198,8 +200,9 @@ required contract is a blocking dependency, not a completed frontend feature.
 - [ ] Heap model: fields of the same object, independent objects of the same type,
       aliases, writes/overwrites, constructor results, records and collection slots.
       The initial `Box(input).other` false positive, stable receiver-alias writes
-      and intraprocedural constant-field overwrites have reduced regressions;
-      mutable aliases, collection slots and interprocedural updates remain open.
+      and constant-field overwrites have reduced regressions, including stable
+      reference parameters across calls. Mutable aliases, collection slots and
+      general interprocedural updates remain open.
 - [ ] Verify positive and negative dependencies across file/package boundaries,
       callback boundaries and repeated calls with unrelated inputs.
 - [ ] Test several bounded call-depth settings, recursion and large methods.
