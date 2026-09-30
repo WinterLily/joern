@@ -34,7 +34,9 @@ initial implementation. Constant-field demands now survive internal calls and
 reject the documented returned-object unrelated-field false positive. Receiver
 alias writes now preserve stable direct reference copies, and constant-field
 overwrites discard old values only when every CFG route crosses a replacement
-store. Mutable aliases and interprocedural heap updates remain unqualified. This is
+store. Mutable aliases and interprocedural heap updates remain unqualified. Capture
+identities now have regressions for unrelated/shadowed locals,
+replacement within closures and nested captures; callback timing remains open. This is
 not complete language or runtime analysis support.
 This plan supersedes the completion assumptions in the original implementation
 plan in `agents/plan.md`; it does not mark the remaining work as done.

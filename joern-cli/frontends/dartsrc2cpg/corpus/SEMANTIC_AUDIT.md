@@ -395,3 +395,29 @@ both branch outcomes and bounded loop counts. Opaque summaries, mutable aliases,
 closure effects, collection slots and interprocedural heap updates remain outside
 this qualified subset; this does not establish general allocation-sensitive
 heap analysis.
+
+## Captured binding isolation
+
+The reduced `capture_isolation.dart` execution oracle exposed three false
+positives (an unrelated local, a shadowed local and an overwritten parameter)
+and a missing nested-capture dependency. The shared engine previously connected
+a captured parameter to every identifier in the closure. Capture edges now follow
+REF identities and matching closure-binding IDs, including nested proxy locals.
+Only reads reachable from closure entry before replacing that binding receive
+the incoming value. Conditional replacement retains the route that preserves it.
+Bindings without any lexical uses retain the legacy conservative parameter
+behavior: Kotlin also uses them to model collection inputs delivered to lambdas.
+That fallback is not a qualified lexical capture or callback-invocation model.
+
+The shared regression checks local and parameter sources, same-name independent
+storage, nested captures before and after replacement, and a bypass branch. The
+Dart regression queries actual return statements and has an independent oracle
+over two values and both conditional outcomes. These checks qualify incoming
+capture values within the called scope; they do not qualify closure invocation
+timing, arbitrary mutable callback targets, captured writes back to an enclosing
+scope or all mutations between registration and invocation.
+
+JavaScript's existing dataflow suite passes its closure checks. Its unrelated
+nested-if witness-shape assertion also fails with this change removed: it expects
+two intermediate comparison nodes absent from the returned path. That baseline
+failure is not counted as a passing cross-language suite.

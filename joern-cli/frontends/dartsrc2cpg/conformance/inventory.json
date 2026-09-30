@@ -34,6 +34,15 @@
       "negative": "language version diagnostics",
       "interaction": "not-applicable"
     },
+    "captures": {
+      "exporter": "analyzer declaration identities for lexical references",
+      "lowering": "DartFrontendTests: closure proxy locals and closure-binding REF identities",
+      "resolution": "direct local callback calls and nested captures; mutable callback points-to remains unqualified",
+      "cfg": "CapturedBindingTests: reads reachable from closure entry before replacement, including bypass branches",
+      "valueFlow": "DartFrontendTests: captured parameter/local values and nested proxy bindings",
+      "negative": "unrelated and shadowed locals, replaced capture values; no name-only binding inference",
+      "interaction": "astgen/test/capture_isolation_test.dart: two input values and both conditional replacement outcomes"
+    },
     "operators": {
       "exporter": "astgen/test/exporter_test.dart: export operator dispatch separately from indexed read and write targets",
       "lowering": "DartFrontendTests: resolve indexed updates and overloaded increments without repeating receiver or index",
@@ -664,25 +673,25 @@
       "construct": "FunctionDeclarationStatement",
       "scope": "dart-3.9",
       "exporterCase": "FunctionDeclarationStatement",
-      "contract": "syntax",
+      "contract": "captures",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Incoming capture identity and replacement within closures tested; callback timing, mutable targets and enclosing-scope writeback remain open."
     },
     {
       "construct": "FunctionExpression",
       "scope": "dart-3.9",
       "exporterCase": "FunctionExpression",
-      "contract": "syntax",
+      "contract": "captures",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Incoming capture identity and replacement within closures tested; callback timing, mutable targets and enclosing-scope writeback remain open."
     },
     {
       "construct": "FunctionExpressionInvocation",
       "scope": "dart-3.9",
       "exporterCase": "FunctionExpressionInvocation",
-      "contract": "syntax",
+      "contract": "captures",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Direct local callback calls tested; general callable points-to and invocation context remain open."
     },
     {
       "construct": "FunctionReference",

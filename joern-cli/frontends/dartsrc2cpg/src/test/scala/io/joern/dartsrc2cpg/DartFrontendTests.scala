@@ -1039,6 +1039,28 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         }
       }
     }
+    "preserve captured binding identity and exclude replaced capture values" in {
+      fixture(
+        Files.readString(frontend.resolve("src/test/resources/semantics/capture_isolation.dart")),
+        "void main() {}"
+      ) { (cpg, _) =>
+        val results = Seq(
+          "capturedValue"      -> true,
+          "unrelatedLocal"     -> false,
+          "overwrittenCapture" -> false,
+          "conditionalCapture" -> true,
+          "nestedCapture"      -> true,
+          "shadowedCapture"    -> false,
+          "localCapture"       -> true,
+          "localOverwrite"     -> false
+        ).map { case (name, expected) =>
+          val method = cpg.method.nameExact(name).head
+          val actual = method.ast.isReturn.reachableByFlows(method.parameter.nameExact("input")).nonEmpty
+          (name, actual, expected)
+        }
+        results.filter { case (_, actual, expected) => actual != expected } shouldBe empty
+      }
+    }
     "keep callable targets separate from mutable call arguments" in {
       fixture(
         """String relay(String value) => value;
