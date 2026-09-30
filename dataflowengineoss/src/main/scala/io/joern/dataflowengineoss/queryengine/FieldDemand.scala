@@ -1,5 +1,6 @@
 package io.joern.dataflowengineoss.queryengine
 
+import io.joern.dataflowengineoss.passes.reachingdef.ReferenceAliases
 import io.shiftleft.codepropertygraph.generated.Operators
 import io.shiftleft.codepropertygraph.generated.nodes.*
 import io.shiftleft.semanticcpg.accesspath.{ConstantAccess, TrackedBase, TrackedUnknown}
@@ -15,17 +16,24 @@ private[queryengine] object FieldDemand {
     "<operator>.caughtStackTrace"
   )
 
-  private def location(node: CfgNode): Option[(TrackedBase, List[String])] = node match {
+  private def location(node: CfgNode, aliases: ReferenceAliases): Option[(TrackedBase, List[String])] = node match {
     case _: Expression | _: MethodParameterIn | _: MethodParameterOut =>
       val (base, path) = AccessPathUsage.toTrackedBaseAndAccessPathSimple(node)
       val elements     = path.elements.elements.toList
-      Option.when(base != TrackedUnknown && elements.forall(_.isInstanceOf[ConstantAccess]))(base -> elements.collect {
-        case ConstantAccess(name) => name
-      })
+      Option.when(base != TrackedUnknown && elements.forall(_.isInstanceOf[ConstantAccess]))(
+        aliases.base(base, node) -> elements.collect { case ConstantAccess(name) =>
+          name
+        }
+      )
     case _ => None
   }
 
-  def transfer(current: CfgNode, parent: CfgNode, demand: List[String]): Option[List[String]] = {
+  def transfer(
+    current: CfgNode,
+    parent: CfgNode,
+    demand: List[String],
+    aliases: ReferenceAliases
+  ): Option[List[String]] = {
     (current, parent) match {
       case (target: Expression, source: Expression) =>
         val sharedCalls = target.inCall.toSet.intersect(source.inCall.toSet)
@@ -41,7 +49,7 @@ private[queryengine] object FieldDemand {
       case call: Call if !preserving.contains(call.name) => return Some(Nil)
       case _                                             =>
     }
-    (location(current), location(parent)) match {
+    (location(current, aliases), location(parent, aliases)) match {
       case (Some((currentBase, currentFields)), Some((parentBase, parentFields))) if currentBase == parentBase =>
         val requested = currentFields ++ demand
         if (requested.startsWith(parentFields)) Some(requested.drop(parentFields.size))

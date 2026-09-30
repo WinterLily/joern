@@ -4,6 +4,7 @@ import flatgraph.Edge
 import io.joern.dataflowengineoss.DefaultSemantics
 import io.joern.dataflowengineoss.language.*
 import io.joern.dataflowengineoss.passes.reachingdef.EdgeValidator
+import io.joern.dataflowengineoss.passes.reachingdef.ReferenceAliases
 import io.joern.dataflowengineoss.semanticsloader.{FlowSemantic, Semantics}
 import io.shiftleft.codepropertygraph.generated.nodes.*
 import io.shiftleft.codepropertygraph.generated.EdgeTypes
@@ -203,13 +204,15 @@ object Engine {
     curNode: CfgNode,
     path: Vector[PathElement],
     callSiteStack: List[Call] = List(),
-    config: EngineConfig = EngineConfig()
+    config: EngineConfig = EngineConfig(),
+    referenceAliases: Option[ReferenceAliases] = None
   )(implicit semantics: Semantics): Vector[PathElement] = {
-    val demand = path.headOption.map(_.fieldDemand).getOrElse(Nil)
+    val demand  = path.headOption.map(_.fieldDemand).getOrElse(Nil)
+    val aliases = referenceAliases.getOrElse(ReferenceAliases.forNode(curNode))
     ddgInE(curNode, path, callSiteStack).flatMap { edge =>
       elemForEdge(edge, callSiteStack).flatMap { parent =>
         FieldDemand
-          .transfer(curNode, parent.node.asInstanceOf[CfgNode], demand)
+          .transfer(curNode, parent.node.asInstanceOf[CfgNode], demand, aliases)
           .map { fields =>
             if (fields.size > config.maxFieldDepth) config.diagnostics.foreach(_.record("field-depth-widening"))
             parent.copy(fieldDemand = fields.take(config.maxFieldDepth))

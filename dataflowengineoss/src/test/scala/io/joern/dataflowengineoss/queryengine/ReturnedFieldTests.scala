@@ -43,7 +43,10 @@ class ReturnedFieldTests extends AnyWordSpec with Matchers {
       } finally cpg.close()
     }
     "preserve field demands across calls and keep opaque summaries conservative" in {
-      for (summarized <- Seq(false, true); copied <- Seq(false, true)) {
+      for (
+        summarized <- Seq(false, true); copied <- Seq(false, true); captured <- Seq(false, true);
+        language   <- Seq("DART", "C")
+      ) {
         val cpg = Cpg.empty
         try {
           implicit val validation: ValidationMode = ValidationMode.Enabled
@@ -88,6 +91,7 @@ class ReturnedFieldTests extends AnyWordSpec with Matchers {
 
           val value = parameter("value", 1)
           val box   = NewLocal().name("box").code("box").typeFullName("Box")
+          val alias = NewLocal().name("alias").code("alias").typeFullName("Box")
           val make  = method(
             "make",
             Seq(value),
@@ -97,12 +101,18 @@ class ReturnedFieldTests extends AnyWordSpec with Matchers {
                 Operators.assignment,
                 "box.value = value",
                 Seq(field(read("box", box), "value", "box.value"), read("value", value))
-              ),
+              )
+            ) ++ (if (captured)
+                    Seq(
+                      Ast(alias),
+                      call(Operators.assignment, "alias = box", Seq(read("alias", alias), read("box", box)))
+                    )
+                  else Nil) ++ Seq(
               call(
                 Operators.assignment,
                 "box.other = constant",
                 Seq(
-                  field(read("box", box), "other", "box.other"),
+                  field(if (captured) read("alias", alias) else read("box", box), "other", "box.other"),
                   if (copied) field(read("box", box), "value", "box.value")
                   else Ast(NewLiteral().code("constant").typeFullName("String"))
                 )
@@ -122,6 +132,7 @@ class ReturnedFieldTests extends AnyWordSpec with Matchers {
             }
           val caller = method("caller", Seq(input, safe), accesses)
           val diff   = Cpg.newDiffGraphBuilder
+          diff.addNode(NewMetaData().language(language).version("0.1"))
           Seq(make, forward, caller).foreach(Ast.storeInDiffGraph(_, diff))
           diff.apply(cpg.graph)
           val links = Cpg.newDiffGraphBuilder
@@ -139,9 +150,12 @@ class ReturnedFieldTests extends AnyWordSpec with Matchers {
               cpg.method.nameExact("caller").parameter.toList
             )
             val endpoints = paths.map(p => p.path.head.node.code -> p.path.last.node.code).toSet
-            val fields    = if (summarized || copied) Seq("value", "other") else Seq("value")
-            endpoints shouldBe (for (source <- Seq("input", "safe"); field <- fields)
-              yield source -> s"forward($source).$field").toSet
+            val fields    =
+              if (summarized || copied && (!captured || language == "DART")) Seq("value", "other") else Seq("value")
+            withClue(s"$language summary=$summarized copy=$copied capture=$captured") {
+              endpoints shouldBe (for (source <- Seq("input", "safe"); field <- fields)
+                yield source -> s"forward($source).$field").toSet
+            }
           } finally engine.shutdown()
         } finally cpg.close()
       }

@@ -378,7 +378,8 @@ private class UsageAnalyzer(problem: DataFlowProblem[CfgNode, mutable.BitSet], i
   private val allNodes     = in.keys.toList
   private val containerSet =
     Set(Operators.fieldAccess, Operators.indexAccess, Operators.indirectIndexAccess, Operators.indirectFieldAccess)
-  private val indirectionAccessSet                                  = Set(Operators.addressOf, Operators.indirection)
+  private val indirectionAccessSet = Set(Operators.addressOf, Operators.indirection)
+  private val aliases = new ReferenceAliases(Some(problem.flowGraph.asInstanceOf[ReachingDefFlowGraph].method))
   val usedIncomingDefs: Map[CfgNode, Map[CfgNode, Set[Definition]]] = initUsedIncomingDefs()
 
   def initUsedIncomingDefs(): Map[CfgNode, Map[CfgNode, Set[Definition]]] = {
@@ -406,7 +407,7 @@ private class UsageAnalyzer(problem: DataFlowProblem[CfgNode, mutable.BitSet], i
     inElement match {
       case call: Call if containerSet.contains(call.name) =>
         call.argument.headOption.exists { base =>
-          nodeToString(use) == nodeToString(base)
+          nodeToString(use) == nodeToString(base) || aliases.sameReference(use, base)
         }
       case _ => false
     }
@@ -420,11 +421,11 @@ private class UsageAnalyzer(problem: DataFlowProblem[CfgNode, mutable.BitSet], i
         inElement match {
           case param: MethodParameterIn =>
             call.argument.headOption.exists { base =>
-              nodeToString(base).contains(param.name)
+              nodeToString(base).contains(param.name) || aliases.sameReference(base, param)
             }
           case identifier: Identifier =>
             call.argument.headOption.exists { base =>
-              nodeToString(base).contains(identifier.name)
+              nodeToString(base).contains(identifier.name) || aliases.sameReference(base, identifier)
             }
           case _ => false
         }
@@ -439,7 +440,8 @@ private class UsageAnalyzer(problem: DataFlowProblem[CfgNode, mutable.BitSet], i
           case inCall: Call =>
             val (useBase, useAccessPath) = toTrackedBaseAndAccessPathSimple(useCall)
             val (inBase, inAccessPath)   = toTrackedBaseAndAccessPathSimple(inCall)
-            useBase == inBase && useAccessPath.matchAndDiff(inAccessPath.elements)._1 == MatchResult.EXACT_MATCH
+            aliases.base(useBase, useCall) == aliases.base(inBase, inCall) &&
+            useAccessPath.matchAndDiff(inAccessPath.elements)._1 == MatchResult.EXACT_MATCH
           case _ => false
         }
       case _ => false
@@ -466,6 +468,12 @@ private class UsageAnalyzer(problem: DataFlowProblem[CfgNode, mutable.BitSet], i
         nodeToString(use).contains(param.name)
       case call: Call if indirectionAccessSet.contains(call.name) =>
         call.argumentOption(1).exists(x => nodeToString(use).contains(x.code))
+      // Captured receivers can give different storage locations the same source text.
+      case call: Call if containerSet.contains(call.name) && (use match {
+            case other: Call => containerSet.contains(other.name)
+            case _           => false
+          }) =>
+        false
       case call: Call =>
         nodeToString(use).contains(call.code)
       case identifier: Identifier => nodeToString(use).contains(identifier.name)

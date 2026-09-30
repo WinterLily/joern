@@ -1,6 +1,7 @@
 package io.joern.dataflowengineoss.queryengine
 
 import io.joern.dataflowengineoss.queryengine.QueryEngineStatistic.{PATH_CACHE_HITS, PATH_CACHE_MISSES}
+import io.joern.dataflowengineoss.passes.reachingdef.ReferenceAliases
 import io.joern.dataflowengineoss.semanticsloader.Semantics
 import io.shiftleft.codepropertygraph.generated.nodes.*
 import io.shiftleft.semanticcpg.language.*
@@ -23,6 +24,7 @@ import scala.collection.mutable
 class TaskSolver(task: ReachableByTask, context: EngineContext, sources: Set[CfgNode]) extends Callable[TaskSummary] {
 
   import Engine._
+  private lazy val referenceAliases = ReferenceAliases.forNode(task.sink)
 
   /** Entry point of callable. First checks if the maximum call depth has been exceeded, in which case an empty result
     * list is returned. Otherwise, the task is solved and its results are returned.
@@ -98,7 +100,13 @@ class TaskSolver(task: ReachableByTask, context: EngineContext, sources: Set[Cfg
       */
     def computeResultsForParents() = {
       deduplicateWithinTask(
-        expandIn(curNode.asInstanceOf[CfgNode], path, callSiteStack, context.config).iterator.flatMap { parent =>
+        expandIn(
+          curNode.asInstanceOf[CfgNode],
+          path,
+          callSiteStack,
+          context.config,
+          Some(referenceAliases)
+        ).iterator.flatMap { parent =>
           createResultsFromCacheOrCompute(parent, path)
         }.toVector
       )
