@@ -203,3 +203,36 @@ holdout checks in both modes. Witness alternatives and query limits remain open.
 
 Staged installation and bundled-model integrity checks also passed, followed by
 four CLI integration checks and 14 console checks with exporter 0.3.9.
+
+## Generated enum members
+
+Exporter 0.3.10 adds ordinal and type metadata plus the generated `values` field
+identity. The frontend initializes ordinal/private name storage, constructs the
+ordered values list and provides distinct helpers for concrete enum accessors
+and default string conversion. The first override regression failed because a
+helper with the same name/signature displaced the source method in shared dynamic
+linking; distinct helper names correct that without changing shared dispatch.
+Runtime oracles cover immutable values, identity/order, enhanced named
+constructors, explicit extension dispatch, overrides, super and bound methods.
+
+Native enumeration counts explain every internal-method baseline change: one
+enum in http_parser, 66 in analyzer, 14 in LocalSend, 15 in Saber, 25 in Sass and
+three in yaml. Each contributes three helpers. The corresponding call increases
+come from two per-constant storage writes, constant references in `values`, and
+helper/list construction. All other projects keep their graph counts.
+
+The callback feedback regression now queries the index parameter directly.
+Selecting one longest return witness is not a stable way to require a particular
+alternative detour; the direct query retains the METHOD_REF approximation check.
+This changes the test target, not the frontend's callback model. Interface enum
+dispatch, global initialization activation and allocation-sensitive heap flow
+remain unqualified; see the enum contract in the conformance inventory.
+
+Validation: 105 frontend/runner/mutation/package checks, all three applications,
+58 native Dart tests (including Flutter and JIT/AOT/dart2js execution), native
+coverage/resource checks for seven packages, and the staged archive/model-integrity
+smoke test passed. Endpoint expectations remain 73/75 stock and 75/75 modeled.
+These totals include budget-limited negative queries and are not a count of
+qualified semantic guarantees.
+Both holdout graph checks, four staged CLI integration checks and 14 console
+checks also passed with exporter 0.3.10.

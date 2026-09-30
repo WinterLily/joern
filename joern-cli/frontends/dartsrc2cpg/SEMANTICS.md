@@ -178,8 +178,20 @@ without reads and callable parameters.
 
 Enhanced enums are TYPE_DECLs with constant MEMBERs, constructor calls in a
 static initializer, and source-declared constructors and methods. Implicit
-constructors are retained. Generated enum `values` lists and `index`/`name`
-implementation details are not synthesized.
+constructors are retained. Each constant receives ordinal `index` and private
+`<enumName>` storage before its constructor; a final static `values` list retains
+declaration order. Concrete enum receivers resolve SDK `index`, `EnumName.name`
+and default `toString` targets to generated helpers. Helpers use distinct method
+identities so the shared dynamic linker preserves source overrides. Explicit
+extension dispatch, `super.toString()` and bound default tear-offs are tested.
+Private name storage cannot collide with a source library's `_name` field.
+
+The executable oracle checks values identity/immutability, names, ordinals,
+named constructors and overrides against Dart 3.9.2. The graph represents final
+storage and list construction; it does not enforce runtime mutation errors,
+constant canonicalization or activation of every static initializer. Interface
+`Enum`/`Object` receivers without a concrete enum type retain external targets;
+allocation-sensitive propagation through the shared heap remains conservative.
 
 Assertions branch on `<operator>.assertionsEnabled`, preserving both enabled
 and disabled execution. The condition executes only on the enabled path; the

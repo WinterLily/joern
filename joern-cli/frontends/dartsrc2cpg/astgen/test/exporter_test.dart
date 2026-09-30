@@ -265,6 +265,25 @@ void main() {
         nodes.where((n) => n['kind'] == 'EnumConstantDeclaration'),
         everyElement(containsPair('target', isNotNull)),
       );
+      final enumeration = nodes.singleWhere(
+        (n) => n['kind'] == 'EnumDeclaration',
+      );
+      final constants = nodes.where(
+        (n) => n['kind'] == 'EnumConstantDeclaration',
+      );
+      expect(constants.map((n) => n['ordinal']), [0, 1]);
+      expect(
+        constants.map((n) => n['typeId']),
+        everyElement(enumeration['declaration']),
+      );
+      final values = entries(
+        unit,
+        'symbols',
+      ).singleWhere((s) => s['id'] == enumeration['values']);
+      expect(values['name'], 'values');
+      expect(values['owner'], enumeration['declaration']);
+      expect(values['static'], isTrue);
+      expect(values['const'], isTrue);
       expect(
         nodes.singleWhere((n) => n['kind'] == 'LabeledStatement')['labels'],
         ['outer'],

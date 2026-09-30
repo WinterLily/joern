@@ -1,6 +1,6 @@
 # Dart and Flutter feature matrix
 
-Tested with Dart 3.9.2, analyzer 8.4.1, exporter 0.3.9 and Flutter 3.35.3
+Tested with Dart 3.9.2, analyzer 8.4.1, exporter 0.3.10 and Flutter 3.35.3
 (framework revision `a402d9a437`). “Parsed” means explicit exporter nodes rather
 than UNKNOWN. Resolution uses existing package configuration and SDK resources.
 Dataflow claims below refer to the OSS engine with default semantics, not Dart
@@ -50,7 +50,9 @@ Corpus hardening also covers enhanced enums (constants, constructors and method
 bodies), labeled loop break/continue, assertion evaluation, increment/decrement
 references and accessor effects, and dynamic object-pattern field access.
 Assertions have an explicit enabled/disabled branch; no build mode is assumed.
-Enum runtime-generated `values`, `index` and `name` behavior is not synthesized.
+Generated enum `values`, ordinal/name storage and concrete receiver accessors
+are represented, with runtime and override regressions. General interface
+dispatch and allocation-sensitive enum heap flow remain conservative.
 
 The [coverage completion plan](COVERAGE_PLAN.md) defines the remaining semantic
 audit, conformance and release gates. Passing corpus endpoint queries does not

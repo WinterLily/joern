@@ -14,7 +14,7 @@ import 'package:analyzer/source/line_info.dart';
 import 'package:path/path.dart' as p;
 
 const protocolVersion = 1;
-const exporterVersion = '0.3.9';
+const exporterVersion = '0.3.10';
 const analyzerVersion = '8.4.1';
 const supportedSdkVersion = '3.9.2';
 
@@ -484,6 +484,9 @@ class _UnitEncoder {
         child('type', ast.fieldType);
       case EnumDeclaration():
         kind = 'EnumDeclaration';
+        record['values'] = symbol(
+          ast.declaredFragment?.element.getField('values'),
+        );
         record['name'] = ast.name.lexeme;
         record['declaration'] = symbol(ast.declaredFragment?.element);
         record['implicitConstructor'] = ast
@@ -498,6 +501,11 @@ class _UnitEncoder {
         many('member', ast.members);
       case EnumConstantDeclaration():
         kind = 'EnumConstantDeclaration';
+        record['ordinal'] = (ast.parent! as EnumDeclaration).constants.indexOf(
+          ast,
+        );
+        record['type'] = ast.declaredFragment?.element.type.getDisplayString();
+        record['typeId'] = typeId(ast.declaredFragment?.element.type);
         record['name'] = ast.name.lexeme;
         record['declaration'] = symbol(ast.declaredFragment?.element);
         record['target'] = symbol(ast.constructorElement);

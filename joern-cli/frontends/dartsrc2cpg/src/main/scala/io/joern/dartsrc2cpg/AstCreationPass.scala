@@ -28,6 +28,22 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
   private def strings(syntax: Value, key: String): Seq[String]          =
     syntax.obj.get(key).map(_.arr.map(_.str).toSeq).getOrElse(Nil)
 
+  private val enumTypes = units
+    .flatMap(_("nodes").arr)
+    .filter(node => string(node, "kind") == "EnumDeclaration")
+    .map(node => string(node, "declaration"))
+    .toSet
+  private def enumTarget(targetId: String, receiverType: String): String = {
+    val target    = sym(targetId)
+    val owner     = sym(string(target, "owner"))
+    val name      = string(target, "name")
+    val generated = enumTypes(receiverType) && ((string(target, "file") == "dart:core/enum.dart" &&
+      ((name == "index" && string(owner, "name") == "Enum") ||
+        (name == "name" && string(owner, "name") == "EnumName"))) ||
+      (name == "toString" && string(owner, "name") == "Object" && string(target, "file") == "dart:core/object.dart"))
+    if (generated) s"$receiverType:<enum:$name>" else targetId
+  }
+
   private val lazyMembers = units
     .flatMap(_("nodes").arr)
     .filter { node =>
@@ -173,10 +189,11 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
       receiver: Option[Ast] = None,
       callableReceiver: Boolean = false
     ): Ast = {
-      val target   = sym(boundTargets.getOrElse(targetId, targetId))
-      val params   = strings(target, "parameters")
-      val actual   = argumentList.toSeq.flatMap(arguments => children(arguments, "argument"))
-      val bindings = argumentList.toSeq.flatMap(_("bindings").arr).zipWithIndex.map { case (bodySyntax, i) =>
+      val selectedTarget = receiver.map(value => enumTarget(targetId, astType(value))).getOrElse(targetId)
+      val target         = sym(boundTargets.getOrElse(targetId, targetId))
+      val params         = strings(target, "parameters")
+      val actual         = argumentList.toSeq.flatMap(arguments => children(arguments, "argument"))
+      val bindings       = argumentList.toSeq.flatMap(_("bindings").arr).zipWithIndex.map { case (bodySyntax, i) =>
         val exportedIndex = params.indexOf(string(bodySyntax, "parameter"))
         val index         =
           if (exportedIndex >= 0) exportedIndex
@@ -201,7 +218,7 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
       val out = located(
         NewCall()
           .name(name)
-          .methodFullName(if (targetId.nonEmpty) targetId else s"<unresolved>.$name")
+          .methodFullName(if (selectedTarget.nonEmpty) selectedTarget else s"<unresolved>.$name")
           .code(code(syntax))
           .typeFullName(tpe(syntax))
           .dispatchType(
@@ -228,11 +245,17 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
       }
     }
     // Keep allocation, initialization and the resulting object tied to the same local.
-    def newInstance(syntax: Value, targetId: String, name: String, arguments: Option[Value]): Ast =
+    def newInstance(
+      syntax: Value,
+      targetId: String,
+      name: String,
+      arguments: Option[Value],
+      initialize: (() => Ast) => Seq[Ast] = _ => Nil
+    ): Ast =
       if (bool(sym(targetId), "factory")) saved(syntax, call(syntax, targetId, name, arguments))(ref => ref())
       else
         savedSequence(syntax, operator(syntax, Operators.alloc, Nil)) { receiver =>
-          Seq(call(syntax, targetId, name, arguments, Some(receiver())), receiver())
+          initialize(receiver) ++ Seq(call(syntax, targetId, name, arguments, Some(receiver())), receiver())
         }
     def methodRef(syntax: Value, id: String): Ast = {
       val ref = located(
@@ -276,7 +299,7 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
       val callNode = located(
         NewCall()
           .name(string(target, "name"))
-          .methodFullName(targetId)
+          .methodFullName(enumTarget(targetId, astType(receiver)))
           .code(code(syntax))
           .typeFullName(string(target, "returnTypeId", "ANY"))
           .dispatchType(DispatchTypes.DYNAMIC_DISPATCH),
@@ -1012,7 +1035,20 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
           syntax,
           string(syntax, "target"),
           if (constructorName == "new") "<init>" else constructorName,
-          children(syntax, "arguments").headOption
+          children(syntax, "arguments").headOption,
+          receiver =>
+            Seq(
+              enumAssignment(
+                syntax,
+                enumField(syntax, receiver(), "index", "int"),
+                literal(syntax, syntax("ordinal").num.toInt.toString, "int")
+              ),
+              enumAssignment(
+                syntax,
+                enumField(syntax, receiver(), "<enumName>", "String"),
+                literal(syntax, ujson.write(string(syntax, "name")), "String")
+              )
+            )
         )
       case "InstanceCreationExpression" =>
         newInstance(syntax, string(syntax, "target"), string(syntax, "name"), Some(child(syntax, "arguments")))
@@ -1827,6 +1863,82 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
       declarations.clear(); declarations ++= outer
       ast
     }
+    def enumField(syntax: Value, receiver: Ast, name: String, typ: String): Ast = {
+      val result = field(syntax, receiver, name)
+      val base   = receiver.root.collect { case node: NewIdentifier => node.name }.getOrElse("this")
+      result.root.collect { case node: NewCall => node.code = s"$base.$name"; node.typeFullName = typ }
+      result
+    }
+    def enumAssignment(syntax: Value, left: Ast, right: Ast): Ast = {
+      val result                 = operator(syntax, Operators.assignment, Seq(left, right))
+      def text(ast: Ast): String = ast.root.collect { case node: ExpressionNew => node.code }.getOrElse("")
+      result.root.collect { case node: NewCall =>
+        node.code = s"${text(left)} = ${text(right)}"
+        node.typeFullName = astType(right)
+      }
+      result
+    }
+    def enumMembers(syntax: Value): Seq[Ast] = {
+      val valuesId = string(syntax, "values")
+      val storage  =
+        Seq(("values", tpe(sym(valuesId)), true), ("index", "int", false), ("<enumName>", "String", false)).map {
+          case (name, typ, static) =>
+            val member = NewMember().name(name).code(name).typeFullName(typ)
+            if (static) declarations(valuesId) = member
+            Ast(member).withChildren(
+              (Seq(ModifierTypes.FINAL) ++
+                (if (static) Seq(ModifierTypes.STATIC) else Nil) ++
+                Seq(if (name == "<enumName>") ModifierTypes.PRIVATE else ModifierTypes.PUBLIC))
+                .map(modifier => Ast(NewModifier().modifierType(modifier)))
+            )
+        }
+      val accessors = Seq("index", "name", "toString").map { name =>
+        val previous = declarations.toMap
+        val receiver = NewMethodParameterIn()
+          .name("this")
+          .code("this")
+          .index(0)
+          .order(0)
+          .typeFullName(currentType)
+          .evaluationStrategy(EvaluationStrategies.BY_REFERENCE)
+          .isVariadic(false)
+        declarations("this") = receiver
+        val typ    = if (name == "index") "int" else "String"
+        val value  = enumField(syntax, thisAst(syntax), if (name == "index") "index" else "<enumName>", typ)
+        val result =
+          if (name == "toString")
+            operator(
+              syntax,
+              Operators.addition,
+              Seq(literal(syntax, ujson.write(string(syntax, "name") + "."), "String"), value)
+            )
+          else value
+        result.root.collect { case node: NewCall => node.typeFullName = typ }
+        // A shared name/signature would make dynamic linking select this helper over a source override.
+        val method = NewMethod()
+          .name(s"<enum:$name>")
+          .fullName(s"$currentType:<enum:$name>")
+          .code(s"<generated enum $name>")
+          .filename(filename)
+          .isExternal(false)
+          .signature(s"$typ(0)")
+          .astParentType("TYPE_DECL")
+          .astParentFullName(currentType)
+        val body = block(syntax, Seq(args(NewReturn().code(s"return enum $name"), Seq(result))))
+        val ast  = Ast(method)
+          .withChild(Ast(receiver))
+          .withChild(body)
+          .withChild(
+            Ast(NewMethodReturn().code("RET").typeFullName(typ).evaluationStrategy(EvaluationStrategies.BY_VALUE))
+          )
+          .withChild(
+            Ast(NewAnnotation().name("dart.generated.enum").fullName("dart.generated.enum").code("dart.generated.enum"))
+          )
+        declarations.clear(); declarations ++= previous
+        ast
+      }
+      storage ++ accessors
+    }
     def member(syntax: Value): Ast = {
       val out =
         located(NewMember().name(string(syntax, "name")).code(code(syntax)).typeFullName(tpe(symbol(syntax))), syntax)
@@ -1834,7 +1946,8 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
       Ast(out).withChildren(
         (Seq(
           if (bool(symbol(syntax), "private")) ModifierTypes.PRIVATE else ModifierTypes.PUBLIC
-        ) ++ (if (bool(symbol(syntax), "static")) Seq(ModifierTypes.STATIC) else Nil)).map(memberSyntax =>
+        ) ++ (if (bool(symbol(syntax), "static")) Seq(ModifierTypes.STATIC) else Nil) ++
+          (if (bool(symbol(syntax), "final")) Seq(ModifierTypes.FINAL) else Nil)).map(memberSyntax =>
           Ast(NewModifier().modifierType(memberSyntax))
         )
       )
@@ -1987,6 +2100,18 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
             )
           )
         )
+      val enumeration = if (!instance && string(syntax, "kind") == "EnumDeclaration") {
+        val constants = children(syntax, "constant").map { constant =>
+          reference(constant, string(constant, "declaration"), string(constant, "name"), None)
+        }
+        val typ    = tpe(sym(string(syntax, "values")))
+        val values = operator(syntax, Operators.arrayInitializer, constants)
+        values.root.collect { case node: NewCall =>
+          node.typeFullName = typ
+          node.code = children(syntax, "constant").map(string(_, "name")).mkString("const [", ", ", "]")
+        }
+        Seq(enumAssignment(syntax, enumField(syntax, identifier(syntax, owner, "", owner), "values", typ), values))
+      } else Nil
       val out = NewMethod()
         .name(name)
         .fullName(id)
@@ -2001,12 +2126,12 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
         .withChild(
           block(
             syntax,
-            values ++ (if (instance)
-                         implicitSuper(syntax, id, superFormals) :+ args(
-                           NewReturn().code("return this"),
-                           Seq(thisAst(syntax))
-                         )
-                       else Nil)
+            values ++ enumeration ++ (if (instance)
+                                        implicitSuper(syntax, id, superFormals) :+ args(
+                                          NewReturn().code("return this"),
+                                          Seq(thisAst(syntax))
+                                        )
+                                      else Nil)
           )
         )
         .withChild(
@@ -2113,6 +2238,7 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
         val members        = children(syntax, "member")
         val representation = children(syntax, "representation")
         val constants      = children(syntax, "constant")
+        val generatedEnums = if (string(syntax, "kind") == "EnumDeclaration") enumMembers(syntax) else Nil
         val variables      = members
           .filter(memberSyntax => string(memberSyntax, "kind") == "FieldDeclaration")
           .flatMap(memberSyntax => children(child(memberSyntax, "variables"), "variable"))
@@ -2125,7 +2251,7 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
           bool(symbol(fieldSyntax), "static") && children(fieldSyntax, "initializer").nonEmpty
         )
         val initializers =
-          (if (staticFields.nonEmpty)
+          (if (staticFields.nonEmpty || generatedEnums.nonEmpty)
              Seq(initializerMethod(syntax, staticFields, s"$owner:<clinit>", "<clinit>", false))
            else Nil) ++
             (if (string(syntax, "implicitConstructor").nonEmpty)
@@ -2168,7 +2294,7 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
           Ast(out).withChildren(
             fields ++ constants.map(
               member
-            ) ++ representationAsts ++ methods ++ initializers ++ forwardingConstructors ++ standard ++ annotations
+            ) ++ generatedEnums ++ representationAsts ++ methods ++ initializers ++ forwardingConstructors ++ standard ++ annotations
           )
         )
       case _ => Seq(unknown(syntax))

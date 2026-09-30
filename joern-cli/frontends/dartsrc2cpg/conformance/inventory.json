@@ -78,6 +78,15 @@
       "valueFlow": "DartFrontendTests: both input fragments contribute to assembly; user conversion body effects remain reachable",
       "negative": "DartFrontendTests: interpolation does not write independent String fragments",
       "interaction": "astgen/test/interpolation_evaluation_test.dart; interpolation_backends_test.dart (opt-in JIT/AOT/dart2js with Node)"
+    },
+    "enum": {
+      "exporter": "astgen/lib/exporter.dart: EnumDeclaration values identity; EnumConstantDeclaration ordinal/type/constructor",
+      "lowering": "src/main/scala/io/joern/dartsrc2cpg/AstCreationPass.scala: enum storage, values initialization and distinct helper identities",
+      "resolution": "DartFrontendTests: represent generated enum storage and concrete enum accessors; interface receivers conservative",
+      "cfg": "constant storage precedes constructor; source-order values construction; global initializer activation unqualified",
+      "valueFlow": "final storage represented; allocation-sensitive heap and values-slot propagation unqualified",
+      "negative": "DartFrontendTests: user name/toString overrides and private name storage; enum_members_test.dart: values mutation rejection",
+      "interaction": "astgen/test/enum_members_test.dart: enhanced named constructors, explicit EnumName dispatch, super and bound default conversions"
     }
   },
   "constructs": [
@@ -461,17 +470,17 @@
       "construct": "EnumConstantDeclaration",
       "scope": "dart-3.9",
       "exporterCase": "EnumConstantDeclaration",
-      "contract": "syntax",
-      "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "contract": "enum",
+      "qualification": "conservative",
+      "reason": "Generated storage and concrete accessor dispatch have graph and execution regressions; general interface dispatch, global activation and heap flow remain open."
     },
     {
       "construct": "EnumDeclaration",
       "scope": "dart-3.9",
       "exporterCase": "EnumDeclaration",
-      "contract": "syntax",
-      "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "contract": "enum",
+      "qualification": "conservative",
+      "reason": "Generated storage and concrete accessor dispatch have graph and execution regressions; general interface dispatch, global activation and heap flow remain open."
     },
     {
       "construct": "ExportDirective",

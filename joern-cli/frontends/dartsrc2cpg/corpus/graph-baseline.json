@@ -42,16 +42,16 @@
   {
     "project": "http_parser-4.1.2",
     "files": 11,
-    "methods": 78,
-    "calls": 1050,
+    "methods": 81,
+    "calls": 1102,
     "unknown": 0,
     "unknownKinds": {}
   },
   {
     "project": "analyzer-8.4.1",
     "files": 458,
-    "methods": 22556,
-    "calls": 208356,
+    "methods": 22754,
+    "calls": 211208,
     "unknown": 0,
     "unknownKinds": {}
   }

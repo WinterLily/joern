@@ -20,7 +20,9 @@ regression that exposed summary bypass in shared output-parameter expansion.
 Primitive operator summaries preserve operand isolation, and unresolved dynamic
 operators retain conservative dispatch. Interpolation retains user conversions,
 nullable branches and operand isolation with distinct pinned VM/dart2js ordering
-oracles and an explicit report field. The frontend is an
+oracles and an explicit report field. Generated enum values, ordinal/name storage,
+concrete accessors and default conversions have override and execution regressions;
+interface dispatch and heap qualification remain open. The frontend is an
 initial implementation, not complete language or runtime analysis support.
 This plan supersedes the completion assumptions in the original implementation
 plan in `agents/plan.md`; it does not mark the remaining work as done.
@@ -51,7 +53,7 @@ as complete Dart dataflow coverage.
 ## Current evidence and its limits
 
 The corpus contains seven library releases and three application/compiler
-checkouts: 1,322 Dart files and 63,292 internal methods in the selected source
+checkouts: 1,322 Dart files and 63,655 internal methods in the selected source
 roots (including generated initialization accessors). The application scopes are documented in [applications/README.md](corpus/applications/README.md).
 Dependencies are resolved but their bodies are generally outside each graph.
 

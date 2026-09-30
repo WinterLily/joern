@@ -7,7 +7,7 @@ unsupported protocol versions, and unsupported analyzer/exporter versions before
 constructing a graph. The Scala consumer validates the protocol, analyzer, SDK and offset encoding
 before constructing a graph. Exporter 0.3 adds modern-language fields to protocol 1.
 
-The header declares `protocolVersion` (1), `exporterVersion` (0.3.9),
+The header declares `protocolVersion` (1), `exporterVersion` (0.3.10),
 `analyzerVersion` (8.4.1), `sdkVersion` (3.9.2), and `offsetEncoding` (`utf-16`).
 No timestamps or checkout root are emitted. The exporter builds records one file
 at a time; the analyzer may retain project state internally.
@@ -176,3 +176,8 @@ following type-parameter bounds and extension-type erasure; unknown dynamic
 receivers remain unresolved. Nullable values take a literal "null" branch before
 user conversion. Lowering assembles the converted fragments with read-only binary
 concatenation, preserving explicit user `toString` calls.
+
+Exporter 0.3.10 adds the synthetic static `values` field identity to
+`EnumDeclaration`, and declaration-order `ordinal`, resolved `type` and `typeId`
+to `EnumConstantDeclaration`. The frontend uses these to initialize enum storage
+and resolve concrete enum SDK accessors without replacing user overrides.
