@@ -36,6 +36,78 @@ void main() {
   tearDown(() => project.deleteSync(recursive: true));
 
   test(
+    'select VM and web conditional imports from the pinned SDK library set',
+    () async {
+      write(
+        'main.dart',
+        "import 'fallback.dart' if (dart.library.io) 'vm.dart' if (dart.library.html) 'web.dart'; void main() { chosen(); }",
+      );
+      for (final name in ['fallback', 'vm', 'web']) {
+        write('$name.dart', "String chosen() => '$name';");
+      }
+      for (final environment in ['analyzer-default', 'vm', 'web']) {
+        final records = await exportProject(
+          root: project.path,
+          environment: environment,
+        ).toList();
+        expect(records.first['conditionalEnvironment'], environment);
+        final unit = units(
+          records,
+        ).singleWhere((unit) => unit['file'] == 'main.dart');
+        final expected = environment == 'analyzer-default'
+            ? 'fallback'
+            : environment;
+        final call = entries(
+          unit,
+          'nodes',
+        ).singleWhere((node) => node['kind'] == 'MethodInvocation');
+        expect(call['target'], startsWith('$expected.dart#'));
+        expect(unit['status'], 'resolved');
+      }
+      expect(
+        exportProject(root: project.path, environment: 'unknown').toList(),
+        throwsArgumentError,
+      );
+    },
+  );
+
+  test(
+    'export aliases, type literals, implicit call tear-offs and null-aware elements',
+    () async {
+      write('main.dart', """
+typedef Callback<T extends num> = T Function(T value);
+typedef Legacy<T>(T value);
+class Callable { String call(String value) => value; }
+void main() {
+  final String Function(String) callback = Callable();
+  final type = List<String>;
+  String? value;
+  final list = [?value];
+  final map = {?value: ?value};
+  callback('text');
+}
+""");
+      final unit = units(await export()).single;
+      expect(unit['unsupportedKinds'], isEmpty);
+      final nodes = entries(unit, 'nodes');
+      for (final kind in [
+        'GenericTypeAlias',
+        'FunctionTypeAlias',
+        'TypeLiteral',
+        'ImplicitCallReference',
+        'NullAwareElement',
+      ]) {
+        expect(nodes.any((node) => node['kind'] == kind), isTrue, reason: kind);
+      }
+      final entry = nodes.singleWhere(
+        (node) => node['kind'] == 'MapLiteralEntry',
+      );
+      expect(entry['nullAwareKey'], isTrue);
+      expect(entry['nullAwareValue'], isTrue);
+    },
+  );
+
+  test(
     'export update targets and executable enum and labeled syntax',
     () async {
       write('main.dart', '''enum Mode {

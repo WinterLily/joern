@@ -8,6 +8,7 @@ final case class Config(
   exporterTimeoutSeconds: Int = 300,
   exporterMaxOutputBytes: Long = 256L * 1024 * 1024,
   report: String = "",
+  environment: String = "analyzer-default",
   sdk: String = sys.env.getOrElse("DART_SDK", ""),
   override val genericConfig: X2CpgConfig.GenericConfig = X2CpgConfig.GenericConfig()
 ) extends X2CpgConfig[Config] {
@@ -33,6 +34,12 @@ object Frontend {
     import builder.*
     OParser.sequence(
       programName("dartsrc2cpg"),
+      opt[String]("dart-environment")
+        .validate(value =>
+          if (Set("analyzer-default", "vm", "web")(value)) success else failure("Expected analyzer-default, vm or web")
+        )
+        .action((value, config) => config.copy(environment = value))
+        .text("Conditional import environment; web uses the pinned SDK dart2js library set"),
       opt[Int]("dart-timeout")
         .validate(value => if (value > 0) success else failure("Timeout must be positive"))
         .action((value, config) => config.copy(exporterTimeoutSeconds = value))

@@ -7,7 +7,7 @@ unsupported protocol versions, and unsupported analyzer/exporter versions before
 constructing a graph. The Scala consumer validates the protocol, analyzer, SDK and offset encoding
 before constructing a graph. Exporter 0.3 adds modern-language fields to protocol 1.
 
-The header declares `protocolVersion` (1), `exporterVersion` (0.3.2),
+The header declares `protocolVersion` (1), `exporterVersion` (0.3.3),
 `analyzerVersion` (8.4.1), `sdkVersion` (3.9.2), and `offsetEncoding` (`utf-16`).
 No timestamps or checkout root are emitted. The exporter builds records one file
 at a time; the analyzer may retain project state internally.
@@ -135,3 +135,14 @@ expressions, and exports `SymbolLiteral` as a typed literal. Only marked nodes
 use the current cascade target; unqualified calls nested in arguments or closures
 retain their lexical receiver. Explicit scan files excluded by analyzer lint
 options still resolve in the enclosing analysis context.
+
+Exporter 0.3.3 adds generic and legacy type aliases (`aliasedType`), class mixin
+applications (`constructors`), type literals (`referencedType`), implicit call
+tear-offs (`target`), null-aware elements and map-entry guards (`nullAwareKey`,
+`nullAwareValue`). Switch members retain `labels`. Synthetic parameter identities
+include their owning declaration to distinguish forwarding constructors.
+
+The CLI also accepts `--environment=vm|web|analyzer-default` and records the
+selection as `conditionalEnvironment`. VM/web declared library variables come
+from the pinned SDK's `lib/libraries.json` target and include graph; the default
+retains analyzer behavior. Duplicate or unknown flags fail before export.

@@ -1,0 +1,81 @@
+{
+  "shelf": [
+    {
+      "id": "request-to-response-body",
+      "source": {
+        "file": "example/example.dart",
+        "method": "_echoRequest",
+        "kind": "parameter",
+        "name": "request"
+      },
+      "sink": {
+        "file": "example/example.dart",
+        "method": "_echoRequest",
+        "kind": "call",
+        "name": "ok",
+        "argument": 1
+      },
+      "expected": true,
+      "rationale": "The server example interpolates the request URI into the response body; this does not prove server callback delivery."
+    },
+    {
+      "id": "request-not-status",
+      "source": {
+        "file": "example/example.dart",
+        "method": "_echoRequest",
+        "kind": "parameter",
+        "name": "request"
+      },
+      "sink": {
+        "file": "lib/src/response.dart",
+        "method": "ok",
+        "owner": "Response",
+        "kind": "call",
+        "name": "<init>",
+        "argument": 1
+      },
+      "expected": false,
+      "positiveControl": "request-to-response-body",
+      "rationale": "Response.ok redirects with constant status 200 independently of request content."
+    }
+  ],
+  "yaml": [
+    {
+      "id": "document-to-loader",
+      "source": {
+        "file": "lib/yaml.dart",
+        "method": "loadYaml",
+        "kind": "parameter",
+        "name": "yaml"
+      },
+      "sink": {
+        "file": "lib/src/loader.dart",
+        "method": "<init>",
+        "owner": "Loader",
+        "kind": "parameter",
+        "name": "source"
+      },
+      "expected": true,
+      "rationale": "Public loadYaml forwards source through loadYamlNode and loadYamlDocument into Loader. This is forwarding evidence, not parser correctness."
+    },
+    {
+      "id": "document-not-recovery-mode",
+      "source": {
+        "file": "lib/yaml.dart",
+        "method": "loadYaml",
+        "kind": "parameter",
+        "name": "yaml"
+      },
+      "sink": {
+        "file": "lib/src/loader.dart",
+        "method": "<init>",
+        "owner": "Loader",
+        "kind": "parameter",
+        "name": "recover"
+      },
+      "expected": false,
+      "positiveControl": "document-to-loader",
+      "rationale": "The recover option is an independent boolean parameter, not a content-derived value."
+    }
+  ]
+}

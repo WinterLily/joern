@@ -50,9 +50,9 @@
       "name": "async",
       "version": "2.13.0",
       "files": 45,
-      "nodes": 10087,
+      "nodes": 10084,
       "partialFiles": 0,
-      "unsupportedConstructs": 8,
+      "unsupportedConstructs": 0,
       "unresolvedCalls": 26,
       "elapsedMillis": 294,
       "peakRssBytes": 114958336
@@ -72,9 +72,9 @@
       "name": "analyzer",
       "version": "8.4.1",
       "files": 458,
-      "nodes": 598834,
+      "nodes": 598592,
       "partialFiles": 0,
-      "unsupportedConstructs": 150,
+      "unsupportedConstructs": 0,
       "unresolvedCalls": 209,
       "elapsedMillis": 6613,
       "peakRssBytes": 483332096

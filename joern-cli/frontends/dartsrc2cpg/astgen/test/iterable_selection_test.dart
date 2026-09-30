@@ -10,6 +10,8 @@ void main() {
         expect(selected(input), input.isEmpty ? '' : 'fixed');
         expect(elements(input), input);
         expect(unrelated(input), 'fixed');
+      expect(mapped(input), input);
+      expect(constantMapped(input), 'fixed');
       }
     },
   );

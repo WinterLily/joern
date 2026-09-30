@@ -22,8 +22,10 @@ class DartCorpusTests extends AnyWordSpec with Matchers {
     .get
   private val frontend     = repository.resolve("joern-cli/frontends/dartsrc2cpg")
   private val applications = sys.env.contains("DART_APPLICATION_TESTS")
-  private val corpus       = frontend.resolve(if (applications) "corpus/applications" else "corpus")
-  private val projects     = ujson.read(Files.readString(corpus.resolve("projects.json"))).arr.toSeq
+  private val holdout      = sys.env.contains("DART_HOLDOUT_TESTS")
+  private val corpus       =
+    frontend.resolve(if (applications) "corpus/applications" else if (holdout) "corpus/holdout" else "corpus")
+  private val projects = ujson.read(Files.readString(corpus.resolve("projects.json"))).arr.toSeq
 
   private val baseline = ujson.read(Files.readString(corpus.resolve("graph-baseline.json"))).arr.toSeq
 
@@ -87,10 +89,12 @@ class DartCorpusTests extends AnyWordSpec with Matchers {
     projects.foreach { project =>
       val name = s"${project("name").str}-${project("version").str}"
       s"produce consistent, reloadable graphs for $name" in {
-        if (!applications && !sys.env.contains("DART_CORPUS_TESTS"))
+        if (!applications && !holdout && !sys.env.contains("DART_CORPUS_TESTS"))
           cancel("Prepare scripts/corpus.py and set DART_CORPUS_TESTS=1")
         val root = repository.resolve(
-          if (applications) s"agents/application-corpus/results/$name" else s"agents/dart-corpus/$name"
+          if (applications) s"agents/application-corpus/results/$name"
+          else if (holdout) s"agents/dart-holdout/$name"
+          else s"agents/dart-corpus/$name"
         )
         Files.createDirectories(root)
         val source = project.obj
@@ -100,7 +104,7 @@ class DartCorpusTests extends AnyWordSpec with Matchers {
         val packageName = project.obj.get("package").map(_.str).getOrElse(project("name").str)
         val output      = root.resolve("cpg.bin")
         val config      = Config(report = root.resolve("coverage.json").toString)
-          .withInputPath(source.resolve("lib").toString)
+          .withInputPath(source.resolve(project.obj.get("input").map(_.str).getOrElse("lib")).toString)
           .withOutputPath(output.toString)
           .withSchemaValidation(ValidationMode.Enabled)
         val cpg = new DartSrc2Cpg().createCpg(config).get
@@ -153,7 +157,7 @@ class DartCorpusTests extends AnyWordSpec with Matchers {
             ujson.read(Files.readString(corpus.resolve("dataflow-probes.json")))(project("name").str).arr.toSeq
           probes should not be empty
           val defaultFlows = CorpusDataflow.audit(reloaded, probes, DefaultSemantics())
-          val summaries    = List("async", "worker_manager")
+          val summaries    = List("async", "worker_manager", "iterable")
             .flatMap { name =>
               new FullNameSemanticsParser().parseFile(frontend.resolve(s"dataflow/$name.semantics").toString)
             }
@@ -165,7 +169,7 @@ class DartCorpusTests extends AnyWordSpec with Matchers {
               ujson.Obj(
                 "source"     -> project,
                 "coverage"   -> ujson.read(Files.readString(root.resolve("coverage.json"))),
-                "modelFiles" -> ujson.Obj.from(List("async", "worker_manager").map { name =>
+                "modelFiles" -> ujson.Obj.from(List("async", "worker_manager", "iterable").map { name =>
                   name -> ujson.Str(Files.readString(frontend.resolve(s"dataflow/$name.semantics")))
                 }),
                 "defaultSemantics" -> defaultFlows,

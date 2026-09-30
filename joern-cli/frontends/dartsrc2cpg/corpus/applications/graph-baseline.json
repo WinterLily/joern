@@ -4,29 +4,23 @@
     "files": 260,
     "methods": 21014,
     "calls": 64517,
-    "unknown": 2,
-    "unknownKinds": {
-      "GenericTypeAlias": 2
-    }
+    "unknown": 0,
+    "unknownKinds": {}
   },
   {
     "project": "saber-0.26.0",
     "files": 143,
     "methods": 7220,
     "calls": 39180,
-    "unknown": 7,
-    "unknownKinds": {
-      "GenericTypeAlias": 7
-    }
+    "unknown": 0,
+    "unknownKinds": {}
   },
   {
     "project": "dart-sass-1.89.2",
     "files": 348,
     "methods": 6057,
     "calls": 66535,
-    "unknown": 16,
-    "unknownKinds": {
-      "GenericTypeAlias": 16
-    }
+    "unknown": 0,
+    "unknownKinds": {}
   }
 ]

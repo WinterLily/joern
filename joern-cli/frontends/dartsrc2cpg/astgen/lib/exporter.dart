@@ -1,6 +1,9 @@
+import 'dart:convert';
 import 'dart:io';
 
-import 'package:analyzer/dart/analysis/analysis_context_collection.dart';
+// The pinned public constructor does not expose conditional environment variables.
+// ignore: implementation_imports
+import 'package:analyzer/src/dart/analysis/analysis_context_collection.dart';
 import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:analyzer/dart/ast/ast.dart';
@@ -10,7 +13,7 @@ import 'package:analyzer/source/line_info.dart';
 import 'package:path/path.dart' as p;
 
 const protocolVersion = 1;
-const exporterVersion = '0.3.2';
+const exporterVersion = '0.3.3';
 const analyzerVersion = '8.4.1';
 const supportedSdkVersion = '3.9.2';
 
@@ -19,7 +22,11 @@ Stream<Map<String, Object?>> exportProject({
   required String root,
   String? input,
   String? sdkPath,
+  String environment = 'analyzer-default',
 }) async* {
+  if (!['analyzer-default', 'vm', 'web'].contains(environment)) {
+    throw ArgumentError('Unsupported conditional environment: $environment');
+  }
   root = p.normalize(p.absolute(root));
   input = p.normalize(p.absolute(input ?? root));
   if (!Directory(root).existsSync() ||
@@ -64,9 +71,31 @@ Stream<Map<String, Object?>> exportProject({
       ? [input]
       : sourceFiles(Directory(input)).map((file) => file.path).toList();
   files.sort();
-  final collection = AnalysisContextCollection(
+  final variables = <String, String>{};
+  if (environment != 'analyzer-default') {
+    final targets =
+        jsonDecode(
+              File(p.join(sdkPath, 'lib/libraries.json')).readAsStringSync(),
+            )
+            as Map<String, dynamic>;
+    void include(String target) {
+      final settings = targets[target] as Map<String, dynamic>;
+      for (final parent in settings['include'] as List? ?? []) {
+        include(parent['target'] as String);
+      }
+      for (final entry
+          in (settings['libraries'] as Map<String, dynamic>).entries) {
+        variables['dart.library.${entry.key}'] =
+            entry.value['supported'] == false ? 'false' : 'true';
+      }
+    }
+
+    include(environment == 'vm' ? 'vm' : 'dart2js');
+  }
+  final collection = AnalysisContextCollectionImpl(
     includedPaths: [root],
     sdkPath: sdkPath,
+    declaredVariables: variables,
   );
   try {
     yield {
@@ -76,7 +105,7 @@ Stream<Map<String, Object?>> exportProject({
       'analyzerVersion': analyzerVersion,
       'sdkVersion': sdkVersion,
       'offsetEncoding': 'utf-16',
-      'conditionalEnvironment': 'analyzer-default',
+      'conditionalEnvironment': environment,
     };
     for (final file in files) {
       Object? result;
@@ -197,7 +226,7 @@ class _UnitEncoder {
     final owner = element.enclosingElement;
     final slot =
         element is FormalParameterElement && fragment.nameOffset == null
-        ? ':${owner is FunctionTypedElement ? owner.formalParameters.indexOf(element) : -1}:${element.type.getDisplayString()}'
+        ? ':${symbol(owner)}:${owner is FunctionTypedElement ? owner.formalParameters.indexOf(element) : -1}:${element.type.getDisplayString()}'
         : '';
     final id = '$location#$offset:${element.kind.name}:${element.name}$slot';
     if (!symbols.containsKey(id)) {
@@ -405,6 +434,22 @@ class _UnitEncoder {
         record['declaration'] = symbol(ast.declaredFragment?.element);
         record['target'] = symbol(ast.constructorElement);
         child('arguments', ast.arguments?.argumentList);
+      case ClassTypeAlias():
+        kind = 'ClassTypeAlias';
+        record['name'] = ast.name.lexeme;
+        record['declaration'] = symbol(ast.declaredFragment?.element);
+        record['constructors'] =
+            ast.declaredFragment?.element.constructors.map(symbol).toList() ??
+            [];
+        record['modifiers'] = [
+          if (ast.abstractKeyword != null) 'abstract',
+          if (ast.baseKeyword != null) 'base',
+          if (ast.finalKeyword != null) 'final',
+          if (ast.interfaceKeyword != null) 'interface',
+          if (ast.sealedKeyword != null) 'sealed',
+          if (ast.mixinKeyword != null) 'mixin',
+        ];
+        child('typeParameters', ast.typeParameters);
       case ClassDeclaration():
         kind = 'ClassDeclaration';
         record['modifiers'] = [
@@ -426,6 +471,25 @@ class _UnitEncoder {
         record['declaration'] = symbol(ast.declaredFragment?.element);
         child('typeParameters', ast.typeParameters);
         many('member', ast.members);
+      case GenericTypeAlias():
+        kind = 'GenericTypeAlias';
+        record['name'] = ast.name.lexeme;
+        record['declaration'] = symbol(ast.declaredFragment?.element);
+        record['aliasedType'] = typeId(
+          (ast.declaredFragment?.element as TypeAliasElement?)?.aliasedType,
+        );
+        child('typeParameters', ast.typeParameters);
+        child('type', ast.type);
+      case FunctionTypeAlias():
+        kind = 'FunctionTypeAlias';
+        record['name'] = ast.name.lexeme;
+        record['declaration'] = symbol(ast.declaredFragment?.element);
+        record['aliasedType'] = typeId(
+          ast.declaredFragment?.element.aliasedType,
+        );
+        child('typeParameters', ast.typeParameters);
+        child('parameters', ast.parameters);
+        child('returnType', ast.returnType);
       case TypeParameterList():
         kind = 'TypeParameterList';
         many('parameter', ast.typeParameters);
@@ -530,6 +594,15 @@ class _UnitEncoder {
       case ConstructorReference():
         kind = 'ConstructorReference';
         record['target'] = symbol(ast.constructorName.element);
+      case ImplicitCallReference():
+        kind = 'ImplicitCallReference';
+        record['target'] = symbol(ast.element);
+        child('expression', ast.expression);
+        child('typeArguments', ast.typeArguments);
+      case TypeLiteral():
+        kind = 'TypeLiteral';
+        record['referencedType'] = typeId(ast.type.type);
+        child('type', ast.type);
       case FunctionReference():
         kind = 'FunctionReference';
         child('expression', ast.function);
@@ -845,6 +918,9 @@ class _UnitEncoder {
       case NullAssertPattern():
         kind = 'NullAssertPattern';
         child('pattern', ast.pattern);
+      case NullAwareElement():
+        kind = 'NullAwareElement';
+        child('expression', ast.value);
       case SpreadElement():
         kind = 'SpreadElement';
         record['nullAware'] = ast.isNullAware;
@@ -868,6 +944,8 @@ class _UnitEncoder {
         many('element', ast.elements);
       case MapLiteralEntry():
         kind = 'MapLiteralEntry';
+        record['nullAwareKey'] = ast.keyQuestion != null;
+        record['nullAwareValue'] = ast.valueQuestion != null;
         child('key', ast.key);
         child('value', ast.value);
       case IsExpression():
@@ -969,6 +1047,9 @@ class _UnitEncoder {
         record['syntax'] = syntax;
         unsupported.add(syntax);
         many('child', ast.childEntities.whereType<AstNode>());
+    }
+    if (ast is SwitchMember) {
+      record['labels'] = ast.labels.map((label) => label.label.name).toList();
     }
     record['kind'] = kind;
     if (ast is FunctionBody) {

@@ -1,0 +1,248 @@
+{
+  "schemaVersion": 1,
+  "source": {
+    "name": "localsend",
+    "version": "1.17.0",
+    "repository": "https://github.com/localsend/localsend",
+    "commit": "7f21d1f9082a43803e05c37f021912e012145aa5",
+    "checkout": "localsend/app",
+    "package": "localsend_app",
+    "probe": "withCount",
+    "librarySha256": "1993189465fb077d90d45d3e89217c82a22762ce278c1961b5084dbd5be6e095",
+    "flutter": {
+      "version": "3.24.5",
+      "commit": "dec2ee5c1f98f8e84a7d5380c05eb8a3d0a81668",
+      "engine": "a18df97ca57a249df5d8d68cd0820600223ce262",
+      "skyEngineSha256": "0ee0af6df98d7218c787c57087b36d57cb162d789c656b54a4c0f40a2fc4d4f1"
+    }
+  },
+  "exporter": {
+    "record": "header",
+    "protocolVersion": 1,
+    "exporterVersion": "0.3.3",
+    "analyzerVersion": "8.4.1",
+    "sdkVersion": "3.9.2",
+    "offsetEncoding": "utf-16",
+    "conditionalEnvironment": "analyzer-default"
+  },
+  "modelFiles": {
+    "async": "# Completer.completeError stores the error and stack trace in the completer.\n# It does not copy either argument into the other and has no return value.\n# Load these method names as regular expressions; declaration offsets may vary.\n\"dart:async/future[.]dart\\x23[0-9]+:METHOD:completeError\" 0 -> 0 1 -> 1 2 -> 2 1 -> 0 2 -> 0\n",
+    "worker_manager": "# Executor.execute stores the task and priority and returns its cancelable result.\n# The task's values do not change the priority argument. This does not model scheduling.\n# Tested against worker_manager 7.2.6; load the method name as a regular expression.\n\"package:worker_manager/src/scheduling/executor[.]dart\\x23[0-9]+:METHOD:execute\" 0 -> 0 1 -> 1 2 -> 2 1 -> 0 2 -> 0 1 -> -1\n",
+    "iterable": "# Dart SDK 3.9.2: lib/core/iterable.dart and lib/internal/iterable.dart.\n# Explicit element values with pure predicates/transforms and statically known callbacks.\n# Selection, lazy execution timing and callback side effects are outside this contract.\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:where\" 0 -> 0 1 -> 1 0 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:map\" 0 -> 0 1 -> 1 1 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:join\" 0 -> 0 1 -> 1 0 -> -1 1 -> -1\n"
+  },
+  "query": {
+    "id": "certificate-to-hash",
+    "expected": true,
+    "source": {
+      "file": "util/security_helper.dart",
+      "method": "calculateHashOfCertificate",
+      "kind": "parameter",
+      "name": "certificate"
+    },
+    "sink": {
+      "file": "util/security_helper.dart",
+      "method": "calculateHashOfCertificate",
+      "kind": "call",
+      "name": "getHash",
+      "argument": 1
+    },
+    "outcome": "flow-observed",
+    "semanticReview": "pending",
+    "maxCallDepth": 4,
+    "maxArgsToAllow": 1000,
+    "maxOutputArgsExpansion": 1000,
+    "limitations": [],
+    "searchComplete": true,
+    "pathSelection": "longest-per-endpoint-pair",
+    "alternativeRoutes": "not-returned-by-engine",
+    "witnessLimit": null,
+    "retainedWitnesses": 1,
+    "omittedWitnesses": 0,
+    "passed": true,
+    "sources": 1,
+    "sinks": 1,
+    "paths": 1,
+    "viaSatisfied": true
+  },
+  "nodes": [
+    {
+      "nodeId": "111669175742",
+      "label": "METHOD_PARAMETER_IN",
+      "method": "package:localsend_app/util/security_helper.dart#1069:FUNCTION:calculateHashOfCertificate",
+      "code": "String certificate",
+      "line": 33
+    },
+    {
+      "nodeId": "68719531723",
+      "label": "IDENTIFIER",
+      "method": "package:localsend_app/util/security_helper.dart#1069:FUNCTION:calculateHashOfCertificate",
+      "code": "certificate",
+      "line": 35
+    },
+    {
+      "nodeId": "30064830223",
+      "label": "CALL",
+      "method": "package:localsend_app/util/security_helper.dart#1069:FUNCTION:calculateHashOfCertificate",
+      "code": "certificate.replaceAll('\\r\\n', '\\n')",
+      "line": 35
+    },
+    {
+      "nodeId": "30064830222",
+      "label": "CALL",
+      "method": "package:localsend_app/util/security_helper.dart#1069:FUNCTION:calculateHashOfCertificate",
+      "code": "certificate.replaceAll('\\r\\n', '\\n').split('\\n')",
+      "line": 35
+    },
+    {
+      "nodeId": "30064830221",
+      "label": "CALL",
+      "method": "package:localsend_app/util/security_helper.dart#1069:FUNCTION:calculateHashOfCertificate",
+      "code": "certificate.replaceAll('\\r\\n', '\\n').split('\\n').where((line) => line.isNotEmpty && !line.startsWith('---'))",
+      "line": 35
+    },
+    {
+      "nodeId": "30064830220",
+      "label": "CALL",
+      "method": "package:localsend_app/util/security_helper.dart#1069:FUNCTION:calculateHashOfCertificate",
+      "code": "certificate.replaceAll('\\r\\n', '\\n').split('\\n').where((line) => line.isNotEmpty && !line.startsWith('---')).join()",
+      "line": 35
+    },
+    {
+      "nodeId": "68719531722",
+      "label": "IDENTIFIER",
+      "method": "package:localsend_app/util/security_helper.dart#1069:FUNCTION:calculateHashOfCertificate",
+      "code": "pemContent",
+      "line": 35
+    },
+    {
+      "nodeId": "68719531725",
+      "label": "IDENTIFIER",
+      "method": "package:localsend_app/util/security_helper.dart#1069:FUNCTION:calculateHashOfCertificate",
+      "code": "pemContent",
+      "line": 36
+    },
+    {
+      "nodeId": "30064830225",
+      "label": "CALL",
+      "method": "package:localsend_app/util/security_helper.dart#1069:FUNCTION:calculateHashOfCertificate",
+      "code": "base64Decode(pemContent)",
+      "line": 36
+    },
+    {
+      "nodeId": "68719531724",
+      "label": "IDENTIFIER",
+      "method": "package:localsend_app/util/security_helper.dart#1069:FUNCTION:calculateHashOfCertificate",
+      "code": "der",
+      "line": 36
+    },
+    {
+      "nodeId": "68719531727",
+      "label": "IDENTIFIER",
+      "method": "package:localsend_app/util/security_helper.dart#1069:FUNCTION:calculateHashOfCertificate",
+      "code": "der",
+      "line": 40
+    },
+    {
+      "nodeId": "30064830228",
+      "label": "CALL",
+      "method": "package:localsend_app/util/security_helper.dart#1069:FUNCTION:calculateHashOfCertificate",
+      "code": "Uint8List.fromList(der)",
+      "line": 40
+    },
+    {
+      "nodeId": "68719531726",
+      "label": "IDENTIFIER",
+      "method": "package:localsend_app/util/security_helper.dart#1069:FUNCTION:calculateHashOfCertificate",
+      "code": "<tmp>3",
+      "line": 40
+    },
+    {
+      "nodeId": "25769831402",
+      "label": "BLOCK",
+      "method": "package:localsend_app/util/security_helper.dart#1069:FUNCTION:calculateHashOfCertificate",
+      "code": "Uint8List.fromList(der)",
+      "line": 40
+    }
+  ],
+  "transitions": [
+    {
+      "source": 0,
+      "target": 1,
+      "classification": "parameter-binding",
+      "reason": "Read certificate parameter."
+    },
+    {
+      "source": 1,
+      "target": 2,
+      "classification": "external-summary",
+      "reason": "replaceAll transforms the string receiver."
+    },
+    {
+      "source": 2,
+      "target": 3,
+      "classification": "external-summary",
+      "reason": "split produces receiver-derived elements."
+    },
+    {
+      "source": 3,
+      "target": 4,
+      "classification": "collection-element",
+      "reason": "where retains original elements; predicate return is excluded by the pure iterable model."
+    },
+    {
+      "source": 4,
+      "target": 5,
+      "classification": "collection-element",
+      "reason": "join combines selected element values."
+    },
+    {
+      "source": 5,
+      "target": 6,
+      "classification": "assignment",
+      "reason": "Assign pemContent."
+    },
+    {
+      "source": 6,
+      "target": 7,
+      "classification": "alias",
+      "reason": "Read pemContent."
+    },
+    {
+      "source": 7,
+      "target": 8,
+      "classification": "external-summary",
+      "reason": "Decode PEM content to bytes."
+    },
+    {
+      "source": 8,
+      "target": 9,
+      "classification": "assignment",
+      "reason": "Assign der."
+    },
+    {
+      "source": 9,
+      "target": 10,
+      "classification": "alias",
+      "reason": "Read der."
+    },
+    {
+      "source": 10,
+      "target": 11,
+      "classification": "external-summary",
+      "reason": "Copy bytes into Uint8List."
+    },
+    {
+      "source": 11,
+      "target": 12,
+      "classification": "assignment",
+      "reason": "Save constructed list temporary."
+    },
+    {
+      "source": 12,
+      "target": 13,
+      "classification": "return",
+      "reason": "Creation block yields the list as hash argument."
+    }
+  ],
+  "disposition": "Source-supported element route under pure iterable and external transformation assumptions; selection feasibility and callback effects are not established."
+}

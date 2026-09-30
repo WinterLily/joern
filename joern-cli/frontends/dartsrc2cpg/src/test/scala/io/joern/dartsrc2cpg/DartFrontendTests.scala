@@ -33,7 +33,8 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
     helper: String,
     main: String,
     dataflow: Boolean = true,
-    extraFiles: Map[String, String] = Map.empty
+    extraFiles: Map[String, String] = Map.empty,
+    environment: String = "analyzer-default"
   )(check: (Cpg, Path) => Unit): Unit = {
     val dir = Files.createTempDirectory(Files.createDirectories(repository.resolve("agents")), "dart-cpg-")
     try {
@@ -50,7 +51,12 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         Files.writeString(dir.resolve(name), source)
       }
       val graph = new DartSrc2Cpg()
-        .createCpg(config.withInputPath(dir.toString).withOutputPath(dir.resolve("cpg.bin").toString))
+        .createCpg(
+          config
+            .copy(environment = environment)
+            .withInputPath(dir.toString)
+            .withOutputPath(dir.resolve("cpg.bin").toString)
+        )
         .get
       try {
         new PostFrontendValidator(graph, ValidationLevel.V3).createAndApply()
@@ -71,6 +77,27 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
   }
 
   "Dart frontend" should {
+    "give constructor-expanded field closures distinct identities and receiver captures" in {
+      fixture(
+        """class Box {
+          |  final callback = (String value) => value;
+          |  late final reader = () => callback('value');
+          |  Box();
+          |  Box.named();
+          |}
+          |""".stripMargin,
+        "void main() { Box(); Box.named(); }"
+      ) { (cpg, _) =>
+        val refs = cpg.methodRef.l
+        refs.size shouldBe 4
+        refs.map(_.methodFullName).distinct.size shouldBe 4
+        refs.foreach(ref => ref.referencedMethod.isExternal shouldBe false)
+        val captures = cpg.closureBinding.refOut.collect {
+          case p: io.shiftleft.codepropertygraph.generated.nodes.MethodParameterIn => p
+        }.l
+        captures.map(_.method.fullName).distinct.size shouldBe 2
+      }
+    }
     "link two files and preserve the dataflow proof after saving and reloading" in {
       fixture(
         "String relay(String value) => value;",
@@ -142,6 +169,35 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
             ) shouldBe true
           }
         }
+      }
+    }
+    "separate iterable element values from predicate selection and constant transforms" in {
+      fixture(
+        Files.readString(frontend.resolve("src/test/resources/semantics/iterable_selection.dart")),
+        "void main() {}"
+      ) { (cpg, _) =>
+        val rules = new FullNameSemanticsParser()
+          .parseFile(frontend.resolve("dataflow/iterable.semantics").toString)
+          .map(_.copy(regex = true))
+        val semantics = DefaultSemantics().plus(rules)
+        semantics.initialize(cpg)
+        val modeled = EngineContext(semantics = semantics)
+        for (
+          (name, expected) <- Seq(
+            "selected"       -> false,
+            "elements"       -> true,
+            "unrelated"      -> false,
+            "mapped"         -> true,
+            "constantMapped" -> false
+          )
+        ) {
+          val method = cpg.method.nameExact(name).head
+          withClue(name) {
+            val paths = method.ast.isReturn.reachableByFlows(method.parameter.nameExact("input"))(modeled).l
+            paths.nonEmpty shouldBe expected
+          }
+        }
+        cpg.call.nameExact("where", "map", "join").callee.l.foreach(m => semantics.forMethod(m).isDefined shouldBe true)
       }
     }
     "report complete witnesses and explicit audit limits without certifying semantics" in {
@@ -812,13 +868,83 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
           cpg.call.nameExact("<operator>.fieldAccess").argument(2).code.l shouldBe List("missing")
       }
     }
-    "report unhandled syntax explicitly" in {
+    "represent generic aliases, type literals and callable object tear-offs" in {
       fixture(
-        "String relay(String value) => value;",
-        "typedef Callback = void Function();\nvoid main() {}",
+        """typedef Callback<T extends num> = T Function(T value);
+          |typedef Legacy<T>(T value);
+          |class Callable { String call(String value) => value; }
+          |String relay(String value) {
+          |  final String Function(String) callback = Callable();
+          |  return callback(value);
+          |}
+          |""".stripMargin,
+        "void main(List<String> args) { final type = List<String>; final input = args[0]; sink(relay(input)); }"
+      ) { (cpg, _) =>
+        cpg.unknown.size shouldBe 0
+        cpg.typeDecl.nameExact("Callback").aliasTypeFullName.l should not be empty
+        cpg.typeDecl.nameExact("Legacy").aliasTypeFullName.l should not be empty
+        cpg.typeRef.codeExact("List<String>").size shouldBe 1
+        cpg.call.nameExact("callback").callee.name.l shouldBe List("<bound>")
+        assertFlow(cpg, true)
+      }
+    }
+    "forward mixin application constructors and preserve mixin dispatch" in {
+      fixture(
+        """class Base { final String value; Base(this.value); Base.named({required this.value}); }
+          |mixin First { String tag() => 'first'; }
+          |mixin Last { String tag() => 'last'; }
+          |class Applied = Base with First, Last;
+          |String relay(String value) => Applied.named(value: value).value;
+          |""".stripMargin,
+        "void main(List<String> args) { final input = args[0]; sink(relay(input)); Applied('fixed').tag(); }"
+      ) { (cpg, _) =>
+        cpg.unknown.size shouldBe 0
+        val applied = cpg.typeDecl.nameExact("Applied").head
+        applied.method.name.toSet should contain allOf ("<init>", "named")
+        applied.method.nameExact("named").parameter.name.toSet shouldBe Set("this", "value")
+        cpg.call.nameExact("tag").callee.astParentFullName.l.exists(_.endsWith(":MIXIN:Last")) shouldBe true
+        assertFlow(cpg, true)
+      }
+    }
+    "route continue-to-case past the target condition and guard" in {
+      for (target <- Seq("case 1:", "case > 0 when true:")) {
+        fixture(
+          "void mark(String value) {}",
+          s"""
+          |void main() {
+          |  switch (0) {
+          |    case 0: continue selected;
+          |    selected: $target mark('target');
+          |    default: mark('default');
+          |  }
+          |}
+          |""".stripMargin,
+          dataflow = false
+        ) { (cpg, _) =>
+          cpg.unknown.size shouldBe 0
+          val jump       = cpg.controlStructure.codeExact("continue selected;").head
+          val targetNode = jump.cfgNext.head
+          targetNode.label shouldBe "JUMP_TARGET"
+          targetNode.cfgNext.code.l shouldBe List("'target'")
+          cpg.jumpLabel.name.l should contain(
+            targetNode.asInstanceOf[io.shiftleft.codepropertygraph.generated.nodes.JumpTarget].name
+          )
+        }
+      }
+    }
+    "guard null-aware collection elements and evaluate map keys before values" in {
+      fixture(
+        "String? key() => null; String? value() => 'value';",
+        "void main() { final list = [?value()]; final map = {?key(): ?value()}; }",
         dataflow = false
       ) { (cpg, _) =>
-        cpg.unknown.parserTypeName.l should contain("GenericTypeAlias")
+        cpg.unknown.size shouldBe 0
+        cpg.call.nameExact("key").size shouldBe 1
+        cpg.call.nameExact("value").size shouldBe 2
+        cpg.call.nameExact("<operator>.conditional").size shouldBe 3
+        val entry = cpg.call.nameExact("<operator>.keyValueAssociation").head
+        entry.argument.isIdentifier.size shouldBe 2
+        cpg.call.nameExact("value").l.foreach(_.cfgNext.nonEmpty shouldBe true)
       }
     }
     "model records, destructuring, guarded patterns and switch expressions" in {
@@ -1021,6 +1147,24 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         assertFlow(cpg, true)
       }
     }
+    "select conditional exports for VM and web without mixing their flows" in {
+      for (environment <- Seq("analyzer-default", "vm", "web")) {
+        fixture(
+          "export 'fallback.dart' if (dart.library.io) 'vm.dart' if (dart.library.html) 'web.dart';",
+          "void main(List<String> args) { final input = args[0]; sink(relay(input)); }",
+          extraFiles = Map(
+            "lib/fallback.dart" -> "String relay(String value) => 'fallback';",
+            "lib/vm.dart"       -> "String relay(String value) => value;",
+            "lib/web.dart"      -> "String relay(String value) => 'web';"
+          ),
+          environment = environment
+        ) { (cpg, _) =>
+          val selected = if (environment == "analyzer-default") "fallback" else environment
+          cpg.call.nameExact("relay").callee.filename.l shouldBe List(s"lib/$selected.dart")
+          assertFlow(cpg, environment == "vm")
+        }
+      }
+    }
     "resolve Flutter widgets and retain callback captures without a build" in {
       if (!sys.env.get("DART_FLUTTER_TESTS").contains("1"))
         cancel("Set DART_FLUTTER_TESTS=1 after preparing the Flutter fixture")
@@ -1084,7 +1228,7 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         scan(config.copy(report = report.toString))
         val coverage = ujson.read(Files.readString(report))
         coverage("includedFiles").num shouldBe 0
-        coverage("exporter")("exporterVersion").str shouldBe "0.3.2"
+        coverage("exporter")("exporterVersion").str shouldBe "0.3.3"
         coverage("exporter")("sdkVersion").str shouldBe "3.9.2"
         coverage("exporter")("analyzerVersion").str shouldBe "8.4.1"
         Files.writeString(dir.resolve("excluded.dart"), "void excluded() {}")
@@ -1102,7 +1246,7 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         "offsetEncoding"  -> "utf-16",
         "analyzerVersion" -> "8.4.1",
         "sdkVersion"      -> "3.9.2",
-        "exporterVersion" -> "0.3.2"
+        "exporterVersion" -> "0.3.3"
       )
       intercept[IllegalArgumentException](ExportProtocol.units(Seq(valid)))
       intercept[IllegalArgumentException](

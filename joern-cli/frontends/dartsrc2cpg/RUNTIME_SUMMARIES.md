@@ -48,8 +48,24 @@ returned encryption dependency, and rejection of path-to-priority flow. The
 summary does not prove that a worker runs, nor model scheduling or cancellation.
 
 Load it using the same parser and `regex = true` setting as above. To combine
-both models, concatenate their parsed rules before `DefaultSemantics().plus`.
-Neither model is loaded automatically.
+models, concatenate their parsed rules before `DefaultSemantics().plus`.
+Models are not loaded automatically.
+
+## Optional iterable summary
+
+`dataflow/iterable.semantics` targets Dart SDK 3.9.2 `Iterable.where`, `map`
+and `join`. For pure callbacks with known identities, `where` preserves element
+values without treating predicate results as elements, `map` uses callback
+results, and `join` preserves element/separator dependencies. Tests share the
+Dart execution fixture `iterable_selection.dart`: predicate capture has no
+explicit value dependency, identity mapping preserves input, and constant
+mapping excludes it. Selection, callback side effects and lazy iteration timing
+are outside this model. Unknown callback identities retain query-engine limits.
+
+The source/receiver rules require the argument-specific return-summary validator
+in the shared dataflow engine. Earlier behavior admitted every argument whenever
+any argument had a return mapping. Stock results remain separately reported;
+loading this summary is an explicit choice of its narrower contract.
 
 ## Remaining models
 

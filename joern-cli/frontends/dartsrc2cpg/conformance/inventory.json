@@ -1,0 +1,1440 @@
+{
+  "schemaVersion": 1,
+  "sdk": "3.9.2",
+  "sdkRevision": "a29e08c72e2ce21813c1edf50cbcdfcac7a7acdd",
+  "analyzer": "8.4.1",
+  "inventorySource": "package:analyzer/src/dart/ast/ast.g.dart",
+  "inventorySha256": "24ebea6a20c656c1d2bb3d80dab727f90afbc6f500469fa5efb732a8b910cfe8",
+  "languageReference": "https://dart.dev/resources/language/evolution",
+  "contracts": {
+    "syntax": {
+      "exporter": "astgen/test/exporter_test.dart",
+      "lowering": "src/main/scala/io/joern/dartsrc2cpg/AstCreationPass.scala",
+      "resolution": "analyzer 8.4.1 declaration identities",
+      "cfg": "shared CFG; exceptions/finally not qualified",
+      "valueFlow": "shared OSS engine; reviewed corpus limits apply",
+      "negative": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
+      "interaction": "unqualified"
+    },
+    "source": {
+      "exporter": "enclosing source/identity",
+      "lowering": "structural-only",
+      "resolution": "structural-only",
+      "cfg": "not-applicable",
+      "valueFlow": "not-applicable",
+      "negative": "not-applicable",
+      "interaction": "not-applicable"
+    },
+    "outside": {
+      "exporter": "diagnostic/unsupported",
+      "lowering": "unsupported",
+      "resolution": "unsupported",
+      "cfg": "unsupported",
+      "valueFlow": "unsupported",
+      "negative": "language version diagnostics",
+      "interaction": "not-applicable"
+    }
+  },
+  "constructs": [
+    {
+      "construct": "AdjacentStrings",
+      "scope": "dart-3.9",
+      "exporterCase": "AdjacentStrings",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "Annotation",
+      "scope": "dart-3.9",
+      "exporterCase": null,
+      "contract": "source",
+      "qualification": "structural-only",
+      "reason": "retained in declaration source; arbitrary annotation semantics not modeled"
+    },
+    {
+      "construct": "ArgumentList",
+      "scope": "dart-3.9",
+      "exporterCase": "ArgumentList",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "AsExpression",
+      "scope": "dart-3.9",
+      "exporterCase": "AsExpression",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "AssertInitializer",
+      "scope": "dart-3.9",
+      "exporterCase": "AssertInitializer",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "AssertStatement",
+      "scope": "dart-3.9",
+      "exporterCase": "AssertStatement",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "AssignedVariablePattern",
+      "scope": "dart-3.9",
+      "exporterCase": "AssignedVariablePattern",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "AssignmentExpression",
+      "scope": "dart-3.9",
+      "exporterCase": "AssignmentExpression",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "AwaitExpression",
+      "scope": "dart-3.9",
+      "exporterCase": "AwaitExpression",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "BinaryExpression",
+      "scope": "dart-3.9",
+      "exporterCase": "BinaryExpression",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "Block",
+      "scope": "dart-3.9",
+      "exporterCase": "Block",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "BlockClassBody",
+      "scope": "dart-3.9",
+      "exporterCase": null,
+      "contract": "source",
+      "qualification": "structural-only",
+      "reason": "members of declarations"
+    },
+    {
+      "construct": "BlockFunctionBody",
+      "scope": "dart-3.9",
+      "exporterCase": "BlockFunctionBody",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "BooleanLiteral",
+      "scope": "dart-3.9",
+      "exporterCase": "BooleanLiteral",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "BreakStatement",
+      "scope": "dart-3.9",
+      "exporterCase": "BreakStatement",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "CascadeExpression",
+      "scope": "dart-3.9",
+      "exporterCase": "CascadeExpression",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "CaseClause",
+      "scope": "dart-3.9",
+      "exporterCase": "CaseClause",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "CastPattern",
+      "scope": "dart-3.9",
+      "exporterCase": "CastPattern",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "CatchClause",
+      "scope": "dart-3.9",
+      "exporterCase": "CatchClause",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "CatchClauseParameter",
+      "scope": "dart-3.9",
+      "exporterCase": "CatchClauseParameter",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "ClassDeclaration",
+      "scope": "dart-3.9",
+      "exporterCase": "ClassDeclaration",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "ClassTypeAlias",
+      "scope": "dart-3.9",
+      "exporterCase": "ClassTypeAlias",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "Comment",
+      "scope": "dart-3.9",
+      "exporterCase": null,
+      "contract": "source",
+      "qualification": "structural-only",
+      "reason": "retained in file source"
+    },
+    {
+      "construct": "CommentReference",
+      "scope": "dart-3.9",
+      "exporterCase": null,
+      "contract": "source",
+      "qualification": "structural-only",
+      "reason": "retained in file source"
+    },
+    {
+      "construct": "CompilationUnit",
+      "scope": "dart-3.9",
+      "exporterCase": "CompilationUnit",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "ConditionalExpression",
+      "scope": "dart-3.9",
+      "exporterCase": "ConditionalExpression",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "Configuration",
+      "scope": "dart-3.9",
+      "exporterCase": "Configuration",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "ConstantPattern",
+      "scope": "dart-3.9",
+      "exporterCase": "ConstantPattern",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "ConstructorDeclaration",
+      "scope": "dart-3.9",
+      "exporterCase": "ConstructorDeclaration",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "ConstructorFieldInitializer",
+      "scope": "dart-3.9",
+      "exporterCase": "ConstructorFieldInitializer",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "ConstructorName",
+      "scope": "dart-3.9",
+      "exporterCase": "ConstructorName",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "ConstructorReference",
+      "scope": "dart-3.9",
+      "exporterCase": "ConstructorReference",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "ConstructorSelector",
+      "scope": "dart-3.9",
+      "exporterCase": null,
+      "contract": "source",
+      "qualification": "structural-only",
+      "reason": "ConstructorName target"
+    },
+    {
+      "construct": "ContinueStatement",
+      "scope": "dart-3.9",
+      "exporterCase": "ContinueStatement",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "DeclaredIdentifier",
+      "scope": "dart-3.9",
+      "exporterCase": "DeclaredIdentifier",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "DeclaredVariablePattern",
+      "scope": "dart-3.9",
+      "exporterCase": "DeclaredVariablePattern",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "DefaultFormalParameter",
+      "scope": "dart-3.9",
+      "exporterCase": "DefaultFormalParameter",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "DoStatement",
+      "scope": "dart-3.9",
+      "exporterCase": "DoStatement",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "DotShorthandInvocation",
+      "scope": "future-language",
+      "exporterCase": null,
+      "contract": "outside",
+      "qualification": "unsupported",
+      "reason": "Not enabled in Dart 3.9.2."
+    },
+    {
+      "construct": "DotShorthandPropertyAccess",
+      "scope": "future-language",
+      "exporterCase": null,
+      "contract": "outside",
+      "qualification": "unsupported",
+      "reason": "Not enabled in Dart 3.9.2."
+    },
+    {
+      "construct": "DottedName",
+      "scope": "dart-3.9",
+      "exporterCase": null,
+      "contract": "source",
+      "qualification": "structural-only",
+      "reason": "Configuration name"
+    },
+    {
+      "construct": "DoubleLiteral",
+      "scope": "dart-3.9",
+      "exporterCase": "DoubleLiteral",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "EmptyClassBody",
+      "scope": "dart-3.9",
+      "exporterCase": null,
+      "contract": "source",
+      "qualification": "structural-only",
+      "reason": "empty declaration"
+    },
+    {
+      "construct": "EmptyFunctionBody",
+      "scope": "dart-3.9",
+      "exporterCase": "EmptyFunctionBody",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "EmptyStatement",
+      "scope": "dart-3.9",
+      "exporterCase": "EmptyStatement",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "EnumBody",
+      "scope": "dart-3.9",
+      "exporterCase": null,
+      "contract": "source",
+      "qualification": "structural-only",
+      "reason": "enum constants and members"
+    },
+    {
+      "construct": "EnumConstantArguments",
+      "scope": "dart-3.9",
+      "exporterCase": null,
+      "contract": "source",
+      "qualification": "structural-only",
+      "reason": "EnumConstantDeclaration arguments"
+    },
+    {
+      "construct": "EnumConstantDeclaration",
+      "scope": "dart-3.9",
+      "exporterCase": "EnumConstantDeclaration",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "EnumDeclaration",
+      "scope": "dart-3.9",
+      "exporterCase": "EnumDeclaration",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "ExportDirective",
+      "scope": "dart-3.9",
+      "exporterCase": "ExportDirective",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "ExpressionFunctionBody",
+      "scope": "dart-3.9",
+      "exporterCase": "ExpressionFunctionBody",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "ExpressionStatement",
+      "scope": "dart-3.9",
+      "exporterCase": "ExpressionStatement",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "ExtendsClause",
+      "scope": "dart-3.9",
+      "exporterCase": null,
+      "contract": "source",
+      "qualification": "structural-only",
+      "reason": "analyzer superDeclarations"
+    },
+    {
+      "construct": "ExtensionDeclaration",
+      "scope": "dart-3.9",
+      "exporterCase": "ExtensionDeclaration",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "ExtensionOnClause",
+      "scope": "dart-3.9",
+      "exporterCase": null,
+      "contract": "source",
+      "qualification": "structural-only",
+      "reason": "ExtensionDeclaration onType"
+    },
+    {
+      "construct": "ExtensionOverride",
+      "scope": "dart-3.9",
+      "exporterCase": "ExtensionOverride",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "ExtensionTypeDeclaration",
+      "scope": "dart-3.9",
+      "exporterCase": "ExtensionTypeDeclaration",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "FieldDeclaration",
+      "scope": "dart-3.9",
+      "exporterCase": "FieldDeclaration",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "FieldFormalParameter",
+      "scope": "dart-3.9",
+      "exporterCase": "FieldFormalParameter",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "ForEachPartsWithDeclaration",
+      "scope": "dart-3.9",
+      "exporterCase": "ForEachPartsWithDeclaration",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "ForEachPartsWithIdentifier",
+      "scope": "dart-3.9",
+      "exporterCase": "ForEachPartsWithIdentifier",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "ForEachPartsWithPattern",
+      "scope": "dart-3.9",
+      "exporterCase": "ForEachPartsWithPattern",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "ForElement",
+      "scope": "dart-3.9",
+      "exporterCase": "ForElement",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "FormalParameterList",
+      "scope": "dart-3.9",
+      "exporterCase": "FormalParameterList",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "ForPartsWithDeclarations",
+      "scope": "dart-3.9",
+      "exporterCase": "ForPartsWithDeclarations",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "ForPartsWithExpression",
+      "scope": "dart-3.9",
+      "exporterCase": "ForPartsWithExpression",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "ForPartsWithPattern",
+      "scope": "dart-3.9",
+      "exporterCase": "ForPartsWithPattern",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "ForStatement",
+      "scope": "dart-3.9",
+      "exporterCase": "ForStatement",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "FunctionDeclaration",
+      "scope": "dart-3.9",
+      "exporterCase": "FunctionDeclaration",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "FunctionDeclarationStatement",
+      "scope": "dart-3.9",
+      "exporterCase": "FunctionDeclarationStatement",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "FunctionExpression",
+      "scope": "dart-3.9",
+      "exporterCase": "FunctionExpression",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "FunctionExpressionInvocation",
+      "scope": "dart-3.9",
+      "exporterCase": "FunctionExpressionInvocation",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "FunctionReference",
+      "scope": "dart-3.9",
+      "exporterCase": "FunctionReference",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "FunctionTypeAlias",
+      "scope": "dart-3.9",
+      "exporterCase": "FunctionTypeAlias",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "FunctionTypedFormalParameter",
+      "scope": "dart-3.9",
+      "exporterCase": "FunctionTypedFormalParameter",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "GenericFunctionType",
+      "scope": "dart-3.9",
+      "exporterCase": "GenericFunctionType",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "GenericTypeAlias",
+      "scope": "dart-3.9",
+      "exporterCase": "GenericTypeAlias",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "GuardedPattern",
+      "scope": "dart-3.9",
+      "exporterCase": "GuardedPattern",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "HideCombinator",
+      "scope": "dart-3.9",
+      "exporterCase": "HideCombinator",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "IfElement",
+      "scope": "dart-3.9",
+      "exporterCase": "IfElement",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "IfStatement",
+      "scope": "dart-3.9",
+      "exporterCase": "IfStatement",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "ImplementsClause",
+      "scope": "dart-3.9",
+      "exporterCase": null,
+      "contract": "source",
+      "qualification": "structural-only",
+      "reason": "analyzer superDeclarations"
+    },
+    {
+      "construct": "ImplicitCallReference",
+      "scope": "dart-3.9",
+      "exporterCase": "ImplicitCallReference",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "ImportDirective",
+      "scope": "dart-3.9",
+      "exporterCase": "ImportDirective",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "ImportPrefixReference",
+      "scope": "dart-3.9",
+      "exporterCase": null,
+      "contract": "source",
+      "qualification": "structural-only",
+      "reason": "directive source and resolved IDs"
+    },
+    {
+      "construct": "IndexExpression",
+      "scope": "dart-3.9",
+      "exporterCase": "IndexExpression",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "InstanceCreationExpression",
+      "scope": "dart-3.9",
+      "exporterCase": "InstanceCreationExpression",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "IntegerLiteral",
+      "scope": "dart-3.9",
+      "exporterCase": "IntegerLiteral",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "InterpolationExpression",
+      "scope": "dart-3.9",
+      "exporterCase": "InterpolationExpression",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "InterpolationString",
+      "scope": "dart-3.9",
+      "exporterCase": "InterpolationString",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "IsExpression",
+      "scope": "dart-3.9",
+      "exporterCase": "IsExpression",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "Label",
+      "scope": "dart-3.9",
+      "exporterCase": null,
+      "contract": "source",
+      "qualification": "structural-only",
+      "reason": "LabeledStatement and switch labels"
+    },
+    {
+      "construct": "LabeledStatement",
+      "scope": "dart-3.9",
+      "exporterCase": "LabeledStatement",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "LibraryDirective",
+      "scope": "dart-3.9",
+      "exporterCase": "LibraryDirective",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "LibraryIdentifier",
+      "scope": "dart-3.9",
+      "exporterCase": null,
+      "contract": "source",
+      "qualification": "structural-only",
+      "reason": "library identity"
+    },
+    {
+      "construct": "ListLiteral",
+      "scope": "dart-3.9",
+      "exporterCase": "ListLiteral",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "ListPattern",
+      "scope": "dart-3.9",
+      "exporterCase": "ListPattern",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "LogicalAndPattern",
+      "scope": "dart-3.9",
+      "exporterCase": "LogicalAndPattern",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "LogicalOrPattern",
+      "scope": "dart-3.9",
+      "exporterCase": "LogicalOrPattern",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "MapLiteralEntry",
+      "scope": "dart-3.9",
+      "exporterCase": "MapLiteralEntry",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "MapPattern",
+      "scope": "dart-3.9",
+      "exporterCase": "MapPattern",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "MapPatternEntry",
+      "scope": "dart-3.9",
+      "exporterCase": "MapPatternEntry",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "MethodDeclaration",
+      "scope": "dart-3.9",
+      "exporterCase": "MethodDeclaration",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "MethodInvocation",
+      "scope": "dart-3.9",
+      "exporterCase": "MethodInvocation",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "MixinDeclaration",
+      "scope": "dart-3.9",
+      "exporterCase": "MixinDeclaration",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "MixinOnClause",
+      "scope": "dart-3.9",
+      "exporterCase": null,
+      "contract": "source",
+      "qualification": "structural-only",
+      "reason": "analyzer superDeclarations"
+    },
+    {
+      "construct": "NamedExpression",
+      "scope": "dart-3.9",
+      "exporterCase": "NamedExpression",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "NamedType",
+      "scope": "dart-3.9",
+      "exporterCase": "NamedType",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "NameWithTypeParameters",
+      "scope": "dart-3.9",
+      "exporterCase": null,
+      "contract": "source",
+      "qualification": "structural-only",
+      "reason": "declaration name and type parameters"
+    },
+    {
+      "construct": "NativeClause",
+      "scope": "sdk-internal",
+      "exporterCase": null,
+      "contract": "outside",
+      "qualification": "unsupported",
+      "reason": "Native implementation bodies are outside source execution modeling."
+    },
+    {
+      "construct": "NativeFunctionBody",
+      "scope": "sdk-internal",
+      "exporterCase": null,
+      "contract": "outside",
+      "qualification": "unsupported",
+      "reason": "Native implementation bodies are outside source execution modeling."
+    },
+    {
+      "construct": "NullAssertPattern",
+      "scope": "dart-3.9",
+      "exporterCase": "NullAssertPattern",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "NullAwareElement",
+      "scope": "dart-3.9",
+      "exporterCase": "NullAwareElement",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "NullCheckPattern",
+      "scope": "dart-3.9",
+      "exporterCase": "NullCheckPattern",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "NullLiteral",
+      "scope": "dart-3.9",
+      "exporterCase": "NullLiteral",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "ObjectPattern",
+      "scope": "dart-3.9",
+      "exporterCase": "ObjectPattern",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "ParenthesizedExpression",
+      "scope": "dart-3.9",
+      "exporterCase": "ParenthesizedExpression",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "ParenthesizedPattern",
+      "scope": "dart-3.9",
+      "exporterCase": "ParenthesizedPattern",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "PartDirective",
+      "scope": "dart-3.9",
+      "exporterCase": "PartDirective",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "PartOfDirective",
+      "scope": "dart-3.9",
+      "exporterCase": "PartOfDirective",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "PatternAssignment",
+      "scope": "dart-3.9",
+      "exporterCase": "PatternAssignment",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "PatternField",
+      "scope": "dart-3.9",
+      "exporterCase": "PatternField",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "PatternFieldName",
+      "scope": "dart-3.9",
+      "exporterCase": null,
+      "contract": "source",
+      "qualification": "structural-only",
+      "reason": "PatternField name"
+    },
+    {
+      "construct": "PatternVariableDeclaration",
+      "scope": "dart-3.9",
+      "exporterCase": "PatternVariableDeclaration",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "PostfixExpression",
+      "scope": "dart-3.9",
+      "exporterCase": "PostfixExpression",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "PrefixedIdentifier",
+      "scope": "dart-3.9",
+      "exporterCase": "PrefixedIdentifier",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "PrefixExpression",
+      "scope": "dart-3.9",
+      "exporterCase": "PrefixExpression",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "PrimaryConstructorDeclaration",
+      "scope": "future-language",
+      "exporterCase": null,
+      "contract": "outside",
+      "qualification": "unsupported",
+      "reason": "Not enabled in Dart 3.9.2."
+    },
+    {
+      "construct": "PrimaryConstructorName",
+      "scope": "future-language",
+      "exporterCase": null,
+      "contract": "outside",
+      "qualification": "unsupported",
+      "reason": "Not enabled in Dart 3.9.2."
+    },
+    {
+      "construct": "PropertyAccess",
+      "scope": "dart-3.9",
+      "exporterCase": "PropertyAccess",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "RecordLiteral",
+      "scope": "dart-3.9",
+      "exporterCase": "RecordLiteral",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "RecordPattern",
+      "scope": "dart-3.9",
+      "exporterCase": "RecordPattern",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "RecordTypeAnnotation",
+      "scope": "dart-3.9",
+      "exporterCase": "RecordTypeAnnotation",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "RecordTypeAnnotationNamedField",
+      "scope": "dart-3.9",
+      "exporterCase": "RecordTypeAnnotationField",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "RecordTypeAnnotationNamedFields",
+      "scope": "dart-3.9",
+      "exporterCase": "RecordTypeAnnotationNamedFields",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "RelationalPattern",
+      "scope": "dart-3.9",
+      "exporterCase": "RelationalPattern",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "RepresentationConstructorName",
+      "scope": "dart-3.9",
+      "exporterCase": null,
+      "contract": "source",
+      "qualification": "structural-only",
+      "reason": "representation constructor symbol"
+    },
+    {
+      "construct": "RepresentationDeclaration",
+      "scope": "dart-3.9",
+      "exporterCase": "RepresentationDeclaration",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "RestPatternElement",
+      "scope": "dart-3.9",
+      "exporterCase": "RestPatternElement",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "RethrowExpression",
+      "scope": "dart-3.9",
+      "exporterCase": "RethrowExpression",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "ReturnStatement",
+      "scope": "dart-3.9",
+      "exporterCase": "ReturnStatement",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "ScriptTag",
+      "scope": "dart-3.9",
+      "exporterCase": null,
+      "contract": "source",
+      "qualification": "structural-only",
+      "reason": "retained in file source"
+    },
+    {
+      "construct": "SetOrMapLiteral",
+      "scope": "dart-3.9",
+      "exporterCase": "SetOrMapLiteral",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "ShowCombinator",
+      "scope": "dart-3.9",
+      "exporterCase": "ShowCombinator",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "SimpleFormalParameter",
+      "scope": "dart-3.9",
+      "exporterCase": "SimpleFormalParameter",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "SimpleIdentifier",
+      "scope": "dart-3.9",
+      "exporterCase": "SimpleIdentifier",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "SimpleStringLiteral",
+      "scope": "dart-3.9",
+      "exporterCase": "SimpleStringLiteral",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "SpreadElement",
+      "scope": "dart-3.9",
+      "exporterCase": "SpreadElement",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "StringInterpolation",
+      "scope": "dart-3.9",
+      "exporterCase": "StringInterpolation",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "SuperConstructorInvocation",
+      "scope": "dart-3.9",
+      "exporterCase": "SuperConstructorInvocation",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "SuperExpression",
+      "scope": "dart-3.9",
+      "exporterCase": "SuperExpression",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "SuperFormalParameter",
+      "scope": "dart-3.9",
+      "exporterCase": "SuperFormalParameter",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "SwitchCase",
+      "scope": "dart-3.9",
+      "exporterCase": "SwitchCase",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "SwitchDefault",
+      "scope": "dart-3.9",
+      "exporterCase": "SwitchDefault",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "SwitchExpression",
+      "scope": "dart-3.9",
+      "exporterCase": "SwitchExpression",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "SwitchExpressionCase",
+      "scope": "dart-3.9",
+      "exporterCase": "SwitchExpressionCase",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "SwitchPatternCase",
+      "scope": "dart-3.9",
+      "exporterCase": "SwitchPatternCase",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "SwitchStatement",
+      "scope": "dart-3.9",
+      "exporterCase": "SwitchStatement",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "SymbolLiteral",
+      "scope": "dart-3.9",
+      "exporterCase": "SymbolLiteral",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "ThisExpression",
+      "scope": "dart-3.9",
+      "exporterCase": "ThisExpression",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "ThrowExpression",
+      "scope": "dart-3.9",
+      "exporterCase": "ThrowExpression",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "TopLevelVariableDeclaration",
+      "scope": "dart-3.9",
+      "exporterCase": "TopLevelVariableDeclaration",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "TryStatement",
+      "scope": "dart-3.9",
+      "exporterCase": "TryStatement",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "TypeArgumentList",
+      "scope": "dart-3.9",
+      "exporterCase": "TypeArgumentList",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "TypeLiteral",
+      "scope": "dart-3.9",
+      "exporterCase": "TypeLiteral",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "TypeParameter",
+      "scope": "dart-3.9",
+      "exporterCase": "TypeParameter",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "TypeParameterList",
+      "scope": "dart-3.9",
+      "exporterCase": "TypeParameterList",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "VariableDeclaration",
+      "scope": "dart-3.9",
+      "exporterCase": "VariableDeclaration",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "VariableDeclarationList",
+      "scope": "dart-3.9",
+      "exporterCase": "VariableDeclarationList",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "VariableDeclarationStatement",
+      "scope": "dart-3.9",
+      "exporterCase": "VariableDeclarationStatement",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "WhenClause",
+      "scope": "dart-3.9",
+      "exporterCase": null,
+      "contract": "source",
+      "qualification": "structural-only",
+      "reason": "GuardedPattern condition"
+    },
+    {
+      "construct": "WhileStatement",
+      "scope": "dart-3.9",
+      "exporterCase": "WhileStatement",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "WildcardPattern",
+      "scope": "dart-3.9",
+      "exporterCase": "WildcardPattern",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    },
+    {
+      "construct": "WithClause",
+      "scope": "dart-3.9",
+      "exporterCase": null,
+      "contract": "source",
+      "qualification": "structural-only",
+      "reason": "analyzer superDeclarations"
+    },
+    {
+      "construct": "YieldStatement",
+      "scope": "dart-3.9",
+      "exporterCase": "YieldStatement",
+      "contract": "syntax",
+      "qualification": "unqualified",
+      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+    }
+  ]
+}

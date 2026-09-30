@@ -17,7 +17,8 @@ private[dartsrc2cpg] object ExporterRunner {
     )
     require(Files.readString(sdk.resolve("version")).trim == "3.9.2", "Expected Dart SDK 3.9.2")
     val output = execute(
-      Seq(config.exporter, root.toString, input.toString, config.sdk, "--metrics"),
+      Seq(config.exporter, root.toString, input.toString, config.sdk, "--metrics") ++
+        (if (config.environment == "analyzer-default") Nil else Seq(s"--environment=${config.environment}")),
       config.exporterTimeoutSeconds,
       config.exporterMaxOutputBytes
     )

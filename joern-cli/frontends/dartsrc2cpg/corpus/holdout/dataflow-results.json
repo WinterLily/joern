@@ -1,0 +1,175 @@
+[
+  {
+    "project": "shelf-1.4.2",
+    "source": {
+      "name": "shelf",
+      "version": "1.4.2",
+      "sha256": "e7dd780a7ffb623c57850b33f43309312fc863fb6aa3d276a754bb299839ef12",
+      "roots": [
+        "lib",
+        "example"
+      ],
+      "sourceSha256": "483a582828572c6b081baed74146268f6c2aed19bd260fc3cd1408c37330f2df",
+      "probe": "_echoRequest",
+      "input": "."
+    },
+    "exporter": {
+      "record": "header",
+      "protocolVersion": 1,
+      "exporterVersion": "0.3.3",
+      "analyzerVersion": "8.4.1",
+      "sdkVersion": "3.9.2",
+      "offsetEncoding": "utf-16",
+      "conditionalEnvironment": "analyzer-default"
+    },
+    "overlay": {
+      "methods": 168,
+      "maxDefinitions": 188,
+      "definitionLimit": 20000,
+      "aboveDefaultLimit": {}
+    },
+    "modelFiles": {
+      "async": "# Completer.completeError stores the error and stack trace in the completer.\n# It does not copy either argument into the other and has no return value.\n# Load these method names as regular expressions; declaration offsets may vary.\n\"dart:async/future[.]dart\\x23[0-9]+:METHOD:completeError\" 0 -> 0 1 -> 1 2 -> 2 1 -> 0 2 -> 0\n",
+      "worker_manager": "# Executor.execute stores the task and priority and returns its cancelable result.\n# The task's values do not change the priority argument. This does not model scheduling.\n# Tested against worker_manager 7.2.6; load the method name as a regular expression.\n\"package:worker_manager/src/scheduling/executor[.]dart\\x23[0-9]+:METHOD:execute\" 0 -> 0 1 -> 1 2 -> 2 1 -> 0 2 -> 0 1 -> -1\n",
+      "iterable": "# Dart SDK 3.9.2: lib/core/iterable.dart and lib/internal/iterable.dart.\n# Explicit element values with pure predicates/transforms and statically known callbacks.\n# Selection, lazy execution timing and callback side effects are outside this contract.\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:where\" 0 -> 0 1 -> 1 0 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:map\" 0 -> 0 1 -> 1 1 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:join\" 0 -> 0 1 -> 1 0 -> -1 1 -> -1\n"
+    },
+    "reachingDefEdges": 10282,
+    "maxCallDepth": 4,
+    "pathSelection": "longest-per-endpoint-pair",
+    "checks": [
+      {
+        "id": "request-to-response-body",
+        "expectedFlow": true,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": true,
+        "stockPassed": true,
+        "modeledFlow": true,
+        "modeledPassed": true,
+        "viaSatisfied": true,
+        "semanticReview": "see source review ledger; not path certification",
+        "stockOutcome": "flow-observed",
+        "modeledOutcome": "flow-observed",
+        "limitations": {
+          "stock": [
+            "call-depth"
+          ],
+          "modeled": [
+            "call-depth"
+          ]
+        },
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        }
+      },
+      {
+        "id": "request-not-status",
+        "expectedFlow": false,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": false,
+        "stockPassed": true,
+        "modeledFlow": false,
+        "modeledPassed": true,
+        "viaSatisfied": true,
+        "semanticReview": "see source review ledger; not path certification",
+        "stockOutcome": "no-flow-observed-within-limits",
+        "modeledOutcome": "no-flow-observed-within-limits",
+        "limitations": {
+          "stock": [],
+          "modeled": []
+        },
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        },
+        "positiveControl": "request-to-response-body"
+      }
+    ]
+  },
+  {
+    "project": "yaml-3.1.3",
+    "source": {
+      "name": "yaml",
+      "version": "3.1.3",
+      "sha256": "b9da305ac7c39faa3f030eccd175340f968459dae4af175130b3fc47e40d76ce",
+      "roots": [
+        "lib"
+      ],
+      "sourceSha256": "9c159d8330afe1c57be30ac3b4cf3ad916022a313dfe4cd0bbfba04bceaac1bf",
+      "probe": "loadYaml",
+      "input": "."
+    },
+    "exporter": {
+      "record": "header",
+      "protocolVersion": 1,
+      "exporterVersion": "0.3.3",
+      "analyzerVersion": "8.4.1",
+      "sdkVersion": "3.9.2",
+      "offsetEncoding": "utf-16",
+      "conditionalEnvironment": "analyzer-default"
+    },
+    "overlay": {
+      "methods": 263,
+      "maxDefinitions": 343,
+      "definitionLimit": 20000,
+      "aboveDefaultLimit": {}
+    },
+    "modelFiles": {
+      "async": "# Completer.completeError stores the error and stack trace in the completer.\n# It does not copy either argument into the other and has no return value.\n# Load these method names as regular expressions; declaration offsets may vary.\n\"dart:async/future[.]dart\\x23[0-9]+:METHOD:completeError\" 0 -> 0 1 -> 1 2 -> 2 1 -> 0 2 -> 0\n",
+      "worker_manager": "# Executor.execute stores the task and priority and returns its cancelable result.\n# The task's values do not change the priority argument. This does not model scheduling.\n# Tested against worker_manager 7.2.6; load the method name as a regular expression.\n\"package:worker_manager/src/scheduling/executor[.]dart\\x23[0-9]+:METHOD:execute\" 0 -> 0 1 -> 1 2 -> 2 1 -> 0 2 -> 0 1 -> -1\n",
+      "iterable": "# Dart SDK 3.9.2: lib/core/iterable.dart and lib/internal/iterable.dart.\n# Explicit element values with pure predicates/transforms and statically known callbacks.\n# Selection, lazy execution timing and callback side effects are outside this contract.\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:where\" 0 -> 0 1 -> 1 0 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:map\" 0 -> 0 1 -> 1 1 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:join\" 0 -> 0 1 -> 1 0 -> -1 1 -> -1\n"
+    },
+    "reachingDefEdges": 26099,
+    "maxCallDepth": 4,
+    "pathSelection": "longest-per-endpoint-pair",
+    "checks": [
+      {
+        "id": "document-to-loader",
+        "expectedFlow": true,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": true,
+        "stockPassed": true,
+        "modeledFlow": true,
+        "modeledPassed": true,
+        "viaSatisfied": true,
+        "semanticReview": "see source review ledger; not path certification",
+        "stockOutcome": "flow-observed",
+        "modeledOutcome": "flow-observed",
+        "limitations": {
+          "stock": [],
+          "modeled": []
+        },
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        }
+      },
+      {
+        "id": "document-not-recovery-mode",
+        "expectedFlow": false,
+        "sources": 1,
+        "sinks": 1,
+        "stockFlow": false,
+        "stockPassed": true,
+        "modeledFlow": false,
+        "modeledPassed": true,
+        "viaSatisfied": true,
+        "semanticReview": "see source review ledger; not path certification",
+        "stockOutcome": "no-flow-observed-within-limits",
+        "modeledOutcome": "no-flow-observed-within-limits",
+        "limitations": {
+          "stock": [],
+          "modeled": []
+        },
+        "omittedWitnesses": {
+          "stock": 0,
+          "modeled": 0
+        },
+        "positiveControl": "document-to-loader"
+      }
+    ]
+  }
+]

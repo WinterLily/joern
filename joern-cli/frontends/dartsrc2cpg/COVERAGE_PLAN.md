@@ -1,6 +1,10 @@
 # Dart coverage completion plan
 
-Status: Gate 1 implementation in progress after commit `d0f58c01e`. The frontend is an
+Status: implementation in progress. Shared-engine regressions for nested output
+arguments and argument-specific return summaries are committed. The source
+review ledger, pinned AST inventory, aliases, callable tear-offs, null-aware
+collections, case labels, VM/web selection and first server/parser holdout are
+implemented; semantic and lifecycle qualification obligations remain open. The frontend is an
 initial implementation, not complete language or runtime analysis support.
 This plan supersedes the completion assumptions in the original implementation
 plan in `agents/plan.md`; it does not mark the remaining work as done.

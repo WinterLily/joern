@@ -2,7 +2,7 @@ package io.joern.dartsrc2cpg
 
 import io.joern.dataflowengineoss.language.*
 import io.joern.dataflowengineoss.semanticsloader.Semantics
-import io.joern.dataflowengineoss.queryengine.{EngineContext, EngineConfig}
+import io.joern.dataflowengineoss.queryengine.{EngineContext, EngineConfig, QueryDiagnostics}
 import io.shiftleft.codepropertygraph.generated.Cpg
 import io.shiftleft.codepropertygraph.generated.nodes.*
 import io.shiftleft.semanticcpg.language.*
@@ -69,9 +69,13 @@ private[dartsrc2cpg] object CorpusDataflow {
     require(probes.map(_("id").str).distinct.size == probes.size, "Duplicate probe IDs")
     semantics.initialize(cpg)
     val results = probes.map { probe =>
+      val diagnostics                     = new QueryDiagnostics
       implicit val context: EngineContext = EngineContext(
         semantics = semantics,
-        config = EngineConfig(maxCallDepth = probe.obj.get("maxCallDepth").map(_.num.toInt).getOrElse(4))
+        config = EngineConfig(
+          maxCallDepth = probe.obj.get("maxCallDepth").map(_.num.toInt).getOrElse(4),
+          diagnostics = Some(diagnostics)
+        )
       )
       println(s"Dart dataflow: ${probe("id").str}")
       val sources = select(cpg, probe("source"))
@@ -93,6 +97,7 @@ private[dartsrc2cpg] object CorpusDataflow {
         if (!endpointsValid) "invalid-endpoints"
         else if (!via) "missing-required-callee"
         else if (paths.nonEmpty) "flow-observed"
+        else if (diagnostics.limitations.nonEmpty) "inconclusive-query-limits"
         else "no-flow-observed-within-limits"
       ujson.Obj(
         "id"                     -> probe("id"),
@@ -104,7 +109,10 @@ private[dartsrc2cpg] object CorpusDataflow {
         "maxCallDepth"           -> context.config.maxCallDepth,
         "maxArgsToAllow"         -> context.config.maxArgsToAllow,
         "maxOutputArgsExpansion" -> context.config.maxOutputArgsExpansion,
-        "limitExhaustion"        -> "not-observable",
+        "limitations"            -> ujson.Arr.from(diagnostics.limitations.toSeq.sorted),
+        "searchComplete"         -> diagnostics.limitations.isEmpty,
+        "pathSelection"          -> "longest-per-endpoint-pair",
+        "alternativeRoutes"      -> "not-returned-by-engine",
         "witnessLimit"           -> witnessLimit.map(ujson.Num(_)).getOrElse(ujson.Null),
         "retainedWitnesses"      -> retained.size,
         "omittedWitnesses"       -> (paths.size - retained.size),

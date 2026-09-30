@@ -11,7 +11,7 @@
     "exporter": {
       "record": "header",
       "protocolVersion": 1,
-      "exporterVersion": "0.3.2",
+      "exporterVersion": "0.3.3",
       "analyzerVersion": "8.4.1",
       "sdkVersion": "3.9.2",
       "offsetEncoding": "utf-16",
@@ -23,8 +23,14 @@
       "definitionLimit": 20000,
       "aboveDefaultLimit": {}
     },
-    "reachingDefEdges": 13014,
+    "modelFiles": {
+      "async": "# Completer.completeError stores the error and stack trace in the completer.\n# It does not copy either argument into the other and has no return value.\n# Load these method names as regular expressions; declaration offsets may vary.\n\"dart:async/future[.]dart\\x23[0-9]+:METHOD:completeError\" 0 -> 0 1 -> 1 2 -> 2 1 -> 0 2 -> 0\n",
+      "worker_manager": "# Executor.execute stores the task and priority and returns its cancelable result.\n# The task's values do not change the priority argument. This does not model scheduling.\n# Tested against worker_manager 7.2.6; load the method name as a regular expression.\n\"package:worker_manager/src/scheduling/executor[.]dart\\x23[0-9]+:METHOD:execute\" 0 -> 0 1 -> 1 2 -> 2 1 -> 0 2 -> 0 1 -> -1\n",
+      "iterable": "# Dart SDK 3.9.2: lib/core/iterable.dart and lib/internal/iterable.dart.\n# Explicit element values with pure predicates/transforms and statically known callbacks.\n# Selection, lazy execution timing and callback side effects are outside this contract.\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:where\" 0 -> 0 1 -> 1 0 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:map\" 0 -> 0 1 -> 1 1 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:join\" 0 -> 0 1 -> 1 0 -> -1 1 -> -1\n"
+    },
+    "reachingDefEdges": 12692,
     "maxCallDepth": 4,
+    "pathSelection": "longest-per-endpoint-pair",
     "checks": [
       {
         "id": "normalize-fast-return",
@@ -36,9 +42,17 @@
         "modeledFlow": true,
         "modeledPassed": true,
         "viaSatisfied": true,
+        "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "flow-observed",
         "modeledOutcome": "flow-observed",
-        "semanticReview": "pending",
+        "limitations": {
+          "stock": [
+            "call-depth"
+          ],
+          "modeled": [
+            "call-depth"
+          ]
+        },
         "omittedWitnesses": {
           "stock": 0,
           "modeled": 0
@@ -54,9 +68,17 @@
         "modeledFlow": true,
         "modeledPassed": true,
         "viaSatisfied": true,
+        "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "flow-observed",
         "modeledOutcome": "flow-observed",
-        "semanticReview": "pending",
+        "limitations": {
+          "stock": [
+            "call-depth"
+          ],
+          "modeled": [
+            "call-depth"
+          ]
+        },
         "omittedWitnesses": {
           "stock": 0,
           "modeled": 0
@@ -72,9 +94,17 @@
         "modeledFlow": true,
         "modeledPassed": true,
         "viaSatisfied": true,
+        "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "flow-observed",
         "modeledOutcome": "flow-observed",
-        "semanticReview": "pending",
+        "limitations": {
+          "stock": [
+            "call-depth"
+          ],
+          "modeled": [
+            "call-depth"
+          ]
+        },
         "omittedWitnesses": {
           "stock": 0,
           "modeled": 0
@@ -90,16 +120,18 @@
         "modeledFlow": false,
         "modeledPassed": true,
         "viaSatisfied": true,
+        "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "no-flow-observed-within-limits",
         "modeledOutcome": "no-flow-observed-within-limits",
-        "semanticReview": "pending",
+        "limitations": {
+          "stock": [],
+          "modeled": []
+        },
         "omittedWitnesses": {
           "stock": 0,
           "modeled": 0
         },
-        "positiveControl": "set-extension-suffix",
-        "stockControlSatisfied": true,
-        "modeledControlSatisfied": true
+        "positiveControl": "set-extension-suffix"
       },
       {
         "id": "cross-file-basename",
@@ -111,9 +143,13 @@
         "modeledFlow": true,
         "modeledPassed": true,
         "viaSatisfied": true,
+        "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "flow-observed",
         "modeledOutcome": "flow-observed",
-        "semanticReview": "pending",
+        "limitations": {
+          "stock": [],
+          "modeled": []
+        },
         "omittedWitnesses": {
           "stock": 0,
           "modeled": 0
@@ -133,7 +169,7 @@
     "exporter": {
       "record": "header",
       "protocolVersion": 1,
-      "exporterVersion": "0.3.2",
+      "exporterVersion": "0.3.3",
       "analyzerVersion": "8.4.1",
       "sdkVersion": "3.9.2",
       "offsetEncoding": "utf-16",
@@ -145,8 +181,14 @@
       "definitionLimit": 20000,
       "aboveDefaultLimit": {}
     },
-    "reachingDefEdges": 33021,
+    "modelFiles": {
+      "async": "# Completer.completeError stores the error and stack trace in the completer.\n# It does not copy either argument into the other and has no return value.\n# Load these method names as regular expressions; declaration offsets may vary.\n\"dart:async/future[.]dart\\x23[0-9]+:METHOD:completeError\" 0 -> 0 1 -> 1 2 -> 2 1 -> 0 2 -> 0\n",
+      "worker_manager": "# Executor.execute stores the task and priority and returns its cancelable result.\n# The task's values do not change the priority argument. This does not model scheduling.\n# Tested against worker_manager 7.2.6; load the method name as a regular expression.\n\"package:worker_manager/src/scheduling/executor[.]dart\\x23[0-9]+:METHOD:execute\" 0 -> 0 1 -> 1 2 -> 2 1 -> 0 2 -> 0 1 -> -1\n",
+      "iterable": "# Dart SDK 3.9.2: lib/core/iterable.dart and lib/internal/iterable.dart.\n# Explicit element values with pure predicates/transforms and statically known callbacks.\n# Selection, lazy execution timing and callback side effects are outside this contract.\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:where\" 0 -> 0 1 -> 1 0 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:map\" 0 -> 0 1 -> 1 1 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:join\" 0 -> 0 1 -> 1 0 -> -1 1 -> -1\n"
+    },
+    "reachingDefEdges": 31839,
     "maxCallDepth": 4,
+    "pathSelection": "longest-per-endpoint-pair",
     "checks": [
       {
         "id": "identity",
@@ -158,9 +200,13 @@
         "modeledFlow": true,
         "modeledPassed": true,
         "viaSatisfied": true,
+        "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "flow-observed",
         "modeledOutcome": "flow-observed",
-        "semanticReview": "pending",
+        "limitations": {
+          "stock": [],
+          "modeled": []
+        },
         "omittedWitnesses": {
           "stock": 0,
           "modeled": 0
@@ -176,9 +222,13 @@
         "modeledFlow": true,
         "modeledPassed": true,
         "viaSatisfied": true,
+        "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "flow-observed",
         "modeledOutcome": "flow-observed",
-        "semanticReview": "pending",
+        "limitations": {
+          "stock": [],
+          "modeled": []
+        },
         "omittedWitnesses": {
           "stock": 0,
           "modeled": 0
@@ -194,16 +244,18 @@
         "modeledFlow": false,
         "modeledPassed": true,
         "viaSatisfied": true,
+        "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "no-flow-observed-within-limits",
         "modeledOutcome": "no-flow-observed-within-limits",
-        "semanticReview": "pending",
+        "limitations": {
+          "stock": [],
+          "modeled": []
+        },
         "omittedWitnesses": {
           "stock": 0,
           "modeled": 0
         },
-        "positiveControl": "search-list-not-key-control",
-        "stockControlSatisfied": true,
-        "modeledControlSatisfied": true
+        "positiveControl": "search-list-not-key-control"
       },
       {
         "id": "reverse-loop-element",
@@ -215,9 +267,13 @@
         "modeledFlow": true,
         "modeledPassed": true,
         "viaSatisfied": true,
+        "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "flow-observed",
         "modeledOutcome": "flow-observed",
-        "semanticReview": "pending",
+        "limitations": {
+          "stock": [],
+          "modeled": []
+        },
         "omittedWitnesses": {
           "stock": 0,
           "modeled": 0
@@ -233,16 +289,18 @@
         "modeledFlow": false,
         "modeledPassed": true,
         "viaSatisfied": true,
+        "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "no-flow-observed-within-limits",
         "modeledOutcome": "no-flow-observed-within-limits",
-        "semanticReview": "pending",
+        "limitations": {
+          "stock": [],
+          "modeled": []
+        },
         "omittedWitnesses": {
           "stock": 0,
           "modeled": 0
         },
-        "positiveControl": "constant-not-found-control",
-        "stockControlSatisfied": true,
-        "modeledControlSatisfied": true
+        "positiveControl": "constant-not-found-control"
       },
       {
         "id": "search-list-not-key-control",
@@ -254,9 +312,13 @@
         "modeledFlow": true,
         "modeledPassed": true,
         "viaSatisfied": true,
+        "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "flow-observed",
         "modeledOutcome": "flow-observed",
-        "semanticReview": "pending",
+        "limitations": {
+          "stock": [],
+          "modeled": []
+        },
         "omittedWitnesses": {
           "stock": 0,
           "modeled": 0
@@ -272,9 +334,13 @@
         "modeledFlow": true,
         "modeledPassed": true,
         "viaSatisfied": true,
+        "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "flow-observed",
         "modeledOutcome": "flow-observed",
-        "semanticReview": "pending",
+        "limitations": {
+          "stock": [],
+          "modeled": []
+        },
         "omittedWitnesses": {
           "stock": 0,
           "modeled": 0
@@ -294,7 +360,7 @@
     "exporter": {
       "record": "header",
       "protocolVersion": 1,
-      "exporterVersion": "0.3.2",
+      "exporterVersion": "0.3.3",
       "analyzerVersion": "8.4.1",
       "sdkVersion": "3.9.2",
       "offsetEncoding": "utf-16",
@@ -306,8 +372,14 @@
       "definitionLimit": 20000,
       "aboveDefaultLimit": {}
     },
-    "reachingDefEdges": 2826,
+    "modelFiles": {
+      "async": "# Completer.completeError stores the error and stack trace in the completer.\n# It does not copy either argument into the other and has no return value.\n# Load these method names as regular expressions; declaration offsets may vary.\n\"dart:async/future[.]dart\\x23[0-9]+:METHOD:completeError\" 0 -> 0 1 -> 1 2 -> 2 1 -> 0 2 -> 0\n",
+      "worker_manager": "# Executor.execute stores the task and priority and returns its cancelable result.\n# The task's values do not change the priority argument. This does not model scheduling.\n# Tested against worker_manager 7.2.6; load the method name as a regular expression.\n\"package:worker_manager/src/scheduling/executor[.]dart\\x23[0-9]+:METHOD:execute\" 0 -> 0 1 -> 1 2 -> 2 1 -> 0 2 -> 0 1 -> -1\n",
+      "iterable": "# Dart SDK 3.9.2: lib/core/iterable.dart and lib/internal/iterable.dart.\n# Explicit element values with pure predicates/transforms and statically known callbacks.\n# Selection, lazy execution timing and callback side effects are outside this contract.\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:where\" 0 -> 0 1 -> 1 0 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:map\" 0 -> 0 1 -> 1 1 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:join\" 0 -> 0 1 -> 1 0 -> -1 1 -> -1\n"
+    },
+    "reachingDefEdges": 2718,
     "maxCallDepth": 4,
+    "pathSelection": "longest-per-endpoint-pair",
     "checks": [
       {
         "id": "named-reason-to-reason",
@@ -319,9 +391,13 @@
         "modeledFlow": true,
         "modeledPassed": true,
         "viaSatisfied": true,
+        "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "flow-observed",
         "modeledOutcome": "flow-observed",
-        "semanticReview": "pending",
+        "limitations": {
+          "stock": [],
+          "modeled": []
+        },
         "omittedWitnesses": {
           "stock": 0,
           "modeled": 0
@@ -337,16 +413,18 @@
         "modeledFlow": false,
         "modeledPassed": true,
         "viaSatisfied": true,
+        "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "no-flow-observed-within-limits",
         "modeledOutcome": "no-flow-observed-within-limits",
-        "semanticReview": "pending",
+        "limitations": {
+          "stock": [],
+          "modeled": []
+        },
         "omittedWitnesses": {
           "stock": 0,
           "modeled": 0
         },
-        "positiveControl": "named-reason-to-reason",
-        "stockControlSatisfied": true,
-        "modeledControlSatisfied": true
+        "positiveControl": "named-reason-to-reason"
       },
       {
         "id": "named-parameterDefined-to-reason",
@@ -358,16 +436,18 @@
         "modeledFlow": false,
         "modeledPassed": true,
         "viaSatisfied": true,
+        "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "no-flow-observed-within-limits",
         "modeledOutcome": "no-flow-observed-within-limits",
-        "semanticReview": "pending",
+        "limitations": {
+          "stock": [],
+          "modeled": []
+        },
         "omittedWitnesses": {
           "stock": 0,
           "modeled": 0
         },
-        "positiveControl": "named-parameterDefined-to-parameterDefined",
-        "stockControlSatisfied": true,
-        "modeledControlSatisfied": true
+        "positiveControl": "named-parameterDefined-to-parameterDefined"
       },
       {
         "id": "named-parameterDefined-to-parameterDefined",
@@ -379,9 +459,13 @@
         "modeledFlow": true,
         "modeledPassed": true,
         "viaSatisfied": true,
+        "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "flow-observed",
         "modeledOutcome": "flow-observed",
-        "semanticReview": "pending",
+        "limitations": {
+          "stock": [],
+          "modeled": []
+        },
         "omittedWitnesses": {
           "stock": 0,
           "modeled": 0
@@ -397,16 +481,18 @@
         "modeledFlow": false,
         "modeledPassed": true,
         "viaSatisfied": true,
+        "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "no-flow-observed-within-limits",
         "modeledOutcome": "no-flow-observed-within-limits",
-        "semanticReview": "pending",
+        "limitations": {
+          "stock": [],
+          "modeled": []
+        },
         "omittedWitnesses": {
           "stock": 0,
           "modeled": 0
         },
-        "positiveControl": "constant-field-not-reason-control",
-        "stockControlSatisfied": true,
-        "modeledControlSatisfied": true
+        "positiveControl": "constant-field-not-reason-control"
       },
       {
         "id": "target-kind-displayString",
@@ -418,16 +504,18 @@
         "modeledFlow": false,
         "modeledPassed": true,
         "viaSatisfied": true,
+        "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "no-flow-observed-within-limits",
         "modeledOutcome": "no-flow-observed-within-limits",
-        "semanticReview": "pending",
+        "limitations": {
+          "stock": [],
+          "modeled": []
+        },
         "omittedWitnesses": {
           "stock": 0,
           "modeled": 0
         },
-        "positiveControl": "target-kind-displayString-control",
-        "stockControlSatisfied": true,
-        "modeledControlSatisfied": true
+        "positiveControl": "target-kind-displayString-control"
       },
       {
         "id": "target-kind-name",
@@ -439,9 +527,13 @@
         "modeledFlow": true,
         "modeledPassed": true,
         "viaSatisfied": true,
+        "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "flow-observed",
         "modeledOutcome": "flow-observed",
-        "semanticReview": "pending",
+        "limitations": {
+          "stock": [],
+          "modeled": []
+        },
         "omittedWitnesses": {
           "stock": 0,
           "modeled": 0
@@ -457,9 +549,13 @@
         "modeledFlow": true,
         "modeledPassed": true,
         "viaSatisfied": true,
+        "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "flow-observed",
         "modeledOutcome": "flow-observed",
-        "semanticReview": "pending",
+        "limitations": {
+          "stock": [],
+          "modeled": []
+        },
         "omittedWitnesses": {
           "stock": 0,
           "modeled": 0
@@ -475,9 +571,13 @@
         "modeledFlow": true,
         "modeledPassed": true,
         "viaSatisfied": true,
+        "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "flow-observed",
         "modeledOutcome": "flow-observed",
-        "semanticReview": "pending",
+        "limitations": {
+          "stock": [],
+          "modeled": []
+        },
         "omittedWitnesses": {
           "stock": 0,
           "modeled": 0
@@ -497,7 +597,7 @@
     "exporter": {
       "record": "header",
       "protocolVersion": 1,
-      "exporterVersion": "0.3.2",
+      "exporterVersion": "0.3.3",
       "analyzerVersion": "8.4.1",
       "sdkVersion": "3.9.2",
       "offsetEncoding": "utf-16",
@@ -509,8 +609,14 @@
       "definitionLimit": 20000,
       "aboveDefaultLimit": {}
     },
-    "reachingDefEdges": 13146,
+    "modelFiles": {
+      "async": "# Completer.completeError stores the error and stack trace in the completer.\n# It does not copy either argument into the other and has no return value.\n# Load these method names as regular expressions; declaration offsets may vary.\n\"dart:async/future[.]dart\\x23[0-9]+:METHOD:completeError\" 0 -> 0 1 -> 1 2 -> 2 1 -> 0 2 -> 0\n",
+      "worker_manager": "# Executor.execute stores the task and priority and returns its cancelable result.\n# The task's values do not change the priority argument. This does not model scheduling.\n# Tested against worker_manager 7.2.6; load the method name as a regular expression.\n\"package:worker_manager/src/scheduling/executor[.]dart\\x23[0-9]+:METHOD:execute\" 0 -> 0 1 -> 1 2 -> 2 1 -> 0 2 -> 0 1 -> -1\n",
+      "iterable": "# Dart SDK 3.9.2: lib/core/iterable.dart and lib/internal/iterable.dart.\n# Explicit element values with pure predicates/transforms and statically known callbacks.\n# Selection, lazy execution timing and callback side effects are outside this contract.\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:where\" 0 -> 0 1 -> 1 0 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:map\" 0 -> 0 1 -> 1 1 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:join\" 0 -> 0 1 -> 1 0 -> -1 1 -> -1\n"
+    },
+    "reachingDefEdges": 12750,
     "maxCallDepth": 4,
+    "pathSelection": "longest-per-endpoint-pair",
     "checks": [
       {
         "id": "option-value-return",
@@ -522,9 +628,17 @@
         "modeledFlow": true,
         "modeledPassed": true,
         "viaSatisfied": true,
+        "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "flow-observed",
         "modeledOutcome": "flow-observed",
-        "semanticReview": "pending",
+        "limitations": {
+          "stock": [
+            "call-depth"
+          ],
+          "modeled": [
+            "call-depth"
+          ]
+        },
         "omittedWitnesses": {
           "stock": 0,
           "modeled": 0
@@ -540,9 +654,13 @@
         "modeledFlow": true,
         "modeledPassed": true,
         "viaSatisfied": true,
+        "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "flow-observed",
         "modeledOutcome": "flow-observed",
-        "semanticReview": "pending",
+        "limitations": {
+          "stock": [],
+          "modeled": []
+        },
         "omittedWitnesses": {
           "stock": 0,
           "modeled": 0
@@ -558,16 +676,22 @@
         "modeledFlow": false,
         "modeledPassed": true,
         "viaSatisfied": true,
-        "stockOutcome": "no-flow-observed-within-limits",
-        "modeledOutcome": "no-flow-observed-within-limits",
-        "semanticReview": "pending",
+        "semanticReview": "see source review ledger; not path certification",
+        "stockOutcome": "inconclusive-query-limits",
+        "modeledOutcome": "inconclusive-query-limits",
+        "limitations": {
+          "stock": [
+            "call-depth"
+          ],
+          "modeled": [
+            "call-depth"
+          ]
+        },
         "omittedWitnesses": {
           "stock": 0,
           "modeled": 0
         },
-        "positiveControl": "option-value-return",
-        "stockControlSatisfied": true,
-        "modeledControlSatisfied": true
+        "positiveControl": "option-value-return"
       },
       {
         "id": "forwarded-constructor-name",
@@ -579,9 +703,17 @@
         "modeledFlow": true,
         "modeledPassed": true,
         "viaSatisfied": true,
+        "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "flow-observed",
         "modeledOutcome": "flow-observed",
-        "semanticReview": "pending",
+        "limitations": {
+          "stock": [
+            "call-depth"
+          ],
+          "modeled": [
+            "call-depth"
+          ]
+        },
         "omittedWitnesses": {
           "stock": 0,
           "modeled": 0
@@ -597,16 +729,22 @@
         "modeledFlow": false,
         "modeledPassed": true,
         "viaSatisfied": true,
-        "stockOutcome": "no-flow-observed-within-limits",
-        "modeledOutcome": "no-flow-observed-within-limits",
-        "semanticReview": "pending",
+        "semanticReview": "see source review ledger; not path certification",
+        "stockOutcome": "inconclusive-query-limits",
+        "modeledOutcome": "inconclusive-query-limits",
+        "limitations": {
+          "stock": [
+            "call-depth"
+          ],
+          "modeled": [
+            "call-depth"
+          ]
+        },
         "omittedWitnesses": {
           "stock": 0,
           "modeled": 0
         },
-        "positiveControl": "forwarded-constructor-parsed-control",
-        "stockControlSatisfied": true,
-        "modeledControlSatisfied": true
+        "positiveControl": "forwarded-constructor-parsed-control"
       },
       {
         "id": "forwarded-constructor-parsed-control",
@@ -618,9 +756,17 @@
         "modeledFlow": true,
         "modeledPassed": true,
         "viaSatisfied": true,
+        "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "flow-observed",
         "modeledOutcome": "flow-observed",
-        "semanticReview": "pending",
+        "limitations": {
+          "stock": [
+            "call-depth"
+          ],
+          "modeled": [
+            "call-depth"
+          ]
+        },
         "omittedWitnesses": {
           "stock": 0,
           "modeled": 0
@@ -640,7 +786,7 @@
     "exporter": {
       "record": "header",
       "protocolVersion": 1,
-      "exporterVersion": "0.3.2",
+      "exporterVersion": "0.3.3",
       "analyzerVersion": "8.4.1",
       "sdkVersion": "3.9.2",
       "offsetEncoding": "utf-16",
@@ -652,8 +798,14 @@
       "definitionLimit": 20000,
       "aboveDefaultLimit": {}
     },
-    "reachingDefEdges": 21110,
+    "modelFiles": {
+      "async": "# Completer.completeError stores the error and stack trace in the completer.\n# It does not copy either argument into the other and has no return value.\n# Load these method names as regular expressions; declaration offsets may vary.\n\"dart:async/future[.]dart\\x23[0-9]+:METHOD:completeError\" 0 -> 0 1 -> 1 2 -> 2 1 -> 0 2 -> 0\n",
+      "worker_manager": "# Executor.execute stores the task and priority and returns its cancelable result.\n# The task's values do not change the priority argument. This does not model scheduling.\n# Tested against worker_manager 7.2.6; load the method name as a regular expression.\n\"package:worker_manager/src/scheduling/executor[.]dart\\x23[0-9]+:METHOD:execute\" 0 -> 0 1 -> 1 2 -> 2 1 -> 0 2 -> 0 1 -> -1\n",
+      "iterable": "# Dart SDK 3.9.2: lib/core/iterable.dart and lib/internal/iterable.dart.\n# Explicit element values with pure predicates/transforms and statically known callbacks.\n# Selection, lazy execution timing and callback side effects are outside this contract.\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:where\" 0 -> 0 1 -> 1 0 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:map\" 0 -> 0 1 -> 1 1 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:join\" 0 -> 0 1 -> 1 0 -> -1 1 -> -1\n"
+    },
+    "reachingDefEdges": 20337,
     "maxCallDepth": 4,
+    "pathSelection": "longest-per-endpoint-pair",
     "checks": [
       {
         "id": "error-not-stacktrace",
@@ -665,16 +817,22 @@
         "modeledFlow": false,
         "modeledPassed": true,
         "viaSatisfied": true,
+        "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "flow-observed",
-        "modeledOutcome": "no-flow-observed-within-limits",
-        "semanticReview": "pending",
+        "modeledOutcome": "inconclusive-query-limits",
+        "limitations": {
+          "stock": [
+            "call-depth"
+          ],
+          "modeled": [
+            "call-depth"
+          ]
+        },
         "omittedWitnesses": {
           "stock": 0,
           "modeled": 0
         },
-        "positiveControl": "error-to-error-argument",
-        "stockControlSatisfied": true,
-        "modeledControlSatisfied": true
+        "positiveControl": "error-to-error-argument"
       },
       {
         "id": "error-to-error-argument",
@@ -686,9 +844,17 @@
         "modeledFlow": true,
         "modeledPassed": true,
         "viaSatisfied": true,
+        "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "flow-observed",
         "modeledOutcome": "flow-observed",
-        "semanticReview": "pending",
+        "limitations": {
+          "stock": [
+            "call-depth"
+          ],
+          "modeled": [
+            "call-depth"
+          ]
+        },
         "omittedWitnesses": {
           "stock": 0,
           "modeled": 0
@@ -704,9 +870,17 @@
         "modeledFlow": true,
         "modeledPassed": true,
         "viaSatisfied": true,
+        "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "flow-observed",
         "modeledOutcome": "flow-observed",
-        "semanticReview": "pending",
+        "limitations": {
+          "stock": [
+            "call-depth"
+          ],
+          "modeled": [
+            "call-depth"
+          ]
+        },
         "omittedWitnesses": {
           "stock": 0,
           "modeled": 0
@@ -722,9 +896,13 @@
         "modeledFlow": true,
         "modeledPassed": true,
         "viaSatisfied": true,
+        "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "flow-observed",
         "modeledOutcome": "flow-observed",
-        "semanticReview": "pending",
+        "limitations": {
+          "stock": [],
+          "modeled": []
+        },
         "omittedWitnesses": {
           "stock": 0,
           "modeled": 0
@@ -744,7 +922,7 @@
     "exporter": {
       "record": "header",
       "protocolVersion": 1,
-      "exporterVersion": "0.3.2",
+      "exporterVersion": "0.3.3",
       "analyzerVersion": "8.4.1",
       "sdkVersion": "3.9.2",
       "offsetEncoding": "utf-16",
@@ -756,8 +934,14 @@
       "definitionLimit": 20000,
       "aboveDefaultLimit": {}
     },
-    "reachingDefEdges": 7012,
+    "modelFiles": {
+      "async": "# Completer.completeError stores the error and stack trace in the completer.\n# It does not copy either argument into the other and has no return value.\n# Load these method names as regular expressions; declaration offsets may vary.\n\"dart:async/future[.]dart\\x23[0-9]+:METHOD:completeError\" 0 -> 0 1 -> 1 2 -> 2 1 -> 0 2 -> 0\n",
+      "worker_manager": "# Executor.execute stores the task and priority and returns its cancelable result.\n# The task's values do not change the priority argument. This does not model scheduling.\n# Tested against worker_manager 7.2.6; load the method name as a regular expression.\n\"package:worker_manager/src/scheduling/executor[.]dart\\x23[0-9]+:METHOD:execute\" 0 -> 0 1 -> 1 2 -> 2 1 -> 0 2 -> 0 1 -> -1\n",
+      "iterable": "# Dart SDK 3.9.2: lib/core/iterable.dart and lib/internal/iterable.dart.\n# Explicit element values with pure predicates/transforms and statically known callbacks.\n# Selection, lazy execution timing and callback side effects are outside this contract.\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:where\" 0 -> 0 1 -> 1 0 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:map\" 0 -> 0 1 -> 1 1 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:join\" 0 -> 0 1 -> 1 0 -> -1 1 -> -1\n"
+    },
+    "reachingDefEdges": 6787,
     "maxCallDepth": 4,
+    "pathSelection": "longest-per-endpoint-pair",
     "checks": [
       {
         "id": "chunk-interprocedural-copy",
@@ -769,9 +953,13 @@
         "modeledFlow": true,
         "modeledPassed": true,
         "viaSatisfied": true,
+        "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "flow-observed",
         "modeledOutcome": "flow-observed",
-        "semanticReview": "pending",
+        "limitations": {
+          "stock": [],
+          "modeled": []
+        },
         "omittedWitnesses": {
           "stock": 0,
           "modeled": 0
@@ -787,9 +975,13 @@
         "modeledFlow": true,
         "modeledPassed": true,
         "viaSatisfied": true,
+        "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "flow-observed",
         "modeledOutcome": "flow-observed",
-        "semanticReview": "pending",
+        "limitations": {
+          "stock": [],
+          "modeled": []
+        },
         "omittedWitnesses": {
           "stock": 0,
           "modeled": 0
@@ -805,16 +997,18 @@
         "modeledFlow": false,
         "modeledPassed": true,
         "viaSatisfied": true,
+        "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "no-flow-observed-within-limits",
         "modeledOutcome": "no-flow-observed-within-limits",
-        "semanticReview": "pending",
+        "limitations": {
+          "stock": [],
+          "modeled": []
+        },
         "omittedWitnesses": {
           "stock": 0,
           "modeled": 0
         },
-        "positiveControl": "chunk-return-buffer",
-        "stockControlSatisfied": true,
-        "modeledControlSatisfied": true
+        "positiveControl": "chunk-return-buffer"
       },
       {
         "id": "captured-media-type",
@@ -826,9 +1020,13 @@
         "modeledFlow": true,
         "modeledPassed": true,
         "viaSatisfied": true,
+        "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "flow-observed",
         "modeledOutcome": "flow-observed",
-        "semanticReview": "pending",
+        "limitations": {
+          "stock": [],
+          "modeled": []
+        },
         "omittedWitnesses": {
           "stock": 0,
           "modeled": 0
@@ -844,9 +1042,13 @@
         "modeledFlow": true,
         "modeledPassed": true,
         "viaSatisfied": true,
+        "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "flow-observed",
         "modeledOutcome": "flow-observed",
-        "semanticReview": "pending",
+        "limitations": {
+          "stock": [],
+          "modeled": []
+        },
         "omittedWitnesses": {
           "stock": 0,
           "modeled": 0
@@ -866,7 +1068,7 @@
     "exporter": {
       "record": "header",
       "protocolVersion": 1,
-      "exporterVersion": "0.3.2",
+      "exporterVersion": "0.3.3",
       "analyzerVersion": "8.4.1",
       "sdkVersion": "3.9.2",
       "offsetEncoding": "utf-16",
@@ -880,8 +1082,14 @@
         "package:analyzer/src/error/codes.g.dart#693:CLASS:CompileTimeErrorCode:<clinit>": 6675
       }
     },
-    "reachingDefEdges": 1582927,
+    "modelFiles": {
+      "async": "# Completer.completeError stores the error and stack trace in the completer.\n# It does not copy either argument into the other and has no return value.\n# Load these method names as regular expressions; declaration offsets may vary.\n\"dart:async/future[.]dart\\x23[0-9]+:METHOD:completeError\" 0 -> 0 1 -> 1 2 -> 2 1 -> 0 2 -> 0\n",
+      "worker_manager": "# Executor.execute stores the task and priority and returns its cancelable result.\n# The task's values do not change the priority argument. This does not model scheduling.\n# Tested against worker_manager 7.2.6; load the method name as a regular expression.\n\"package:worker_manager/src/scheduling/executor[.]dart\\x23[0-9]+:METHOD:execute\" 0 -> 0 1 -> 1 2 -> 2 1 -> 0 2 -> 0 1 -> -1\n",
+      "iterable": "# Dart SDK 3.9.2: lib/core/iterable.dart and lib/internal/iterable.dart.\n# Explicit element values with pure predicates/transforms and statically known callbacks.\n# Selection, lazy execution timing and callback side effects are outside this contract.\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:where\" 0 -> 0 1 -> 1 0 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:map\" 0 -> 0 1 -> 1 1 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:join\" 0 -> 0 1 -> 1 0 -> -1 1 -> -1\n"
+    },
+    "reachingDefEdges": 1537306,
     "maxCallDepth": 4,
+    "pathSelection": "longest-per-endpoint-pair",
     "checks": [
       {
         "id": "binary-byte-write",
@@ -893,9 +1101,17 @@
         "modeledFlow": true,
         "modeledPassed": true,
         "viaSatisfied": true,
+        "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "flow-observed",
         "modeledOutcome": "flow-observed",
-        "semanticReview": "pending",
+        "limitations": {
+          "stock": [
+            "call-depth"
+          ],
+          "modeled": [
+            "call-depth"
+          ]
+        },
         "omittedWitnesses": {
           "stock": 0,
           "modeled": 0
@@ -911,9 +1127,17 @@
         "modeledFlow": true,
         "modeledPassed": true,
         "viaSatisfied": true,
+        "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "flow-observed",
         "modeledOutcome": "flow-observed",
-        "semanticReview": "pending",
+        "limitations": {
+          "stock": [
+            "call-depth"
+          ],
+          "modeled": [
+            "call-depth"
+          ]
+        },
         "omittedWitnesses": {
           "stock": 0,
           "modeled": 0
@@ -929,16 +1153,18 @@
         "modeledFlow": false,
         "modeledPassed": true,
         "viaSatisfied": true,
+        "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "no-flow-observed-within-limits",
         "modeledOutcome": "no-flow-observed-within-limits",
-        "semanticReview": "pending",
+        "limitations": {
+          "stock": [],
+          "modeled": []
+        },
         "omittedWitnesses": {
           "stock": 0,
           "modeled": 0
         },
-        "positiveControl": "write-byte-not-reset-control",
-        "stockControlSatisfied": true,
-        "modeledControlSatisfied": true
+        "positiveControl": "write-byte-not-reset-control"
       },
       {
         "id": "list-element-callback",
@@ -950,9 +1176,17 @@
         "modeledFlow": true,
         "modeledPassed": true,
         "viaSatisfied": true,
+        "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "flow-observed",
         "modeledOutcome": "flow-observed",
-        "semanticReview": "pending",
+        "limitations": {
+          "stock": [
+            "call-depth"
+          ],
+          "modeled": [
+            "call-depth"
+          ]
+        },
         "omittedWitnesses": {
           "stock": 0,
           "modeled": 0
@@ -968,9 +1202,17 @@
         "modeledFlow": true,
         "modeledPassed": true,
         "viaSatisfied": true,
+        "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "flow-observed",
         "modeledOutcome": "flow-observed",
-        "semanticReview": "pending",
+        "limitations": {
+          "stock": [
+            "call-depth"
+          ],
+          "modeled": [
+            "call-depth"
+          ]
+        },
         "omittedWitnesses": {
           "stock": 0,
           "modeled": 0
@@ -986,9 +1228,17 @@
         "modeledFlow": true,
         "modeledPassed": true,
         "viaSatisfied": true,
+        "semanticReview": "see source review ledger; not path certification",
         "stockOutcome": "flow-observed",
         "modeledOutcome": "flow-observed",
-        "semanticReview": "pending",
+        "limitations": {
+          "stock": [
+            "call-depth"
+          ],
+          "modeled": [
+            "call-depth"
+          ]
+        },
         "omittedWitnesses": {
           "stock": 0,
           "modeled": 0

@@ -36,10 +36,8 @@
     "files": 45,
     "methods": 532,
     "calls": 3039,
-    "unknown": 5,
-    "unknownKinds": {
-      "GenericTypeAlias": 5
-    }
+    "unknown": 0,
+    "unknownKinds": {}
   },
   {
     "project": "http_parser-4.1.2",
@@ -54,9 +52,7 @@
     "files": 458,
     "methods": 21884,
     "calls": 198056,
-    "unknown": 66,
-    "unknownKinds": {
-      "GenericTypeAlias": 66
-    }
+    "unknown": 0,
+    "unknownKinds": {}
   }
 ]

@@ -1,0 +1,6 @@
+# Dart SDK 3.9.2: lib/core/iterable.dart and lib/internal/iterable.dart.
+# Explicit element values with pure predicates/transforms and statically known callbacks.
+# Selection, lazy execution timing and callback side effects are outside this contract.
+"dart:core/iterable[.]dart\x23[0-9]+:METHOD:where" 0 -> 0 1 -> 1 0 -> -1
+"dart:core/iterable[.]dart\x23[0-9]+:METHOD:map" 0 -> 0 1 -> 1 1 -> -1
+"dart:core/iterable[.]dart\x23[0-9]+:METHOD:join" 0 -> 0 1 -> 1 0 -> -1 1 -> -1

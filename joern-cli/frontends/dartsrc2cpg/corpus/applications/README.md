@@ -27,7 +27,7 @@ Generated translations account for many methods; totals are not claims about
 handwritten method counts. The 25 UNKNOWN nodes are type aliases, with no omitted
 executable bodies.
 
-Use Dart 3.9.2, the rebuilt exporter 0.3.2, JDK 21, Flutter 3.35.3 for Saber and
+Use Dart 3.9.2, the rebuilt exporter 0.3.3, JDK 21, Flutter 3.35.3 for Saber and
 `protoc` 36.1. The preparation script fetches LocalSend's pinned Flutter 3.24.5
 framework and engine Dart sources; Pub and analysis run with Dart 3.9.2. No native
 Flutter engine is executed. The script generates Sass's three missing protobuf

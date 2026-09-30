@@ -12,9 +12,13 @@ it does not prove completeness of the negative query's search.
 limit records retained and omitted counts. This does not remove engine search
 limits. Each result records call depth, argument expansion limits, endpoint
 selectors, node labels and IDs. Node IDs apply only to the recorded graph.
-`limitExhaustion: not-observable` records a shared-engine API limitation: the
-query result does not report whether its search was cut short. An empty result
-is therefore `no-flow-observed-within-limits`, not proof of semantic absence.
+The shared engine now exposes per-query discarded-work reasons: call depth,
+parameter/argument expansion, output-argument expansion and failed tasks. Empty
+results with any recorded limitation are `inconclusive-query-limits`; other empty
+results remain `no-flow-observed-within-limits`, not proof of semantic absence.
+`searchComplete` only means no such discarded work was observed. The engine
+selects the longest witness per endpoint pair before returning results, so
+retaining every returned path still does not expose all alternative routes.
 Missing controls make a negative result inconclusive and fail the regression.
 The harness requires the dataflow overlay and keeps semantic review `pending`.
 
@@ -27,7 +31,8 @@ model results remain separate. Full reports are generated under
 ## DART-FLOW-001: predicate result enters collection value flow
 
 Owner: shared dataflow query engine and future Dart iterable models.
-Disposition: reproduced, known approximation; not fixed.
+Disposition: reproduced stock approximation; optional pure-iterable model has
+positive/negative controls. Arbitrary callback side effects remain outside it.
 
 The [complete reviewed witness](certificate-witness-review.json) preserves all
 36 displayed nodes and classifies all 35 transitions for LocalSend's
@@ -56,8 +61,10 @@ callback-to-result summary cannot provide that contract.
 
 ## Further witness findings requiring reduced regressions
 
-These were observed in the full reports; they are triage findings, not completed
-source/transition reviews. Ownership starts with shared query-engine call-site
+The [source review ledger](semantic-reviews.json) records all 75 expectations,
+source hashes, relevant conditions and endpoint dispositions. It preserves the
+historical exporter 0.3.2 witnesses for comparison; it does not certify each hop.
+These findings still require reduced reproductions and transition qualification. Ownership starts with shared query-engine call-site
 and external-call behavior, pending reduced reproduction.
 
 | Issue | Probe | Observed route requiring review |
@@ -80,3 +87,17 @@ two runtime oracle tests. Across 75 corpus expectations, stock semantics matched
 73 and optional models matched 75; the two pre-existing stock false positives
 remain. Every negative's positive control passed in both model sets.
 These are endpoint results, not 75 semantic correctness certifications.
+
+## Exporter 0.3.3 validation
+
+All 74 frontend/runner/package checks, three application checks, two holdout
+checks and 24 Dart tests passed on Linux with Dart 3.9.2. Dart analysis is clean.
+The original 75 endpoint expectations remain 73/75 stock and 75/75 modeled;
+the holdout adds four separately reported checks, all matched in both modes.
+
+The [new modeled certificate witness](certificate-modeled-review.json) contains
+14 nodes and 13 classified transitions. It follows element values without the
+boolean predicate detour and records no discarded-work limitation. External
+string/byte transformations still rely on summaries. Other queries do record
+depth exhaustion, including negative probes; their endpoint match does not
+remove the `inconclusive-query-limits` disposition.

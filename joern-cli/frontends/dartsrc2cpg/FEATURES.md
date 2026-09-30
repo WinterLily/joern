@@ -1,6 +1,6 @@
 # Dart and Flutter feature matrix
 
-Tested with Dart 3.9.2, analyzer 8.4.1, exporter 0.3.2 and Flutter 3.35.3
+Tested with Dart 3.9.2, analyzer 8.4.1, exporter 0.3.3 and Flutter 3.35.3
 (framework revision `a402d9a437`). “Parsed” means explicit exporter nodes rather
 than UNKNOWN. Resolution uses existing package configuration and SDK resources.
 Dataflow claims below refer to the OSS engine with default semantics, not Dart
@@ -14,7 +14,7 @@ execution or exhaustive language conformance.
 | List/map/object/rest patterns | Yes | Shape predicates, index/field/getter extraction, rest operator | Object getter targets and bound locals | Structural only; no complete shape, heap or rest-slice semantics |
 | Constant/relational/logical/typed/null/cast patterns | Yes | Short-circuit predicates, casts and null checks/assertions | Analyzer types and references | Scalar binding flow; no path-sensitive match feasibility claim |
 | If-case, guarded switch cases, switch expressions | Yes | Ordered tests, guard short-circuiting, result assignments, switch break boundary | Guard/body references | Positive scalar switch result and negative constant result |
-| Mixins | Yes | TYPE_DECLs, inherited type identities, methods | Mixed-in method targets | Structural/resolution only |
+| Mixins | Yes | TYPE_DECLs, inherited type identities, methods | Mixed-in method targets and forwarding application constructors | Constructor argument to superclass field; mixin dispatch |
 | Extensions | Yes | TYPE_DECL owner, receiver at index 0, static target, explicit overrides | Implicit and explicit extension calls | Structural/resolution only |
 | Extension types | Yes | TYPE_DECL, representation MEMBER and primary constructor assignment | Primary constructor and member targets | Structural/resolution only; runtime erasure is not simulated |
 | Class modifiers | Yes | Source plus `dart.*` annotations; ABSTRACT/FINAL where applicable | Analyzer checks validity | Not a dataflow feature |
@@ -23,7 +23,7 @@ execution or exhaustive language conformance.
 | Sync/async generators, yield/yield*, await-for | Yes | Generator annotation, yield operators, stream iterator with awaited moveNext | Source types and calls | Structural only; no producer-to-consumer stream flow claim |
 | Workspaces and multiple packages | Yes | Existing sources across package contexts | Package configuration, cross-package calls, single-file export context | Cross-package and generated-part forwarding |
 | Language versions | Yes | Effective version exported per unit; diagnostics retained | Package version and `// @dart` override; disabled-feature error | Not a dataflow feature |
-| Conditional imports/exports | Yes | Original code plus selected URI | Analyzer default environment, fallback target | Selected package implementation only |
+| Conditional imports/exports | Yes | Original code plus selected URI | Explicit VM/web SDK environments and analyzer default, selected target | Distinct selected implementation flows and constant alternatives |
 | Existing generated sources | Yes | Included normally, with shared part library | Generated part call target | Forwarding through an existing `.g.dart` |
 | Flutter widgets and callbacks | Yes | Constructor arguments, METHOD_REFs, captured locals | Real Flutter SDK constructors and `dart:ui` | Callback body dependency and constant negative; no event delivery claim |
 
@@ -33,9 +33,15 @@ identities, package context and deterministic export. Flutter tests are opt-in
 and fail if their prepared package configuration is missing; see the fixture's
 [preparation and query assertions](src/test/resources/flutter/README.md).
 
-Unsupported syntax still produces diagnostics and UNKNOWN nodes. For example,
-generic type aliases retain UNKNOWN declarations. Named switch
-labels/continue-to-case, exact pattern failure exceptions, general higher-order
+Generic and legacy function aliases are TYPE_DECLs with aliased types; type
+literals are TYPE_REFs. Named switch labels and continue-to-case retain their
+CFG targets, including jumps past a target pattern guard. Null-aware collection
+elements and map keys/values have explicit guards and evaluation-order tests.
+The [pinned inventory](conformance/inventory.json) classifies the analyzer AST
+surface separately from semantic qualification.
+
+Unsupported syntax still produces diagnostics and UNKNOWN nodes. Exact pattern
+failure exceptions, general higher-order
 callback dispatch, stream scheduling and precise exception routing are not
 established by these tests. Future syntax accepted by the analyzer is not
 implicitly supported. See [runtime summary requirements](RUNTIME_SUMMARIES.md).
