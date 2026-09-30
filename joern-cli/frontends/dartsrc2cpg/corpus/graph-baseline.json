@@ -2,8 +2,8 @@
   {
     "project": "path-1.9.1",
     "files": 13,
-    "methods": 191,
-    "calls": 1754,
+    "methods": 199,
+    "calls": 1818,
     "unknown": 0,
     "unknownKinds": {}
   },
@@ -26,8 +26,8 @@
   {
     "project": "args-2.7.0",
     "files": 12,
-    "methods": 155,
-    "calls": 1960,
+    "methods": 156,
+    "calls": 1968,
     "unknown": 0,
     "unknownKinds": {}
   },
@@ -42,16 +42,16 @@
   {
     "project": "http_parser-4.1.2",
     "files": 11,
-    "methods": 66,
-    "calls": 914,
+    "methods": 78,
+    "calls": 1010,
     "unknown": 0,
     "unknownKinds": {}
   },
   {
     "project": "analyzer-8.4.1",
     "files": 458,
-    "methods": 22221,
-    "calls": 201681,
+    "methods": 22556,
+    "calls": 204082,
     "unknown": 0,
     "unknownKinds": {}
   }

@@ -72,6 +72,39 @@ void choose(Object value) {
     expect(bindings[0], isNot(bindings[2]));
   });
 
+  test(
+    'export static lazy accessors separately from constant storage',
+    () async {
+      write('main.dart', """
+String build() => 'value';
+final String deferred = build();
+const String fixed = 'constant';
+class Store { static String value = build(); }
+""");
+      final unit = units(await export()).single;
+      expect(unit['status'], 'resolved');
+      final symbols = entries(unit, 'symbols');
+      final deferred = symbols.singleWhere(
+        (s) => s['kind'] == 'TOP_LEVEL_VARIABLE' && s['name'] == 'deferred',
+      );
+      expect(deferred['const'], isFalse);
+      expect(deferred['late'], isFalse);
+      expect(deferred['getter'], contains('GETTER:deferred'));
+      expect(deferred['setter'], isNull);
+      final field = symbols.singleWhere(
+        (s) => s['kind'] == 'FIELD' && s['name'] == 'value',
+      );
+      expect(field['getter'], contains('GETTER:value'));
+      expect(field['setter'], contains('SETTER:value'));
+      expect(
+        symbols.singleWhere(
+          (s) => s['kind'] == 'TOP_LEVEL_VARIABLE' && s['name'] == 'fixed',
+        )['const'],
+        isTrue,
+      );
+    },
+  );
+
   test('retain late storage and synthetic accessor identities', () async {
     write('main.dart', """
 class Box { late final int? initialized = null; late final int assigned; }

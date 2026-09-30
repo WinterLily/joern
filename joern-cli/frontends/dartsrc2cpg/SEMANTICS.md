@@ -34,9 +34,10 @@ reads have a tracked receiver. Initializing formals and field
 initializers assign fields in constructor bodies. Redirecting constructors call
 their targets; redirecting factories forward parameters by position/name and
 return the target creation. Super formals bind to exported superclass parameters.
-Implicit constructors and super calls are included. Static and top-level field
-initializers live in `<clinit>` methods. Dart's lazy initialization timing is not
-modeled by scheduling these methods at particular reads.
+Implicit constructors and super calls are included. Non-constant static and
+top-level initializers live in guarded getters, invoked at reads. Constant
+storage remains in `<clinit>` methods; compile-time constant evaluation itself
+is delegated to the analyzer and is not re-executed by the graph.
 
 Function values and tear-offs use METHOD_REF nodes. Function-value invocation
 evaluates its target as a RECEIVER child with argument index -1, without an
@@ -198,7 +199,7 @@ Part files have distinct top-level initializer identities; parsed fallback types
 use file/offset identities when declarations are unavailable. External function
 tear-offs receive method stubs even without a direct CALL site.
 
-## Late initialization
+## Lazy and late initialization
 
 Late fields and top-level variables use analyzer-identified getter/setter methods.
 Initializers live in getters rather than constructors or eager initialization
@@ -217,8 +218,13 @@ OSS engine does not prove initialization predicates or invocation counts.
 The executable oracle covers null caching, separate objects, failed-initializer
 retry, write-before-read and local capture timing. See Dart's
 [late variable semantics](https://dart.dev/language/variables#late-variables).
-Non-late static/top-level initializer timing remains a separate qualification
-obligation; the existing `<clinit>` representation is retained for those variables.
+Ordinary non-constant static/top-level variables use the same guarded storage
+mechanism. A write before the first read skips initialization. Failed initializers
+can be retried; successful values, including null, are cached. Reentrant final
+initialization checks for an intervening write and throws; mutable initialization
+can replace an inner value. `lazy_static_evaluation_test.dart` exercises these
+cases. Initialization order follows represented reads, with the same shared
+engine limitations on state predicates and recursive execution.
 
 ## Exception exits and cleanup
 
@@ -245,3 +251,8 @@ locals. Logical-or alternatives inside one pattern share their join identity.
 The pinned SDK guard-capture oracle checks which closures observe subsequent
 writes; CPG regressions check separate capture identities and the grouped CFG.
 Callback-container execution and path feasibility remain conservative.
+
+Explicit catch-body edges also exclude those blocks from legacy finally-position
+fallbacks. Multiple catches without cleanup therefore keep their returns directed
+to method exit; a second catch cannot become a spurious finally or return cycle.
+This has a shared CFG reproducer and a Dart return-flow regression.

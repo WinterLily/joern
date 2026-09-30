@@ -77,6 +77,44 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
   }
 
   "Dart frontend" should {
+    "preserve returns through multiple catches without inventing a finally" in {
+      fixture(
+        "String relay(String value) { try { return value; } on FormatException { return 'format'; } catch (error) { return 'other'; } }",
+        "void main(List<String> args) { final input = args[0]; sink(relay(input)); }"
+      ) { (cpg, _) =>
+        val method = cpg.method.nameExact("relay").head
+        method.ast.isReturn.foreach { ret =>
+          ret.out(io.shiftleft.codepropertygraph.generated.EdgeTypes.CFG).toSet shouldBe Set(method.methodReturn)
+        }
+        assertFlow(cpg, true)
+      }
+    }
+    "defer ordinary static and top-level initialization until a getter is read" in {
+      fixture(
+        """String initialize() => 'value';
+          |String global = initialize();
+          |final String immutable = initialize();
+          |class Lazy { static String field = initialize(); static final String fixed = initialize(); }
+          |""".stripMargin,
+        "void main() { global = 'assigned'; Lazy.field = 'assigned'; sink(global); sink(immutable); sink(Lazy.field); sink(Lazy.fixed); }"
+      ) { (cpg, _) =>
+        cpg.call.nameExact("initialize").size shouldBe 4
+        cpg.method.fullName(".*:GETTER:immutable").call.nameExact("<operator>.isInitialized").size shouldBe 2
+        cpg.method.fullName(".*:GETTER:global").call.nameExact("<operator>.isInitialized").size shouldBe 1
+        cpg.call.nameExact("initialize").method.fullName.l.foreach(_ should include("GETTER"))
+        cpg.method.nameExact("<clinit>").call.nameExact("initialize").size shouldBe 0
+        val setters = cpg.method.isExternal(false).fullName(".*:SETTER:.*").l
+        setters.size shouldBe 2
+        setters.foreach { method =>
+          method.call.nameExact("initialize", "<operator>.isInitialized").size shouldBe 0
+        }
+        cpg.call
+          .nameExact("sink")
+          .argument
+          .reachableByFlows(cpg.method.nameExact("initialize").ast.isLiteral)
+          .nonEmpty shouldBe true
+      }
+    }
     "lower the selected SDK collection and late-field cases without executable holes" in {
       val upstream = frontend.resolve("conformance/upstream")
       for (name <- Seq("null_aware_evaluation.dart", "late_field_initializers.dart")) {
@@ -1059,7 +1097,7 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         "void main() { final box = Box(); box.write = 'updated'; sink(box.read); }",
         dataflow = false
       ) { (cpg, _) =>
-        cpg.method.nameExact("<clinit>").literal.code.l should contain("'global'")
+        cpg.method.fullName(".*:GETTER:global").literal.code.l should contain("'global'")
         cpg.method.nameExact("<init>").isExternal(false).literal.code.l should contain("'initial'")
         cpg.call.nameExact("write").callee.isExternal.l shouldBe List(false)
         cpg.call.nameExact("write").argument(1).isIdentifier.refsTo.size shouldBe 1
@@ -1578,7 +1616,7 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         scan(config.copy(report = report.toString))
         val coverage = ujson.read(Files.readString(report))
         coverage("includedFiles").num shouldBe 0
-        coverage("exporter")("exporterVersion").str shouldBe "0.3.7"
+        coverage("exporter")("exporterVersion").str shouldBe "0.3.8"
         coverage("exporter")("sdkVersion").str shouldBe "3.9.2"
         coverage("exporter")("analyzerVersion").str shouldBe "8.4.1"
         Files.writeString(dir.resolve("excluded.dart"), "void excluded() {}")
@@ -1596,7 +1634,7 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         "offsetEncoding"  -> "utf-16",
         "analyzerVersion" -> "8.4.1",
         "sdkVersion"      -> "3.9.2",
-        "exporterVersion" -> "0.3.7"
+        "exporterVersion" -> "0.3.8"
       )
       intercept[IllegalArgumentException](ExportProtocol.units(Seq(valid)))
       intercept[IllegalArgumentException](

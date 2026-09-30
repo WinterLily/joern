@@ -11,14 +11,14 @@
     "exporter": {
       "record": "header",
       "protocolVersion": 1,
-      "exporterVersion": "0.3.7",
+      "exporterVersion": "0.3.8",
       "analyzerVersion": "8.4.1",
       "sdkVersion": "3.9.2",
       "offsetEncoding": "utf-16",
       "conditionalEnvironment": "analyzer-default"
     },
     "overlay": {
-      "methods": 191,
+      "methods": 199,
       "maxDefinitions": 322,
       "definitionLimit": 20000,
       "aboveDefaultLimit": {}
@@ -28,7 +28,7 @@
       "worker_manager": "# Executor.execute stores the task and priority and returns its cancelable result.\n# The task's values do not change the priority argument. This does not model scheduling.\n# Tested against worker_manager 7.2.6; load the method name as a regular expression.\n\"package:worker_manager/src/scheduling/executor[.]dart\\x23[0-9]+:METHOD:execute\" 0 -> 0 1 -> 1 2 -> 2 1 -> 0 2 -> 0 1 -> -1\n",
       "iterable": "# Dart SDK 3.9.2: lib/core/iterable.dart and lib/internal/iterable.dart.\n# Explicit element values with pure predicates/transforms and statically known callbacks.\n# Selection, lazy execution timing and callback side effects are outside this contract.\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:where\" 0 -> 0 1 -> 1 0 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:map\" 0 -> 0 1 -> 1 1 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:join\" 0 -> 0 1 -> 1 0 -> -1 1 -> -1\n"
     },
-    "reachingDefEdges": 12662,
+    "reachingDefEdges": 12840,
     "maxCallDepth": 4,
     "pathSelection": "longest-per-endpoint-pair",
     "checks": [
@@ -169,7 +169,7 @@
     "exporter": {
       "record": "header",
       "protocolVersion": 1,
-      "exporterVersion": "0.3.7",
+      "exporterVersion": "0.3.8",
       "analyzerVersion": "8.4.1",
       "sdkVersion": "3.9.2",
       "offsetEncoding": "utf-16",
@@ -360,7 +360,7 @@
     "exporter": {
       "record": "header",
       "protocolVersion": 1,
-      "exporterVersion": "0.3.7",
+      "exporterVersion": "0.3.8",
       "analyzerVersion": "8.4.1",
       "sdkVersion": "3.9.2",
       "offsetEncoding": "utf-16",
@@ -597,14 +597,14 @@
     "exporter": {
       "record": "header",
       "protocolVersion": 1,
-      "exporterVersion": "0.3.7",
+      "exporterVersion": "0.3.8",
       "analyzerVersion": "8.4.1",
       "sdkVersion": "3.9.2",
       "offsetEncoding": "utf-16",
       "conditionalEnvironment": "analyzer-default"
     },
     "overlay": {
-      "methods": 155,
+      "methods": 156,
       "maxDefinitions": 173,
       "definitionLimit": 20000,
       "aboveDefaultLimit": {}
@@ -614,7 +614,7 @@
       "worker_manager": "# Executor.execute stores the task and priority and returns its cancelable result.\n# The task's values do not change the priority argument. This does not model scheduling.\n# Tested against worker_manager 7.2.6; load the method name as a regular expression.\n\"package:worker_manager/src/scheduling/executor[.]dart\\x23[0-9]+:METHOD:execute\" 0 -> 0 1 -> 1 2 -> 2 1 -> 0 2 -> 0 1 -> -1\n",
       "iterable": "# Dart SDK 3.9.2: lib/core/iterable.dart and lib/internal/iterable.dart.\n# Explicit element values with pure predicates/transforms and statically known callbacks.\n# Selection, lazy execution timing and callback side effects are outside this contract.\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:where\" 0 -> 0 1 -> 1 0 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:map\" 0 -> 0 1 -> 1 1 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:join\" 0 -> 0 1 -> 1 0 -> -1 1 -> -1\n"
     },
-    "reachingDefEdges": 13178,
+    "reachingDefEdges": 13200,
     "maxCallDepth": 4,
     "pathSelection": "longest-per-endpoint-pair",
     "checks": [
@@ -786,7 +786,7 @@
     "exporter": {
       "record": "header",
       "protocolVersion": 1,
-      "exporterVersion": "0.3.7",
+      "exporterVersion": "0.3.8",
       "analyzerVersion": "8.4.1",
       "sdkVersion": "3.9.2",
       "offsetEncoding": "utf-16",
@@ -922,14 +922,14 @@
     "exporter": {
       "record": "header",
       "protocolVersion": 1,
-      "exporterVersion": "0.3.7",
+      "exporterVersion": "0.3.8",
       "analyzerVersion": "8.4.1",
       "sdkVersion": "3.9.2",
       "offsetEncoding": "utf-16",
       "conditionalEnvironment": "analyzer-default"
     },
     "overlay": {
-      "methods": 66,
+      "methods": 78,
       "maxDefinitions": 153,
       "definitionLimit": 20000,
       "aboveDefaultLimit": {}
@@ -939,7 +939,7 @@
       "worker_manager": "# Executor.execute stores the task and priority and returns its cancelable result.\n# The task's values do not change the priority argument. This does not model scheduling.\n# Tested against worker_manager 7.2.6; load the method name as a regular expression.\n\"package:worker_manager/src/scheduling/executor[.]dart\\x23[0-9]+:METHOD:execute\" 0 -> 0 1 -> 1 2 -> 2 1 -> 0 2 -> 0 1 -> -1\n",
       "iterable": "# Dart SDK 3.9.2: lib/core/iterable.dart and lib/internal/iterable.dart.\n# Explicit element values with pure predicates/transforms and statically known callbacks.\n# Selection, lazy execution timing and callback side effects are outside this contract.\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:where\" 0 -> 0 1 -> 1 0 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:map\" 0 -> 0 1 -> 1 1 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:join\" 0 -> 0 1 -> 1 0 -> -1 1 -> -1\n"
     },
-    "reachingDefEdges": 6768,
+    "reachingDefEdges": 6900,
     "maxCallDepth": 4,
     "pathSelection": "longest-per-endpoint-pair",
     "checks": [
@@ -1068,14 +1068,14 @@
     "exporter": {
       "record": "header",
       "protocolVersion": 1,
-      "exporterVersion": "0.3.7",
+      "exporterVersion": "0.3.8",
       "analyzerVersion": "8.4.1",
       "sdkVersion": "3.9.2",
       "offsetEncoding": "utf-16",
       "conditionalEnvironment": "analyzer-default"
     },
     "overlay": {
-      "methods": 22221,
+      "methods": 22556,
       "maxDefinitions": 6675,
       "definitionLimit": 20000,
       "aboveDefaultLimit": {
@@ -1087,7 +1087,7 @@
       "worker_manager": "# Executor.execute stores the task and priority and returns its cancelable result.\n# The task's values do not change the priority argument. This does not model scheduling.\n# Tested against worker_manager 7.2.6; load the method name as a regular expression.\n\"package:worker_manager/src/scheduling/executor[.]dart\\x23[0-9]+:METHOD:execute\" 0 -> 0 1 -> 1 2 -> 2 1 -> 0 2 -> 0 1 -> -1\n",
       "iterable": "# Dart SDK 3.9.2: lib/core/iterable.dart and lib/internal/iterable.dart.\n# Explicit element values with pure predicates/transforms and statically known callbacks.\n# Selection, lazy execution timing and callback side effects are outside this contract.\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:where\" 0 -> 0 1 -> 1 0 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:map\" 0 -> 0 1 -> 1 1 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:join\" 0 -> 0 1 -> 1 0 -> -1 1 -> -1\n"
     },
-    "reachingDefEdges": 1578653,
+    "reachingDefEdges": 1531066,
     "maxCallDepth": 4,
     "pathSelection": "longest-per-endpoint-pair",
     "checks": [

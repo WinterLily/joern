@@ -37,7 +37,7 @@ class ExporterRunnerTests extends AnyWordSpec with Matchers {
       val header = ujson.Obj(
         "record"          -> "header",
         "protocolVersion" -> 1,
-        "exporterVersion" -> "0.3.7",
+        "exporterVersion" -> "0.3.8",
         "sdkVersion"      -> "3.9.2",
         "analyzerVersion" -> "8.4.1",
         "offsetEncoding"  -> "utf-16"
@@ -50,7 +50,7 @@ class ExporterRunnerTests extends AnyWordSpec with Matchers {
       intercept[IllegalArgumentException](ExporterRunner.parse(stream(header)))
       header("exporterVersion") = "999"
       intercept[IllegalArgumentException](ExporterRunner.parse(stream(header, summary)))
-      header("exporterVersion") = "0.3.7"
+      header("exporterVersion") = "0.3.8"
       val unit = ujson.Obj("record" -> "unit", "file" -> "../outside.dart")
       summary("files") = 1
       intercept[IllegalArgumentException](

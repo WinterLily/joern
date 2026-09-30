@@ -7,7 +7,7 @@ unsupported protocol versions, and unsupported analyzer/exporter versions before
 constructing a graph. The Scala consumer validates the protocol, analyzer, SDK and offset encoding
 before constructing a graph. Exporter 0.3 adds modern-language fields to protocol 1.
 
-The header declares `protocolVersion` (1), `exporterVersion` (0.3.7),
+The header declares `protocolVersion` (1), `exporterVersion` (0.3.8),
 `analyzerVersion` (8.4.1), `sdkVersion` (3.9.2), and `offsetEncoding` (`utf-16`).
 No timestamps or checkout root are emitted. The exporter builds records one file
 at a time; the analyzer may retain project state internally.
@@ -164,3 +164,8 @@ identity to its body `target`; copies happen only after the guard succeeds.
 Logical-or joins within a single pattern still canonicalize their branches.
 Joined pattern identities use their own fragment offset and a join discriminator, so separate patterns
 with the same variable name in one function cannot collide.
+
+Exporter 0.3.8 records `const` independently of `final` and exports accessor
+identities for non-constant static/top-level variables as well as late fields.
+The consumer places non-constant static initializers in guarded getters; constant
+initialization remains structural compile-time storage.

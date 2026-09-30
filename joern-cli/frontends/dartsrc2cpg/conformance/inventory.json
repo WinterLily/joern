@@ -60,6 +60,15 @@
       "valueFlow": "DartFrontendTests: preserve positive and negative flow through switch expression bindings",
       "negative": "separate captured guard locals and body storage; pattern mismatch/path feasibility remain conservative",
       "interaction": "astgen/test/upstream_conformance_test.dart: pinned SDK guard_capture runtime oracle"
+    },
+    "initialization": {
+      "exporter": "astgen/test/exporter_test.dart: retain late storage and synthetic accessor identities; export static lazy accessors separately from constant storage",
+      "lowering": "DartFrontendTests: defer ordinary static and top-level initialization until a getter is read; late-local and late-field regressions",
+      "resolution": "analyzer getter/setter identities and separate const/final/late flags",
+      "cfg": "guarded first reads; writes skip initial reads; final reentrant error branches",
+      "valueFlow": "DartFrontendTests: initializer return through guarded getter; late local capture flow",
+      "negative": "DartFrontendTests: setters contain no initializer calls or initialization reads",
+      "interaction": "astgen/test/lazy_static_evaluation_test.dart; late_evaluation_test.dart; upstream late-field oracle"
     }
   },
   "constructs": [
@@ -1499,5 +1508,6 @@
       "limitation": "Shared cleanup joins pending exits conservatively; exact catch-type selection and path feasibility are not established."
     }
   },
-  "upstreamCases": "upstream/manifest.json"
+  "upstreamCases": "upstream/manifest.json",
+  "initializationContract": "initialization"
 }

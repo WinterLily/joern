@@ -11,7 +11,9 @@ covered. Nested collection loops now accumulate element values with explicit
 list/set/map updates and bounded execution traces. Semantic and lifecycle
 qualification obligations remain open. Selected SDK conformance cases now expose
 and cover separate shared-case guard/body captures and distinct logical-or joins;
-metamorphic pairs and targeted mutations check the graph contracts. The frontend is an
+metamorphic pairs and targeted mutations check the graph contracts. Ordinary
+static/top-level initialization now uses guarded getters with write-before-read,
+retry and reentrant-final execution checks. The frontend is an
 initial implementation, not complete language or runtime analysis support.
 This plan supersedes the completion assumptions in the original implementation
 plan in `agents/plan.md`; it does not mark the remaining work as done.
@@ -42,8 +44,8 @@ as complete Dart dataflow coverage.
 ## Current evidence and its limits
 
 The corpus contains seven library releases and three application/compiler
-checkouts: 1,322 Dart files and 57,836 internal methods in the selected source
-roots. The application scopes are documented in [applications/README.md](corpus/applications/README.md).
+checkouts: 1,322 Dart files and 63,292 internal methods in the selected source
+roots (including generated initialization accessors). The application scopes are documented in [applications/README.md](corpus/applications/README.md).
 Dependencies are resolved but their bodies are generally outside each graph.
 
 The original committed queries check 67 selected relationships: 46 expected flows and 21
