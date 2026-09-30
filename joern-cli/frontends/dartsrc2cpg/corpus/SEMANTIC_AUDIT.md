@@ -379,8 +379,10 @@ members, read aliases and caught objects, with an independent execution oracle.
 Stable direct reference copies now preserve receiver-alias writes, including the
 lowering's generated receiver captures. The alias must have one definition that
 dominates its use, with no rebinding or mutable closure capture. This policy is
-limited to Dart; the shared regression retains C's value-copy isolation. Field
-dependencies and definition kills compare storage identities instead of relying
+limited to Dart; the shared regression retains C's value-copy isolation. Direct
+aliases of a captured `this` remain stable because Dart cannot rebind the receiver;
+captured local and parameter variables retain the conservative restriction.
+Field dependencies and definition kills compare storage identities instead of relying
 on equal source text. Independent objects with identical field-access code have
 a reduced regression.
 

@@ -10,6 +10,32 @@ class Pair {
   Pair(this.left, this.right);
 }
 
+class Owner {
+  String value = 'constant';
+  String other = 'constant';
+
+  String write(String input) {
+    String current() => value;
+    this.other = input;
+    current();
+    return other;
+  }
+}
+
+String capturedReceiver(String input) => Owner().write(input);
+
+String compoundField(String input) {
+  final box = make(input);
+  box.value += '!';
+  return box.value;
+}
+
+String compoundOtherField(String input) {
+  final box = make(input);
+  box.other += '!';
+  return box.other;
+}
+
 Box make(String input) => Box(input);
 Box forward(String input) => make(input);
 String readValue(String input) => forward(input).value;

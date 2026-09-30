@@ -10,6 +10,7 @@ void main() {
         fixture.nestedValue,
         fixture.aliasValue,
         fixture.copiedField,
+        fixture.capturedReceiver,
         fixture.aliasWrite,
         fixture.reintroducedField,
         fixture.readBeforeOverwrite,
@@ -34,6 +35,8 @@ void main() {
         expect(invoke(input), 'constant');
       }
       expect(fixture.guardedAlias(input, true), input);
+      expect(fixture.compoundField(input), '$input!');
+      expect(fixture.compoundOtherField(input), 'constant!');
       expect(fixture.guardedAlias(input, false), 'constant');
       for (final flag in [false, true]) {
         expect(
