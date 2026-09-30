@@ -18,7 +18,9 @@ transition review and an opt-in SDK byte-content model with size/isolation contr
 Caller-forwarding witnesses now have full transition reviews and a reduced
 regression that exposed summary bypass in shared output-parameter expansion.
 Primitive operator summaries preserve operand isolation, and unresolved dynamic
-operators retain conservative dispatch. The frontend is an
+operators retain conservative dispatch. Interpolation retains user conversions,
+nullable branches and operand isolation with distinct pinned VM/dart2js ordering
+oracles and an explicit report field. The frontend is an
 initial implementation, not complete language or runtime analysis support.
 This plan supersedes the completion assumptions in the original implementation
 plan in `agents/plan.md`; it does not mark the remaining work as done.

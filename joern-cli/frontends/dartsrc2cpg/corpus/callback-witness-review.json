@@ -859,5 +859,10 @@
         }
       ]
     }
-  ]
+  ],
+  "followup": {
+    "exporter": "0.3.9",
+    "change": "String interpolation now captures/ converts expressions in the selected pinned backend order and assembles fragments with read-only concatenation. This removes interpolation operand-write shortcuts while retaining explicit user toString calls.",
+    "scope": "The historical witness is preserved. Unknown constructor and mapping-call effects remain conservative; this is not a general callback or heap precision fix."
+  }
 }

@@ -51,6 +51,8 @@ class DartSrc2Cpg extends X2CpgFrontend {
       val nodes  = units.flatMap(_("nodes").arr)
       val report = ujson.Obj(
         "exporter"              -> records.head,
+        "stringConversionOrder" -> (if (config.environment == "web") "per-expression"
+                                    else "after-expression-evaluation"),
         "exportedFiles"         -> exported.size,
         "includedFiles"         -> units.size,
         "skippedFiles"          -> (exported.size - units.size),
@@ -83,7 +85,7 @@ private[dartsrc2cpg] object ExportProtocol {
     require(
       header("record").str == "header" && header("protocolVersion").num == 1 &&
         header("offsetEncoding").str == "utf-16" && header("analyzerVersion").str == "8.4.1" &&
-        header("sdkVersion").str == "3.9.2" && header.obj.get("exporterVersion").contains(ujson.Str("0.3.8")),
+        header("sdkVersion").str == "3.9.2" && header.obj.get("exporterVersion").contains(ujson.Str("0.3.9")),
       "Incompatible Dart exporter protocol"
     )
     require(records.last("record").str == "summary", "Truncated Dart exporter output")

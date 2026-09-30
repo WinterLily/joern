@@ -266,3 +266,22 @@ receivers can dispatch through Object's operator target, and `!=` negates that
 call. Dynamic indexed reads/writes and increments preserve receiver evaluation
 and assigned-value behavior. Unknown target bodies and arbitrary virtual overrides
 remain outside complete call-graph resolution.
+
+Interpolation captures expression values and retains implicit `toString` calls,
+including bounded generics and erased extension representations. Nullable values
+have a separate "null" branch. Converted fragments use binary string
+concatenation, so assembly cannot write one interpolation operand from another.
+Virtual conversion targets remain subject to the documented dispatch limits.
+
+The pinned backends differ in conversion order: the Dart 3.9.2 VM evaluates the
+embedded expressions before conversion, while dart2js interleaves evaluation and
+conversion. Adjacent literals and directly nested interpolations are flattened;
+a function-call boundary completes its string argument before later expressions.
+`analyzer-default` and `vm` follow the measured VM behavior; `web` follows dart2js.
+The scan report records `stringConversionOrder`. These are backend-specific
+contracts, not a general statement about every Dart implementation. The
+[language specification](https://dart.dev/resources/language/spec/versions/DartLangSpec-v2.10.pdf)
+describes per-expression conversion; the observed VM behavior is kept explicit.
+The standalone runtime oracle covers JIT, AOT and dart2js/Node execution, including
+exceptions and nulls. It does not qualify WebAssembly or arbitrary optimization
+configurations.

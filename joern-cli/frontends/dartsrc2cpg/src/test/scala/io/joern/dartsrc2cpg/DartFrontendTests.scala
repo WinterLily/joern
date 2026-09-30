@@ -77,6 +77,99 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
   }
 
   "Dart frontend" should {
+    "preserve VM and web interpolation order across adjacent and nested literals" in {
+      for (environment <- Seq("analyzer-default", "vm", "web"))
+        fixture(
+          Files.readString(frontend.resolve("src/test/resources/semantics/interpolation_order.dart")),
+          "void main() {}",
+          dataflow = false,
+          environment = environment
+        ) { (cpg, _) =>
+          for (name <- Seq("interpolate", "adjacent", "nested", "boundary")) {
+            val method  = cpg.method.nameExact(name).head
+            val first   = method.call.nameExact("value").codeExact("value(1)").head
+            val visited = scala.collection.mutable.Set.empty[Long]
+            def callsAfter(node: io.shiftleft.codepropertygraph.generated.nodes.CfgNode): List[String] = {
+              if (!visited.add(node.id)) Nil
+              else {
+                val current = node match {
+                  case call: io.shiftleft.codepropertygraph.generated.nodes.Call
+                      if Set("value", "toString")(call.name) =>
+                    List(call.name)
+                  case _ => Nil
+                }
+                current ++ node.cfgNext.l.flatMap(callsAfter)
+              }
+            }
+            val expected =
+              if (name == "boundary" || environment == "web") List("value", "toString", "value", "toString")
+              else List("value", "value", "toString", "toString")
+            withClue(name) { callsAfter(first) shouldBe expected }
+            method.call.nameExact("value").size shouldBe 2
+            method.call.nameExact("toString").size shouldBe 2
+          }
+          val guards = cpg.method.nameExact("nullable").call.nameExact("<operator>.conditional").l
+          guards.size shouldBe 2
+          guards.foreach { guard =>
+            guard.argument(3).code shouldBe "\"null\""
+            guard.argument(1).cfgNext.l should contain(guard.argument(3))
+          }
+        }
+    }
+    "preserve interpolation results without writing independent fragments" in {
+      fixture(
+        """void observe(String value) {}
+          |String assemble(String input, String independent) {
+          | final result = '$input:$independent';
+          | observe(independent);
+          | return result;
+          |}
+          |""".stripMargin,
+        "void main() {}"
+      ) { (cpg, _) =>
+        val method = cpg.method.nameExact("assemble").head
+        cpg.call
+          .nameExact("observe")
+          .argument(1)
+          .reachableByFlows(method.parameter.nameExact("input"))
+          .isEmpty shouldBe true
+        for (name <- Seq("input", "independent")) {
+          method.ast.isReturn.reachableByFlows(method.parameter.nameExact(name)).nonEmpty shouldBe true
+        }
+      }
+    }
+    "retain implicit user string conversion calls in interpolation" in {
+      fixture(
+        """void observe(String value) {}
+          |class Render {
+          | final String value;
+          | Render(this.value);
+          | @override String toString() { observe(value); return value; }
+          |}
+          |String render(Render input) => '$input';
+          |String bounded<T extends Render>(T input) => '$input';
+          |extension type Wrapped(Render value) {}
+          |String erased(Wrapped input) => '$input';
+          |String unknown(dynamic input) => '$input';
+          |""".stripMargin,
+        "void main() {}"
+      ) { (cpg, _) =>
+        val conversion = cpg.method.nameExact("render").call.nameExact("toString").head
+        conversion.callee.isExternal(false).name.l shouldBe List("toString")
+        conversion.receiver.argumentIndex.l shouldBe List(0)
+        for (name <- Seq("bounded", "erased")) {
+          cpg.method.nameExact(name).call.nameExact("toString").callee.fullName.l shouldBe conversion.callee.fullName.l
+        }
+        cpg.call
+          .nameExact("observe")
+          .argument(1)
+          .reachableByFlows(cpg.method.nameExact("render").parameter.nameExact("input"))
+          .nonEmpty shouldBe true
+        cpg.method.nameExact("unknown").call.nameExact("toString").methodFullName.l shouldBe List(
+          "<unresolved>.toString"
+        )
+      }
+    }
     "expose callback-result feedback into an indexed mapping receiver" in {
       fixture(
         Files.readString(frontend.resolve("src/test/resources/semantics/callback_witness.dart")),
@@ -1096,7 +1189,7 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
       ) { (cpg, _) =>
         cpg.call.nameExact("<init>").codeExact("Box()").size shouldBe 1
         cpg.call.nameExact("<operator>.arrayInitializer").size shouldBe 3
-        cpg.call.nameExact("<operator>.formatString").argument.code.toSet should contain("input")
+        cpg.call.nameExact("<operator>.addition").codeExact("'value: $input'").size shouldBe 1
         cpg.unknown.size shouldBe 0
         cpg.call.nameExact("sink").argument.reachableByFlows(cpg.identifier.nameExact("input")).nonEmpty shouldBe true
       }
@@ -1818,12 +1911,15 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         scan(config.copy(report = report.toString))
         val coverage = ujson.read(Files.readString(report))
         coverage("includedFiles").num shouldBe 0
-        coverage("exporter")("exporterVersion").str shouldBe "0.3.8"
+        coverage("stringConversionOrder").str shouldBe "after-expression-evaluation"
+        coverage("exporter")("exporterVersion").str shouldBe "0.3.9"
         coverage("exporter")("sdkVersion").str shouldBe "3.9.2"
         coverage("exporter")("analyzerVersion").str shouldBe "8.4.1"
         Files.writeString(dir.resolve("excluded.dart"), "void excluded() {}")
         scan(config.copy(report = report.toString).withIgnoredFilesRegex(".*excluded[.]dart"))
         ujson.read(Files.readString(report))("skippedFiles").num shouldBe 1
+        scan(config.copy(report = report.toString, environment = "web").withIgnoredFilesRegex(".*excluded[.]dart"))
+        ujson.read(Files.readString(report))("stringConversionOrder").str shouldBe "per-expression"
       } finally FileUtil.delete(dir)
     }
     "reject incompatible and truncated exporter output" in {
@@ -1836,7 +1932,7 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         "offsetEncoding"  -> "utf-16",
         "analyzerVersion" -> "8.4.1",
         "sdkVersion"      -> "3.9.2",
-        "exporterVersion" -> "0.3.8"
+        "exporterVersion" -> "0.3.9"
       )
       intercept[IllegalArgumentException](ExportProtocol.units(Seq(valid)))
       intercept[IllegalArgumentException](

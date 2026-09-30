@@ -41,3 +41,11 @@ guard captures. These selections supplement the inventory, not the entire SDK
 conformance suite. The shared-case capture test exposed merged guard/body storage
 and missing common-body selection; both now have frontend regressions. A related
 identity test separates two logical-or joins in one function.
+
+Interpolation has separate VM and dart2js order contracts. The default/native
+oracle checks the VM's evaluation-before-conversion phase; the opt-in backend
+suite also compiles the same driver to AOT and JavaScript and checks each backend's
+observed trace. Run from `astgen` with `DART_RUNTIME_TESTS=1 dart test`; Node.js must
+be installed. Temporary binaries and JavaScript go under `agents/` and are removed
+after the check. These checks also cover adjacent/nested strings, a call boundary,
+throwing expressions/conversions and nullable values.

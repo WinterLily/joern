@@ -69,6 +69,15 @@
       "valueFlow": "DartFrontendTests: initializer return through guarded getter; late local capture flow",
       "negative": "DartFrontendTests: setters contain no initializer calls or initialization reads",
       "interaction": "astgen/test/lazy_static_evaluation_test.dart; late_evaluation_test.dart; upstream late-field oracle"
+    },
+    "strings": {
+      "exporter": "astgen/lib/exporter.dart: interpolation conversion targets, nullability, bounds and extension erasure",
+      "lowering": "DartFrontendTests: implicit conversions, captured expressions and binary fragment concatenation",
+      "resolution": "DartFrontendTests: concrete, generic-bound and erased conversion targets; dynamic calls remain unresolved",
+      "cfg": "DartFrontendTests: VM/default versus web conversion order, adjacent/nested strings, call boundaries and nullable branches",
+      "valueFlow": "DartFrontendTests: both input fragments contribute to assembly; user conversion body effects remain reachable",
+      "negative": "DartFrontendTests: interpolation does not write independent String fragments",
+      "interaction": "astgen/test/interpolation_evaluation_test.dart; interpolation_backends_test.dart (opt-in JIT/AOT/dart2js with Node)"
     }
   },
   "constructs": [
@@ -76,9 +85,9 @@
       "construct": "AdjacentStrings",
       "scope": "dart-3.9",
       "exporterCase": "AdjacentStrings",
-      "contract": "syntax",
-      "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "contract": "strings",
+      "qualification": "conservative",
+      "reason": "Pinned VM/dart2js order, conversion targets, nullable guards and operand isolation tested; arbitrary virtual overrides and other runtime backends remain outside the contract."
     },
     {
       "construct": "Annotation",
@@ -780,17 +789,17 @@
       "construct": "InterpolationExpression",
       "scope": "dart-3.9",
       "exporterCase": "InterpolationExpression",
-      "contract": "syntax",
-      "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "contract": "strings",
+      "qualification": "conservative",
+      "reason": "Pinned VM/dart2js order, conversion targets, nullable guards and operand isolation tested; arbitrary virtual overrides and other runtime backends remain outside the contract."
     },
     {
       "construct": "InterpolationString",
       "scope": "dart-3.9",
       "exporterCase": "InterpolationString",
-      "contract": "syntax",
-      "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "contract": "strings",
+      "qualification": "conservative",
+      "reason": "Pinned VM/dart2js order, conversion targets, nullable guards and operand isolation tested; arbitrary virtual overrides and other runtime backends remain outside the contract."
     },
     {
       "construct": "IsExpression",
@@ -1260,9 +1269,9 @@
       "construct": "StringInterpolation",
       "scope": "dart-3.9",
       "exporterCase": "StringInterpolation",
-      "contract": "syntax",
-      "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "contract": "strings",
+      "qualification": "conservative",
+      "reason": "Pinned VM/dart2js order, conversion targets, nullable guards and operand isolation tested; arbitrary virtual overrides and other runtime backends remain outside the contract."
     },
     {
       "construct": "SuperConstructorInvocation",

@@ -9,11 +9,12 @@ import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
+import 'package:analyzer/dart/element/nullability_suffix.dart';
 import 'package:analyzer/source/line_info.dart';
 import 'package:path/path.dart' as p;
 
 const protocolVersion = 1;
-const exporterVersion = '0.3.8';
+const exporterVersion = '0.3.9';
 const analyzerVersion = '8.4.1';
 const supportedSdkVersion = '3.9.2';
 
@@ -898,6 +899,29 @@ class _UnitEncoder {
         record['value'] = ast.value;
       case InterpolationExpression():
         kind = 'InterpolationExpression';
+        final originalType = ast.expression.staticType;
+        var type = originalType?.extensionTypeErasure;
+        final bounds = <DartType>{};
+        while (type is TypeParameterType && bounds.add(type)) {
+          type = type.bound.extensionTypeErasure;
+        }
+        final nullable =
+            originalType == null ||
+            originalType.nullabilitySuffix != NullabilitySuffix.none ||
+            type?.nullabilitySuffix != NullabilitySuffix.none ||
+            type is DynamicType ||
+            type?.isDartCoreNull == true;
+        final conversion = type?.isDartCoreString != true || nullable;
+        record['stringConversion'] = conversion;
+        record['conversionNullable'] = nullable;
+        if (conversion && type is InterfaceType) {
+          record['conversionTarget'] = symbol(
+            type.element.lookUpMethod(
+              name: 'toString',
+              library: type.element.library,
+            ),
+          );
+        }
         child('expression', ast.expression);
       case AdjacentStrings():
         kind = 'AdjacentStrings';

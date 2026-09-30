@@ -41,6 +41,7 @@ def main():
             checks.append(check)
         results.append(dict(
             project=name, source=audit["source"], exporter=audit["coverage"]["exporter"], overlay=overlay,
+            stringConversionOrder=audit["coverage"]["stringConversionOrder"],
             modelFiles=audit["modelFiles"], reachingDefEdges=audit["reachingDefEdges"],
             maxCallDepth=audit["maxCallDepth"], pathSelection="longest-per-endpoint-pair", checks=checks,
         ))

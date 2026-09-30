@@ -175,3 +175,31 @@ the three new runtime oracles), four staged CLI checks and 14 console checks
 passed. The package/runner/mutation run passed 99 checks before the two additional
 witness fixtures; all three applications and both holdouts also passed. The
 staged archive smoke test and bundled-model integrity checks passed.
+
+## Interpolation qualification
+
+The callback review exposed a false operand write in generic string formatting.
+Exporter 0.3.9 retains resolved implicit `toString` targets, nullable branches and
+user conversion effects. String assembly now uses read-only binary concatenation.
+The new isolation regression failed before this lowering and passes afterward.
+The previous callback feedback regression still passes: external mapping and
+constructor effects remain a separate, documented approximation.
+
+Execution traces exposed different conversion schedules in the pinned backends.
+VM JIT and AOT evaluate embedded expressions before conversion; dart2js converts
+each expression before evaluating the next. The frontend follows its selected
+VM/default or web target and records `stringConversionOrder`. Adjacent literals,
+directly nested strings, a call boundary, conversion/expression failures and nulls
+have independent execution oracles and CFG checks. No universal runtime order is
+inferred from one backend.
+
+The interpolation increment passed 104 frontend/runner/mutation/package checks,
+all three applications, both holdouts and 55 native Dart tests with the Flutter
+and JIT/AOT/dart2js checks enabled. Native AST coverage and resource budgets passed
+for all seven packages. File and internal-method counts are unchanged; call-count
+baselines were reviewed for generated captures, conversion calls and concatenation.
+Endpoint expectations remain 73/75 stock and 75/75 modeled, plus four matching
+holdout checks in both modes. Witness alternatives and query limits remain open.
+
+Staged installation and bundled-model integrity checks also passed, followed by
+four CLI integration checks and 14 console checks with exporter 0.3.9.

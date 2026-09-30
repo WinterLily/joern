@@ -432,6 +432,57 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
         operator(syntax, Operators.assignment, Seq(identifier(syntax, thunkId, thunkId, "Function"), value))
       )
     }
+    def interpolatedValue(syntax: Value, value: Ast): Ast = {
+      def converted(receiver: Ast): Ast = {
+        val invocation = call(syntax, string(syntax, "conversionTarget"), "toString", None, Some(receiver))
+        invocation.root.collect { case out: NewCall => out.typeFullName = "String" }
+        invocation
+      }
+      if (!bool(syntax, "stringConversion")) value
+      else if (bool(syntax, "conversionNullable")) {
+        val result = saved(syntax, value) { ref =>
+          val choice = operator(
+            syntax,
+            Operators.conditional,
+            Seq(nonNull(syntax, ref()), converted(ref()), literal(syntax, "\"null\"", "String"))
+          )
+          choice.root.collect { case out: NewCall => out.typeFullName = "String" }
+          choice
+        }
+        result.root.collect { case out: NewBlock => out.typeFullName = "String" }
+        result
+      } else converted(value)
+    }
+    def stringAssembly(syntax: Value): Ast = {
+      def unparenthesized(node: Value): Value =
+        if (string(node, "kind") == "ParenthesizedExpression") unparenthesized(child(node, "expression")) else node
+      def fragments(node: Value): Seq[Value] = string(node, "kind") match {
+        case "StringInterpolation" | "AdjacentStrings" => children(node, "element").flatMap(fragments)
+        case "InterpolationExpression"                 =>
+          val value = unparenthesized(child(node, "expression"))
+          if (Set("StringInterpolation", "AdjacentStrings")(string(value, "kind"))) fragments(value) else Seq(node)
+        case "StringLiteral" if string(node, "value").isEmpty => Nil
+        case _                                                => Seq(node)
+      }
+      def concatenate(parts: Seq[Ast]): Ast =
+        parts.headOption.fold(literal(syntax, "\"\"", tpe(syntax))) { first =>
+          parts.tail.foldLeft(first)((left, right) => operator(syntax, Operators.addition, Seq(left, right)))
+        }
+      def assemble(remaining: List[Value], values: Vector[() => Ast]): Ast = remaining match {
+        case head :: tail if string(head, "kind") == "InterpolationExpression" =>
+          // The pinned VM evaluates all embedded expressions before invoking their string conversions.
+          saved(syntax, expression(child(head, "expression"))) { ref =>
+            assemble(tail, values :+ (() => interpolatedValue(head, ref())))
+          }
+        case head :: tail => assemble(tail, values :+ (() => literal(head, code(head), tpe(syntax))))
+        case Nil          => concatenate(values.map(_()))
+      }
+      if (config.environment == "web") concatenate(fragments(syntax).map { fragment =>
+        if (string(fragment, "kind") == "InterpolationExpression") expression(fragment)
+        else literal(fragment, code(fragment), tpe(syntax))
+      })
+      else assemble(fragments(syntax).toList, Vector.empty)
+    }
     def userOperator(id: String): Boolean =
       string(sym(id), "kind") == "METHOD" && !string(sym(id), "file").startsWith("dart:")
     def astType(ast: Ast): String = ast.root
@@ -919,9 +970,10 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
         val ast = expression(child(syntax, "expression"))
         ast.root.collect { case entryNode: ExpressionNew => entryNode.argumentName = Some(string(syntax, "name")) }
         ast
-      case "ParenthesizedExpression" | "InterpolationExpression" | "FunctionReference" =>
+      case "ParenthesizedExpression" | "FunctionReference" =>
         expression(child(syntax, "expression"))
-      case "MethodInvocation" =>
+      case "InterpolationExpression" => interpolatedValue(syntax, expression(child(syntax, "expression")))
+      case "MethodInvocation"        =>
         val originalTarget = string(syntax, "target")
         val targetId       = functionValues.getOrElse(originalTarget, originalTarget)
         val name           = string(child(syntax, "name"), "name")
@@ -1134,10 +1186,9 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
           } else expression(operand)
           resolvedOperator(syntax, name, Seq(value), string(syntax, "operatorTarget"))
         }
-      case "StringInterpolation" | "AdjacentStrings" =>
-        operator(syntax, "<operator>.formatString", children(syntax, "element").map(expression))
-      case "ListLiteral" | "SetOrMapLiteral" => collection(syntax)
-      case "MapLiteralEntry"                 =>
+      case "StringInterpolation" | "AdjacentStrings" => stringAssembly(syntax)
+      case "ListLiteral" | "SetOrMapLiteral"         => collection(syntax)
+      case "MapLiteralEntry"                         =>
         operator(
           syntax,
           "<operator>.keyValueAssociation",
