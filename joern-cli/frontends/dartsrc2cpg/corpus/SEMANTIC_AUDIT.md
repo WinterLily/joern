@@ -110,3 +110,21 @@ and the C/C++ dataflow/CFG regressions. The C++ early-call expectation now inclu
 its exceptional path and empty-catch continuation. A broader x2cpg run passed
 114 tests but failed three artifact-download tests with DNS resolution errors;
 those network-dependent operational checks are not reported as passed.
+
+## Primitive operators and unresolved dispatch
+
+Read-only comparison, arithmetic, bitwise and logical summaries now preserve
+operand-to-result flow without treating the other operand as a write. Shared C
+regressions cover six comparisons and twelve binary operators; Dart regressions
+also cover integer division and unsigned shift. Unresolved dynamic operators and
+nonprimitive equality remain calls with conservative effects. Generated boolean
+guards now have boolean result types.
+
+The frontend/runner/mutation/package run passed 98 tests, all three application
+checks and both holdout checks passed. The 75 corpus endpoint expectations remain
+73/75 stock and 75/75 modeled, with four additional holdout expectations matching
+both modes. Existing witness and search-limit caveats still apply. Call-count
+baseline changes reflect explicit dynamic operator calls; file and method counts
+are unchanged. Shared validation passed all 40 engine tests and 134 C dataflow
+tests. The byte-copy review records the shared-engine commits separately from its
+historical exporter header.

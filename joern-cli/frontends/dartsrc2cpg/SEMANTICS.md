@@ -256,3 +256,13 @@ Explicit catch-body edges also exclude those blocks from legacy finally-position
 fallbacks. Multiple catches without cleanup therefore keep their returns directed
 to method exit; a second catch cannot become a spurious finally or return cycle.
 This has a shared CFG reproducer and a Dart return-flow regression.
+
+Primitive binary arithmetic, bitwise, logical and comparison operators preserve
+operand-to-result dependencies without writing values into their other operands.
+The shared summaries have C regressions as well as Dart primitive controls.
+Unresolved dynamic overloads remain DYNAMIC_DISPATCH calls with conservative
+external effects; they are not assigned primitive purity. Equality on non-primitive
+receivers can dispatch through Object's operator target, and `!=` negates that
+call. Dynamic indexed reads/writes and increments preserve receiver evaluation
+and assigned-value behavior. Unknown target bodies and arbitrary virtual overrides
+remain outside complete call-graph resolution.

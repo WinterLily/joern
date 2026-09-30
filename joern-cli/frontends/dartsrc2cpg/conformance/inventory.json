@@ -37,10 +37,10 @@
     "operators": {
       "exporter": "astgen/test/exporter_test.dart: export operator dispatch separately from indexed read and write targets",
       "lowering": "DartFrontendTests: resolve indexed updates and overloaded increments without repeating receiver or index",
-      "resolution": "DartFrontendTests: resolve user operators and distinguish their returned arguments from constants",
+      "resolution": "DartFrontendTests: user operators, dynamic indexed updates, Object equality dispatch and primitive receiver distinction",
       "cfg": "DartFrontendTests: guard null-aware index updates including their index and assigned value",
       "valueFlow": "DartFrontendTests: yield the assigned value independently of setter and index-setter returns",
-      "negative": "DartFrontendTests: resolve user operators and distinguish their returned arguments from constants",
+      "negative": "DartFrontendTests: primitive comparison/arithmetic operand isolation; unresolved operator calls retain conservative effects",
       "interaction": "astgen/test/operator_evaluation_test.dart: bounded -1..1 prefix/postfix and compound update traces"
     },
     "collections": {

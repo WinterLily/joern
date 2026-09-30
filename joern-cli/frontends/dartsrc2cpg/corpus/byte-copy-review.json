@@ -24,11 +24,11 @@
     "bytes": "# Dart SDK 3.9.2 byte-content contract for Uint8List allocation and standard List.setRange.\n# Length/range inputs select size and positions; they are not copied element values.\n# Keep the constructor offset exact: other dart:typed_data unnamed constructors include SIMD values.\n\"dart:typed_data\\x2336552:CONSTRUCTOR:new\" 1 -> 1\n\"dart:core/list[.]dart\\x2329446:METHOD:setRange\" 0 -> 0 1 -> 1 2 -> 2 3 -> 3 4 -> 4 3 -> 0\n"
   },
   "contract": "Byte-content dependency, separate from allocation size and range selection; valid standard Uint8List/List.setRange operations.",
-  "disposition": "Stock witness contains unjustified operand/argument transfers. Optional bytes model yields direct input-to-bytes parameter forwarding. Primitive equality cross-operand fallback remains a shared-engine issue.",
+  "disposition": "Stock snapshot contains unjustified operand/argument transfers. Optional bytes model yields direct input-to-bytes parameter forwarding. The followup records shared primitive-operator fixes; external-call approximations remain explicit.",
   "ownership": {
     "frontend": "resolved targets and bindings verified",
     "library-model": "Uint8List zero allocation and List.setRange content effects",
-    "shared-engine": "stock primitive equality fallback admits cross-operand flow; reduced regression still required"
+    "shared-engine": "Primitive comparison and arithmetic/logical cross-operand fallback reproduced in C and fixed in the followup commits."
   },
   "reviews": [
     {
@@ -467,5 +467,12 @@
         }
       ]
     }
-  ]
+  ],
+  "engineSnapshot": "Historical witness before primitive comparison/arithmetic summaries; exporter version alone does not identify the shared engine.",
+  "followup": {
+    "comparisonFix": "ba5d205e2",
+    "arithmeticLogicalFix": "be553c55d",
+    "evidence": "C ComparisonFlowTests and PrimitiveOperatorFlowTests, Dart primitive operand-isolation regressions",
+    "scope": "Read-only primitive operators no longer invent operand writes. Stock unknown external-call behavior remains conservative; byte-content queries require the explicit bytes model."
+  }
 }

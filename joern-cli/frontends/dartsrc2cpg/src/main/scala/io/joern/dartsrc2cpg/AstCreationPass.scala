@@ -87,18 +87,41 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
         }
         result.withChild(value).withArgEdges(call, value.root.toList)
       }
-    def operator(syntax: Value, name: String, values: Seq[Ast]): Ast = args(
-      located(
-        NewCall()
-          .name(name)
-          .methodFullName(name)
-          .code(code(syntax))
-          .typeFullName(tpe(syntax))
-          .dispatchType(DispatchTypes.STATIC_DISPATCH),
-        syntax
-      ),
-      values
+    val booleanOperators = Set(
+      Operators.equals,
+      Operators.notEquals,
+      Operators.lessThan,
+      Operators.lessEqualsThan,
+      Operators.greaterThan,
+      Operators.greaterEqualsThan,
+      Operators.logicalAnd,
+      Operators.logicalOr,
+      Operators.logicalNot,
+      Operators.instanceOf,
+      "<operator>.isInitialized",
+      "<operator>.patternShape"
     )
+    def operator(syntax: Value, name: String, values: Seq[Ast]): Ast = {
+      val sourceType = tpe(syntax)
+      val resultType =
+        if (
+          booleanOperators(name) && sourceType != "bool" &&
+          !(sourceType.startsWith("dart:core") && sourceType.endsWith(":CLASS:bool"))
+        ) "bool"
+        else sourceType
+      args(
+        located(
+          NewCall()
+            .name(name)
+            .methodFullName(name)
+            .code(code(syntax))
+            .typeFullName(resultType)
+            .dispatchType(DispatchTypes.STATIC_DISPATCH),
+          syntax
+        ),
+        values
+      )
+    }
     def literal(syntax: Value, value: String, typ: String = "ANY"): Ast =
       Ast(located(NewLiteral().code(value).typeFullName(typ), syntax))
     def identifier(syntax: Value, name: String, id: String, typ: String): Ast = {
@@ -411,13 +434,42 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
     }
     def userOperator(id: String): Boolean =
       string(sym(id), "kind") == "METHOD" && !string(sym(id), "file").startsWith("dart:")
+    def astType(ast: Ast): String = ast.root
+      .map {
+        case node: NewCall       => node.typeFullName
+        case node: NewIdentifier => node.typeFullName
+        case node: NewLiteral    => node.typeFullName
+        case node: NewBlock      => node.typeFullName
+        case node: NewMethodRef  => node.typeFullName
+        case node: NewTypeRef    => node.typeFullName
+        case _                   => "ANY"
+      }
+      .getOrElse("ANY")
+    def operatorDispatch(id: String, receiverType: String): Boolean = {
+      val primitive = Set("int", "double", "num", "bool", "String", "Null").exists(name =>
+        receiverType == name || (receiverType.startsWith("dart:core") && receiverType.endsWith(s":CLASS:$name"))
+      )
+      userOperator(id) || (id.isEmpty && Set("dynamic", "ANY").contains(receiverType)) ||
+      (string(sym(id), "name") == "==" && !primitive)
+    }
     def resolvedOperator(syntax: Value, name: String, values: Seq[Ast], targetId: String): Ast = {
-      if (!userOperator(targetId)) operator(syntax, name, values)
+      val intrinsic = Set(Operators.logicalAnd, Operators.logicalOr, Operators.logicalNot, "<operator>.notNullAssert")
+      if (intrinsic.contains(name) || !operatorDispatch(targetId, astType(values.head))) operator(syntax, name, values)
       else {
-        val out = located(
+        val token    = string(syntax, "operator").stripSuffix("=")
+        val fallback = name match {
+          case Operators.indexAccess => "[]"
+          case Operators.assignment  => "[]="
+          case Operators.notEquals   => "=="
+          case _                     =>
+            if (binaryOperators.get(token).contains(name)) token
+            else binaryOperators.find(_._2 == name).map(_._1).getOrElse(token)
+        }
+        val methodName = string(sym(targetId), "name", fallback)
+        val out        = located(
           NewCall()
-            .name(string(sym(targetId), "name"))
-            .methodFullName(targetId)
+            .name(methodName)
+            .methodFullName(if (targetId.nonEmpty) targetId else s"<unresolved>.$methodName")
             .code(code(syntax))
             .typeFullName(tpe(syntax))
             .dispatchType(
@@ -484,7 +536,7 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
               assign(
                 () => read(),
                 value =>
-                  if (userOperator(writeId))
+                  if (operatorDispatch(writeId, astType(target)))
                     savedSequence(syntax, value)(assigned =>
                       Seq(
                         resolvedOperator(syntax, Operators.assignment, Seq(base(), index(), assigned()), writeId),
@@ -1017,7 +1069,12 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
             Seq(expression(child(syntax, "left")), expression(child(syntax, "right"))),
             targetId
           )
-          if (string(syntax, "operator") == "!=" && userOperator(targetId))
+          if (
+            string(syntax, "operator") == "!=" && value.root.exists {
+              case call: NewCall => call.name == "=="
+              case _             => false
+            }
+          )
             operator(syntax, Operators.logicalNot, Seq(value))
           else value
         }
@@ -1050,10 +1107,10 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
         )
         if (
           Set("++", "--").contains(string(syntax, "operator")) &&
-          (accessor || lateLocals.contains(readId) || userOperator(string(syntax, "operatorTarget")) || string(
-            operand,
-            "kind"
-          ) == "IndexExpression")
+          (accessor || lateLocals.contains(readId) || operatorDispatch(
+            string(syntax, "operatorTarget"),
+            tpe(operand)
+          ) || string(operand, "kind") == "IndexExpression")
         ) {
           update(syntax, operand) { (read, write) =>
             saved(syntax, read()) { before =>

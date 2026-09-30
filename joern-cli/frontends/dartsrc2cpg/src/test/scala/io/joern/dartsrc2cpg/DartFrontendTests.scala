@@ -77,6 +77,113 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
   }
 
   "Dart frontend" should {
+    "type generated initialization and pattern guards as boolean values" in {
+      fixture(
+        """late final String text = 'value';
+          |String? select(Object value, String? optional) {
+          | if (value case [String first]) { return optional ?? first; }
+          | return text;
+          |}
+          |""".stripMargin,
+        "void main() {}",
+        dataflow = false
+      ) { (cpg, _) =>
+        val predicates = cpg.call
+          .nameExact(
+            "<operator>.isInitialized",
+            "<operator>.patternShape",
+            "<operator>.instanceOf",
+            "<operator>.logicalNot",
+            "<operator>.notEquals",
+            "<operator>.logicalAnd"
+          )
+          .l
+        predicates.map(_.name).toSet should contain allOf (
+          "<operator>.isInitialized",
+          "<operator>.patternShape",
+          "<operator>.notEquals"
+        )
+        predicates.foreach(call =>
+          withClue(call.name) {
+            (call.typeFullName == "bool" || call.typeFullName.endsWith(":CLASS:bool")) shouldBe true
+          }
+        )
+      }
+    }
+    "retain unresolved operator dispatch and conservative effects for dynamic receivers" in {
+      fixture(
+        """dynamic unknown(dynamic receiver, int index, dynamic value) {
+          | receiver + value; receiver < value; receiver == value; receiver != value;
+          | receiver[index] = value; receiver[index] += value; ++receiver;
+          | return receiver[index];
+          |}
+          |dynamic effect(dynamic receiver, dynamic independent) { receiver + independent; return independent; }
+          |bool objectEquality(Object receiver, Object value) => receiver != value;
+          |""".stripMargin,
+        "void main() {}"
+      ) { (cpg, _) =>
+        val method = cpg.method.nameExact("unknown").head
+        method.call.nameExact("+").size shouldBe 3
+        method.call.nameExact("[]=").size shouldBe 2
+        method.call.nameExact("[]").size shouldBe 2
+        method.call.nameExact("==").size shouldBe 2
+        method.call.nameExact("<").size shouldBe 1
+        method.call.nameExact("+", "[]", "[]=", "==", "<").l.foreach { call =>
+          call.dispatchType shouldBe io.shiftleft.codepropertygraph.generated.DispatchTypes.DYNAMIC_DISPATCH
+          call.receiver.argumentIndex.l shouldBe List(0)
+        }
+        val effect = cpg.method.nameExact("effect").head
+        Iterator
+          .single(effect.methodReturn)
+          .reachableByFlows(effect.parameter.nameExact("receiver"))
+          .nonEmpty shouldBe true
+        val equality = cpg.method.nameExact("objectEquality").head
+        equality.call.nameExact("==").size shouldBe 1
+        equality.call.nameExact("<operator>.logicalNot").size shouldBe 1
+      }
+    }
+    "keep primitive arithmetic and bitwise operands separate from the result" in {
+      for (operator <- Seq("+", "-", "*", "/", "~/", "%", "&", "|", "^", "<<", ">>", ">>>")) {
+        fixture(
+          s"void observe(int value) {} num calculate(int input, int independent) { final result = input $operator independent; observe(independent); return result; }",
+          "void main() {}"
+        ) { (cpg, _) =>
+          withClue(operator) {
+            cpg.call
+              .nameExact("observe")
+              .argument(1)
+              .reachableByFlows(cpg.method.nameExact("calculate").parameter.nameExact("input"))
+              .isEmpty shouldBe true
+            cpg.method
+              .nameExact("calculate")
+              .methodReturn
+              .reachableByFlows(cpg.method.nameExact("calculate").parameter.nameExact("input"))
+              .nonEmpty shouldBe true
+          }
+        }
+      }
+    }
+    "keep primitive comparison operands separate while preserving their boolean result" in {
+      for (operator <- Seq("==", "!=", "<", ">", "<=", ">=")) {
+        fixture(
+          s"void observe(int value) {} bool compare(int input, int independent) { final result = input $operator independent; observe(independent); return result; }",
+          "void main() {}"
+        ) { (cpg, _) =>
+          withClue(operator) {
+            cpg.call
+              .nameExact("observe")
+              .argument(1)
+              .reachableByFlows(cpg.method.nameExact("compare").parameter.nameExact("input"))
+              .isEmpty shouldBe true
+            cpg.method
+              .nameExact("compare")
+              .methodReturn
+              .reachableByFlows(cpg.method.nameExact("compare").parameter.nameExact("input"))
+              .nonEmpty shouldBe true
+          }
+        }
+      }
+    }
     "distinguish copied byte contents from buffer size and an independent buffer" in {
       fixture(Files.readString(frontend.resolve("src/test/resources/semantics/byte_copy.dart")), "void main() {}") {
         (cpg, _) =>
