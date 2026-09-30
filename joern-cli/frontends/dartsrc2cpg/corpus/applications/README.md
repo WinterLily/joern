@@ -110,3 +110,9 @@ Flutter), the three application corpus tests, staging, Scala formatting/lint and
 Dart analysis. The preparation script was rerun with enforced dependency locks
 and reproduced all three library hashes. All 18 native exporter tests passed, including the separately enabled Flutter
 case, updated protocol and excluded-file behavior.
+
+Follow-up witness review found that the positive `certificate-to-hash` query can
+traverse the filter predicate result and callback reference. Its endpoint
+dependency remains correct, but the route requires semantic classification; it
+is not evidence of precise iterable/callback modeling. See the first gate in the
+[coverage plan](../../COVERAGE_PLAN.md) for the required witness audit.

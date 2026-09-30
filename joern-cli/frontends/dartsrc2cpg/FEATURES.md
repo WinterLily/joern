@@ -45,3 +45,7 @@ bodies), labeled loop break/continue, assertion evaluation, increment/decrement
 references and accessor effects, and dynamic object-pattern field access.
 Assertions have an explicit enabled/disabled branch; no build mode is assumed.
 Enum runtime-generated `values`, `index` and `name` behavior is not synthesized.
+
+The [coverage completion plan](COVERAGE_PLAN.md) defines the remaining semantic
+audit, conformance and release gates. Passing corpus endpoint queries does not
+by itself validate every hop of a returned dataflow witness.
