@@ -10,6 +10,31 @@ import org.scalatest.wordspec.AnyWordSpec
 
 class FinallyExitTests extends AnyWordSpec with Matchers {
   "Finally control flow" should {
+    "never reinterpret an explicitly linked second catch as a finally body" in {
+      val cpg = Cpg.empty
+      try {
+        val graph     = cpg.graph
+        val method    = graph.addNode(NewMethod().name("catches").fullName("catches"))
+        val exit      = graph.addNode(NewMethodReturn().order(2))
+        val body      = graph.addNode(NewBlock().order(1))
+        val statement = graph.addNode(NewControlStructure().controlStructureType(ControlStructureTypes.TRY).order(1))
+        val blocks    = (1 to 3).map(order => graph.addNode(NewBlock().order(order)))
+        val returns   = (1 to 3).map(index => graph.addNode(NewReturn().code(s"return $index").order(1)))
+        graph.applyDiff { diff =>
+          diff.addEdge(method, body, EdgeTypes.AST)
+          diff.addEdge(method, exit, EdgeTypes.AST)
+          diff.addEdge(body, statement, EdgeTypes.AST)
+          for ((block, ret) <- blocks.zip(returns)) {
+            diff.addEdge(statement, block, EdgeTypes.AST)
+            diff.addEdge(block, ret, EdgeTypes.AST)
+          }
+          diff.addEdge(statement, blocks.head, EdgeTypes.TRY_BODY)
+          blocks.tail.foreach(block => diff.addEdge(statement, block, EdgeTypes.CATCH_BODY))
+        }
+        new CfgCreationPass(cpg).createAndApply()
+        returns.foreach(_.out(EdgeTypes.CFG).cast[CfgNode].toSet shouldBe Set(exit))
+      } finally cpg.close()
+    }
     "run cleanup before explicit returns, throws and loop exits" in {
       for (kind <- Seq("return", "throw", "break", "continue"); nested <- Seq(false, true)) {
         val cpg = Cpg.empty

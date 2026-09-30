@@ -612,6 +612,7 @@ class CfgCreator(entryNode: Method, diffGraph: DiffGraphBuilder) {
     val catchControlStructures =
       (node.astChildren.isControlStructure.isCatch ++ node.astChildren.isControlStructure.isElse).toList
     val explicitFinally   = node._finallyBodyOut.cast[AstNode].toSet
+    val explicitCatches   = node._catchBodyOut.cast[AstNode].toSet
     val catchBodyFallback =
       if (catchControlStructures.isEmpty) node.astChildren.order(2).filterNot { child =>
         explicitFinally.contains(child) || (child match {
@@ -646,7 +647,11 @@ class CfgCreator(entryNode: Method, diffGraph: DiffGraphBuilder) {
     val finallyControlStructures = node.astChildren.isControlStructure.isFinally.toList
     val finallyBodyFallback      =
       if (catchControlStructures.isEmpty && finallyControlStructures.isEmpty) {
-        (node.astChildren.isBlock.codeExact("finally") ++ node.astChildren.order(3)).toList.distinct.iterator
+        (node.astChildren.isBlock.codeExact("finally") ++ node.astChildren.order(3))
+          .filterNot(explicitCatches.contains)
+          .toList
+          .distinct
+          .iterator
       } else {
         finallyControlStructures.iterator
       }
