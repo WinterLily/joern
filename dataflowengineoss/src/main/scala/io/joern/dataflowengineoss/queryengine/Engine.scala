@@ -212,6 +212,10 @@ object Engine {
     val variablePropertyMaybe = Option(e.property).map(_.asInstanceOf[String])
     val outLabel              = variablePropertyMaybe.getOrElse("")
 
+    if (parNode.isInstanceOf[Call] && OutputChannel.fromEdge(outLabel) != OutputChannel.Normal) {
+      return Some(PathElement(parNode, callSiteStack, outEdgeLabel = outLabel))
+    }
+
     if (!EdgeValidator.isValidEdge(curNode, parNode)) {
       return None
     }

@@ -38,7 +38,12 @@ class HeldTaskCompletion(
     deduplicateResultTable()
     val toProcess =
       heldTasks.distinct.sortBy(x =>
-        (x.fingerprint.sink.id, x.fingerprint.callSiteStack.map(_.id).toString, x.callDepth)
+        (
+          x.fingerprint.sink.id,
+          x.fingerprint.callSiteStack.map(_.id).toString,
+          x.callDepth,
+          x.fingerprint.outputChannel.ordinal
+        )
       )
     var resultsProducedByTask: Map[ReachableByTask, Set[(TaskFingerprint, TableEntry)]] = Map()
 
@@ -103,8 +108,8 @@ class HeldTaskCompletion(
     parentTasks
       .map { parentTask =>
         val stopIndex = initialPath
-          .map(x => (x.node, x.callSiteStack))
-          .indexOf((parentTask.sink, parentTask.callSiteStack)) + 1
+          .map(x => (x.node, x.callSiteStack, x.outputChannel))
+          .indexOf((parentTask.sink, parentTask.callSiteStack, parentTask.outputChannel)) + 1
         val initialPathOnlyUpToSink = initialPath.slice(0, stopIndex)
         val newPath                 = result.path ++ initialPathOnlyUpToSink
         (parentTask, TableEntry(newPath))
@@ -144,8 +149,8 @@ class HeldTaskCompletion(
   private def deduplicateTableEntries(list: List[TableEntry]): List[TableEntry] = {
     list
       .groupBy { result =>
-        val head = result.path.headOption.map(x => (x.node, x.callSiteStack, x.isOutputArg)).get
-        val last = result.path.lastOption.map(x => (x.node, x.callSiteStack, x.isOutputArg)).get
+        val head = result.path.headOption.map(x => (x.node, x.callSiteStack, x.isOutputArg, x.outputChannel)).get
+        val last = result.path.lastOption.map(x => (x.node, x.callSiteStack, x.isOutputArg, x.outputChannel)).get
         (head, last)
       }
       .map { case (_, list) =>

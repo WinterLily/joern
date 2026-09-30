@@ -4,9 +4,28 @@ import io.shiftleft.codepropertygraph.generated.nodes.{AstNode, Call, CfgNode}
 
 package object queryengine {
 
+  enum OutputChannel(val edgeLabel: String, val argumentIndex: Int) {
+    case Normal         extends OutputChannel("", -1)
+    case ExceptionValue extends OutputChannel("<EXCEPTION_VALUE>", 1)
+    case ExceptionStack extends OutputChannel("<EXCEPTION_STACK>", 2)
+  }
+
+  object OutputChannel {
+    def fromEdge(label: String): OutputChannel = label match {
+      case "<EXCEPTION_VALUE>" => OutputChannel.ExceptionValue
+      case "<EXCEPTION_STACK>" => OutputChannel.ExceptionStack
+      case _                   => OutputChannel.Normal
+    }
+  }
+
   /** The TaskFingerprint uniquely identifies a task.
     */
-  case class TaskFingerprint(sink: CfgNode, callSiteStack: List[Call], callDepth: Int)
+  case class TaskFingerprint(
+    sink: CfgNode,
+    callSiteStack: List[Call],
+    callDepth: Int,
+    outputChannel: OutputChannel = OutputChannel.Normal
+  )
 
   /** A (partial) result, informing about a path that exists from a source to another node in the graph.
     *
@@ -68,7 +87,12 @@ package object queryengine {
     visible: Boolean = true,
     isOutputArg: Boolean = false,
     outEdgeLabel: String = ""
-  )
+  ) {
+    def outputChannel: OutputChannel = node match {
+      case _: Call => OutputChannel.fromEdge(outEdgeLabel)
+      case _       => OutputChannel.Normal
+    }
+  }
 
   /** @param taskStack
     *   The list of tasks that was solved to arrive at this task, including the current task, which is to be solved. The

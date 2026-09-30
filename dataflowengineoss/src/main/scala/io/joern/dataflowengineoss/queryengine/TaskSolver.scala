@@ -29,7 +29,9 @@ class TaskSolver(task: ReachableByTask, context: EngineContext, sources: Set[Cfg
     */
   override def call(): TaskSummary = {
     implicit val sem: Semantics = context.semantics
-    val path                    = Vector(PathElement(task.sink, task.callSiteStack))
+    val path                    = Vector(
+      PathElement(task.sink, task.callSiteStack, outEdgeLabel = task.fingerprint.outputChannel.edgeLabel)
+    )
     val table: mutable.Map[TaskFingerprint, Vector[ReachableByResult]] = mutable.Map()
     results(task.sink, path, table, task.callSiteStack)
     // TODO why do we update the call depth here?
@@ -47,8 +49,15 @@ class TaskSolver(task: ReachableByTask, context: EngineContext, sources: Set[Cfg
   private def resultToTableEntries(r: ReachableByResult): List[(TaskFingerprint, TableEntry)] = {
     r.taskStack.indices.map { i =>
       val parentTask = r.taskStack(i)
-      val pathToSink = r.path.slice(0, r.path.map(_.node).indexOf(parentTask.sink))
-      val newPath    = pathToSink :+ PathElement(parentTask.sink, parentTask.callSiteStack)
+      val pathToSink = r.path.takeWhile(element =>
+        element.node != parentTask.sink ||
+          element.callSiteStack != parentTask.callSiteStack || element.outputChannel != parentTask.outputChannel
+      )
+      val newPath = pathToSink :+ PathElement(
+        parentTask.sink,
+        parentTask.callSiteStack,
+        outEdgeLabel = parentTask.outputChannel.edgeLabel
+      )
       (parentTask, TableEntry(path = newPath))
     }.toList
   }
@@ -89,8 +98,8 @@ class TaskSolver(task: ReachableByTask, context: EngineContext, sources: Set[Cfg
     def deduplicateWithinTask(vec: Vector[ReachableByResult]): Vector[ReachableByResult] = {
       vec
         .groupBy { result =>
-          val head = result.path.headOption.map(x => (x.node, x.callSiteStack, x.isOutputArg)).get
-          val last = result.path.lastOption.map(x => (x.node, x.callSiteStack, x.isOutputArg)).get
+          val head = result.path.headOption.map(x => (x.node, x.callSiteStack, x.isOutputArg, x.outputChannel)).get
+          val last = result.path.lastOption.map(x => (x.node, x.callSiteStack, x.isOutputArg, x.outputChannel)).get
           (head, last, result.partial, result.callDepth)
         }
         .map { case (_, list) =>
@@ -139,13 +148,16 @@ class TaskSolver(task: ReachableByTask, context: EngineContext, sources: Set[Cfg
       remainder: Vector[PathElement],
       callDepth: Int
     ): Option[Vector[ReachableByResult]] = {
-      table.get(TaskFingerprint(first.node.asInstanceOf[CfgNode], callSiteStack, callDepth)).map { res =>
-        res.map { r =>
-          val stopIndex       = r.path.map(x => (x.node, x.callSiteStack)).indexOf((first.node, first.callSiteStack))
-          val pathToFirstNode = r.path.slice(0, stopIndex)
-          val completePath    = pathToFirstNode ++ (first +: remainder)
-          r.copy(path = Vector(completePath.head) ++ completePath.tail)
-        }
+      table.get(TaskFingerprint(first.node.asInstanceOf[CfgNode], callSiteStack, callDepth, first.outputChannel)).map {
+        res =>
+          res.map { r =>
+            val stopIndex = r.path
+              .map(x => (x.node, x.callSiteStack, x.outputChannel))
+              .indexOf((first.node, first.callSiteStack, first.outputChannel))
+            val pathToFirstNode = r.path.slice(0, stopIndex)
+            val completePath    = pathToFirstNode ++ (first +: remainder)
+            r.copy(path = Vector(completePath.head) ++ completePath.tail)
+          }
       }
     }
 
@@ -153,7 +165,7 @@ class TaskSolver(task: ReachableByTask, context: EngineContext, sources: Set[Cfg
       Vector(
         ReachableByResult(
           task.taskStack,
-          PathElement(path.head.node, callSiteStack, isOutputArg = true) +: path.tail,
+          path.head.copy(callSiteStack = callSiteStack, isOutputArg = true) +: path.tail,
           partial = true
         )
       )
@@ -162,6 +174,8 @@ class TaskSolver(task: ReachableByTask, context: EngineContext, sources: Set[Cfg
     /** Determine results for the current node
       */
     val res = curNode match {
+      case _: Call if path.head.outputChannel != OutputChannel.Normal =>
+        createPartialResultForOutputArgOrRet()
       // Case 1: we have reached a source => return result and continue traversing (expand into parents)
       case x if sources.contains(x.asInstanceOf[NodeType]) =>
         if (x.isInstanceOf[MethodParameterIn]) {
@@ -196,7 +210,8 @@ class TaskSolver(task: ReachableByTask, context: EngineContext, sources: Set[Cfg
       case _ =>
         computeResultsForParents()
     }
-    val key = TaskFingerprint(curNode.asInstanceOf[CfgNode], task.callSiteStack, task.callDepth)
+    val key =
+      TaskFingerprint(curNode.asInstanceOf[CfgNode], task.callSiteStack, task.callDepth, path.head.outputChannel)
     table.updateWith(key) {
       case Some(existingValue) => Some(existingValue ++ res)
       case None                => Some(res)

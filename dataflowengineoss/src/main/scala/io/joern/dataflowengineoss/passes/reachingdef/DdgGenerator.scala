@@ -2,6 +2,7 @@ package io.joern.dataflowengineoss.passes.reachingdef
 
 import io.joern.dataflowengineoss.{globalFromLiteral, identifierToFirstUsages}
 import io.joern.dataflowengineoss.queryengine.AccessPathUsage.toTrackedBaseAndAccessPathSimple
+import io.joern.dataflowengineoss.queryengine.OutputChannel
 import io.joern.dataflowengineoss.semanticsloader.Semantics
 import io.shiftleft.codepropertygraph.generated.nodes.*
 import io.shiftleft.codepropertygraph.generated.{ControlStructureTypes, EdgeTypes, Operators}
@@ -25,76 +26,8 @@ class DdgGenerator(semantics: Semantics) {
       if (reachable.add(node)) forward ++= node._cfgOut.cast[CfgNode]
     }
     reachable.collect {
-      case returned: Return if pendingExitReaches(returned, method.methodReturn, method) => returned
+      case returned: Return if ExitRouting.reaches(returned, method.methodReturn, method) => returned
     }.toSet
-  }
-
-  private def cleanupBoundary(origin: CfgNode, node: CfgNode, method: Method): Option[AstNode] = {
-    val originAncestors = Iterator.single(origin).inAstMinusLeaf.takeWhile(_ != method).toSet
-    val cleanups        = originAncestors
-      .collect { case control: ControlStructure => control }
-      .flatMap(_._finallyBodyOut.cast[AstNode])
-      .filterNot(originAncestors.contains)
-    Iterator.single(node).inAstMinusLeaf.takeWhile(_ != method).find(cleanups.contains)
-  }
-
-  private def handledInsideCleanup(origin: CfgNode, thrown: ControlStructure, method: Method): Boolean = {
-    cleanupBoundary(origin, thrown, method).exists { cleanup =>
-      val withinCleanup  = Iterator.single(thrown).inAstMinusLeaf.takeWhile(_ != cleanup).toList
-      val protectedNodes = (thrown :: withinCleanup).toSet
-      withinCleanup.collect { case control: ControlStructure => control }.exists { control =>
-        control._tryBodyOut.cast[AstNode].exists(protectedNodes.contains) &&
-        control._catchBodyOut.cast[AstNode].exists {
-          case handler: ControlStructure if handler.controlStructureType == ControlStructureTypes.CATCH =>
-            handler.condition.isLiteral.codeExact("true").nonEmpty
-          case _ => false
-        }
-      }
-    }
-  }
-
-  private def jumpLeavesCleanup(origin: CfgNode, jump: ControlStructure, method: Method): Boolean = {
-    cleanupBoundary(origin, jump, method).exists { cleanup =>
-      val argument = jump._jumpArgumentOut.cast[AstNode].headOption.orElse(jump.astChildren.order(1).headOption)
-      argument match {
-        case Some(label: JumpLabel) =>
-          !method.ast.collect { case target: JumpTarget if target.name == label.name => target }.exists { target =>
-            Iterator.single(target).inAstMinusLeaf.contains(cleanup)
-          }
-        case _ =>
-          val levels       = argument.collect { case value: Literal => value.code.toInt }.getOrElse(1)
-          val localTargets =
-            Iterator.single(jump).inAstMinusLeaf.takeWhile(_ != cleanup).isControlStructure.count { control =>
-              control.controlStructureType match {
-                case ControlStructureTypes.FOR | ControlStructureTypes.WHILE | ControlStructureTypes.DO       => true
-                case ControlStructureTypes.SWITCH if jump.controlStructureType == ControlStructureTypes.BREAK => true
-                case _                                                                                        => false
-              }
-            }
-          levels > localTargets
-      }
-    }
-  }
-
-  private def pendingExitReaches(origin: CfgNode, target: CfgNode, method: Method): Boolean = {
-    val seen    = mutable.HashSet.empty[CfgNode]
-    val pending = mutable.ArrayDeque.from(origin._cfgOut.cast[CfgNode])
-    var reached = false
-    while (pending.nonEmpty && !reached) {
-      val node = pending.removeHead()
-      if (node == target) reached = true
-      else if (seen.add(node)) node match {
-        case _: Return | _: MethodReturn                                                            =>
-        case thrown: ControlStructure if thrown.controlStructureType == ControlStructureTypes.THROW =>
-          if (handledInsideCleanup(origin, thrown, method)) pending ++= thrown._cfgOut.cast[CfgNode]
-        case jump: ControlStructure
-            if jump.controlStructureType == ControlStructureTypes.BREAK ||
-              jump.controlStructureType == ControlStructureTypes.CONTINUE =>
-          if (!jumpLeavesCleanup(origin, jump, method)) pending ++= jump._cfgOut.cast[CfgNode]
-        case _ => pending ++= node._cfgOut.cast[CfgNode]
-      }
-    }
-    reached
   }
 
   /** Once reaching definitions have been computed, we create a data dependence graph by checking which reaching
@@ -210,6 +143,7 @@ class DdgGenerator(semantics: Semantics) {
     }
 
     def addEdgesToThrowOperands(thrown: ControlStructure): Unit = {
+      usageAnalyzer.uses(thrown).collectAll[Block].foreach(block => addEdgeForBlock(block, thrown))
       usageAnalyzer.usedIncomingDefs(thrown).foreach { case (use, definitions) =>
         definitions.flatMap(numberToNode.get).filterNot(_ == use).foreach { definition =>
           addEdge(definition, use, nodeToEdgeLabel(definition))
@@ -223,20 +157,13 @@ class DdgGenerator(semantics: Semantics) {
           call
       }
       if (channels.nonEmpty) {
-        val routedThrows = allNodes
+        val routedExceptions = allNodes
           .collect {
+            case call: Call                                                                             => call
             case thrown: ControlStructure if thrown.controlStructureType == ControlStructureTypes.THROW => thrown
           }
-          .flatMap { thrown =>
-            val ancestors      = Iterator.single(thrown).inAstMinusLeaf.takeWhile(_ != method).toList
-            val protectedNodes = ancestors.toSet
-            val owner          = ancestors.collectFirst {
-              case control: ControlStructure
-                  if control._tryBodyOut
-                    .cast[AstNode]
-                    .exists(protectedNodes.contains) && control._catchBodyOut.nonEmpty =>
-                control
-            }
+          .flatMap { origin =>
+            val owner = ExitRouting.handlerOwner(origin, method)
             // Cleanup-local handlers consume their own exceptions, not the suspended outer payload.
             owner.toList
               .flatMap(_._catchBodyOut.cast[AstNode])
@@ -244,8 +171,8 @@ class DdgGenerator(semantics: Semantics) {
               .flatMap { handler =>
                 handler.condition.isLiteral
                   .codeExact("true")
-                  .filter(pendingExitReaches(thrown, _, method))
-                  .map(_ => handler -> thrown)
+                  .filter(ExitRouting.reaches(origin, _, method))
+                  .map(_ => handler -> origin)
               }
           }
           .groupMap(_._1)(_._2)
@@ -254,12 +181,18 @@ class DdgGenerator(semantics: Semantics) {
           val handler =
             Iterator.single(channel).inAstMinusLeaf.takeWhile(_ != method).isControlStructure.isCatch.headOption
           for {
-            caught  <- handler
-            thrown  <- routedThrows.getOrElse(caught, Nil)
-            operand <- thrown._argumentOut.cast[Expression].filter(_.argumentIndex == index)
-          } operand match {
-            case block: Block => addEdgeForBlock(block, channel)
-            case _            => addEdge(operand, channel, nodeToEdgeLabel(operand))
+            caught <- handler
+            origin <- routedExceptions.getOrElse(caught, Nil)
+          } origin match {
+            case call: Call =>
+              val output = if (index == 1) OutputChannel.ExceptionValue else OutputChannel.ExceptionStack
+              dstGraph.addEdge(call, channel, EdgeTypes.REACHING_DEF, output.edgeLabel)
+            case thrown: ControlStructure =>
+              thrown._argumentOut.cast[Expression].filter(_.argumentIndex == index).foreach {
+                case block: Block => addEdgeForBlock(block, channel)
+                case operand      => addEdge(operand, channel, nodeToEdgeLabel(operand))
+              }
+            case _ =>
           }
         }
       }

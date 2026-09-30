@@ -1,6 +1,7 @@
 package io.joern.dataflowengineoss.queryengine
 
 import io.joern.dataflowengineoss.queryengine.Engine.argToOutputParams
+import io.joern.dataflowengineoss.passes.reachingdef.ExitRouting
 import io.shiftleft.codepropertygraph.generated.nodes.*
 import io.shiftleft.codepropertygraph.generated.{Cpg, Languages}
 import io.shiftleft.semanticcpg.language.*
@@ -15,8 +16,45 @@ class TaskCreator(context: EngineContext) {
   /** For a given list of results and sources, generate new tasks.
     */
   def createFromResults(results: Vector[ReachableByResult]): Vector[ReachableByTask] = {
-    val newTasks = tasksForParams(results) ++ tasksForUnresolvedOutArgs(results)
+    val (exceptional, normal) = results.partition(_.path.head.outputChannel != OutputChannel.Normal)
+    val newTasks = tasksForParams(normal) ++ tasksForUnresolvedOutArgs(normal) ++ tasksForExceptions(exceptional)
     removeTasksWithLoopsAndTooHighCallDepth(newTasks)
+  }
+
+  private def tasksForExceptions(results: Vector[ReachableByResult]): Vector[ReachableByTask] = {
+    val tasks = results.flatMap { result =>
+      result.outputArgument.toVector.collect { case call: Call => call }.flatMap { call =>
+        val channel = result.path.head.outputChannel
+        if (call.name.startsWith("<operator>")) {
+          context.config.diagnostics.foreach(_.record("implicit-exception-channel"))
+          Vector.empty
+        } else {
+          val methods = NoResolve.getCalledMethods(call).toList
+          if (methods.isEmpty) context.config.diagnostics.foreach(_.record("unresolved-exception-channel"))
+          methods.toVector.flatMap { method =>
+            if (method.isExternal || method.start.isStub.nonEmpty) {
+              context.config.diagnostics.foreach(_.record("external-exception-channel"))
+              Vector.empty
+            } else {
+              val callStack = call :: result.callSiteStack
+              ExitRouting.escaping(method).toVector.flatMap {
+                case thrown: ControlStructure =>
+                  thrown._argumentOut.cast[Expression].filter(_.argumentIndex == channel.argumentIndex).map { operand =>
+                    val fingerprint = TaskFingerprint(operand, callStack, result.callDepth + 1)
+                    val path        = Vector(PathElement(thrown, callStack)) ++ result.path
+                    ReachableByTask(result.taskStack :+ fingerprint, path)
+                  }
+                case nested: Call =>
+                  val fingerprint = TaskFingerprint(nested, callStack, result.callDepth + 1, channel)
+                  Vector(ReachableByTask(result.taskStack :+ fingerprint, result.path))
+                case _ => Vector.empty
+              }
+            }
+          }
+        }
+      }
+    }
+    restrictSize(tasks)
   }
 
   private def removeTasksWithLoopsAndTooHighCallDepth(tasks: Vector[ReachableByTask]): Vector[ReachableByTask] = {
