@@ -16,11 +16,15 @@ object EdgeValidator {
       case (childNode: Expression, parentNode)
           if isCallRetval(parentNode) || !isValidEdgeToExpression(parentNode, childNode) =>
         false
-      case (childNode: Call, parentNode: Expression)
-          if isCallRetval(childNode) && childNode.argument.contains(parentNode) =>
-        // e.g. foo(x), but there are semantics for `foo` that don't taint its return value
-        // in which case we don't want `x` to taint `foo(x)`.
-        false
+      case (call: Call, argument: Expression) if call.argument.contains(argument) =>
+        val summaries = semanticsForCall(call)
+        summaries.isEmpty || summaries.exists(_.mappings.exists {
+          case FlowMapping(ParameterNode(_, Some(name)), ParameterNode(-1, None)) if argument.argumentName.isDefined =>
+            argument.argumentName.contains(name)
+          case FlowMapping(ParameterNode(index, _), ParameterNode(-1, None)) => index == argument.argumentIndex
+          case PassThroughMapping                                            => argument.argumentIndex != 0
+          case _                                                             => false
+        })
       case (childNode: Expression, parentNode: Expression)
           if parentNode.isArgToSameCallWith(childNode) && childNode.isDefined && parentNode.isUsed =>
         parentNode.hasDefinedFlowTo(childNode)
