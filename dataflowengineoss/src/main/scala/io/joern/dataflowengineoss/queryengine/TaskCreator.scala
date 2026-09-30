@@ -23,7 +23,11 @@ class TaskCreator(context: EngineContext) {
     val tasksWithValidCallDepth = if (context.config.maxCallDepth == -1) {
       tasks
     } else {
-      tasks.filter(_.callDepth <= context.config.maxCallDepth)
+      tasks.filter { task =>
+        val withinLimit = task.callDepth <= context.config.maxCallDepth
+        if (!withinLimit) context.config.diagnostics.foreach(_.record("call-depth"))
+        withinLimit
+      }
     }
     tasksWithValidCallDepth.filter { t =>
       t.taskStack.dedup.size == t.taskStack.size
@@ -70,6 +74,7 @@ class TaskCreator(context: EngineContext) {
   private def paramToArgs(param: MethodParameterIn): List[Expression] = {
     val args = paramToArgsOfCallers(param) ++ paramToMethodRefCallReceivers(param)
     if (args.size > context.config.maxArgsToAllow) {
+      context.config.diagnostics.foreach(_.record("parameter-arguments"))
       logger.warn(s"Too many arguments for parameter: ${args.size}. Not expanding")
       logger.warn("Method name: " + param.method.fullName)
       List()
@@ -137,11 +142,7 @@ class TaskCreator(context: EngineContext) {
     val forArgs = outArgsAndCalls.flatMap { case (result, args, path, callDepth) =>
       args.toList.flatMap {
         case arg: Expression =>
-          val outParams = if (result.callSiteStack.nonEmpty) {
-            List[MethodParameterOut]()
-          } else {
-            argToOutputParams(arg).l
-          }
+          val outParams = argToOutputParams(arg).l
           outParams
             .filterNot(_.method.isExternal)
             .map { p =>
@@ -176,6 +177,7 @@ class TaskCreator(context: EngineContext) {
     if (l.size <= context.config.maxOutputArgsExpansion) {
       l
     } else {
+      context.config.diagnostics.foreach(_.record("output-argument-expansion"))
       logger.warn("Too many new tasks in expansion of unresolved output arguments")
       Vector()
     }

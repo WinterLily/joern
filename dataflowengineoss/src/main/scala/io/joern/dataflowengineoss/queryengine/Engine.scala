@@ -103,6 +103,7 @@ class Engine(context: EngineContext) {
             handleSummary(resultsOfTask)
           case Failure(exception) =>
             numberOfTasksRunning -= 1
+            context.config.diagnostics.foreach(_.record("failed-task"))
             logger.warn(s"SolveTask failed with exception:", exception)
             exception.printStackTrace()
         }
@@ -322,8 +323,18 @@ case class EngineConfig(
   initialTable: Option[mutable.Map[TaskFingerprint, Vector[ReachableByResult]]] = None,
   shareCacheBetweenTasks: Boolean = true,
   maxArgsToAllow: Int = 1000,
-  maxOutputArgsExpansion: Int = 1000
+  maxOutputArgsExpansion: Int = 1000,
+  diagnostics: Option[QueryDiagnostics] = None
 )
+
+/** Per-query evidence that a search omitted work. Use a fresh instance for each query. */
+class QueryDiagnostics {
+  private val observed = ConcurrentHashMap.newKeySet[String]()
+
+  def record(reason: String): Unit = { observed.add(reason) }
+
+  def limitations: Set[String] = observed.asScala.toSet
+}
 
 /** Tracks various performance characteristics of the query engine.
   */
