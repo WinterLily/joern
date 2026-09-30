@@ -83,7 +83,7 @@ private[dartsrc2cpg] object ExportProtocol {
     require(
       header("record").str == "header" && header("protocolVersion").num == 1 &&
         header("offsetEncoding").str == "utf-16" && header("analyzerVersion").str == "8.4.1" &&
-        header("sdkVersion").str == "3.9.2" && header.obj.get("exporterVersion").contains(ujson.Str("0.3.3")),
+        header("sdkVersion").str == "3.9.2" && header.obj.get("exporterVersion").contains(ujson.Str("0.3.4")),
       "Incompatible Dart exporter protocol"
     )
     require(records.last("record").str == "summary", "Truncated Dart exporter output")

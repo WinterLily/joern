@@ -36,6 +36,32 @@ void main() {
   tearDown(() => project.deleteSync(recursive: true));
 
   test(
+    'export operator dispatch separately from indexed read and write targets',
+    () async {
+      write('main.dart', """
+class Value { Value operator +(int amount) => this; }
+class Store {
+  Value operator [](int index) => Value();
+  void operator []=(int index, Value value) {}
+}
+void main() { final store = Store(); store[0] += 1; store[1]++; }
+""");
+      final unit = units(await export()).single;
+      expect(unit['status'], 'resolved');
+      final nodes = entries(unit, 'nodes');
+      final symbols = {
+        for (final symbol in entries(unit, 'symbols')) symbol['id']: symbol,
+      };
+      for (final kind in ['AssignmentExpression', 'PostfixExpression']) {
+        final update = nodes.singleWhere((node) => node['kind'] == kind);
+        expect(symbols[update['operatorTarget']]!['name'], '+');
+        expect(symbols[update['read']]!['name'], '[]');
+        expect(symbols[update['write']]!['name'], '[]=');
+      }
+    },
+  );
+
+  test(
     'select VM and web conditional imports from the pinned SDK library set',
     () async {
       write(

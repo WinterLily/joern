@@ -33,6 +33,15 @@
       "valueFlow": "unsupported",
       "negative": "language version diagnostics",
       "interaction": "not-applicable"
+    },
+    "operators": {
+      "exporter": "astgen/test/exporter_test.dart: export operator dispatch separately from indexed read and write targets",
+      "lowering": "DartFrontendTests: resolve indexed updates and overloaded increments without repeating receiver or index",
+      "resolution": "DartFrontendTests: resolve user operators and distinguish their returned arguments from constants",
+      "cfg": "DartFrontendTests: guard null-aware index updates including their index and assigned value",
+      "valueFlow": "DartFrontendTests: yield the assigned value independently of setter and index-setter returns",
+      "negative": "DartFrontendTests: resolve user operators and distinguish their returned arguments from constants",
+      "interaction": "astgen/test/operator_evaluation_test.dart: bounded -1..1 prefix/postfix and compound update traces"
     }
   },
   "constructs": [
@@ -96,9 +105,9 @@
       "construct": "AssignmentExpression",
       "scope": "dart-3.9",
       "exporterCase": "AssignmentExpression",
-      "contract": "syntax",
-      "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "contract": "operators",
+      "qualification": "tested-conservative",
+      "reason": "User-declared resolved operators are calls; SDK primitive operators retain shared operator semantics. Dynamic targets and virtual runtime dispatch are conservative."
     },
     {
       "construct": "AwaitExpression",
@@ -112,9 +121,9 @@
       "construct": "BinaryExpression",
       "scope": "dart-3.9",
       "exporterCase": "BinaryExpression",
-      "contract": "syntax",
-      "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "contract": "operators",
+      "qualification": "tested-conservative",
+      "reason": "User-declared resolved operators are calls; SDK primitive operators retain shared operator semantics. Dynamic targets and virtual runtime dispatch are conservative."
     },
     {
       "construct": "Block",
@@ -720,9 +729,9 @@
       "construct": "IndexExpression",
       "scope": "dart-3.9",
       "exporterCase": "IndexExpression",
-      "contract": "syntax",
-      "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "contract": "operators",
+      "qualification": "tested-conservative",
+      "reason": "User-declared resolved operators are calls; SDK primitive operators retain shared operator semantics. Dynamic targets and virtual runtime dispatch are conservative."
     },
     {
       "construct": "InstanceCreationExpression",
@@ -1032,9 +1041,9 @@
       "construct": "PostfixExpression",
       "scope": "dart-3.9",
       "exporterCase": "PostfixExpression",
-      "contract": "syntax",
-      "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "contract": "operators",
+      "qualification": "tested-conservative",
+      "reason": "User-declared resolved operators are calls; SDK primitive operators retain shared operator semantics. Dynamic targets and virtual runtime dispatch are conservative."
     },
     {
       "construct": "PrefixedIdentifier",
@@ -1048,9 +1057,9 @@
       "construct": "PrefixExpression",
       "scope": "dart-3.9",
       "exporterCase": "PrefixExpression",
-      "contract": "syntax",
-      "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "contract": "operators",
+      "qualification": "tested-conservative",
+      "reason": "User-declared resolved operators are calls; SDK primitive operators retain shared operator semantics. Dynamic targets and virtual runtime dispatch are conservative."
     },
     {
       "construct": "PrimaryConstructorDeclaration",

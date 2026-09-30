@@ -11,7 +11,7 @@
     "project": "collection-1.19.1",
     "files": 29,
     "methods": 685,
-    "calls": 4441,
+    "calls": 4442,
     "unknown": 0,
     "unknownKinds": {}
   },
@@ -43,7 +43,7 @@
     "project": "http_parser-4.1.2",
     "files": 11,
     "methods": 64,
-    "calls": 906,
+    "calls": 907,
     "unknown": 0,
     "unknownKinds": {}
   },
@@ -51,7 +51,7 @@
     "project": "analyzer-8.4.1",
     "files": 458,
     "methods": 21884,
-    "calls": 198056,
+    "calls": 199128,
     "unknown": 0,
     "unknownKinds": {}
   }

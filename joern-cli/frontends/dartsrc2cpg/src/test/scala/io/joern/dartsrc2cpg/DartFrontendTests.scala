@@ -77,6 +77,77 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
   }
 
   "Dart frontend" should {
+    "resolve user operators and distinguish their returned arguments from constants" in {
+      for (returned <- Seq("value", "'constant'")) {
+        fixture(
+          s"class Formatter { String operator +(String value) => $returned; }",
+          "void main(List<String> args) { final input = args[0]; sink(Formatter() + input); }"
+        ) { (cpg, _) =>
+          val invocation = cpg.call.codeExact("Formatter() + input").head
+          invocation.name shouldBe "+"
+          invocation.callee.isExternal.l shouldBe List(false)
+          invocation.argument(1).code shouldBe "input"
+          cpg.call.nameExact("sink").argument.reachableByFlows(cpg.identifier.nameExact("input")).nonEmpty shouldBe
+            (returned == "value")
+        }
+      }
+    }
+    "yield the assigned value independently of setter and index-setter returns" in {
+      for (location <- Seq("Discard().value", "Discard()[0]")) {
+        fixture(
+          "class Discard { set value(String next) {} void operator []=(int index, String next) {} }",
+          s"void main(List<String> args) { final input = args[0]; sink($location = input); }"
+        ) { (cpg, _) =>
+          cpg.call.nameExact("sink").argument.reachableByFlows(cpg.identifier.nameExact("input")).nonEmpty shouldBe true
+          val setters = cpg.call.filter(call => call.methodFullName.contains("SETTER") || call.name == "[]=").l
+          setters.iterator.callee.isExternal.l shouldBe List(false)
+          setters.head.astParent.astChildren.toList
+            .sortBy(_.order)
+            .last
+            .isInstanceOf[io.shiftleft.codepropertygraph.generated.nodes.Identifier] shouldBe true
+        }
+      }
+    }
+    "resolve indexed updates and overloaded increments without repeating receiver or index" in {
+      fixture(
+        """class Counter {
+          |  Counter operator +(int amount) => this;
+          |  Counter operator -() => this;
+          |  bool operator ==(Object other) => false;
+          |}
+          |class Store {
+          |  Counter operator [](int index) => Counter();
+          |  void operator []=(int index, Counter value) {}
+          |}
+          |Store receiver() => Store();
+          |int index() => 0;
+          |""".stripMargin,
+        "void main() { receiver()[index()]++; final value = -Counter(); final unequal = value != Counter(); }"
+      ) { (cpg, _) =>
+        cpg.call.nameExact("receiver").size shouldBe 1
+        cpg.call.nameExact("index").size shouldBe 1
+        for (name <- Seq("[]", "[]=", "+", "-", "==")) {
+          withClue(name) { cpg.call.nameExact(name).callee.isExternal.l shouldBe List(false) }
+        }
+        cpg.call.nameExact("<operator>.logicalNot").argument.isCall.name.l shouldBe List("==")
+      }
+    }
+    "guard null-aware index updates including their index and assigned value" in {
+      fixture(
+        """class Store { void operator []=(int index, String value) {} }
+          |Store? receiver() => null;
+          |int index() => 0;
+          |String value() => 'value';
+          |""".stripMargin,
+        "void main() { receiver()?[index()] = value(); }",
+        dataflow = false
+      ) { (cpg, _) =>
+        cpg.call.nameExact("receiver").size shouldBe 1
+        val guard = cpg.call.nameExact("<operator>.conditional").head
+        guard.argument(2).ast.isCall.name.toSet should contain allOf ("index", "value", "[]=")
+        guard.argument(3).code shouldBe "null"
+      }
+    }
     "give constructor-expanded field closures distinct identities and receiver captures" in {
       fixture(
         """class Box {
@@ -713,7 +784,8 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         cpg.method.nameExact("<clinit>").literal.code.l should contain("'global'")
         cpg.method.nameExact("<init>").isExternal(false).literal.code.l should contain("'initial'")
         cpg.call.nameExact("write").callee.isExternal.l shouldBe List(false)
-        cpg.call.nameExact("write").argument(1).code.l shouldBe List("'updated'")
+        cpg.call.nameExact("write").argument(1).isIdentifier.refsTo.size shouldBe 1
+        cpg.literal.codeExact("'updated'").size shouldBe 1
         cpg.call.nameExact("read").callee.isExternal.l shouldBe List(false)
       }
     }
@@ -1228,7 +1300,7 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         scan(config.copy(report = report.toString))
         val coverage = ujson.read(Files.readString(report))
         coverage("includedFiles").num shouldBe 0
-        coverage("exporter")("exporterVersion").str shouldBe "0.3.3"
+        coverage("exporter")("exporterVersion").str shouldBe "0.3.4"
         coverage("exporter")("sdkVersion").str shouldBe "3.9.2"
         coverage("exporter")("analyzerVersion").str shouldBe "8.4.1"
         Files.writeString(dir.resolve("excluded.dart"), "void excluded() {}")
@@ -1246,7 +1318,7 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         "offsetEncoding"  -> "utf-16",
         "analyzerVersion" -> "8.4.1",
         "sdkVersion"      -> "3.9.2",
-        "exporterVersion" -> "0.3.3"
+        "exporterVersion" -> "0.3.4"
       )
       intercept[IllegalArgumentException](ExportProtocol.units(Seq(valid)))
       intercept[IllegalArgumentException](

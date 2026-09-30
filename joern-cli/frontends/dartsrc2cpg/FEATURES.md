@@ -1,6 +1,6 @@
 # Dart and Flutter feature matrix
 
-Tested with Dart 3.9.2, analyzer 8.4.1, exporter 0.3.3 and Flutter 3.35.3
+Tested with Dart 3.9.2, analyzer 8.4.1, exporter 0.3.4 and Flutter 3.35.3
 (framework revision `a402d9a437`). “Parsed” means explicit exporter nodes rather
 than UNKNOWN. Resolution uses existing package configuration and SDK resources.
 Dataflow claims below refer to the OSS engine with default semantics, not Dart
@@ -55,3 +55,11 @@ Enum runtime-generated `values`, `index` and `name` behavior is not synthesized.
 The [coverage completion plan](COVERAGE_PLAN.md) defines the remaining semantic
 audit, conformance and release gates. Passing corpus endpoint queries does not
 by itself validate every hop of a returned dataflow witness.
+
+Resolved user-defined arithmetic, equality, unary and index operators retain
+method calls. Compound/index updates evaluate receiver and index once, preserve
+prefix/postfix values, and yield the assigned value after void setters. Null-aware
+updates guard the entire index/right-hand evaluation. SDK primitive operators
+retain shared operator semantics; unresolved dynamic dispatch remains conservative.
+Bounded Dart execution traces and argument-versus-constant dataflow tests cover
+these contracts; operator syntax alone does not establish exact heap behavior.

@@ -292,6 +292,27 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
         case _ => identifier(syntax, name, id, tpe(syntax))
       }
     }
+    def userOperator(id: String): Boolean =
+      string(sym(id), "kind") == "METHOD" && !string(sym(id), "file").startsWith("dart:")
+    def resolvedOperator(syntax: Value, name: String, values: Seq[Ast], targetId: String): Ast = {
+      if (!userOperator(targetId)) operator(syntax, name, values)
+      else {
+        val out = located(
+          NewCall()
+            .name(string(sym(targetId), "name"))
+            .methodFullName(targetId)
+            .code(code(syntax))
+            .typeFullName(tpe(syntax))
+            .dispatchType(
+              if (string(sym(string(sym(targetId), "owner")), "kind") == "EXTENSION")
+                DispatchTypes.STATIC_DISPATCH
+              else DispatchTypes.DYNAMIC_DISPATCH
+            ),
+          syntax
+        )
+        args(out, values, values.indices).withReceiverEdge(out, values.head.root.get)
+      }
+    }
     def update(syntax: Value, left: Value)(assign: (() => Ast, Ast => Ast) => Ast): Ast = {
       def access(receiver: () => Ast): Ast = {
         val readId                 = string(syntax, "read", string(left, "reference"))
@@ -310,10 +331,14 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
                 ),
               syntax
             )
-            if (bool(sym(writeId), "static")) args(out, Seq(value))
-            else {
-              val base = receiver()
-              args(out, Seq(base, value), Seq(0, 1)).withReceiverEdge(out, base.root.get)
+            savedSequence(syntax, value) { assigned =>
+              val invocation =
+                if (bool(sym(writeId), "static")) args(out, Seq(assigned()))
+                else {
+                  val base = receiver()
+                  args(out, Seq(base, assigned()), Seq(0, 1)).withReceiverEdge(out, base.root.get)
+                }
+              Seq(invocation, assigned())
             }
           } else
             operator(
@@ -332,8 +357,21 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
             .getOrElse(thisAst(left))
           saved(syntax, target)(base =>
             saved(syntax, expression(child(left, "index")))(index => {
-              def read(): Ast = operator(left, Operators.indexAccess, Seq(base(), index()))
-              assign(() => read(), value => operator(syntax, Operators.assignment, Seq(read(), value)))
+              val readId      = string(syntax, "read", string(left, "operatorTarget"))
+              val writeId     = string(syntax, "write", string(left, "operatorTarget"))
+              def read(): Ast = resolvedOperator(left, Operators.indexAccess, Seq(base(), index()), readId)
+              assign(
+                () => read(),
+                value =>
+                  if (userOperator(writeId))
+                    savedSequence(syntax, value)(assigned =>
+                      Seq(
+                        resolvedOperator(syntax, Operators.assignment, Seq(base(), index(), assigned()), writeId),
+                        assigned()
+                      )
+                    )
+                  else operator(syntax, Operators.assignment, Seq(read(), value))
+              )
             })
           )
         case "PropertyAccess" | "PrefixedIdentifier" =>
@@ -341,7 +379,7 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
             .map(expression)
             .orElse(cascadeBase(left))
             .getOrElse(thisAst(left))
-          if (bool(left, "nullAware")) guarded(syntax, base)(access) else saved(syntax, base)(access)
+          if (nullAware(left)) guarded(syntax, base)(access) else saved(syntax, base)(access)
         case _ => access(() => thisAst(left))
       }
     }
@@ -381,8 +419,10 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
     def chainReceiver(syntax: Value): Option[Value] = string(syntax, "kind") match {
       case "MethodInvocation" | "PropertyAccess" | "PrefixedIdentifier" | "FunctionExpressionInvocation" =>
         children(syntax, "receiver").headOption
-      case "IndexExpression" => children(syntax, "target").headOption
-      case _                 => None
+      case "IndexExpression"                        => children(syntax, "target").headOption
+      case "AssignmentExpression"                   => children(syntax, "left").headOption
+      case "PrefixExpression" | "PostfixExpression" => children(syntax, "operand").headOption
+      case _                                        => None
     }
     def firstNullAware(syntax: Value): Option[Value] = chainReceiver(syntax).flatMap { receiver =>
       firstNullAware(receiver).orElse(if (nullAware(syntax)) Some(syntax) else None)
@@ -749,9 +789,20 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
             .getOrElse(thisAst(syntax))
         if (nullAware(syntax))
           guarded(syntax, base)(ref =>
-            operator(syntax, Operators.indexAccess, Seq(ref(), expression(child(syntax, "index"))))
+            resolvedOperator(
+              syntax,
+              Operators.indexAccess,
+              Seq(ref(), expression(child(syntax, "index"))),
+              string(syntax, "operatorTarget")
+            )
           )
-        else operator(syntax, Operators.indexAccess, Seq(base, expression(child(syntax, "index"))))
+        else
+          resolvedOperator(
+            syntax,
+            Operators.indexAccess,
+            Seq(base, expression(child(syntax, "index"))),
+            string(syntax, "operatorTarget")
+          )
       case "AssignmentExpression" =>
         val op                                              = string(syntax, "operator")
         val left                                            = child(syntax, "left")
@@ -764,10 +815,11 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
           else if (op == "=") write(expression(right))
           else
             write(
-              operator(
+              resolvedOperator(
                 syntax,
                 binaryOperators.getOrElse(op.dropRight(1), "<operator>.unknown"),
-                Seq(read(), expression(right))
+                Seq(read(), expression(right)),
+                string(syntax, "operatorTarget")
               )
             )
         }
@@ -781,12 +833,18 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
               Seq(nonNull(syntax, ref()), ref(), expression(child(syntax, "right")))
             )
           )
-        else
-          operator(
+        else {
+          val targetId = string(syntax, "operatorTarget")
+          val value    = resolvedOperator(
             syntax,
             binaryOperators.getOrElse(string(syntax, "operator"), "<operator>.unknown"),
-            Seq(expression(child(syntax, "left")), expression(child(syntax, "right")))
+            Seq(expression(child(syntax, "left")), expression(child(syntax, "right"))),
+            targetId
           )
+          if (string(syntax, "operator") == "!=" && userOperator(targetId))
+            operator(syntax, Operators.logicalNot, Seq(value))
+          else value
+        }
       case "ConditionalExpression" =>
         operator(
           syntax,
@@ -814,15 +872,19 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
         val accessor = Seq(readId, writeId).exists(id =>
           Set("GETTER", "SETTER").contains(string(sym(id), "kind")) && !bool(sym(id), "synthetic")
         )
-        if (Set("++", "--").contains(string(syntax, "operator")) && accessor) {
+        if (
+          Set("++", "--").contains(string(syntax, "operator")) &&
+          (accessor || userOperator(string(syntax, "operatorTarget")) || string(operand, "kind") == "IndexExpression")
+        ) {
           update(syntax, operand) { (read, write) =>
             saved(syntax, read()) { before =>
               saved(
                 syntax,
-                operator(
+                resolvedOperator(
                   syntax,
                   if (string(syntax, "operator") == "++") Operators.addition else Operators.subtraction,
-                  Seq(before(), literal(syntax, "1", "int"))
+                  Seq(before(), literal(syntax, "1", "int")),
+                  string(syntax, "operatorTarget")
                 )
               ) { after =>
                 block(syntax, Seq(write(after()), if (prefix) after() else before()))
@@ -834,7 +896,7 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
             val receiver = children(operand, "receiver").headOption.map(expression).orElse(cascadeBase(operand))
             reference(operand, readId, string(operand, "name"), receiver)
           } else expression(operand)
-          operator(syntax, name, Seq(value))
+          resolvedOperator(syntax, name, Seq(value), string(syntax, "operatorTarget"))
         }
       case "StringInterpolation" | "AdjacentStrings" =>
         operator(syntax, "<operator>.formatString", children(syntax, "element").map(expression))

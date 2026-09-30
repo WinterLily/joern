@@ -13,7 +13,7 @@ import 'package:analyzer/source/line_info.dart';
 import 'package:path/path.dart' as p;
 
 const protocolVersion = 1;
-const exporterVersion = '0.3.3';
+const exporterVersion = '0.3.4';
 const analyzerVersion = '8.4.1';
 const supportedSdkVersion = '3.9.2';
 
@@ -805,12 +805,14 @@ class _UnitEncoder {
         child('else', ast.elseExpression);
       case PrefixExpression():
         kind = 'PrefixExpression';
+        record['operatorTarget'] = symbol(ast.element);
         record['read'] = symbol(ast.readElement);
         record['write'] = symbol(ast.writeElement);
         record['operator'] = ast.operator.lexeme;
         child('operand', ast.operand);
       case PostfixExpression():
         kind = 'PostfixExpression';
+        record['operatorTarget'] = symbol(ast.element);
         record['read'] = symbol(ast.readElement);
         record['write'] = symbol(ast.writeElement);
         record['operator'] = ast.operator.lexeme;
@@ -1006,12 +1008,14 @@ class _UnitEncoder {
         many('argument', ast.arguments);
       case IndexExpression():
         kind = 'IndexExpression';
+        record['operatorTarget'] = symbol(ast.element);
         record['cascaded'] = ast.isCascaded;
         record['nullAware'] = ast.isNullAware;
         child('target', ast.target);
         child('index', ast.index);
       case AssignmentExpression():
         kind = 'AssignmentExpression';
+        record['operatorTarget'] = symbol(ast.element);
         record['read'] = symbol(ast.readElement);
         record['write'] = symbol(ast.writeElement);
         record['operator'] = ast.operator.lexeme;
@@ -1019,6 +1023,7 @@ class _UnitEncoder {
         child('right', ast.rightHandSide);
       case BinaryExpression():
         kind = 'BinaryExpression';
+        record['operatorTarget'] = symbol(ast.element);
         record['operator'] = ast.operator.lexeme;
         child('left', ast.leftOperand);
         child('right', ast.rightOperand);
