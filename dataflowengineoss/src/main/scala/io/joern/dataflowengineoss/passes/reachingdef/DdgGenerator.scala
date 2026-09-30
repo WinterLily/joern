@@ -187,6 +187,37 @@ class DdgGenerator(semantics: Semantics) {
       if (exitReturns.contains(ret)) addEdge(ret, method.methodReturn, "<RET>")
     }
 
+    def addEdgesToThrowOperands(thrown: ControlStructure): Unit = {
+      usageAnalyzer.usedIncomingDefs(thrown).foreach { case (use, definitions) =>
+        definitions.flatMap(numberToNode.get).filterNot(_ == use).foreach { definition =>
+          addEdge(definition, use, nodeToEdgeLabel(definition))
+        }
+      }
+    }
+
+    def addCaughtValueEdges(): Unit = {
+      // Following arbitrary cleanup successors would conflate pending and replacement exceptions.
+      allNodes
+        .collect {
+          case call: Call if call.name == "<operator>.caughtException" || call.name == "<operator>.caughtStackTrace" =>
+            call
+        }
+        .foreach { channel =>
+          val index   = if (channel.name == "<operator>.caughtException") 1 else 2
+          val handler =
+            Iterator.single(channel).inAstMinusLeaf.takeWhile(_ != method).isControlStructure.isCatch.headOption
+          for {
+            caught  <- handler
+            entry   <- caught.condition.isLiteral.codeExact("true")
+            thrown  <- entry._cfgIn.cast[CfgNode].isControlStructure.isThrow
+            operand <- thrown._argumentOut.cast[Expression].filter(_.argumentIndex == index)
+          } operand match {
+            case block: Block => addEdgeForBlock(block, channel)
+            case _            => addEdge(operand, channel, nodeToEdgeLabel(operand))
+          }
+        }
+    }
+
     def addEdgesToMethodParameterOut(paramOut: MethodParameterOut): Unit = {
       // There is always an edge from the method input parameter
       // to the corresponding method output parameter as modifications
@@ -264,9 +295,12 @@ class DdgGenerator(semantics: Semantics) {
       case call: Call                   => addEdgesToCallSite(call)
       case ret: Return                  => addEdgesToReturn(ret)
       case paramOut: MethodParameterOut => addEdgesToMethodParameterOut(paramOut)
-      case _                            =>
+      case thrown: ControlStructure if thrown.controlStructureType == ControlStructureTypes.THROW =>
+        addEdgesToThrowOperands(thrown)
+      case _ =>
     }
 
+    addCaughtValueEdges()
     addEdgesToCapturedIdentifiersAndParameters()
     addEdgesToExitNode(method.methodReturn)
     addEdgesFromLoneIdentifiersToExit(method)
@@ -431,7 +465,9 @@ private class UsageAnalyzer(problem: DataFlowProblem[CfgNode, mutable.BitSet], i
       case ret: Return                  => ret.astChildren.collect { case x: Expression => x }.toSet
       case call: Call                   => call.argument.toSet
       case paramOut: MethodParameterOut => Set(paramOut)
-      case _                            => Set()
+      case thrown: ControlStructure if thrown.controlStructureType == ControlStructureTypes.THROW =>
+        thrown._argumentOut.cast[Expression].toSet
+      case _ => Set()
     }
     n.filterNot(_.isInstanceOf[FieldIdentifier])
   }

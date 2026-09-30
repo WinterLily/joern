@@ -195,9 +195,10 @@ class CfgCreator(entryNode: Method, diffGraph: DiffGraphBuilder) {
           node.astChildren.order(1)
         }
       )
-      .headOption
+      .toList
+      .sortBy(_.order)
       .map(cfgFor)
-      .getOrElse(Cfg.empty)
+      .foldLeft(Cfg.empty)(_ ++ _)
     throwExprCfg ++ Cfg(entryNode = Option(node), exits = List(node -> ExitKind.Thrown))
   }
 
