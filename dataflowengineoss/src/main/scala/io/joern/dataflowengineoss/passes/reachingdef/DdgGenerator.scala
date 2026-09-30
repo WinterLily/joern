@@ -36,6 +36,42 @@ class DdgGenerator(semantics: Semantics) {
         case _ => backward ++= node._cfgIn.cast[CfgNode]
       }
     }
+    // A throw caught inside the active cleanup does not replace its pending return.
+    // Require explicit handler and cleanup edges; omitted filters remain conservative.
+    def handledInsideCleanup(ret: Return, thrown: ControlStructure): Boolean = {
+      val returnAncestors = Iterator.single(ret).inAstMinusLeaf.takeWhile(_ != method).toSet
+      val cleanups        = returnAncestors
+        .collect { case control: ControlStructure => control }
+        .flatMap(_._finallyBodyOut.cast[AstNode])
+        .filterNot(returnAncestors.contains)
+      val throwAncestors = Iterator.single(thrown).inAstMinusLeaf.takeWhile(_ != method).toList
+      throwAncestors.find(cleanups.contains).exists { cleanup =>
+        val withinCleanup  = throwAncestors.takeWhile(_ != cleanup)
+        val protectedNodes = (thrown :: withinCleanup).toSet
+        withinCleanup.collect { case control: ControlStructure => control }.exists { control =>
+          control._tryBodyOut.cast[AstNode].exists(protectedNodes.contains) &&
+          control._catchBodyOut.cast[AstNode].exists {
+            case handler: ControlStructure if handler.controlStructureType == ControlStructureTypes.CATCH =>
+              handler.condition.isLiteral.codeExact("true").nonEmpty
+            case _ => false
+          }
+        }
+      }
+    }
+    reachable.collect { case ret: Return if !returns.contains(ret) => ret }.foreach { ret =>
+      val seen    = mutable.HashSet.empty[CfgNode]
+      val pending = mutable.ArrayDeque.from(ret._cfgOut.cast[CfgNode])
+      while (pending.nonEmpty && !returns.contains(ret)) {
+        val node = pending.removeHead()
+        if (seen.add(node)) node match {
+          case _: MethodReturn                                                                        => returns += ret
+          case _: Return                                                                              =>
+          case thrown: ControlStructure if thrown.controlStructureType == ControlStructureTypes.THROW =>
+            if (handledInsideCleanup(ret, thrown)) pending ++= thrown._cfgOut.cast[CfgNode]
+          case _ => pending ++= node._cfgOut.cast[CfgNode]
+        }
+      }
+    }
     returns.toSet
   }
 
