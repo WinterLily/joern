@@ -1,4 +1,4 @@
-# Core Dart graph conventions
+# Dart graph conventions
 
 ## Names, libraries and types
 
@@ -55,8 +55,67 @@ Collections and interpolation use operator calls with children in source order.
 
 Unknown syntax remains UNKNOWN with its source text and a warning. Exporter
 unsupported-kind diagnostics are also logged, including unsupported descendants
-of otherwise supported declarations. Async scheduling, patterns and modern
-collection elements belong to milestone 4.
+of otherwise supported declarations. Modern syntax uses the conventions below.
+
+## Modern Dart lowering
+
+Records use `<operator>.record` with ordered key/value associations. Positional
+keys are `$1`, `$2`, etc.; named keys retain their names. Reads and destructuring
+use field accesses. The shared engine can propagate whole-record dependencies;
+this representation does not promise independent taint for every record field.
+
+Patterns evaluate the matched value once. Variable patterns declare/reference
+locals with analyzer identities; logical-or variables use their joined identity.
+Record/object/list/map patterns combine an opaque `<operator>.patternShape`
+predicate with field/getter/index extraction. Rest patterns use
+`<operator>.patternRest`, including the count of trailing elements. Typed,
+relational, constant and null-check patterns use ordinary operators. Logical
+patterns and guards short-circuit. Cast/null-assert patterns retain their operators.
+Shape and rest operators preserve dependencies and structure, but have no exact
+runtime matching or slice summaries. Predicate paths are conservative.
+
+Destructuring includes a mismatch THROW path; exact exception types and atomic
+assignment behavior on failures are not simulated. Switch expressions assign a
+result temporary in ordered IF branches and read it after the selected branch.
+Synthetic assignments use distinct code to avoid aliasing with their enclosing
+expression in the shared reaching-definition analysis. Pattern switches keep a
+SWITCH boundary for explicit breaks and ordered pattern/guard tests within it.
+Analyzer exhaustiveness diagnostics remain visible; an unmatched switch
+expression has a synthetic THROW exit.
+
+Mixins, extensions and extension types have TYPE_DECL owners. Analyzer supertypes
+include applied mixins. Extension methods keep an explicit receiver at index 0,
+typed as the extended type, with statically selected targets; explicit extension
+overrides evaluate their receiver once. Extension types have a representation
+MEMBER and a primary constructor that assigns it. Runtime representation erasure
+is not simulated. Dart class modifiers are retained as `dart.*` annotations;
+`abstract`/`sealed` also emit ABSTRACT and `final` emits FINAL. Dart `interface`
+is retained as an annotation, since it does not forbid method implementations.
+
+Collection spreads retain an explicit spread operator; null-aware spreads guard
+a single evaluation and produce an empty collection for null. Collection if
+uses a conditional; collection for uses the same loops and pattern bindings as
+statements. The loop body retains each element expression, but this does not
+simulate collection accumulation or exact membership across iterations.
+
+Async/generator methods carry `dart.async`/`dart.generator` annotations. Await,
+yield and yield* become `<operator>.await`, `.yield` and `.yieldAll`. Await-for
+uses `<operator>.streamIterator` and a WHILE whose moveNext is awaited, followed
+by current extraction and the source body. These are source-order CFGs: no
+suspension/resumption graph, iterator cancellation/finalization, event scheduling,
+isolate or framework lifecycle analysis is inferred. See
+[runtime summary requirements](RUNTIME_SUMMARIES.md) for effects not provided by
+syntax lowering.
+
+Package configuration and language versions are owned by the analyzer. Unit
+records expose the effective language version, including file overrides; missing
+configuration can use the analyzer's default language version. Scans never run
+pub, generators or builds. Existing generated files and workspace packages are
+included. Conditional imports/exports record `selectedUri`; the header identifies
+`analyzer-default` as the conditional environment. No custom declared variables
+are passed; the tested `dart.library.io` conditional selects its fallback. This
+is not a selectable VM/web build target. Alternative source files under the input
+are still scanned independently, but references follow the selected library.
 
 ## Resolution and analysis limits
 
@@ -90,3 +149,5 @@ V3 and default overlays. Dataflow fixtures additionally use OSS dataflow.
 | Fields | Initializer methods, accessor targets, positive/negative field-write flow |
 | Partial graphs | Unresolved calls, explicit UNKNOWN nodes, unsupported-kind reporting |
 | Integration | Two-file flow and graph reload; staged CLI and console regression |
+
+For milestone 4 coverage and exact limits, see the [feature matrix](FEATURES.md).

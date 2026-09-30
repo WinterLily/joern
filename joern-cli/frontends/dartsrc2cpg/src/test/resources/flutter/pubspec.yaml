@@ -1,0 +1,7 @@
+name: dart_cpg_flutter_fixture
+publish_to: none
+environment:
+  sdk: ^3.9.2
+dependencies:
+  flutter:
+    sdk: flutter

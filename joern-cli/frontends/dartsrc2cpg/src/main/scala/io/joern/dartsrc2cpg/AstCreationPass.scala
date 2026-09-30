@@ -87,14 +87,15 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
       val out = located(NewIdentifier().name(name).code(name).typeFullName(typ), syntax)
       declarations.get(id).fold(Ast(out))(target => Ast(out).withRefEdge(out, target))
     }
-    def thisAst(syntax: Value): Ast                            = identifier(syntax, "this", "this", currentType)
+    def thisAst(syntax: Value): Ast =
+      identifier(syntax, "this", "this", string(sym(currentType), "extendedType", currentType))
     def field(syntax: Value, receiver: Ast, name: String): Ast =
       operator(
         syntax,
         Operators.fieldAccess,
         Seq(receiver, Ast(located(NewFieldIdentifier().canonicalName(name).code(name), syntax)))
       )
-    def saved(syntax: Value, value: Ast)(body: (() => Ast) => Ast): Ast = {
+    def savedSequence(syntax: Value, value: Ast)(body: (() => Ast) => Seq[Ast]): Ast = {
       temporary += 1
       val name = s"<tmp>$temporary"
       val typ  = value.root match {
@@ -107,8 +108,13 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
       val local = located(NewLocal().name(name).code(name).typeFullName(typ), syntax)
       declarations(name) = local
       def ref(): Ast = identifier(syntax, name, name, typ)
-      block(syntax, Seq(Ast(local), operator(syntax, Operators.assignment, Seq(ref(), value)), body(() => ref())))
+      val assignment = operator(syntax, Operators.assignment, Seq(ref(), value))
+      // Distinct synthetic code prevents code-based reaching definitions from aliasing the enclosing expression.
+      assignment.root.collect { case call: NewCall => call.code = s"$name = ${code(syntax)}" }
+      block(syntax, Seq(Ast(local), assignment) ++ body(() => ref()))
     }
+    def saved(syntax: Value, value: Ast)(body: (() => Ast) => Ast): Ast =
+      savedSequence(syntax, value)(ref => Seq(body(ref)))
     def nonNull(syntax: Value, value: Ast): Ast =
       operator(syntax, Operators.notEquals, Seq(value, literal(syntax, "null", "Null")))
     def guarded(syntax: Value, value: Ast)(body: (() => Ast) => Ast): Ast =
@@ -154,7 +160,11 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
           .methodFullName(if (targetId.nonEmpty) targetId else s"<unresolved>.$name")
           .code(code(syntax))
           .typeFullName(tpe(syntax))
-          .dispatchType(if (receiver.nonEmpty) DispatchTypes.DYNAMIC_DISPATCH else DispatchTypes.STATIC_DISPATCH),
+          .dispatchType(
+            if (receiver.nonEmpty && string(sym(string(target, "owner")), "kind") != "EXTENSION")
+              DispatchTypes.DYNAMIC_DISPATCH
+            else DispatchTypes.STATIC_DISPATCH
+          ),
         syntax
       )
       val ast = args(
@@ -314,7 +324,210 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
           case None => expressionBody(syntax)
         }
     }
+    def pattern(syntax: Value, value: () => Ast): Ast = {
+      def and(values: Seq[Ast]): Ast = values
+        .reduceOption((left, right) => operator(syntax, Operators.logicalAnd, Seq(left, right)))
+        .getOrElse(literal(syntax, "true", "bool"))
+      def typeCheck: Seq[Ast] = children(syntax, "type").map(typ =>
+        operator(syntax, Operators.instanceOf, Seq(value(), Ast(NewTypeRef().code(code(typ)).typeFullName(tpe(typ)))))
+      )
+      string(syntax, "kind") match {
+        case "DeclaredVariablePattern" | "AssignedVariablePattern" =>
+          val id     = string(syntax, "declaration", string(syntax, "reference"))
+          val name   = string(syntax, "name")
+          val locals = if (string(syntax, "kind") == "DeclaredVariablePattern" && !declarations.contains(id)) {
+            val local = located(NewLocal().name(name).code(name).typeFullName(tpe(sym(id))), syntax)
+            declarations(id) = local
+            Seq(Ast(local))
+          } else Nil
+          and(
+            typeCheck :+ block(
+              syntax,
+              locals ++ Seq(
+                operator(syntax, Operators.assignment, Seq(identifier(syntax, name, id, tpe(sym(id))), value())),
+                literal(syntax, "true", "bool")
+              )
+            )
+          )
+        case "WildcardPattern" => and(typeCheck)
+        case "ConstantPattern" =>
+          operator(syntax, Operators.equals, Seq(value(), expression(child(syntax, "expression"))))
+        case "RelationalPattern" =>
+          operator(
+            syntax,
+            binaryOperators.getOrElse(string(syntax, "operator"), Operators.equals),
+            Seq(value(), expression(child(syntax, "expression")))
+          )
+        case "LogicalAndPattern" | "LogicalOrPattern" =>
+          operator(
+            syntax,
+            if (string(syntax, "kind") == "LogicalAndPattern") Operators.logicalAnd else Operators.logicalOr,
+            Seq(pattern(child(syntax, "left"), value), pattern(child(syntax, "right"), value))
+          )
+        case "ParenthesizedPattern" => pattern(child(syntax, "pattern"), value)
+        case "CastPattern"          =>
+          val typ = child(syntax, "type")
+          saved(
+            syntax,
+            operator(syntax, Operators.cast, Seq(value(), Ast(NewTypeRef().code(code(typ)).typeFullName(tpe(typ)))))
+          )(ref => pattern(child(syntax, "pattern"), ref))
+        case "NullCheckPattern"  => and(Seq(nonNull(syntax, value()), pattern(child(syntax, "pattern"), value)))
+        case "NullAssertPattern" =>
+          saved(syntax, operator(syntax, "<operator>.notNullAssert", Seq(value())))(ref =>
+            pattern(child(syntax, "pattern"), ref)
+          )
+        case "RecordPattern" | "ObjectPattern" =>
+          val shape = operator(syntax, "<operator>.patternShape", Seq(value(), literal(syntax, code(syntax))))
+          and(typeCheck ++ Seq(shape) ++ children(syntax, "field").zipWithIndex.map { case (entry, index) =>
+            val name   = string(entry, "name", s"$$${index + 1}")
+            val access =
+              if (string(syntax, "kind") == "ObjectPattern")
+                reference(entry, string(entry, "reference"), name, Some(value()))
+              else field(entry, value(), name)
+            saved(entry, access)(ref => pattern(child(entry, "pattern"), ref))
+          })
+        case "ListPattern" | "MapPattern" =>
+          val elements = children(syntax, "element")
+          val rest     = elements.indexWhere(entry => string(entry, "kind") == "RestPatternElement")
+          and(
+            Seq(operator(syntax, "<operator>.patternShape", Seq(value(), literal(syntax, code(syntax))))) ++
+              elements.zipWithIndex.flatMap { case (entry, index) =>
+                val kind = string(entry, "kind")
+                if (kind == "RestPatternElement") children(entry, "pattern").map { inner =>
+                  saved(
+                    entry,
+                    operator(
+                      entry,
+                      "<operator>.patternRest",
+                      Seq(value(), literal(entry, index.toString), literal(entry, (elements.size - index - 1).toString))
+                    )
+                  )(ref => pattern(inner, ref))
+                }
+                else {
+                  val key =
+                    if (kind == "MapPatternEntry") expression(child(entry, "key"))
+                    else if (rest >= 0 && index > rest)
+                      operator(
+                        entry,
+                        Operators.subtraction,
+                        Seq(field(entry, value(), "length"), literal(entry, (elements.size - index).toString, "int"))
+                      )
+                    else literal(entry, index.toString, "int")
+                  val inner = if (kind == "MapPatternEntry") child(entry, "pattern") else entry
+                  Seq(
+                    saved(entry, operator(entry, Operators.indexAccess, Seq(value(), key)))(ref => pattern(inner, ref))
+                  )
+                }
+              }
+          )
+        case _ => unknown(syntax)
+      }
+    }
+    def guard(syntax: Value, value: () => Ast): Ast = {
+      val matched = pattern(child(syntax, "pattern"), value)
+      children(syntax, "when").headOption.fold(matched)(condition =>
+        operator(syntax, Operators.logicalAnd, Seq(matched, expression(condition)))
+      )
+    }
+    def condition(syntax: Value): Ast = children(syntax, "case").headOption match {
+      case Some(clause) => saved(syntax, expression(child(syntax, "condition")))(ref => guard(clause, ref))
+      case None         => expression(child(syntax, "condition"))
+    }
     def expressionBody(syntax: Value): Ast = string(syntax, "kind") match {
+      case "RecordLiteral" =>
+        operator(
+          syntax,
+          "<operator>.record",
+          children(syntax, "field").zipWithIndex.map { case (entry, index) =>
+            operator(
+              entry,
+              "<operator>.keyValueAssociation",
+              Seq(literal(entry, string(entry, "name", s"$$${index + 1}")), expression(entry))
+            )
+          }
+        )
+      case "PatternAssignment" | "PatternVariableDeclaration" =>
+        savedSequence(syntax, expression(child(syntax, "expression")))(ref =>
+          Seq(
+            control(
+              syntax,
+              ControlStructureTypes.IF,
+              operator(syntax, Operators.logicalNot, Seq(pattern(child(syntax, "pattern"), ref))),
+              Ast(
+                located(
+                  NewControlStructure().controlStructureType(ControlStructureTypes.THROW).code("<pattern mismatch>"),
+                  syntax
+                )
+              )
+            ),
+            ref()
+          )
+        )
+      case "SwitchExpression" =>
+        savedSequence(syntax, literal(syntax, "null", tpe(syntax))) { result =>
+          val matched = saved(syntax, expression(child(syntax, "expression"))) { ref =>
+            def cases(remaining: List[Value]): Ast = remaining match {
+              case head :: tail =>
+                val cond = guard(child(head, "guard"), ref)
+                control(
+                  head,
+                  ControlStructureTypes.IF,
+                  cond,
+                  block(
+                    head,
+                    Seq(operator(head, Operators.assignment, Seq(result(), expression(child(head, "expression")))))
+                  ),
+                  Some(cases(tail))
+                )
+              case Nil =>
+                Ast(
+                  located(
+                    NewControlStructure()
+                      .controlStructureType(ControlStructureTypes.THROW)
+                      .code("<non-exhaustive switch>"),
+                    syntax
+                  )
+                )
+            }
+            cases(children(syntax, "case").toList)
+          }
+          Seq(matched, result())
+        }
+      case "AwaitExpression" => operator(syntax, "<operator>.await", Seq(expression(child(syntax, "expression"))))
+      case "YieldStatement"  =>
+        operator(
+          syntax,
+          if (bool(syntax, "star")) "<operator>.yieldAll" else "<operator>.yield",
+          Seq(expression(child(syntax, "expression")))
+        )
+      case "SpreadElement" =>
+        if (bool(syntax, "nullAware"))
+          saved(syntax, expression(child(syntax, "expression")))(ref =>
+            operator(
+              syntax,
+              Operators.conditional,
+              Seq(
+                nonNull(syntax, ref()),
+                operator(syntax, "<operator>.spread", Seq(ref())),
+                operator(syntax, Operators.arrayInitializer, Nil)
+              )
+            )
+          )
+        else operator(syntax, "<operator>.spread", Seq(expression(child(syntax, "expression"))))
+      case "IfElement" =>
+        val cond = condition(syntax)
+        operator(
+          syntax,
+          Operators.conditional,
+          Seq(
+            cond,
+            expression(child(syntax, "then")),
+            children(syntax, "else").headOption
+              .map(expression)
+              .getOrElse(operator(syntax, Operators.arrayInitializer, Nil))
+          )
+        )
+      case "ForElement"       => block(syntax, statements(syntax))
       case "SimpleIdentifier" => reference(syntax, string(syntax, "reference"), string(syntax, "name"), None)
       case "ThisExpression" | "SuperExpression"                                                    => thisAst(syntax)
       case "StringLiteral" | "IntegerLiteral" | "DoubleLiteral" | "BooleanLiteral" | "NullLiteral" =>
@@ -364,6 +577,7 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
           Some(child(syntax, "arguments")),
           Some(thisAst(syntax))
         )
+      case "ExtensionOverride"    => expression(children(child(syntax, "arguments"), "argument").head)
       case "ConstructorReference" => methodRef(syntax, string(syntax, "target"))
       case "ConstructorName"      =>
         call(syntax, string(syntax, "target"), string(syntax, "name"), None, Some(thisAst(syntax)))
@@ -553,9 +767,10 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
       ast
     }
     def statements(syntax: Value): Seq[Ast] = string(syntax, "kind") match {
-      case "Block"                        => children(syntax, "statement").flatMap(statements)
-      case "VariableDeclarationStatement" => statements(child(syntax, "variables"))
-      case "VariableDeclarationList"      => children(syntax, "variable").flatMap(statements)
+      case "Block"                               => children(syntax, "statement").flatMap(statements)
+      case "PatternVariableDeclarationStatement" => Seq(expression(child(syntax, "declaration")))
+      case "VariableDeclarationStatement"        => statements(child(syntax, "variables"))
+      case "VariableDeclarationList"             => children(syntax, "variable").flatMap(statements)
       case "VariableDeclaration" | "DeclaredIdentifier" | "CatchClauseParameter" =>
         val name  = string(syntax, "name")
         val typ   = tpe(symbol(syntax))
@@ -578,7 +793,7 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
           control(
             syntax,
             ControlStructureTypes.IF,
-            expression(child(syntax, "condition")),
+            condition(syntax),
             block(syntax, statements(child(syntax, "then"))),
             children(syntax, "else").headOption.map(entryNode => block(entryNode, statements(entryNode)))
           )
@@ -592,31 +807,47 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
             block(syntax, statements(child(syntax, "body")))
           )
         )
-      case "ForStatement" =>
+      case "ForStatement" | "ForElement" =>
         val parts = child(syntax, "parts")
         if (string(parts, "kind") == "ForEachParts") {
-          val variable    = child(parts, "variable")
+          val variable    = children(parts, "variable").headOption.getOrElse(child(parts, "pattern"))
           val declaration = if (string(variable, "kind") == "DeclaredIdentifier") statements(variable) else Nil
           val name        = string(variable, "name")
           val loop        =
-            saved(syntax, operator(syntax, "<operator>.iterator", Seq(expression(child(parts, "iterable")))))(ref => {
-              val assign = operator(
+            saved(
+              syntax,
+              operator(
                 syntax,
-                Operators.assignment,
-                Seq(
-                  identifier(
-                    variable,
-                    name,
-                    string(variable, "declaration", string(variable, "reference")),
-                    tpe(variable)
-                  ),
-                  field(syntax, ref(), "current")
-                )
+                if (bool(syntax, "await")) "<operator>.streamIterator" else "<operator>.iterator",
+                Seq(expression(child(parts, "iterable")))
               )
+            )(ref => {
+              val assign =
+                if (children(parts, "pattern").nonEmpty) pattern(variable, () => field(syntax, ref(), "current"))
+                else
+                  operator(
+                    syntax,
+                    Operators.assignment,
+                    Seq(
+                      identifier(
+                        variable,
+                        name,
+                        string(variable, "declaration", string(variable, "reference")),
+                        tpe(variable)
+                      ),
+                      field(syntax, ref(), "current")
+                    )
+                  )
               control(
                 syntax,
                 ControlStructureTypes.WHILE,
-                call(syntax, "<unresolved>.moveNext", "moveNext", None, Some(ref())),
+                if (bool(syntax, "await"))
+                  operator(
+                    syntax,
+                    "<operator>.await",
+                    Seq(call(syntax, "<unresolved>.moveNext", "moveNext", None, Some(ref())))
+                  )
+                else call(syntax, "<unresolved>.moveNext", "moveNext", None, Some(ref())),
                 block(syntax, Seq(assign) ++ statements(child(syntax, "body")))
               )
             })
@@ -648,6 +879,39 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
           syntax
         )
         Seq(Ast(out))
+      case "SwitchStatement"
+          if children(syntax, "member").exists(memberSyntax => string(memberSyntax, "kind") == "SwitchPatternCase") =>
+        Seq(saved(syntax, expression(child(syntax, "condition"))) { ref =>
+          def cases(remaining: List[Value]): Ast = remaining match {
+            case head :: tail =>
+              val cond = string(head, "kind") match {
+                case "SwitchDefault"     => literal(head, "true", "bool")
+                case "SwitchPatternCase" => guard(child(head, "guard"), ref)
+                case _ => operator(head, Operators.equals, Seq(ref(), expression(child(head, "expression"))))
+              }
+              control(
+                head,
+                ControlStructureTypes.IF,
+                cond,
+                block(head, children(head, "statement").flatMap(statements)),
+                if (tail.nonEmpty) Some(cases(tail)) else None
+              )
+            case Nil => block(syntax, Nil)
+          }
+          // Keep a switch boundary for explicit break statements.
+          control(
+            syntax,
+            ControlStructureTypes.SWITCH,
+            ref(),
+            block(
+              syntax,
+              Seq(
+                Ast(NewJumpTarget().name("default").code("default").parserTypeName("SwitchDefault")),
+                cases(children(syntax, "member").toList)
+              )
+            )
+          )
+        })
       case "SwitchStatement" =>
         val cases = children(syntax, "member").flatMap { clauseNode =>
           val label =
@@ -802,7 +1066,7 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
           .code("this")
           .index(0)
           .order(0)
-          .typeFullName(currentType)
+          .typeFullName(string(sym(currentType), "extendedType", currentType))
           .evaluationStrategy(EvaluationStrategies.BY_REFERENCE)
           .isVariadic(false)
         declarations("this") = out
@@ -937,7 +1201,12 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
           .astParentFullName(owner),
         syntax
       )
-      val modifiers = Seq(if (bool(target, "private")) ModifierTypes.PRIVATE else ModifierTypes.PUBLIC) ++
+      val execution = body.toSeq.flatMap(bodySyntax =>
+        (if (bool(bodySyntax, "async")) Seq("async") else Nil) ++ (if (bool(bodySyntax, "generator")) Seq("generator")
+                                                                   else Nil)
+      )
+      val annotations = execution.map(name => Ast(NewAnnotation().name(name).fullName(s"dart.$name").code(name)))
+      val modifiers   = Seq(if (bool(target, "private")) ModifierTypes.PRIVATE else ModifierTypes.PUBLIC) ++
         (if (constructor) Seq(ModifierTypes.CONSTRUCTOR) else Nil) ++ (if (!instance) Seq(ModifierTypes.STATIC)
                                                                        else Nil)
       val ast = Ast(out)
@@ -952,6 +1221,7 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
           )
         )
         .withChildren(modifiers.map(memberSyntax => Ast(NewModifier().modifierType(memberSyntax))))
+        .withChildren(annotations)
       declarations.clear(); declarations ++= outer
       ast
     }
@@ -975,7 +1245,7 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
           .code("this")
           .index(0)
           .order(0)
-          .typeFullName(currentType)
+          .typeFullName(string(sym(currentType), "extendedType", currentType))
           .evaluationStrategy(EvaluationStrategies.BY_REFERENCE)
           .isVariadic(false)
         declarations("this") = receiver
@@ -1016,12 +1286,64 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
       declarations.clear(); declarations ++= old
       ast
     }
+    def representationConstructor(syntax: Value): Ast = {
+      val id         = string(syntax, "constructor")
+      val target     = sym(id)
+      val previous   = declarations.toMap
+      val parameters = (Seq("this" -> currentType) ++ strings(target, "parameters").map(id =>
+        string(sym(id), "name") -> tpe(sym(id))
+      )).zipWithIndex.map { case ((name, typ), index) =>
+        val parameter = located(
+          NewMethodParameterIn()
+            .name(name)
+            .code(name)
+            .index(index)
+            .order(index)
+            .typeFullName(typ)
+            .evaluationStrategy(if (index == 0) EvaluationStrategies.BY_REFERENCE else EvaluationStrategies.BY_VALUE)
+            .isVariadic(false),
+          syntax
+        )
+        declarations(if (index == 0) "this" else strings(target, "parameters")(index - 1)) = parameter
+        Ast(parameter)
+      }
+      val valueId = strings(target, "parameters").head
+      val assign  = operator(
+        syntax,
+        Operators.assignment,
+        Seq(
+          field(syntax, thisAst(syntax), string(syntax, "name")),
+          identifier(syntax, string(sym(valueId), "name"), valueId, tpe(sym(valueId)))
+        )
+      )
+      val out = located(
+        NewMethod()
+          .name(if (string(target, "name") == "new") "<init>" else string(target, "name"))
+          .fullName(id)
+          .code(code(syntax))
+          .filename(filename)
+          .isExternal(false)
+          .signature(s"$currentType(1)")
+          .astParentType(ownerType)
+          .astParentFullName(owner),
+        syntax
+      )
+      val ast = Ast(out)
+        .withChildren(parameters)
+        .withChild(block(syntax, Seq(assign)))
+        .withChild(
+          Ast(NewMethodReturn().typeFullName(currentType).code("RET").evaluationStrategy(EvaluationStrategies.BY_VALUE))
+        )
+        .withChild(Ast(NewModifier().modifierType(ModifierTypes.CONSTRUCTOR)))
+      declarations.clear(); declarations ++= previous
+      ast
+    }
     def declaration(syntax: Value): Seq[Ast] = string(syntax, "kind") match {
       case "FunctionDeclaration"                              => Seq(method(syntax, child(syntax, "function")))
       case "MethodDeclaration" | "ConstructorDeclaration"     => Seq(method(syntax, syntax))
       case "TopLevelVariableDeclaration" | "FieldDeclaration" =>
         children(child(syntax, "variables"), "variable").map(member)
-      case "ClassDeclaration" =>
+      case "ClassDeclaration" | "MixinDeclaration" | "ExtensionDeclaration" | "ExtensionTypeDeclaration" =>
         val previousOwner       = owner
         val previousType        = ownerType
         val previousCurrentType = currentType
@@ -1029,8 +1351,9 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
         owner = string(syntax, "declaration")
         ownerType = "TYPE_DECL"
         currentType = string(syntax, "declaration")
-        val members   = children(syntax, "member")
-        val variables = members
+        val members        = children(syntax, "member")
+        val representation = children(syntax, "representation")
+        val variables      = members
           .filter(memberSyntax => string(memberSyntax, "kind") == "FieldDeclaration")
           .flatMap(memberSyntax => children(child(memberSyntax, "variables"), "variable"))
         instanceFields = variables.filterNot(fieldSyntax => bool(symbol(fieldSyntax), "static"))
@@ -1048,6 +1371,11 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
             (if (string(syntax, "implicitConstructor").nonEmpty)
                Seq(initializerMethod(syntax, instanceFields, string(syntax, "implicitConstructor"), "<init>", true))
              else Nil)
+        val representationAsts = representation.map(member) ++ representation
+          .filter(representationSyntax =>
+            strings(sym(string(representationSyntax, "constructor")), "parameters").nonEmpty
+          )
+          .map(representationConstructor)
         val out = located(
           NewTypeDecl()
             .name(string(syntax, "name"))
@@ -1062,7 +1390,17 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
         )
         owner = previousOwner; ownerType = previousType; currentType = previousCurrentType;
         instanceFields = previousFields
-        Seq(Ast(out).withChildren(fields ++ methods ++ initializers))
+        val modifiers = strings(syntax, "modifiers")
+        val standard  = modifiers
+          .collect {
+            case "abstract" | "sealed" => ModifierTypes.ABSTRACT
+            case "final"               => ModifierTypes.FINAL
+          }
+          .distinct
+          .map(modifier => Ast(NewModifier().modifierType(modifier)))
+        val annotations =
+          modifiers.map(modifier => Ast(NewAnnotation().name(modifier).fullName(s"dart.$modifier").code(modifier)))
+        Seq(Ast(out).withChildren(fields ++ representationAsts ++ methods ++ initializers ++ standard ++ annotations))
       case _ => Seq(unknown(syntax))
     }
     strings(unit, "unsupportedKinds").foreach(kind => logger.warn(s"Unsupported Dart syntax $kind in $filename"))
@@ -1076,7 +1414,7 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
         located(
           NewImport()
             .code(code(syntax))
-            .importedEntity(uri)
+            .importedEntity(string(syntax, "selectedUri", uri))
             .importedAs(
               children(syntax, "prefix").headOption.map(paramNode => string(paramNode, "name")).getOrElse(uri)
             )

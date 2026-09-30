@@ -325,6 +325,275 @@ void main() {
     },
   );
 
+  test(
+    'modern syntax has explicit nodes and stable pattern identities',
+    () async {
+      write(
+        '.dart_tool/package_config.json',
+        jsonEncode({
+          'configVersion': 2,
+          'packages': [
+            {
+              'name': 'fixture',
+              'rootUri': '../',
+              'packageUri': 'lib/',
+              'languageVersion': '3.9',
+            },
+          ],
+        }),
+      );
+      write('main.dart', r"""
+base mixin Echo { String echo(String value) => value; }
+sealed class Root {}
+final class Leaf extends Root with Echo {}
+abstract interface class Contract { String run(); }
+extension TextOps on String { String wrap() => this; }
+extension type Label(String value) { String read() => value; }
+(String, {int count}) record(String value) => (value, count: 2);
+Future<String> relay(String value) async => value;
+Iterable<String> syncValues(String value) sync* { yield value; yield* [value]; }
+Stream<String> values(String value) async* { yield await relay(value); }
+Future<void> main() async {
+  final (text, count: count) = record('x');
+  var left = ''; var right = 0;
+  (left, right) = (text, count);
+  if ((left, right) case (var value, > 0) when value.isNotEmpty) print(value);
+  final selected = switch (text) { 'skip' => '', var value => value };
+  final items = [...?nullable(), if (count > 0) selected, for (var i = 0; i < 2; i++) '$i'];
+  for (final (a, b) in [(1, 2)]) print(a + b);
+  await for (final value in values(text)) print(value);
+  Object? obj = items;
+  if (obj case [String first, ...var middle, String last]) print((first, middle, last));
+  if (obj case {'key': var value}) print(value);
+  if (obj case (String value) || [String value]) print(value);
+  if (obj case Label(value: var contents)) print(contents);
+  if (obj case var nonNull?) print(nonNull);
+  if (obj case var asserted!) print(asserted);
+  if (obj case var cast as String) print(cast);
+  switch (obj) { case Label(value: var value) when value.isNotEmpty: print(value); break; default: break; }
+  print(Leaf().echo('x'.wrap())); print(Label('y').read());
+}
+List<String>? nullable() => null;
+""");
+      final unit = units(await export()).single;
+      expect(unit['status'], 'resolved', reason: '${unit['diagnostics']}');
+      expect(unit['unsupportedKinds'], isEmpty);
+      expect(unit['languageVersion'], '3.9.0');
+      final nodes = entries(unit, 'nodes');
+      expect(
+        nodes.map((n) => n['kind']),
+        containsAll([
+          'RecordLiteral',
+          'RecordPattern',
+          'PatternAssignment',
+          'SwitchExpression',
+          'MixinDeclaration',
+          'ExtensionDeclaration',
+          'ExtensionTypeDeclaration',
+          'SpreadElement',
+          'IfElement',
+          'ForElement',
+          'AwaitExpression',
+          'YieldStatement',
+        ]),
+      );
+      expect(
+        nodes.where((n) => n['kind'] == 'ForStatement' && n['await'] == true),
+        hasLength(1),
+      );
+      final declared = nodes
+          .where((n) => n['kind'] == 'DeclaredVariablePattern')
+          .map((n) => n['declaration'])
+          .toSet();
+      expect(
+        nodes
+            .where(
+              (n) => n['kind'] == 'SimpleIdentifier' && n['name'] == 'value',
+            )
+            .any((n) => declared.contains(n['reference'])),
+        isTrue,
+      );
+      expect(jsonEncode(await export()), jsonEncode(await export()));
+    },
+  );
+
+  test(
+    'workspace packages, language versions, conditional imports and generated parts',
+    () async {
+      write(
+        'pubspec.yaml',
+        "name: workspace\nenvironment:\n  sdk: ^3.9.0\nworkspace:\n  - packages/app\n  - packages/helper\n",
+      );
+      for (final name in ['app', 'helper']) {
+        write(
+          'packages/$name/pubspec.yaml',
+          'name: $name\nresolution: workspace\nenvironment:\n  sdk: ^3.9.0\n',
+        );
+      }
+      write(
+        '.dart_tool/package_config.json',
+        jsonEncode({
+          'configVersion': 2,
+          'packages': [
+            for (final name in ['app', 'helper'])
+              {
+                'name': name,
+                'rootUri': '../packages/$name',
+                'packageUri': 'lib/',
+                'languageVersion': '3.9',
+              },
+          ],
+        }),
+      );
+      write(
+        'packages/helper/lib/helper.dart',
+        "export 'stub.dart' if (dart.library.io) 'io.dart';",
+      );
+      write(
+        'packages/helper/lib/stub.dart',
+        "String relay(String value) => 'stub';",
+      );
+      write(
+        'packages/helper/lib/io.dart',
+        'String relay(String value) => value;',
+      );
+      write(
+        'packages/app/lib/generated.g.dart',
+        "// @dart=3.8\npart of 'main.dart';\nString generated(String value) => relay(value);",
+      );
+      write(
+        'packages/app/lib/main.dart',
+        "// @dart=3.8\nimport 'package:helper/helper.dart' if (dart.library.io) 'package:helper/io.dart';\npart 'generated.g.dart';\nvoid main() { print(generated('x')); }",
+      );
+      final files = units(await export());
+      expect(files, hasLength(5));
+      expect(
+        files.map((u) => u['status']),
+        everyElement('resolved'),
+        reason: '$files',
+      );
+      final main = files.singleWhere(
+        (u) => u['file'] == 'packages/app/lib/main.dart',
+      );
+      expect(main['languageVersion'], '3.8.0');
+      expect(
+        entries(
+          main,
+          'nodes',
+        ).singleWhere((n) => n['kind'] == 'ImportDirective')['selectedUri'],
+        'package:helper/helper.dart',
+      );
+      expect(
+        (await export()).first['conditionalEnvironment'],
+        'analyzer-default',
+      );
+      final generated = files.singleWhere(
+        (u) => u['file'] == 'packages/app/lib/generated.g.dart',
+      );
+      expect(generated['library'], main['library']);
+      final target = entries(
+        generated,
+        'nodes',
+      ).singleWhere((n) => n['kind'] == 'MethodInvocation')['target'];
+      expect(target, startsWith('package:helper/stub.dart#'));
+      expect(files.expand((u) => u['unsupportedKinds'] as List), isEmpty);
+      final single = units(
+        await export(input: p.join(project.path, 'packages/app/lib/main.dart')),
+      ).single;
+      expect(single['status'], 'resolved');
+      expect(single['languageVersion'], '3.8.0');
+    },
+  );
+
+  test(
+    'package language version rejects unavailable features explicitly',
+    () async {
+      write(
+        '.dart_tool/package_config.json',
+        jsonEncode({
+          'configVersion': 2,
+          'packages': [
+            {
+              'name': 'fixture',
+              'rootUri': '../',
+              'packageUri': 'lib/',
+              'languageVersion': '2.19',
+            },
+          ],
+        }),
+      );
+      write(
+        'lib/main.dart',
+        'void main() { final value = (1, 2); print(value); }',
+      );
+      final unit = units(await export()).single;
+      expect(unit['languageVersion'], '2.19.0');
+      expect(unit['status'], 'partial');
+      expect(
+        entries(unit, 'diagnostics').map((d) => d['code']),
+        contains('EXPERIMENT_NOT_ENABLED'),
+      );
+      expect(
+        entries(unit, 'nodes').map((n) => n['kind']),
+        contains('FunctionDeclaration'),
+      );
+    },
+  );
+
+  test(
+    'Flutter SDK resolves widget constructors, dart:ui and callbacks',
+    () async {
+      final fixture = Directory(p.absolute('../src/test/resources/flutter'));
+      final config = File(
+        Platform.environment['DART_FLUTTER_PACKAGE_CONFIG'] ??
+            p.join(
+              scratch.path,
+              'flutter-fixture/.dart_tool/package_config.json',
+            ),
+      );
+      expect(
+        config.existsSync(),
+        isTrue,
+        reason:
+            'Prepare the pinned Flutter fixture before setting DART_FLUTTER_TESTS',
+      );
+      write('.dart_tool/package_config.json', config.readAsStringSync());
+      write(
+        'lib/main.dart',
+        File(p.join(fixture.path, 'lib/main.dart')).readAsStringSync(),
+      );
+      write(
+        'lib/ui.dart',
+        "import 'dart:ui';\nColor color() => const Color(0xff000000);",
+      );
+      final files = units(await export());
+      expect(
+        files.map((u) => u['status']),
+        everyElement('resolved'),
+        reason: '$files',
+      );
+      expect(files.expand((u) => u['unsupportedKinds'] as List), isEmpty);
+      final main = files.singleWhere((u) => u['file'] == 'lib/main.dart');
+      final creations = entries(
+        main,
+        'nodes',
+      ).where((n) => n['kind'] == 'InstanceCreationExpression');
+      expect(
+        creations.map((n) => n['target']),
+        everyElement(startsWith('package:flutter/')),
+      );
+      expect(creations, hasLength(5));
+      final ui = files.singleWhere((u) => u['file'] == 'lib/ui.dart');
+      expect(
+        entries(ui, 'nodes').singleWhere(
+          (n) => n['kind'] == 'InstanceCreationExpression',
+        )['target'],
+        startsWith('dart:ui/'),
+      );
+    },
+    skip: Platform.environment['DART_FLUTTER_TESTS'] != '1',
+  );
+
   test('empty inputs and invalid SDK/input paths are explicit', () async {
     expect(await export(), hasLength(2));
     expect(

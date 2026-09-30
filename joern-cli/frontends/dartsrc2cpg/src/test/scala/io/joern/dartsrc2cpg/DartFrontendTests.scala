@@ -516,10 +516,255 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
           cpg.call.nameExact("<operator>.fieldAccess").argument(2).code.l shouldBe List("missing")
       }
     }
-    "report unhandled modern syntax explicitly" in {
-      fixture("String relay(String value) => value;", "void main() { final record = (1, 2); }", dataflow = false) {
+    "report unhandled syntax explicitly" in {
+      fixture("String relay(String value) => value;", "enum Color { red, blue }\nvoid main() {}", dataflow = false) {
         (cpg, _) =>
-          cpg.unknown.parserTypeName.l should contain("RecordLiteral")
+          cpg.unknown.parserTypeName.l should contain("EnumDeclaration")
+      }
+    }
+    "model records, destructuring, guarded patterns and switch expressions" in {
+      fixture(
+        "String relay(String value) => value;",
+        """
+        (String, {int count}) source(String text) => (text, count: 2);
+        void main(List<String> args) {
+          final input = args[0];
+          final (value, count: count) = source(input);
+          var left = ''; var right = 0;
+          (left, right) = (value, count);
+          if ((left, right) case (var text, > 0) when text.isNotEmpty) sink(relay(text));
+          final selected = switch (value) { 'skip' => 'constant', var text when text.isNotEmpty => text, _ => '' };
+          sink(relay(selected));
+        }
+      """,
+        dataflow = false
+      ) { (cpg, _) =>
+        cpg.unknown.size shouldBe 0
+        cpg.call.nameExact("source").size shouldBe 1
+        cpg.call.nameExact("<operator>.record").size shouldBe 3
+        cpg.controlStructure.controlStructureTypeExact("IF").size shouldBe 6
+        cpg.local.nameExact("value", "count", "left", "right", "text", "selected").size should be >= 7
+        cpg.identifier.nameExact("text").refsTo.name.toSet shouldBe Set("text")
+        cpg.call.nameExact("<operator>.fieldAccess").argument(2).code.toSet should contain allOf ("$1", "count")
+      }
+    }
+    "preserve positive and negative flow through switch expression bindings" in {
+      for ((result, expected) <- Seq("text" -> true, "'constant'" -> false)) {
+        fixture(
+          "String relay(String value) => value;",
+          s"""
+          void main(List<String> args) {
+            final input = args[0];
+            final selected = switch (input) { var text => $result };
+            sink(relay(selected));
+          }
+        """
+        ) { (cpg, _) => assertFlow(cpg, expected) }
+      }
+    }
+    "retain list, map, object, null and logical patterns and joined variable references" in {
+      fixture(
+        "class Box { final String value; Box(this.value); }",
+        """
+        void main(Object? obj) {
+          if (obj case [String first, ...var middle, String last]) sink(first);
+          if (obj case {'key': String value}) sink(value);
+          if (obj case Box(value: var text)) sink(text);
+          if (obj case (String value) || [String value]) sink(value);
+          if (obj case var nonNull?) print(nonNull);
+          final result = switch (1) { > 0 && < 10 => 1, _ => 0 };
+          switch (obj) { case Box(value: var content) when content.isNotEmpty: sink(content); break; default: break; }
+          for (final (a, b) in [(1, 2)]) print(a + b);
+        }
+      """,
+        dataflow = false
+      ) { (cpg, _) =>
+        cpg.unknown.size shouldBe 0
+        cpg.call.nameExact("<operator>.patternRest").size shouldBe 1
+        cpg.identifier.nameExact("value").refsTo.name.toSet shouldBe Set("value")
+        cpg.local.nameExact("a", "b").size shouldBe 2
+        cpg.controlStructure.controlStructureTypeExact("SWITCH").size shouldBe 1
+      }
+    }
+    "model mixins, extensions, extension types and class modifiers" in {
+      fixture(
+        """
+        base mixin Echo { String echo(String value) => value; }
+        sealed class Root {}
+        final class Leaf extends Root with Echo {}
+        abstract interface class Contract { String run(); }
+        extension TextOps on String { String wrap() => this; }
+        extension type Label(String value) { String read() => value; }
+      """,
+        """
+        void main() { final leaf = Leaf(); sink(leaf.echo('x')); sink('x'.wrap()); sink(TextOps('z').wrap()); sink(Label('y').read()); }
+      """,
+        dataflow = false
+      ) { (cpg, _) =>
+        cpg.unknown.size shouldBe 0
+        cpg.typeDecl.nameExact("Echo", "TextOps", "Label").isExternal(false).size shouldBe 3
+        cpg.typeDecl.nameExact("Leaf").inheritsFromTypeFullName.exists(_.contains("Echo")) shouldBe true
+        cpg.call.nameExact("echo", "wrap", "read").callee.isExternal(false).size shouldBe 4
+        cpg.typeDecl.nameExact("Label").member.name.l should contain("value")
+        cpg.call.nameExact("<init>").codeExact("Label('y')").callee.isExternal.l shouldBe List(false)
+        cpg.call.nameExact("wrap").dispatchType.toSet shouldBe Set("STATIC_DISPATCH")
+        cpg.annotation.name.toSet should contain allOf ("base", "sealed", "final", "interface")
+      }
+    }
+    "keep anonymous extensions distinct and link named representation constructors" in {
+      fixture(
+        """
+        extension on String { String echo() => this; }
+        extension on int { int twice() => this * 2; }
+        extension type Label.named(String value) {}
+        String use(String value) => value.echo();
+        int count(int value) => value.twice();
+      """,
+        "void main() { sink(use(Label.named('x').value)); print(count(1)); }",
+        dataflow = false
+      ) { (cpg, _) =>
+        cpg.unknown.size shouldBe 0
+        cpg.typeDecl.name("<extension>.*").fullName.toSet.size shouldBe 2
+        cpg.call.nameExact("echo", "twice", "named").callee.isExternal(false).size shouldBe 3
+      }
+    }
+    "lower collection spreads, conditionals and loops without duplicating evaluation" in {
+      fixture(
+        "List<String>? source() => ['x'];",
+        """
+        void build(bool flag) {
+          final values = [...?source(), if (flag) 'yes' else 'no', for (var i = 0; i < 2; i++) '$i',
+            for (final (a, b) in [(1, 2)]) '$a$b'];
+          final map = {if (flag) 'key': 'value', ...{'a': 'b'}};
+          print(values); print(map);
+        }
+      """,
+        dataflow = false
+      ) { (cpg, _) =>
+        cpg.unknown.size shouldBe 0
+        cpg.call.nameExact("source").size shouldBe 1
+        cpg.call.nameExact("<operator>.spread").size shouldBe 2
+        cpg.controlStructure.controlStructureTypeExact("FOR", "WHILE").size shouldBe 2
+        cpg.call.nameExact("<operator>.conditional").size shouldBe 3
+      }
+    }
+    "mark async functions, await, yields and stream iteration" in {
+      fixture(
+        """
+        Future<String> relay(String value) async => value;
+        Iterable<String> syncValues(String value) sync* { yield value; yield* [value]; }
+        Stream<String> values(String value) async* { yield await relay(value); }
+      """,
+        """
+        Future<void> main() async { await for (final value in values('x')) { sink(value); } }
+      """,
+        dataflow = false
+      ) { (cpg, _) =>
+        cpg.unknown.size shouldBe 0
+        cpg.annotation.nameExact("async").size shouldBe 3
+        cpg.annotation.nameExact("generator").size shouldBe 2
+        cpg.call.nameExact("<operator>.await").size shouldBe 2
+        cpg.call.nameExact("<operator>.yield", "<operator>.yieldAll").size shouldBe 3
+        cpg.call.nameExact("<operator>.streamIterator").size shouldBe 1
+        cpg.controlStructure.controlStructureTypeExact("WHILE").size shouldBe 1
+      }
+    }
+    "track direct await value flow without treating constants as dependent" in {
+      for ((result, expected) <- Seq("value" -> true, "'constant'" -> false)) {
+        fixture(
+          s"Future<String> relay(String value) async => $result;",
+          """
+          Future<void> main(List<String> args) async {
+            final input = args[0]; sink(await relay(input));
+          }
+        """
+        ) { (cpg, _) => assertFlow(cpg, expected) }
+      }
+    }
+    "retain whole-record value dependencies through destructuring" in {
+      for ((value, expected) <- Seq("input" -> true, "'constant'" -> false)) {
+        fixture(
+          "String relay(String value) => value;",
+          s"""
+          void main(List<String> args) {
+            final input = args[0]; final (text, count: count) = ($value, count: 1);
+            sink(relay(text));
+          }
+        """
+        ) { (cpg, _) => assertFlow(cpg, expected) }
+      }
+    }
+    "link configured workspace packages and existing generated sources" in {
+      fixture(
+        """
+        import 'package:dependency/api.dart';
+        part 'helper.g.dart';
+        String relay(String value) => generated(value);
+      """,
+        "void main(List<String> args) { final input = args[0]; sink(relay(input)); }",
+        extraFiles = Map(
+          "pubspec.yaml" -> "name: proof\nenvironment:\n  sdk: ^3.9.2\nworkspace:\n  - packages/dependency\n",
+          "packages/dependency/pubspec.yaml" -> "name: dependency\nresolution: workspace\nenvironment:\n  sdk: ^3.9.2\n",
+          "packages/dependency/lib/api.dart"      -> "export 'fallback.dart' if (dart.library.io) 'io.dart';",
+          "packages/dependency/lib/fallback.dart" -> "String forward(String value) => value;",
+          "packages/dependency/lib/io.dart"       -> "String forward(String value) => 'io';",
+          "lib/helper.g.dart" -> "part of 'helper.dart'; String generated(String value) => forward(value);",
+          ".dart_tool/package_config.json" -> """{"configVersion":2,"packages":[
+          {"name":"proof","rootUri":"../","packageUri":"lib/","languageVersion":"3.9"},
+          {"name":"dependency","rootUri":"../packages/dependency","packageUri":"lib/","languageVersion":"3.9"}
+        ]}"""
+        )
+      ) { (cpg, _) =>
+        cpg.unknown.size shouldBe 0
+        cpg.call.nameExact("forward").callee.filename.l shouldBe List("packages/dependency/lib/fallback.dart")
+        cpg.call.nameExact("generated").callee.filename.l shouldBe List("lib/helper.g.dart")
+        cpg.imports.code("export.*").importedEntity.l shouldBe List("fallback.dart")
+        assertFlow(cpg, true)
+      }
+    }
+    "resolve Flutter widgets and retain callback captures without a build" in {
+      if (!sys.env.get("DART_FLUTTER_TESTS").contains("1"))
+        cancel("Set DART_FLUTTER_TESTS=1 after preparing the Flutter fixture")
+      val resources     = frontend.resolve("src/test/resources/flutter")
+      val packageConfig = Files.readString(
+        Paths.get(
+          sys.env.getOrElse(
+            "DART_FLUTTER_PACKAGE_CONFIG",
+            repository.resolve("agents/flutter-fixture/.dart_tool/package_config.json").toString
+          )
+        )
+      )
+      fixture(
+        "",
+        "",
+        extraFiles = Map(
+          "bin/main.dart"                  -> Files.readString(resources.resolve("lib/main.dart")),
+          ".dart_tool/package_config.json" -> packageConfig
+        )
+      ) { (cpg, _) =>
+        cpg.unknown.size shouldBe 0
+        val buttons = cpg.call.methodFullName("package:flutter/.*text_button.dart.*").l
+        buttons.size shouldBe 2
+        buttons.foreach { button =>
+          button.argument.argumentNameExact("onPressed").isMethodRef.size shouldBe 1
+          button.argument
+            .argumentNameExact("child")
+            .isCall
+            .methodFullName("package:flutter/.*text.dart.*")
+            .size shouldBe 1
+        }
+        cpg.closureBinding.size shouldBe 1
+        cpg.local.nameExact("input").closureBindingId.size shouldBe 1
+        cpg.call
+          .codeExact("sink(input)")
+          .argument
+          .reachableByFlows(cpg.identifier.nameExact("input"))
+          .nonEmpty shouldBe true
+        cpg.call
+          .codeExact("sink('constant')")
+          .argument
+          .reachableByFlows(cpg.identifier.nameExact("input"))
+          .isEmpty shouldBe true
       }
     }
     "reject incompatible and truncated exporter output" in {

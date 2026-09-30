@@ -10,7 +10,7 @@ import 'package:analyzer/source/line_info.dart';
 import 'package:path/path.dart' as p;
 
 const protocolVersion = 1;
-const exporterVersion = '0.2.0';
+const exporterVersion = '0.3.0';
 const analyzerVersion = '8.4.1';
 const supportedSdkVersion = '3.9.2';
 
@@ -75,6 +75,7 @@ Stream<Map<String, Object?>> exportProject({
       'analyzerVersion': analyzerVersion,
       'sdkVersion': sdkVersion,
       'offsetEncoding': 'utf-16',
+      'conditionalEnvironment': 'analyzer-default',
     };
     for (final file in files) {
       final context = collection.contextFor(file);
@@ -151,7 +152,10 @@ class _UnitEncoder {
 
   String? symbol(Element? element) {
     if (element == null) return null;
-    element = element.baseElement;
+    while (element is PatternVariableElement && element.join != null) {
+      element = element.join!;
+    }
+    element = element!.baseElement;
     final fragment = element.firstFragment;
     final unit = fragment.libraryFragment;
     final uri = unit?.source.uri;
@@ -164,7 +168,9 @@ class _UnitEncoder {
     // canonical offset in analyzer 8.4.1. Anchor them to their owner and slot.
     final offset =
         fragment.nameOffset ??
-        (fragment is ConstructorFragment || fragment is LocalFunctionFragment
+        (fragment is ConstructorFragment ||
+                fragment is LocalFunctionFragment ||
+                fragment is ExtensionFragment
             ? fragment.offset
             : element.enclosingElement?.firstFragment.nameOffset ?? -1);
     final owner = element.enclosingElement;
@@ -213,12 +219,16 @@ class _UnitEncoder {
       if (element is ExecutableElement) {
         symbols[id]!['returnTypeId'] = typeId(element.returnType);
       }
+      if (element is ExtensionElement) {
+        symbols[id]!['extendedType'] = typeId(element.extendedType);
+      }
       if (element is InterfaceElement) {
         symbols[id]!['superDeclarations'] = element.allSupertypes
             .map((t) => symbol(t.element))
             .toList();
       }
-      if (element.enclosingElement is InterfaceElement) {
+      if (element.enclosingElement is InterfaceElement ||
+          element.enclosingElement is ExtensionElement) {
         symbols[id]!['owner'] = symbol(element.enclosingElement);
       }
       if (element is ConstructorElement) {
@@ -251,6 +261,7 @@ class _UnitEncoder {
           ? 'partial'
           : 'resolved',
       'source': source,
+      'languageVersion': unit.languageVersion.effective.toString(),
       'diagnostics': diagnostics,
       'unsupportedKinds': unsupported.toList()..sort(),
       'nodes': nodes,
@@ -292,8 +303,13 @@ class _UnitEncoder {
         kind = 'LibraryDirective';
       case ExportDirective():
         kind = 'ExportDirective';
+        final uri = ast.libraryExport?.uri;
+        if (uri is DirectiveUriWithRelativeUriString) {
+          record['selectedUri'] = uri.relativeUriString;
+        }
         child('uri', ast.uri);
         many('combinator', ast.combinators);
+        many('configuration', ast.configurations);
       case PartDirective():
         kind = 'PartDirective';
         child('uri', ast.uri);
@@ -308,12 +324,56 @@ class _UnitEncoder {
         record['names'] = ast.hiddenNames.map((n) => n.name).toList();
       case ImportDirective():
         kind = 'ImportDirective';
+        final uri = ast.libraryImport?.uri;
+        if (uri is DirectiveUriWithRelativeUriString) {
+          record['selectedUri'] = uri.relativeUriString;
+        }
         child('uri', ast.uri);
         child('prefix', ast.prefix);
         many('configuration', ast.configurations);
         many('combinator', ast.combinators);
+      case Configuration():
+        kind = 'Configuration';
+        record['name'] = ast.name.toSource();
+        child('uri', ast.uri);
+        child('value', ast.value);
+      case MixinDeclaration():
+        kind = 'MixinDeclaration';
+        record['name'] = ast.name.lexeme;
+        record['declaration'] = symbol(ast.declaredFragment?.element);
+        record['modifiers'] = ['mixin', if (ast.baseKeyword != null) 'base'];
+        child('typeParameters', ast.typeParameters);
+        many('member', ast.members);
+      case ExtensionDeclaration():
+        kind = 'ExtensionDeclaration';
+        record['name'] = ast.name?.lexeme ?? '<extension>@${ast.offset}';
+        record['declaration'] = symbol(ast.declaredFragment?.element);
+        child('typeParameters', ast.typeParameters);
+        child('onType', ast.onClause?.extendedType);
+        many('member', ast.members);
+      case ExtensionTypeDeclaration():
+        kind = 'ExtensionTypeDeclaration';
+        record['name'] = ast.name.lexeme;
+        record['declaration'] = symbol(ast.declaredFragment?.element);
+        child('typeParameters', ast.typeParameters);
+        child('representation', ast.representation);
+        many('member', ast.members);
+      case RepresentationDeclaration():
+        kind = 'RepresentationDeclaration';
+        record['name'] = ast.fieldName.lexeme;
+        record['declaration'] = symbol(ast.fieldFragment?.element);
+        record['constructor'] = symbol(ast.constructorFragment?.element);
+        child('type', ast.fieldType);
       case ClassDeclaration():
         kind = 'ClassDeclaration';
+        record['modifiers'] = [
+          if (ast.abstractKeyword != null) 'abstract',
+          if (ast.baseKeyword != null) 'base',
+          if (ast.finalKeyword != null) 'final',
+          if (ast.interfaceKeyword != null) 'interface',
+          if (ast.sealedKeyword != null) 'sealed',
+          if (ast.mixinKeyword != null) 'mixin',
+        ];
         record['implicitConstructor'] = ast
             .declaredFragment
             ?.element
@@ -422,6 +482,10 @@ class _UnitEncoder {
         child('parameters', ast.parameters);
         child('returnType', ast.returnType);
         child('typeParameters', ast.typeParameters);
+      case ExtensionOverride():
+        kind = 'ExtensionOverride';
+        record['reference'] = symbol(ast.element);
+        child('arguments', ast.argumentList);
       case ConstructorReference():
         kind = 'ConstructorReference';
         record['target'] = symbol(ast.constructorName.element);
@@ -466,6 +530,7 @@ class _UnitEncoder {
       case IfStatement():
         kind = 'IfStatement';
         child('condition', ast.expression);
+        child('case', ast.caseClause);
         child('then', ast.thenStatement);
         child('else', ast.elseStatement);
       case WhileStatement():
@@ -478,8 +543,18 @@ class _UnitEncoder {
         child('body', ast.body);
       case ForStatement():
         kind = 'ForStatement';
+        record['await'] = ast.awaitKeyword != null;
         child('parts', ast.forLoopParts);
         child('body', ast.body);
+      case ForEachPartsWithPattern():
+        kind = 'ForEachParts';
+        child('pattern', ast.pattern);
+        child('iterable', ast.iterable);
+      case ForPartsWithPattern():
+        kind = 'ForParts';
+        child('init', ast.variables);
+        child('condition', ast.condition);
+        many('update', ast.updaters);
       case ForPartsWithDeclarations():
         kind = 'ForParts';
         child('init', ast.variables);
@@ -521,6 +596,26 @@ class _UnitEncoder {
           (ast.guardedPattern.pattern as ConstantPattern).expression,
         );
         many('statement', ast.statements);
+      case SwitchPatternCase():
+        kind = 'SwitchPatternCase';
+        child('guard', ast.guardedPattern);
+        many('statement', ast.statements);
+      case SwitchExpression():
+        kind = 'SwitchExpression';
+        child('expression', ast.expression);
+        many('case', ast.cases);
+      case SwitchExpressionCase():
+        kind = 'SwitchExpressionCase';
+        child('guard', ast.guardedPattern);
+        child('expression', ast.expression);
+      case GuardedPattern():
+        kind = 'GuardedPattern';
+        child('pattern', ast.pattern);
+        child('when', ast.whenClause?.expression);
+      case CaseClause():
+        kind = 'GuardedPattern';
+        child('pattern', ast.guardedPattern.pattern);
+        child('when', ast.guardedPattern.whenClause?.expression);
       case SwitchCase():
         kind = 'SwitchCase';
         child('expression', ast.expression);
@@ -606,6 +701,107 @@ class _UnitEncoder {
       case AdjacentStrings():
         kind = 'AdjacentStrings';
         many('element', ast.strings);
+      case AwaitExpression():
+        kind = 'AwaitExpression';
+        child('expression', ast.expression);
+      case YieldStatement():
+        kind = 'YieldStatement';
+        record['star'] = ast.star != null;
+        child('expression', ast.expression);
+      case RecordLiteral():
+        kind = 'RecordLiteral';
+        many('field', ast.fields);
+      case PatternVariableDeclarationStatement():
+        kind = 'PatternVariableDeclarationStatement';
+        child('declaration', ast.declaration);
+      case PatternVariableDeclaration():
+        kind = 'PatternVariableDeclaration';
+        child('pattern', ast.pattern);
+        child('expression', ast.expression);
+      case PatternAssignment():
+        kind = 'PatternAssignment';
+        child('pattern', ast.pattern);
+        child('expression', ast.expression);
+      case DeclaredVariablePattern():
+        kind = 'DeclaredVariablePattern';
+        record['name'] = ast.name.lexeme;
+        record['declaration'] = symbol(ast.declaredFragment?.element);
+        child('type', ast.type);
+      case AssignedVariablePattern():
+        kind = 'AssignedVariablePattern';
+        record['name'] = ast.name.lexeme;
+        record['reference'] = symbol(ast.element);
+      case WildcardPattern():
+        kind = 'WildcardPattern';
+        child('type', ast.type);
+      case ConstantPattern():
+        kind = 'ConstantPattern';
+        child('expression', ast.expression);
+      case RecordPattern():
+        kind = 'RecordPattern';
+        many('field', ast.fields);
+      case ObjectPattern():
+        kind = 'ObjectPattern';
+        child('type', ast.type);
+        many('field', ast.fields);
+      case PatternField():
+        kind = 'PatternField';
+        record['name'] = ast.name == null ? null : ast.effectiveName;
+        record['reference'] = symbol(ast.element);
+        child('pattern', ast.pattern);
+      case ListPattern():
+        kind = 'ListPattern';
+        many('element', ast.elements);
+      case MapPattern():
+        kind = 'MapPattern';
+        many('element', ast.elements);
+      case MapPatternEntry():
+        kind = 'MapPatternEntry';
+        child('key', ast.key);
+        child('pattern', ast.value);
+      case RestPatternElement():
+        kind = 'RestPatternElement';
+        child('pattern', ast.pattern);
+      case LogicalAndPattern():
+        kind = 'LogicalAndPattern';
+        child('left', ast.leftOperand);
+        child('right', ast.rightOperand);
+      case LogicalOrPattern():
+        kind = 'LogicalOrPattern';
+        child('left', ast.leftOperand);
+        child('right', ast.rightOperand);
+      case RelationalPattern():
+        kind = 'RelationalPattern';
+        record['operator'] = ast.operator.lexeme;
+        child('expression', ast.operand);
+      case ParenthesizedPattern():
+        kind = 'ParenthesizedPattern';
+        child('pattern', ast.pattern);
+      case CastPattern():
+        kind = 'CastPattern';
+        child('pattern', ast.pattern);
+        child('type', ast.type);
+      case NullCheckPattern():
+        kind = 'NullCheckPattern';
+        child('pattern', ast.pattern);
+      case NullAssertPattern():
+        kind = 'NullAssertPattern';
+        child('pattern', ast.pattern);
+      case SpreadElement():
+        kind = 'SpreadElement';
+        record['nullAware'] = ast.isNullAware;
+        child('expression', ast.expression);
+      case IfElement():
+        kind = 'IfElement';
+        child('condition', ast.expression);
+        child('case', ast.caseClause);
+        child('then', ast.thenElement);
+        child('else', ast.elseElement);
+      case ForElement():
+        kind = 'ForElement';
+        record['await'] = ast.awaitKeyword != null;
+        child('parts', ast.forLoopParts);
+        child('body', ast.body);
       case ListLiteral():
         kind = 'ListLiteral';
         many('element', ast.elements);
@@ -651,6 +847,18 @@ class _UnitEncoder {
         kind = 'SimpleIdentifier';
         record['name'] = ast.name;
         record['reference'] = symbol(ast.element);
+      case RecordTypeAnnotation():
+        kind = 'RecordTypeAnnotation';
+        record['typeId'] = typeId(ast.type);
+        many('field', ast.positionalFields);
+        child('named', ast.namedFields);
+      case RecordTypeAnnotationNamedFields():
+        kind = 'RecordTypeAnnotationNamedFields';
+        many('field', ast.fields);
+      case RecordTypeAnnotationField():
+        kind = 'RecordTypeAnnotationField';
+        record['name'] = ast.name?.lexeme;
+        child('type', ast.type);
       case NamedType():
         kind = 'NamedType';
         record['typeId'] = typeId(ast.type);

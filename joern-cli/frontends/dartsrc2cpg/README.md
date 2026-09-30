@@ -2,12 +2,15 @@
 
 `dartsrc2cpg` uses a pinned Dart analyzer exporter to construct CPGs for core
 Dart source semantics: libraries, classes, constructors, functions and closures,
-parameters, control flow, null-aware expressions, cascades and collections.
+parameters, control flow, null-aware expressions, cascades, records, patterns,
+extensions, modern collections and async syntax.
 Tests cover graph structure, resolution, CFGs, positive/negative dataflow and
 saving/reopening graphs. Unsupported syntax is reported and retained as UNKNOWN.
 
 See [core graph conventions and coverage](SEMANTICS.md) for lowering decisions,
-test coverage and analysis limits.
+test coverage and analysis limits. The [feature matrix](FEATURES.md) distinguishes
+parsing, graph modeling, resolution and tested dataflow. Resolved Flutter tests
+have separate [SDK preparation instructions](src/test/resources/flutter/README.md).
 
 ## Build and test
 
@@ -109,8 +112,10 @@ are skipped by the exporter.
 Core language modeling is implemented; this is not general Dart/Flutter runtime
 analysis. Unknown dynamic calls, arbitrary mutable function values, external
 library effects, precise exception/finally routing and lazy initializer scheduling
-have the limitations documented in [SEMANTICS.md](SEMANTICS.md). Modern patterns,
-records, async behavior and Flutter framework semantics remain later milestones.
-The Flutter-style exporter fixture tests partial output without a Flutter SDK;
-resolved Flutter analysis remains untested. Resource limits, crash recovery, full
-analysis-option exclusions, and release infrastructure ownership remain future work.
+have the limitations documented in [SEMANTICS.md](SEMANTICS.md). Async and generator
+syntax does not establish event-loop or stream scheduling analysis. The pinned
+Flutter fixture verifies SDK resolution, widget constructors and callback captures;
+it does not model framework lifecycle or event delivery. Required future library
+summaries are specified separately in [RUNTIME_SUMMARIES.md](RUNTIME_SUMMARIES.md).
+Resource limits, crash recovery, full analysis-option exclusions, and release
+infrastructure ownership remain future work.
