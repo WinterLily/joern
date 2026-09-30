@@ -1,13 +1,13 @@
-# Analyzer bridge protocol 1 (prototype)
+# Analyzer bridge protocol 1
 
 The stream contains one `header`, zero or more `unit` records sorted by file path,
 and one `summary` with the emitted file count. Each record occupies one UTF-8 JSON
 line. Consumers must reject missing/truncated streams, mismatched counts,
 unsupported protocol versions, and unsupported analyzer/exporter versions before
-constructing a graph. The Scala consumer and its compatibility tests are not yet
-implemented. Version 1 is provisional until that boundary is tested.
+constructing a graph. The Scala consumer validates the protocol, analyzer, SDK and offset encoding
+before constructing a graph. Exporter 0.2 adds core-language fields to protocol 1.
 
-The header declares `protocolVersion` (1), `exporterVersion` (0.1.0),
+The header declares `protocolVersion` (1), `exporterVersion` (0.2.0),
 `analyzerVersion` (8.4.1), `sdkVersion` (3.9.2), and `offsetEncoding` (`utf-16`).
 No timestamps or checkout root are emitted. The exporter builds records one file
 at a time; the analyzer may retain project state internally.
@@ -52,13 +52,14 @@ Declarations expose `declaration` symbol IDs; simple identifiers expose
 `reference`; method invocations expose `target`. Null means unresolved.
 Symbols are deduplicated and sorted by ID per file; cross-file repetitions refer
 to the same declaration. IDs combine the declaring source URI, declaration name
-UTF-16 offset, element kind, and name, using the analyzer's base element for
+canonical UTF-16 fragment offset, element kind, and name, using the analyzer's base element for
 instantiated references. They are stable for an unchanged project under relocation,
 not across edits. `package:` and `dart:` identities are retained when supplied by
 the analyzer; other project files use root-relative identities. External file
-URIs may be absolute. Consumers should treat IDs as opaque strings. Full
-canonicalization for synthetic elements and advanced language constructs is not
-yet established.
+URIs may be absolute. Consumers should treat IDs as opaque strings. Unnamed constructors and anonymous functions use canonical fragment offsets,
+which remain available when name offsets are null. Synthetic function-type
+parameters without a usable offset are anchored to their owner and parameter
+slot/type. IDs remain opaque to consumers.
 
 Symbols include names, kinds, declaring files/libraries, offsets, and variable or
 return types when applicable. Executable `parameters` lists use declaration
@@ -68,6 +69,21 @@ mapping each argument offset to a parameter ID or null. Omitted arguments are
 not synthesized: compare bindings with the target's parameter list to discover
 omitted defaults. Never infer parameter bindings by argument position alone.
 
-Member dispatch, closures, constructors, and general library/module modeling
-remain outside the supported semantic subset. Downstream consumers must not
-interpret an unresolved target or unsupported node as proof of no dataflow.
+Core nodes include classes/members, constructors and initializers, function
+expressions/references, control structures, and core operators/collections.
+Executable and variable symbols expose static/private/synthetic flags. Variables
+also expose finality; property accessors identify their backing variable.
+Constructors identify factory status and super targets. Classes expose display
+supertypes and canonical `superDeclarations`. `typeId` and `returnTypeId` provide
+canonical interface identities alongside the original display types.
+
+Assignment expressions expose `read` and `write` targets separately: analyzer
+identifiers on the left of a write do not necessarily carry a reference. Access
+nodes record null awareness. Function expressions identify their executable
+symbol; implicit constructors are recorded on classes. Super formals identify
+the corresponding super parameter. Parameter and argument roles retain source
+order throughout.
+
+See [CPG lowering conventions](../SEMANTICS.md) for how these facts become graph
+nodes and edges. An unresolved target or unsupported node is never evidence of
+absence of dataflow.

@@ -259,8 +259,69 @@ void main() { combine(second: 'b', first: 'a'); }
       final unit = units(await export()).single;
       expect(unit['file'], 'widget.g.dart');
       expect(unit['status'], 'partial');
-      expect(unit['unsupportedKinds'], contains('ClassDeclaration'));
+      expect(
+        entries(unit, 'nodes').where((n) => n['kind'] == 'ClassDeclaration'),
+        hasLength(1),
+      );
       expect(unit['diagnostics'], isNotEmpty);
+    },
+  );
+
+  test(
+    'core syntax exports roles, dispatch and constructor identities',
+    () async {
+      write('main.dart', r"""
+class Base { Base(); }
+class Box<T> extends Base implements Comparable<Box<T>> {
+  T? item;
+  Box(this.item) : super();
+  Box.named(T value) : item = value;
+  Box.redirect(T value) : this.named(value);
+  factory Box.make(T value) = Box<T>.named;
+  T? get value => item;
+  set value(T? x) { item = x; }
+  int compareTo(Box<T> other) => 0;
+  static String echo(String value) => value;
+}
+void main() {
+  final box = Box<String>('a');
+  final callback = () => box.value;
+  final tearoff = Box.echo;
+  if (callback() != null) { box.value = tearoff('b'); } else { box.value = null; }
+  while (box.value == null) { break; }
+  do { box.value = 'c'; } while (false);
+  for (var i = 0; i < 2; i++) { continue; }
+  for (final value in ['a']) { box.value = value; }
+  switch (box.value) { case 'a': break; default: break; }
+  try { throw 'failure'; } catch (error, stack) { print(error); } finally { print('done'); }
+  box..value = 'x'..compareTo(box);
+  final list = [box.value]; final set = {box.value}; final map = {'key': box.value};
+  print('value: ${box.value}'); print(box.value ?? 'default');
+}
+""");
+      final unit = units(await export()).single;
+      expect(unit['status'], 'resolved', reason: '${unit['diagnostics']}');
+      expect(unit['unsupportedKinds'], isEmpty);
+      final symbols = entries(unit, 'symbols');
+      final box = symbols.singleWhere(
+        (s) => s['kind'] == 'CLASS' && s['name'] == 'Box',
+      );
+      expect(box['superTypes'], containsAll(['Base', 'Comparable<Box<T>>']));
+      final fields = symbols.where(
+        (s) => s['kind'] == 'FIELD' && s['name'] == 'item',
+      );
+      expect(fields.single['type'], 'T?');
+      expect(
+        symbols.where(
+          (s) => s['kind'] == 'CONSTRUCTOR' && s['file'] == 'main.dart',
+        ),
+        hasLength(5),
+      );
+      expect(
+        entries(unit, 'nodes').where((n) => n['kind'] == 'SwitchCase'),
+        hasLength(1),
+      );
+      expect(jsonEncode(await export()), jsonEncode(await export()));
     },
   );
 

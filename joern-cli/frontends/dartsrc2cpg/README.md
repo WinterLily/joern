@@ -1,10 +1,13 @@
 # Dart source frontend
 
-`dartsrc2cpg` uses the local Dart analyzer exporter to construct CPGs for top-level
-functions, positional and named parameters, locals, literals, assignments, direct
-calls, index access, and returns. Tests prove positive and negative interprocedural
-dataflow across two files, including after saving and reopening the CPG.
-Unsupported syntax is represented by `UNKNOWN` nodes and reported in logs.
+`dartsrc2cpg` uses a pinned Dart analyzer exporter to construct CPGs for core
+Dart source semantics: libraries, classes, constructors, functions and closures,
+parameters, control flow, null-aware expressions, cascades and collections.
+Tests cover graph structure, resolution, CFGs, positive/negative dataflow and
+saving/reopening graphs. Unsupported syntax is reported and retained as UNKNOWN.
+
+See [core graph conventions and coverage](SEMANTICS.md) for lowering decisions,
+test coverage and analysis limits.
 
 ## Build and test
 
@@ -103,9 +106,11 @@ and never fetch dependencies, build applications, or generate code. Existing
 generated Dart files are included; `.git`, `.dart_tool`, and directory symlinks
 are skipped by the exporter.
 
-This milestone does not provide general Dart/Flutter semantics. Classes, closures,
-control-flow constructs, async behavior, default argument insertion, and most
-operators require later milestones. Missing dependencies can leave calls unresolved.
+Core language modeling is implemented; this is not general Dart/Flutter runtime
+analysis. Unknown dynamic calls, arbitrary mutable function values, external
+library effects, precise exception/finally routing and lazy initializer scheduling
+have the limitations documented in [SEMANTICS.md](SEMANTICS.md). Modern patterns,
+records, async behavior and Flutter framework semantics remain later milestones.
 The Flutter-style exporter fixture tests partial output without a Flutter SDK;
 resolved Flutter analysis remains untested. Resource limits, crash recovery, full
 analysis-option exclusions, and release infrastructure ownership remain future work.
