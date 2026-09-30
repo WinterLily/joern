@@ -1,0 +1,12 @@
+name: dart_astgen
+description: Analyzer bridge prototype for Joern's Dart frontend.
+version: 0.1.0
+publish_to: none
+environment:
+  sdk: '>=3.9.2 <3.10.0'
+dependencies:
+  analyzer: 8.4.1
+  path: 1.9.1
+dev_dependencies:
+  lints: 6.0.0
+  test: 1.26.3
