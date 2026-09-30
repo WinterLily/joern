@@ -115,10 +115,10 @@ coverage wording if any positive exists only through an unjustified shortcut.
 - [ ] Build executable microprograms with instrumented evaluation traces to check
       order, side effects, dispatch, exceptions and callback behavior. Observed
       execution is evidence for exercised paths, not proof of absent static flow.
-- [ ] Add metamorphic pairs: rename locals, extract/in-line helpers, reorder named
+- [x] Add metamorphic pairs: rename locals, extract/in-line helpers, reorder named
       arguments, add dead code, replace an input with a constant, overwrite a local,
       split into files, and introduce an independent receiver/object.
-- [ ] Use bounded exhaustive inputs where practical. Add mutation tests showing
+- [x] Use bounded exhaustive inputs where practical. Add mutation tests showing
       that the suite detects removed REF/call edges, swapped arguments, broken
       return flow and spurious receiver propagation.
 

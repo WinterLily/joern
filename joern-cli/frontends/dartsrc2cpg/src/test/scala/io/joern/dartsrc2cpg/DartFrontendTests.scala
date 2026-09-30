@@ -77,6 +77,91 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
   }
 
   "Dart frontend" should {
+    "preserve dependencies under source transformations and reject constant replacements" in {
+      val variants = Seq(
+        ("inline", "", "String relay(String value) => value;", "relay(input)", true),
+        (
+          "rename",
+          "",
+          "String relay(String renamed) { final another = renamed; return another; }",
+          "relay(input)",
+          true
+        ),
+        (
+          "extract",
+          "String identity(String argument) => argument;",
+          "String relay(String value) => identity(value);",
+          "relay(input)",
+          true
+        ),
+        (
+          "dead helper",
+          "String unused(String ignored) => 'fixed';",
+          "String relay(String value) => value;",
+          "relay(input)",
+          true
+        ),
+        (
+          "named order",
+          "",
+          "String relay({required String value, required String ignored}) => value;",
+          "relay(ignored: 'fixed', value: input)",
+          true
+        ),
+        (
+          "named order reversed",
+          "",
+          "String relay({required String value, required String ignored}) => value;",
+          "relay(value: input, ignored: 'fixed')",
+          true
+        ),
+        ("constant", "", "String relay(String value) => 'fixed';", "relay(input)", false),
+        (
+          "overwrite",
+          "",
+          "String relay(String value) { var local = value; local = 'fixed'; return local; }",
+          "relay(input)",
+          false
+        ),
+        (
+          "unrelated named",
+          "",
+          "String relay({required String value, required String ignored}) => value;",
+          "relay(value: 'fixed', ignored: input)",
+          false
+        )
+      )
+      for ((name, helper, relay, call, expected) <- variants; split <- Seq(false, true)) {
+        val source = if (split) "export 'transformed.dart';\n" + helper else helper + "\n" + relay
+        val moved  = (if (name == "extract") "import 'helper.dart';\n" else "") + relay
+        val files  = if (split) Map("lib/transformed.dart" -> moved) else Map.empty[String, String]
+        withClue(s"$name, split=$split: ") {
+          fixture(source, s"void main(List<String> args) { final input = args[0]; sink($call); }", extraFiles = files) {
+            (cpg, _) =>
+              cpg.call
+                .nameExact("sink")
+                .argument
+                .reachableByFlows(cpg.identifier.nameExact("input"))
+                .nonEmpty shouldBe expected
+              cpg.call.nameExact("relay").callee.isExternal.l shouldBe List(false)
+          }
+        }
+      }
+    }
+    "isolate calls on independent receivers with a matching positive control" in {
+      fixture(
+        "class Box { String echo(String value) => value; } String relay(String value) { final first = Box(); final second = Box(); first.echo(value); return second.echo('fixed'); }",
+        "void main(List<String> args) { final input = args[0]; sink(relay(input)); }"
+      ) { (cpg, _) =>
+        assertFlow(cpg, false)
+        cpg.call
+          .codeExact("first.echo(value)")
+          .argument(1)
+          .reachableByFlows(cpg.identifier.nameExact("input"))
+          .nonEmpty shouldBe true
+        cpg.call.nameExact("echo").receiver.isIdentifier.refsTo.name.toSet shouldBe Set("first", "second")
+      }
+    }
     "accumulate values across nested collection loops without treating conditions as elements" in {
       for (
         (elements, expected) <- Seq(
