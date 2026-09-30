@@ -11,6 +11,44 @@ import ujson.Value
 private[dartsrc2cpg] object CorpusDataflow {
   implicit val resolver: ICallResolver = NoResolve
 
+  private def callEvidence(call: Call): Value = ujson.Obj(
+    "nodeId"  -> call.id.toString,
+    "name"    -> call.name,
+    "target"  -> call.methodFullName,
+    "code"    -> call.code,
+    "callees" -> ujson.Arr.from(call.callee.toSeq.sortBy(_.fullName).map { method =>
+      ujson.Obj("fullName" -> method.fullName, "external" -> method.isExternal)
+    })
+  )
+
+  private def nodeEvidence(node: AstNode): Value = {
+    val record = ujson.Obj(
+      "nodeId" -> node.id.toString,
+      "label"  -> node.label,
+      "method" -> (node match { case cfg: CfgNode => cfg.method.fullName; case _ => "" }),
+      "code"   -> node.code,
+      "line"   -> node.lineNumber.getOrElse(-1)
+    )
+    node match {
+      case call: Call                    => record("call") = callEvidence(call)
+      case ref: MethodRef                => record("referencedMethod") = ref.methodFullName
+      case parameter: MethodParameterIn  => record("parameterIndex") = parameter.index
+      case parameter: MethodParameterOut => record("parameterIndex") = parameter.index
+      case _                             =>
+    }
+    node match {
+      case expression: Expression =>
+        val contexts = expression.inCall.map { call =>
+          val context = callEvidence(call)
+          context("argumentIndex") = expression.argumentIndex
+          context
+        }.toSeq
+        if (contexts.nonEmpty) record("argumentsOf") = ujson.Arr.from(contexts)
+      case _ =>
+    }
+    record
+  }
+
   private def select(cpg: Cpg, selector: Value): List[CfgNode] = {
     val methods = cpg.method
       .isExternal(false)
@@ -125,19 +163,7 @@ private[dartsrc2cpg] object CorpusDataflow {
         "elapsedMillis"          -> ujson.Num((System.nanoTime() - started) / 1000000.0),
         "witnesses"              -> ujson.Arr.from(
           retained
-            .map(path =>
-              ujson.Arr.from(
-                path.elements.map(n =>
-                  ujson.Obj(
-                    "nodeId" -> n.id.toString,
-                    "label"  -> n.label,
-                    "method" -> (n match { case cfg: CfgNode => cfg.method.fullName; case _ => "" }),
-                    "code"   -> n.code,
-                    "line"   -> n.lineNumber.getOrElse(-1)
-                  )
-                )
-              )
-            )
+            .map(path => ujson.Arr.from(path.elements.map(nodeEvidence)))
         )
       )
     }

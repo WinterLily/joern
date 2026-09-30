@@ -86,18 +86,21 @@ subsequent parser/evaluator pipeline.
 
 Progress: see the [semantic audit](corpus/SEMANTIC_AUDIT.md). Witness reporting
 now defaults to all returned paths and records any explicit reporting truncation.
-All 21 negative queries have enforced positive controls (eight new controls).
+All 21 negative queries have enforced distinct-node positive controls (nine new controls).
 The certificate route has a reduced Scala regression, a Dart execution oracle
-and a complete transition review. Additional suspicious routes are tracked;
-full source/route reviews and search-limit observability remain outstanding.
+and a complete transition review. The current snapshot reviews all 76 expectations
+and all 63 distinct returned paths (540 transitions), including two endpoint identities and both stock false
+positives. Five modeled negative searches remain inconclusive. Unreturned
+alternatives and negative-search qualification remain outstanding.
 
 
 - [x] Review all 67 existing expectations against pinned source. Record exact
       endpoints, intended transformations/callees and relevant branch conditions.
-- [ ] Review at least one complete witness for every positive query, every
-      distinct route family and every suspicious alternative. Remove the
-      three-witness reporting cap for the audit, or record explicit truncation.
-- [ ] Classify each transition: assignment, parameter binding, return, field,
+- [x] Review at least one complete returned witness for every positive query and
+      every retained alternative; remove the reporting cap and retain provenance.
+- [ ] Qualify additional alternatives excluded by the engine's longest-witness
+      selection. The returned-path snapshot does not establish all route families.
+- [x] Classify each retained transition: assignment, parameter binding, return, field,
       alias, capture, collection element, callback invocation or external summary.
       Separate explicit value flow from control/selection dependencies.
 - [x] Investigate the certificate-hashing route above first. Add a reduced
@@ -105,9 +108,9 @@ full source/route reviews and search-limit observability remain outstanding.
 - [ ] For every negative query, add a nearby positive control and demonstrate
       that absence is not caused by missing targets, missing overlays, missing
       code, exhausted depth or a resource limit.
-- [ ] Preserve separate outcomes for stock semantics, optional models, known
+- [x] Preserve separate outcomes for stock semantics, optional models, known
       approximation, unsupported behavior and inconclusive/budget-limited queries.
-- [ ] Commit compact reviewed witnesses and reasons, not just pass booleans.
+- [x] Commit compact reviewed witnesses and reasons, not just pass booleans.
       Include source commit, exporter version, model set and query limits.
 
 Exit: every existing query has a semantic review disposition; suspicious routes

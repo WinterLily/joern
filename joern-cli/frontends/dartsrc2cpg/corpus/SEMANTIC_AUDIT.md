@@ -73,7 +73,10 @@ source hashes, relevant conditions and endpoint dispositions. It preserves the
 historical exporter 0.3.2 witnesses for comparison; it does not certify each hop.
 The originally flagged route families now have reduced fixtures and complete
 transition reviews. Ownership and remaining approximations are recorded below.
-Other source-ledger witnesses still require transition qualification.
+The newer [complete snapshot review](witness-reviews.json) classifies every
+retained transition across all 76 current expectations. It includes conservative
+and inconclusive dispositions rather than promoting every endpoint match to a
+semantic guarantee.
 
 | Issue | Probe | Observed route requiring review |
 | --- | --- | --- |
@@ -271,3 +274,35 @@ expectations match 74 stock and 76 modeled; four stock and five modeled negative
 searches are still inconclusive because of call-depth omissions. The four holdout
 expectations match in both modes. Matching an expected absence is not qualification
 of an inconclusive negative.
+
+
+## Complete returned-witness snapshot
+
+[witness-reviews.json](witness-reviews.json) covers 76 queries in both modes:
+112 returned witnesses, shared as 63 distinct paths with 540 classified
+transitions. It includes the two stock false positives. The two one-node paths
+are explicitly classified as endpoint identities, not propagation evidence.
+Each transition position maps to a documented category; repeated nodes, caller
+re-entry and callback feedback are retained. Stock/model limits and controls stay
+separate. The 28 source-evidence file hashes match the pinned checkouts.
+
+Call nodes now retain their target and resolved callees. Direct argument contexts,
+formal indices and callback method identities make call-boundary reviews
+inspectable. Every ordinary actual/formal binding in the snapshot matches a
+recorded argument position and resolved callee; every return-to-call transition
+matches a resolved callee. A native validation test requires all current probes,
+all retained path transitions and those bindings to remain accounted for.
+
+These checks validate the recorded representation, not path feasibility or
+complete dispatch. The review distinguishes explicit copies from parameter-output
+detours, field/whole-object aliases, callback-result approximations, external
+argument writes and selection/position values. Readonly codec/string/encryption
+receiver effects and a collapsed polymorphic rootLength result remain conservative
+obligations with named owners. Five modeled negative searches are still
+inconclusive; alternatives excluded by longest-witness selection are not certified.
+
+Validation: 105 frontend/runner/mutation/package checks, three application audits
+and two holdout audits passed with the expanded witness metadata. The snapshot
+validation test passed. Graph baselines and endpoint expectations are unchanged.
+The complete native suite passed 61 tests with Flutter and JIT/AOT/dart2js checks
+enabled, including the snapshot validation and both completer execution oracles.

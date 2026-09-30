@@ -30,7 +30,7 @@ def main():
                 id=stock["id"], expectedFlow=stock["expected"], sources=stock["sources"], sinks=stock["sinks"],
                 stockFlow=stock["paths"] > 0, stockPassed=stock["passed"],
                 modeledFlow=modeled["paths"] > 0, modeledPassed=modeled["passed"],
-                distinctEndpoints=modeled["distinctEndpoints"], viaSatisfied=modeled["viaSatisfied"], semanticReview="see source review ledger; not path certification",
+                distinctEndpoints=modeled["distinctEndpoints"], viaSatisfied=modeled["viaSatisfied"], semanticReview="see witness-reviews.json and source ledger; snapshots do not certify current paths",
                 stockOutcome=stock["outcome"], modeledOutcome=modeled["outcome"],
                 limitations={"stock": stock["limitations"], "modeled": modeled["limitations"]},
                 omittedWitnesses={"stock": stock["omittedWitnesses"], "modeled": modeled["omittedWitnesses"]},

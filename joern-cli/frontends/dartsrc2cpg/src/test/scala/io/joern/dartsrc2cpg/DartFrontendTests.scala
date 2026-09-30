@@ -937,7 +937,10 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
       }
     }
     "report complete witnesses and explicit audit limits without certifying semantics" in {
-      fixture("String relay(String value) => value; String fixed() => 'fixed';", "void main() {}") { (cpg, _) =>
+      fixture(
+        "String relay(String value) => value; String forward(String value) => relay(value); String fixed() => 'fixed';",
+        "void main() {}"
+      ) { (cpg, _) =>
         val probe = ujson.read("""{
           "id": "relay", "expected": true,
           "source": {"file": "lib/helper.dart", "method": "relay", "kind": "parameter", "name": "value"},
@@ -950,6 +953,17 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         complete("omittedWitnesses").num shouldBe 0
         complete("witnesses").arr.size.toDouble shouldBe complete("paths").num
         complete("witnesses").arr.head.arr.head("label").str shouldBe "METHOD_PARAMETER_IN"
+        val forwarded = ujson.read(ujson.write(probe))
+        forwarded("source")("method") = "forward"
+        forwarded("sink")("method") = "forward"
+        val nodes =
+          CorpusDataflow.audit(cpg, Seq(forwarded), DefaultSemantics()).arr.head("witnesses").arr.flatMap(_.arr)
+        val calls = nodes.flatMap(_.obj.get("call"))
+        calls.map(_("name").str) should contain("relay")
+        val relay = calls.find(_("name").str == "relay").get
+        relay("callees").arr.exists(c => !c("external").bool && c("fullName") == relay("target")) shouldBe true
+        val arguments = nodes.flatMap(_.obj.get("argumentsOf")).flatMap(_.arr)
+        arguments.exists(c => c("name").str == "relay" && c("argumentIndex").num == 1) shouldBe true
         val truncated = CorpusDataflow.audit(cpg, Seq(probe), DefaultSemantics(), Some(0)).arr.head
         truncated("passed").bool shouldBe true
         truncated("witnesses").arr shouldBe empty

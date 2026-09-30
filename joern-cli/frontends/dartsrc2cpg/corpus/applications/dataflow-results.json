@@ -3,7 +3,7 @@
     "project": "localsend-1.17.0",
     "analysisSources": {
       "algorithm": "sha256-path-nul-content-nul",
-      "sha256": "1decf64a47b453fcf81904085696cfff0d2dabf4d6b1abdb89ec292cb504c7bc",
+      "sha256": "12cb359183c21d12b11a555a6b5a789934a9ad72e25ad38d177ead6cd8bddfee",
       "files": 351,
       "roots": [
         "joern-cli/frontends/dartsrc2cpg/src",
@@ -77,7 +77,7 @@
         "modeledPassed": true,
         "distinctEndpoints": true,
         "viaSatisfied": true,
-        "semanticReview": "see source review ledger; not path certification",
+        "semanticReview": "see witness-reviews.json and source ledger; snapshots do not certify current paths",
         "stockOutcome": "flow-observed",
         "modeledOutcome": "flow-observed",
         "limitations": {
@@ -102,7 +102,7 @@
         "modeledPassed": true,
         "distinctEndpoints": true,
         "viaSatisfied": true,
-        "semanticReview": "see source review ledger; not path certification",
+        "semanticReview": "see witness-reviews.json and source ledger; snapshots do not certify current paths",
         "stockOutcome": "no-flow-observed-within-limits",
         "modeledOutcome": "no-flow-observed-within-limits",
         "limitations": {
@@ -130,7 +130,7 @@
         "modeledPassed": true,
         "distinctEndpoints": true,
         "viaSatisfied": true,
-        "semanticReview": "see source review ledger; not path certification",
+        "semanticReview": "see witness-reviews.json and source ledger; snapshots do not certify current paths",
         "stockOutcome": "flow-observed",
         "modeledOutcome": "flow-observed",
         "limitations": {
@@ -153,7 +153,7 @@
         "modeledPassed": true,
         "distinctEndpoints": true,
         "viaSatisfied": true,
-        "semanticReview": "see source review ledger; not path certification",
+        "semanticReview": "see witness-reviews.json and source ledger; snapshots do not certify current paths",
         "stockOutcome": "flow-observed",
         "modeledOutcome": "flow-observed",
         "limitations": {
@@ -180,7 +180,7 @@
         "modeledPassed": true,
         "distinctEndpoints": true,
         "viaSatisfied": true,
-        "semanticReview": "see source review ledger; not path certification",
+        "semanticReview": "see witness-reviews.json and source ledger; snapshots do not certify current paths",
         "stockOutcome": "inconclusive-query-limits",
         "modeledOutcome": "inconclusive-query-limits",
         "limitations": {
@@ -212,7 +212,7 @@
         "modeledPassed": true,
         "distinctEndpoints": true,
         "viaSatisfied": true,
-        "semanticReview": "see source review ledger; not path certification",
+        "semanticReview": "see witness-reviews.json and source ledger; snapshots do not certify current paths",
         "stockOutcome": "flow-observed",
         "modeledOutcome": "flow-observed",
         "limitations": {
@@ -235,7 +235,7 @@
         "modeledPassed": true,
         "distinctEndpoints": true,
         "viaSatisfied": true,
-        "semanticReview": "see source review ledger; not path certification",
+        "semanticReview": "see witness-reviews.json and source ledger; snapshots do not certify current paths",
         "stockOutcome": "no-flow-observed-within-limits",
         "modeledOutcome": "no-flow-observed-within-limits",
         "limitations": {
@@ -263,7 +263,7 @@
         "modeledPassed": true,
         "distinctEndpoints": true,
         "viaSatisfied": true,
-        "semanticReview": "see source review ledger; not path certification",
+        "semanticReview": "see witness-reviews.json and source ledger; snapshots do not certify current paths",
         "stockOutcome": "flow-observed",
         "modeledOutcome": "flow-observed",
         "limitations": {
@@ -286,7 +286,7 @@
         "modeledPassed": true,
         "distinctEndpoints": true,
         "viaSatisfied": true,
-        "semanticReview": "see source review ledger; not path certification",
+        "semanticReview": "see witness-reviews.json and source ledger; snapshots do not certify current paths",
         "stockOutcome": "no-flow-observed-within-limits",
         "modeledOutcome": "no-flow-observed-within-limits",
         "limitations": {
@@ -314,7 +314,7 @@
         "modeledPassed": true,
         "distinctEndpoints": true,
         "viaSatisfied": true,
-        "semanticReview": "see source review ledger; not path certification",
+        "semanticReview": "see witness-reviews.json and source ledger; snapshots do not certify current paths",
         "stockOutcome": "flow-observed",
         "modeledOutcome": "flow-observed",
         "limitations": {
@@ -341,7 +341,7 @@
         "modeledPassed": true,
         "distinctEndpoints": true,
         "viaSatisfied": true,
-        "semanticReview": "see source review ledger; not path certification",
+        "semanticReview": "see witness-reviews.json and source ledger; snapshots do not certify current paths",
         "stockOutcome": "flow-observed",
         "modeledOutcome": "flow-observed",
         "limitations": {
@@ -359,7 +359,7 @@
     "project": "saber-0.26.0",
     "analysisSources": {
       "algorithm": "sha256-path-nul-content-nul",
-      "sha256": "1decf64a47b453fcf81904085696cfff0d2dabf4d6b1abdb89ec292cb504c7bc",
+      "sha256": "12cb359183c21d12b11a555a6b5a789934a9ad72e25ad38d177ead6cd8bddfee",
       "files": 351,
       "roots": [
         "joern-cli/frontends/dartsrc2cpg/src",
@@ -433,7 +433,7 @@
         "modeledPassed": true,
         "distinctEndpoints": true,
         "viaSatisfied": true,
-        "semanticReview": "see source review ledger; not path certification",
+        "semanticReview": "see witness-reviews.json and source ledger; snapshots do not certify current paths",
         "stockOutcome": "flow-observed",
         "modeledOutcome": "flow-observed",
         "limitations": {
@@ -456,7 +456,7 @@
         "modeledPassed": true,
         "distinctEndpoints": true,
         "viaSatisfied": true,
-        "semanticReview": "see source review ledger; not path certification",
+        "semanticReview": "see witness-reviews.json and source ledger; snapshots do not certify current paths",
         "stockOutcome": "no-flow-observed-within-limits",
         "modeledOutcome": "no-flow-observed-within-limits",
         "limitations": {
@@ -484,7 +484,7 @@
         "modeledPassed": true,
         "distinctEndpoints": true,
         "viaSatisfied": true,
-        "semanticReview": "see source review ledger; not path certification",
+        "semanticReview": "see witness-reviews.json and source ledger; snapshots do not certify current paths",
         "stockOutcome": "flow-observed",
         "modeledOutcome": "flow-observed",
         "limitations": {
@@ -507,7 +507,7 @@
         "modeledPassed": true,
         "distinctEndpoints": true,
         "viaSatisfied": true,
-        "semanticReview": "see source review ledger; not path certification",
+        "semanticReview": "see witness-reviews.json and source ledger; snapshots do not certify current paths",
         "stockOutcome": "flow-observed",
         "modeledOutcome": "flow-observed",
         "limitations": {
@@ -530,7 +530,7 @@
         "modeledPassed": true,
         "distinctEndpoints": true,
         "viaSatisfied": true,
-        "semanticReview": "see source review ledger; not path certification",
+        "semanticReview": "see witness-reviews.json and source ledger; snapshots do not certify current paths",
         "stockOutcome": "flow-observed",
         "modeledOutcome": "flow-observed",
         "limitations": {
@@ -557,7 +557,7 @@
         "modeledPassed": true,
         "distinctEndpoints": true,
         "viaSatisfied": true,
-        "semanticReview": "see source review ledger; not path certification",
+        "semanticReview": "see witness-reviews.json and source ledger; snapshots do not certify current paths",
         "stockOutcome": "no-flow-observed-within-limits",
         "modeledOutcome": "no-flow-observed-within-limits",
         "limitations": {
@@ -585,7 +585,7 @@
         "modeledPassed": true,
         "distinctEndpoints": true,
         "viaSatisfied": true,
-        "semanticReview": "see source review ledger; not path certification",
+        "semanticReview": "see witness-reviews.json and source ledger; snapshots do not certify current paths",
         "stockOutcome": "flow-observed",
         "modeledOutcome": "flow-observed",
         "limitations": {
@@ -612,7 +612,7 @@
         "modeledPassed": true,
         "distinctEndpoints": true,
         "viaSatisfied": true,
-        "semanticReview": "see source review ledger; not path certification",
+        "semanticReview": "see witness-reviews.json and source ledger; snapshots do not certify current paths",
         "stockOutcome": "flow-observed",
         "modeledOutcome": "no-flow-observed-within-limits",
         "limitations": {
@@ -642,7 +642,7 @@
         "modeledPassed": true,
         "distinctEndpoints": true,
         "viaSatisfied": true,
-        "semanticReview": "see source review ledger; not path certification",
+        "semanticReview": "see witness-reviews.json and source ledger; snapshots do not certify current paths",
         "stockOutcome": "flow-observed",
         "modeledOutcome": "flow-observed",
         "limitations": {
@@ -665,7 +665,7 @@
         "modeledPassed": true,
         "distinctEndpoints": true,
         "viaSatisfied": true,
-        "semanticReview": "see source review ledger; not path certification",
+        "semanticReview": "see witness-reviews.json and source ledger; snapshots do not certify current paths",
         "stockOutcome": "flow-observed",
         "modeledOutcome": "flow-observed",
         "limitations": {
@@ -688,7 +688,7 @@
         "modeledPassed": true,
         "distinctEndpoints": true,
         "viaSatisfied": true,
-        "semanticReview": "see source review ledger; not path certification",
+        "semanticReview": "see witness-reviews.json and source ledger; snapshots do not certify current paths",
         "stockOutcome": "flow-observed",
         "modeledOutcome": "flow-observed",
         "limitations": {
@@ -710,7 +710,7 @@
     "project": "dart-sass-1.89.2",
     "analysisSources": {
       "algorithm": "sha256-path-nul-content-nul",
-      "sha256": "1decf64a47b453fcf81904085696cfff0d2dabf4d6b1abdb89ec292cb504c7bc",
+      "sha256": "12cb359183c21d12b11a555a6b5a789934a9ad72e25ad38d177ead6cd8bddfee",
       "files": 351,
       "roots": [
         "joern-cli/frontends/dartsrc2cpg/src",
@@ -783,7 +783,7 @@
         "modeledPassed": true,
         "distinctEndpoints": true,
         "viaSatisfied": true,
-        "semanticReview": "see source review ledger; not path certification",
+        "semanticReview": "see witness-reviews.json and source ledger; snapshots do not certify current paths",
         "stockOutcome": "flow-observed",
         "modeledOutcome": "flow-observed",
         "limitations": {
@@ -810,7 +810,7 @@
         "modeledPassed": true,
         "distinctEndpoints": true,
         "viaSatisfied": true,
-        "semanticReview": "see source review ledger; not path certification",
+        "semanticReview": "see witness-reviews.json and source ledger; snapshots do not certify current paths",
         "stockOutcome": "inconclusive-query-limits",
         "modeledOutcome": "inconclusive-query-limits",
         "limitations": {
@@ -842,7 +842,7 @@
         "modeledPassed": true,
         "distinctEndpoints": true,
         "viaSatisfied": true,
-        "semanticReview": "see source review ledger; not path certification",
+        "semanticReview": "see witness-reviews.json and source ledger; snapshots do not certify current paths",
         "stockOutcome": "flow-observed",
         "modeledOutcome": "flow-observed",
         "limitations": {
@@ -865,7 +865,7 @@
         "modeledPassed": true,
         "distinctEndpoints": true,
         "viaSatisfied": true,
-        "semanticReview": "see source review ledger; not path certification",
+        "semanticReview": "see witness-reviews.json and source ledger; snapshots do not certify current paths",
         "stockOutcome": "flow-observed",
         "modeledOutcome": "flow-observed",
         "limitations": {
@@ -892,7 +892,7 @@
         "modeledPassed": true,
         "distinctEndpoints": true,
         "viaSatisfied": true,
-        "semanticReview": "see source review ledger; not path certification",
+        "semanticReview": "see witness-reviews.json and source ledger; snapshots do not certify current paths",
         "stockOutcome": "flow-observed",
         "modeledOutcome": "flow-observed",
         "limitations": {
@@ -919,7 +919,7 @@
         "modeledPassed": true,
         "distinctEndpoints": true,
         "viaSatisfied": true,
-        "semanticReview": "see source review ledger; not path certification",
+        "semanticReview": "see witness-reviews.json and source ledger; snapshots do not certify current paths",
         "stockOutcome": "flow-observed",
         "modeledOutcome": "flow-observed",
         "limitations": {
@@ -946,7 +946,7 @@
         "modeledPassed": true,
         "distinctEndpoints": true,
         "viaSatisfied": true,
-        "semanticReview": "see source review ledger; not path certification",
+        "semanticReview": "see witness-reviews.json and source ledger; snapshots do not certify current paths",
         "stockOutcome": "flow-observed",
         "modeledOutcome": "flow-observed",
         "limitations": {
@@ -973,7 +973,7 @@
         "modeledPassed": true,
         "distinctEndpoints": true,
         "viaSatisfied": true,
-        "semanticReview": "see source review ledger; not path certification",
+        "semanticReview": "see witness-reviews.json and source ledger; snapshots do not certify current paths",
         "stockOutcome": "no-flow-observed-within-limits",
         "modeledOutcome": "no-flow-observed-within-limits",
         "limitations": {
@@ -1001,7 +1001,7 @@
         "modeledPassed": true,
         "distinctEndpoints": true,
         "viaSatisfied": true,
-        "semanticReview": "see source review ledger; not path certification",
+        "semanticReview": "see witness-reviews.json and source ledger; snapshots do not certify current paths",
         "stockOutcome": "flow-observed",
         "modeledOutcome": "flow-observed",
         "limitations": {
@@ -1024,7 +1024,7 @@
         "modeledPassed": true,
         "distinctEndpoints": true,
         "viaSatisfied": true,
-        "semanticReview": "see source review ledger; not path certification",
+        "semanticReview": "see witness-reviews.json and source ledger; snapshots do not certify current paths",
         "stockOutcome": "flow-observed",
         "modeledOutcome": "flow-observed",
         "limitations": {
@@ -1051,7 +1051,7 @@
         "modeledPassed": true,
         "distinctEndpoints": true,
         "viaSatisfied": true,
-        "semanticReview": "see source review ledger; not path certification",
+        "semanticReview": "see witness-reviews.json and source ledger; snapshots do not certify current paths",
         "stockOutcome": "flow-observed",
         "modeledOutcome": "flow-observed",
         "limitations": {
