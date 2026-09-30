@@ -1,0 +1,748 @@
+{
+  "schemaVersion": 1,
+  "issue": "DART-FLOW-004",
+  "analysisCommit": "77af563febe8db95a9b8ad02452791a80c4542eb",
+  "disposition": "Endpoint forwarding is source-grounded. The retained longest witnesses contain conservative parameter-output caller detours; no runtime mutation or route feasibility is claimed.",
+  "owner": "shared dataflow query engine: parameter output effects and longest-witness selection",
+  "evidence": {
+    "fixture": "src/test/resources/semantics/caller_forwarding.dart",
+    "staticTest": "DartFrontendTests: expose read-only parameter output detours without mixing separate calls",
+    "runtimeTest": "astgen/test/caller_forwarding_test.dart",
+    "modelScope": "A fixture-only exact-name read-only summary removes the caller detour while preserving forwarding and separate-call isolation. No whole-library purity summary is shipped."
+  },
+  "limitations": [
+    "All three corpus queries recorded call-depth omissions in both modes.",
+    "The engine returns the longest witness per endpoint pair, not all alternative routes.",
+    "A method parameter source aggregates invocations; the path is not a trace for a particular runtime invocation."
+  ],
+  "reviews": [
+    {
+      "source": {
+        "name": "path",
+        "version": "1.9.1",
+        "sha256": "75cca69d1490965be98c73ceaea117e8a04dd21217b37b292c9ddbec0d955bc5",
+        "librarySha256": "cede2d192680cbb05890ba6c26fed9a73b6fa9bc67365a1b7d79d13326c8f54f",
+        "probe": "normalize"
+      },
+      "exporter": {
+        "record": "header",
+        "protocolVersion": 1,
+        "exporterVersion": "0.3.8",
+        "analyzerVersion": "8.4.1",
+        "sdkVersion": "3.9.2",
+        "offsetEncoding": "utf-16",
+        "conditionalEnvironment": "analyzer-default"
+      },
+      "modelFiles": {
+        "async": "# Completer.completeError stores the error and stack trace in the completer.\n# It does not copy either argument into the other and has no return value.\n# Load these method names as regular expressions; declaration offsets may vary.\n\"dart:async/future[.]dart\\x23[0-9]+:METHOD:completeError\" 0 -> 0 1 -> 1 2 -> 2 1 -> 0 2 -> 0\n",
+        "worker_manager": "# Executor.execute stores the task and priority and returns its cancelable result.\n# The task's values do not change the priority argument. This does not model scheduling.\n# Tested against worker_manager 7.2.6; load the method name as a regular expression.\n\"package:worker_manager/src/scheduling/executor[.]dart\\x23[0-9]+:METHOD:execute\" 0 -> 0 1 -> 1 2 -> 2 1 -> 0 2 -> 0 1 -> -1\n",
+        "iterable": "# Dart SDK 3.9.2: lib/core/iterable.dart and lib/internal/iterable.dart.\n# Explicit element values with pure predicates/transforms and statically known callbacks.\n# Selection, lazy execution timing and callback side effects are outside this contract.\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:where\" 0 -> 0 1 -> 1 0 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:map\" 0 -> 0 1 -> 1 1 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:join\" 0 -> 0 1 -> 1 0 -> -1 1 -> -1\n",
+        "bytes": "# Dart SDK 3.9.2 byte-content contract for Uint8List allocation and standard List.setRange.\n# Length/range inputs select size and positions; they are not copied element values.\n# Keep the constructor offset exact: other dart:typed_data unnamed constructors include SIMD values.\n\"dart:typed_data\\x2336552:CONSTRUCTOR:new\" 1 -> 1\n\"dart:core/list[.]dart\\x2329446:METHOD:setRange\" 0 -> 0 1 -> 1 2 -> 2 3 -> 3 4 -> 4 3 -> 0\n"
+      },
+      "nodes": [
+        {
+          "nodeId": "111669149818",
+          "label": "METHOD_PARAMETER_IN",
+          "method": "package:path/src/context.dart#14206:METHOD:normalize",
+          "code": "String path",
+          "line": 401
+        },
+        {
+          "nodeId": "68719477064",
+          "label": "IDENTIFIER",
+          "method": "package:path/src/context.dart#14206:METHOD:normalize",
+          "code": "path",
+          "line": 402
+        },
+        {
+          "nodeId": "111669149820",
+          "label": "METHOD_PARAMETER_IN",
+          "method": "package:path/src/context.dart#14433:METHOD:_needsNormalization",
+          "code": "String path",
+          "line": 410
+        },
+        {
+          "nodeId": "68719477073",
+          "label": "IDENTIFIER",
+          "method": "package:path/src/context.dart#14433:METHOD:_needsNormalization",
+          "code": "path",
+          "line": 412
+        },
+        {
+          "nodeId": "68719477076",
+          "label": "IDENTIFIER",
+          "method": "package:path/src/context.dart#14433:METHOD:_needsNormalization",
+          "code": "path",
+          "line": 419
+        },
+        {
+          "nodeId": "111669150006",
+          "label": "METHOD_PARAMETER_IN",
+          "method": "package:path/src/style/posix.dart#1039:METHOD:rootLength",
+          "code": "String path",
+          "line": 39
+        },
+        {
+          "nodeId": "68719478098",
+          "label": "IDENTIFIER",
+          "method": "package:path/src/style/posix.dart#1039:METHOD:rootLength",
+          "code": "path",
+          "line": 40
+        },
+        {
+          "nodeId": "68719478100",
+          "label": "IDENTIFIER",
+          "method": "package:path/src/style/posix.dart#1039:METHOD:rootLength",
+          "code": "path",
+          "line": 40
+        },
+        {
+          "nodeId": "115964117302",
+          "label": "METHOD_PARAMETER_OUT",
+          "method": "package:path/src/style/posix.dart#1039:METHOD:rootLength",
+          "code": "String path",
+          "line": 39
+        },
+        {
+          "nodeId": "68719477076",
+          "label": "IDENTIFIER",
+          "method": "package:path/src/context.dart#14433:METHOD:_needsNormalization",
+          "code": "path",
+          "line": 419
+        },
+        {
+          "nodeId": "115964117116",
+          "label": "METHOD_PARAMETER_OUT",
+          "method": "package:path/src/context.dart#14433:METHOD:_needsNormalization",
+          "code": "String path",
+          "line": 410
+        },
+        {
+          "nodeId": "68719477064",
+          "label": "IDENTIFIER",
+          "method": "package:path/src/context.dart#14206:METHOD:normalize",
+          "code": "path",
+          "line": 402
+        },
+        {
+          "nodeId": "115964117114",
+          "label": "METHOD_PARAMETER_OUT",
+          "method": "package:path/src/context.dart#14206:METHOD:normalize",
+          "code": "String path",
+          "line": 401
+        },
+        {
+          "nodeId": "30064771998",
+          "label": "CALL",
+          "method": "package:path/src/context.dart#39867:METHOD:prettyUri",
+          "code": "fromUri(typedUri)",
+          "line": 1101
+        },
+        {
+          "nodeId": "111669149818",
+          "label": "METHOD_PARAMETER_IN",
+          "method": "package:path/src/context.dart#14206:METHOD:normalize",
+          "code": "String path",
+          "line": 401
+        },
+        {
+          "nodeId": "68719477064",
+          "label": "IDENTIFIER",
+          "method": "package:path/src/context.dart#14206:METHOD:normalize",
+          "code": "path",
+          "line": 402
+        },
+        {
+          "nodeId": "111669149820",
+          "label": "METHOD_PARAMETER_IN",
+          "method": "package:path/src/context.dart#14433:METHOD:_needsNormalization",
+          "code": "String path",
+          "line": 410
+        },
+        {
+          "nodeId": "68719477073",
+          "label": "IDENTIFIER",
+          "method": "package:path/src/context.dart#14433:METHOD:_needsNormalization",
+          "code": "path",
+          "line": 412
+        },
+        {
+          "nodeId": "68719477076",
+          "label": "IDENTIFIER",
+          "method": "package:path/src/context.dart#14433:METHOD:_needsNormalization",
+          "code": "path",
+          "line": 419
+        },
+        {
+          "nodeId": "111669150006",
+          "label": "METHOD_PARAMETER_IN",
+          "method": "package:path/src/style/posix.dart#1039:METHOD:rootLength",
+          "code": "String path",
+          "line": 39
+        },
+        {
+          "nodeId": "68719478098",
+          "label": "IDENTIFIER",
+          "method": "package:path/src/style/posix.dart#1039:METHOD:rootLength",
+          "code": "path",
+          "line": 40
+        },
+        {
+          "nodeId": "68719478100",
+          "label": "IDENTIFIER",
+          "method": "package:path/src/style/posix.dart#1039:METHOD:rootLength",
+          "code": "path",
+          "line": 40
+        },
+        {
+          "nodeId": "115964117302",
+          "label": "METHOD_PARAMETER_OUT",
+          "method": "package:path/src/style/posix.dart#1039:METHOD:rootLength",
+          "code": "String path",
+          "line": 39
+        },
+        {
+          "nodeId": "68719477076",
+          "label": "IDENTIFIER",
+          "method": "package:path/src/context.dart#14433:METHOD:_needsNormalization",
+          "code": "path",
+          "line": 419
+        },
+        {
+          "nodeId": "115964117116",
+          "label": "METHOD_PARAMETER_OUT",
+          "method": "package:path/src/context.dart#14433:METHOD:_needsNormalization",
+          "code": "String path",
+          "line": 410
+        },
+        {
+          "nodeId": "68719477064",
+          "label": "IDENTIFIER",
+          "method": "package:path/src/context.dart#14206:METHOD:normalize",
+          "code": "path",
+          "line": 402
+        },
+        {
+          "nodeId": "68719477065",
+          "label": "IDENTIFIER",
+          "method": "package:path/src/context.dart#14206:METHOD:normalize",
+          "code": "path",
+          "line": 402
+        },
+        {
+          "nodeId": "141733920823",
+          "label": "RETURN",
+          "method": "package:path/src/context.dart#14206:METHOD:normalize",
+          "code": "return path;",
+          "line": 402
+        }
+      ],
+      "transitions": [
+        {
+          "source": "111669149818",
+          "target": "68719477064",
+          "classification": "parameter-use",
+          "reason": "Reads the bound parameter value."
+        },
+        {
+          "source": "68719477064",
+          "target": "111669149820",
+          "classification": "parameter-binding",
+          "reason": "The actual argument binds to the selected callee parameter."
+        },
+        {
+          "source": "111669149820",
+          "target": "68719477073",
+          "classification": "parameter-use",
+          "reason": "Reads the bound parameter value."
+        },
+        {
+          "source": "68719477073",
+          "target": "68719477076",
+          "classification": "same-variable-use",
+          "reason": "Both identifiers reference the same unchanged parameter. This dependency is not chronological execution order."
+        },
+        {
+          "source": "68719477076",
+          "target": "111669150006",
+          "classification": "parameter-binding",
+          "reason": "The actual argument binds to the selected callee parameter."
+        },
+        {
+          "source": "111669150006",
+          "target": "68719478098",
+          "classification": "parameter-use",
+          "reason": "Reads the bound parameter value."
+        },
+        {
+          "source": "68719478098",
+          "target": "68719478100",
+          "classification": "same-variable-use",
+          "reason": "Both identifiers reference the same unchanged parameter. This dependency is not chronological execution order."
+        },
+        {
+          "source": "68719478100",
+          "target": "115964117302",
+          "classification": "parameter-output-identity",
+          "reason": "The shared graph carries the unchanged parameter to its output slot; this does not establish a mutation."
+        },
+        {
+          "source": "115964117302",
+          "target": "68719477076",
+          "classification": "output-argument-binding",
+          "reason": "The parameter output is mapped back to its actual argument. This is a conservative output effect, not evidence of a write to the immutable String."
+        },
+        {
+          "source": "68719477076",
+          "target": "115964117116",
+          "classification": "parameter-output-identity",
+          "reason": "The shared graph carries the unchanged parameter to its output slot; this does not establish a mutation."
+        },
+        {
+          "source": "115964117116",
+          "target": "68719477064",
+          "classification": "output-argument-binding",
+          "reason": "The parameter output is mapped back to its actual argument. This is a conservative output effect, not evidence of a write to the immutable String."
+        },
+        {
+          "source": "68719477064",
+          "target": "115964117114",
+          "classification": "parameter-output-identity",
+          "reason": "The shared graph carries the unchanged parameter to its output slot; this does not establish a mutation."
+        },
+        {
+          "source": "115964117114",
+          "target": "30064771998",
+          "classification": "known-approximation",
+          "reason": "The callee parameter output is mapped to the nested call result in its caller. Dart String parameters cannot rewrite that result; this caller detour is not an execution witness."
+        },
+        {
+          "source": "30064771998",
+          "target": "111669149818",
+          "classification": "parameter-binding",
+          "reason": "The actual argument binds to the selected callee parameter."
+        },
+        {
+          "source": "111669149818",
+          "target": "68719477064",
+          "classification": "parameter-use",
+          "reason": "Reads the bound parameter value."
+        },
+        {
+          "source": "68719477064",
+          "target": "111669149820",
+          "classification": "parameter-binding",
+          "reason": "The actual argument binds to the selected callee parameter."
+        },
+        {
+          "source": "111669149820",
+          "target": "68719477073",
+          "classification": "parameter-use",
+          "reason": "Reads the bound parameter value."
+        },
+        {
+          "source": "68719477073",
+          "target": "68719477076",
+          "classification": "same-variable-use",
+          "reason": "Both identifiers reference the same unchanged parameter. This dependency is not chronological execution order."
+        },
+        {
+          "source": "68719477076",
+          "target": "111669150006",
+          "classification": "parameter-binding",
+          "reason": "The actual argument binds to the selected callee parameter."
+        },
+        {
+          "source": "111669150006",
+          "target": "68719478098",
+          "classification": "parameter-use",
+          "reason": "Reads the bound parameter value."
+        },
+        {
+          "source": "68719478098",
+          "target": "68719478100",
+          "classification": "same-variable-use",
+          "reason": "Both identifiers reference the same unchanged parameter. This dependency is not chronological execution order."
+        },
+        {
+          "source": "68719478100",
+          "target": "115964117302",
+          "classification": "parameter-output-identity",
+          "reason": "The shared graph carries the unchanged parameter to its output slot; this does not establish a mutation."
+        },
+        {
+          "source": "115964117302",
+          "target": "68719477076",
+          "classification": "output-argument-binding",
+          "reason": "The parameter output is mapped back to its actual argument. This is a conservative output effect, not evidence of a write to the immutable String."
+        },
+        {
+          "source": "68719477076",
+          "target": "115964117116",
+          "classification": "parameter-output-identity",
+          "reason": "The shared graph carries the unchanged parameter to its output slot; this does not establish a mutation."
+        },
+        {
+          "source": "115964117116",
+          "target": "68719477064",
+          "classification": "output-argument-binding",
+          "reason": "The parameter output is mapped back to its actual argument. This is a conservative output effect, not evidence of a write to the immutable String."
+        },
+        {
+          "source": "68719477064",
+          "target": "68719477065",
+          "classification": "same-variable-use",
+          "reason": "Both identifiers reference the same unchanged parameter. This dependency is not chronological execution order."
+        },
+        {
+          "source": "68719477065",
+          "target": "141733920823",
+          "classification": "return-value",
+          "reason": "The unchanged path is the early return value when normalization is unnecessary."
+        }
+      ],
+      "endpointReason": "normalize returns path directly when _needsNormalization is false.",
+      "query": {
+        "id": "normalize-fast-return",
+        "expected": true,
+        "source": {
+          "file": "src/context.dart",
+          "method": "normalize",
+          "kind": "parameter",
+          "name": "path"
+        },
+        "sink": {
+          "file": "src/context.dart",
+          "method": "normalize",
+          "kind": "return",
+          "code": "return path;"
+        },
+        "outcome": "flow-observed",
+        "semanticReview": "reviewed dependency transitions; not execution-path certification",
+        "maxCallDepth": 4,
+        "maxArgsToAllow": 1000,
+        "maxOutputArgsExpansion": 1000,
+        "limitations": [
+          "call-depth"
+        ],
+        "searchComplete": false,
+        "pathSelection": "longest-per-endpoint-pair",
+        "alternativeRoutes": "not-returned-by-engine",
+        "witnessLimit": null,
+        "retainedWitnesses": 1,
+        "omittedWitnesses": 0,
+        "passed": true,
+        "sources": 1,
+        "sinks": 1,
+        "paths": 1,
+        "viaSatisfied": true
+      },
+      "modes": [
+        "defaultSemantics",
+        "dartSummaries"
+      ]
+    },
+    {
+      "source": {
+        "name": "dart-sass",
+        "version": "1.89.2",
+        "repository": "https://github.com/sass/dart-sass",
+        "commit": "1250380bc56d1feecc5fead0752731a313b97e2e",
+        "checkout": "dart-sass",
+        "package": "sass",
+        "probe": "compileString",
+        "librarySha256": "2a6fb63888b0a94b86020c2321f8237c2867f53c8ddefbc28b9c08a842f8744e",
+        "protocol": {
+          "repository": "https://github.com/sass/sass",
+          "commit": "dae75bd941e507f0e88f53b2616fbebe0b4a6572",
+          "protoc": "36.1"
+        }
+      },
+      "exporter": {
+        "record": "header",
+        "protocolVersion": 1,
+        "exporterVersion": "0.3.8",
+        "analyzerVersion": "8.4.1",
+        "sdkVersion": "3.9.2",
+        "offsetEncoding": "utf-16",
+        "conditionalEnvironment": "analyzer-default"
+      },
+      "modelFiles": {
+        "async": "# Completer.completeError stores the error and stack trace in the completer.\n# It does not copy either argument into the other and has no return value.\n# Load these method names as regular expressions; declaration offsets may vary.\n\"dart:async/future[.]dart\\x23[0-9]+:METHOD:completeError\" 0 -> 0 1 -> 1 2 -> 2 1 -> 0 2 -> 0\n",
+        "worker_manager": "# Executor.execute stores the task and priority and returns its cancelable result.\n# The task's values do not change the priority argument. This does not model scheduling.\n# Tested against worker_manager 7.2.6; load the method name as a regular expression.\n\"package:worker_manager/src/scheduling/executor[.]dart\\x23[0-9]+:METHOD:execute\" 0 -> 0 1 -> 1 2 -> 2 1 -> 0 2 -> 0 1 -> -1\n",
+        "iterable": "# Dart SDK 3.9.2: lib/core/iterable.dart and lib/internal/iterable.dart.\n# Explicit element values with pure predicates/transforms and statically known callbacks.\n# Selection, lazy execution timing and callback side effects are outside this contract.\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:where\" 0 -> 0 1 -> 1 0 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:map\" 0 -> 0 1 -> 1 1 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:join\" 0 -> 0 1 -> 1 0 -> -1 1 -> -1\n",
+        "bytes": "# Dart SDK 3.9.2 byte-content contract for Uint8List allocation and standard List.setRange.\n# Length/range inputs select size and positions; they are not copied element values.\n# Keep the constructor offset exact: other dart:typed_data unnamed constructors include SIMD values.\n\"dart:typed_data\\x2336552:CONSTRUCTOR:new\" 1 -> 1\n\"dart:core/list[.]dart\\x2329446:METHOD:setRange\" 0 -> 0 1 -> 1 2 -> 2 3 -> 3 4 -> 4 3 -> 0\n"
+      },
+      "nodes": [
+        {
+          "nodeId": "111669150486",
+          "label": "METHOD_PARAMETER_IN",
+          "method": "package:sass/src/ast/sass/statement/stylesheet.dart#3167:CONSTRUCTOR:parse",
+          "code": "String contents",
+          "line": 104
+        },
+        {
+          "nodeId": "115964117782",
+          "label": "METHOD_PARAMETER_OUT",
+          "method": "package:sass/src/ast/sass/statement/stylesheet.dart#3167:CONSTRUCTOR:parse",
+          "code": "String contents",
+          "line": 104
+        },
+        {
+          "nodeId": "30064775954",
+          "label": "CALL",
+          "method": "package:sass/src/async_compile.dart#999:FUNCTION:compileAsync",
+          "code": "readFile(path)",
+          "line": 72
+        },
+        {
+          "nodeId": "111669150486",
+          "label": "METHOD_PARAMETER_IN",
+          "method": "package:sass/src/ast/sass/statement/stylesheet.dart#3167:CONSTRUCTOR:parse",
+          "code": "String contents",
+          "line": 104
+        },
+        {
+          "nodeId": "68719479365",
+          "label": "IDENTIFIER",
+          "method": "package:sass/src/ast/sass/statement/stylesheet.dart#3167:CONSTRUCTOR:parse",
+          "code": "contents",
+          "line": 110
+        },
+        {
+          "nodeId": "111669150491",
+          "label": "METHOD_PARAMETER_IN",
+          "method": "package:sass/src/ast/sass/statement/stylesheet.dart#4335:CONSTRUCTOR:parseScss",
+          "code": "String contents",
+          "line": 139
+        }
+      ],
+      "transitions": [
+        {
+          "source": "111669150486",
+          "target": "115964117782",
+          "classification": "parameter-output-identity",
+          "reason": "The shared graph carries the unchanged parameter to its output slot; this does not establish a mutation."
+        },
+        {
+          "source": "115964117782",
+          "target": "30064775954",
+          "classification": "known-approximation",
+          "reason": "The callee parameter output is mapped to the nested call result in its caller. Dart String parameters cannot rewrite that result; this caller detour is not an execution witness."
+        },
+        {
+          "source": "30064775954",
+          "target": "111669150486",
+          "classification": "parameter-binding",
+          "reason": "The actual argument binds to the selected callee parameter."
+        },
+        {
+          "source": "111669150486",
+          "target": "68719479365",
+          "classification": "parameter-use",
+          "reason": "Reads the bound parameter value."
+        },
+        {
+          "source": "68719479365",
+          "target": "111669150491",
+          "classification": "parameter-binding",
+          "reason": "The actual argument binds to the selected callee parameter."
+        }
+      ],
+      "endpointReason": "Stylesheet.parse forwards contents unchanged into the constructor selected by Syntax.scss or Syntax.css; this does not qualify the parser body.",
+      "query": {
+        "id": "scss-source-forwarding",
+        "expected": true,
+        "source": {
+          "file": "src/ast/sass/statement/stylesheet.dart",
+          "method": "parse",
+          "kind": "parameter",
+          "name": "contents"
+        },
+        "sink": {
+          "file": "src/ast/sass/statement/stylesheet.dart",
+          "method": "parseScss",
+          "kind": "parameter",
+          "name": "contents"
+        },
+        "outcome": "flow-observed",
+        "semanticReview": "reviewed dependency transitions; not execution-path certification",
+        "maxCallDepth": 4,
+        "maxArgsToAllow": 1000,
+        "maxOutputArgsExpansion": 1000,
+        "limitations": [
+          "call-depth"
+        ],
+        "searchComplete": false,
+        "pathSelection": "longest-per-endpoint-pair",
+        "alternativeRoutes": "not-returned-by-engine",
+        "witnessLimit": null,
+        "retainedWitnesses": 1,
+        "omittedWitnesses": 0,
+        "passed": true,
+        "sources": 1,
+        "sinks": 1,
+        "paths": 1,
+        "viaSatisfied": true
+      },
+      "modes": [
+        "defaultSemantics",
+        "dartSummaries"
+      ]
+    },
+    {
+      "source": {
+        "name": "dart-sass",
+        "version": "1.89.2",
+        "repository": "https://github.com/sass/dart-sass",
+        "commit": "1250380bc56d1feecc5fead0752731a313b97e2e",
+        "checkout": "dart-sass",
+        "package": "sass",
+        "probe": "compileString",
+        "librarySha256": "2a6fb63888b0a94b86020c2321f8237c2867f53c8ddefbc28b9c08a842f8744e",
+        "protocol": {
+          "repository": "https://github.com/sass/sass",
+          "commit": "dae75bd941e507f0e88f53b2616fbebe0b4a6572",
+          "protoc": "36.1"
+        }
+      },
+      "exporter": {
+        "record": "header",
+        "protocolVersion": 1,
+        "exporterVersion": "0.3.8",
+        "analyzerVersion": "8.4.1",
+        "sdkVersion": "3.9.2",
+        "offsetEncoding": "utf-16",
+        "conditionalEnvironment": "analyzer-default"
+      },
+      "modelFiles": {
+        "async": "# Completer.completeError stores the error and stack trace in the completer.\n# It does not copy either argument into the other and has no return value.\n# Load these method names as regular expressions; declaration offsets may vary.\n\"dart:async/future[.]dart\\x23[0-9]+:METHOD:completeError\" 0 -> 0 1 -> 1 2 -> 2 1 -> 0 2 -> 0\n",
+        "worker_manager": "# Executor.execute stores the task and priority and returns its cancelable result.\n# The task's values do not change the priority argument. This does not model scheduling.\n# Tested against worker_manager 7.2.6; load the method name as a regular expression.\n\"package:worker_manager/src/scheduling/executor[.]dart\\x23[0-9]+:METHOD:execute\" 0 -> 0 1 -> 1 2 -> 2 1 -> 0 2 -> 0 1 -> -1\n",
+        "iterable": "# Dart SDK 3.9.2: lib/core/iterable.dart and lib/internal/iterable.dart.\n# Explicit element values with pure predicates/transforms and statically known callbacks.\n# Selection, lazy execution timing and callback side effects are outside this contract.\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:where\" 0 -> 0 1 -> 1 0 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:map\" 0 -> 0 1 -> 1 1 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:join\" 0 -> 0 1 -> 1 0 -> -1 1 -> -1\n",
+        "bytes": "# Dart SDK 3.9.2 byte-content contract for Uint8List allocation and standard List.setRange.\n# Length/range inputs select size and positions; they are not copied element values.\n# Keep the constructor offset exact: other dart:typed_data unnamed constructors include SIMD values.\n\"dart:typed_data\\x2336552:CONSTRUCTOR:new\" 1 -> 1\n\"dart:core/list[.]dart\\x2329446:METHOD:setRange\" 0 -> 0 1 -> 1 2 -> 2 3 -> 3 4 -> 4 3 -> 0\n"
+      },
+      "nodes": [
+        {
+          "nodeId": "111669150486",
+          "label": "METHOD_PARAMETER_IN",
+          "method": "package:sass/src/ast/sass/statement/stylesheet.dart#3167:CONSTRUCTOR:parse",
+          "code": "String contents",
+          "line": 104
+        },
+        {
+          "nodeId": "115964117782",
+          "label": "METHOD_PARAMETER_OUT",
+          "method": "package:sass/src/ast/sass/statement/stylesheet.dart#3167:CONSTRUCTOR:parse",
+          "code": "String contents",
+          "line": 104
+        },
+        {
+          "nodeId": "30064775954",
+          "label": "CALL",
+          "method": "package:sass/src/async_compile.dart#999:FUNCTION:compileAsync",
+          "code": "readFile(path)",
+          "line": 72
+        },
+        {
+          "nodeId": "111669150486",
+          "label": "METHOD_PARAMETER_IN",
+          "method": "package:sass/src/ast/sass/statement/stylesheet.dart#3167:CONSTRUCTOR:parse",
+          "code": "String contents",
+          "line": 104
+        },
+        {
+          "nodeId": "68719479370",
+          "label": "IDENTIFIER",
+          "method": "package:sass/src/ast/sass/statement/stylesheet.dart#3167:CONSTRUCTOR:parse",
+          "code": "contents",
+          "line": 112
+        },
+        {
+          "nodeId": "111669150493",
+          "label": "METHOD_PARAMETER_IN",
+          "method": "package:sass/src/ast/sass/statement/stylesheet.dart#4644:CONSTRUCTOR:parseCss",
+          "code": "String contents",
+          "line": 147
+        }
+      ],
+      "transitions": [
+        {
+          "source": "111669150486",
+          "target": "115964117782",
+          "classification": "parameter-output-identity",
+          "reason": "The shared graph carries the unchanged parameter to its output slot; this does not establish a mutation."
+        },
+        {
+          "source": "115964117782",
+          "target": "30064775954",
+          "classification": "known-approximation",
+          "reason": "The callee parameter output is mapped to the nested call result in its caller. Dart String parameters cannot rewrite that result; this caller detour is not an execution witness."
+        },
+        {
+          "source": "30064775954",
+          "target": "111669150486",
+          "classification": "parameter-binding",
+          "reason": "The actual argument binds to the selected callee parameter."
+        },
+        {
+          "source": "111669150486",
+          "target": "68719479370",
+          "classification": "parameter-use",
+          "reason": "Reads the bound parameter value."
+        },
+        {
+          "source": "68719479370",
+          "target": "111669150493",
+          "classification": "parameter-binding",
+          "reason": "The actual argument binds to the selected callee parameter."
+        }
+      ],
+      "endpointReason": "Stylesheet.parse forwards contents unchanged into the constructor selected by Syntax.scss or Syntax.css; this does not qualify the parser body.",
+      "query": {
+        "id": "css-source-forwarding",
+        "expected": true,
+        "source": {
+          "file": "src/ast/sass/statement/stylesheet.dart",
+          "method": "parse",
+          "kind": "parameter",
+          "name": "contents"
+        },
+        "sink": {
+          "file": "src/ast/sass/statement/stylesheet.dart",
+          "method": "parseCss",
+          "kind": "parameter",
+          "name": "contents"
+        },
+        "outcome": "flow-observed",
+        "semanticReview": "reviewed dependency transitions; not execution-path certification",
+        "maxCallDepth": 4,
+        "maxArgsToAllow": 1000,
+        "maxOutputArgsExpansion": 1000,
+        "limitations": [
+          "call-depth"
+        ],
+        "searchComplete": false,
+        "pathSelection": "longest-per-endpoint-pair",
+        "alternativeRoutes": "not-returned-by-engine",
+        "witnessLimit": null,
+        "retainedWitnesses": 1,
+        "omittedWitnesses": 0,
+        "passed": true,
+        "sources": 1,
+        "sinks": 1,
+        "paths": 1,
+        "viaSatisfied": true
+      },
+      "modes": [
+        "defaultSemantics",
+        "dartSummaries"
+      ]
+    }
+  ],
+  "followup": {
+    "commit": "a5ec1a2f7",
+    "reason": "Nested output-argument expansion ignored explicit method summaries. The reduced read-only summary control failed before the shared fix and passed afterward.",
+    "validation": "40 shared engine tests and 134 C dataflow tests passed; the Dart regression preserves direct forwarding and separate-call isolation.",
+    "scope": "Unmodeled internal methods still use conservative output parameters. The historical corpus witnesses below are retained; the fixture summary is not a library-wide model."
+  }
+}

@@ -77,6 +77,72 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
   }
 
   "Dart frontend" should {
+    "expose callback-result feedback into an indexed mapping receiver" in {
+      fixture(
+        Files.readString(frontend.resolve("src/test/resources/semantics/callback_witness.dart")),
+        "void main() {}"
+      ) { (cpg, _) =>
+        val method = cpg.method.nameExact("decorate").head
+        val source = method.parameter.nameExact("value").head
+        val paths  = method.ast.isReturn.reachableByFlows(Iterator.single(source)).l
+        paths.exists { path =>
+          path.elements.count(_ == source) > 1 && path.elements.exists {
+            case _: io.shiftleft.codepropertygraph.generated.nodes.MethodRef => true
+            case _                                                           => false
+          } && path.elements.exists {
+            case parameter: io.shiftleft.codepropertygraph.generated.nodes.MethodParameterIn =>
+              parameter.name == "index"
+            case _ => false
+          }
+        } shouldBe true
+      }
+    }
+    "expose receiver-field detours in a list callback witness" in {
+      fixture(Files.readString(frontend.resolve("src/test/resources/semantics/field_witness.dart")), "void main() {}") {
+        (cpg, _) =>
+          val method = cpg.method.nameExact("writeList").head
+          val source = method.parameter.nameExact("items").head
+          val paths  = method.call.nameExact("callback").argument(1).reachableByFlows(Iterator.single(source)).l
+          paths.nonEmpty shouldBe true
+          paths.exists { path =>
+            val fields = path.elements.collect { case call: io.shiftleft.codepropertygraph.generated.nodes.Call =>
+              call.code
+            }.toSet
+            Set("first", "second", "third").subsetOf(fields) && path.elements.count(_ == source) > 1
+          } shouldBe true
+      }
+    }
+    "expose read-only parameter output detours without mixing separate calls" in {
+      fixture(
+        Files.readString(frontend.resolve("src/test/resources/semantics/caller_forwarding.dart")),
+        "void main() {}"
+      ) { (cpg, _) =>
+        val relay = cpg.method.nameExact("relay").head
+        val paths = relay.ast.isReturn.reachableByFlows(relay.parameter.nameExact("value")).l
+        paths.nonEmpty shouldBe true
+        paths.exists(_.elements.exists {
+          case call: io.shiftleft.codepropertygraph.generated.nodes.Call => call.code == "produce(value)"
+          case _                                                         => false
+        }) shouldBe true
+        val semantics = DefaultSemantics().plus(
+          List(io.joern.dataflowengineoss.semanticsloader.FlowSemantic.from(relay.fullName, List((1, 1), (1, -1))))
+        )
+        semantics.initialize(cpg)
+        val modeled = EngineContext(semantics = semantics)
+        val direct  = relay.ast.isReturn.reachableByFlows(relay.parameter.nameExact("value"))(modeled).l
+        direct.nonEmpty shouldBe true
+        direct.flatMap(_.elements).forall {
+          case node: io.shiftleft.codepropertygraph.generated.nodes.CfgNode => node.method.name != "caller"
+          case _                                                            => true
+        } shouldBe true
+        for (engine <- Seq(context, modeled); name <- Seq("caller", "separate")) {
+          val method = cpg.method.nameExact(name).head
+          method.ast.isReturn
+            .reachableByFlows(method.parameter.filter(_.index == 1))(engine)
+            .nonEmpty shouldBe (name == "caller")
+        }
+      }
+    }
     "type generated initialization and pattern guards as boolean values" in {
       fixture(
         """late final String text = 'value';

@@ -1,0 +1,678 @@
+{
+  "schemaVersion": 1,
+  "issue": "DART-FLOW-002",
+  "analysisCommit": "a5ec1a2f7",
+  "source": {
+    "name": "analyzer",
+    "version": "8.4.1",
+    "sha256": "f51c8499b35f9b26820cfe914828a6a98a94efd5cc78b37bb7d03debae3a1d08",
+    "librarySha256": "36b58042491a33863cc54ad09f305719ed70f72c725b58cc17074124ef462827",
+    "probe": "parseString"
+  },
+  "exporter": {
+    "record": "header",
+    "protocolVersion": 1,
+    "exporterVersion": "0.3.8",
+    "analyzerVersion": "8.4.1",
+    "sdkVersion": "3.9.2",
+    "offsetEncoding": "utf-16",
+    "conditionalEnvironment": "analyzer-default"
+  },
+  "modelFiles": {
+    "async": "# Completer.completeError stores the error and stack trace in the completer.\n# It does not copy either argument into the other and has no return value.\n# Load these method names as regular expressions; declaration offsets may vary.\n\"dart:async/future[.]dart\\x23[0-9]+:METHOD:completeError\" 0 -> 0 1 -> 1 2 -> 2 1 -> 0 2 -> 0\n",
+    "worker_manager": "# Executor.execute stores the task and priority and returns its cancelable result.\n# The task's values do not change the priority argument. This does not model scheduling.\n# Tested against worker_manager 7.2.6; load the method name as a regular expression.\n\"package:worker_manager/src/scheduling/executor[.]dart\\x23[0-9]+:METHOD:execute\" 0 -> 0 1 -> 1 2 -> 2 1 -> 0 2 -> 0 1 -> -1\n",
+    "iterable": "# Dart SDK 3.9.2: lib/core/iterable.dart and lib/internal/iterable.dart.\n# Explicit element values with pure predicates/transforms and statically known callbacks.\n# Selection, lazy execution timing and callback side effects are outside this contract.\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:where\" 0 -> 0 1 -> 1 0 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:map\" 0 -> 0 1 -> 1 1 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:join\" 0 -> 0 1 -> 1 0 -> -1 1 -> -1\n",
+    "bytes": "# Dart SDK 3.9.2 byte-content contract for Uint8List allocation and standard List.setRange.\n# Length/range inputs select size and positions; they are not copied element values.\n# Keep the constructor offset exact: other dart:typed_data unnamed constructors include SIMD values.\n\"dart:typed_data\\x2336552:CONSTRUCTOR:new\" 1 -> 1\n\"dart:core/list[.]dart\\x2329446:METHOD:setRange\" 0 -> 0 1 -> 1 2 -> 2 3 -> 3 4 -> 4 3 -> 0\n"
+  },
+  "modes": [
+    "defaultSemantics",
+    "dartSummaries"
+  ],
+  "query": {
+    "id": "list-element-callback",
+    "expected": true,
+    "source": {
+      "file": "src/binary/binary_writer.dart",
+      "method": "writeList",
+      "kind": "parameter",
+      "name": "items"
+    },
+    "sink": {
+      "file": "src/binary/binary_writer.dart",
+      "method": "writeList",
+      "kind": "call",
+      "argument": 1,
+      "name": "writeItem"
+    },
+    "outcome": "flow-observed",
+    "semanticReview": "reviewed dependency transitions; not execution-path certification",
+    "maxCallDepth": 4,
+    "maxArgsToAllow": 1000,
+    "maxOutputArgsExpansion": 1000,
+    "limitations": [
+      "call-depth"
+    ],
+    "searchComplete": false,
+    "pathSelection": "longest-per-endpoint-pair",
+    "alternativeRoutes": "not-returned-by-engine",
+    "witnessLimit": null,
+    "retainedWitnesses": 1,
+    "omittedWitnesses": 0,
+    "passed": true,
+    "sources": 1,
+    "sinks": 1,
+    "paths": 1,
+    "viaSatisfied": true
+  },
+  "endpointReason": "BinaryWriter.writeList calls writeItem(items[i]) for each index below items.length. The source list supplies the callback element independently of the retained caller detour.",
+  "disposition": "The endpoint is source-grounded; the longest witness uses conservative parameter-output and whole-receiver field transfers. No independence or invocation-specific trace is established by that witness.",
+  "owner": "shared dataflow engine: parameter output effects, receiver/field alias precision and longest-witness selection",
+  "evidence": {
+    "fixture": "src/test/resources/semantics/field_witness.dart",
+    "staticTest": "DartFrontendTests: expose receiver-field detours in a list callback witness",
+    "runtimeTest": "astgen/test/field_witness_test.dart",
+    "scope": "Three separately allocated fields and a header, inherited writer methods, generic list iteration and captured writer callbacks. Runtime inputs vary one first-field value while other field contents and visit order remain fixed."
+  },
+  "limitations": [
+    "The recorded searches hit the call-depth limit.",
+    "The source parameter aggregates list arguments across invocations.",
+    "The engine does not return all alternative routes.",
+    "Runtime checks cover these bounded independent allocations, not arbitrary user callback mutation or aliasing."
+  ],
+  "nodes": [
+    {
+      "nodeId": "111669155649",
+      "label": "METHOD_PARAMETER_IN",
+      "method": "package:analyzer/src/binary/binary_writer.dart#3935:METHOD:writeList",
+      "code": "List<T> items",
+      "line": 147
+    },
+    {
+      "nodeId": "68719485773",
+      "label": "IDENTIFIER",
+      "method": "package:analyzer/src/binary/binary_writer.dart#3935:METHOD:writeList",
+      "code": "items",
+      "line": 148
+    },
+    {
+      "nodeId": "68719485776",
+      "label": "IDENTIFIER",
+      "method": "package:analyzer/src/binary/binary_writer.dart#3935:METHOD:writeList",
+      "code": "items",
+      "line": 149
+    },
+    {
+      "nodeId": "115964122945",
+      "label": "METHOD_PARAMETER_OUT",
+      "method": "package:analyzer/src/binary/binary_writer.dart#3935:METHOD:writeList",
+      "code": "List<T> items",
+      "line": 147
+    },
+    {
+      "nodeId": "30064954220",
+      "label": "CALL",
+      "method": "package:analyzer/src/summary2/informative_data.dart#55228:METHOD:write",
+      "code": "typeParameters",
+      "line": 1668
+    },
+    {
+      "nodeId": "68719649586",
+      "label": "IDENTIFIER",
+      "method": "package:analyzer/src/summary2/informative_data.dart#55228:METHOD:write",
+      "code": "this",
+      "line": 1669
+    },
+    {
+      "nodeId": "30064954222",
+      "label": "CALL",
+      "method": "package:analyzer/src/summary2/informative_data.dart#55228:METHOD:write",
+      "code": "fields",
+      "line": 1669
+    },
+    {
+      "nodeId": "68719649588",
+      "label": "IDENTIFIER",
+      "method": "package:analyzer/src/summary2/informative_data.dart#55228:METHOD:write",
+      "code": "this",
+      "line": 1670
+    },
+    {
+      "nodeId": "30064954224",
+      "label": "CALL",
+      "method": "package:analyzer/src/summary2/informative_data.dart#55228:METHOD:write",
+      "code": "getters",
+      "line": 1670
+    },
+    {
+      "nodeId": "68719649590",
+      "label": "IDENTIFIER",
+      "method": "package:analyzer/src/summary2/informative_data.dart#55228:METHOD:write",
+      "code": "this",
+      "line": 1671
+    },
+    {
+      "nodeId": "30064954226",
+      "label": "CALL",
+      "method": "package:analyzer/src/summary2/informative_data.dart#55228:METHOD:write",
+      "code": "setters",
+      "line": 1671
+    },
+    {
+      "nodeId": "68719649592",
+      "label": "IDENTIFIER",
+      "method": "package:analyzer/src/summary2/informative_data.dart#55228:METHOD:write",
+      "code": "this",
+      "line": 1672
+    },
+    {
+      "nodeId": "30064954228",
+      "label": "CALL",
+      "method": "package:analyzer/src/summary2/informative_data.dart#55228:METHOD:write",
+      "code": "methods",
+      "line": 1672
+    },
+    {
+      "nodeId": "68719649594",
+      "label": "IDENTIFIER",
+      "method": "package:analyzer/src/summary2/informative_data.dart#55228:METHOD:write",
+      "code": "this",
+      "line": 1673
+    },
+    {
+      "nodeId": "30064954230",
+      "label": "CALL",
+      "method": "package:analyzer/src/summary2/informative_data.dart#55228:METHOD:write",
+      "code": "constantOffsets",
+      "line": 1673
+    },
+    {
+      "nodeId": "68719649595",
+      "label": "IDENTIFIER",
+      "method": "package:analyzer/src/summary2/informative_data.dart#55228:METHOD:write",
+      "code": "this",
+      "line": 1674
+    },
+    {
+      "nodeId": "111669185683",
+      "label": "METHOD_PARAMETER_IN",
+      "method": "package:analyzer/src/summary2/informative_data.dart#47940:METHOD:write",
+      "code": "this",
+      "line": -1
+    },
+    {
+      "nodeId": "30064954029",
+      "label": "CALL",
+      "method": "package:analyzer/src/summary2/informative_data.dart#47940:METHOD:write",
+      "code": "representation",
+      "line": 1442
+    },
+    {
+      "nodeId": "111669185695",
+      "label": "METHOD_PARAMETER_IN",
+      "method": "package:analyzer/src/summary2/informative_data.dart#49206:METHOD:write",
+      "code": "this",
+      "line": -1
+    },
+    {
+      "nodeId": "30064954060",
+      "label": "CALL",
+      "method": "package:analyzer/src/summary2/informative_data.dart#49206:METHOD:write",
+      "code": "firstTokenOffset",
+      "line": 1482
+    },
+    {
+      "nodeId": "111669155682",
+      "label": "METHOD_PARAMETER_IN",
+      "method": "package:analyzer/src/binary/binary_writer.dart#7033:METHOD:writeUint30",
+      "code": "int value",
+      "line": 280
+    },
+    {
+      "nodeId": "115964122978",
+      "label": "METHOD_PARAMETER_OUT",
+      "method": "package:analyzer/src/binary/binary_writer.dart#7033:METHOD:writeUint30",
+      "code": "int value",
+      "line": 280
+    },
+    {
+      "nodeId": "30064954060",
+      "label": "CALL",
+      "method": "package:analyzer/src/summary2/informative_data.dart#49206:METHOD:write",
+      "code": "firstTokenOffset",
+      "line": 1482
+    },
+    {
+      "nodeId": "68719649433",
+      "label": "IDENTIFIER",
+      "method": "package:analyzer/src/summary2/informative_data.dart#49206:METHOD:write",
+      "code": "this",
+      "line": 1483
+    },
+    {
+      "nodeId": "30064954062",
+      "label": "CALL",
+      "method": "package:analyzer/src/summary2/informative_data.dart#49206:METHOD:write",
+      "code": "codeOffset",
+      "line": 1483
+    },
+    {
+      "nodeId": "68719649435",
+      "label": "IDENTIFIER",
+      "method": "package:analyzer/src/summary2/informative_data.dart#49206:METHOD:write",
+      "code": "this",
+      "line": 1484
+    },
+    {
+      "nodeId": "30064954064",
+      "label": "CALL",
+      "method": "package:analyzer/src/summary2/informative_data.dart#49206:METHOD:write",
+      "code": "codeLength",
+      "line": 1484
+    },
+    {
+      "nodeId": "68719649437",
+      "label": "IDENTIFIER",
+      "method": "package:analyzer/src/summary2/informative_data.dart#49206:METHOD:write",
+      "code": "this",
+      "line": 1485
+    },
+    {
+      "nodeId": "30064954066",
+      "label": "CALL",
+      "method": "package:analyzer/src/summary2/informative_data.dart#49206:METHOD:write",
+      "code": "constructorPeriodOffset",
+      "line": 1485
+    },
+    {
+      "nodeId": "68719649439",
+      "label": "IDENTIFIER",
+      "method": "package:analyzer/src/summary2/informative_data.dart#49206:METHOD:write",
+      "code": "this",
+      "line": 1486
+    },
+    {
+      "nodeId": "30064954068",
+      "label": "CALL",
+      "method": "package:analyzer/src/summary2/informative_data.dart#49206:METHOD:write",
+      "code": "constructorNameOffset",
+      "line": 1486
+    },
+    {
+      "nodeId": "68719649441",
+      "label": "IDENTIFIER",
+      "method": "package:analyzer/src/summary2/informative_data.dart#49206:METHOD:write",
+      "code": "this",
+      "line": 1487
+    },
+    {
+      "nodeId": "30064954070",
+      "label": "CALL",
+      "method": "package:analyzer/src/summary2/informative_data.dart#49206:METHOD:write",
+      "code": "constructorNameEnd",
+      "line": 1487
+    },
+    {
+      "nodeId": "68719649443",
+      "label": "IDENTIFIER",
+      "method": "package:analyzer/src/summary2/informative_data.dart#49206:METHOD:write",
+      "code": "this",
+      "line": 1488
+    },
+    {
+      "nodeId": "30064954072",
+      "label": "CALL",
+      "method": "package:analyzer/src/summary2/informative_data.dart#49206:METHOD:write",
+      "code": "fieldNameOffset",
+      "line": 1488
+    },
+    {
+      "nodeId": "68719649445",
+      "label": "IDENTIFIER",
+      "method": "package:analyzer/src/summary2/informative_data.dart#49206:METHOD:write",
+      "code": "this",
+      "line": 1489
+    },
+    {
+      "nodeId": "30064954074",
+      "label": "CALL",
+      "method": "package:analyzer/src/summary2/informative_data.dart#49206:METHOD:write",
+      "code": "fieldConstantOffsets",
+      "line": 1489
+    },
+    {
+      "nodeId": "115964152991",
+      "label": "METHOD_PARAMETER_OUT",
+      "method": "package:analyzer/src/summary2/informative_data.dart#49206:METHOD:write",
+      "code": "this",
+      "line": -1
+    },
+    {
+      "nodeId": "30064954029",
+      "label": "CALL",
+      "method": "package:analyzer/src/summary2/informative_data.dart#47940:METHOD:write",
+      "code": "representation",
+      "line": 1442
+    },
+    {
+      "nodeId": "68719649399",
+      "label": "IDENTIFIER",
+      "method": "package:analyzer/src/summary2/informative_data.dart#47940:METHOD:write",
+      "code": "this",
+      "line": 1443
+    },
+    {
+      "nodeId": "111669185763",
+      "label": "METHOD_PARAMETER_IN",
+      "method": "package:analyzer/src/summary2/informative_data.dart#56046:METHOD:write",
+      "code": "this",
+      "line": -1
+    },
+    {
+      "nodeId": "30064954242",
+      "label": "CALL",
+      "method": "package:analyzer/src/summary2/informative_data.dart#56046:METHOD:write",
+      "code": "constructors",
+      "line": 1691
+    },
+    {
+      "nodeId": "111669155649",
+      "label": "METHOD_PARAMETER_IN",
+      "method": "package:analyzer/src/binary/binary_writer.dart#3935:METHOD:writeList",
+      "code": "List<T> items",
+      "line": 147
+    },
+    {
+      "nodeId": "68719485773",
+      "label": "IDENTIFIER",
+      "method": "package:analyzer/src/binary/binary_writer.dart#3935:METHOD:writeList",
+      "code": "items",
+      "line": 148
+    },
+    {
+      "nodeId": "68719485776",
+      "label": "IDENTIFIER",
+      "method": "package:analyzer/src/binary/binary_writer.dart#3935:METHOD:writeList",
+      "code": "items",
+      "line": 149
+    },
+    {
+      "nodeId": "30064779883",
+      "label": "CALL",
+      "method": "package:analyzer/src/binary/binary_writer.dart#3935:METHOD:writeList",
+      "code": "items[i]",
+      "line": 150
+    }
+  ],
+  "transitions": [
+    {
+      "source": "111669155649",
+      "target": "68719485773",
+      "classification": "parameter-use",
+      "reason": "Reads the bound list parameter."
+    },
+    {
+      "source": "68719485773",
+      "target": "68719485776",
+      "classification": "same-variable-use",
+      "reason": "Both reads reference the same list parameter; the dependency is not a chronological execution trace."
+    },
+    {
+      "source": "68719485776",
+      "target": "115964122945",
+      "classification": "parameter-output-identity",
+      "reason": "The unchanged parameter or receiver is carried to its output slot; this alone does not show a write."
+    },
+    {
+      "source": "115964122945",
+      "target": "30064954220",
+      "classification": "output-argument-binding",
+      "reason": "An output parameter is mapped back to the actual argument. Possible mutation and aliasing remain conservative; no field-content write is established here."
+    },
+    {
+      "source": "30064954220",
+      "target": "68719649586",
+      "classification": "whole-receiver-approximation",
+      "reason": "A field dependency is lifted to the containing receiver. This does not establish that other fields contain or were assigned the original list elements."
+    },
+    {
+      "source": "68719649586",
+      "target": "30064954222",
+      "classification": "field-selection-approximation",
+      "reason": "A field is selected from a receiver already carrying a whole-object dependency. Field-specific value origin remains unqualified."
+    },
+    {
+      "source": "30064954222",
+      "target": "68719649588",
+      "classification": "whole-receiver-approximation",
+      "reason": "A field dependency is lifted to the containing receiver. This does not establish that other fields contain or were assigned the original list elements."
+    },
+    {
+      "source": "68719649588",
+      "target": "30064954224",
+      "classification": "field-selection-approximation",
+      "reason": "A field is selected from a receiver already carrying a whole-object dependency. Field-specific value origin remains unqualified."
+    },
+    {
+      "source": "30064954224",
+      "target": "68719649590",
+      "classification": "whole-receiver-approximation",
+      "reason": "A field dependency is lifted to the containing receiver. This does not establish that other fields contain or were assigned the original list elements."
+    },
+    {
+      "source": "68719649590",
+      "target": "30064954226",
+      "classification": "field-selection-approximation",
+      "reason": "A field is selected from a receiver already carrying a whole-object dependency. Field-specific value origin remains unqualified."
+    },
+    {
+      "source": "30064954226",
+      "target": "68719649592",
+      "classification": "whole-receiver-approximation",
+      "reason": "A field dependency is lifted to the containing receiver. This does not establish that other fields contain or were assigned the original list elements."
+    },
+    {
+      "source": "68719649592",
+      "target": "30064954228",
+      "classification": "field-selection-approximation",
+      "reason": "A field is selected from a receiver already carrying a whole-object dependency. Field-specific value origin remains unqualified."
+    },
+    {
+      "source": "30064954228",
+      "target": "68719649594",
+      "classification": "whole-receiver-approximation",
+      "reason": "A field dependency is lifted to the containing receiver. This does not establish that other fields contain or were assigned the original list elements."
+    },
+    {
+      "source": "68719649594",
+      "target": "30064954230",
+      "classification": "field-selection-approximation",
+      "reason": "A field is selected from a receiver already carrying a whole-object dependency. Field-specific value origin remains unqualified."
+    },
+    {
+      "source": "30064954230",
+      "target": "68719649595",
+      "classification": "whole-receiver-approximation",
+      "reason": "A field dependency is lifted to the containing receiver. This does not establish that other fields contain or were assigned the original list elements."
+    },
+    {
+      "source": "68719649595",
+      "target": "111669185683",
+      "classification": "receiver-binding",
+      "reason": "The receiver binds to implicit this at an internal call. This preserves object identity; it does not repair the earlier whole-object approximation."
+    },
+    {
+      "source": "111669185683",
+      "target": "30064954029",
+      "classification": "field-selection-approximation",
+      "reason": "A field is selected from a receiver already carrying a whole-object dependency. Field-specific value origin remains unqualified."
+    },
+    {
+      "source": "30064954029",
+      "target": "111669185695",
+      "classification": "receiver-binding",
+      "reason": "The receiver binds to implicit this at an internal call. This preserves object identity; it does not repair the earlier whole-object approximation."
+    },
+    {
+      "source": "111669185695",
+      "target": "30064954060",
+      "classification": "field-selection-approximation",
+      "reason": "A field is selected from a receiver already carrying a whole-object dependency. Field-specific value origin remains unqualified."
+    },
+    {
+      "source": "30064954060",
+      "target": "111669155682",
+      "classification": "parameter-binding",
+      "reason": "The actual argument binds to the selected callee parameter."
+    },
+    {
+      "source": "111669155682",
+      "target": "115964122978",
+      "classification": "parameter-output-identity",
+      "reason": "The unchanged parameter or receiver is carried to its output slot; this alone does not show a write."
+    },
+    {
+      "source": "115964122978",
+      "target": "30064954060",
+      "classification": "output-argument-binding",
+      "reason": "An output parameter is mapped back to the actual argument. Possible mutation and aliasing remain conservative; no field-content write is established here."
+    },
+    {
+      "source": "30064954060",
+      "target": "68719649433",
+      "classification": "whole-receiver-approximation",
+      "reason": "A field dependency is lifted to the containing receiver. This does not establish that other fields contain or were assigned the original list elements."
+    },
+    {
+      "source": "68719649433",
+      "target": "30064954062",
+      "classification": "field-selection-approximation",
+      "reason": "A field is selected from a receiver already carrying a whole-object dependency. Field-specific value origin remains unqualified."
+    },
+    {
+      "source": "30064954062",
+      "target": "68719649435",
+      "classification": "whole-receiver-approximation",
+      "reason": "A field dependency is lifted to the containing receiver. This does not establish that other fields contain or were assigned the original list elements."
+    },
+    {
+      "source": "68719649435",
+      "target": "30064954064",
+      "classification": "field-selection-approximation",
+      "reason": "A field is selected from a receiver already carrying a whole-object dependency. Field-specific value origin remains unqualified."
+    },
+    {
+      "source": "30064954064",
+      "target": "68719649437",
+      "classification": "whole-receiver-approximation",
+      "reason": "A field dependency is lifted to the containing receiver. This does not establish that other fields contain or were assigned the original list elements."
+    },
+    {
+      "source": "68719649437",
+      "target": "30064954066",
+      "classification": "field-selection-approximation",
+      "reason": "A field is selected from a receiver already carrying a whole-object dependency. Field-specific value origin remains unqualified."
+    },
+    {
+      "source": "30064954066",
+      "target": "68719649439",
+      "classification": "whole-receiver-approximation",
+      "reason": "A field dependency is lifted to the containing receiver. This does not establish that other fields contain or were assigned the original list elements."
+    },
+    {
+      "source": "68719649439",
+      "target": "30064954068",
+      "classification": "field-selection-approximation",
+      "reason": "A field is selected from a receiver already carrying a whole-object dependency. Field-specific value origin remains unqualified."
+    },
+    {
+      "source": "30064954068",
+      "target": "68719649441",
+      "classification": "whole-receiver-approximation",
+      "reason": "A field dependency is lifted to the containing receiver. This does not establish that other fields contain or were assigned the original list elements."
+    },
+    {
+      "source": "68719649441",
+      "target": "30064954070",
+      "classification": "field-selection-approximation",
+      "reason": "A field is selected from a receiver already carrying a whole-object dependency. Field-specific value origin remains unqualified."
+    },
+    {
+      "source": "30064954070",
+      "target": "68719649443",
+      "classification": "whole-receiver-approximation",
+      "reason": "A field dependency is lifted to the containing receiver. This does not establish that other fields contain or were assigned the original list elements."
+    },
+    {
+      "source": "68719649443",
+      "target": "30064954072",
+      "classification": "field-selection-approximation",
+      "reason": "A field is selected from a receiver already carrying a whole-object dependency. Field-specific value origin remains unqualified."
+    },
+    {
+      "source": "30064954072",
+      "target": "68719649445",
+      "classification": "whole-receiver-approximation",
+      "reason": "A field dependency is lifted to the containing receiver. This does not establish that other fields contain or were assigned the original list elements."
+    },
+    {
+      "source": "68719649445",
+      "target": "30064954074",
+      "classification": "field-selection-approximation",
+      "reason": "A field is selected from a receiver already carrying a whole-object dependency. Field-specific value origin remains unqualified."
+    },
+    {
+      "source": "30064954074",
+      "target": "115964152991",
+      "classification": "parameter-output-identity",
+      "reason": "The unchanged parameter or receiver is carried to its output slot; this alone does not show a write."
+    },
+    {
+      "source": "115964152991",
+      "target": "30064954029",
+      "classification": "output-argument-binding",
+      "reason": "An output parameter is mapped back to the actual argument. Possible mutation and aliasing remain conservative; no field-content write is established here."
+    },
+    {
+      "source": "30064954029",
+      "target": "68719649399",
+      "classification": "whole-receiver-approximation",
+      "reason": "A field dependency is lifted to the containing receiver. This does not establish that other fields contain or were assigned the original list elements."
+    },
+    {
+      "source": "68719649399",
+      "target": "111669185763",
+      "classification": "receiver-binding",
+      "reason": "The receiver binds to implicit this at an internal call. This preserves object identity; it does not repair the earlier whole-object approximation."
+    },
+    {
+      "source": "111669185763",
+      "target": "30064954242",
+      "classification": "field-selection-approximation",
+      "reason": "A field is selected from a receiver already carrying a whole-object dependency. Field-specific value origin remains unqualified."
+    },
+    {
+      "source": "30064954242",
+      "target": "111669155649",
+      "classification": "parameter-binding",
+      "reason": "The actual argument binds to the selected callee parameter."
+    },
+    {
+      "source": "111669155649",
+      "target": "68719485773",
+      "classification": "parameter-use",
+      "reason": "Reads the bound list parameter."
+    },
+    {
+      "source": "68719485773",
+      "target": "68719485776",
+      "classification": "same-variable-use",
+      "reason": "Both reads reference the same list parameter; the dependency is not a chronological execution trace."
+    },
+    {
+      "source": "68719485776",
+      "target": "30064779883",
+      "classification": "collection-element",
+      "reason": "Index access reads an element from items. Element selection depends on the loop index; the list supplies the stored value."
+    }
+  ]
+}

@@ -1,0 +1,863 @@
+{
+  "schemaVersion": 1,
+  "issue": "DART-FLOW-005",
+  "analysisCommit": "a5ec1a2f7",
+  "source": {
+    "name": "localsend",
+    "version": "1.17.0",
+    "repository": "https://github.com/localsend/localsend",
+    "commit": "7f21d1f9082a43803e05c37f021912e012145aa5",
+    "checkout": "localsend/app",
+    "package": "localsend_app",
+    "probe": "withCount",
+    "librarySha256": "1993189465fb077d90d45d3e89217c82a22762ce278c1961b5084dbd5be6e095",
+    "flutter": {
+      "version": "3.24.5",
+      "commit": "dec2ee5c1f98f8e84a7d5380c05eb8a3d0a81668",
+      "engine": "a18df97ca57a249df5d8d68cd0820600223ce262",
+      "skyEngineSha256": "0ee0af6df98d7218c787c57087b36d57cb162d789c656b54a4c0f40a2fc4d4f1"
+    }
+  },
+  "exporter": {
+    "record": "header",
+    "protocolVersion": 1,
+    "exporterVersion": "0.3.8",
+    "analyzerVersion": "8.4.1",
+    "sdkVersion": "3.9.2",
+    "offsetEncoding": "utf-16",
+    "conditionalEnvironment": "analyzer-default"
+  },
+  "modelFiles": {
+    "async": "# Completer.completeError stores the error and stack trace in the completer.\n# It does not copy either argument into the other and has no return value.\n# Load these method names as regular expressions; declaration offsets may vary.\n\"dart:async/future[.]dart\\x23[0-9]+:METHOD:completeError\" 0 -> 0 1 -> 1 2 -> 2 1 -> 0 2 -> 0\n",
+    "worker_manager": "# Executor.execute stores the task and priority and returns its cancelable result.\n# The task's values do not change the priority argument. This does not model scheduling.\n# Tested against worker_manager 7.2.6; load the method name as a regular expression.\n\"package:worker_manager/src/scheduling/executor[.]dart\\x23[0-9]+:METHOD:execute\" 0 -> 0 1 -> 1 2 -> 2 1 -> 0 2 -> 0 1 -> -1\n",
+    "iterable": "# Dart SDK 3.9.2: lib/core/iterable.dart and lib/internal/iterable.dart.\n# Explicit element values with pure predicates/transforms and statically known callbacks.\n# Selection, lazy execution timing and callback side effects are outside this contract.\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:where\" 0 -> 0 1 -> 1 0 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:map\" 0 -> 0 1 -> 1 1 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:join\" 0 -> 0 1 -> 1 0 -> -1 1 -> -1\n",
+    "bytes": "# Dart SDK 3.9.2 byte-content contract for Uint8List allocation and standard List.setRange.\n# Length/range inputs select size and positions; they are not copied element values.\n# Keep the constructor offset exact: other dart:typed_data unnamed constructors include SIMD values.\n\"dart:typed_data\\x2336552:CONSTRUCTOR:new\" 1 -> 1\n\"dart:core/list[.]dart\\x2329446:METHOD:setRange\" 0 -> 0 1 -> 1 2 -> 2 3 -> 3 4 -> 4 3 -> 0\n"
+  },
+  "endpointReason": "withFileNameKeepExtension includes fileNameWithoutExt directly in its returned interpolation; this does not require leaving the method or re-entering through applyCounter.",
+  "disposition": "The endpoint is source-grounded. The retained witness contains external MapEntry argument mixing and callback-result feedback into the mapping receiver and positional index.",
+  "owner": "shared query engine method-reference expansion and external-call effects; library models for indexed mapping and immutable constructors",
+  "evidence": {
+    "fixture": "src/test/resources/semantics/callback_witness.dart",
+    "staticTest": "DartFrontendTests: expose callback-result feedback into an indexed mapping receiver",
+    "runtimeTest": "astgen/test/callback_witness_test.dart",
+    "scope": "An abstract indexed mapping boundary reproduces registration/callback propagation. The runtime oracle supplies a sequential lazy implementation and verifies independent keys, values and positional indices for zero to two elements."
+  },
+  "limitations": [
+    "The recorded corpus searches hit the call-depth limit.",
+    "The engine returns only the longest witness per endpoint pair.",
+    "The reduced runtime implementation does not establish the behavior of arbitrary mapping implementations or callback side effects."
+  ],
+  "reviews": [
+    {
+      "mode": "defaultSemantics",
+      "query": {
+        "id": "filename-extension",
+        "expected": true,
+        "source": {
+          "file": "util/file_path_helper.dart",
+          "method": "withFileNameKeepExtension",
+          "kind": "parameter",
+          "name": "fileNameWithoutExt"
+        },
+        "sink": {
+          "file": "util/file_path_helper.dart",
+          "method": "withFileNameKeepExtension",
+          "kind": "return"
+        },
+        "outcome": "flow-observed",
+        "semanticReview": "reviewed dependency transitions; not execution-path certification",
+        "maxCallDepth": 4,
+        "maxArgsToAllow": 1000,
+        "maxOutputArgsExpansion": 1000,
+        "limitations": [
+          "call-depth"
+        ],
+        "searchComplete": false,
+        "pathSelection": "longest-per-endpoint-pair",
+        "alternativeRoutes": "not-returned-by-engine",
+        "witnessLimit": null,
+        "retainedWitnesses": 1,
+        "omittedWitnesses": 0,
+        "passed": true,
+        "sources": 1,
+        "sinks": 1,
+        "paths": 1,
+        "viaSatisfied": true
+      },
+      "nodes": [
+        {
+          "nodeId": "111669178878",
+          "label": "METHOD_PARAMETER_IN",
+          "method": "package:localsend_app/util/file_path_helper.dart#434:METHOD:withFileNameKeepExtension",
+          "code": "String fileNameWithoutExt",
+          "line": 20
+        },
+        {
+          "nodeId": "68719548455",
+          "label": "IDENTIFIER",
+          "method": "package:localsend_app/util/file_path_helper.dart#434:METHOD:withFileNameKeepExtension",
+          "code": "fileNameWithoutExt",
+          "line": 21
+        },
+        {
+          "nodeId": "30064856623",
+          "label": "CALL",
+          "method": "package:localsend_app/util/file_path_helper.dart#434:METHOD:withFileNameKeepExtension",
+          "code": "'$fileNameWithoutExt.$extension'",
+          "line": 21
+        },
+        {
+          "nodeId": "141733944357",
+          "label": "RETURN",
+          "method": "package:localsend_app/util/file_path_helper.dart#434:METHOD:withFileNameKeepExtension",
+          "code": "return '$fileNameWithoutExt.$extension';",
+          "line": 21
+        },
+        {
+          "nodeId": "124554075373",
+          "label": "METHOD_RETURN",
+          "method": "package:localsend_app/util/file_path_helper.dart#434:METHOD:withFileNameKeepExtension",
+          "code": "RET",
+          "line": -1
+        },
+        {
+          "nodeId": "30064855592",
+          "label": "CALL",
+          "method": "package:localsend_app/provider/selection/selected_receiving_files_provider.dart#1752:FUNCTION:null",
+          "code": "element.value.withFileNameKeepExtension('$prefix$number')",
+          "line": 66
+        },
+        {
+          "nodeId": "30064855591",
+          "label": "CALL",
+          "method": "package:localsend_app/provider/selection/selected_receiving_files_provider.dart#1752:FUNCTION:null",
+          "code": "element.key",
+          "line": 66
+        },
+        {
+          "nodeId": "30064855590",
+          "label": "CALL",
+          "method": "package:localsend_app/provider/selection/selected_receiving_files_provider.dart#1752:FUNCTION:null",
+          "code": "MapEntry(element.key, element.value.withFileNameKeepExtension('$prefix$number'))",
+          "line": 66
+        },
+        {
+          "nodeId": "68719547607",
+          "label": "IDENTIFIER",
+          "method": "package:localsend_app/provider/selection/selected_receiving_files_provider.dart#1752:FUNCTION:null",
+          "code": "<tmp>18",
+          "line": 66
+        },
+        {
+          "nodeId": "25769844880",
+          "label": "BLOCK",
+          "method": "package:localsend_app/provider/selection/selected_receiving_files_provider.dart#1752:FUNCTION:null",
+          "code": "MapEntry(element.key, element.value.withFileNameKeepExtension('$prefix$number'))",
+          "line": 66
+        },
+        {
+          "nodeId": "141733944290",
+          "label": "RETURN",
+          "method": "package:localsend_app/provider/selection/selected_receiving_files_provider.dart#1752:FUNCTION:null",
+          "code": "return MapEntry(element.key, element.value.withFileNameKeepExtension('$prefix$number'));",
+          "line": 66
+        },
+        {
+          "nodeId": "124554075278",
+          "label": "METHOD_RETURN",
+          "method": "package:localsend_app/provider/selection/selected_receiving_files_provider.dart#1752:FUNCTION:null",
+          "code": "RET",
+          "line": -1
+        },
+        {
+          "nodeId": "120259085151",
+          "label": "METHOD_REF",
+          "method": "package:localsend_app/provider/selection/selected_receiving_files_provider.dart#1413:METHOD:applyCounter",
+          "code": "(index, element) {\n      String number = (index + 1).toString();\n      if (padZero) {\n        number.padLeft(maxKeyStringLength, '0');\n      }\n      return MapEntry(element.key, element.value.withFileNameKeepExtension('$prefix$number'));\n    }",
+          "line": 61
+        },
+        {
+          "nodeId": "68719547587",
+          "label": "IDENTIFIER",
+          "method": "package:localsend_app/provider/selection/selected_receiving_files_provider.dart#1413:METHOD:applyCounter",
+          "code": "files",
+          "line": 61
+        },
+        {
+          "nodeId": "111669178740",
+          "label": "METHOD_PARAMETER_IN",
+          "method": "package:localsend_app/provider/selection/selected_receiving_files_provider.dart#1752:FUNCTION:null",
+          "code": "element",
+          "line": 61
+        },
+        {
+          "nodeId": "30064855593",
+          "label": "CALL",
+          "method": "package:localsend_app/provider/selection/selected_receiving_files_provider.dart#1752:FUNCTION:null",
+          "code": "element.value",
+          "line": 66
+        },
+        {
+          "nodeId": "111669178877",
+          "label": "METHOD_PARAMETER_IN",
+          "method": "package:localsend_app/util/file_path_helper.dart#434:METHOD:withFileNameKeepExtension",
+          "code": "this",
+          "line": -1
+        },
+        {
+          "nodeId": "68719548456",
+          "label": "IDENTIFIER",
+          "method": "package:localsend_app/util/file_path_helper.dart#434:METHOD:withFileNameKeepExtension",
+          "code": "this",
+          "line": 21
+        },
+        {
+          "nodeId": "111669178875",
+          "label": "METHOD_PARAMETER_IN",
+          "method": "package:localsend_app/util/file_path_helper.dart#185:GETTER:extension",
+          "code": "this",
+          "line": -1
+        },
+        {
+          "nodeId": "68719548450",
+          "label": "IDENTIFIER",
+          "method": "package:localsend_app/util/file_path_helper.dart#185:GETTER:extension",
+          "code": "this",
+          "line": 8
+        },
+        {
+          "nodeId": "30064856614",
+          "label": "CALL",
+          "method": "package:localsend_app/util/file_path_helper.dart#185:GETTER:extension",
+          "code": "lastIndexOf('.')",
+          "line": 8
+        },
+        {
+          "nodeId": "68719548449",
+          "label": "IDENTIFIER",
+          "method": "package:localsend_app/util/file_path_helper.dart#185:GETTER:extension",
+          "code": "index",
+          "line": 8
+        },
+        {
+          "nodeId": "30064856619",
+          "label": "CALL",
+          "method": "package:localsend_app/util/file_path_helper.dart#185:GETTER:extension",
+          "code": "index + 1",
+          "line": 10
+        },
+        {
+          "nodeId": "68719548452",
+          "label": "IDENTIFIER",
+          "method": "package:localsend_app/util/file_path_helper.dart#185:GETTER:extension",
+          "code": "this",
+          "line": 10
+        },
+        {
+          "nodeId": "30064856618",
+          "label": "CALL",
+          "method": "package:localsend_app/util/file_path_helper.dart#185:GETTER:extension",
+          "code": "substring(index + 1)",
+          "line": 10
+        },
+        {
+          "nodeId": "30064856617",
+          "label": "CALL",
+          "method": "package:localsend_app/util/file_path_helper.dart#185:GETTER:extension",
+          "code": "substring(index + 1).toLowerCase()",
+          "line": 10
+        },
+        {
+          "nodeId": "141733944354",
+          "label": "RETURN",
+          "method": "package:localsend_app/util/file_path_helper.dart#185:GETTER:extension",
+          "code": "return substring(index + 1).toLowerCase();",
+          "line": 10
+        },
+        {
+          "nodeId": "124554075371",
+          "label": "METHOD_RETURN",
+          "method": "package:localsend_app/util/file_path_helper.dart#185:GETTER:extension",
+          "code": "RET",
+          "line": -1
+        },
+        {
+          "nodeId": "30064856624",
+          "label": "CALL",
+          "method": "package:localsend_app/util/file_path_helper.dart#434:METHOD:withFileNameKeepExtension",
+          "code": "extension",
+          "line": 21
+        },
+        {
+          "nodeId": "30064856623",
+          "label": "CALL",
+          "method": "package:localsend_app/util/file_path_helper.dart#434:METHOD:withFileNameKeepExtension",
+          "code": "'$fileNameWithoutExt.$extension'",
+          "line": 21
+        },
+        {
+          "nodeId": "141733944357",
+          "label": "RETURN",
+          "method": "package:localsend_app/util/file_path_helper.dart#434:METHOD:withFileNameKeepExtension",
+          "code": "return '$fileNameWithoutExt.$extension';",
+          "line": 21
+        }
+      ],
+      "transitions": [
+        {
+          "source": "111669178878",
+          "target": "68719548455",
+          "classification": "parameter-use",
+          "reason": "Reads the bound parameter or receiver."
+        },
+        {
+          "source": "68719548455",
+          "target": "30064856623",
+          "classification": "string-interpolation",
+          "reason": "The filename or prefix/number value is included in the interpolated String."
+        },
+        {
+          "source": "30064856623",
+          "target": "141733944357",
+          "classification": "return-value",
+          "reason": "The expression supplies the method or closure return value."
+        },
+        {
+          "source": "141733944357",
+          "target": "124554075373",
+          "classification": "method-return",
+          "reason": "The returned value reaches the method return boundary."
+        },
+        {
+          "source": "124554075373",
+          "target": "30064855592",
+          "classification": "call-result",
+          "reason": "The callee return value reaches this call site."
+        },
+        {
+          "source": "30064855592",
+          "target": "30064855591",
+          "classification": "external-constructor-approximation",
+          "reason": "The second MapEntry argument is allowed to affect its first argument. The pinned immutable MapEntry constructor stores key and value independently; this is not a justified key write."
+        },
+        {
+          "source": "30064855591",
+          "target": "30064855590",
+          "classification": "constructor-argument",
+          "reason": "The key is supplied to MapEntry. It contributes to the constructed object, but is not the same field as the decorated value."
+        },
+        {
+          "source": "30064855590",
+          "target": "68719547607",
+          "classification": "constructed-object",
+          "reason": "The constructor call contributes to the saved instance; the shared engine conservatively tracks the returned object as a whole."
+        },
+        {
+          "source": "68719547607",
+          "target": "25769844880",
+          "classification": "block-result",
+          "reason": "The saved instance is the value of the instance-creation block."
+        },
+        {
+          "source": "25769844880",
+          "target": "141733944290",
+          "classification": "return-value",
+          "reason": "The expression supplies the method or closure return value."
+        },
+        {
+          "source": "141733944290",
+          "target": "124554075278",
+          "classification": "method-return",
+          "reason": "The returned value reaches the method return boundary."
+        },
+        {
+          "source": "124554075278",
+          "target": "120259085151",
+          "classification": "callback-result-approximation",
+          "reason": "The shared query engine follows METHOD_REF returns as potential callback results. This models a value contribution, not registration-time execution or verified invocation order."
+        },
+        {
+          "source": "120259085151",
+          "target": "68719547587",
+          "classification": "callback-receiver-feedback",
+          "reason": "Unknown external-call effects feed the callback reference/result into the files receiver. Mapping output does not rewrite its input elements or callback indices in the pinned source."
+        },
+        {
+          "source": "68719547587",
+          "target": "111669178740",
+          "classification": "callback-binding-approximation",
+          "reason": "The generic method-reference expansion maps the receiver to the callback element parameter. Earlier callback-result feedback has already contaminated this receiver."
+        },
+        {
+          "source": "111669178740",
+          "target": "30064855593",
+          "classification": "field-selection",
+          "reason": "The callback selects element.value from the map entry; earlier whole-receiver effects prevent field-specific origin qualification."
+        },
+        {
+          "source": "30064855593",
+          "target": "111669178877",
+          "classification": "receiver-binding",
+          "reason": "The receiver binds to the implicit this parameter of the extension method or getter."
+        },
+        {
+          "source": "111669178877",
+          "target": "68719548456",
+          "classification": "parameter-use",
+          "reason": "Reads the bound parameter or receiver."
+        },
+        {
+          "source": "68719548456",
+          "target": "111669178875",
+          "classification": "receiver-binding",
+          "reason": "The receiver binds to the implicit this parameter of the extension method or getter."
+        },
+        {
+          "source": "111669178875",
+          "target": "68719548450",
+          "classification": "parameter-use",
+          "reason": "Reads the bound parameter or receiver."
+        },
+        {
+          "source": "68719548450",
+          "target": "30064856614",
+          "classification": "external-result",
+          "reason": "The SDK String operation contributes to its result under conservative external-call semantics."
+        },
+        {
+          "source": "30064856614",
+          "target": "68719548449",
+          "classification": "local-assignment",
+          "reason": "The computed result is assigned to the local."
+        },
+        {
+          "source": "68719548449",
+          "target": "30064856619",
+          "classification": "primitive-result",
+          "reason": "The callback index contributes to index + 1."
+        },
+        {
+          "source": "30064856619",
+          "target": "68719548452",
+          "classification": "external-receiver-write-approximation",
+          "reason": "The substring start bound is allowed to affect its immutable String receiver. It selects the result but does not rewrite this."
+        },
+        {
+          "source": "68719548452",
+          "target": "30064856618",
+          "classification": "external-result",
+          "reason": "The SDK String operation contributes to its result under conservative external-call semantics."
+        },
+        {
+          "source": "30064856618",
+          "target": "30064856617",
+          "classification": "external-result",
+          "reason": "The SDK String operation contributes to its result under conservative external-call semantics."
+        },
+        {
+          "source": "30064856617",
+          "target": "141733944354",
+          "classification": "return-value",
+          "reason": "The expression supplies the method or closure return value."
+        },
+        {
+          "source": "141733944354",
+          "target": "124554075371",
+          "classification": "method-return",
+          "reason": "The returned value reaches the method return boundary."
+        },
+        {
+          "source": "124554075371",
+          "target": "30064856624",
+          "classification": "call-result",
+          "reason": "The callee return value reaches this call site."
+        },
+        {
+          "source": "30064856624",
+          "target": "30064856623",
+          "classification": "string-interpolation",
+          "reason": "The filename or prefix/number value is included in the interpolated String."
+        },
+        {
+          "source": "30064856623",
+          "target": "141733944357",
+          "classification": "return-value",
+          "reason": "The expression supplies the method or closure return value."
+        }
+      ]
+    },
+    {
+      "mode": "dartSummaries",
+      "query": {
+        "id": "filename-extension",
+        "expected": true,
+        "source": {
+          "file": "util/file_path_helper.dart",
+          "method": "withFileNameKeepExtension",
+          "kind": "parameter",
+          "name": "fileNameWithoutExt"
+        },
+        "sink": {
+          "file": "util/file_path_helper.dart",
+          "method": "withFileNameKeepExtension",
+          "kind": "return"
+        },
+        "outcome": "flow-observed",
+        "semanticReview": "reviewed dependency transitions; not execution-path certification",
+        "maxCallDepth": 4,
+        "maxArgsToAllow": 1000,
+        "maxOutputArgsExpansion": 1000,
+        "limitations": [
+          "call-depth"
+        ],
+        "searchComplete": false,
+        "pathSelection": "longest-per-endpoint-pair",
+        "alternativeRoutes": "not-returned-by-engine",
+        "witnessLimit": null,
+        "retainedWitnesses": 1,
+        "omittedWitnesses": 0,
+        "passed": true,
+        "sources": 1,
+        "sinks": 1,
+        "paths": 1,
+        "viaSatisfied": true
+      },
+      "nodes": [
+        {
+          "nodeId": "111669178878",
+          "label": "METHOD_PARAMETER_IN",
+          "method": "package:localsend_app/util/file_path_helper.dart#434:METHOD:withFileNameKeepExtension",
+          "code": "String fileNameWithoutExt",
+          "line": 20
+        },
+        {
+          "nodeId": "68719548455",
+          "label": "IDENTIFIER",
+          "method": "package:localsend_app/util/file_path_helper.dart#434:METHOD:withFileNameKeepExtension",
+          "code": "fileNameWithoutExt",
+          "line": 21
+        },
+        {
+          "nodeId": "30064856623",
+          "label": "CALL",
+          "method": "package:localsend_app/util/file_path_helper.dart#434:METHOD:withFileNameKeepExtension",
+          "code": "'$fileNameWithoutExt.$extension'",
+          "line": 21
+        },
+        {
+          "nodeId": "141733944357",
+          "label": "RETURN",
+          "method": "package:localsend_app/util/file_path_helper.dart#434:METHOD:withFileNameKeepExtension",
+          "code": "return '$fileNameWithoutExt.$extension';",
+          "line": 21
+        },
+        {
+          "nodeId": "124554075373",
+          "label": "METHOD_RETURN",
+          "method": "package:localsend_app/util/file_path_helper.dart#434:METHOD:withFileNameKeepExtension",
+          "code": "RET",
+          "line": -1
+        },
+        {
+          "nodeId": "30064855592",
+          "label": "CALL",
+          "method": "package:localsend_app/provider/selection/selected_receiving_files_provider.dart#1752:FUNCTION:null",
+          "code": "element.value.withFileNameKeepExtension('$prefix$number')",
+          "line": 66
+        },
+        {
+          "nodeId": "30064855591",
+          "label": "CALL",
+          "method": "package:localsend_app/provider/selection/selected_receiving_files_provider.dart#1752:FUNCTION:null",
+          "code": "element.key",
+          "line": 66
+        },
+        {
+          "nodeId": "30064855590",
+          "label": "CALL",
+          "method": "package:localsend_app/provider/selection/selected_receiving_files_provider.dart#1752:FUNCTION:null",
+          "code": "MapEntry(element.key, element.value.withFileNameKeepExtension('$prefix$number'))",
+          "line": 66
+        },
+        {
+          "nodeId": "68719547607",
+          "label": "IDENTIFIER",
+          "method": "package:localsend_app/provider/selection/selected_receiving_files_provider.dart#1752:FUNCTION:null",
+          "code": "<tmp>18",
+          "line": 66
+        },
+        {
+          "nodeId": "25769844880",
+          "label": "BLOCK",
+          "method": "package:localsend_app/provider/selection/selected_receiving_files_provider.dart#1752:FUNCTION:null",
+          "code": "MapEntry(element.key, element.value.withFileNameKeepExtension('$prefix$number'))",
+          "line": 66
+        },
+        {
+          "nodeId": "141733944290",
+          "label": "RETURN",
+          "method": "package:localsend_app/provider/selection/selected_receiving_files_provider.dart#1752:FUNCTION:null",
+          "code": "return MapEntry(element.key, element.value.withFileNameKeepExtension('$prefix$number'));",
+          "line": 66
+        },
+        {
+          "nodeId": "124554075278",
+          "label": "METHOD_RETURN",
+          "method": "package:localsend_app/provider/selection/selected_receiving_files_provider.dart#1752:FUNCTION:null",
+          "code": "RET",
+          "line": -1
+        },
+        {
+          "nodeId": "120259085151",
+          "label": "METHOD_REF",
+          "method": "package:localsend_app/provider/selection/selected_receiving_files_provider.dart#1413:METHOD:applyCounter",
+          "code": "(index, element) {\n      String number = (index + 1).toString();\n      if (padZero) {\n        number.padLeft(maxKeyStringLength, '0');\n      }\n      return MapEntry(element.key, element.value.withFileNameKeepExtension('$prefix$number'));\n    }",
+          "line": 61
+        },
+        {
+          "nodeId": "68719547587",
+          "label": "IDENTIFIER",
+          "method": "package:localsend_app/provider/selection/selected_receiving_files_provider.dart#1413:METHOD:applyCounter",
+          "code": "files",
+          "line": 61
+        },
+        {
+          "nodeId": "111669178739",
+          "label": "METHOD_PARAMETER_IN",
+          "method": "package:localsend_app/provider/selection/selected_receiving_files_provider.dart#1752:FUNCTION:null",
+          "code": "index",
+          "line": 61
+        },
+        {
+          "nodeId": "30064855587",
+          "label": "CALL",
+          "method": "package:localsend_app/provider/selection/selected_receiving_files_provider.dart#1752:FUNCTION:null",
+          "code": "index + 1",
+          "line": 62
+        },
+        {
+          "nodeId": "30064855586",
+          "label": "CALL",
+          "method": "package:localsend_app/provider/selection/selected_receiving_files_provider.dart#1752:FUNCTION:null",
+          "code": "(index + 1).toString()",
+          "line": 62
+        },
+        {
+          "nodeId": "68719547602",
+          "label": "IDENTIFIER",
+          "method": "package:localsend_app/provider/selection/selected_receiving_files_provider.dart#1752:FUNCTION:null",
+          "code": "number",
+          "line": 62
+        },
+        {
+          "nodeId": "68719547605",
+          "label": "IDENTIFIER",
+          "method": "package:localsend_app/provider/selection/selected_receiving_files_provider.dart#1752:FUNCTION:null",
+          "code": "number",
+          "line": 64
+        },
+        {
+          "nodeId": "68719547611",
+          "label": "IDENTIFIER",
+          "method": "package:localsend_app/provider/selection/selected_receiving_files_provider.dart#1752:FUNCTION:null",
+          "code": "number",
+          "line": 66
+        },
+        {
+          "nodeId": "68719547610",
+          "label": "IDENTIFIER",
+          "method": "package:localsend_app/provider/selection/selected_receiving_files_provider.dart#1752:FUNCTION:null",
+          "code": "prefix",
+          "line": 66
+        },
+        {
+          "nodeId": "30064855594",
+          "label": "CALL",
+          "method": "package:localsend_app/provider/selection/selected_receiving_files_provider.dart#1752:FUNCTION:null",
+          "code": "'$prefix$number'",
+          "line": 66
+        },
+        {
+          "nodeId": "111669178878",
+          "label": "METHOD_PARAMETER_IN",
+          "method": "package:localsend_app/util/file_path_helper.dart#434:METHOD:withFileNameKeepExtension",
+          "code": "String fileNameWithoutExt",
+          "line": 20
+        },
+        {
+          "nodeId": "68719548455",
+          "label": "IDENTIFIER",
+          "method": "package:localsend_app/util/file_path_helper.dart#434:METHOD:withFileNameKeepExtension",
+          "code": "fileNameWithoutExt",
+          "line": 21
+        },
+        {
+          "nodeId": "30064856623",
+          "label": "CALL",
+          "method": "package:localsend_app/util/file_path_helper.dart#434:METHOD:withFileNameKeepExtension",
+          "code": "'$fileNameWithoutExt.$extension'",
+          "line": 21
+        },
+        {
+          "nodeId": "141733944357",
+          "label": "RETURN",
+          "method": "package:localsend_app/util/file_path_helper.dart#434:METHOD:withFileNameKeepExtension",
+          "code": "return '$fileNameWithoutExt.$extension';",
+          "line": 21
+        }
+      ],
+      "transitions": [
+        {
+          "source": "111669178878",
+          "target": "68719548455",
+          "classification": "parameter-use",
+          "reason": "Reads the bound parameter or receiver."
+        },
+        {
+          "source": "68719548455",
+          "target": "30064856623",
+          "classification": "string-interpolation",
+          "reason": "The filename or prefix/number value is included in the interpolated String."
+        },
+        {
+          "source": "30064856623",
+          "target": "141733944357",
+          "classification": "return-value",
+          "reason": "The expression supplies the method or closure return value."
+        },
+        {
+          "source": "141733944357",
+          "target": "124554075373",
+          "classification": "method-return",
+          "reason": "The returned value reaches the method return boundary."
+        },
+        {
+          "source": "124554075373",
+          "target": "30064855592",
+          "classification": "call-result",
+          "reason": "The callee return value reaches this call site."
+        },
+        {
+          "source": "30064855592",
+          "target": "30064855591",
+          "classification": "external-constructor-approximation",
+          "reason": "The second MapEntry argument is allowed to affect its first argument. The pinned immutable MapEntry constructor stores key and value independently; this is not a justified key write."
+        },
+        {
+          "source": "30064855591",
+          "target": "30064855590",
+          "classification": "constructor-argument",
+          "reason": "The key is supplied to MapEntry. It contributes to the constructed object, but is not the same field as the decorated value."
+        },
+        {
+          "source": "30064855590",
+          "target": "68719547607",
+          "classification": "constructed-object",
+          "reason": "The constructor call contributes to the saved instance; the shared engine conservatively tracks the returned object as a whole."
+        },
+        {
+          "source": "68719547607",
+          "target": "25769844880",
+          "classification": "block-result",
+          "reason": "The saved instance is the value of the instance-creation block."
+        },
+        {
+          "source": "25769844880",
+          "target": "141733944290",
+          "classification": "return-value",
+          "reason": "The expression supplies the method or closure return value."
+        },
+        {
+          "source": "141733944290",
+          "target": "124554075278",
+          "classification": "method-return",
+          "reason": "The returned value reaches the method return boundary."
+        },
+        {
+          "source": "124554075278",
+          "target": "120259085151",
+          "classification": "callback-result-approximation",
+          "reason": "The shared query engine follows METHOD_REF returns as potential callback results. This models a value contribution, not registration-time execution or verified invocation order."
+        },
+        {
+          "source": "120259085151",
+          "target": "68719547587",
+          "classification": "callback-receiver-feedback",
+          "reason": "Unknown external-call effects feed the callback reference/result into the files receiver. Mapping output does not rewrite its input elements or callback indices in the pinned source."
+        },
+        {
+          "source": "68719547587",
+          "target": "111669178739",
+          "classification": "callback-binding-approximation",
+          "reason": "The generic method-reference expansion maps a receiver to callback parameters, including index. The positional index is not an element value copied from files."
+        },
+        {
+          "source": "111669178739",
+          "target": "30064855587",
+          "classification": "primitive-result",
+          "reason": "The callback index contributes to index + 1."
+        },
+        {
+          "source": "30064855587",
+          "target": "30064855586",
+          "classification": "external-result",
+          "reason": "The integer result is converted to String by the SDK toString call."
+        },
+        {
+          "source": "30064855586",
+          "target": "68719547602",
+          "classification": "local-assignment",
+          "reason": "The computed result is assigned to the local."
+        },
+        {
+          "source": "68719547602",
+          "target": "68719547605",
+          "classification": "same-variable-use",
+          "reason": "Both identifiers reference the same number local; this is dependency identity, not chronological execution order."
+        },
+        {
+          "source": "68719547605",
+          "target": "68719547611",
+          "classification": "same-variable-use",
+          "reason": "Both identifiers reference the same number local; this is dependency identity, not chronological execution order."
+        },
+        {
+          "source": "68719547611",
+          "target": "68719547610",
+          "classification": "format-operand-write-approximation",
+          "reason": "String interpolation is treated as writing one operand from another. Number contributes to the result but does not rewrite prefix."
+        },
+        {
+          "source": "68719547610",
+          "target": "30064855594",
+          "classification": "string-interpolation",
+          "reason": "The filename or prefix/number value is included in the interpolated String."
+        },
+        {
+          "source": "30064855594",
+          "target": "111669178878",
+          "classification": "parameter-binding",
+          "reason": "The interpolated prefix and counter bind to fileNameWithoutExt at the extension call."
+        },
+        {
+          "source": "111669178878",
+          "target": "68719548455",
+          "classification": "parameter-use",
+          "reason": "Reads the bound parameter or receiver."
+        },
+        {
+          "source": "68719548455",
+          "target": "30064856623",
+          "classification": "string-interpolation",
+          "reason": "The filename or prefix/number value is included in the interpolated String."
+        },
+        {
+          "source": "30064856623",
+          "target": "141733944357",
+          "classification": "return-value",
+          "reason": "The expression supplies the method or closure return value."
+        }
+      ]
+    }
+  ]
+}

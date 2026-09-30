@@ -59,20 +59,21 @@ executions, not proof of absent static dependencies. A model must distinguish
 selection and element value flow and preserve predicate side effects; a blanket
 callback-to-result summary cannot provide that contract.
 
-## Further witness findings requiring reduced regressions
+## Further witness findings
 
 The [source review ledger](semantic-reviews.json) records all 75 expectations,
 source hashes, relevant conditions and endpoint dispositions. It preserves the
 historical exporter 0.3.2 witnesses for comparison; it does not certify each hop.
-These findings still require reduced reproductions and transition qualification. Ownership starts with shared query-engine call-site
-and external-call behavior, pending reduced reproduction.
+The originally flagged route families now have reduced fixtures and complete
+transition reviews. Ownership and remaining approximations are recorded below.
+Other source-ledger witnesses still require transition qualification.
 
 | Issue | Probe | Observed route requiring review |
 | --- | --- | --- |
-| DART-FLOW-002 | analyzer `list-element-callback` | Leaves `items` through METHOD_PARAMETER_OUT, traverses unrelated receiver fields, and re-enters the list parameter before `items[i]`. |
+| DART-FLOW-002 | analyzer `list-element-callback` | [Complete transition review](field-witness-review.json) and reduced inheritance/callback fixture reproduce the parameter-output and receiver-field detour. Bounded runtime traces check independent field contents and order; shared field-alias precision remains conservative. |
 | DART-FLOW-003 | http_parser `chunk-interprocedural-copy` | Reduced byte-content/size/isolation cases and [full transition review](byte-copy-review.json) added. Optional bytes model yields direct parameter forwarding; stock equality and external-call shortcuts remain explicitly classified. |
-| DART-FLOW-004 | path `normalize-fast-return`; Sass `scss-source-forwarding`/`css-source-forwarding` | Passes through unrelated caller sites (`fromUri`/`readFile`) before re-entering the source method. |
-| DART-FLOW-005 | LocalSend `filename-extension` | Leaves the selected return through a caller's map callback and re-enters the selected method. |
+| DART-FLOW-004 | path `normalize-fast-return`; Sass `scss-source-forwarding`/`css-source-forwarding` | [Complete transition review](caller-witness-review.json), reduced parameter-output detour and separate-call controls added. The regression exposed and fixed summary bypass during nested output expansion; unmodeled effects remain conservative. |
+| DART-FLOW-005 | LocalSend `filename-extension` | [Complete transition review](callback-witness-review.json) and reduced indexed-mapping fixture expose external constructor argument mixing and callback-result feedback into the mapping receiver/index. |
 
 The remaining source/branch reviews, alternative-route reviews and reduced
 reproducers are outstanding. Positive controls do not discharge those obligations.
@@ -128,3 +129,49 @@ baseline changes reflect explicit dynamic operator calls; file and method counts
 are unchanged. Shared validation passed all 40 engine tests and 134 C dataflow
 tests. The byte-copy review records the shared-engine commits separately from its
 historical exporter header.
+
+## Caller forwarding review
+
+The three DART-FLOW-004 witnesses have 40 displayed nodes and 37 classified
+transitions. Stock and modeled witnesses are identical in the recorded snapshot.
+Their source dependencies are justified by direct argument forwarding, while the
+parameter-output detours through `fromUri` and `readFile` do not show runtime
+writes to immutable String arguments. All three searches recorded discarded work
+at the call-depth limit; alternative paths are not returned by the engine.
+
+The reduced fixture reproduces the same nested-call detour and checks a separate
+invocation returning a constant. A fixture-only read-only summary initially
+failed to prevent the detour: shared output-parameter expansion ignored that
+summary. Commit `a5ec1a2f7` fixes the bypass. The runtime oracle checks five inputs,
+including whitespace, and confirms forwarding and independent calls. No purity
+summary for an entire package is inferred from this fixture.
+
+## Receiver-field witness review
+
+DART-FLOW-002 now has a complete review of all 46 displayed nodes and 45
+transitions. Its list-element dependency is justified by `writeItem(items[i])`.
+The retained route instead leaves the list through an output parameter, combines
+field and whole-receiver dependencies across inherited writer methods, and
+re-enters `writeList`. The reduced fixture reproduces that route through three
+independent list fields. The runtime oracle varies one first-field value while
+checking all other field values and the exact write order. This qualifies the
+observed approximation; it does not supply field-sensitive alias analysis for
+arbitrary callback effects.
+
+## Callback feedback review
+
+DART-FLOW-005 now has a complete review of both returned route variants: 57 displayed nodes and 55
+transitions. Filename interpolation supplies the endpoint dependency directly.
+The saved route also treats MapEntry's value as a possible key write, follows a
+callback return through METHOD_REF, and feeds it into the mapping receiver and
+positional index or map-entry value. It also exposes an interpolation operand
+write and an immutable substring receiver write in those variants. The reduced fixture reproduces the callback/index re-entry;
+the runtime oracle supplies a sequential indexed mapper and checks keys, outputs,
+visit indices and unchanged input elements for zero to two elements. No framework
+lifecycle or arbitrary callback execution guarantee is inferred from that model.
+
+Validation: all 87 frontend checks, 47 native Dart tests (including Flutter and
+the three new runtime oracles), four staged CLI checks and 14 console checks
+passed. The package/runner/mutation run passed 99 checks before the two additional
+witness fixtures; all three applications and both holdouts also passed. The
+staged archive smoke test and bundled-model integrity checks passed.
