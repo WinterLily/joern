@@ -220,7 +220,8 @@ class DartCorpusTests extends AnyWordSpec with Matchers {
                 "defaultSemantics" -> defaultFlows,
                 "dartSummaries"    -> flows,
                 "reachingDefEdges" -> reloaded.cfgNode.map(_._reachingDefIn.size.toLong).sum.toDouble,
-                "maxCallDepth"     -> 4
+                "maxCallDepth"     -> 4,
+                "maxFieldDepth"    -> 4
               ),
               indent = 2
             )

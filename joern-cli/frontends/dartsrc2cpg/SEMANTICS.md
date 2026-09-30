@@ -171,13 +171,21 @@ frontend does not invent targets for arbitrary dynamic dispatch. External method
 stubs come from Joern's overlays. Their bodies and library-specific effects are
 not inferred.
 
-The shared CFG overlay approximates exception matching: it does not connect every
-potential throwing instruction to every applicable handler, or route every abrupt
-exit through finally. Catch locals and finally bodies are retained structurally.
+The shared CFG overlay approximates exception matching and path feasibility;
+the explicit catch and cleanup contracts above do not qualify arbitrary paths.
 Collection and field dependencies use the shared dataflow engine's heap model;
 these tests do not establish full object-sensitive heap or callback analysis.
-In particular, returned objects can carry constructor input into unrelated
-constant fields. A regression records this shared-engine approximation.
+Queries now retain a requested constant field path through internal calls and
+returns, including nested fields and caught objects. This rejects the former
+`Box(input).other` false positive while preserving `.value` flow. Direct field
+copies retain their value dependency. Opaque summaries do not promise an object
+layout and remain conservative. Field prefixes default to depth four; longer
+suffixes are widened to retain every descendant and report `field-depth-widening`.
+This bounds recursive field contexts without treating truncation as an absence
+of flow. Receiver-alias writes can still lose flow, and
+field overwrites can retain old object taint; paired runtime/static fixtures
+record both remaining approximations. Collection slots, general alias mutation
+and allocation-sensitive heap behavior remain unqualified.
 
 ## Regression coverage
 

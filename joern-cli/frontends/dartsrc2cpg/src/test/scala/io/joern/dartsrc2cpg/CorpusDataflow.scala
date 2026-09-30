@@ -112,6 +112,7 @@ private[dartsrc2cpg] object CorpusDataflow {
         semantics = semantics,
         config = EngineConfig(
           maxCallDepth = probe.obj.get("maxCallDepth").map(_.num.toInt).getOrElse(4),
+          maxFieldDepth = probe.obj.get("maxFieldDepth").map(_.num.toInt).getOrElse(4),
           diagnostics = Some(diagnostics)
         )
       )
@@ -145,6 +146,7 @@ private[dartsrc2cpg] object CorpusDataflow {
         "outcome"                -> outcome,
         "semanticReview"         -> "pending",
         "maxCallDepth"           -> context.config.maxCallDepth,
+        "maxFieldDepth"          -> context.config.maxFieldDepth,
         "maxArgsToAllow"         -> context.config.maxArgsToAllow,
         "maxOutputArgsExpansion" -> context.config.maxOutputArgsExpansion,
         "limitations"            -> ujson.Arr.from(diagnostics.limitations.toSeq.sorted),

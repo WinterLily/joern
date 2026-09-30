@@ -360,3 +360,24 @@ statements. Independent runtime checks verify identity and constant replacements
 Depth-limited searches and unavailable external, unresolved or implicit exception
 channels expose query limitations. This does not qualify arbitrary exception-type
 feasibility, native payloads or heap precision.
+
+## Field demands across internal calls
+
+The former `Box(input).other` witness passed through `this.value`, the whole
+returned receiver, and then the unrelated constant field. Queries now carry a
+constant field path through internal return/argument boundaries, cache entries
+and held tasks. Field reads on direct call results also have an explicit base
+dependency; the reduced shared fixture exposed that previously missing edge.
+An analyzer query exposed nonconverging recursive field contexts. Prefixes now
+default to depth four, widening deeper suffixes conservatively and recording
+`field-depth-widening`; reports include the field limit separately from call depth.
+
+The shared regression queries two fields and two unrelated inputs together,
+through an internal wrapper, with direct field copies and with an opaque summary.
+Opaque summaries remain conservative about object layout. Dart checks add nested
+members, read aliases and caught objects, with an independent execution oracle.
+Two further gaps remain explicit: writing through the captured receiver alias
+loses the `copiedField` dependency, while `overwrittenField` retains old taint after
+a constant write. Those observations are regression records of limitations, not
+expected Dart semantics. General alias mutation and strong heap updates remain
+open obligations.

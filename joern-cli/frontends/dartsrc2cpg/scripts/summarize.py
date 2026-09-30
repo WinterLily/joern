@@ -10,6 +10,7 @@ ROOT = FRONTEND.parents[2]
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("corpus", choices=["packages", "applications", "holdout"])
+    parser.add_argument("--output", type=Path, help="Write a run artifact instead of updating the committed report")
     args = parser.parse_args()
     corpus = FRONTEND / "corpus" / ("" if args.corpus == "packages" else args.corpus)
     scratch = ROOT / "agents" / {
@@ -45,13 +46,16 @@ def main():
             project=name, analysisSources=audit["analysisSources"], source=audit["source"], exporter=audit["coverage"]["exporter"], overlay=overlay,
             stringConversionOrder=audit["coverage"]["stringConversionOrder"],
             modelFiles=audit["modelFiles"], reachingDefEdges=audit["reachingDefEdges"],
-            maxCallDepth=audit["maxCallDepth"], pathSelection="longest-per-endpoint-pair", checks=checks,
+            maxCallDepth=audit["maxCallDepth"], maxFieldDepth=audit["maxFieldDepth"],
+            pathSelection="longest-per-endpoint-pair", checks=checks,
         ))
         print(f"{name}: {len(checks)} endpoints; "
               f"stock {sum(c['stockPassed'] for c in checks)}, modeled {sum(c['modeledPassed'] for c in checks)}; "
               f"inconclusive stock {sum(c['stockOutcome'].startswith('inconclusive-') for c in checks)}, "
               f"modeled {sum(c['modeledOutcome'].startswith('inconclusive-') for c in checks)}")
-    (corpus / "dataflow-results.json").write_text(json.dumps(results, indent=2) + "\n")
+    output = args.output or corpus / "dataflow-results.json"
+    output.parent.mkdir(parents=True, exist_ok=True)
+    output.write_text(json.dumps(results, indent=2) + "\n")
 
 
 if __name__ == "__main__":

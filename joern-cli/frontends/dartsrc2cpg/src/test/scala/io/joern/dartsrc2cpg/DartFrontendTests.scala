@@ -984,14 +984,47 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         }
       }
     }
-    "expose the engine approximation for fields of returned objects" in {
+    "isolate unrelated fields of returned objects" in {
       fixture(
         """class Box { final String value; final String other = 'fixed'; Box(this.value); }
           |String relay(String value) => Box(value).other;
           |""".stripMargin,
         "void main(List<String> args) { final input = args[0]; sink(relay(input)); }"
-      ) { (cpg, _) => // The shared engine tracks returned objects as a whole across method boundaries.
-        assertFlow(cpg, true)
+      ) { (cpg, _) =>
+        assertFlow(cpg, false)
+      }
+    }
+    "retain selected fields through wrappers, read aliases and exceptions" in {
+      fixture(
+        Files.readString(frontend.resolve("src/test/resources/semantics/returned_fields.dart")),
+        "void main() {}"
+      ) { (cpg, _) =>
+        for (
+          (name, expected) <- Seq(
+            "readValue"          -> true,
+            "nestedValue"        -> true,
+            "aliasValue"         -> true,
+            "caughtValue"        -> true,
+            "readOther"          -> false,
+            "nestedOther"        -> false,
+            "independentMember"  -> false,
+            "aliasOther"         -> false,
+            "independentObjects" -> false,
+            "caughtOther"        -> false
+          )
+        ) {
+          val method = cpg.method.nameExact(name).head
+          withClue(name) {
+            method.ast.isReturn.reachableByFlows(method.parameter.nameExact("input")).nonEmpty shouldBe expected
+          }
+        }
+        // Receiver-alias writes and field overwrites still lack precise heap effects.
+        for ((name, observed) <- Seq("copiedField" -> false, "overwrittenField" -> true)) {
+          val method = cpg.method.nameExact(name).head
+          withClue(s"Known heap approximation: $name") {
+            method.ast.isReturn.reachableByFlows(method.parameter.nameExact("input")).nonEmpty shouldBe observed
+          }
+        }
       }
     }
     "keep callable targets separate from mutable call arguments" in {

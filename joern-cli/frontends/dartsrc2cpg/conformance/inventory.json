@@ -88,6 +88,15 @@
       "negative": "DartFrontendTests: user name/toString overrides and private name storage; enum_members_test.dart: values mutation rejection",
       "interaction": "astgen/test/enum_members_test.dart: enhanced named constructors, explicit EnumName dispatch, super and bound default conversions"
     },
+    "heap": {
+      "exporter": "analyzer constructor, field and accessor identities",
+      "lowering": "DartFrontendTests: returned instances and bare returns; receiver evaluation retained once",
+      "resolution": "resolved constructor and accessor targets; general virtual dispatch unqualified",
+      "cfg": "constructor initializers and generated receiver captures; strong heap updates unqualified",
+      "valueFlow": "ReturnedFieldTests and DartFrontendTests: bounded constant-field demands across internal calls, nested fields, read aliases and caught objects",
+      "negative": "unrelated fields and inputs; opaque summaries remain conservative; alias writes and field overwrites have recorded failures",
+      "interaction": "astgen/test/returned_fields_test.dart: calls, aliases, explicit copies, overwrite, independent objects and exceptions"
+    },
     "exceptions": {
       "exporter": "astgen/test/exporter_test.dart: export catch filters separately from exception and stack bindings",
       "lowering": "DartFrontendTests: retain ordered catch filters and bind caught values explicitly",
@@ -327,9 +336,9 @@
       "construct": "ConstructorDeclaration",
       "scope": "dart-3.9",
       "exporterCase": "ConstructorDeclaration",
-      "contract": "syntax",
+      "contract": "heap",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Construction and returned-field isolation tested; receiver-alias writes, strong updates and general heap identity remain open."
     },
     {
       "construct": "ConstructorFieldInitializer",
@@ -791,9 +800,9 @@
       "construct": "InstanceCreationExpression",
       "scope": "dart-3.9",
       "exporterCase": "InstanceCreationExpression",
-      "contract": "syntax",
+      "contract": "heap",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Construction and returned-field isolation tested; receiver-alias writes, strong updates and general heap identity remain open."
     },
     {
       "construct": "IntegerLiteral",
@@ -1103,9 +1112,9 @@
       "construct": "PrefixedIdentifier",
       "scope": "dart-3.9",
       "exporterCase": "PrefixedIdentifier",
-      "contract": "syntax",
+      "contract": "heap",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Constant-field paths across calls tested; alias writes, strong updates and broader identity/dispatch obligations remain open."
     },
     {
       "construct": "PrefixExpression",
@@ -1135,9 +1144,9 @@
       "construct": "PropertyAccess",
       "scope": "dart-3.9",
       "exporterCase": "PropertyAccess",
-      "contract": "syntax",
+      "contract": "heap",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Constant-field paths across calls tested; alias writes, strong updates and broader identity/dispatch obligations remain open."
     },
     {
       "construct": "RecordLiteral",
