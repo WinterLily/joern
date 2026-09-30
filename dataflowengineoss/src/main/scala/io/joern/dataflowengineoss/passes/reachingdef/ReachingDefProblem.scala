@@ -3,7 +3,7 @@ package io.joern.dataflowengineoss.passes.reachingdef
 import io.shiftleft.codepropertygraph.generated.nodes.*
 import io.shiftleft.codepropertygraph.generated.{EdgeTypes, Operators}
 import io.shiftleft.semanticcpg.language.*
-import io.shiftleft.semanticcpg.accesspath.MatchResult
+import io.shiftleft.semanticcpg.accesspath.{MatchResult, TrackedBase, TrackedNamedVariable}
 import io.joern.dataflowengineoss.queryengine.AccessPathUsage.toTrackedBaseAndAccessPathSimple
 import io.shiftleft.semanticcpg.utils.MemberAccess.{isFieldAccess, isGenericMemberAccessName}
 import org.slf4j.{Logger, LoggerFactory}
@@ -157,7 +157,10 @@ class ReachingDefTransferFunction(flowGraph: ReachingDefFlowGraph) extends Trans
 
   private val nodeToNumber = flowGraph.nodeToNumber
 
-  val method: Method = flowGraph.method
+  val method: Method  = flowGraph.method
+  private val aliases = new ReferenceAliases(Some(method))
+
+  private def variable(node: CfgNode, name: String): TrackedBase = aliases.base(TrackedNamedVariable(name), node)
 
   val gen: Map[CfgNode, mutable.BitSet] =
     initGen(method).withDefaultValue(mutable.BitSet())
@@ -221,10 +224,12 @@ class ReachingDefTransferFunction(flowGraph: ReachingDefFlowGraph) extends Trans
     */
   private def initKill(method: Method, gen: Map[CfgNode, mutable.BitSet]): Map[CfgNode, mutable.BitSet] = {
 
-    val allIdentifiers: Map[String, List[CfgNode]] = {
-      val results             = mutable.Map.empty[String, List[CfgNode]]
-      val identifierName2Node = method._identifierViaContainsOut.map { identifier => (identifier.name, identifier) }
-      val paramName2Node      = method.parameter.map { parameter => (parameter.name, parameter) }
+    val allIdentifiers: Map[TrackedBase, List[CfgNode]] = {
+      val results             = mutable.Map.empty[TrackedBase, List[CfgNode]]
+      val identifierName2Node = method._identifierViaContainsOut.map { identifier =>
+        (variable(identifier, identifier.name), identifier)
+      }
+      val paramName2Node = method.parameter.map { parameter => (variable(parameter, parameter.name), parameter) }
       (identifierName2Node ++ paramName2Node)
         .foreach { case (name, node) =>
           val oldValues = results.getOrElse(name, Nil)
@@ -255,17 +260,17 @@ class ReachingDefTransferFunction(flowGraph: ReachingDefFlowGraph) extends Trans
     */
   private def killsForGens(
     genOfCall: mutable.BitSet,
-    allIdentifiers: Map[String, List[CfgNode]],
+    allIdentifiers: Map[TrackedBase, List[CfgNode]],
     allCalls: Map[String, List[Call]]
   ): mutable.BitSet = {
 
     def definitionsOfSameVariable(definition: Definition): Iterator[Definition] = {
       val definedNodes = flowGraph.numberToNode(definition) match {
         case param: MethodParameterIn =>
-          allIdentifiers(param.name).iterator
+          allIdentifiers(variable(param, param.name)).iterator
             .filter(x => x.id != param.id)
         case identifier: Identifier =>
-          val sameIdentifiers = allIdentifiers(identifier.name).iterator
+          val sameIdentifiers = allIdentifiers(variable(identifier, identifier.name)).iterator
             .filter(x => x.id != identifier.id)
 
           /** Killing an identifier should also kill field accesses on that identifier. For example, a reassignment `x =
@@ -273,7 +278,9 @@ class ReachingDefTransferFunction(flowGraph: ReachingDefFlowGraph) extends Trans
             */
           val sameObjects: Iterator[Call] = allCalls.valuesIterator.flatten
             .filter(_.name == Operators.fieldAccess)
-            .filter(_.ast.isIdentifier.nameExact(identifier.name).nonEmpty)
+            .filter(
+              _.ast.isIdentifier.exists(base => base.name == identifier.name || aliases.sameReference(base, identifier))
+            )
 
           sameIdentifiers ++ sameObjects
         case call: Call =>

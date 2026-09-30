@@ -398,7 +398,8 @@ private class UsageAnalyzer(problem: DataFlowProblem[CfgNode, mutable.BitSet], i
   }
 
   def isUsing(use: CfgNode, inElemNode: CfgNode): Boolean =
-    sameVariable(use, inElemNode) || isContainer(use, inElemNode) || isPart(use, inElemNode) || isAlias(use, inElemNode)
+    sameVariable(use, inElemNode) || aliases.sameReference(use, inElemNode) ||
+      isContainer(use, inElemNode) || isPart(use, inElemNode) || isAlias(use, inElemNode)
 
   /** Determine whether the node `use` describes a container for `inElement`, e.g., use = `ptr` while inElement =
     * `ptr->foo`.

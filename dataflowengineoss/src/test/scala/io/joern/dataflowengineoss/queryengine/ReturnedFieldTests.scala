@@ -86,6 +86,7 @@ class ReturnedFieldTests extends AnyWordSpec with Matchers {
       for (
         summarized <- Seq(false, true); copied <- Seq(false, true); captured <- Seq(false, true);
         replaced   <- Seq(false, true);
+        indirect   <- if (replaced) Seq(false, true) else Seq(false);
         language   <- Seq("DART", "C")
       ) {
         val cpg = Cpg.empty
@@ -176,18 +177,21 @@ class ReturnedFieldTests extends AnyWordSpec with Matchers {
               )
             ) ++ (if (replaced)
                     Seq(
-                      call(
-                        Operators.assignment,
-                        "replace value",
-                        Seq(
-                          field(
-                            if (captured) read("alias", alias) else read("box", box),
-                            "value",
-                            if (captured) "alias.value" else "box.value"
-                          ),
-                          Ast(NewLiteral().code("constant").typeFullName("String"))
+                      if (indirect)
+                        call("replace", "replace value", Seq(if (captured) read("alias", alias) else read("box", box)))
+                      else
+                        call(
+                          Operators.assignment,
+                          "replace value",
+                          Seq(
+                            field(
+                              if (captured) read("alias", alias) else read("box", box),
+                              "value",
+                              if (captured) "alias.value" else "box.value"
+                            ),
+                            Ast(NewLiteral().code("constant").typeFullName("String"))
+                          )
                         )
-                      )
                     )
                   else Nil) ++ Seq(returned(read("box", box)))
           )
@@ -201,10 +205,25 @@ class ReturnedFieldTests extends AnyWordSpec with Matchers {
               val invocation = call("forward", s"forward($source)", Seq(read(source, parameter)))
               field(invocation, name, s"forward($source).$name")
             }
-          val caller = method("caller", Seq(input, safe), accesses)
-          val diff   = Cpg.newDiffGraphBuilder
+          val caller      = method("caller", Seq(input, safe), accesses)
+          val replacedBox = parameter("box", 1)
+          val replace     = method(
+            "replace",
+            Seq(replacedBox),
+            Seq(
+              call(
+                Operators.assignment,
+                "box.value = constant",
+                Seq(
+                  field(read("box", replacedBox), "value", "box.value"),
+                  Ast(NewLiteral().code("constant").typeFullName("String"))
+                )
+              )
+            )
+          )
+          val diff = Cpg.newDiffGraphBuilder
           diff.addNode(NewMetaData().language(language).version("0.1"))
-          Seq(make, forward, caller).foreach(Ast.storeInDiffGraph(_, diff))
+          Seq(make, forward, caller, replace).foreach(Ast.storeInDiffGraph(_, diff))
           diff.apply(cpg.graph)
           new MethodStubCreator(cpg).createAndApply()
           new MethodDecoratorPass(cpg).createAndApply()
@@ -220,10 +239,12 @@ class ReturnedFieldTests extends AnyWordSpec with Matchers {
             )
             val endpoints = paths.map(p => p.path.head.node.code -> p.path.last.node.code).toSet
             val fields    = Seq(
-              "value" -> (summarized || !replaced || captured && language == "C"),
+              "value" -> (summarized || !replaced || (captured || indirect) && language == "C"),
               "other" -> (summarized || copied && (!captured || language == "DART"))
             ).collect { case (name, true) => name }
-            withClue(s"$language summary=$summarized copy=$copied capture=$captured replace=$replaced") {
+            withClue(
+              s"$language summary=$summarized copy=$copied capture=$captured replace=$replaced indirect=$indirect"
+            ) {
               endpoints shouldBe (for (source <- Seq("input", "safe"); field <- fields)
                 yield source -> s"forward($source).$field").toSet
             }

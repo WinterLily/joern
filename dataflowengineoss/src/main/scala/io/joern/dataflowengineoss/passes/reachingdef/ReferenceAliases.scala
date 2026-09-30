@@ -74,6 +74,13 @@ class ReferenceAliases(method: Option[Method]) {
     }
     seen.toSet
   }
+  private lazy val exceptionalExits = method.toList
+    .flatMap(ExitRouting.escaping)
+    .filter {
+      case call: Call => call.name != Operators.assignment && call.name != Operators.fieldAccess
+      case _          => true
+    }
+    .toSet
 
   private def dominates(assignment: Call, node: CfgNode): Boolean = dominance.getOrElseUpdate(
     (assignment, node), {
@@ -128,34 +135,42 @@ class ReferenceAliases(method: Option[Method]) {
     enabled && (for (a <- name(left); b <- name(right)) yield canonical(a, left) == canonical(b, right)).contains(true)
   }
 
-  def overwritten(definition: CfgNode, use: CfgNode, root: TrackedBase, fields: List[String]): Boolean = root match {
-    case TrackedNamedVariable(name) if enabled && fields.nonEmpty && reachable.contains(use) =>
-      killed.getOrElseUpdate(
-        (definition, use, name, fields), {
-          val blockers = fieldWrites.collect {
-            case (`name`, written, assignment) if fields.startsWith(written) => assignment
-          }.toSet
-          val origin = definition match {
-            case _: MethodParameterIn => method.get
-            // An assignment's output becomes available after its store, not at the evaluation of its left operand.
-            case expression: Expression if expression.argumentIndex == 1 =>
-              expression.inCall.find(_.name.startsWith("<operator>.assignment")).getOrElse(definition)
-            case _ => definition
-          }
-          def reaches(blocked: Set[Call]): Boolean = {
-            val seen    = mutable.HashSet.empty[CfgNode]
-            val pending = mutable.ArrayDeque.from(origin._cfgOut.cast[CfgNode])
-            var found   = false
-            while (pending.nonEmpty && !found) {
-              val node = pending.removeHead()
-              if (node == use) found = true
-              else if (!blocked.contains(node) && seen.add(node)) pending ++= node._cfgOut.cast[CfgNode]
+  def overwritten(definition: CfgNode, use: CfgNode, root: TrackedBase, fields: List[String]): Boolean = {
+    // Output parameters are virtual CFG nodes. Rebinding a parameter does not replace the caller's object.
+    val destination = use match {
+      case parameter: MethodParameterOut if stable(parameter.name) => method.map(_.methodReturn).getOrElse(use)
+      case _                                                       => use
+    }
+    root match {
+      case TrackedNamedVariable(name) if enabled && fields.nonEmpty && reachable.contains(destination) =>
+        killed.getOrElseUpdate(
+          (definition, use, name, fields), {
+            val blockers = fieldWrites.collect {
+              case (`name`, written, assignment) if fields.startsWith(written) => assignment
+            }.toSet
+            val origin = definition match {
+              case _: MethodParameterIn => method.get
+              // An assignment's output becomes available after its store, not at the evaluation of its left operand.
+              case expression: Expression if expression.argumentIndex == 1 =>
+                expression.inCall.find(_.name.startsWith("<operator>.assignment")).getOrElse(definition)
+              case _ => definition
             }
-            found
+            val exits = if (use.isInstanceOf[MethodParameterOut]) exceptionalExits + destination else Set(destination)
+            def reaches(blocked: Set[Call]): Boolean = {
+              val seen    = mutable.HashSet.empty[CfgNode]
+              val pending = mutable.ArrayDeque.from(origin._cfgOut.cast[CfgNode])
+              var found   = false
+              while (pending.nonEmpty && !found) {
+                val node = pending.removeHead()
+                if (exits.contains(node)) found = true
+                else if (!blocked.contains(node) && seen.add(node)) pending ++= node._cfgOut.cast[CfgNode]
+              }
+              found
+            }
+            blockers.nonEmpty && origin != destination && reaches(Set.empty) && !reaches(blockers)
           }
-          blockers.nonEmpty && origin != use && reaches(Set.empty) && !reaches(blockers)
-        }
-      )
-    case _ => false
+        )
+      case _ => false
+    }
   }
 }
