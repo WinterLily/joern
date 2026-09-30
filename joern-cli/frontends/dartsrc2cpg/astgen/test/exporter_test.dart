@@ -35,6 +35,24 @@ void main() {
 
   tearDown(() => project.deleteSync(recursive: true));
 
+  test(
+    'distinguish list, set and map collection literals after resolution',
+    () async {
+      write(
+        'main.dart',
+        'void main() { print([1]); print({1}); print({1: 2}); }',
+      );
+      final unit = units(await export()).single;
+      expect(unit['status'], 'resolved');
+      expect(
+        entries(unit, 'nodes')
+            .where((node) => node.containsKey('collectionKind'))
+            .map((node) => node['collectionKind']),
+        ['list', 'set', 'map'],
+      );
+    },
+  );
+
   test('retain late storage and synthetic accessor identities', () async {
     write('main.dart', """
 class Box { late final int? initialized = null; late final int assigned; }

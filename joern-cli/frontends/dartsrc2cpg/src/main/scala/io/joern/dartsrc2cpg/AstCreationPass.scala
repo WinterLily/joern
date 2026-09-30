@@ -58,6 +58,7 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
     val receiverOverrides                  = mutable.Map.empty[Int, () => Ast]
     val labelTargets                       = mutable.Map.empty[String, (String, String)]
     val continueTargets                    = mutable.Map.empty[Int, String]
+    val collectionBodies                   = mutable.Map.empty[Int, () => Seq[Ast]]
     val guardedAccesses                    = mutable.Set.empty[Int]
 
     def children(syntax: Value, role: String): Seq[Value] =
@@ -544,6 +545,97 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
     def firstNullAware(syntax: Value): Option[Value] = chainReceiver(syntax).flatMap { receiver =>
       firstNullAware(receiver).orElse(if (nullAware(syntax)) Some(syntax) else None)
     }
+    def collection(syntax: Value): Ast = {
+      val elements = children(syntax, "element")
+      val expanded = elements.exists(element =>
+        Set("ForElement", "IfElement", "SpreadElement", "NullAwareElement")
+          .contains(string(element, "kind")) || bool(element, "nullAwareKey") || bool(element, "nullAwareValue")
+      )
+      if (!expanded) operator(syntax, Operators.arrayInitializer, elements.map(expression))
+      else {
+        val kind  = string(syntax, "collectionKind", "list")
+        val empty = operator(syntax, Operators.arrayInitializer, Nil)
+        empty.root.collect { case call: NewCall => call.code = (if (kind == "list") "[]" else "{}") }
+        savedSequence(syntax, empty) { target =>
+          def append(element: Value, value: Ast, spread: Boolean = false): Ast = {
+            val name =
+              if (spread) "<operator>.collectionExtend"
+              else
+                kind match {
+                  case "map" => "<operator>.mapPut"
+                  case "set" => "<operator>.setAdd"
+                  case _     => "<operator>.listAppend"
+                }
+            val updated = operator(element, name, Seq(target(), value))
+            updated.root.collect { case call: NewCall => call.typeFullName = tpe(syntax) }
+            val left       = target()
+            val assignment = operator(element, Operators.assignment, Seq(left, updated))
+            assignment.root.collect { case call: NewCall =>
+              call.code = s"${left.root.get.asInstanceOf[NewIdentifier].name} += ${code(element)}"
+              call.typeFullName = tpe(syntax)
+            }
+            assignment
+          }
+          def emit(element: Value): Seq[Ast] = string(element, "kind") match {
+            case "ForElement" =>
+              val id = element("id").num.toInt
+              collectionBodies(id) = () => emit(child(element, "body"))
+              try statements(element)
+              finally collectionBodies.remove(id)
+            case "IfElement" =>
+              Seq(
+                control(
+                  element,
+                  ControlStructureTypes.IF,
+                  condition(element),
+                  block(element, emit(child(element, "then"))),
+                  children(element, "else").headOption.map(other => block(other, emit(other)))
+                )
+              )
+            case "NullAwareElement" =>
+              Seq(
+                saved(element, expression(child(element, "expression")))(value =>
+                  control(
+                    element,
+                    ControlStructureTypes.IF,
+                    nonNull(element, value()),
+                    block(element, Seq(append(element, value())))
+                  )
+                )
+              )
+            case "SpreadElement" =>
+              def extend(value: Ast): Ast =
+                append(element, operator(element, "<operator>.spread", Seq(value)), spread = true)
+              Seq(
+                if (bool(element, "nullAware"))
+                  saved(element, expression(child(element, "expression")))(value =>
+                    control(
+                      element,
+                      ControlStructureTypes.IF,
+                      nonNull(element, value()),
+                      block(element, Seq(extend(value())))
+                    )
+                  )
+                else extend(expression(child(element, "expression")))
+              )
+            case "MapLiteralEntry" if bool(element, "nullAwareKey") || bool(element, "nullAwareValue") =>
+              Seq(saved(element, expression(child(element, "key"))) { key =>
+                def entry(): Ast = saved(element, expression(child(element, "value"))) { value =>
+                  val add = append(element, operator(element, "<operator>.keyValueAssociation", Seq(key(), value())))
+                  if (bool(element, "nullAwareValue"))
+                    control(element, ControlStructureTypes.IF, nonNull(element, value()), block(element, Seq(add)))
+                  else add
+                }
+                if (bool(element, "nullAwareKey"))
+                  control(element, ControlStructureTypes.IF, nonNull(element, key()), block(element, Seq(entry())))
+                else entry()
+              })
+            case _ => Seq(append(element, expression(element)))
+          }
+          elements.flatMap(emit) :+ target()
+        }
+      }
+    }
     def expression(syntax: Value): Ast = receiverOverrides.get(syntax("id").num.toInt) match {
       case Some(ref) => ref()
       case None      =>
@@ -764,42 +856,6 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
           if (bool(syntax, "star")) "<operator>.yieldAll" else "<operator>.yield",
           Seq(expression(child(syntax, "expression")))
         )
-      case "NullAwareElement" =>
-        saved(syntax, expression(child(syntax, "expression")))(ref =>
-          operator(
-            syntax,
-            Operators.conditional,
-            Seq(nonNull(syntax, ref()), ref(), operator(syntax, Operators.arrayInitializer, Nil))
-          )
-        )
-      case "SpreadElement" =>
-        if (bool(syntax, "nullAware"))
-          saved(syntax, expression(child(syntax, "expression")))(ref =>
-            operator(
-              syntax,
-              Operators.conditional,
-              Seq(
-                nonNull(syntax, ref()),
-                operator(syntax, "<operator>.spread", Seq(ref())),
-                operator(syntax, Operators.arrayInitializer, Nil)
-              )
-            )
-          )
-        else operator(syntax, "<operator>.spread", Seq(expression(child(syntax, "expression"))))
-      case "IfElement" =>
-        val cond = condition(syntax)
-        operator(
-          syntax,
-          Operators.conditional,
-          Seq(
-            cond,
-            expression(child(syntax, "then")),
-            children(syntax, "else").headOption
-              .map(expression)
-              .getOrElse(operator(syntax, Operators.arrayInitializer, Nil))
-          )
-        )
-      case "ForElement"       => block(syntax, statements(syntax))
       case "SimpleIdentifier" => reference(syntax, string(syntax, "reference"), string(syntax, "name"), None)
       case "ThisExpression" | "SuperExpression" => thisAst(syntax)
       case "StringLiteral" | "SymbolLiteral" | "IntegerLiteral" | "DoubleLiteral" | "BooleanLiteral" | "NullLiteral" =>
@@ -1020,29 +1076,8 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
         }
       case "StringInterpolation" | "AdjacentStrings" =>
         operator(syntax, "<operator>.formatString", children(syntax, "element").map(expression))
-      case "ListLiteral" | "SetOrMapLiteral" =>
-        operator(syntax, Operators.arrayInitializer, children(syntax, "element").map(expression))
-      case "MapLiteralEntry" if bool(syntax, "nullAwareKey") || bool(syntax, "nullAwareValue") =>
-        def entry(key: Ast): Ast = saved(syntax, expression(child(syntax, "value"))) { value =>
-          val association = operator(syntax, "<operator>.keyValueAssociation", Seq(key, value()))
-          if (bool(syntax, "nullAwareValue"))
-            operator(
-              syntax,
-              Operators.conditional,
-              Seq(nonNull(syntax, value()), association, operator(syntax, Operators.arrayInitializer, Nil))
-            )
-          else association
-        }
-        saved(syntax, expression(child(syntax, "key"))) { key =>
-          if (bool(syntax, "nullAwareKey"))
-            operator(
-              syntax,
-              Operators.conditional,
-              Seq(nonNull(syntax, key()), entry(key()), operator(syntax, Operators.arrayInitializer, Nil))
-            )
-          else entry(key())
-        }
-      case "MapLiteralEntry" =>
+      case "ListLiteral" | "SetOrMapLiteral" => collection(syntax)
+      case "MapLiteralEntry"                 =>
         operator(
           syntax,
           "<operator>.keyValueAssociation",
@@ -1086,7 +1121,8 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
     def jumpTarget(syntax: Value, name: String): Ast =
       Ast(located(NewJumpTarget().name(name).code(name).parserTypeName("Label"), syntax))
     def loopBody(syntax: Value): Seq[Ast] =
-      statements(child(syntax, "body")) ++ continueTargets.get(syntax("id").num.toInt).map(jumpTarget(syntax, _))
+      collectionBodies.get(syntax("id").num.toInt).map(_()).getOrElse(statements(child(syntax, "body"))) ++
+        continueTargets.get(syntax("id").num.toInt).map(jumpTarget(syntax, _))
     def withSwitchLabels(syntax: Value)(body: => Seq[Ast]): Seq[Ast] = {
       val previous = labelTargets.toMap
       children(syntax, "member").foreach { member =>

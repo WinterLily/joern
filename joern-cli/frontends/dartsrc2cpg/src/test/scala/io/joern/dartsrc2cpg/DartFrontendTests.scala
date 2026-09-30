@@ -77,6 +77,48 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
   }
 
   "Dart frontend" should {
+    "accumulate values across nested collection loops without treating conditions as elements" in {
+      for (
+        (elements, expected) <- Seq(
+          "for (var i = 0; i < 2; i++) for (var j = 0; j < 2; j++) value" -> true,
+          "for (var i = 0; i < value.length; i++) 'constant'"             -> false,
+          "if (value.isNotEmpty) 'constant' else 'other'"                 -> false
+        )
+      ) {
+        fixture(
+          s"List<String> relay(String value) => [$elements];",
+          "void main(List<String> args) { final input = args[0]; sink(relay(input).join()); }"
+        ) { (cpg, _) =>
+          cpg.call
+            .nameExact("sink")
+            .argument
+            .reachableByFlows(cpg.identifier.nameExact("input"))
+            .nonEmpty shouldBe expected
+          cpg.call.nameExact("<operator>.listAppend").nonEmpty shouldBe true
+        }
+      }
+    }
+    "retain set and map element updates with spread dependencies" in {
+      for (
+        (collection, operation, result) <- Seq(
+          ("<String>{for (var i = 0; i < 2; i++) value}", "<operator>.setAdd", "items.join()"),
+          ("<int, String>{for (var i = 0; i < 2; i++) i: value}", "<operator>.mapPut", "items[0]!"),
+          (
+            "<String>[...[value], for (var i = 0; i < 2; i++) 'constant']",
+            "<operator>.collectionExtend",
+            "items.join()"
+          )
+        )
+      ) {
+        fixture(
+          s"String relay(String value) { final items = $collection; return $result; }",
+          "void main(List<String> args) { final input = args[0]; sink(relay(input)); }"
+        ) { (cpg, _) =>
+          cpg.call.nameExact(operation).size shouldBe 1
+          assertFlow(cpg, true)
+        }
+      }
+    }
     "route returns through finally and exclude values replaced by abrupt cleanup" in {
       for (
         (cleanup, expected) <- Seq("cleanup();" -> true, "return 'constant';" -> false, "throw 'failure';" -> false)
@@ -1126,7 +1168,7 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         cpg.unknown.size shouldBe 0
         cpg.call.nameExact("key").size shouldBe 1
         cpg.call.nameExact("value").size shouldBe 2
-        cpg.call.nameExact("<operator>.conditional").size shouldBe 3
+        cpg.controlStructure.controlStructureTypeExact("IF").size shouldBe 3
         val entry = cpg.call.nameExact("<operator>.keyValueAssociation").head
         entry.argument.isIdentifier.size shouldBe 2
         cpg.call.nameExact("value").l.foreach(_.cfgNext.nonEmpty shouldBe true)
@@ -1255,7 +1297,7 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         cpg.call.nameExact("source").size shouldBe 1
         cpg.call.nameExact("<operator>.spread").size shouldBe 2
         cpg.controlStructure.controlStructureTypeExact("FOR", "WHILE").size shouldBe 2
-        cpg.call.nameExact("<operator>.conditional").size shouldBe 3
+        cpg.controlStructure.controlStructureTypeExact("IF").size shouldBe 3
       }
     }
     "mark async functions, await, yields and stream iteration" in {
@@ -1413,7 +1455,7 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         scan(config.copy(report = report.toString))
         val coverage = ujson.read(Files.readString(report))
         coverage("includedFiles").num shouldBe 0
-        coverage("exporter")("exporterVersion").str shouldBe "0.3.5"
+        coverage("exporter")("exporterVersion").str shouldBe "0.3.6"
         coverage("exporter")("sdkVersion").str shouldBe "3.9.2"
         coverage("exporter")("analyzerVersion").str shouldBe "8.4.1"
         Files.writeString(dir.resolve("excluded.dart"), "void excluded() {}")
@@ -1431,7 +1473,7 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         "offsetEncoding"  -> "utf-16",
         "analyzerVersion" -> "8.4.1",
         "sdkVersion"      -> "3.9.2",
-        "exporterVersion" -> "0.3.5"
+        "exporterVersion" -> "0.3.6"
       )
       intercept[IllegalArgumentException](ExportProtocol.units(Seq(valid)))
       intercept[IllegalArgumentException](

@@ -13,7 +13,7 @@ import 'package:analyzer/source/line_info.dart';
 import 'package:path/path.dart' as p;
 
 const protocolVersion = 1;
-const exporterVersion = '0.3.5';
+const exporterVersion = '0.3.6';
 const analyzerVersion = '8.4.1';
 const supportedSdkVersion = '3.9.2';
 
@@ -945,9 +945,15 @@ class _UnitEncoder {
         child('body', ast.body);
       case ListLiteral():
         kind = 'ListLiteral';
+        record['collectionKind'] = 'list';
         many('element', ast.elements);
       case SetOrMapLiteral():
         kind = 'SetOrMapLiteral';
+        record['collectionKind'] = ast.isMap
+            ? 'map'
+            : ast.isSet
+            ? 'set'
+            : 'unresolved';
         many('element', ast.elements);
       case MapLiteralEntry():
         kind = 'MapLiteralEntry';

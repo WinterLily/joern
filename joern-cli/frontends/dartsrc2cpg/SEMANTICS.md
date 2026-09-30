@@ -100,11 +100,15 @@ is not simulated. Dart class modifiers are retained as `dart.*` annotations;
 `abstract`/`sealed` also emit ABSTRACT and `final` emits FINAL. Dart `interface`
 is retained as an annotation, since it does not forbid method implementations.
 
-Collection spreads retain an explicit spread operator; null-aware spreads guard
-a single evaluation and produce an empty collection for null. Collection if
-uses a conditional; collection for uses the same loops and pattern bindings as
-statements. The loop body retains each element expression, but this does not
-simulate collection accumulation or exact membership across iterations.
+Expanded collection literals save an empty accumulator and update it with explicit
+`listAppend`, `setAdd`, `mapPut` or `collectionExtend` operations. Nested collection
+for/if bodies update the same accumulator; the expression yields its final value.
+Spreads retain an explicit spread operator. Null-aware spreads/elements evaluate
+once and skip null; null-aware map keys skip value evaluation when null.
+Element-value dependencies are tested separately from conditions that determine
+membership or multiplicity. These controls do not establish noninterference:
+selection can change observable output. The shared engine does not distinguish
+exact slots, duplicate set membership or map-key overwrites across iterations.
 
 Async/generator methods carry `dart.async`/`dart.generator` annotations. Await,
 yield and yield* become `<operator>.await`, `.yield` and `.yieldAll`. Await-for

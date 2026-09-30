@@ -7,7 +7,7 @@ unsupported protocol versions, and unsupported analyzer/exporter versions before
 constructing a graph. The Scala consumer validates the protocol, analyzer, SDK and offset encoding
 before constructing a graph. Exporter 0.3 adds modern-language fields to protocol 1.
 
-The header declares `protocolVersion` (1), `exporterVersion` (0.3.5),
+The header declares `protocolVersion` (1), `exporterVersion` (0.3.6),
 `analyzerVersion` (8.4.1), `sdkVersion` (3.9.2), and `offsetEncoding` (`utf-16`).
 No timestamps or checkout root are emitted. The exporter builds records one file
 at a time; the analyzer may retain project state internally.
@@ -154,3 +154,6 @@ compound assignments retain separate `read` and `write` accessor identities.
 Exporter 0.3.5 records `late` on variable symbols and the generated `getter`
 and `setter` identities for late fields/top-level variables. Local late
 initializers retain ordinary syntax; deferred execution is a lowering concern.
+
+Exporter 0.3.6 records `collectionKind` (`list`, `set`, `map`, or `unresolved`)
+on collection literals, using analyzer resolution to distinguish set/map updates.

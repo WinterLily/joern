@@ -11,7 +11,7 @@
     "project": "collection-1.19.1",
     "files": 29,
     "methods": 685,
-    "calls": 4442,
+    "calls": 4472,
     "unknown": 0,
     "unknownKinds": {}
   },
@@ -27,7 +27,7 @@
     "project": "args-2.7.0",
     "files": 12,
     "methods": 155,
-    "calls": 1921,
+    "calls": 1960,
     "unknown": 0,
     "unknownKinds": {}
   },
@@ -35,7 +35,7 @@
     "project": "async-2.13.0",
     "files": 45,
     "methods": 537,
-    "calls": 3102,
+    "calls": 3110,
     "unknown": 0,
     "unknownKinds": {}
   },
@@ -51,7 +51,7 @@
     "project": "analyzer-8.4.1",
     "files": 458,
     "methods": 22221,
-    "calls": 200894,
+    "calls": 201620,
     "unknown": 0,
     "unknownKinds": {}
   }

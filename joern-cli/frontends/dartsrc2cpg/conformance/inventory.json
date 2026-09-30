@@ -42,6 +42,15 @@
       "valueFlow": "DartFrontendTests: yield the assigned value independently of setter and index-setter returns",
       "negative": "DartFrontendTests: resolve user operators and distinguish their returned arguments from constants",
       "interaction": "astgen/test/operator_evaluation_test.dart: bounded -1..1 prefix/postfix and compound update traces"
+    },
+    "collections": {
+      "exporter": "astgen/test/exporter_test.dart: resolved collection kinds",
+      "lowering": "DartFrontendTests: retain set and map element updates with spread dependencies",
+      "resolution": "analyzer collectionKind and loop-local REF identities",
+      "cfg": "DartFrontendTests: null-aware collection entry guards; nested collection loops",
+      "valueFlow": "DartFrontendTests: accumulate values across nested collection loops without treating conditions as elements",
+      "negative": "same regression: loop bound and selection-only inputs are not element-value flow",
+      "interaction": "astgen/test/collection_evaluation_test.dart: bounded 0..2 nested iterations, null-aware evaluation, set deduplication and map overwrite execution oracle"
     }
   },
   "constructs": [
@@ -545,9 +554,9 @@
       "construct": "ForElement",
       "scope": "dart-3.9",
       "exporterCase": "ForElement",
-      "contract": "syntax",
-      "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "contract": "collections",
+      "qualification": "conservative",
+      "reason": "Accumulator element-value flow and evaluation order tested; exact membership, multiplicity and slot/overwrite precision are outside the shared heap contract."
     },
     {
       "construct": "FormalParameterList",
@@ -681,9 +690,9 @@
       "construct": "IfElement",
       "scope": "dart-3.9",
       "exporterCase": "IfElement",
-      "contract": "syntax",
-      "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "contract": "collections",
+      "qualification": "conservative",
+      "reason": "Accumulator element-value flow and evaluation order tested; exact membership, multiplicity and slot/overwrite precision are outside the shared heap contract."
     },
     {
       "construct": "IfStatement",
@@ -809,9 +818,9 @@
       "construct": "ListLiteral",
       "scope": "dart-3.9",
       "exporterCase": "ListLiteral",
-      "contract": "syntax",
-      "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "contract": "collections",
+      "qualification": "conservative",
+      "reason": "Accumulator element-value flow and evaluation order tested; exact membership, multiplicity and slot/overwrite precision are outside the shared heap contract."
     },
     {
       "construct": "ListPattern",
@@ -841,9 +850,9 @@
       "construct": "MapLiteralEntry",
       "scope": "dart-3.9",
       "exporterCase": "MapLiteralEntry",
-      "contract": "syntax",
-      "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "contract": "collections",
+      "qualification": "conservative",
+      "reason": "Accumulator element-value flow and evaluation order tested; exact membership, multiplicity and slot/overwrite precision are outside the shared heap contract."
     },
     {
       "construct": "MapPattern",
@@ -945,9 +954,9 @@
       "construct": "NullAwareElement",
       "scope": "dart-3.9",
       "exporterCase": "NullAwareElement",
-      "contract": "syntax",
-      "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "contract": "collections",
+      "qualification": "conservative",
+      "reason": "Accumulator element-value flow and evaluation order tested; exact membership, multiplicity and slot/overwrite precision are outside the shared heap contract."
     },
     {
       "construct": "NullCheckPattern",
@@ -1185,9 +1194,9 @@
       "construct": "SetOrMapLiteral",
       "scope": "dart-3.9",
       "exporterCase": "SetOrMapLiteral",
-      "contract": "syntax",
-      "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "contract": "collections",
+      "qualification": "conservative",
+      "reason": "Accumulator element-value flow and evaluation order tested; exact membership, multiplicity and slot/overwrite precision are outside the shared heap contract."
     },
     {
       "construct": "ShowCombinator",
@@ -1225,9 +1234,9 @@
       "construct": "SpreadElement",
       "scope": "dart-3.9",
       "exporterCase": "SpreadElement",
-      "contract": "syntax",
-      "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "contract": "collections",
+      "qualification": "conservative",
+      "reason": "Accumulator element-value flow and evaluation order tested; exact membership, multiplicity and slot/overwrite precision are outside the shared heap contract."
     },
     {
       "construct": "StringInterpolation",
