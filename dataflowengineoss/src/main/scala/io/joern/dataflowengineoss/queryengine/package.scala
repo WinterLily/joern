@@ -24,7 +24,8 @@ package object queryengine {
     sink: CfgNode,
     callSiteStack: List[Call],
     callDepth: Int,
-    outputChannel: OutputChannel = OutputChannel.Normal
+    outputChannel: OutputChannel = OutputChannel.Normal,
+    fieldDemand: List[String] = Nil
   )
 
   /** A (partial) result, informing about a path that exists from a source to another node in the graph.
@@ -86,7 +87,8 @@ package object queryengine {
     callSiteStack: List[Call] = List(),
     visible: Boolean = true,
     isOutputArg: Boolean = false,
-    outEdgeLabel: String = ""
+    outEdgeLabel: String = "",
+    fieldDemand: List[String] = Nil
   ) {
     def outputChannel: OutputChannel = node match {
       case _: Call => OutputChannel.fromEdge(outEdgeLabel)

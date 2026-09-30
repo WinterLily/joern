@@ -171,7 +171,9 @@ class Engine(context: EngineContext) {
         } else {
           withMaxLength.minBy { x =>
             x.path
-              .map(x => (x.node.id, x.callSiteStack.map(_.id), x.visible, x.isOutputArg, x.outEdgeLabel).toString)
+              .map(x =>
+                (x.node.id, x.callSiteStack.map(_.id), x.visible, x.isOutputArg, x.outEdgeLabel, x.fieldDemand).toString
+              )
               .mkString("-")
           }
         }
@@ -197,10 +199,23 @@ object Engine {
     * @param path
     *   the path that has been expanded to reach the `curNode`
     */
-  def expandIn(curNode: CfgNode, path: Vector[PathElement], callSiteStack: List[Call] = List())(implicit
-    semantics: Semantics
-  ): Vector[PathElement] = {
-    ddgInE(curNode, path, callSiteStack).flatMap(x => elemForEdge(x, callSiteStack))
+  def expandIn(
+    curNode: CfgNode,
+    path: Vector[PathElement],
+    callSiteStack: List[Call] = List(),
+    config: EngineConfig = EngineConfig()
+  )(implicit semantics: Semantics): Vector[PathElement] = {
+    val demand = path.headOption.map(_.fieldDemand).getOrElse(Nil)
+    ddgInE(curNode, path, callSiteStack).flatMap { edge =>
+      elemForEdge(edge, callSiteStack).flatMap { parent =>
+        FieldDemand
+          .transfer(curNode, parent.node.asInstanceOf[CfgNode], demand)
+          .map { fields =>
+            if (fields.size > config.maxFieldDepth) config.diagnostics.foreach(_.record("field-depth-widening"))
+            parent.copy(fieldDemand = fields.take(config.maxFieldDepth))
+          }
+      }
+    }
   }
 
   private def elemForEdge(e: Edge, callSiteStack: List[Call] = List())(implicit
@@ -321,6 +336,8 @@ case class EngineContext(semantics: Semantics = DefaultSemantics(), config: Engi
   *   max limit to determine all corresponding arguments at all call sites to the method
   * @param maxOutputArgsExpansion
   *   max limit on number arguments for which tasks will be created for unresolved arguments
+  * @param maxFieldDepth
+  *   maximum tracked constant-field prefix; deeper suffixes are conservatively widened
   */
 case class EngineConfig(
   var maxCallDepth: Int = 4,
@@ -328,8 +345,11 @@ case class EngineConfig(
   shareCacheBetweenTasks: Boolean = true,
   maxArgsToAllow: Int = 1000,
   maxOutputArgsExpansion: Int = 1000,
-  diagnostics: Option[QueryDiagnostics] = None
-)
+  diagnostics: Option[QueryDiagnostics] = None,
+  maxFieldDepth: Int = 4
+) {
+  require(maxFieldDepth >= 0, "Field depth must be nonnegative")
+}
 
 /** Per-query evidence that a search omitted work. Use a fresh instance for each query. */
 class QueryDiagnostics {

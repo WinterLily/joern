@@ -40,12 +40,19 @@ class TaskCreator(context: EngineContext) {
               ExitRouting.escaping(method).toVector.flatMap {
                 case thrown: ControlStructure =>
                   thrown._argumentOut.cast[Expression].filter(_.argumentIndex == channel.argumentIndex).map { operand =>
-                    val fingerprint = TaskFingerprint(operand, callStack, result.callDepth + 1)
-                    val path        = Vector(PathElement(thrown, callStack)) ++ result.path
+                    val fingerprint = TaskFingerprint(
+                      operand,
+                      callStack,
+                      result.callDepth + 1,
+                      fieldDemand = result.path.head.fieldDemand
+                    )
+                    val path =
+                      Vector(PathElement(thrown, callStack, fieldDemand = result.path.head.fieldDemand)) ++ result.path
                     ReachableByTask(result.taskStack :+ fingerprint, path)
                   }
                 case nested: Call =>
-                  val fingerprint = TaskFingerprint(nested, callStack, result.callDepth + 1, channel)
+                  val fingerprint =
+                    TaskFingerprint(nested, callStack, result.callDepth + 1, channel, result.path.head.fieldDemand)
                   Vector(ReachableByTask(result.taskStack :+ fingerprint, result.path))
                 case _ => Vector.empty
               }
@@ -90,12 +97,28 @@ class TaskCreator(context: EngineContext) {
         case callSite :: tail =>
           // Case 1
           paramToArgs(param).filter(x => x.inCall.exists(c => c == callSite)).map { arg =>
-            ReachableByTask(result.taskStack :+ TaskFingerprint(arg, tail, result.callDepth - 1), result.path)
+            ReachableByTask(
+              result.taskStack :+ TaskFingerprint(
+                arg,
+                tail,
+                result.callDepth - 1,
+                fieldDemand = result.path.head.fieldDemand
+              ),
+              result.path
+            )
           }
         case _ =>
           // Case 2
           paramToArgs(param).map { arg =>
-            ReachableByTask(result.taskStack :+ TaskFingerprint(arg, List(), result.callDepth + 1), result.path)
+            ReachableByTask(
+              result.taskStack :+ TaskFingerprint(
+                arg,
+                List(),
+                result.callDepth + 1,
+                fieldDemand = result.path.head.fieldDemand
+              ),
+              result.path
+            )
           }
       }
     }
@@ -166,9 +189,15 @@ class TaskCreator(context: EngineContext) {
               }
             } else {
               returnStatements.map { returnStatement =>
-                val newPath   = Vector(PathElement(methodReturn, result.callSiteStack)) ++ path
+                val newPath =
+                  Vector(PathElement(methodReturn, result.callSiteStack, fieldDemand = path.head.fieldDemand)) ++ path
                 val taskStack =
-                  result.taskStack :+ TaskFingerprint(returnStatement, call :: result.callSiteStack, callDepth + 1)
+                  result.taskStack :+ TaskFingerprint(
+                    returnStatement,
+                    call :: result.callSiteStack,
+                    callDepth + 1,
+                    fieldDemand = path.head.fieldDemand
+                  )
                 ReachableByTask(taskStack, newPath)
               }
             }
@@ -186,7 +215,10 @@ class TaskCreator(context: EngineContext) {
             .map { p =>
               val newStack =
                 arg.inCall.headOption.map { x => x :: result.callSiteStack }.getOrElse(result.callSiteStack)
-              ReachableByTask(result.taskStack :+ TaskFingerprint(p, newStack, callDepth + 1), path)
+              ReachableByTask(
+                result.taskStack :+ TaskFingerprint(p, newStack, callDepth + 1, fieldDemand = path.head.fieldDemand),
+                path
+              )
             }
         case _ => Vector.empty
       }
@@ -199,9 +231,15 @@ class TaskCreator(context: EngineContext) {
           methodReturns.flatMap { methodReturn =>
             val returnStatements = methodReturn._reachingDefIn.toList.collect { case r: Return => r }
             returnStatements.map { returnStatement =>
-              val newPath   = Vector(PathElement(methodReturn, result.callSiteStack)) ++ path
+              val newPath =
+                Vector(PathElement(methodReturn, result.callSiteStack, fieldDemand = path.head.fieldDemand)) ++ path
               val taskStack =
-                result.taskStack :+ TaskFingerprint(returnStatement, result.callSiteStack, callDepth + 1)
+                result.taskStack :+ TaskFingerprint(
+                  returnStatement,
+                  result.callSiteStack,
+                  callDepth + 1,
+                  fieldDemand = path.head.fieldDemand
+                )
               ReachableByTask(taskStack, newPath)
             }
           }

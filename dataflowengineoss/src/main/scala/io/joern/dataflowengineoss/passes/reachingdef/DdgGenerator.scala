@@ -95,6 +95,12 @@ class DdgGenerator(semantics: Semantics) {
     /** Adds incoming edges to arguments of call sites, including edges between arguments of the same call site.
       */
     def addEdgesToCallSite(call: Call): Unit = {
+      if (
+        call.name == Operators.fieldAccess &&
+        !call.inCall.exists(parent => parent.name == Operators.assignment && call.argumentIndex == 1)
+      ) {
+        call.argumentOption(1).collect { case base: Call => addEdge(base, call, nodeToEdgeLabel(base)) }
+      }
       // Edges between arguments of call sites
       usageAnalyzer.usedIncomingDefs(call).foreach { case (use, ins) =>
         ins.foreach { in =>

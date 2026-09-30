@@ -42,7 +42,8 @@ class HeldTaskCompletion(
           x.fingerprint.sink.id,
           x.fingerprint.callSiteStack.map(_.id).toString,
           x.callDepth,
-          x.fingerprint.outputChannel.ordinal
+          x.fingerprint.outputChannel.ordinal,
+          x.fingerprint.fieldDemand.toString
         )
       )
     var resultsProducedByTask: Map[ReachableByTask, Set[(TaskFingerprint, TableEntry)]] = Map()
@@ -108,8 +109,8 @@ class HeldTaskCompletion(
     parentTasks
       .map { parentTask =>
         val stopIndex = initialPath
-          .map(x => (x.node, x.callSiteStack, x.outputChannel))
-          .indexOf((parentTask.sink, parentTask.callSiteStack, parentTask.outputChannel)) + 1
+          .map(x => (x.node, x.callSiteStack, x.outputChannel, x.fieldDemand))
+          .indexOf((parentTask.sink, parentTask.callSiteStack, parentTask.outputChannel, parentTask.fieldDemand)) + 1
         val initialPathOnlyUpToSink = initialPath.slice(0, stopIndex)
         val newPath                 = result.path ++ initialPathOnlyUpToSink
         (parentTask, TableEntry(newPath))
@@ -118,7 +119,7 @@ class HeldTaskCompletion(
   }
 
   private def containsCycle(tableEntry: TableEntry): Boolean = {
-    val pathSeq = tableEntry.path.map(x => (x.node, x.callSiteStack, x.isOutputArg, x.outEdgeLabel))
+    val pathSeq = tableEntry.path.map(x => (x.node, x.callSiteStack, x.isOutputArg, x.outEdgeLabel, x.fieldDemand))
     pathSeq.distinct.size == pathSeq.size
   }
 
@@ -149,8 +150,10 @@ class HeldTaskCompletion(
   private def deduplicateTableEntries(list: List[TableEntry]): List[TableEntry] = {
     list
       .groupBy { result =>
-        val head = result.path.headOption.map(x => (x.node, x.callSiteStack, x.isOutputArg, x.outputChannel)).get
-        val last = result.path.lastOption.map(x => (x.node, x.callSiteStack, x.isOutputArg, x.outputChannel)).get
+        val head =
+          result.path.headOption.map(x => (x.node, x.callSiteStack, x.isOutputArg, x.outputChannel, x.fieldDemand)).get
+        val last =
+          result.path.lastOption.map(x => (x.node, x.callSiteStack, x.isOutputArg, x.outputChannel, x.fieldDemand)).get
         (head, last)
       }
       .map { case (_, list) =>
@@ -165,7 +168,9 @@ class HeldTaskCompletion(
         } else {
           withMaxLength.minBy { x =>
             x.path
-              .map(x => (x.node.id, x.callSiteStack.map(_.id), x.visible, x.isOutputArg, x.outEdgeLabel).toString)
+              .map(x =>
+                (x.node.id, x.callSiteStack.map(_.id), x.visible, x.isOutputArg, x.outEdgeLabel, x.fieldDemand).toString
+              )
               .mkString("-")
           }
         }

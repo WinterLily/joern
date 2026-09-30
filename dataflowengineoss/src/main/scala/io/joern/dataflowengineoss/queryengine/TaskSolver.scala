@@ -30,7 +30,12 @@ class TaskSolver(task: ReachableByTask, context: EngineContext, sources: Set[Cfg
   override def call(): TaskSummary = {
     implicit val sem: Semantics = context.semantics
     val path                    = Vector(
-      PathElement(task.sink, task.callSiteStack, outEdgeLabel = task.fingerprint.outputChannel.edgeLabel)
+      PathElement(
+        task.sink,
+        task.callSiteStack,
+        outEdgeLabel = task.fingerprint.outputChannel.edgeLabel,
+        fieldDemand = task.fingerprint.fieldDemand
+      )
     )
     val table: mutable.Map[TaskFingerprint, Vector[ReachableByResult]] = mutable.Map()
     results(task.sink, path, table, task.callSiteStack)
@@ -51,12 +56,14 @@ class TaskSolver(task: ReachableByTask, context: EngineContext, sources: Set[Cfg
       val parentTask = r.taskStack(i)
       val pathToSink = r.path.takeWhile(element =>
         element.node != parentTask.sink ||
-          element.callSiteStack != parentTask.callSiteStack || element.outputChannel != parentTask.outputChannel
+          element.callSiteStack != parentTask.callSiteStack || element.outputChannel != parentTask.outputChannel ||
+          element.fieldDemand != parentTask.fieldDemand
       )
       val newPath = pathToSink :+ PathElement(
         parentTask.sink,
         parentTask.callSiteStack,
-        outEdgeLabel = parentTask.outputChannel.edgeLabel
+        outEdgeLabel = parentTask.outputChannel.edgeLabel,
+        fieldDemand = parentTask.fieldDemand
       )
       (parentTask, TableEntry(path = newPath))
     }.toList
@@ -90,16 +97,22 @@ class TaskSolver(task: ReachableByTask, context: EngineContext, sources: Set[Cfg
       * table. If not, determine results recursively.
       */
     def computeResultsForParents() = {
-      deduplicateWithinTask(expandIn(curNode.asInstanceOf[CfgNode], path, callSiteStack).iterator.flatMap { parent =>
-        createResultsFromCacheOrCompute(parent, path)
-      }.toVector)
+      deduplicateWithinTask(
+        expandIn(curNode.asInstanceOf[CfgNode], path, callSiteStack, context.config).iterator.flatMap { parent =>
+          createResultsFromCacheOrCompute(parent, path)
+        }.toVector
+      )
     }
 
     def deduplicateWithinTask(vec: Vector[ReachableByResult]): Vector[ReachableByResult] = {
       vec
         .groupBy { result =>
-          val head = result.path.headOption.map(x => (x.node, x.callSiteStack, x.isOutputArg, x.outputChannel)).get
-          val last = result.path.lastOption.map(x => (x.node, x.callSiteStack, x.isOutputArg, x.outputChannel)).get
+          val head = result.path.headOption
+            .map(x => (x.node, x.callSiteStack, x.isOutputArg, x.outputChannel, x.fieldDemand))
+            .get
+          val last = result.path.lastOption
+            .map(x => (x.node, x.callSiteStack, x.isOutputArg, x.outputChannel, x.fieldDemand))
+            .get
           (head, last, result.partial, result.callDepth)
         }
         .map { case (_, list) =>
@@ -117,7 +130,16 @@ class TaskSolver(task: ReachableByTask, context: EngineContext, sources: Set[Cfg
                 x.taskStack
                   .map(x => x.sink.id.toString + ":" + x.callSiteStack.map(_.id).mkString("|"))
                   .toString + " " + x.path
-                  .map(x => (x.node.id, x.callSiteStack.map(_.id), x.visible, x.isOutputArg, x.outEdgeLabel).toString)
+                  .map(x =>
+                    (
+                      x.node.id,
+                      x.callSiteStack.map(_.id),
+                      x.visible,
+                      x.isOutputArg,
+                      x.outEdgeLabel,
+                      x.fieldDemand
+                    ).toString
+                  )
                   .mkString("-")
             }
           }
@@ -148,17 +170,26 @@ class TaskSolver(task: ReachableByTask, context: EngineContext, sources: Set[Cfg
       remainder: Vector[PathElement],
       callDepth: Int
     ): Option[Vector[ReachableByResult]] = {
-      table.get(TaskFingerprint(first.node.asInstanceOf[CfgNode], callSiteStack, callDepth, first.outputChannel)).map {
-        res =>
+      table
+        .get(
+          TaskFingerprint(
+            first.node.asInstanceOf[CfgNode],
+            callSiteStack,
+            callDepth,
+            first.outputChannel,
+            first.fieldDemand
+          )
+        )
+        .map { res =>
           res.map { r =>
             val stopIndex = r.path
-              .map(x => (x.node, x.callSiteStack, x.outputChannel))
-              .indexOf((first.node, first.callSiteStack, first.outputChannel))
+              .map(x => (x.node, x.callSiteStack, x.outputChannel, x.fieldDemand))
+              .indexOf((first.node, first.callSiteStack, first.outputChannel, first.fieldDemand))
             val pathToFirstNode = r.path.slice(0, stopIndex)
             val completePath    = pathToFirstNode ++ (first +: remainder)
             r.copy(path = Vector(completePath.head) ++ completePath.tail)
           }
-      }
+        }
     }
 
     def createPartialResultForOutputArgOrRet() = {
@@ -211,7 +242,13 @@ class TaskSolver(task: ReachableByTask, context: EngineContext, sources: Set[Cfg
         computeResultsForParents()
     }
     val key =
-      TaskFingerprint(curNode.asInstanceOf[CfgNode], task.callSiteStack, task.callDepth, path.head.outputChannel)
+      TaskFingerprint(
+        curNode.asInstanceOf[CfgNode],
+        task.callSiteStack,
+        task.callDepth,
+        path.head.outputChannel,
+        path.head.fieldDemand
+      )
     table.updateWith(key) {
       case Some(existingValue) => Some(existingValue ++ res)
       case None                => Some(res)
@@ -221,9 +258,9 @@ class TaskSolver(task: ReachableByTask, context: EngineContext, sources: Set[Cfg
 
   private def isArgOrRetOfMethodWeCameFrom(call: Call, path: Vector[PathElement]): Boolean =
     path match {
-      case Vector(_, PathElement(x: MethodReturn, _, _, _, _), _*)      => methodsForCall(call).contains(x.method)
-      case Vector(_, PathElement(x: MethodParameterIn, _, _, _, _), _*) => methodsForCall(call).contains(x.method)
-      case _                                                            => false
+      case Vector(_, PathElement(x: MethodReturn, _, _, _, _, _), _*)      => methodsForCall(call).contains(x.method)
+      case Vector(_, PathElement(x: MethodParameterIn, _, _, _, _, _), _*) => methodsForCall(call).contains(x.method)
+      case _                                                               => false
     }
 
 }
