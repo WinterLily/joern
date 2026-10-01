@@ -3,8 +3,8 @@
     "project": "path-1.9.1",
     "analysisSources": {
       "algorithm": "sha256-path-nul-content-nul",
-      "sha256": "ddf35474712ce8ae07f1e8edc1c5430e85919c69cf9af34e9911f685a4b9284f",
-      "files": 389,
+      "sha256": "9e629ed09004d9533c8160ef55c5ccd7c00a7a27f7932df195c0473a403c8b67",
+      "files": 391,
       "roots": [
         "joern-cli/frontends/dartsrc2cpg/src",
         "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -57,7 +57,8 @@
     "defaultArguments": {
       "adaptedCalls": 0,
       "targetAdapters": 0,
-      "externalTargetAdapters": 0
+      "externalTargetAdapters": 0,
+      "adapterLinks": 0
     },
     "modelFiles": {
       "async": "# Completer.completeError stores the error and stack trace in the completer.\n# It does not copy either argument into the other and has no return value.\n# Load these method names as regular expressions; declaration offsets may vary.\n\"dart:async/future[.]dart\\x23[0-9]+:METHOD:completeError\" 0 -> 0 1 -> 1 2 -> 2 1 -> 0 2 -> 0\n",
@@ -208,8 +209,8 @@
     "project": "collection-1.19.1",
     "analysisSources": {
       "algorithm": "sha256-path-nul-content-nul",
-      "sha256": "ddf35474712ce8ae07f1e8edc1c5430e85919c69cf9af34e9911f685a4b9284f",
-      "files": 389,
+      "sha256": "9e629ed09004d9533c8160ef55c5ccd7c00a7a27f7932df195c0473a403c8b67",
+      "files": 391,
       "roots": [
         "joern-cli/frontends/dartsrc2cpg/src",
         "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -262,7 +263,8 @@
     "defaultArguments": {
       "adaptedCalls": 0,
       "targetAdapters": 0,
-      "externalTargetAdapters": 0
+      "externalTargetAdapters": 0,
+      "adapterLinks": 0
     },
     "modelFiles": {
       "async": "# Completer.completeError stores the error and stack trace in the completer.\n# It does not copy either argument into the other and has no return value.\n# Load these method names as regular expressions; declaration offsets may vary.\n\"dart:async/future[.]dart\\x23[0-9]+:METHOD:completeError\" 0 -> 0 1 -> 1 2 -> 2 1 -> 0 2 -> 0\n",
@@ -456,8 +458,8 @@
     "project": "meta-1.17.0",
     "analysisSources": {
       "algorithm": "sha256-path-nul-content-nul",
-      "sha256": "ddf35474712ce8ae07f1e8edc1c5430e85919c69cf9af34e9911f685a4b9284f",
-      "files": 389,
+      "sha256": "9e629ed09004d9533c8160ef55c5ccd7c00a7a27f7932df195c0473a403c8b67",
+      "files": 391,
       "roots": [
         "joern-cli/frontends/dartsrc2cpg/src",
         "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -510,7 +512,8 @@
     "defaultArguments": {
       "adaptedCalls": 0,
       "targetAdapters": 0,
-      "externalTargetAdapters": 0
+      "externalTargetAdapters": 0,
+      "adapterLinks": 0
     },
     "modelFiles": {
       "async": "# Completer.completeError stores the error and stack trace in the completer.\n# It does not copy either argument into the other and has no return value.\n# Load these method names as regular expressions; declaration offsets may vary.\n\"dart:async/future[.]dart\\x23[0-9]+:METHOD:completeError\" 0 -> 0 1 -> 1 2 -> 2 1 -> 0 2 -> 0\n",
@@ -756,8 +759,8 @@
     "project": "args-2.7.0",
     "analysisSources": {
       "algorithm": "sha256-path-nul-content-nul",
-      "sha256": "ddf35474712ce8ae07f1e8edc1c5430e85919c69cf9af34e9911f685a4b9284f",
-      "files": 389,
+      "sha256": "9e629ed09004d9533c8160ef55c5ccd7c00a7a27f7932df195c0473a403c8b67",
+      "files": 391,
       "roots": [
         "joern-cli/frontends/dartsrc2cpg/src",
         "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -810,7 +813,8 @@
     "defaultArguments": {
       "adaptedCalls": 0,
       "targetAdapters": 0,
-      "externalTargetAdapters": 0
+      "externalTargetAdapters": 0,
+      "adapterLinks": 0
     },
     "modelFiles": {
       "async": "# Completer.completeError stores the error and stack trace in the completer.\n# It does not copy either argument into the other and has no return value.\n# Load these method names as regular expressions; declaration offsets may vary.\n\"dart:async/future[.]dart\\x23[0-9]+:METHOD:completeError\" 0 -> 0 1 -> 1 2 -> 2 1 -> 0 2 -> 0\n",
@@ -989,8 +993,8 @@
     "project": "async-2.13.0",
     "analysisSources": {
       "algorithm": "sha256-path-nul-content-nul",
-      "sha256": "ddf35474712ce8ae07f1e8edc1c5430e85919c69cf9af34e9911f685a4b9284f",
-      "files": 389,
+      "sha256": "9e629ed09004d9533c8160ef55c5ccd7c00a7a27f7932df195c0473a403c8b67",
+      "files": 391,
       "roots": [
         "joern-cli/frontends/dartsrc2cpg/src",
         "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -1043,7 +1047,8 @@
     "defaultArguments": {
       "adaptedCalls": 0,
       "targetAdapters": 0,
-      "externalTargetAdapters": 0
+      "externalTargetAdapters": 0,
+      "adapterLinks": 0
     },
     "modelFiles": {
       "async": "# Completer.completeError stores the error and stack trace in the completer.\n# It does not copy either argument into the other and has no return value.\n# Load these method names as regular expressions; declaration offsets may vary.\n\"dart:async/future[.]dart\\x23[0-9]+:METHOD:completeError\" 0 -> 0 1 -> 1 2 -> 2 1 -> 0 2 -> 0\n",
@@ -1198,8 +1203,8 @@
     "project": "http_parser-4.1.2",
     "analysisSources": {
       "algorithm": "sha256-path-nul-content-nul",
-      "sha256": "ddf35474712ce8ae07f1e8edc1c5430e85919c69cf9af34e9911f685a4b9284f",
-      "files": 389,
+      "sha256": "9e629ed09004d9533c8160ef55c5ccd7c00a7a27f7932df195c0473a403c8b67",
+      "files": 391,
       "roots": [
         "joern-cli/frontends/dartsrc2cpg/src",
         "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -1252,7 +1257,8 @@
     "defaultArguments": {
       "adaptedCalls": 0,
       "targetAdapters": 0,
-      "externalTargetAdapters": 0
+      "externalTargetAdapters": 0,
+      "adapterLinks": 0
     },
     "modelFiles": {
       "async": "# Completer.completeError stores the error and stack trace in the completer.\n# It does not copy either argument into the other and has no return value.\n# Load these method names as regular expressions; declaration offsets may vary.\n\"dart:async/future[.]dart\\x23[0-9]+:METHOD:completeError\" 0 -> 0 1 -> 1 2 -> 2 1 -> 0 2 -> 0\n",
@@ -1403,8 +1409,8 @@
     "project": "analyzer-8.4.1",
     "analysisSources": {
       "algorithm": "sha256-path-nul-content-nul",
-      "sha256": "ddf35474712ce8ae07f1e8edc1c5430e85919c69cf9af34e9911f685a4b9284f",
-      "files": 389,
+      "sha256": "9e629ed09004d9533c8160ef55c5ccd7c00a7a27f7932df195c0473a403c8b67",
+      "files": 391,
       "roots": [
         "joern-cli/frontends/dartsrc2cpg/src",
         "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -1441,7 +1447,7 @@
       "conditionalEnvironment": "analyzer-default"
     },
     "overlay": {
-      "methods": 30403,
+      "methods": 30363,
       "maxDefinitions": 6711,
       "definitionLimit": 20000,
       "aboveDefaultLimit": {
@@ -1458,8 +1464,9 @@
     },
     "defaultArguments": {
       "adaptedCalls": 182,
-      "targetAdapters": 2006,
-      "externalTargetAdapters": 0
+      "targetAdapters": 1966,
+      "externalTargetAdapters": 0,
+      "adapterLinks": 2006
     },
     "modelFiles": {
       "async": "# Completer.completeError stores the error and stack trace in the completer.\n# It does not copy either argument into the other and has no return value.\n# Load these method names as regular expressions; declaration offsets may vary.\n\"dart:async/future[.]dart\\x23[0-9]+:METHOD:completeError\" 0 -> 0 1 -> 1 2 -> 2 1 -> 0 2 -> 0\n",
@@ -1467,7 +1474,7 @@
       "iterable": "# Dart SDK 3.9.2: lib/core/iterable.dart and lib/internal/iterable.dart.\n# Explicit element values with pure predicates/transforms and statically known callbacks.\n# Selection, lazy execution timing and callback side effects are outside this contract.\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:where\" 0 -> 0 1 -> 1 0 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:map\" 0 -> 0 1 -> 1 1 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:join\" 0 -> 0 1 -> 1 0 -> -1 1 -> -1\n",
       "bytes": "# Dart SDK 3.9.2 byte-content contract for Uint8List allocation and standard List.setRange.\n# Length/range inputs select size and positions; they are not copied element values.\n# Keep the constructor offset exact: other dart:typed_data unnamed constructors include SIMD values.\n\"dart:typed_data\\x2336552:CONSTRUCTOR:new\" 1 -> 1\n\"dart:core/list[.]dart\\x2329446:METHOD:setRange\" 0 -> 0 1 -> 1 2 -> 2 3 -> 3 4 -> 4 3 -> 0\n"
     },
-    "reachingDefEdges": 1708803,
+    "reachingDefEdges": 1707695,
     "maxCallDepth": 4,
     "maxFieldDepth": 4,
     "pathSelection": "longest-per-endpoint-pair",

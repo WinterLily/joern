@@ -65,8 +65,11 @@ retain analyzer-selected hierarchy implementations, including covariant/generic
 overrides and source implicit field accessor bodies. Private library identity and
 receiver static-type filtering have isolation regressions. Differing override defaults, extra optional parameters and reordered named
 input/output bindings now have per-target adapters, bounded SDK oracles and
-independent receiver regressions. Runtime receiver contexts remain open. Runtime type environments and bound checks remain
-open. Mixin superclass operations now include preceding implementations from
+independent receiver regressions. Default adapters now share equivalent bodies
+without merging omission masks or captures; cross-file positional defaults and
+receiver/argument traces have SDK/graph controls. Captured receiver state flows
+through explicit entry-point capture edges. Runtime receiver contexts, runtime
+type environments and bound checks remain open. Mixin superclass operations now include preceding implementations from
 observed applications, with private lookup, cross-file and bound-operation
 regressions. Application-specific contexts remain open; default adaptation preserves each selected target's named slots. Broader dispatch and
 type-model qualification remain open. This is

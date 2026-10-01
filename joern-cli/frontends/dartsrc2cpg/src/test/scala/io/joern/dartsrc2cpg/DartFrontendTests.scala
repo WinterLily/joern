@@ -77,6 +77,109 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
   }
 
   "Dart frontend" should {
+    "retain captured receiver state through default adapters" in {
+      val directory = frontend.resolve("src/test/resources/semantics")
+      fixture(
+        "",
+        "void main() {}",
+        extraFiles = Seq("default_argument_interactions.dart", "default_argument_implementations.dart")
+          .map(name => s"lib/$name" -> Files.readString(directory.resolve(name)))
+          .toMap
+      ) { (cpg, _) =>
+        val method = cpg.method.nameExact("captured").head
+        for (name <- Seq("first", "second")) {
+          withClue(name) {
+            method.ast.isReturn.reachableByFlows(method.parameter.nameExact(name)).nonEmpty shouldBe (name == "second")
+          }
+        }
+      }
+    }
+    "share default adapters without merging invocation masks or bound captures" in {
+      val directory = frontend.resolve("src/test/resources/semantics")
+      fixture(
+        "",
+        "void main() {}",
+        extraFiles = Seq("default_argument_interactions.dart", "default_argument_implementations.dart")
+          .map(name => s"lib/$name" -> Files.readString(directory.resolve(name)))
+          .toMap
+      ) { (cpg, _) =>
+        for (
+          (name, expected) <- Seq(
+            "repeated"           -> false,
+            "repeatedInput"      -> true,
+            "differingMasks"     -> false,
+            "traced"             -> true,
+            "tracedIgnored"      -> false,
+            "tracedBound"        -> true,
+            "positionalSupplied" -> true
+          )
+        ) {
+          val method = cpg.method.nameExact(name).head
+          withClue(name) {
+            method.ast.isReturn.reachableByFlows(method.parameter.nameExact("input")).nonEmpty shouldBe expected
+          }
+        }
+        for (name <- Seq("repeated", "repeatedInput")) {
+          val calls = cpg.method.nameExact(name).head.call.nameExact("pick").toList
+          calls.size shouldBe 2
+          calls.head.callee.fullName.toSet shouldBe calls.last.callee.fullName.toSet
+        }
+        cpg.method.nameExact("repeated").head.call.nameExact("pick").head.callee.fullName.toSet shouldBe
+          cpg.method.nameExact("repeatedInput").head.call.nameExact("pick").head.callee.fullName.toSet
+        val masks = cpg.method.nameExact("differingMasks").head.call.nameExact("pick").toList
+        (masks.head.callee.fullName.toSet intersect masks.last.callee.fullName.toSet) shouldBe empty
+        val captured = cpg.method.nameExact("captured").head
+        val left     = captured.call.nameExact("left").head.callee.toList
+        val right    = captured.call.nameExact("right").head.callee.toList
+        (left.map(_.fullName).toSet intersect right.map(_.fullName).toSet) shouldBe empty
+        (left.flatMap(_.ast.isLocal.closureBindingId).toSet intersect right
+          .flatMap(_.ast.isLocal.closureBindingId)
+          .toSet) shouldBe empty
+        for ((name, adapters) <- Seq("left" -> left, "right" -> right)) {
+          val binding = cpg.method
+            .fullNameExact(captured.call.nameExact(name).head.methodFullName)
+            .head
+            .ast
+            .isLocal
+            .closureBindingId
+            .toSet
+          binding should not be empty
+          adapters.foreach(_.ast.isLocal.closureBindingId.toSet shouldBe binding)
+        }
+        for (name <- Seq("traced", "tracedIgnored", "tracedBound")) {
+          val method = cpg.method.nameExact(name).head
+          method.call.nameExact("namedReceiver").size shouldBe 1
+          if (name != "tracedBound") {
+            method.call.nameExact("namedReceiver").head.cfgNext.code.toSet shouldBe Set("'ignored'")
+            method.call
+              .nameExact("argument")
+              .find(_.code.startsWith("argument('ignored',"))
+              .get
+              .cfgNext
+              .code
+              .toSet shouldBe Set("'first'")
+          }
+          method.call.nameExact("pick", "callback").foreach { call =>
+            call.argument.filter(_.argumentIndex > 0).toList.sortBy(_.order).map(_.argumentName) shouldBe List(
+              Some("ignored"),
+              Some("first")
+            )
+          }
+        }
+        for (name <- Seq("positionalOmitted", "positionalBound")) {
+          val method   = cpg.method.nameExact(name).head
+          val adapters = method.call.nameExact("pick", "callback").callee.toList
+          method.ast.isReturn
+            .reachableByFlows(
+              adapters.iterator.flatMap(_.ast.isLiteral.codeExact("'positional'", "'additional positional'"))
+            )
+            .nonEmpty shouldBe true
+          method.ast.isReturn
+            .reachableByFlows(adapters.iterator.flatMap(_.ast.isLiteral.codeExact("'positional unused'")))
+            .nonEmpty shouldBe false
+        }
+      }
+    }
     "supply defaults from each implementation through direct, bound and mixin calls" in {
       fixture(
         Files.readString(frontend.resolve("src/test/resources/semantics/override_arguments.dart")),

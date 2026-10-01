@@ -2,8 +2,8 @@
   "scope": "Twelve pinned corpora; graph representation counts, not runtime precision/recall",
   "analysisSources": {
     "algorithm": "sha256-path-nul-content-nul",
-    "sha256": "ddf35474712ce8ae07f1e8edc1c5430e85919c69cf9af34e9911f685a4b9284f",
-    "files": 389,
+    "sha256": "9e629ed09004d9533c8160ef55c5ccd7c00a7a27f7932df195c0473a403c8b67",
+    "files": 391,
     "roots": [
       "joern-cli/frontends/dartsrc2cpg/src",
       "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -23,7 +23,7 @@
       "project/Projects.scala"
     ]
   },
-  "qualification": "DartCorpusTests: one delegate per annotated adapter, exact resolved target identity and source named slot binding; external generic pN slots remain opaque. override_arguments_test.dart independently executes direct, bound and mixin defaults, explicit values and independent writer receivers.",
+  "qualification": "DartCorpusTests: one delegate per unique annotated adapter, exact resolved target identity, source named slot binding, call-to-adapter links and bound entry-point capture edges; external generic pN slots remain opaque. override_arguments_test.dart and default_argument_interactions_test.dart independently execute direct, bound and mixin defaults, repeated invocation/receiver controls, cross-file positional/named defaults and evaluation traces.",
   "baselineMeaning": "Graph baselines before default adapters; each adapter adds one method and one call. All remaining method/call counts must stay at their previous baseline.",
   "projects": [
     {
@@ -34,7 +34,8 @@
       "defaultArguments": {
         "adaptedCalls": 0,
         "targetAdapters": 0,
-        "externalTargetAdapters": 0
+        "externalTargetAdapters": 0,
+        "adapterLinks": 0
       },
       "methods": 236,
       "calls": 2026
@@ -47,7 +48,8 @@
       "defaultArguments": {
         "adaptedCalls": 0,
         "targetAdapters": 0,
-        "externalTargetAdapters": 0
+        "externalTargetAdapters": 0,
+        "adapterLinks": 0
       },
       "methods": 760,
       "calls": 4610
@@ -60,7 +62,8 @@
       "defaultArguments": {
         "adaptedCalls": 0,
         "targetAdapters": 0,
-        "externalTargetAdapters": 0
+        "externalTargetAdapters": 0,
+        "adapterLinks": 0
       },
       "methods": 42,
       "calls": 327
@@ -73,7 +76,8 @@
       "defaultArguments": {
         "adaptedCalls": 0,
         "targetAdapters": 0,
-        "externalTargetAdapters": 0
+        "externalTargetAdapters": 0,
+        "adapterLinks": 0
       },
       "methods": 219,
       "calls": 2292
@@ -86,7 +90,8 @@
       "defaultArguments": {
         "adaptedCalls": 0,
         "targetAdapters": 0,
-        "externalTargetAdapters": 0
+        "externalTargetAdapters": 0,
+        "adapterLinks": 0
       },
       "methods": 700,
       "calls": 3420
@@ -99,7 +104,8 @@
       "defaultArguments": {
         "adaptedCalls": 0,
         "targetAdapters": 0,
-        "externalTargetAdapters": 0
+        "externalTargetAdapters": 0,
+        "adapterLinks": 0
       },
       "methods": 91,
       "calls": 1135
@@ -111,11 +117,12 @@
       "baselineCalls": 225702,
       "defaultArguments": {
         "adaptedCalls": 182,
-        "targetAdapters": 2006,
-        "externalTargetAdapters": 0
+        "targetAdapters": 1966,
+        "externalTargetAdapters": 0,
+        "adapterLinks": 2006
       },
-      "methods": 30403,
-      "calls": 227708
+      "methods": 30363,
+      "calls": 227668
     },
     {
       "project": "localsend-1.17.0",
@@ -124,11 +131,12 @@
       "baselineCalls": 103474,
       "defaultArguments": {
         "adaptedCalls": 967,
-        "targetAdapters": 39647,
-        "externalTargetAdapters": 4835
+        "targetAdapters": 2747,
+        "externalTargetAdapters": 335,
+        "adapterLinks": 39647
       },
-      "methods": 68258,
-      "calls": 143121
+      "methods": 31358,
+      "calls": 106221
     },
     {
       "project": "saber-0.26.0",
@@ -137,11 +145,12 @@
       "baselineCalls": 53385,
       "defaultArguments": {
         "adaptedCalls": 258,
-        "targetAdapters": 5344,
-        "externalTargetAdapters": 1016
+        "targetAdapters": 493,
+        "externalTargetAdapters": 92,
+        "adapterLinks": 5344
       },
-      "methods": 15279,
-      "calls": 58729
+      "methods": 10428,
+      "calls": 53878
     },
     {
       "project": "dart-sass-1.89.2",
@@ -150,11 +159,12 @@
       "baselineCalls": 85621,
       "defaultArguments": {
         "adaptedCalls": 58,
-        "targetAdapters": 3904,
-        "externalTargetAdapters": 150
+        "targetAdapters": 2372,
+        "externalTargetAdapters": 90,
+        "adapterLinks": 3904
       },
-      "methods": 11113,
-      "calls": 89525
+      "methods": 9581,
+      "calls": 87993
     },
     {
       "project": "shelf-1.4.2",
@@ -164,7 +174,8 @@
       "defaultArguments": {
         "adaptedCalls": 0,
         "targetAdapters": 0,
-        "externalTargetAdapters": 0
+        "externalTargetAdapters": 0,
+        "adapterLinks": 0
       },
       "methods": 214,
       "calls": 1682
@@ -177,7 +188,8 @@
       "defaultArguments": {
         "adaptedCalls": 1,
         "targetAdapters": 28,
-        "externalTargetAdapters": 5
+        "externalTargetAdapters": 5,
+        "adapterLinks": 28
       },
       "methods": 411,
       "calls": 5346

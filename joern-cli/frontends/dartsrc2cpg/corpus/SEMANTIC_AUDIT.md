@@ -897,3 +897,47 @@ is visible in the reports and needs further resource qualification. These counts
 are generated representation nodes, not newly implemented source methods or
 proofs of feasible runtime targets. No majority-correctness or frontend completion
 claim follows from this iteration.
+
+## Shared default adapters and bound entry-point captures
+
+The preceding checkpoint's per-call adapters duplicated LocalSend's 967
+Object.toString invocation unions into 39,647 methods. Each library now shares
+bodies with equal declarations, exact targets and supplied-slot masks. Bound
+declarations retain their own capture identities. Generic delegate code uses
+parameter/default expressions instead of the first caller's source text.
+The report separates unique adapter bodies from call-to-adapter links.
+
+The new cross-file SDK oracle checks named and positional override defaults,
+receiver/argument evaluation traces, repeated calls and separate captured
+receivers. Graph checks preserve the source CFG order, exactly-once receiver
+invocation, positive/negative invocation contexts, different omission masks,
+distinct captures and returned-versus-unused positional defaults. These checks
+retain the target union rather than narrowing it for smaller graphs.
+
+A stronger captured-state query revealed a false negative in the previous
+checkpoint as well as the reuse implementation. Copying the original closure ID
+onto the adapter's local did not make capture discovery visit the adapter body.
+Bound entry points now have ordinary METHOD_REF/CAPTURE edges created alongside
+the original bound reference. They share its saved receiver; the original bound
+reference remains the resulting block value. The SDK oracle returns the second
+receiver's state; graph queries now retain that receiver's dependency and reject
+the independent first receiver's dependency. No shared engine changes were
+needed. This qualifies the reduced interface/capture case, not general mutable
+callable or allocation-sensitive heap behavior.
+
+All 99 native tests, clean Dart analysis, the updated inventory, all 155
+frontend/package tests, three applications, both holdouts, staged packaging, four
+CLI checks, fourteen console tests and formatting checks pass. Twelve refreshed
+reports share independently checked source fingerprint
+`9e629ed09004d9533c8160ef55c5ccd7c00a7a27f7932df195c0473a403c8b67`
+(391 files), with unchanged exporter 0.3.19. Adapter bodies decrease from 50,929
+to 7,606; all 50,929 call-to-adapter links remain. Of the unique bodies, 522
+still delegate to opaque external placeholders. LocalSend now has 2,747 bodies
+for the same 39,647 links. Namespace/declaration/mask boundaries limit sharing;
+call depth and broader resource/type/receiver qualification remain open.
+
+Original endpoint expectations remain 74/76 stock and 76/76 modeled; all four
+holdout expectations match. Five modeled negative searches remain inconclusive.
+Historical witness snapshots do not certify these refreshed paths. The static
+setter/getter false negative DART-FLOW-006 and the remaining coverage-plan gates
+are unchanged.

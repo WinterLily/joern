@@ -53,10 +53,18 @@ parameters, `DefaultArgumentPass` replaces declaration defaults with per-target
 `<defaultArguments>` methods. Each method forwards explicitly supplied values
 and supplies that target's defaults by name or positional slot. Explicit values
 are evaluated in the caller; a bound tear-off reuses its captured receiver.
+Adapters with the same namespace, declaration, target and supplied parameter slots
+share one body. A bound declaration identifies its capture, so separate bound
+receivers cannot share an adapter. Bound adapter entry points have ordinary
+METHOD_REF/CAPTURE edges to the saved receiver, created alongside the original
+bound reference. The original reference remains the block's resulting value;
+entry-point references do not reevaluate the receiver. Copying a capture ID onto
+a local alone is insufficient for capture discovery.
 The original declarations, call identity and dispatch kind are retained. Adapter
 calls select an already resolved target statically. These extra methods consume
-call depth; the `defaultArguments` report exposes adapted calls, target adapters
-and adapters delegating to external placeholders. External `pN` parameter stubs
+call depth; the `defaultArguments` report distinguishes adapted call sites,
+unique target adapters, links from calls to those adapters, and unique adapters
+delegating to external placeholders. External `pN` parameter stubs
 retain positional slots; their bodies and named signature metadata are unqualified.
 Defaults retain exported constant source; this does not model arbitrary constant
 object state or establish runtime receiver contexts.

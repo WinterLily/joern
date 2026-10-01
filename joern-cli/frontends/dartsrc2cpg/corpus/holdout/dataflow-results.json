@@ -3,8 +3,8 @@
     "project": "shelf-1.4.2",
     "analysisSources": {
       "algorithm": "sha256-path-nul-content-nul",
-      "sha256": "ddf35474712ce8ae07f1e8edc1c5430e85919c69cf9af34e9911f685a4b9284f",
-      "files": 389,
+      "sha256": "9e629ed09004d9533c8160ef55c5ccd7c00a7a27f7932df195c0473a403c8b67",
+      "files": 391,
       "roots": [
         "joern-cli/frontends/dartsrc2cpg/src",
         "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -62,7 +62,8 @@
     "defaultArguments": {
       "adaptedCalls": 0,
       "targetAdapters": 0,
-      "externalTargetAdapters": 0
+      "externalTargetAdapters": 0,
+      "adapterLinks": 0
     },
     "modelFiles": {
       "async": "# Completer.completeError stores the error and stack trace in the completer.\n# It does not copy either argument into the other and has no return value.\n# Load these method names as regular expressions; declaration offsets may vary.\n\"dart:async/future[.]dart\\x23[0-9]+:METHOD:completeError\" 0 -> 0 1 -> 1 2 -> 2 1 -> 0 2 -> 0\n",
@@ -132,8 +133,8 @@
     "project": "yaml-3.1.3",
     "analysisSources": {
       "algorithm": "sha256-path-nul-content-nul",
-      "sha256": "ddf35474712ce8ae07f1e8edc1c5430e85919c69cf9af34e9911f685a4b9284f",
-      "files": 389,
+      "sha256": "9e629ed09004d9533c8160ef55c5ccd7c00a7a27f7932df195c0473a403c8b67",
+      "files": 391,
       "roots": [
         "joern-cli/frontends/dartsrc2cpg/src",
         "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -190,7 +191,8 @@
     "defaultArguments": {
       "adaptedCalls": 1,
       "targetAdapters": 28,
-      "externalTargetAdapters": 5
+      "externalTargetAdapters": 5,
+      "adapterLinks": 28
     },
     "modelFiles": {
       "async": "# Completer.completeError stores the error and stack trace in the completer.\n# It does not copy either argument into the other and has no return value.\n# Load these method names as regular expressions; declaration offsets may vary.\n\"dart:async/future[.]dart\\x23[0-9]+:METHOD:completeError\" 0 -> 0 1 -> 1 2 -> 2 1 -> 0 2 -> 0\n",

@@ -149,7 +149,8 @@ manifest. Scratch graphs and detailed logs are excluded from version control.
 
 Graph baselines retain counts before per-target default-argument adapters. The
 corpus test checks the reported adapter count against generated methods, checks
-one correctly bound delegate per adapter, then adds exactly one method and one
+one correctly bound delegate per adapter, bound capture entry edges and call-to-adapter
+link counts, then adds exactly one method and one
 call per adapter to the method/call baseline. Counts for the remaining graph
 remain unchanged. Compact reports expose these additions separately; adapter
 counts are representation evidence, not a runtime correctness denominator.

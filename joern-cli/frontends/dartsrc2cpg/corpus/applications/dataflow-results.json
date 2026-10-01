@@ -3,8 +3,8 @@
     "project": "localsend-1.17.0",
     "analysisSources": {
       "algorithm": "sha256-path-nul-content-nul",
-      "sha256": "ddf35474712ce8ae07f1e8edc1c5430e85919c69cf9af34e9911f685a4b9284f",
-      "files": 389,
+      "sha256": "9e629ed09004d9533c8160ef55c5ccd7c00a7a27f7932df195c0473a403c8b67",
+      "files": 391,
       "roots": [
         "joern-cli/frontends/dartsrc2cpg/src",
         "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -50,7 +50,7 @@
       "conditionalEnvironment": "analyzer-default"
     },
     "overlay": {
-      "methods": 68258,
+      "methods": 31358,
       "maxDefinitions": 1745,
       "definitionLimit": 20000,
       "aboveDefaultLimit": {}
@@ -65,8 +65,9 @@
     },
     "defaultArguments": {
       "adaptedCalls": 967,
-      "targetAdapters": 39647,
-      "externalTargetAdapters": 4835
+      "targetAdapters": 2747,
+      "externalTargetAdapters": 335,
+      "adapterLinks": 39647
     },
     "modelFiles": {
       "async": "# Completer.completeError stores the error and stack trace in the completer.\n# It does not copy either argument into the other and has no return value.\n# Load these method names as regular expressions; declaration offsets may vary.\n\"dart:async/future[.]dart\\x23[0-9]+:METHOD:completeError\" 0 -> 0 1 -> 1 2 -> 2 1 -> 0 2 -> 0\n",
@@ -74,7 +75,7 @@
       "iterable": "# Dart SDK 3.9.2: lib/core/iterable.dart and lib/internal/iterable.dart.\n# Explicit element values with pure predicates/transforms and statically known callbacks.\n# Selection, lazy execution timing and callback side effects are outside this contract.\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:where\" 0 -> 0 1 -> 1 0 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:map\" 0 -> 0 1 -> 1 1 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:join\" 0 -> 0 1 -> 1 0 -> -1 1 -> -1\n",
       "bytes": "# Dart SDK 3.9.2 byte-content contract for Uint8List allocation and standard List.setRange.\n# Length/range inputs select size and positions; they are not copied element values.\n# Keep the constructor offset exact: other dart:typed_data unnamed constructors include SIMD values.\n\"dart:typed_data\\x2336552:CONSTRUCTOR:new\" 1 -> 1\n\"dart:core/list[.]dart\\x2329446:METHOD:setRange\" 0 -> 0 1 -> 1 2 -> 2 3 -> 3 4 -> 4 3 -> 0\n"
     },
-    "reachingDefEdges": 1189460,
+    "reachingDefEdges": 817760,
     "maxCallDepth": 4,
     "maxFieldDepth": 4,
     "pathSelection": "longest-per-endpoint-pair",
@@ -372,8 +373,8 @@
     "project": "saber-0.26.0",
     "analysisSources": {
       "algorithm": "sha256-path-nul-content-nul",
-      "sha256": "ddf35474712ce8ae07f1e8edc1c5430e85919c69cf9af34e9911f685a4b9284f",
-      "files": 389,
+      "sha256": "9e629ed09004d9533c8160ef55c5ccd7c00a7a27f7932df195c0473a403c8b67",
+      "files": 391,
       "roots": [
         "joern-cli/frontends/dartsrc2cpg/src",
         "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -419,7 +420,7 @@
       "conditionalEnvironment": "analyzer-default"
     },
     "overlay": {
-      "methods": 15279,
+      "methods": 10428,
       "maxDefinitions": 1800,
       "definitionLimit": 20000,
       "aboveDefaultLimit": {}
@@ -434,8 +435,9 @@
     },
     "defaultArguments": {
       "adaptedCalls": 258,
-      "targetAdapters": 5344,
-      "externalTargetAdapters": 1016
+      "targetAdapters": 493,
+      "externalTargetAdapters": 92,
+      "adapterLinks": 5344
     },
     "modelFiles": {
       "async": "# Completer.completeError stores the error and stack trace in the completer.\n# It does not copy either argument into the other and has no return value.\n# Load these method names as regular expressions; declaration offsets may vary.\n\"dart:async/future[.]dart\\x23[0-9]+:METHOD:completeError\" 0 -> 0 1 -> 1 2 -> 2 1 -> 0 2 -> 0\n",
@@ -443,7 +445,7 @@
       "iterable": "# Dart SDK 3.9.2: lib/core/iterable.dart and lib/internal/iterable.dart.\n# Explicit element values with pure predicates/transforms and statically known callbacks.\n# Selection, lazy execution timing and callback side effects are outside this contract.\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:where\" 0 -> 0 1 -> 1 0 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:map\" 0 -> 0 1 -> 1 1 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:join\" 0 -> 0 1 -> 1 0 -> -1 1 -> -1\n",
       "bytes": "# Dart SDK 3.9.2 byte-content contract for Uint8List allocation and standard List.setRange.\n# Length/range inputs select size and positions; they are not copied element values.\n# Keep the constructor offset exact: other dart:typed_data unnamed constructors include SIMD values.\n\"dart:typed_data\\x2336552:CONSTRUCTOR:new\" 1 -> 1\n\"dart:core/list[.]dart\\x2329446:METHOD:setRange\" 0 -> 0 1 -> 1 2 -> 2 3 -> 3 4 -> 4 3 -> 0\n"
     },
-    "reachingDefEdges": 471379,
+    "reachingDefEdges": 422176,
     "maxCallDepth": 4,
     "maxFieldDepth": 4,
     "pathSelection": "longest-per-endpoint-pair",
@@ -736,8 +738,8 @@
     "project": "dart-sass-1.89.2",
     "analysisSources": {
       "algorithm": "sha256-path-nul-content-nul",
-      "sha256": "ddf35474712ce8ae07f1e8edc1c5430e85919c69cf9af34e9911f685a4b9284f",
-      "files": 389,
+      "sha256": "9e629ed09004d9533c8160ef55c5ccd7c00a7a27f7932df195c0473a403c8b67",
+      "files": 391,
       "roots": [
         "joern-cli/frontends/dartsrc2cpg/src",
         "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -782,7 +784,7 @@
       "conditionalEnvironment": "analyzer-default"
     },
     "overlay": {
-      "methods": 11113,
+      "methods": 9581,
       "maxDefinitions": 3013,
       "definitionLimit": 20000,
       "aboveDefaultLimit": {}
@@ -797,8 +799,9 @@
     },
     "defaultArguments": {
       "adaptedCalls": 58,
-      "targetAdapters": 3904,
-      "externalTargetAdapters": 150
+      "targetAdapters": 2372,
+      "externalTargetAdapters": 90,
+      "adapterLinks": 3904
     },
     "modelFiles": {
       "async": "# Completer.completeError stores the error and stack trace in the completer.\n# It does not copy either argument into the other and has no return value.\n# Load these method names as regular expressions; declaration offsets may vary.\n\"dart:async/future[.]dart\\x23[0-9]+:METHOD:completeError\" 0 -> 0 1 -> 1 2 -> 2 1 -> 0 2 -> 0\n",
@@ -806,7 +809,7 @@
       "iterable": "# Dart SDK 3.9.2: lib/core/iterable.dart and lib/internal/iterable.dart.\n# Explicit element values with pure predicates/transforms and statically known callbacks.\n# Selection, lazy execution timing and callback side effects are outside this contract.\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:where\" 0 -> 0 1 -> 1 0 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:map\" 0 -> 0 1 -> 1 1 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:join\" 0 -> 0 1 -> 1 0 -> -1 1 -> -1\n",
       "bytes": "# Dart SDK 3.9.2 byte-content contract for Uint8List allocation and standard List.setRange.\n# Length/range inputs select size and positions; they are not copied element values.\n# Keep the constructor offset exact: other dart:typed_data unnamed constructors include SIMD values.\n\"dart:typed_data\\x2336552:CONSTRUCTOR:new\" 1 -> 1\n\"dart:core/list[.]dart\\x2329446:METHOD:setRange\" 0 -> 0 1 -> 1 2 -> 2 3 -> 3 4 -> 4 3 -> 0\n"
     },
-    "reachingDefEdges": 580877,
+    "reachingDefEdges": 565427,
     "maxCallDepth": 4,
     "maxFieldDepth": 4,
     "pathSelection": "longest-per-endpoint-pair",

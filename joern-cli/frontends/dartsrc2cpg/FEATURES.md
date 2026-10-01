@@ -50,7 +50,10 @@ overrides and source implicit accessors. Private lookup respects library identit
 and receiver static types exclude unrelated siblings. Per-target default adapters
 cover differing named defaults and additional optional parameters in direct,
 bound and mixin calls. Reordered named input/output binding has independent
-receiver controls. Runtime receiver contexts, unknown callable targets, external
+receiver controls. Shared adapter bodies retain distinct invocation contexts,
+omission masks and saved receivers, with cross-file positional defaults and
+receiver/argument execution traces. Captured receiver state has positive and
+independent receiver controls. Runtime receiver contexts, unknown callable targets, external
 signature/body metadata and general heap effects remain unqualified.
 Named switch labels and continue-to-case retain their
 CFG targets, including jumps past a target pattern guard. Null-aware collection

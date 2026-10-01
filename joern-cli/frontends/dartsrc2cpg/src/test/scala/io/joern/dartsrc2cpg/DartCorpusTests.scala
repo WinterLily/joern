@@ -262,7 +262,28 @@ class DartCorpusTests extends AnyWordSpec with Matchers {
           val coverage = ujson.read(Files.readString(root.resolve("coverage.json")))
           val adapters = reloaded.method.annotation.fullNameExact("dart.defaultArguments").inAst.isMethod.toList
           adapters.size shouldBe coverage("defaultArguments")("targetAdapters").num.toInt
+          val adaptedCalls = reloaded.call.filter(_.tag.valueExact("defaultArguments").nonEmpty).toList
+          adaptedCalls.size shouldBe coverage("defaultArguments")("adaptedCalls").num.toInt
+          adaptedCalls.map(_.callee.fullName.toSet.size).sum shouldBe coverage("defaultArguments")(
+            "adapterLinks"
+          ).num.toInt
           adapters.foreach { adapter =>
+            val bindings = adapter.local.closureBindingId.toSet
+            if (bindings.nonEmpty) {
+              val references = reloaded.methodRef.methodFullNameExact(adapter.fullName).toList
+              references should not be empty
+              references.foreach { reference =>
+                reference._captureOut
+                  .collectAll[io.shiftleft.codepropertygraph.generated.nodes.ClosureBinding]
+                  .flatMap(_.closureBindingId)
+                  .toSet shouldBe bindings
+                reference.astParent.astChildren.toList
+                  .sortBy(_.order)
+                  .last
+                  .asInstanceOf[io.shiftleft.codepropertygraph.generated.nodes.MethodRef]
+                  .methodFullName should not be adapter.fullName
+              }
+            }
             val delegate = adapter.call.toList
             delegate.size shouldBe 1
             withClue(adapter.fullName) {
