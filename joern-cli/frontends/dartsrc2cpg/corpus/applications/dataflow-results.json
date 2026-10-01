@@ -3,8 +3,8 @@
     "project": "localsend-1.17.0",
     "analysisSources": {
       "algorithm": "sha256-path-nul-content-nul",
-      "sha256": "bd43efa880caaa4af2e98f2655a0d8bee1e00e961bb7520ee7d016a0ca2cf70d",
-      "files": 399,
+      "sha256": "3877d5d83af53418f3e3f3fa785694f63e39f9248dcedc0ad6a1484ab2020ca6",
+      "files": 400,
       "roots": [
         "joern-cli/frontends/dartsrc2cpg/src",
         "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -152,12 +152,14 @@
             "call-depth",
             "static-storage-exception-state",
             "static-storage-external-effects",
+            "static-storage-implicit-exception-effects",
             "static-storage-initialization-state"
           ],
           "modeled": [
             "call-depth",
             "static-storage-exception-state",
             "static-storage-external-effects",
+            "static-storage-implicit-exception-effects",
             "static-storage-initialization-state"
           ]
         },
@@ -185,12 +187,14 @@
             "call-depth",
             "static-storage-exception-state",
             "static-storage-external-effects",
+            "static-storage-implicit-exception-effects",
             "static-storage-initialization-state"
           ],
           "modeled": [
             "call-depth",
             "static-storage-exception-state",
             "static-storage-external-effects",
+            "static-storage-implicit-exception-effects",
             "static-storage-initialization-state"
           ]
         },
@@ -382,11 +386,13 @@
           "stock": [
             "static-storage-exception-state",
             "static-storage-external-effects",
+            "static-storage-implicit-exception-effects",
             "static-storage-initialization-state"
           ],
           "modeled": [
             "static-storage-exception-state",
             "static-storage-external-effects",
+            "static-storage-implicit-exception-effects",
             "static-storage-initialization-state"
           ]
         },
@@ -401,8 +407,8 @@
     "project": "saber-0.26.0",
     "analysisSources": {
       "algorithm": "sha256-path-nul-content-nul",
-      "sha256": "bd43efa880caaa4af2e98f2655a0d8bee1e00e961bb7520ee7d016a0ca2cf70d",
-      "files": 399,
+      "sha256": "3877d5d83af53418f3e3f3fa785694f63e39f9248dcedc0ad6a1484ab2020ca6",
+      "files": 400,
       "roots": [
         "joern-cli/frontends/dartsrc2cpg/src",
         "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -594,12 +600,14 @@
             "call-depth",
             "static-storage-exception-state",
             "static-storage-external-effects",
+            "static-storage-implicit-exception-effects",
             "static-storage-initialization-state"
           ],
           "modeled": [
             "call-depth",
             "static-storage-exception-state",
             "static-storage-external-effects",
+            "static-storage-implicit-exception-effects",
             "static-storage-initialization-state"
           ]
         },
@@ -626,12 +634,14 @@
           "stock": [
             "call-depth",
             "static-storage-exception-state",
-            "static-storage-external-effects"
+            "static-storage-external-effects",
+            "static-storage-implicit-exception-effects"
           ],
           "modeled": [
             "call-depth",
             "static-storage-exception-state",
-            "static-storage-external-effects"
+            "static-storage-external-effects",
+            "static-storage-implicit-exception-effects"
           ]
         },
         "omittedWitnesses": {
@@ -792,8 +802,8 @@
     "project": "dart-sass-1.89.2",
     "analysisSources": {
       "algorithm": "sha256-path-nul-content-nul",
-      "sha256": "bd43efa880caaa4af2e98f2655a0d8bee1e00e961bb7520ee7d016a0ca2cf70d",
-      "files": 399,
+      "sha256": "3877d5d83af53418f3e3f3fa785694f63e39f9248dcedc0ad6a1484ab2020ca6",
+      "files": 400,
       "roots": [
         "joern-cli/frontends/dartsrc2cpg/src",
         "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -1172,7 +1182,9 @@
             "field-depth-widening",
             "static-storage-exception-state",
             "static-storage-external-effects",
+            "static-storage-implicit-exception-effects",
             "static-storage-initialization-state",
+            "static-storage-joined-exits",
             "static-storage-search"
           ],
           "modeled": [
@@ -1180,7 +1192,9 @@
             "field-depth-widening",
             "static-storage-exception-state",
             "static-storage-external-effects",
+            "static-storage-implicit-exception-effects",
             "static-storage-initialization-state",
+            "static-storage-joined-exits",
             "static-storage-search"
           ]
         },

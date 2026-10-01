@@ -131,7 +131,11 @@ matching round bounds.
 `maxStaticStorageNodes` is recorded for every query (default 10,000); positive
 controls must use the same storage-search budget. `static-storage-search` reports
 an unfinished CFG search. Initialization-state, exceptional-memory and external
-effect diagnostics also make absence inconclusive; see [the storage contract](../SEMANTICS.md#lazy-and-late-initialization).
+effect diagnostics also make absence inconclusive. `static-storage-exit-metadata`
+requires a graph refreshed with the exit-tag producer; `static-storage-joined-exits`
+and `static-storage-implicit-exception-effects` retain pending-exit/value-task and
+unmodeled runtime-effect limits. The [exception review](static-exception-witness-review.json)
+records a concrete cleanup-copy false positive; see [the storage contract](../SEMANTICS.md#lazy-and-late-initialization).
 After auditing all three categories, run
 `python3 joern-cli/frontends/dartsrc2cpg/scripts/summarize_alternatives.py` to
 refresh `alternative-witness-results.json`. The script rejects stale or mixed

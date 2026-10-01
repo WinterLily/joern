@@ -7,6 +7,7 @@ import io.shiftleft.semanticcpg.language.*
 import io.shiftleft.codepropertygraph.generated.DiffGraphBuilder
 import org.slf4j.LoggerFactory
 import java.util.concurrent.ConcurrentHashMap
+import scala.collection.mutable
 
 /** Translation of abstract syntax trees into control flow graphs
   *
@@ -56,6 +57,9 @@ class CfgCreator(entryNode: Method, diffGraph: DiffGraphBuilder) {
   private val exitNode: MethodReturn = entryNode.methodReturn
   private val isDart                 = new Cpg(entryNode.graph).metaData.language.contains("DART")
   private var protectedDepth         = 0
+  private val throwingCalls          = mutable.HashSet.empty[CfgNode]
+  private val resumedThrows          = mutable.HashSet.empty[CfgNode]
+  private val resumedNormal          = mutable.HashSet.empty[CfgNode]
 
   private def cfgForProtected(node: AstNode): Cfg = {
     protectedDepth += 1
@@ -75,6 +79,24 @@ class CfgCreator(entryNode: Method, diffGraph: DiffGraphBuilder) {
       // TODO: we are ignoring edge.edgeType because the
       //  CFG spec doesn't define an edge type at the moment
       diffGraph.addEdge(edge.src, edge.dst, EdgeTypes.CFG)
+    }
+    // CFG edges erase exit kinds; storage queries also need to distinguish a completed cleanup from a failing call.
+    if (isDart && !entryNode.isExternal) {
+      val tags                                    = mutable.Map.empty[String, NewTag]
+      def tag(node: CfgNode, value: String): Unit =
+        diffGraph.addEdge(
+          node,
+          tags.getOrElseUpdate(value, NewTag().name("dart.cfg.exit").value(value)),
+          EdgeTypes.TAGGED_BY
+        )
+      tag(exitNode, "complete")
+      (resumedNormal.toList ++ cfg.edges.filter(_.dst == exitNode).map(_.src) ++
+        cfg.exits.collect { case (node, ExitKind.Returned) => node }).distinct.foreach(tag(_, "normal.after"))
+      resumedThrows.foreach(tag(_, "throw.after"))
+      throwingCalls.foreach(tag(_, "throw.before"))
+      cfg.exits.collect { case (node, ExitKind.Thrown) => node }.distinct.foreach { node =>
+        if (!resumedThrows(node) && !throwingCalls(node)) tag(node, "throw.before")
+      }
     }
   }
 
@@ -134,6 +156,7 @@ class CfgCreator(entryNode: Method, diffGraph: DiffGraphBuilder) {
         cfgForChildren(node) ++ cfgForSingleNode(node.asInstanceOf[CfgNode])
       case call: Call if isDart =>
         val own = cfgForSingleNode(call)
+        if (protectedDepth > 0) throwingCalls.add(call)
         cfgForChildren(call) ++ (if (protectedDepth > 0) own.copy(exits = List(call -> ExitKind.Thrown)) else own)
       case _: Call | _: FieldIdentifier | _: Identifier | _: Literal | _: Block | _: Unknown =>
         cfgForChildren(node) ++ cfgForSingleNode(node.asInstanceOf[CfgNode])
@@ -847,13 +870,17 @@ class CfgCreator(entryNode: Method, diffGraph: DiffGraphBuilder) {
           // normal fringe, so it replaces every pending exit instead of resuming one.
           def resume[T](pending: List[(CfgNode, T)]): List[(CfgNode, T)] =
             pending.flatMap { case (_, target) => finallyCfg.fringe.map { case (node, _) => node -> target } }.distinct
+          val resumedExits = resume(protectedCfg.exits)
+          resumedThrows ++= resumedExits.collect { case (node, ExitKind.Thrown) => node }
+          resumedNormal ++= resumedExits.collect { case (node, ExitKind.Returned) => node }
+          if (normalFringe.nonEmpty) resumedNormal ++= finallyCfg.fringe.map(_._1)
           Cfg
             .from(protectedCfg, finallyCfg)
             .copy(
               entryNode = tryBodyCfg.entryNode,
               edges = protectedEdges ++ cleanupEdges ++ finallyCfg.edges,
               fringe = if (normalFringe.nonEmpty) finallyCfg.fringe else Nil,
-              exits = finallyCfg.exits ++ resume(protectedCfg.exits),
+              exits = finallyCfg.exits ++ resumedExits,
               breaks = finallyCfg.breaks ++ resume(protectedCfg.breaks),
               continues = finallyCfg.continues ++ resume(protectedCfg.continues),
               jumpsToLabel = localJumps ++ finallyCfg.jumpsToLabel ++ resume(leavingJumps)

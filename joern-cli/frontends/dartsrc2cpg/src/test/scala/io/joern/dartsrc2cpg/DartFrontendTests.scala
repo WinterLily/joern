@@ -77,6 +77,48 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
   }
 
   "Dart frontend" should {
+    "route static effects through exceptions, cleanup and selected calls" in {
+      fixture(
+        Files.readString(frontend.resolve("src/test/resources/semantics/static_exception_storage.dart")),
+        "void main() {}",
+        extraFiles = Map(
+          "lib/static_storage.dart" -> Files
+            .readString(frontend.resolve("src/test/resources/semantics/static_storage.dart"))
+        )
+      ) { (cpg, _) =>
+        for (
+          (name, expected) <- Seq(
+            "normalBranch"        -> false,
+            "caughtBranch"        -> true,
+            "nestedThrow"         -> true,
+            "caughtOverwrite"     -> false,
+            "caughtIndependent"   -> false,
+            "cleanupPreserved"    -> true,
+            "cleanupKilled"       -> false,
+            "conditionalCleanup"  -> true,
+            "suppressedResult"    -> true,
+            "cleanupThrows"       -> true,
+            "replacedException"   -> false,
+            "nestedCleanupKilled" -> false,
+            "rethrown"            -> true,
+            "swallowedResult"     -> true,
+            "joinedNormal"        -> false,
+            "joinedCaught"        -> true
+          )
+        ) {
+          val method = cpg.method.nameExact(name).head
+          withClue(name) {
+            method.ast.isReturn.reachableByFlows(method.parameter.nameExact("input")).nonEmpty shouldBe expected
+          }
+        }
+        val copied        = cpg.method.nameExact("copiedNormal").head
+        val diagnostics   = new QueryDiagnostics
+        val copiedContext = EngineContext(config = EngineConfig(diagnostics = Some(diagnostics)))
+        // Ordinary RHS tasks still lose the pending exit; retain this diagnosed counterexample until that channel is extended.
+        copied.ast.isReturn.reachableByFlows(copied.parameter.nameExact("input"))(copiedContext).nonEmpty shouldBe true
+        diagnostics.limitations should contain("static-storage-joined-exits")
+      }
+    }
     "follow static storage in call order with overwrites and independent locations" in {
       fixture(
         Files.readString(frontend.resolve("src/test/resources/semantics/static_storage.dart")),
@@ -114,7 +156,7 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         val exceptionContext     = EngineContext(config = EngineConfig(diagnostics = Some(exceptionDiagnostics)))
         exceptional.ast.isReturn
           .reachableByFlows(exceptional.parameter.nameExact("input"))(exceptionContext)
-          .nonEmpty shouldBe false
+          .nonEmpty shouldBe true
         exceptionDiagnostics.limitations should contain("static-storage-exception-state")
         for (config <- Seq(EngineConfig(maxCallDepth = 1), EngineConfig(maxStaticStorageNodes = 1))) {
           val diagnostics = new QueryDiagnostics
@@ -124,6 +166,15 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
             if (config.maxCallDepth == 1) "call-depth" else "static-storage-search"
           )
         }
+        val stale = Cpg.newDiffGraphBuilder
+        cpg.tag.nameExact("dart.cfg.exit").valueExact("complete").foreach { tag =>
+          stale.setNodeProperty(tag, "VALUE", "stale")
+        }
+        flatgraph.DiffGraphApplier.applyDiff(cpg.graph, stale)
+        val staleDiagnostics = new QueryDiagnostics
+        val staleContext     = EngineContext(config = EngineConfig(diagnostics = Some(staleDiagnostics)))
+        method.ast.isReturn.reachableByFlows(method.parameter.nameExact("input"))(staleContext).nonEmpty shouldBe false
+        staleDiagnostics.limitations should contain("static-storage-exit-metadata")
       }
     }
     "retain bounded alternative witnesses through branches and repeated calls" in {

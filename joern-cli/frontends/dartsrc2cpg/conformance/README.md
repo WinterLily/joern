@@ -51,9 +51,16 @@ branch booleans exercise conditional/loop writes and overwrites on every branch.
 The graph regressions recover these value dependencies through a bounded,
 Dart-only shared-engine prerequisite; C/Java/JavaScript/Kotlin and instance-field
 traversal retain their prior behavior. Call-depth and storage-node exhaustion
-report explicit limits. A throwing-helper/catch case returns input at runtime
-while the query still misses the exceptional memory effect and reports it as a
-limitation. Initialization-state correlation and exceptional storage remain open.
+report explicit limits. The throwing-helper/catch dependency is now recovered.
+`static_exception_storage_test.dart` checks three inputs and both branch booleans
+through normal versus caught reads, cleanup overwrites, nested cleanup, rethrow
+and return/throw replacement. Dart CFG exit tags preserve completed cleanup versus
+failed-call evidence without changing CFG edges. Private pending-exit demands
+keep direct joined-cleanup reads isolated. DART-FLOW-007 records a diagnosed false
+positive when a cleanup copies another static field: the ordinary RHS task loses
+that pending-exit demand. Initialization-state correlation and broader exception/
+heap qualification remain open. The [exception witness review](../corpus/static-exception-witness-review.json)
+retains this counterexample alongside the positive controls.
 
 `upstream/manifest.json` records selected SDK language tests at the pinned SDK
 revision, original/adapted hashes, license and the exact adaptations. Valid

@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "analysisSources": {
     "algorithm": "sha256-path-nul-content-nul",
-    "sha256": "bd43efa880caaa4af2e98f2655a0d8bee1e00e961bb7520ee7d016a0ca2cf70d",
-    "files": 399,
+    "sha256": "3877d5d83af53418f3e3f3fa785694f63e39f9248dcedc0ad6a1484ab2020ca6",
+    "files": 400,
     "roots": [
       "joern-cli/frontends/dartsrc2cpg/src",
       "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -101,8 +101,8 @@
               "distinctEndpoints": true,
               "viaSatisfied": true,
               "positiveControlSatisfied": null,
-              "witnessesSha256": "57af24058c8b1c81e8282155c73580659ea9b00852f1dc8f4bd45d2656230a8e",
-              "detailedWitnessesSha256": "6c85a8fb5452a4abd5eed575bf72b184e5f7e2c1c771dabd17849ac52f042c15"
+              "witnessesSha256": "cfee1e4e6f12ce06dba2f6dc2ef1f2d0c926321a3b2aeb7d49154707a3e13abf",
+              "detailedWitnessesSha256": "4003ec28b48ec2f1c7f0f583a504391ad517566c48c91fcb5bacad2401965f9f"
             },
             "modeled": {
               "paths": 2,
@@ -2558,12 +2558,12 @@
               "detailedPaths": 2,
               "legacyPaths": 1,
               "visibleLengths": [
-                69,
-                69
+                64,
+                64
               ],
               "detailedLengths": [
-                74,
-                74
+                72,
+                72
               ],
               "outcome": "flow-observed",
               "limitations": [
@@ -2578,20 +2578,20 @@
               "distinctEndpoints": true,
               "viaSatisfied": true,
               "positiveControlSatisfied": null,
-              "witnessesSha256": "12639abe67faf610c2245ae3c2713091f69371154f44c0d5a19af322337c2c7d",
-              "detailedWitnessesSha256": "cb9e2b984697bab3bda685145c31dec7418cc6625c2dcad9dd848031e5d96742"
+              "witnessesSha256": "8570255aefffb177a9a37ae433ebc81861d557ccb8b4d79ad351c779f6fd5f6b",
+              "detailedWitnessesSha256": "b436fe316320aa1e3c856bfb0a8e03623460c9b9bd6f4d23e361065b38a46c33"
             },
             "modeled": {
               "paths": 2,
               "detailedPaths": 2,
               "legacyPaths": 1,
               "visibleLengths": [
-                59,
-                59
+                46,
+                46
               ],
               "detailedLengths": [
-                61,
-                61
+                46,
+                46
               ],
               "outcome": "flow-observed",
               "limitations": [
@@ -2606,8 +2606,8 @@
               "distinctEndpoints": true,
               "viaSatisfied": true,
               "positiveControlSatisfied": null,
-              "witnessesSha256": "ae979e030715947fcbb234ee3e3e1345bc6ca108cc44f77f8f816742e1af95dc",
-              "detailedWitnessesSha256": "bca3fe68617f77172bd267dbcfb6d63b62148002062f08320f5e514e6f832bfa"
+              "witnessesSha256": "23215aa7a361c2a3e0c636829cfa8e6b24631e9e2c8c9874b405ff816f68f8b6",
+              "detailedWitnessesSha256": "9eab9d3bca5bb22e9544383f02f48954ea5ca96c5a73586c1d05522f33c4fdc6"
             }
           },
           "maxHeldTaskIterations": 2,
@@ -3119,12 +3119,12 @@
               "detailedPaths": 2,
               "legacyPaths": 1,
               "visibleLengths": [
-                58,
-                58
+                66,
+                61
               ],
               "detailedLengths": [
-                61,
-                61
+                67,
+                66
               ],
               "outcome": "flow-observed",
               "limitations": [
@@ -3141,20 +3141,20 @@
               "distinctEndpoints": true,
               "viaSatisfied": true,
               "positiveControlSatisfied": null,
-              "witnessesSha256": "79a9e0bfebb943e2088541e90ae7c9686374356694fecef5836f9dbc0d85a6e2",
-              "detailedWitnessesSha256": "f1d09f9a437008fe94d1ba2e04d2e4ae501d93848baa606c149b4af9860dd748"
+              "witnessesSha256": "994f9dcae4ec66eda1da51016cf58ddbd538b967bfcfaf883e3f13ab0547946f",
+              "detailedWitnessesSha256": "d698118cdea93a57eda46d46905c7224094ff491c96a42e63783fa9e60a0ddd6"
             },
             "modeled": {
               "paths": 2,
               "detailedPaths": 2,
               "legacyPaths": 1,
               "visibleLengths": [
-                58,
-                58
+                64,
+                59
               ],
               "detailedLengths": [
-                61,
-                61
+                68,
+                67
               ],
               "outcome": "flow-observed",
               "limitations": [
@@ -3171,8 +3171,8 @@
               "distinctEndpoints": true,
               "viaSatisfied": true,
               "positiveControlSatisfied": null,
-              "witnessesSha256": "79a9e0bfebb943e2088541e90ae7c9686374356694fecef5836f9dbc0d85a6e2",
-              "detailedWitnessesSha256": "f1d09f9a437008fe94d1ba2e04d2e4ae501d93848baa606c149b4af9860dd748"
+              "witnessesSha256": "3a8e9b81dde5656f0fd9696e7f30320187883aec012fbf1cf775dd5935e51bb8",
+              "detailedWitnessesSha256": "6e81c058344a4528bfd3761a390c9bccb357e4fccc2c0af9472c9e249d2e8500"
             }
           },
           "maxHeldTaskIterations": 2,
@@ -3557,6 +3557,7 @@
                 "call-depth",
                 "static-storage-exception-state",
                 "static-storage-external-effects",
+                "static-storage-implicit-exception-effects",
                 "static-storage-initialization-state",
                 "witness-alternatives"
               ],
@@ -3586,6 +3587,7 @@
                 "call-depth",
                 "static-storage-exception-state",
                 "static-storage-external-effects",
+                "static-storage-implicit-exception-effects",
                 "static-storage-initialization-state",
                 "witness-alternatives"
               ],
@@ -3642,6 +3644,7 @@
                 "call-depth",
                 "static-storage-exception-state",
                 "static-storage-external-effects",
+                "static-storage-implicit-exception-effects",
                 "static-storage-initialization-state",
                 "witness-alternatives"
               ],
@@ -3671,6 +3674,7 @@
                 "call-depth",
                 "static-storage-exception-state",
                 "static-storage-external-effects",
+                "static-storage-implicit-exception-effects",
                 "static-storage-initialization-state",
                 "witness-alternatives"
               ],
@@ -4158,6 +4162,7 @@
               "limitations": [
                 "static-storage-exception-state",
                 "static-storage-external-effects",
+                "static-storage-implicit-exception-effects",
                 "static-storage-initialization-state",
                 "witness-alternatives"
               ],
@@ -4186,6 +4191,7 @@
               "limitations": [
                 "static-storage-exception-state",
                 "static-storage-external-effects",
+                "static-storage-implicit-exception-effects",
                 "static-storage-initialization-state",
                 "witness-alternatives"
               ],
@@ -4561,6 +4567,7 @@
                 "call-depth",
                 "static-storage-exception-state",
                 "static-storage-external-effects",
+                "static-storage-implicit-exception-effects",
                 "static-storage-initialization-state",
                 "witness-alternatives"
               ],
@@ -4590,6 +4597,7 @@
                 "call-depth",
                 "static-storage-exception-state",
                 "static-storage-external-effects",
+                "static-storage-implicit-exception-effects",
                 "static-storage-initialization-state",
                 "witness-alternatives"
               ],
@@ -4640,7 +4648,8 @@
               "limitations": [
                 "call-depth",
                 "static-storage-exception-state",
-                "static-storage-external-effects"
+                "static-storage-external-effects",
+                "static-storage-implicit-exception-effects"
               ],
               "passed": true,
               "sources": 1,
@@ -4661,7 +4670,8 @@
               "limitations": [
                 "call-depth",
                 "static-storage-exception-state",
-                "static-storage-external-effects"
+                "static-storage-external-effects",
+                "static-storage-implicit-exception-effects"
               ],
               "passed": true,
               "sources": 1,
@@ -5517,7 +5527,7 @@
               "legacyPaths": 1,
               "visibleLengths": [
                 21,
-                20
+                21
               ],
               "detailedLengths": [
                 29,
@@ -5535,8 +5545,8 @@
               "distinctEndpoints": true,
               "viaSatisfied": true,
               "positiveControlSatisfied": null,
-              "witnessesSha256": "079a375dc639528998af577e120c69230860271bcd5b21fada1b9906f6b9dbc1",
-              "detailedWitnessesSha256": "12216e3ac395ff2c12270ac75d6073747b745141190f8d814527feab80e673f5"
+              "witnessesSha256": "3e746f1b95e73712647ca2477b3774f9662ee751e05730e0d41621817b85df4c",
+              "detailedWitnessesSha256": "3b81fd67eb05834186b8140c7e0144fac643bdabf79f2cd408fdda4bf9d14058"
             },
             "modeled": {
               "paths": 2,
@@ -5892,7 +5902,9 @@
                 "field-depth-widening",
                 "static-storage-exception-state",
                 "static-storage-external-effects",
+                "static-storage-implicit-exception-effects",
                 "static-storage-initialization-state",
+                "static-storage-joined-exits",
                 "static-storage-search",
                 "witness-alternatives"
               ],
@@ -5923,7 +5935,9 @@
                 "field-depth-widening",
                 "static-storage-exception-state",
                 "static-storage-external-effects",
+                "static-storage-implicit-exception-effects",
                 "static-storage-initialization-state",
+                "static-storage-joined-exits",
                 "static-storage-search",
                 "witness-alternatives"
               ],

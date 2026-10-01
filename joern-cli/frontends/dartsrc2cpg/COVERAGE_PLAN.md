@@ -75,8 +75,10 @@ The shared context correction is Dart-only, with ordinary-call, wrong-owner and
 foreign-language boundary tests. A bounded Dart-only static-storage traversal now
 recovers DART-FLOW-006's original `lazyIncrement` dependency and has call-order,
 overwrite, loop, independent-slot and repeated-call controls. Initialization-state
-correlation and exceptional memory effects remain open; the throwing-helper/catch
-oracle still exposes a missed dependency with an explicit diagnostic.
+correlation remains open. Exceptional stores now reach catch-time reads with
+normal/thrown exit isolation, cleanup overwrites and rethrow/return replacement
+controls. DART-FLOW-007 exposes lost pending-exit demands through an ordinary RHS
+field-copy task; its diagnosed normal-return false positive remains unfinished.
 An opt-in Dart witness bound now retains distinct routes through intraprocedural,
 held-task and final selection, with explicit pruning diagnostics and detailed
 call-context reports. Three-route branch/call isolation has graph and bounded
@@ -162,8 +164,9 @@ All 21 negative queries have enforced distinct-node positive controls (nine new 
 The certificate route has a reduced Scala regression, a Dart execution oracle
 and a complete transition review. The committed review snapshot covers all 76 expectations
 and all 63 distinct returned paths (540 transitions), including two endpoint identities and both stock false
-positives. It is historical and does not certify newly generated paths. Five
-modeled negative searches remain inconclusive. Unreturned
+positives. It is historical and does not certify newly generated paths. Seven
+modeled negative searches remain inconclusive in the current ordinary reports
+(eight with the bounded alternative configuration). Unreturned
 alternatives and negative-search qualification remain outstanding.
 
 Bounded alternative reporting is now available through `DartWitnessAuditTests`

@@ -1,0 +1,7258 @@
+{
+  "schemaVersion": 1,
+  "analysisSources": {
+    "algorithm": "sha256-path-nul-content-nul",
+    "sha256": "3877d5d83af53418f3e3f3fa785694f63e39f9248dcedc0ad6a1484ab2020ca6",
+    "files": 400,
+    "roots": [
+      "joern-cli/frontends/dartsrc2cpg/src",
+      "joern-cli/frontends/dartsrc2cpg/astgen/lib",
+      "joern-cli/frontends/dartsrc2cpg/astgen/bin",
+      "joern-cli/frontends/x2cpg/src/main",
+      "dataflowengineoss/src/main",
+      "semanticcpg/src/main",
+      "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.lock",
+      "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.yaml",
+      "joern-cli/frontends/dartsrc2cpg/build.sbt",
+      "joern-cli/frontends/x2cpg/build.sbt",
+      "joern-cli/build.sbt",
+      "dataflowengineoss/build.sbt",
+      "semanticcpg/build.sbt",
+      "build.sbt",
+      "project/Versions.scala",
+      "project/Projects.scala"
+    ]
+  },
+  "source": {
+    "fixture": "src/test/resources/semantics/static_exception_storage.dart",
+    "sha256": "f0f56aa3e7528acba2ce183ff109965d212bbcf00e13c678715bd992b2ca5653",
+    "executionOracle": "astgen/test/static_exception_storage_test.dart",
+    "sdk": "3.9.2",
+    "analyzer": "8.4.1",
+    "exporter": "0.3.19",
+    "inputs": [
+      "",
+      "input",
+      "second"
+    ],
+    "branches": [
+      false,
+      true
+    ]
+  },
+  "queryLimits": {
+    "maxCallDepth": 4,
+    "maxFieldDepth": 4,
+    "maxWitnessesPerEndpoint": 2,
+    "maxHeldTaskIterations": 0,
+    "maxStaticStorageNodes": 10000,
+    "maxArgsToAllow": 1000,
+    "maxOutputArgsExpansion": 1000
+  },
+  "queries": [
+    {
+      "id": "caughtBranch",
+      "expected": true,
+      "passed": true,
+      "outcome": "flow-observed",
+      "limitations": [
+        "static-storage-exception-state",
+        "static-storage-external-effects",
+        "static-storage-implicit-exception-effects",
+        "static-storage-initialization-state"
+      ],
+      "paths": 2,
+      "detailedPaths": 2
+    },
+    {
+      "id": "cleanupPreserved",
+      "expected": true,
+      "passed": true,
+      "outcome": "flow-observed",
+      "limitations": [
+        "static-storage-exception-state",
+        "static-storage-external-effects",
+        "static-storage-implicit-exception-effects",
+        "static-storage-initialization-state",
+        "static-storage-joined-exits"
+      ],
+      "paths": 2,
+      "detailedPaths": 2
+    },
+    {
+      "id": "suppressedResult",
+      "expected": true,
+      "passed": true,
+      "outcome": "flow-observed",
+      "limitations": [
+        "static-storage-exception-state",
+        "static-storage-external-effects",
+        "static-storage-implicit-exception-effects",
+        "static-storage-initialization-state"
+      ],
+      "paths": 2,
+      "detailedPaths": 2
+    },
+    {
+      "id": "joinedNormal",
+      "expected": false,
+      "passed": true,
+      "outcome": "inconclusive-query-limits",
+      "limitations": [
+        "static-storage-exception-state",
+        "static-storage-initialization-state",
+        "static-storage-joined-exits"
+      ],
+      "paths": 0,
+      "detailedPaths": 0
+    },
+    {
+      "id": "joinedCaught",
+      "expected": true,
+      "passed": true,
+      "outcome": "flow-observed",
+      "limitations": [
+        "static-storage-exception-state",
+        "static-storage-external-effects",
+        "static-storage-implicit-exception-effects",
+        "static-storage-initialization-state",
+        "static-storage-joined-exits"
+      ],
+      "paths": 2,
+      "detailedPaths": 2
+    },
+    {
+      "id": "copiedNormal",
+      "expected": false,
+      "passed": false,
+      "outcome": "flow-observed",
+      "limitations": [
+        "static-storage-exception-state",
+        "static-storage-external-effects",
+        "static-storage-implicit-exception-effects",
+        "static-storage-initialization-state",
+        "static-storage-joined-exits"
+      ],
+      "paths": 2,
+      "detailedPaths": 2
+    },
+    {
+      "id": "copiedCaught",
+      "expected": true,
+      "passed": true,
+      "outcome": "flow-observed",
+      "limitations": [
+        "static-storage-exception-state",
+        "static-storage-external-effects",
+        "static-storage-implicit-exception-effects",
+        "static-storage-initialization-state",
+        "static-storage-joined-exits"
+      ],
+      "paths": 2,
+      "detailedPaths": 2
+    },
+    {
+      "id": "joinedArgument",
+      "expected": true,
+      "passed": true,
+      "outcome": "flow-observed",
+      "limitations": [],
+      "paths": 1,
+      "detailedPaths": 1
+    },
+    {
+      "id": "copiedArgument",
+      "expected": true,
+      "passed": true,
+      "outcome": "flow-observed",
+      "limitations": [],
+      "paths": 1,
+      "detailedPaths": 1
+    }
+  ],
+  "categories": {
+    "parameter binding": "Exact argument slot one enters its resolved target and selected call context.",
+    "caller argument binding": "A formal sink expands to its caller argument slot one without an initially selected callee frame; exact resolved target identity is checked.",
+    "parameter use": "The parameter supplies a value use in the same method.",
+    "storage write": "The actual setter assignment uses the RHS in argument slot two; field declaration code is not the stored value.",
+    "exceptional memory effect exit": "Stored state crosses a failed call or resumed thrown exit; this is not an exception payload or scalar return dependency.",
+    "resolved call exit": "The method identity matches the resolved caller target; void setters/helpers carry memory effects, getters/read return scalar values.",
+    "storage continuation": "Invisible entry evidence resumes CFG storage traversal at the selected caller; completed unrelated-slot cleanup does not kill the requested slot.",
+    "method exit evidence": "Return/normal completion carries stored state or a scalar value; cleanup return replacement in suppress resumes normal caller execution.",
+    "returned value": "The getter/read value supplies its explicit return operand.",
+    "assignment or use": "Source/evaluation temporary storage supplies a later use without reevaluation.",
+    "saved field copy": "The other-field getter value supplies the saved RHS temporary before the value-field setter."
+  },
+  "limitations": [
+    "All transitions of the returned paths are retained; the bound does not enumerate every execution or CFG predecessor. Private pending-exit demands are not serialized in the existing witness schema; exitModes retain producer evidence.",
+    "Initialization guards, external effects and implicit runtime exceptions remain diagnosed. Zero paths for joinedNormal is a matching endpoint observation with a positive control, but an inconclusive semantic absence under the reported limits. joinedArgument and copiedArgument share the exact source endpoints and prove the selected callee input bindings; the caught controls additionally check actual runtime storage delivery.",
+    "copiedNormal is a known false positive: its source store occurs only on otherBranch's thrown exit, while copiedCleanup's caller requires normal completion. The ordinary RHS task loses this correlation when it reads Shared.other.",
+    "copiedCaught is the nearby runtime/graph positive control. The execution oracle observes normal copy for false and a thrown exit for true; it never observes an input-valued normal return from copiedNormal.",
+    "No initialization, complete heap, callback lifecycle or general exception-feasibility claim follows."
+  ],
+  "elementColumns": [
+    "nodeId",
+    "contextIndex",
+    "visible",
+    "isOutputArg",
+    "outEdgeLabel",
+    "fieldDemand"
+  ],
+  "transitionColumns": [
+    "fromIndex",
+    "toIndex",
+    "category"
+  ],
+  "nodes": {
+    "111669149700": {
+      "nodeId": "111669149700",
+      "label": "METHOD_PARAMETER_IN",
+      "method": "lib/helper.dart#257:FUNCTION:caughtBranch",
+      "code": "String input",
+      "line": 16,
+      "parameterIndex": 1,
+      "exitModes": [],
+      "argumentsOf": []
+    },
+    "68719476743": {
+      "nodeId": "68719476743",
+      "label": "IDENTIFIER",
+      "method": "lib/helper.dart#257:FUNCTION:caughtBranch",
+      "code": "input",
+      "line": 19,
+      "exitModes": [],
+      "argumentsOf": [
+        [
+          "30064771080",
+          1
+        ]
+      ]
+    },
+    "111669149696": {
+      "nodeId": "111669149696",
+      "label": "METHOD_PARAMETER_IN",
+      "method": "lib/helper.dart#36:FUNCTION:branch",
+      "code": "String input",
+      "line": 3,
+      "parameterIndex": 1,
+      "exitModes": [],
+      "argumentsOf": []
+    },
+    "68719476737": {
+      "nodeId": "68719476737",
+      "label": "IDENTIFIER",
+      "method": "lib/helper.dart#36:FUNCTION:branch",
+      "code": "input",
+      "line": 5,
+      "exitModes": [],
+      "argumentsOf": [
+        [
+          "30064771072",
+          1
+        ]
+      ]
+    },
+    "111669149747": {
+      "nodeId": "111669149747",
+      "label": "METHOD_PARAMETER_IN",
+      "method": "lib/static_storage.dart#147:FUNCTION:write",
+      "code": "String input",
+      "line": 10,
+      "parameterIndex": 1,
+      "exitModes": [],
+      "argumentsOf": []
+    },
+    "68719476944": {
+      "nodeId": "68719476944",
+      "label": "IDENTIFIER",
+      "method": "lib/static_storage.dart#147:FUNCTION:write",
+      "code": "input",
+      "line": 11,
+      "exitModes": [],
+      "argumentsOf": [
+        [
+          "30064771283",
+          2
+        ]
+      ]
+    },
+    "68719476943": {
+      "nodeId": "68719476943",
+      "label": "IDENTIFIER",
+      "method": "lib/static_storage.dart#147:FUNCTION:write",
+      "code": "<tmp>5",
+      "line": 11,
+      "exitModes": [],
+      "argumentsOf": [
+        [
+          "30064771283",
+          1
+        ]
+      ]
+    },
+    "68719476945": {
+      "nodeId": "68719476945",
+      "label": "IDENTIFIER",
+      "method": "lib/static_storage.dart#147:FUNCTION:write",
+      "code": "<tmp>5",
+      "line": 11,
+      "exitModes": [],
+      "argumentsOf": [
+        [
+          "30064771284",
+          1
+        ]
+      ]
+    },
+    "111669149742": {
+      "nodeId": "111669149742",
+      "label": "METHOD_PARAMETER_IN",
+      "method": "lib/static_storage.dart#6:SETTER:value",
+      "code": "value",
+      "line": -1,
+      "parameterIndex": 1,
+      "exitModes": [],
+      "argumentsOf": []
+    },
+    "68719476922": {
+      "nodeId": "68719476922",
+      "label": "IDENTIFIER",
+      "method": "lib/static_storage.dart#6:SETTER:value",
+      "code": "value",
+      "line": 2,
+      "exitModes": [],
+      "argumentsOf": [
+        [
+          "30064771260",
+          2
+        ]
+      ]
+    },
+    "30064771260": {
+      "nodeId": "30064771260",
+      "label": "CALL",
+      "method": "lib/static_storage.dart#6:SETTER:value",
+      "code": "value = 'initial'",
+      "line": 2,
+      "exitModes": [
+        "normal.after"
+      ],
+      "call": "30064771260",
+      "argumentsOf": []
+    },
+    "124554051617": {
+      "nodeId": "124554051617",
+      "label": "METHOD_RETURN",
+      "method": "lib/static_storage.dart#6:SETTER:value",
+      "code": "RET",
+      "line": -1,
+      "exitModes": [
+        "complete"
+      ],
+      "argumentsOf": []
+    },
+    "30064771284": {
+      "nodeId": "30064771284",
+      "label": "CALL",
+      "method": "lib/static_storage.dart#147:FUNCTION:write",
+      "code": "Shared.value = input",
+      "line": 11,
+      "exitModes": [],
+      "call": "30064771284",
+      "argumentsOf": []
+    },
+    "124554051626": {
+      "nodeId": "124554051626",
+      "label": "METHOD_RETURN",
+      "method": "lib/static_storage.dart#147:FUNCTION:write",
+      "code": "RET",
+      "line": -1,
+      "exitModes": [
+        "complete"
+      ],
+      "argumentsOf": []
+    },
+    "30064771072": {
+      "nodeId": "30064771072",
+      "label": "CALL",
+      "method": "lib/helper.dart#36:FUNCTION:branch",
+      "code": "write(input)",
+      "line": 5,
+      "exitModes": [],
+      "call": "30064771072",
+      "argumentsOf": []
+    },
+    "124554051584": {
+      "nodeId": "124554051584",
+      "label": "METHOD_RETURN",
+      "method": "lib/helper.dart#36:FUNCTION:branch",
+      "code": "RET",
+      "line": -1,
+      "exitModes": [
+        "complete"
+      ],
+      "argumentsOf": []
+    },
+    "30064771080": {
+      "nodeId": "30064771080",
+      "label": "CALL",
+      "method": "lib/helper.dart#257:FUNCTION:caughtBranch",
+      "code": "branch(input, fail)",
+      "line": 19,
+      "exitModes": [
+        "throw.before"
+      ],
+      "call": "30064771080",
+      "argumentsOf": []
+    },
+    "107374182443": {
+      "nodeId": "107374182443",
+      "label": "METHOD",
+      "method": "lib/static_storage.dart#203:FUNCTION:read",
+      "code": "String read() => Shared.value;",
+      "line": 14,
+      "exitModes": [],
+      "argumentsOf": []
+    },
+    "107374182432": {
+      "nodeId": "107374182432",
+      "label": "METHOD",
+      "method": "lib/static_storage.dart#6:GETTER:value",
+      "code": "value = 'initial'",
+      "line": 2,
+      "exitModes": [],
+      "argumentsOf": []
+    },
+    "30064771259": {
+      "nodeId": "30064771259",
+      "label": "CALL",
+      "method": "lib/static_storage.dart#6:GETTER:value",
+      "code": "value = 'initial'",
+      "line": 2,
+      "exitModes": [],
+      "call": "30064771259",
+      "argumentsOf": []
+    },
+    "141733920802": {
+      "nodeId": "141733920802",
+      "label": "RETURN",
+      "method": "lib/static_storage.dart#6:GETTER:value",
+      "code": "return value",
+      "line": -1,
+      "exitModes": [
+        "normal.after"
+      ],
+      "argumentsOf": []
+    },
+    "124554051616": {
+      "nodeId": "124554051616",
+      "label": "METHOD_RETURN",
+      "method": "lib/static_storage.dart#6:GETTER:value",
+      "code": "RET",
+      "line": -1,
+      "exitModes": [
+        "complete"
+      ],
+      "argumentsOf": []
+    },
+    "30064771285": {
+      "nodeId": "30064771285",
+      "label": "CALL",
+      "method": "lib/static_storage.dart#203:FUNCTION:read",
+      "code": "Shared.value",
+      "line": 14,
+      "exitModes": [],
+      "call": "30064771285",
+      "argumentsOf": []
+    },
+    "141733920807": {
+      "nodeId": "141733920807",
+      "label": "RETURN",
+      "method": "lib/static_storage.dart#203:FUNCTION:read",
+      "code": "=> Shared.value;",
+      "line": 14,
+      "exitModes": [
+        "normal.after"
+      ],
+      "argumentsOf": []
+    },
+    "124554051627": {
+      "nodeId": "124554051627",
+      "label": "METHOD_RETURN",
+      "method": "lib/static_storage.dart#203:FUNCTION:read",
+      "code": "RET",
+      "line": -1,
+      "exitModes": [
+        "complete"
+      ],
+      "argumentsOf": []
+    },
+    "30064771086": {
+      "nodeId": "30064771086",
+      "label": "CALL",
+      "method": "lib/helper.dart#257:FUNCTION:caughtBranch",
+      "code": "read()",
+      "line": 21,
+      "exitModes": [
+        "throw.before"
+      ],
+      "call": "30064771086",
+      "argumentsOf": []
+    },
+    "141733920769": {
+      "nodeId": "141733920769",
+      "label": "RETURN",
+      "method": "lib/helper.dart#257:FUNCTION:caughtBranch",
+      "code": "return read();",
+      "line": 21,
+      "exitModes": [
+        "normal.after"
+      ],
+      "argumentsOf": []
+    },
+    "111669149709": {
+      "nodeId": "111669149709",
+      "label": "METHOD_PARAMETER_IN",
+      "method": "lib/helper.dart#1413:FUNCTION:cleanupPreserved",
+      "code": "String input",
+      "line": 81,
+      "parameterIndex": 1,
+      "exitModes": [],
+      "argumentsOf": []
+    },
+    "68719476787": {
+      "nodeId": "68719476787",
+      "label": "IDENTIFIER",
+      "method": "lib/helper.dart#1413:FUNCTION:cleanupPreserved",
+      "code": "input",
+      "line": 84,
+      "exitModes": [],
+      "argumentsOf": [
+        [
+          "30064771131",
+          1
+        ]
+      ]
+    },
+    "111669149711": {
+      "nodeId": "111669149711",
+      "label": "METHOD_PARAMETER_IN",
+      "method": "lib/helper.dart#1726:FUNCTION:preserveCleanup",
+      "code": "String input",
+      "line": 100,
+      "parameterIndex": 1,
+      "exitModes": [],
+      "argumentsOf": []
+    },
+    "68719476799": {
+      "nodeId": "68719476799",
+      "label": "IDENTIFIER",
+      "method": "lib/helper.dart#1726:FUNCTION:preserveCleanup",
+      "code": "input",
+      "line": 102,
+      "exitModes": [],
+      "argumentsOf": [
+        [
+          "30064771143",
+          1
+        ]
+      ]
+    },
+    "111669149765": {
+      "nodeId": "111669149765",
+      "label": "METHOD_PARAMETER_IN",
+      "method": "lib/static_storage.dart#1654:FUNCTION:writeAndThrow",
+      "code": "String input",
+      "line": 103,
+      "parameterIndex": 1,
+      "exitModes": [],
+      "argumentsOf": []
+    },
+    "68719476994": {
+      "nodeId": "68719476994",
+      "label": "IDENTIFIER",
+      "method": "lib/static_storage.dart#1654:FUNCTION:writeAndThrow",
+      "code": "input",
+      "line": 104,
+      "exitModes": [],
+      "argumentsOf": [
+        [
+          "30064771336",
+          1
+        ]
+      ]
+    },
+    "30064771336": {
+      "nodeId": "30064771336",
+      "label": "CALL",
+      "method": "lib/static_storage.dart#1654:FUNCTION:writeAndThrow",
+      "code": "write(input)",
+      "line": 104,
+      "exitModes": [],
+      "call": "30064771336",
+      "argumentsOf": []
+    },
+    "124554051642": {
+      "nodeId": "124554051642",
+      "label": "METHOD_RETURN",
+      "method": "lib/static_storage.dart#1654:FUNCTION:writeAndThrow",
+      "code": "RET",
+      "line": -1,
+      "exitModes": [
+        "complete"
+      ],
+      "argumentsOf": []
+    },
+    "30064771143": {
+      "nodeId": "30064771143",
+      "label": "CALL",
+      "method": "lib/helper.dart#1726:FUNCTION:preserveCleanup",
+      "code": "writeAndThrow(input)",
+      "line": 102,
+      "exitModes": [
+        "throw.before"
+      ],
+      "call": "30064771143",
+      "argumentsOf": []
+    },
+    "107374182435": {
+      "nodeId": "107374182435",
+      "label": "METHOD",
+      "method": "lib/static_storage.dart#6:SETTER:other",
+      "code": "other = 'other'",
+      "line": 3,
+      "exitModes": [],
+      "argumentsOf": []
+    },
+    "124554051619": {
+      "nodeId": "124554051619",
+      "label": "METHOD_RETURN",
+      "method": "lib/static_storage.dart#6:SETTER:other",
+      "code": "RET",
+      "line": -1,
+      "exitModes": [
+        "complete"
+      ],
+      "argumentsOf": []
+    },
+    "30064771146": {
+      "nodeId": "30064771146",
+      "label": "CALL",
+      "method": "lib/helper.dart#1726:FUNCTION:preserveCleanup",
+      "code": "Shared.other = 'unrelated cleanup'",
+      "line": 104,
+      "exitModes": [],
+      "call": "30064771146",
+      "argumentsOf": []
+    },
+    "124554051595": {
+      "nodeId": "124554051595",
+      "label": "METHOD_RETURN",
+      "method": "lib/helper.dart#1726:FUNCTION:preserveCleanup",
+      "code": "RET",
+      "line": -1,
+      "exitModes": [
+        "complete"
+      ],
+      "argumentsOf": []
+    },
+    "30064771131": {
+      "nodeId": "30064771131",
+      "label": "CALL",
+      "method": "lib/helper.dart#1413:FUNCTION:cleanupPreserved",
+      "code": "preserveCleanup(input)",
+      "line": 84,
+      "exitModes": [
+        "throw.before"
+      ],
+      "call": "30064771131",
+      "argumentsOf": []
+    },
+    "30064771137": {
+      "nodeId": "30064771137",
+      "label": "CALL",
+      "method": "lib/helper.dart#1413:FUNCTION:cleanupPreserved",
+      "code": "read()",
+      "line": 86,
+      "exitModes": [
+        "throw.before"
+      ],
+      "call": "30064771137",
+      "argumentsOf": []
+    },
+    "141733920780": {
+      "nodeId": "141733920780",
+      "label": "RETURN",
+      "method": "lib/helper.dart#1413:FUNCTION:cleanupPreserved",
+      "code": "return read();",
+      "line": 86,
+      "exitModes": [
+        "normal.after"
+      ],
+      "argumentsOf": []
+    },
+    "111669149715": {
+      "nodeId": "111669149715",
+      "label": "METHOD_PARAMETER_IN",
+      "method": "lib/helper.dart#2120:FUNCTION:suppressedResult",
+      "code": "String input",
+      "line": 125,
+      "parameterIndex": 1,
+      "exitModes": [],
+      "argumentsOf": []
+    },
+    "68719476813": {
+      "nodeId": "68719476813",
+      "label": "IDENTIFIER",
+      "method": "lib/helper.dart#2120:FUNCTION:suppressedResult",
+      "code": "input",
+      "line": 127,
+      "exitModes": [],
+      "argumentsOf": [
+        [
+          "30064771156",
+          1
+        ]
+      ]
+    },
+    "111669149714": {
+      "nodeId": "111669149714",
+      "label": "METHOD_PARAMETER_IN",
+      "method": "lib/helper.dart#2021:FUNCTION:suppress",
+      "code": "String input",
+      "line": 117,
+      "parameterIndex": 1,
+      "exitModes": [],
+      "argumentsOf": []
+    },
+    "68719476812": {
+      "nodeId": "68719476812",
+      "label": "IDENTIFIER",
+      "method": "lib/helper.dart#2021:FUNCTION:suppress",
+      "code": "input",
+      "line": 119,
+      "exitModes": [],
+      "argumentsOf": [
+        [
+          "30064771154",
+          1
+        ]
+      ]
+    },
+    "30064771154": {
+      "nodeId": "30064771154",
+      "label": "CALL",
+      "method": "lib/helper.dart#2021:FUNCTION:suppress",
+      "code": "writeAndThrow(input)",
+      "line": 119,
+      "exitModes": [
+        "throw.before"
+      ],
+      "call": "30064771154",
+      "argumentsOf": []
+    },
+    "124554051597": {
+      "nodeId": "124554051597",
+      "label": "METHOD_RETURN",
+      "method": "lib/helper.dart#2021:FUNCTION:suppress",
+      "code": "RET",
+      "line": -1,
+      "exitModes": [
+        "complete"
+      ],
+      "argumentsOf": []
+    },
+    "30064771156": {
+      "nodeId": "30064771156",
+      "label": "CALL",
+      "method": "lib/helper.dart#2120:FUNCTION:suppressedResult",
+      "code": "suppress(input)",
+      "line": 127,
+      "exitModes": [],
+      "call": "30064771156",
+      "argumentsOf": []
+    },
+    "30064771157": {
+      "nodeId": "30064771157",
+      "label": "CALL",
+      "method": "lib/helper.dart#2120:FUNCTION:suppressedResult",
+      "code": "read()",
+      "line": 128,
+      "exitModes": [],
+      "call": "30064771157",
+      "argumentsOf": []
+    },
+    "141733920785": {
+      "nodeId": "141733920785",
+      "label": "RETURN",
+      "method": "lib/helper.dart#2120:FUNCTION:suppressedResult",
+      "code": "return read();",
+      "line": 128,
+      "exitModes": [
+        "normal.after"
+      ],
+      "argumentsOf": []
+    },
+    "111669149732": {
+      "nodeId": "111669149732",
+      "label": "METHOD_PARAMETER_IN",
+      "method": "lib/helper.dart#3888:FUNCTION:joinedCaught",
+      "code": "String input",
+      "line": 233,
+      "parameterIndex": 1,
+      "exitModes": [],
+      "argumentsOf": []
+    },
+    "68719476878": {
+      "nodeId": "68719476878",
+      "label": "IDENTIFIER",
+      "method": "lib/helper.dart#3888:FUNCTION:joinedCaught",
+      "code": "input",
+      "line": 235,
+      "exitModes": [],
+      "argumentsOf": [
+        [
+          "30064771223",
+          1
+        ]
+      ]
+    },
+    "111669149728": {
+      "nodeId": "111669149728",
+      "label": "METHOD_PARAMETER_IN",
+      "method": "lib/helper.dart#3652:FUNCTION:joinedCleanup",
+      "code": "String input",
+      "line": 220,
+      "parameterIndex": 1,
+      "exitModes": [],
+      "argumentsOf": []
+    },
+    "68719476869": {
+      "nodeId": "68719476869",
+      "label": "IDENTIFIER",
+      "method": "lib/helper.dart#3652:FUNCTION:joinedCleanup",
+      "code": "input",
+      "line": 222,
+      "exitModes": [],
+      "argumentsOf": [
+        [
+          "30064771217",
+          1
+        ]
+      ]
+    },
+    "30064771217": {
+      "nodeId": "30064771217",
+      "label": "CALL",
+      "method": "lib/helper.dart#3652:FUNCTION:joinedCleanup",
+      "code": "branch(input, fail)",
+      "line": 222,
+      "exitModes": [
+        "throw.before"
+      ],
+      "call": "30064771217",
+      "argumentsOf": []
+    },
+    "30064771220": {
+      "nodeId": "30064771220",
+      "label": "CALL",
+      "method": "lib/helper.dart#3652:FUNCTION:joinedCleanup",
+      "code": "Shared.other = 'joined cleanup'",
+      "line": 224,
+      "exitModes": [],
+      "call": "30064771220",
+      "argumentsOf": []
+    },
+    "124554051609": {
+      "nodeId": "124554051609",
+      "label": "METHOD_RETURN",
+      "method": "lib/helper.dart#3652:FUNCTION:joinedCleanup",
+      "code": "RET",
+      "line": -1,
+      "exitModes": [
+        "complete"
+      ],
+      "argumentsOf": []
+    },
+    "30064771223": {
+      "nodeId": "30064771223",
+      "label": "CALL",
+      "method": "lib/helper.dart#3888:FUNCTION:joinedCaught",
+      "code": "joinedCleanup(input, fail)",
+      "line": 235,
+      "exitModes": [
+        "throw.before"
+      ],
+      "call": "30064771223",
+      "argumentsOf": []
+    },
+    "30064771229": {
+      "nodeId": "30064771229",
+      "label": "CALL",
+      "method": "lib/helper.dart#3888:FUNCTION:joinedCaught",
+      "code": "read()",
+      "line": 237,
+      "exitModes": [
+        "throw.before"
+      ],
+      "call": "30064771229",
+      "argumentsOf": []
+    },
+    "141733920797": {
+      "nodeId": "141733920797",
+      "label": "RETURN",
+      "method": "lib/helper.dart#3888:FUNCTION:joinedCaught",
+      "code": "return read();",
+      "line": 237,
+      "exitModes": [
+        "normal.after"
+      ],
+      "argumentsOf": []
+    },
+    "111669149738": {
+      "nodeId": "111669149738",
+      "label": "METHOD_PARAMETER_IN",
+      "method": "lib/helper.dart#4346:FUNCTION:copiedNormal",
+      "code": "String input",
+      "line": 258,
+      "parameterIndex": 1,
+      "exitModes": [],
+      "argumentsOf": []
+    },
+    "68719476907": {
+      "nodeId": "68719476907",
+      "label": "IDENTIFIER",
+      "method": "lib/helper.dart#4346:FUNCTION:copiedNormal",
+      "code": "input",
+      "line": 259,
+      "exitModes": [],
+      "argumentsOf": [
+        [
+          "30064771244",
+          1
+        ]
+      ]
+    },
+    "111669149736": {
+      "nodeId": "111669149736",
+      "label": "METHOD_PARAMETER_IN",
+      "method": "lib/helper.dart#4206:FUNCTION:copiedCleanup",
+      "code": "String input",
+      "line": 250,
+      "parameterIndex": 1,
+      "exitModes": [],
+      "argumentsOf": []
+    },
+    "68719476900": {
+      "nodeId": "68719476900",
+      "label": "IDENTIFIER",
+      "method": "lib/helper.dart#4206:FUNCTION:copiedCleanup",
+      "code": "input",
+      "line": 252,
+      "exitModes": [],
+      "argumentsOf": [
+        [
+          "30064771239",
+          1
+        ]
+      ]
+    },
+    "111669149734": {
+      "nodeId": "111669149734",
+      "label": "METHOD_PARAMETER_IN",
+      "method": "lib/helper.dart#4045:FUNCTION:otherBranch",
+      "code": "String input",
+      "line": 242,
+      "parameterIndex": 1,
+      "exitModes": [],
+      "argumentsOf": []
+    },
+    "68719476889": {
+      "nodeId": "68719476889",
+      "label": "IDENTIFIER",
+      "method": "lib/helper.dart#4045:FUNCTION:otherBranch",
+      "code": "input",
+      "line": 244,
+      "exitModes": [],
+      "argumentsOf": [
+        [
+          "30064771231",
+          2
+        ]
+      ]
+    },
+    "68719476888": {
+      "nodeId": "68719476888",
+      "label": "IDENTIFIER",
+      "method": "lib/helper.dart#4045:FUNCTION:otherBranch",
+      "code": "<tmp>45",
+      "line": 244,
+      "exitModes": [],
+      "argumentsOf": [
+        [
+          "30064771231",
+          1
+        ]
+      ]
+    },
+    "68719476890": {
+      "nodeId": "68719476890",
+      "label": "IDENTIFIER",
+      "method": "lib/helper.dart#4045:FUNCTION:otherBranch",
+      "code": "<tmp>45",
+      "line": 244,
+      "exitModes": [],
+      "argumentsOf": [
+        [
+          "30064771232",
+          1
+        ]
+      ]
+    },
+    "111669149743": {
+      "nodeId": "111669149743",
+      "label": "METHOD_PARAMETER_IN",
+      "method": "lib/static_storage.dart#6:SETTER:other",
+      "code": "value",
+      "line": -1,
+      "parameterIndex": 1,
+      "exitModes": [],
+      "argumentsOf": []
+    },
+    "68719476929": {
+      "nodeId": "68719476929",
+      "label": "IDENTIFIER",
+      "method": "lib/static_storage.dart#6:SETTER:other",
+      "code": "value",
+      "line": 3,
+      "exitModes": [],
+      "argumentsOf": [
+        [
+          "30064771269",
+          2
+        ]
+      ]
+    },
+    "30064771269": {
+      "nodeId": "30064771269",
+      "label": "CALL",
+      "method": "lib/static_storage.dart#6:SETTER:other",
+      "code": "other = 'other'",
+      "line": 3,
+      "exitModes": [
+        "normal.after"
+      ],
+      "call": "30064771269",
+      "argumentsOf": []
+    },
+    "30064771232": {
+      "nodeId": "30064771232",
+      "label": "CALL",
+      "method": "lib/helper.dart#4045:FUNCTION:otherBranch",
+      "code": "Shared.other = input",
+      "line": 244,
+      "exitModes": [],
+      "call": "30064771232",
+      "argumentsOf": []
+    },
+    "124554051612": {
+      "nodeId": "124554051612",
+      "label": "METHOD_RETURN",
+      "method": "lib/helper.dart#4045:FUNCTION:otherBranch",
+      "code": "RET",
+      "line": -1,
+      "exitModes": [
+        "complete"
+      ],
+      "argumentsOf": []
+    },
+    "30064771239": {
+      "nodeId": "30064771239",
+      "label": "CALL",
+      "method": "lib/helper.dart#4206:FUNCTION:copiedCleanup",
+      "code": "otherBranch(input, fail)",
+      "line": 252,
+      "exitModes": [
+        "throw.before"
+      ],
+      "call": "30064771239",
+      "argumentsOf": []
+    },
+    "107374182434": {
+      "nodeId": "107374182434",
+      "label": "METHOD",
+      "method": "lib/static_storage.dart#6:GETTER:other",
+      "code": "other = 'other'",
+      "line": 3,
+      "exitModes": [],
+      "argumentsOf": []
+    },
+    "30064771268": {
+      "nodeId": "30064771268",
+      "label": "CALL",
+      "method": "lib/static_storage.dart#6:GETTER:other",
+      "code": "other = 'other'",
+      "line": 3,
+      "exitModes": [],
+      "call": "30064771268",
+      "argumentsOf": []
+    },
+    "141733920803": {
+      "nodeId": "141733920803",
+      "label": "RETURN",
+      "method": "lib/static_storage.dart#6:GETTER:other",
+      "code": "return other",
+      "line": -1,
+      "exitModes": [
+        "normal.after"
+      ],
+      "argumentsOf": []
+    },
+    "124554051618": {
+      "nodeId": "124554051618",
+      "label": "METHOD_RETURN",
+      "method": "lib/static_storage.dart#6:GETTER:other",
+      "code": "RET",
+      "line": -1,
+      "exitModes": [
+        "complete"
+      ],
+      "argumentsOf": []
+    },
+    "30064771242": {
+      "nodeId": "30064771242",
+      "label": "CALL",
+      "method": "lib/helper.dart#4206:FUNCTION:copiedCleanup",
+      "code": "Shared.other",
+      "line": 254,
+      "exitModes": [],
+      "call": "30064771242",
+      "argumentsOf": [
+        [
+          "30064771241",
+          2
+        ]
+      ]
+    },
+    "68719476904": {
+      "nodeId": "68719476904",
+      "label": "IDENTIFIER",
+      "method": "lib/helper.dart#4206:FUNCTION:copiedCleanup",
+      "code": "<tmp>50",
+      "line": 254,
+      "exitModes": [],
+      "argumentsOf": [
+        [
+          "30064771241",
+          1
+        ]
+      ]
+    },
+    "68719476905": {
+      "nodeId": "68719476905",
+      "label": "IDENTIFIER",
+      "method": "lib/helper.dart#4206:FUNCTION:copiedCleanup",
+      "code": "<tmp>50",
+      "line": 254,
+      "exitModes": [],
+      "argumentsOf": [
+        [
+          "30064771243",
+          1
+        ]
+      ]
+    },
+    "30064771243": {
+      "nodeId": "30064771243",
+      "label": "CALL",
+      "method": "lib/helper.dart#4206:FUNCTION:copiedCleanup",
+      "code": "Shared.value = Shared.other",
+      "line": 254,
+      "exitModes": [],
+      "call": "30064771243",
+      "argumentsOf": []
+    },
+    "124554051613": {
+      "nodeId": "124554051613",
+      "label": "METHOD_RETURN",
+      "method": "lib/helper.dart#4206:FUNCTION:copiedCleanup",
+      "code": "RET",
+      "line": -1,
+      "exitModes": [
+        "complete"
+      ],
+      "argumentsOf": []
+    },
+    "30064771244": {
+      "nodeId": "30064771244",
+      "label": "CALL",
+      "method": "lib/helper.dart#4346:FUNCTION:copiedNormal",
+      "code": "copiedCleanup(input, fail)",
+      "line": 259,
+      "exitModes": [],
+      "call": "30064771244",
+      "argumentsOf": []
+    },
+    "30064771245": {
+      "nodeId": "30064771245",
+      "label": "CALL",
+      "method": "lib/helper.dart#4346:FUNCTION:copiedNormal",
+      "code": "read()",
+      "line": 260,
+      "exitModes": [],
+      "call": "30064771245",
+      "argumentsOf": []
+    },
+    "141733920799": {
+      "nodeId": "141733920799",
+      "label": "RETURN",
+      "method": "lib/helper.dart#4346:FUNCTION:copiedNormal",
+      "code": "return read();",
+      "line": 260,
+      "exitModes": [
+        "normal.after"
+      ],
+      "argumentsOf": []
+    },
+    "111669149740": {
+      "nodeId": "111669149740",
+      "label": "METHOD_PARAMETER_IN",
+      "method": "lib/helper.dart#4443:FUNCTION:copiedCaught",
+      "code": "String input",
+      "line": 263,
+      "parameterIndex": 1,
+      "exitModes": [],
+      "argumentsOf": []
+    },
+    "68719476909": {
+      "nodeId": "68719476909",
+      "label": "IDENTIFIER",
+      "method": "lib/helper.dart#4443:FUNCTION:copiedCaught",
+      "code": "input",
+      "line": 265,
+      "exitModes": [],
+      "argumentsOf": [
+        [
+          "30064771246",
+          1
+        ]
+      ]
+    },
+    "30064771246": {
+      "nodeId": "30064771246",
+      "label": "CALL",
+      "method": "lib/helper.dart#4443:FUNCTION:copiedCaught",
+      "code": "copiedCleanup(input, fail)",
+      "line": 265,
+      "exitModes": [
+        "throw.before"
+      ],
+      "call": "30064771246",
+      "argumentsOf": []
+    },
+    "30064771252": {
+      "nodeId": "30064771252",
+      "label": "CALL",
+      "method": "lib/helper.dart#4443:FUNCTION:copiedCaught",
+      "code": "read()",
+      "line": 267,
+      "exitModes": [
+        "throw.before"
+      ],
+      "call": "30064771252",
+      "argumentsOf": []
+    },
+    "141733920800": {
+      "nodeId": "141733920800",
+      "label": "RETURN",
+      "method": "lib/helper.dart#4443:FUNCTION:copiedCaught",
+      "code": "return read();",
+      "line": 267,
+      "exitModes": [
+        "normal.after"
+      ],
+      "argumentsOf": []
+    },
+    "111669149730": {
+      "nodeId": "111669149730",
+      "label": "METHOD_PARAMETER_IN",
+      "method": "lib/helper.dart#3791:FUNCTION:joinedNormal",
+      "code": "String input",
+      "line": 228,
+      "parameterIndex": 1,
+      "exitModes": [],
+      "argumentsOf": []
+    },
+    "68719476876": {
+      "nodeId": "68719476876",
+      "label": "IDENTIFIER",
+      "method": "lib/helper.dart#3791:FUNCTION:joinedNormal",
+      "code": "input",
+      "line": 229,
+      "exitModes": [],
+      "argumentsOf": [
+        [
+          "30064771221",
+          1
+        ]
+      ]
+    }
+  },
+  "calls": {
+    "30064771080": {
+      "nodeId": "30064771080",
+      "name": "branch",
+      "target": "lib/helper.dart#36:FUNCTION:branch",
+      "code": "branch(input, fail)",
+      "callees": [
+        {
+          "fullName": "lib/helper.dart#36:FUNCTION:branch",
+          "external": false
+        }
+      ]
+    },
+    "30064771072": {
+      "nodeId": "30064771072",
+      "name": "write",
+      "target": "lib/static_storage.dart#147:FUNCTION:write",
+      "code": "write(input)",
+      "callees": [
+        {
+          "fullName": "lib/static_storage.dart#147:FUNCTION:write",
+          "external": false
+        }
+      ]
+    },
+    "30064771283": {
+      "nodeId": "30064771283",
+      "name": "<operator>.assignment",
+      "target": "<operator>.assignment",
+      "code": "<tmp>5 = Shared.value = input",
+      "callees": [
+        {
+          "fullName": "<operator>.assignment",
+          "external": true
+        }
+      ]
+    },
+    "30064771284": {
+      "nodeId": "30064771284",
+      "name": "value",
+      "target": "lib/static_storage.dart#6:SETTER:value",
+      "code": "Shared.value = input",
+      "callees": [
+        {
+          "fullName": "lib/static_storage.dart#6:SETTER:value",
+          "external": false
+        }
+      ]
+    },
+    "30064771260": {
+      "nodeId": "30064771260",
+      "name": "<operator>.assignment",
+      "target": "<operator>.assignment",
+      "code": "value = 'initial'",
+      "callees": [
+        {
+          "fullName": "<operator>.assignment",
+          "external": true
+        }
+      ]
+    },
+    "30064771086": {
+      "nodeId": "30064771086",
+      "name": "read",
+      "target": "lib/static_storage.dart#203:FUNCTION:read",
+      "code": "read()",
+      "callees": [
+        {
+          "fullName": "lib/static_storage.dart#203:FUNCTION:read",
+          "external": false
+        }
+      ]
+    },
+    "30064771285": {
+      "nodeId": "30064771285",
+      "name": "value",
+      "target": "lib/static_storage.dart#6:GETTER:value",
+      "code": "Shared.value",
+      "callees": [
+        {
+          "fullName": "lib/static_storage.dart#6:GETTER:value",
+          "external": false
+        }
+      ]
+    },
+    "30064771259": {
+      "nodeId": "30064771259",
+      "name": "<operator>.fieldAccess",
+      "target": "<operator>.fieldAccess",
+      "code": "value = 'initial'",
+      "callees": [
+        {
+          "fullName": "<operator>.fieldAccess",
+          "external": true
+        }
+      ]
+    },
+    "30064771131": {
+      "nodeId": "30064771131",
+      "name": "preserveCleanup",
+      "target": "lib/helper.dart#1726:FUNCTION:preserveCleanup",
+      "code": "preserveCleanup(input)",
+      "callees": [
+        {
+          "fullName": "lib/helper.dart#1726:FUNCTION:preserveCleanup",
+          "external": false
+        }
+      ]
+    },
+    "30064771143": {
+      "nodeId": "30064771143",
+      "name": "writeAndThrow",
+      "target": "lib/static_storage.dart#1654:FUNCTION:writeAndThrow",
+      "code": "writeAndThrow(input)",
+      "callees": [
+        {
+          "fullName": "lib/static_storage.dart#1654:FUNCTION:writeAndThrow",
+          "external": false
+        }
+      ]
+    },
+    "30064771336": {
+      "nodeId": "30064771336",
+      "name": "write",
+      "target": "lib/static_storage.dart#147:FUNCTION:write",
+      "code": "write(input)",
+      "callees": [
+        {
+          "fullName": "lib/static_storage.dart#147:FUNCTION:write",
+          "external": false
+        }
+      ]
+    },
+    "30064771146": {
+      "nodeId": "30064771146",
+      "name": "other",
+      "target": "lib/static_storage.dart#6:SETTER:other",
+      "code": "Shared.other = 'unrelated cleanup'",
+      "callees": [
+        {
+          "fullName": "lib/static_storage.dart#6:SETTER:other",
+          "external": false
+        }
+      ]
+    },
+    "30064771137": {
+      "nodeId": "30064771137",
+      "name": "read",
+      "target": "lib/static_storage.dart#203:FUNCTION:read",
+      "code": "read()",
+      "callees": [
+        {
+          "fullName": "lib/static_storage.dart#203:FUNCTION:read",
+          "external": false
+        }
+      ]
+    },
+    "30064771156": {
+      "nodeId": "30064771156",
+      "name": "suppress",
+      "target": "lib/helper.dart#2021:FUNCTION:suppress",
+      "code": "suppress(input)",
+      "callees": [
+        {
+          "fullName": "lib/helper.dart#2021:FUNCTION:suppress",
+          "external": false
+        }
+      ]
+    },
+    "30064771154": {
+      "nodeId": "30064771154",
+      "name": "writeAndThrow",
+      "target": "lib/static_storage.dart#1654:FUNCTION:writeAndThrow",
+      "code": "writeAndThrow(input)",
+      "callees": [
+        {
+          "fullName": "lib/static_storage.dart#1654:FUNCTION:writeAndThrow",
+          "external": false
+        }
+      ]
+    },
+    "30064771157": {
+      "nodeId": "30064771157",
+      "name": "read",
+      "target": "lib/static_storage.dart#203:FUNCTION:read",
+      "code": "read()",
+      "callees": [
+        {
+          "fullName": "lib/static_storage.dart#203:FUNCTION:read",
+          "external": false
+        }
+      ]
+    },
+    "30064771223": {
+      "nodeId": "30064771223",
+      "name": "joinedCleanup",
+      "target": "lib/helper.dart#3652:FUNCTION:joinedCleanup",
+      "code": "joinedCleanup(input, fail)",
+      "callees": [
+        {
+          "fullName": "lib/helper.dart#3652:FUNCTION:joinedCleanup",
+          "external": false
+        }
+      ]
+    },
+    "30064771217": {
+      "nodeId": "30064771217",
+      "name": "branch",
+      "target": "lib/helper.dart#36:FUNCTION:branch",
+      "code": "branch(input, fail)",
+      "callees": [
+        {
+          "fullName": "lib/helper.dart#36:FUNCTION:branch",
+          "external": false
+        }
+      ]
+    },
+    "30064771220": {
+      "nodeId": "30064771220",
+      "name": "other",
+      "target": "lib/static_storage.dart#6:SETTER:other",
+      "code": "Shared.other = 'joined cleanup'",
+      "callees": [
+        {
+          "fullName": "lib/static_storage.dart#6:SETTER:other",
+          "external": false
+        }
+      ]
+    },
+    "30064771229": {
+      "nodeId": "30064771229",
+      "name": "read",
+      "target": "lib/static_storage.dart#203:FUNCTION:read",
+      "code": "read()",
+      "callees": [
+        {
+          "fullName": "lib/static_storage.dart#203:FUNCTION:read",
+          "external": false
+        }
+      ]
+    },
+    "30064771244": {
+      "nodeId": "30064771244",
+      "name": "copiedCleanup",
+      "target": "lib/helper.dart#4206:FUNCTION:copiedCleanup",
+      "code": "copiedCleanup(input, fail)",
+      "callees": [
+        {
+          "fullName": "lib/helper.dart#4206:FUNCTION:copiedCleanup",
+          "external": false
+        }
+      ]
+    },
+    "30064771239": {
+      "nodeId": "30064771239",
+      "name": "otherBranch",
+      "target": "lib/helper.dart#4045:FUNCTION:otherBranch",
+      "code": "otherBranch(input, fail)",
+      "callees": [
+        {
+          "fullName": "lib/helper.dart#4045:FUNCTION:otherBranch",
+          "external": false
+        }
+      ]
+    },
+    "30064771231": {
+      "nodeId": "30064771231",
+      "name": "<operator>.assignment",
+      "target": "<operator>.assignment",
+      "code": "<tmp>45 = Shared.other = input",
+      "callees": [
+        {
+          "fullName": "<operator>.assignment",
+          "external": true
+        }
+      ]
+    },
+    "30064771232": {
+      "nodeId": "30064771232",
+      "name": "other",
+      "target": "lib/static_storage.dart#6:SETTER:other",
+      "code": "Shared.other = input",
+      "callees": [
+        {
+          "fullName": "lib/static_storage.dart#6:SETTER:other",
+          "external": false
+        }
+      ]
+    },
+    "30064771269": {
+      "nodeId": "30064771269",
+      "name": "<operator>.assignment",
+      "target": "<operator>.assignment",
+      "code": "other = 'other'",
+      "callees": [
+        {
+          "fullName": "<operator>.assignment",
+          "external": true
+        }
+      ]
+    },
+    "30064771242": {
+      "nodeId": "30064771242",
+      "name": "other",
+      "target": "lib/static_storage.dart#6:GETTER:other",
+      "code": "Shared.other",
+      "callees": [
+        {
+          "fullName": "lib/static_storage.dart#6:GETTER:other",
+          "external": false
+        }
+      ]
+    },
+    "30064771268": {
+      "nodeId": "30064771268",
+      "name": "<operator>.fieldAccess",
+      "target": "<operator>.fieldAccess",
+      "code": "other = 'other'",
+      "callees": [
+        {
+          "fullName": "<operator>.fieldAccess",
+          "external": true
+        }
+      ]
+    },
+    "30064771241": {
+      "nodeId": "30064771241",
+      "name": "<operator>.assignment",
+      "target": "<operator>.assignment",
+      "code": "<tmp>50 = Shared.value = Shared.other",
+      "callees": [
+        {
+          "fullName": "<operator>.assignment",
+          "external": true
+        }
+      ]
+    },
+    "30064771243": {
+      "nodeId": "30064771243",
+      "name": "value",
+      "target": "lib/static_storage.dart#6:SETTER:value",
+      "code": "Shared.value = Shared.other",
+      "callees": [
+        {
+          "fullName": "lib/static_storage.dart#6:SETTER:value",
+          "external": false
+        }
+      ]
+    },
+    "30064771245": {
+      "nodeId": "30064771245",
+      "name": "read",
+      "target": "lib/static_storage.dart#203:FUNCTION:read",
+      "code": "read()",
+      "callees": [
+        {
+          "fullName": "lib/static_storage.dart#203:FUNCTION:read",
+          "external": false
+        }
+      ]
+    },
+    "30064771246": {
+      "nodeId": "30064771246",
+      "name": "copiedCleanup",
+      "target": "lib/helper.dart#4206:FUNCTION:copiedCleanup",
+      "code": "copiedCleanup(input, fail)",
+      "callees": [
+        {
+          "fullName": "lib/helper.dart#4206:FUNCTION:copiedCleanup",
+          "external": false
+        }
+      ]
+    },
+    "30064771252": {
+      "nodeId": "30064771252",
+      "name": "read",
+      "target": "lib/static_storage.dart#203:FUNCTION:read",
+      "code": "read()",
+      "callees": [
+        {
+          "fullName": "lib/static_storage.dart#203:FUNCTION:read",
+          "external": false
+        }
+      ]
+    },
+    "30064771221": {
+      "nodeId": "30064771221",
+      "name": "joinedCleanup",
+      "target": "lib/helper.dart#3652:FUNCTION:joinedCleanup",
+      "code": "joinedCleanup(input, fail)",
+      "callees": [
+        {
+          "fullName": "lib/helper.dart#3652:FUNCTION:joinedCleanup",
+          "external": false
+        }
+      ]
+    }
+  },
+  "contexts": [
+    [],
+    [
+      "30064771080"
+    ],
+    [
+      "30064771072",
+      "30064771080"
+    ],
+    [
+      "30064771284",
+      "30064771072",
+      "30064771080"
+    ],
+    [
+      "30064771086"
+    ],
+    [
+      "30064771285",
+      "30064771086"
+    ],
+    [
+      "30064771131"
+    ],
+    [
+      "30064771143",
+      "30064771131"
+    ],
+    [
+      "30064771336",
+      "30064771143",
+      "30064771131"
+    ],
+    [
+      "30064771284",
+      "30064771336",
+      "30064771143",
+      "30064771131"
+    ],
+    [
+      "30064771146",
+      "30064771131"
+    ],
+    [
+      "30064771137"
+    ],
+    [
+      "30064771285",
+      "30064771137"
+    ],
+    [
+      "30064771156"
+    ],
+    [
+      "30064771154",
+      "30064771156"
+    ],
+    [
+      "30064771336",
+      "30064771154",
+      "30064771156"
+    ],
+    [
+      "30064771284",
+      "30064771336",
+      "30064771154",
+      "30064771156"
+    ],
+    [
+      "30064771157"
+    ],
+    [
+      "30064771285",
+      "30064771157"
+    ],
+    [
+      "30064771223"
+    ],
+    [
+      "30064771217",
+      "30064771223"
+    ],
+    [
+      "30064771072",
+      "30064771217",
+      "30064771223"
+    ],
+    [
+      "30064771284",
+      "30064771072",
+      "30064771217",
+      "30064771223"
+    ],
+    [
+      "30064771220",
+      "30064771223"
+    ],
+    [
+      "30064771229"
+    ],
+    [
+      "30064771285",
+      "30064771229"
+    ],
+    [
+      "30064771244"
+    ],
+    [
+      "30064771239",
+      "30064771244"
+    ],
+    [
+      "30064771232",
+      "30064771239",
+      "30064771244"
+    ],
+    [
+      "30064771242",
+      "30064771244"
+    ],
+    [
+      "30064771243",
+      "30064771244"
+    ],
+    [
+      "30064771245"
+    ],
+    [
+      "30064771285",
+      "30064771245"
+    ],
+    [
+      "30064771246"
+    ],
+    [
+      "30064771239",
+      "30064771246"
+    ],
+    [
+      "30064771232",
+      "30064771239",
+      "30064771246"
+    ],
+    [
+      "30064771242",
+      "30064771246"
+    ],
+    [
+      "30064771243",
+      "30064771246"
+    ],
+    [
+      "30064771252"
+    ],
+    [
+      "30064771285",
+      "30064771252"
+    ]
+  ],
+  "reviews": [
+    {
+      "query": "caughtBranch",
+      "transitions": [
+        [
+          0,
+          1,
+          "parameter use"
+        ],
+        [
+          1,
+          2,
+          "parameter binding"
+        ],
+        [
+          2,
+          3,
+          "parameter use"
+        ],
+        [
+          3,
+          4,
+          "parameter binding"
+        ],
+        [
+          4,
+          5,
+          "parameter use"
+        ],
+        [
+          5,
+          6,
+          "assignment or use"
+        ],
+        [
+          6,
+          7,
+          "assignment or use"
+        ],
+        [
+          7,
+          8,
+          "parameter binding"
+        ],
+        [
+          8,
+          9,
+          "parameter use"
+        ],
+        [
+          9,
+          10,
+          "storage write"
+        ],
+        [
+          10,
+          11,
+          "method exit evidence"
+        ],
+        [
+          11,
+          12,
+          "resolved call exit"
+        ],
+        [
+          12,
+          13,
+          "method exit evidence"
+        ],
+        [
+          13,
+          14,
+          "resolved call exit"
+        ],
+        [
+          14,
+          15,
+          "exceptional memory effect exit"
+        ],
+        [
+          15,
+          16,
+          "exceptional memory effect exit"
+        ],
+        [
+          16,
+          17,
+          "storage continuation"
+        ],
+        [
+          17,
+          18,
+          "storage continuation"
+        ],
+        [
+          18,
+          19,
+          "storage continuation"
+        ],
+        [
+          19,
+          20,
+          "returned value"
+        ],
+        [
+          20,
+          21,
+          "method exit evidence"
+        ],
+        [
+          21,
+          22,
+          "resolved call exit"
+        ],
+        [
+          22,
+          23,
+          "returned value"
+        ],
+        [
+          23,
+          24,
+          "method exit evidence"
+        ],
+        [
+          24,
+          25,
+          "resolved call exit"
+        ],
+        [
+          25,
+          26,
+          "returned value"
+        ]
+      ],
+      "disposition": "reviewed bounded dependency evidence; conservative CFG/call scaffolding is not an execution trace",
+      "elements": [
+        [
+          "111669149700",
+          0,
+          true,
+          false,
+          "input",
+          []
+        ],
+        [
+          "68719476743",
+          0,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "111669149696",
+          1,
+          true,
+          false,
+          "input",
+          []
+        ],
+        [
+          "68719476737",
+          1,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "111669149747",
+          2,
+          true,
+          false,
+          "input",
+          []
+        ],
+        [
+          "68719476944",
+          2,
+          true,
+          false,
+          "input",
+          []
+        ],
+        [
+          "68719476943",
+          2,
+          true,
+          false,
+          "<tmp>5",
+          []
+        ],
+        [
+          "68719476945",
+          2,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "111669149742",
+          3,
+          true,
+          false,
+          "value",
+          []
+        ],
+        [
+          "68719476922",
+          3,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771260",
+          3,
+          true,
+          false,
+          "<STATIC_STORAGE>",
+          []
+        ],
+        [
+          "124554051617",
+          3,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771284",
+          2,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051626",
+          2,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771072",
+          1,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051584",
+          1,
+          false,
+          false,
+          "<STATIC_STORAGE_EXCEPTION>",
+          []
+        ],
+        [
+          "30064771080",
+          0,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "107374182443",
+          4,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "107374182432",
+          5,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771259",
+          5,
+          true,
+          true,
+          "value = 'initial'",
+          []
+        ],
+        [
+          "141733920802",
+          5,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051616",
+          4,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771285",
+          4,
+          true,
+          true,
+          "Shared.value",
+          []
+        ],
+        [
+          "141733920807",
+          4,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051627",
+          0,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771086",
+          0,
+          true,
+          true,
+          "read()",
+          []
+        ],
+        [
+          "141733920769",
+          0,
+          true,
+          false,
+          "",
+          []
+        ]
+      ]
+    },
+    {
+      "query": "caughtBranch",
+      "transitions": [
+        [
+          0,
+          1,
+          "parameter use"
+        ],
+        [
+          1,
+          2,
+          "parameter binding"
+        ],
+        [
+          2,
+          3,
+          "parameter use"
+        ],
+        [
+          3,
+          4,
+          "parameter binding"
+        ],
+        [
+          4,
+          5,
+          "parameter use"
+        ],
+        [
+          5,
+          6,
+          "assignment or use"
+        ],
+        [
+          6,
+          7,
+          "parameter binding"
+        ],
+        [
+          7,
+          8,
+          "parameter use"
+        ],
+        [
+          8,
+          9,
+          "storage write"
+        ],
+        [
+          9,
+          10,
+          "method exit evidence"
+        ],
+        [
+          10,
+          11,
+          "resolved call exit"
+        ],
+        [
+          11,
+          12,
+          "method exit evidence"
+        ],
+        [
+          12,
+          13,
+          "resolved call exit"
+        ],
+        [
+          13,
+          14,
+          "exceptional memory effect exit"
+        ],
+        [
+          14,
+          15,
+          "exceptional memory effect exit"
+        ],
+        [
+          15,
+          16,
+          "storage continuation"
+        ],
+        [
+          16,
+          17,
+          "storage continuation"
+        ],
+        [
+          17,
+          18,
+          "storage continuation"
+        ],
+        [
+          18,
+          19,
+          "returned value"
+        ],
+        [
+          19,
+          20,
+          "method exit evidence"
+        ],
+        [
+          20,
+          21,
+          "resolved call exit"
+        ],
+        [
+          21,
+          22,
+          "returned value"
+        ],
+        [
+          22,
+          23,
+          "method exit evidence"
+        ],
+        [
+          23,
+          24,
+          "resolved call exit"
+        ],
+        [
+          24,
+          25,
+          "returned value"
+        ]
+      ],
+      "disposition": "reviewed bounded dependency evidence; conservative CFG/call scaffolding is not an execution trace",
+      "elements": [
+        [
+          "111669149700",
+          0,
+          true,
+          false,
+          "input",
+          []
+        ],
+        [
+          "68719476743",
+          0,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "111669149696",
+          1,
+          true,
+          false,
+          "input",
+          []
+        ],
+        [
+          "68719476737",
+          1,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "111669149747",
+          2,
+          true,
+          false,
+          "input",
+          []
+        ],
+        [
+          "68719476944",
+          2,
+          false,
+          false,
+          "input",
+          []
+        ],
+        [
+          "68719476945",
+          2,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "111669149742",
+          3,
+          true,
+          false,
+          "value",
+          []
+        ],
+        [
+          "68719476922",
+          3,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771260",
+          3,
+          true,
+          false,
+          "<STATIC_STORAGE>",
+          []
+        ],
+        [
+          "124554051617",
+          3,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771284",
+          2,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051626",
+          2,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771072",
+          1,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051584",
+          1,
+          false,
+          false,
+          "<STATIC_STORAGE_EXCEPTION>",
+          []
+        ],
+        [
+          "30064771080",
+          0,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "107374182443",
+          4,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "107374182432",
+          5,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771259",
+          5,
+          true,
+          true,
+          "value = 'initial'",
+          []
+        ],
+        [
+          "141733920802",
+          5,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051616",
+          4,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771285",
+          4,
+          true,
+          true,
+          "Shared.value",
+          []
+        ],
+        [
+          "141733920807",
+          4,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051627",
+          0,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771086",
+          0,
+          true,
+          true,
+          "read()",
+          []
+        ],
+        [
+          "141733920769",
+          0,
+          true,
+          false,
+          "",
+          []
+        ]
+      ]
+    },
+    {
+      "query": "cleanupPreserved",
+      "transitions": [
+        [
+          0,
+          1,
+          "parameter use"
+        ],
+        [
+          1,
+          2,
+          "parameter binding"
+        ],
+        [
+          2,
+          3,
+          "parameter use"
+        ],
+        [
+          3,
+          4,
+          "parameter binding"
+        ],
+        [
+          4,
+          5,
+          "parameter use"
+        ],
+        [
+          5,
+          6,
+          "parameter binding"
+        ],
+        [
+          6,
+          7,
+          "parameter use"
+        ],
+        [
+          7,
+          8,
+          "assignment or use"
+        ],
+        [
+          8,
+          9,
+          "assignment or use"
+        ],
+        [
+          9,
+          10,
+          "parameter binding"
+        ],
+        [
+          10,
+          11,
+          "parameter use"
+        ],
+        [
+          11,
+          12,
+          "storage write"
+        ],
+        [
+          12,
+          13,
+          "method exit evidence"
+        ],
+        [
+          13,
+          14,
+          "resolved call exit"
+        ],
+        [
+          14,
+          15,
+          "method exit evidence"
+        ],
+        [
+          15,
+          16,
+          "resolved call exit"
+        ],
+        [
+          16,
+          17,
+          "exceptional memory effect exit"
+        ],
+        [
+          17,
+          18,
+          "exceptional memory effect exit"
+        ],
+        [
+          18,
+          19,
+          "storage continuation"
+        ],
+        [
+          19,
+          20,
+          "storage continuation"
+        ],
+        [
+          20,
+          21,
+          "resolved call exit"
+        ],
+        [
+          21,
+          22,
+          "exceptional memory effect exit"
+        ],
+        [
+          22,
+          23,
+          "exceptional memory effect exit"
+        ],
+        [
+          23,
+          24,
+          "storage continuation"
+        ],
+        [
+          24,
+          25,
+          "storage continuation"
+        ],
+        [
+          25,
+          26,
+          "storage continuation"
+        ],
+        [
+          26,
+          27,
+          "returned value"
+        ],
+        [
+          27,
+          28,
+          "method exit evidence"
+        ],
+        [
+          28,
+          29,
+          "resolved call exit"
+        ],
+        [
+          29,
+          30,
+          "returned value"
+        ],
+        [
+          30,
+          31,
+          "method exit evidence"
+        ],
+        [
+          31,
+          32,
+          "resolved call exit"
+        ],
+        [
+          32,
+          33,
+          "returned value"
+        ]
+      ],
+      "disposition": "reviewed bounded dependency evidence; conservative CFG/call scaffolding is not an execution trace",
+      "elements": [
+        [
+          "111669149709",
+          0,
+          true,
+          false,
+          "input",
+          []
+        ],
+        [
+          "68719476787",
+          0,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "111669149711",
+          6,
+          true,
+          false,
+          "input",
+          []
+        ],
+        [
+          "68719476799",
+          6,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "111669149765",
+          7,
+          true,
+          false,
+          "input",
+          []
+        ],
+        [
+          "68719476994",
+          7,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "111669149747",
+          8,
+          true,
+          false,
+          "input",
+          []
+        ],
+        [
+          "68719476944",
+          8,
+          true,
+          false,
+          "input",
+          []
+        ],
+        [
+          "68719476943",
+          8,
+          true,
+          false,
+          "<tmp>5",
+          []
+        ],
+        [
+          "68719476945",
+          8,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "111669149742",
+          9,
+          true,
+          false,
+          "value",
+          []
+        ],
+        [
+          "68719476922",
+          9,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771260",
+          9,
+          true,
+          false,
+          "<STATIC_STORAGE>",
+          []
+        ],
+        [
+          "124554051617",
+          9,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771284",
+          8,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051626",
+          8,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771336",
+          7,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051642",
+          7,
+          false,
+          false,
+          "<STATIC_STORAGE_EXCEPTION>",
+          []
+        ],
+        [
+          "30064771143",
+          6,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "107374182435",
+          10,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051619",
+          10,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771146",
+          6,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051595",
+          6,
+          false,
+          false,
+          "<STATIC_STORAGE_EXCEPTION>",
+          []
+        ],
+        [
+          "30064771131",
+          0,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "107374182443",
+          11,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "107374182432",
+          12,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771259",
+          12,
+          true,
+          true,
+          "value = 'initial'",
+          []
+        ],
+        [
+          "141733920802",
+          12,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051616",
+          11,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771285",
+          11,
+          true,
+          true,
+          "Shared.value",
+          []
+        ],
+        [
+          "141733920807",
+          11,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051627",
+          0,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771137",
+          0,
+          true,
+          true,
+          "read()",
+          []
+        ],
+        [
+          "141733920780",
+          0,
+          true,
+          false,
+          "",
+          []
+        ]
+      ]
+    },
+    {
+      "query": "cleanupPreserved",
+      "transitions": [
+        [
+          0,
+          1,
+          "parameter use"
+        ],
+        [
+          1,
+          2,
+          "parameter binding"
+        ],
+        [
+          2,
+          3,
+          "parameter use"
+        ],
+        [
+          3,
+          4,
+          "parameter binding"
+        ],
+        [
+          4,
+          5,
+          "parameter use"
+        ],
+        [
+          5,
+          6,
+          "parameter binding"
+        ],
+        [
+          6,
+          7,
+          "parameter use"
+        ],
+        [
+          7,
+          8,
+          "assignment or use"
+        ],
+        [
+          8,
+          9,
+          "parameter binding"
+        ],
+        [
+          9,
+          10,
+          "parameter use"
+        ],
+        [
+          10,
+          11,
+          "storage write"
+        ],
+        [
+          11,
+          12,
+          "method exit evidence"
+        ],
+        [
+          12,
+          13,
+          "resolved call exit"
+        ],
+        [
+          13,
+          14,
+          "method exit evidence"
+        ],
+        [
+          14,
+          15,
+          "resolved call exit"
+        ],
+        [
+          15,
+          16,
+          "exceptional memory effect exit"
+        ],
+        [
+          16,
+          17,
+          "exceptional memory effect exit"
+        ],
+        [
+          17,
+          18,
+          "storage continuation"
+        ],
+        [
+          18,
+          19,
+          "storage continuation"
+        ],
+        [
+          19,
+          20,
+          "resolved call exit"
+        ],
+        [
+          20,
+          21,
+          "exceptional memory effect exit"
+        ],
+        [
+          21,
+          22,
+          "exceptional memory effect exit"
+        ],
+        [
+          22,
+          23,
+          "storage continuation"
+        ],
+        [
+          23,
+          24,
+          "storage continuation"
+        ],
+        [
+          24,
+          25,
+          "storage continuation"
+        ],
+        [
+          25,
+          26,
+          "returned value"
+        ],
+        [
+          26,
+          27,
+          "method exit evidence"
+        ],
+        [
+          27,
+          28,
+          "resolved call exit"
+        ],
+        [
+          28,
+          29,
+          "returned value"
+        ],
+        [
+          29,
+          30,
+          "method exit evidence"
+        ],
+        [
+          30,
+          31,
+          "resolved call exit"
+        ],
+        [
+          31,
+          32,
+          "returned value"
+        ]
+      ],
+      "disposition": "reviewed bounded dependency evidence; conservative CFG/call scaffolding is not an execution trace",
+      "elements": [
+        [
+          "111669149709",
+          0,
+          true,
+          false,
+          "input",
+          []
+        ],
+        [
+          "68719476787",
+          0,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "111669149711",
+          6,
+          true,
+          false,
+          "input",
+          []
+        ],
+        [
+          "68719476799",
+          6,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "111669149765",
+          7,
+          true,
+          false,
+          "input",
+          []
+        ],
+        [
+          "68719476994",
+          7,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "111669149747",
+          8,
+          true,
+          false,
+          "input",
+          []
+        ],
+        [
+          "68719476944",
+          8,
+          false,
+          false,
+          "input",
+          []
+        ],
+        [
+          "68719476945",
+          8,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "111669149742",
+          9,
+          true,
+          false,
+          "value",
+          []
+        ],
+        [
+          "68719476922",
+          9,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771260",
+          9,
+          true,
+          false,
+          "<STATIC_STORAGE>",
+          []
+        ],
+        [
+          "124554051617",
+          9,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771284",
+          8,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051626",
+          8,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771336",
+          7,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051642",
+          7,
+          false,
+          false,
+          "<STATIC_STORAGE_EXCEPTION>",
+          []
+        ],
+        [
+          "30064771143",
+          6,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "107374182435",
+          10,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051619",
+          10,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771146",
+          6,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051595",
+          6,
+          false,
+          false,
+          "<STATIC_STORAGE_EXCEPTION>",
+          []
+        ],
+        [
+          "30064771131",
+          0,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "107374182443",
+          11,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "107374182432",
+          12,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771259",
+          12,
+          true,
+          true,
+          "value = 'initial'",
+          []
+        ],
+        [
+          "141733920802",
+          12,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051616",
+          11,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771285",
+          11,
+          true,
+          true,
+          "Shared.value",
+          []
+        ],
+        [
+          "141733920807",
+          11,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051627",
+          0,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771137",
+          0,
+          true,
+          true,
+          "read()",
+          []
+        ],
+        [
+          "141733920780",
+          0,
+          true,
+          false,
+          "",
+          []
+        ]
+      ]
+    },
+    {
+      "query": "suppressedResult",
+      "transitions": [
+        [
+          0,
+          1,
+          "parameter use"
+        ],
+        [
+          1,
+          2,
+          "parameter binding"
+        ],
+        [
+          2,
+          3,
+          "parameter use"
+        ],
+        [
+          3,
+          4,
+          "parameter binding"
+        ],
+        [
+          4,
+          5,
+          "parameter use"
+        ],
+        [
+          5,
+          6,
+          "parameter binding"
+        ],
+        [
+          6,
+          7,
+          "parameter use"
+        ],
+        [
+          7,
+          8,
+          "assignment or use"
+        ],
+        [
+          8,
+          9,
+          "assignment or use"
+        ],
+        [
+          9,
+          10,
+          "parameter binding"
+        ],
+        [
+          10,
+          11,
+          "parameter use"
+        ],
+        [
+          11,
+          12,
+          "storage write"
+        ],
+        [
+          12,
+          13,
+          "method exit evidence"
+        ],
+        [
+          13,
+          14,
+          "resolved call exit"
+        ],
+        [
+          14,
+          15,
+          "method exit evidence"
+        ],
+        [
+          15,
+          16,
+          "resolved call exit"
+        ],
+        [
+          16,
+          17,
+          "exceptional memory effect exit"
+        ],
+        [
+          17,
+          18,
+          "exceptional memory effect exit"
+        ],
+        [
+          18,
+          19,
+          "method exit evidence"
+        ],
+        [
+          19,
+          20,
+          "resolved call exit"
+        ],
+        [
+          20,
+          21,
+          "storage continuation"
+        ],
+        [
+          21,
+          22,
+          "storage continuation"
+        ],
+        [
+          22,
+          23,
+          "storage continuation"
+        ],
+        [
+          23,
+          24,
+          "returned value"
+        ],
+        [
+          24,
+          25,
+          "method exit evidence"
+        ],
+        [
+          25,
+          26,
+          "resolved call exit"
+        ],
+        [
+          26,
+          27,
+          "returned value"
+        ],
+        [
+          27,
+          28,
+          "method exit evidence"
+        ],
+        [
+          28,
+          29,
+          "resolved call exit"
+        ],
+        [
+          29,
+          30,
+          "returned value"
+        ]
+      ],
+      "disposition": "reviewed bounded dependency evidence; conservative CFG/call scaffolding is not an execution trace",
+      "elements": [
+        [
+          "111669149715",
+          0,
+          true,
+          false,
+          "input",
+          []
+        ],
+        [
+          "68719476813",
+          0,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "111669149714",
+          13,
+          true,
+          false,
+          "input",
+          []
+        ],
+        [
+          "68719476812",
+          13,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "111669149765",
+          14,
+          true,
+          false,
+          "input",
+          []
+        ],
+        [
+          "68719476994",
+          14,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "111669149747",
+          15,
+          true,
+          false,
+          "input",
+          []
+        ],
+        [
+          "68719476944",
+          15,
+          true,
+          false,
+          "input",
+          []
+        ],
+        [
+          "68719476943",
+          15,
+          true,
+          false,
+          "<tmp>5",
+          []
+        ],
+        [
+          "68719476945",
+          15,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "111669149742",
+          16,
+          true,
+          false,
+          "value",
+          []
+        ],
+        [
+          "68719476922",
+          16,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771260",
+          16,
+          true,
+          false,
+          "<STATIC_STORAGE>",
+          []
+        ],
+        [
+          "124554051617",
+          16,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771284",
+          15,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051626",
+          15,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771336",
+          14,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051642",
+          14,
+          false,
+          false,
+          "<STATIC_STORAGE_EXCEPTION>",
+          []
+        ],
+        [
+          "30064771154",
+          13,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051597",
+          13,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771156",
+          0,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "107374182443",
+          17,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "107374182432",
+          18,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771259",
+          18,
+          true,
+          true,
+          "value = 'initial'",
+          []
+        ],
+        [
+          "141733920802",
+          18,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051616",
+          17,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771285",
+          17,
+          true,
+          true,
+          "Shared.value",
+          []
+        ],
+        [
+          "141733920807",
+          17,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051627",
+          0,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771157",
+          0,
+          true,
+          true,
+          "read()",
+          []
+        ],
+        [
+          "141733920785",
+          0,
+          true,
+          false,
+          "",
+          []
+        ]
+      ]
+    },
+    {
+      "query": "suppressedResult",
+      "transitions": [
+        [
+          0,
+          1,
+          "parameter use"
+        ],
+        [
+          1,
+          2,
+          "parameter binding"
+        ],
+        [
+          2,
+          3,
+          "parameter use"
+        ],
+        [
+          3,
+          4,
+          "parameter binding"
+        ],
+        [
+          4,
+          5,
+          "parameter use"
+        ],
+        [
+          5,
+          6,
+          "parameter binding"
+        ],
+        [
+          6,
+          7,
+          "parameter use"
+        ],
+        [
+          7,
+          8,
+          "assignment or use"
+        ],
+        [
+          8,
+          9,
+          "parameter binding"
+        ],
+        [
+          9,
+          10,
+          "parameter use"
+        ],
+        [
+          10,
+          11,
+          "storage write"
+        ],
+        [
+          11,
+          12,
+          "method exit evidence"
+        ],
+        [
+          12,
+          13,
+          "resolved call exit"
+        ],
+        [
+          13,
+          14,
+          "method exit evidence"
+        ],
+        [
+          14,
+          15,
+          "resolved call exit"
+        ],
+        [
+          15,
+          16,
+          "exceptional memory effect exit"
+        ],
+        [
+          16,
+          17,
+          "exceptional memory effect exit"
+        ],
+        [
+          17,
+          18,
+          "method exit evidence"
+        ],
+        [
+          18,
+          19,
+          "resolved call exit"
+        ],
+        [
+          19,
+          20,
+          "storage continuation"
+        ],
+        [
+          20,
+          21,
+          "storage continuation"
+        ],
+        [
+          21,
+          22,
+          "storage continuation"
+        ],
+        [
+          22,
+          23,
+          "returned value"
+        ],
+        [
+          23,
+          24,
+          "method exit evidence"
+        ],
+        [
+          24,
+          25,
+          "resolved call exit"
+        ],
+        [
+          25,
+          26,
+          "returned value"
+        ],
+        [
+          26,
+          27,
+          "method exit evidence"
+        ],
+        [
+          27,
+          28,
+          "resolved call exit"
+        ],
+        [
+          28,
+          29,
+          "returned value"
+        ]
+      ],
+      "disposition": "reviewed bounded dependency evidence; conservative CFG/call scaffolding is not an execution trace",
+      "elements": [
+        [
+          "111669149715",
+          0,
+          true,
+          false,
+          "input",
+          []
+        ],
+        [
+          "68719476813",
+          0,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "111669149714",
+          13,
+          true,
+          false,
+          "input",
+          []
+        ],
+        [
+          "68719476812",
+          13,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "111669149765",
+          14,
+          true,
+          false,
+          "input",
+          []
+        ],
+        [
+          "68719476994",
+          14,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "111669149747",
+          15,
+          true,
+          false,
+          "input",
+          []
+        ],
+        [
+          "68719476944",
+          15,
+          false,
+          false,
+          "input",
+          []
+        ],
+        [
+          "68719476945",
+          15,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "111669149742",
+          16,
+          true,
+          false,
+          "value",
+          []
+        ],
+        [
+          "68719476922",
+          16,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771260",
+          16,
+          true,
+          false,
+          "<STATIC_STORAGE>",
+          []
+        ],
+        [
+          "124554051617",
+          16,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771284",
+          15,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051626",
+          15,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771336",
+          14,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051642",
+          14,
+          false,
+          false,
+          "<STATIC_STORAGE_EXCEPTION>",
+          []
+        ],
+        [
+          "30064771154",
+          13,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051597",
+          13,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771156",
+          0,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "107374182443",
+          17,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "107374182432",
+          18,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771259",
+          18,
+          true,
+          true,
+          "value = 'initial'",
+          []
+        ],
+        [
+          "141733920802",
+          18,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051616",
+          17,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771285",
+          17,
+          true,
+          true,
+          "Shared.value",
+          []
+        ],
+        [
+          "141733920807",
+          17,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051627",
+          0,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771157",
+          0,
+          true,
+          true,
+          "read()",
+          []
+        ],
+        [
+          "141733920785",
+          0,
+          true,
+          false,
+          "",
+          []
+        ]
+      ]
+    },
+    {
+      "query": "joinedCaught",
+      "transitions": [
+        [
+          0,
+          1,
+          "parameter use"
+        ],
+        [
+          1,
+          2,
+          "parameter binding"
+        ],
+        [
+          2,
+          3,
+          "parameter use"
+        ],
+        [
+          3,
+          4,
+          "parameter binding"
+        ],
+        [
+          4,
+          5,
+          "parameter use"
+        ],
+        [
+          5,
+          6,
+          "parameter binding"
+        ],
+        [
+          6,
+          7,
+          "parameter use"
+        ],
+        [
+          7,
+          8,
+          "assignment or use"
+        ],
+        [
+          8,
+          9,
+          "assignment or use"
+        ],
+        [
+          9,
+          10,
+          "parameter binding"
+        ],
+        [
+          10,
+          11,
+          "parameter use"
+        ],
+        [
+          11,
+          12,
+          "storage write"
+        ],
+        [
+          12,
+          13,
+          "method exit evidence"
+        ],
+        [
+          13,
+          14,
+          "resolved call exit"
+        ],
+        [
+          14,
+          15,
+          "method exit evidence"
+        ],
+        [
+          15,
+          16,
+          "resolved call exit"
+        ],
+        [
+          16,
+          17,
+          "exceptional memory effect exit"
+        ],
+        [
+          17,
+          18,
+          "exceptional memory effect exit"
+        ],
+        [
+          18,
+          19,
+          "storage continuation"
+        ],
+        [
+          19,
+          20,
+          "storage continuation"
+        ],
+        [
+          20,
+          21,
+          "resolved call exit"
+        ],
+        [
+          21,
+          22,
+          "exceptional memory effect exit"
+        ],
+        [
+          22,
+          23,
+          "exceptional memory effect exit"
+        ],
+        [
+          23,
+          24,
+          "storage continuation"
+        ],
+        [
+          24,
+          25,
+          "storage continuation"
+        ],
+        [
+          25,
+          26,
+          "storage continuation"
+        ],
+        [
+          26,
+          27,
+          "returned value"
+        ],
+        [
+          27,
+          28,
+          "method exit evidence"
+        ],
+        [
+          28,
+          29,
+          "resolved call exit"
+        ],
+        [
+          29,
+          30,
+          "returned value"
+        ],
+        [
+          30,
+          31,
+          "method exit evidence"
+        ],
+        [
+          31,
+          32,
+          "resolved call exit"
+        ],
+        [
+          32,
+          33,
+          "returned value"
+        ]
+      ],
+      "disposition": "reviewed bounded dependency evidence; conservative CFG/call scaffolding is not an execution trace",
+      "elements": [
+        [
+          "111669149732",
+          0,
+          true,
+          false,
+          "input",
+          []
+        ],
+        [
+          "68719476878",
+          0,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "111669149728",
+          19,
+          true,
+          false,
+          "input",
+          []
+        ],
+        [
+          "68719476869",
+          19,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "111669149696",
+          20,
+          true,
+          false,
+          "input",
+          []
+        ],
+        [
+          "68719476737",
+          20,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "111669149747",
+          21,
+          true,
+          false,
+          "input",
+          []
+        ],
+        [
+          "68719476944",
+          21,
+          true,
+          false,
+          "input",
+          []
+        ],
+        [
+          "68719476943",
+          21,
+          true,
+          false,
+          "<tmp>5",
+          []
+        ],
+        [
+          "68719476945",
+          21,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "111669149742",
+          22,
+          true,
+          false,
+          "value",
+          []
+        ],
+        [
+          "68719476922",
+          22,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771260",
+          22,
+          true,
+          false,
+          "<STATIC_STORAGE>",
+          []
+        ],
+        [
+          "124554051617",
+          22,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771284",
+          21,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051626",
+          21,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771072",
+          20,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051584",
+          20,
+          false,
+          false,
+          "<STATIC_STORAGE_EXCEPTION>",
+          []
+        ],
+        [
+          "30064771217",
+          19,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "107374182435",
+          23,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051619",
+          23,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771220",
+          19,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051609",
+          19,
+          false,
+          false,
+          "<STATIC_STORAGE_EXCEPTION>",
+          []
+        ],
+        [
+          "30064771223",
+          0,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "107374182443",
+          24,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "107374182432",
+          25,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771259",
+          25,
+          true,
+          true,
+          "value = 'initial'",
+          []
+        ],
+        [
+          "141733920802",
+          25,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051616",
+          24,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771285",
+          24,
+          true,
+          true,
+          "Shared.value",
+          []
+        ],
+        [
+          "141733920807",
+          24,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051627",
+          0,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771229",
+          0,
+          true,
+          true,
+          "read()",
+          []
+        ],
+        [
+          "141733920797",
+          0,
+          true,
+          false,
+          "",
+          []
+        ]
+      ]
+    },
+    {
+      "query": "joinedCaught",
+      "transitions": [
+        [
+          0,
+          1,
+          "parameter use"
+        ],
+        [
+          1,
+          2,
+          "parameter binding"
+        ],
+        [
+          2,
+          3,
+          "parameter use"
+        ],
+        [
+          3,
+          4,
+          "parameter binding"
+        ],
+        [
+          4,
+          5,
+          "parameter use"
+        ],
+        [
+          5,
+          6,
+          "parameter binding"
+        ],
+        [
+          6,
+          7,
+          "parameter use"
+        ],
+        [
+          7,
+          8,
+          "assignment or use"
+        ],
+        [
+          8,
+          9,
+          "parameter binding"
+        ],
+        [
+          9,
+          10,
+          "parameter use"
+        ],
+        [
+          10,
+          11,
+          "storage write"
+        ],
+        [
+          11,
+          12,
+          "method exit evidence"
+        ],
+        [
+          12,
+          13,
+          "resolved call exit"
+        ],
+        [
+          13,
+          14,
+          "method exit evidence"
+        ],
+        [
+          14,
+          15,
+          "resolved call exit"
+        ],
+        [
+          15,
+          16,
+          "exceptional memory effect exit"
+        ],
+        [
+          16,
+          17,
+          "exceptional memory effect exit"
+        ],
+        [
+          17,
+          18,
+          "storage continuation"
+        ],
+        [
+          18,
+          19,
+          "storage continuation"
+        ],
+        [
+          19,
+          20,
+          "resolved call exit"
+        ],
+        [
+          20,
+          21,
+          "exceptional memory effect exit"
+        ],
+        [
+          21,
+          22,
+          "exceptional memory effect exit"
+        ],
+        [
+          22,
+          23,
+          "storage continuation"
+        ],
+        [
+          23,
+          24,
+          "storage continuation"
+        ],
+        [
+          24,
+          25,
+          "storage continuation"
+        ],
+        [
+          25,
+          26,
+          "returned value"
+        ],
+        [
+          26,
+          27,
+          "method exit evidence"
+        ],
+        [
+          27,
+          28,
+          "resolved call exit"
+        ],
+        [
+          28,
+          29,
+          "returned value"
+        ],
+        [
+          29,
+          30,
+          "method exit evidence"
+        ],
+        [
+          30,
+          31,
+          "resolved call exit"
+        ],
+        [
+          31,
+          32,
+          "returned value"
+        ]
+      ],
+      "disposition": "reviewed bounded dependency evidence; conservative CFG/call scaffolding is not an execution trace",
+      "elements": [
+        [
+          "111669149732",
+          0,
+          true,
+          false,
+          "input",
+          []
+        ],
+        [
+          "68719476878",
+          0,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "111669149728",
+          19,
+          true,
+          false,
+          "input",
+          []
+        ],
+        [
+          "68719476869",
+          19,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "111669149696",
+          20,
+          true,
+          false,
+          "input",
+          []
+        ],
+        [
+          "68719476737",
+          20,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "111669149747",
+          21,
+          true,
+          false,
+          "input",
+          []
+        ],
+        [
+          "68719476944",
+          21,
+          false,
+          false,
+          "input",
+          []
+        ],
+        [
+          "68719476945",
+          21,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "111669149742",
+          22,
+          true,
+          false,
+          "value",
+          []
+        ],
+        [
+          "68719476922",
+          22,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771260",
+          22,
+          true,
+          false,
+          "<STATIC_STORAGE>",
+          []
+        ],
+        [
+          "124554051617",
+          22,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771284",
+          21,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051626",
+          21,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771072",
+          20,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051584",
+          20,
+          false,
+          false,
+          "<STATIC_STORAGE_EXCEPTION>",
+          []
+        ],
+        [
+          "30064771217",
+          19,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "107374182435",
+          23,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051619",
+          23,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771220",
+          19,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051609",
+          19,
+          false,
+          false,
+          "<STATIC_STORAGE_EXCEPTION>",
+          []
+        ],
+        [
+          "30064771223",
+          0,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "107374182443",
+          24,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "107374182432",
+          25,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771259",
+          25,
+          true,
+          true,
+          "value = 'initial'",
+          []
+        ],
+        [
+          "141733920802",
+          25,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051616",
+          24,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771285",
+          24,
+          true,
+          true,
+          "Shared.value",
+          []
+        ],
+        [
+          "141733920807",
+          24,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051627",
+          0,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771229",
+          0,
+          true,
+          true,
+          "read()",
+          []
+        ],
+        [
+          "141733920797",
+          0,
+          true,
+          false,
+          "",
+          []
+        ]
+      ]
+    },
+    {
+      "query": "copiedNormal",
+      "transitions": [
+        [
+          0,
+          1,
+          "parameter use"
+        ],
+        [
+          1,
+          2,
+          "parameter binding"
+        ],
+        [
+          2,
+          3,
+          "parameter use"
+        ],
+        [
+          3,
+          4,
+          "parameter binding"
+        ],
+        [
+          4,
+          5,
+          "parameter use"
+        ],
+        [
+          5,
+          6,
+          "assignment or use"
+        ],
+        [
+          6,
+          7,
+          "assignment or use"
+        ],
+        [
+          7,
+          8,
+          "parameter binding"
+        ],
+        [
+          8,
+          9,
+          "parameter use"
+        ],
+        [
+          9,
+          10,
+          "storage write"
+        ],
+        [
+          10,
+          11,
+          "method exit evidence"
+        ],
+        [
+          11,
+          12,
+          "resolved call exit"
+        ],
+        [
+          12,
+          13,
+          "exceptional memory effect exit"
+        ],
+        [
+          13,
+          14,
+          "exceptional memory effect exit"
+        ],
+        [
+          14,
+          15,
+          "storage continuation"
+        ],
+        [
+          15,
+          16,
+          "storage continuation"
+        ],
+        [
+          16,
+          17,
+          "returned value"
+        ],
+        [
+          17,
+          18,
+          "method exit evidence"
+        ],
+        [
+          18,
+          19,
+          "resolved call exit"
+        ],
+        [
+          19,
+          20,
+          "saved field copy"
+        ],
+        [
+          20,
+          21,
+          "assignment or use"
+        ],
+        [
+          21,
+          22,
+          "parameter binding"
+        ],
+        [
+          22,
+          23,
+          "parameter use"
+        ],
+        [
+          23,
+          24,
+          "storage write"
+        ],
+        [
+          24,
+          25,
+          "method exit evidence"
+        ],
+        [
+          25,
+          26,
+          "resolved call exit"
+        ],
+        [
+          26,
+          27,
+          "method exit evidence"
+        ],
+        [
+          27,
+          28,
+          "resolved call exit"
+        ],
+        [
+          28,
+          29,
+          "storage continuation"
+        ],
+        [
+          29,
+          30,
+          "storage continuation"
+        ],
+        [
+          30,
+          31,
+          "storage continuation"
+        ],
+        [
+          31,
+          32,
+          "returned value"
+        ],
+        [
+          32,
+          33,
+          "method exit evidence"
+        ],
+        [
+          33,
+          34,
+          "resolved call exit"
+        ],
+        [
+          34,
+          35,
+          "returned value"
+        ],
+        [
+          35,
+          36,
+          "method exit evidence"
+        ],
+        [
+          36,
+          37,
+          "resolved call exit"
+        ],
+        [
+          37,
+          38,
+          "returned value"
+        ]
+      ],
+      "disposition": "known infeasible normal-return route: DART-FLOW-007",
+      "elements": [
+        [
+          "111669149738",
+          0,
+          true,
+          false,
+          "input",
+          []
+        ],
+        [
+          "68719476907",
+          0,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "111669149736",
+          26,
+          true,
+          false,
+          "input",
+          []
+        ],
+        [
+          "68719476900",
+          26,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "111669149734",
+          27,
+          true,
+          false,
+          "input",
+          []
+        ],
+        [
+          "68719476889",
+          27,
+          true,
+          false,
+          "input",
+          []
+        ],
+        [
+          "68719476888",
+          27,
+          true,
+          false,
+          "<tmp>45",
+          []
+        ],
+        [
+          "68719476890",
+          27,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "111669149743",
+          28,
+          true,
+          false,
+          "value",
+          []
+        ],
+        [
+          "68719476929",
+          28,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771269",
+          28,
+          true,
+          false,
+          "<STATIC_STORAGE>",
+          []
+        ],
+        [
+          "124554051619",
+          28,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771232",
+          27,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051612",
+          27,
+          false,
+          false,
+          "<STATIC_STORAGE_EXCEPTION>",
+          []
+        ],
+        [
+          "30064771239",
+          26,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "107374182434",
+          29,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771268",
+          29,
+          true,
+          true,
+          "other = 'other'",
+          []
+        ],
+        [
+          "141733920803",
+          29,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051618",
+          26,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771242",
+          26,
+          true,
+          true,
+          "Shared.other",
+          []
+        ],
+        [
+          "68719476904",
+          26,
+          true,
+          false,
+          "<tmp>50",
+          []
+        ],
+        [
+          "68719476905",
+          26,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "111669149742",
+          30,
+          true,
+          false,
+          "value",
+          []
+        ],
+        [
+          "68719476922",
+          30,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771260",
+          30,
+          true,
+          false,
+          "<STATIC_STORAGE>",
+          []
+        ],
+        [
+          "124554051617",
+          30,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771243",
+          26,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051613",
+          26,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771244",
+          0,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "107374182443",
+          31,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "107374182432",
+          32,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771259",
+          32,
+          true,
+          true,
+          "value = 'initial'",
+          []
+        ],
+        [
+          "141733920802",
+          32,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051616",
+          31,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771285",
+          31,
+          true,
+          true,
+          "Shared.value",
+          []
+        ],
+        [
+          "141733920807",
+          31,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051627",
+          0,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771245",
+          0,
+          true,
+          true,
+          "read()",
+          []
+        ],
+        [
+          "141733920799",
+          0,
+          true,
+          false,
+          "",
+          []
+        ]
+      ]
+    },
+    {
+      "query": "copiedNormal",
+      "transitions": [
+        [
+          0,
+          1,
+          "parameter use"
+        ],
+        [
+          1,
+          2,
+          "parameter binding"
+        ],
+        [
+          2,
+          3,
+          "parameter use"
+        ],
+        [
+          3,
+          4,
+          "parameter binding"
+        ],
+        [
+          4,
+          5,
+          "parameter use"
+        ],
+        [
+          5,
+          6,
+          "assignment or use"
+        ],
+        [
+          6,
+          7,
+          "parameter binding"
+        ],
+        [
+          7,
+          8,
+          "parameter use"
+        ],
+        [
+          8,
+          9,
+          "storage write"
+        ],
+        [
+          9,
+          10,
+          "method exit evidence"
+        ],
+        [
+          10,
+          11,
+          "resolved call exit"
+        ],
+        [
+          11,
+          12,
+          "exceptional memory effect exit"
+        ],
+        [
+          12,
+          13,
+          "exceptional memory effect exit"
+        ],
+        [
+          13,
+          14,
+          "storage continuation"
+        ],
+        [
+          14,
+          15,
+          "storage continuation"
+        ],
+        [
+          15,
+          16,
+          "returned value"
+        ],
+        [
+          16,
+          17,
+          "method exit evidence"
+        ],
+        [
+          17,
+          18,
+          "resolved call exit"
+        ],
+        [
+          18,
+          19,
+          "saved field copy"
+        ],
+        [
+          19,
+          20,
+          "assignment or use"
+        ],
+        [
+          20,
+          21,
+          "parameter binding"
+        ],
+        [
+          21,
+          22,
+          "parameter use"
+        ],
+        [
+          22,
+          23,
+          "storage write"
+        ],
+        [
+          23,
+          24,
+          "method exit evidence"
+        ],
+        [
+          24,
+          25,
+          "resolved call exit"
+        ],
+        [
+          25,
+          26,
+          "method exit evidence"
+        ],
+        [
+          26,
+          27,
+          "resolved call exit"
+        ],
+        [
+          27,
+          28,
+          "storage continuation"
+        ],
+        [
+          28,
+          29,
+          "storage continuation"
+        ],
+        [
+          29,
+          30,
+          "storage continuation"
+        ],
+        [
+          30,
+          31,
+          "returned value"
+        ],
+        [
+          31,
+          32,
+          "method exit evidence"
+        ],
+        [
+          32,
+          33,
+          "resolved call exit"
+        ],
+        [
+          33,
+          34,
+          "returned value"
+        ],
+        [
+          34,
+          35,
+          "method exit evidence"
+        ],
+        [
+          35,
+          36,
+          "resolved call exit"
+        ],
+        [
+          36,
+          37,
+          "returned value"
+        ]
+      ],
+      "disposition": "known infeasible normal-return route: DART-FLOW-007",
+      "elements": [
+        [
+          "111669149738",
+          0,
+          true,
+          false,
+          "input",
+          []
+        ],
+        [
+          "68719476907",
+          0,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "111669149736",
+          26,
+          true,
+          false,
+          "input",
+          []
+        ],
+        [
+          "68719476900",
+          26,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "111669149734",
+          27,
+          true,
+          false,
+          "input",
+          []
+        ],
+        [
+          "68719476889",
+          27,
+          false,
+          false,
+          "input",
+          []
+        ],
+        [
+          "68719476890",
+          27,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "111669149743",
+          28,
+          true,
+          false,
+          "value",
+          []
+        ],
+        [
+          "68719476929",
+          28,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771269",
+          28,
+          true,
+          false,
+          "<STATIC_STORAGE>",
+          []
+        ],
+        [
+          "124554051619",
+          28,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771232",
+          27,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051612",
+          27,
+          false,
+          false,
+          "<STATIC_STORAGE_EXCEPTION>",
+          []
+        ],
+        [
+          "30064771239",
+          26,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "107374182434",
+          29,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771268",
+          29,
+          true,
+          true,
+          "other = 'other'",
+          []
+        ],
+        [
+          "141733920803",
+          29,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051618",
+          26,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771242",
+          26,
+          true,
+          true,
+          "Shared.other",
+          []
+        ],
+        [
+          "68719476904",
+          26,
+          true,
+          false,
+          "<tmp>50",
+          []
+        ],
+        [
+          "68719476905",
+          26,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "111669149742",
+          30,
+          true,
+          false,
+          "value",
+          []
+        ],
+        [
+          "68719476922",
+          30,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771260",
+          30,
+          true,
+          false,
+          "<STATIC_STORAGE>",
+          []
+        ],
+        [
+          "124554051617",
+          30,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771243",
+          26,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051613",
+          26,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771244",
+          0,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "107374182443",
+          31,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "107374182432",
+          32,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771259",
+          32,
+          true,
+          true,
+          "value = 'initial'",
+          []
+        ],
+        [
+          "141733920802",
+          32,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051616",
+          31,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771285",
+          31,
+          true,
+          true,
+          "Shared.value",
+          []
+        ],
+        [
+          "141733920807",
+          31,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051627",
+          0,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771245",
+          0,
+          true,
+          true,
+          "read()",
+          []
+        ],
+        [
+          "141733920799",
+          0,
+          true,
+          false,
+          "",
+          []
+        ]
+      ]
+    },
+    {
+      "query": "copiedCaught",
+      "transitions": [
+        [
+          0,
+          1,
+          "parameter use"
+        ],
+        [
+          1,
+          2,
+          "parameter binding"
+        ],
+        [
+          2,
+          3,
+          "parameter use"
+        ],
+        [
+          3,
+          4,
+          "parameter binding"
+        ],
+        [
+          4,
+          5,
+          "parameter use"
+        ],
+        [
+          5,
+          6,
+          "assignment or use"
+        ],
+        [
+          6,
+          7,
+          "assignment or use"
+        ],
+        [
+          7,
+          8,
+          "parameter binding"
+        ],
+        [
+          8,
+          9,
+          "parameter use"
+        ],
+        [
+          9,
+          10,
+          "storage write"
+        ],
+        [
+          10,
+          11,
+          "method exit evidence"
+        ],
+        [
+          11,
+          12,
+          "resolved call exit"
+        ],
+        [
+          12,
+          13,
+          "exceptional memory effect exit"
+        ],
+        [
+          13,
+          14,
+          "exceptional memory effect exit"
+        ],
+        [
+          14,
+          15,
+          "storage continuation"
+        ],
+        [
+          15,
+          16,
+          "storage continuation"
+        ],
+        [
+          16,
+          17,
+          "returned value"
+        ],
+        [
+          17,
+          18,
+          "method exit evidence"
+        ],
+        [
+          18,
+          19,
+          "resolved call exit"
+        ],
+        [
+          19,
+          20,
+          "saved field copy"
+        ],
+        [
+          20,
+          21,
+          "assignment or use"
+        ],
+        [
+          21,
+          22,
+          "parameter binding"
+        ],
+        [
+          22,
+          23,
+          "parameter use"
+        ],
+        [
+          23,
+          24,
+          "storage write"
+        ],
+        [
+          24,
+          25,
+          "method exit evidence"
+        ],
+        [
+          25,
+          26,
+          "resolved call exit"
+        ],
+        [
+          26,
+          27,
+          "exceptional memory effect exit"
+        ],
+        [
+          27,
+          28,
+          "exceptional memory effect exit"
+        ],
+        [
+          28,
+          29,
+          "storage continuation"
+        ],
+        [
+          29,
+          30,
+          "storage continuation"
+        ],
+        [
+          30,
+          31,
+          "storage continuation"
+        ],
+        [
+          31,
+          32,
+          "returned value"
+        ],
+        [
+          32,
+          33,
+          "method exit evidence"
+        ],
+        [
+          33,
+          34,
+          "resolved call exit"
+        ],
+        [
+          34,
+          35,
+          "returned value"
+        ],
+        [
+          35,
+          36,
+          "method exit evidence"
+        ],
+        [
+          36,
+          37,
+          "resolved call exit"
+        ],
+        [
+          37,
+          38,
+          "returned value"
+        ]
+      ],
+      "disposition": "reviewed bounded dependency evidence; conservative CFG/call scaffolding is not an execution trace",
+      "elements": [
+        [
+          "111669149740",
+          0,
+          true,
+          false,
+          "input",
+          []
+        ],
+        [
+          "68719476909",
+          0,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "111669149736",
+          33,
+          true,
+          false,
+          "input",
+          []
+        ],
+        [
+          "68719476900",
+          33,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "111669149734",
+          34,
+          true,
+          false,
+          "input",
+          []
+        ],
+        [
+          "68719476889",
+          34,
+          true,
+          false,
+          "input",
+          []
+        ],
+        [
+          "68719476888",
+          34,
+          true,
+          false,
+          "<tmp>45",
+          []
+        ],
+        [
+          "68719476890",
+          34,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "111669149743",
+          35,
+          true,
+          false,
+          "value",
+          []
+        ],
+        [
+          "68719476929",
+          35,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771269",
+          35,
+          true,
+          false,
+          "<STATIC_STORAGE>",
+          []
+        ],
+        [
+          "124554051619",
+          35,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771232",
+          34,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051612",
+          34,
+          false,
+          false,
+          "<STATIC_STORAGE_EXCEPTION>",
+          []
+        ],
+        [
+          "30064771239",
+          33,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "107374182434",
+          36,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771268",
+          36,
+          true,
+          true,
+          "other = 'other'",
+          []
+        ],
+        [
+          "141733920803",
+          36,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051618",
+          33,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771242",
+          33,
+          true,
+          true,
+          "Shared.other",
+          []
+        ],
+        [
+          "68719476904",
+          33,
+          true,
+          false,
+          "<tmp>50",
+          []
+        ],
+        [
+          "68719476905",
+          33,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "111669149742",
+          37,
+          true,
+          false,
+          "value",
+          []
+        ],
+        [
+          "68719476922",
+          37,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771260",
+          37,
+          true,
+          false,
+          "<STATIC_STORAGE>",
+          []
+        ],
+        [
+          "124554051617",
+          37,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771243",
+          33,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051613",
+          33,
+          false,
+          false,
+          "<STATIC_STORAGE_EXCEPTION>",
+          []
+        ],
+        [
+          "30064771246",
+          0,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "107374182443",
+          38,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "107374182432",
+          39,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771259",
+          39,
+          true,
+          true,
+          "value = 'initial'",
+          []
+        ],
+        [
+          "141733920802",
+          39,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051616",
+          38,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771285",
+          38,
+          true,
+          true,
+          "Shared.value",
+          []
+        ],
+        [
+          "141733920807",
+          38,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051627",
+          0,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771252",
+          0,
+          true,
+          true,
+          "read()",
+          []
+        ],
+        [
+          "141733920800",
+          0,
+          true,
+          false,
+          "",
+          []
+        ]
+      ]
+    },
+    {
+      "query": "copiedCaught",
+      "transitions": [
+        [
+          0,
+          1,
+          "parameter use"
+        ],
+        [
+          1,
+          2,
+          "parameter binding"
+        ],
+        [
+          2,
+          3,
+          "parameter use"
+        ],
+        [
+          3,
+          4,
+          "parameter binding"
+        ],
+        [
+          4,
+          5,
+          "parameter use"
+        ],
+        [
+          5,
+          6,
+          "assignment or use"
+        ],
+        [
+          6,
+          7,
+          "parameter binding"
+        ],
+        [
+          7,
+          8,
+          "parameter use"
+        ],
+        [
+          8,
+          9,
+          "storage write"
+        ],
+        [
+          9,
+          10,
+          "method exit evidence"
+        ],
+        [
+          10,
+          11,
+          "resolved call exit"
+        ],
+        [
+          11,
+          12,
+          "exceptional memory effect exit"
+        ],
+        [
+          12,
+          13,
+          "exceptional memory effect exit"
+        ],
+        [
+          13,
+          14,
+          "storage continuation"
+        ],
+        [
+          14,
+          15,
+          "storage continuation"
+        ],
+        [
+          15,
+          16,
+          "returned value"
+        ],
+        [
+          16,
+          17,
+          "method exit evidence"
+        ],
+        [
+          17,
+          18,
+          "resolved call exit"
+        ],
+        [
+          18,
+          19,
+          "saved field copy"
+        ],
+        [
+          19,
+          20,
+          "assignment or use"
+        ],
+        [
+          20,
+          21,
+          "parameter binding"
+        ],
+        [
+          21,
+          22,
+          "parameter use"
+        ],
+        [
+          22,
+          23,
+          "storage write"
+        ],
+        [
+          23,
+          24,
+          "method exit evidence"
+        ],
+        [
+          24,
+          25,
+          "resolved call exit"
+        ],
+        [
+          25,
+          26,
+          "exceptional memory effect exit"
+        ],
+        [
+          26,
+          27,
+          "exceptional memory effect exit"
+        ],
+        [
+          27,
+          28,
+          "storage continuation"
+        ],
+        [
+          28,
+          29,
+          "storage continuation"
+        ],
+        [
+          29,
+          30,
+          "storage continuation"
+        ],
+        [
+          30,
+          31,
+          "returned value"
+        ],
+        [
+          31,
+          32,
+          "method exit evidence"
+        ],
+        [
+          32,
+          33,
+          "resolved call exit"
+        ],
+        [
+          33,
+          34,
+          "returned value"
+        ],
+        [
+          34,
+          35,
+          "method exit evidence"
+        ],
+        [
+          35,
+          36,
+          "resolved call exit"
+        ],
+        [
+          36,
+          37,
+          "returned value"
+        ]
+      ],
+      "disposition": "reviewed bounded dependency evidence; conservative CFG/call scaffolding is not an execution trace",
+      "elements": [
+        [
+          "111669149740",
+          0,
+          true,
+          false,
+          "input",
+          []
+        ],
+        [
+          "68719476909",
+          0,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "111669149736",
+          33,
+          true,
+          false,
+          "input",
+          []
+        ],
+        [
+          "68719476900",
+          33,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "111669149734",
+          34,
+          true,
+          false,
+          "input",
+          []
+        ],
+        [
+          "68719476889",
+          34,
+          false,
+          false,
+          "input",
+          []
+        ],
+        [
+          "68719476890",
+          34,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "111669149743",
+          35,
+          true,
+          false,
+          "value",
+          []
+        ],
+        [
+          "68719476929",
+          35,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771269",
+          35,
+          true,
+          false,
+          "<STATIC_STORAGE>",
+          []
+        ],
+        [
+          "124554051619",
+          35,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771232",
+          34,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051612",
+          34,
+          false,
+          false,
+          "<STATIC_STORAGE_EXCEPTION>",
+          []
+        ],
+        [
+          "30064771239",
+          33,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "107374182434",
+          36,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771268",
+          36,
+          true,
+          true,
+          "other = 'other'",
+          []
+        ],
+        [
+          "141733920803",
+          36,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051618",
+          33,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771242",
+          33,
+          true,
+          true,
+          "Shared.other",
+          []
+        ],
+        [
+          "68719476904",
+          33,
+          true,
+          false,
+          "<tmp>50",
+          []
+        ],
+        [
+          "68719476905",
+          33,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "111669149742",
+          37,
+          true,
+          false,
+          "value",
+          []
+        ],
+        [
+          "68719476922",
+          37,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771260",
+          37,
+          true,
+          false,
+          "<STATIC_STORAGE>",
+          []
+        ],
+        [
+          "124554051617",
+          37,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771243",
+          33,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051613",
+          33,
+          false,
+          false,
+          "<STATIC_STORAGE_EXCEPTION>",
+          []
+        ],
+        [
+          "30064771246",
+          0,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "107374182443",
+          38,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "107374182432",
+          39,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771259",
+          39,
+          true,
+          true,
+          "value = 'initial'",
+          []
+        ],
+        [
+          "141733920802",
+          39,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051616",
+          38,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771285",
+          38,
+          true,
+          true,
+          "Shared.value",
+          []
+        ],
+        [
+          "141733920807",
+          38,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051627",
+          0,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771252",
+          0,
+          true,
+          true,
+          "read()",
+          []
+        ],
+        [
+          "141733920800",
+          0,
+          true,
+          false,
+          "",
+          []
+        ]
+      ]
+    },
+    {
+      "query": "joinedArgument",
+      "transitions": [
+        [
+          0,
+          1,
+          "parameter use"
+        ],
+        [
+          1,
+          2,
+          "caller argument binding"
+        ],
+        [
+          2,
+          3,
+          "parameter use"
+        ],
+        [
+          3,
+          4,
+          "caller argument binding"
+        ]
+      ],
+      "disposition": "reviewed bounded dependency evidence; conservative CFG/call scaffolding is not an execution trace",
+      "elements": [
+        [
+          "111669149730",
+          0,
+          true,
+          false,
+          "input",
+          []
+        ],
+        [
+          "68719476876",
+          0,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "111669149728",
+          0,
+          true,
+          false,
+          "input",
+          []
+        ],
+        [
+          "68719476869",
+          0,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "111669149696",
+          0,
+          true,
+          false,
+          "",
+          []
+        ]
+      ]
+    },
+    {
+      "query": "copiedArgument",
+      "transitions": [
+        [
+          0,
+          1,
+          "parameter use"
+        ],
+        [
+          1,
+          2,
+          "caller argument binding"
+        ],
+        [
+          2,
+          3,
+          "parameter use"
+        ],
+        [
+          3,
+          4,
+          "caller argument binding"
+        ]
+      ],
+      "disposition": "reviewed bounded dependency evidence; conservative CFG/call scaffolding is not an execution trace",
+      "elements": [
+        [
+          "111669149738",
+          0,
+          true,
+          false,
+          "input",
+          []
+        ],
+        [
+          "68719476907",
+          0,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "111669149736",
+          0,
+          true,
+          false,
+          "input",
+          []
+        ],
+        [
+          "68719476900",
+          0,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "111669149734",
+          0,
+          true,
+          false,
+          "",
+          []
+        ]
+      ]
+    }
+  ]
+}

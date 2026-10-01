@@ -1077,3 +1077,62 @@ storage budget on `plural-count-not-name-control`; each still has five queries
 with held-task round limits. The http_parser capture review was rechecked against
 the current raw paths. Other new corpus routes remain pending transition review.
 Larger search budgets and the remaining coverage-plan gates are unfinished.
+
+## Static memory on exceptional and resumed cleanup exits
+
+The preceding static-storage section records checkpoint `bba06f047`; this
+increment supersedes its source fingerprint and the missed `exceptional` case.
+That throwing-helper/catch dependency now passes. The CFG producer retains its
+existing exit kinds as Dart-only `dart.cfg.exit` tags: normal completion, failure
+before a call completes, and pending exceptions resumed after cleanup. ASTs,
+CFG edges and accessor signatures retain their existing meaning. Storage queries
+keep private pending normal/thrown demands through selected callee frames;
+cleanup returns/throws replace an exit, and later matching stores kill earlier
+values. Old graphs lacking the exit contract report a limit and need regeneration.
+
+The new cross-file graph and independent `static_exception_storage_test.dart`
+oracle cover normal versus caught reads, nested throwing calls, repeated-call
+isolation, caught overwrites, conditional/unconditional cleanup, unrelated-slot
+cleanup, nested cleanup, rethrow, swallowed exceptions and return/throw replacement.
+The native oracle executes three input values and both branch booleans. A shared
+CFG regression checks the exit tags and the C/Java/JavaScript/Kotlin boundary;
+existing CFG and dominator regressions also pass. Unmodeled implicit failure
+origins stop with `static-storage-implicit-exception-effects`, rather than
+assuming a failed assignment can expose an earlier unrelated store.
+
+DART-FLOW-007 remains a concrete shared-engine defect. `copiedCleanup` copies
+`Shared.other` into `Shared.value` in its finally body. `otherBranch` writes input
+only before throwing, and writes a constant on its normal branch. The runtime
+`copiedNormal` returns that constant or throws; the graph returns an input path
+with `static-storage-joined-exits`. The matching store schedules an ordinary RHS
+value task that loses the pending exit demand. `copiedCaught` is the nearby
+positive control. Direct joined-cleanup normal reads reject the throw-only input,
+but their absence remains inconclusive under the other recorded limits.
+
+The [exception snapshot](static-exception-witness-review.json) retains all returned
+14 paths (398 transitions) from the selected reduced queries, including both
+false-positive paths, exact call contexts and producer exit tags. Every returned transition has a disposition;
+void memory-effect exits are distinct from scalar returns and exception payloads.
+The [ordinary storage snapshot](static-storage-witness-review.json) is refreshed
+under the same implementation. These are bounded dependency reviews, not complete
+CFG execution traces or feasibility proofs. Initialization-state correlation,
+external effects, implicit runtime failures and the remaining plan gates stay open.
+
+All twelve graphs share independently checked fingerprint
+`3877d5d83af53418f3e3f3fa785694f63e39f9248dcedc0ad6a1484ab2020ca6`
+(400 analysis files), with unchanged exporter 0.3.19. Ordinary endpoint observations
+remain stock 74/76, modeled 76/76, and holdout 4/4. Seven modeled negative searches
+remain inconclusive. The two-witness/two-held-round audit passes all 80 endpoint
+expectations per mode and retains the preceding 86 visible/89 detailed stock paths
+and 81/83 modeled paths. Limits affect 43 stock and 42 modeled queries, including
+seven stock/eight modeled inconclusive negatives and five held-round limits per
+mode. Its package worker took 6 minutes 47 seconds. The HTTP capture review and
+deterministic compact summary were rechecked against these current raw contexts;
+other new corpus alternatives still require transition review.
+
+Validation passed 103 native runtime/Flutter/corpus tests, clean Dart analysis,
+167 frontend/package tests (the optional saved-graph audit is separately enabled),
+three application graphs, two holdout graphs, staging, four CLI tests and fourteen
+console tests. Focused shared CFG/dominator checks and formatting passed. This
+increment fixes exceptional storage traversal and explicitly records the remaining
+RHS-demand defect; it does not close initialization, heap or release qualification.
