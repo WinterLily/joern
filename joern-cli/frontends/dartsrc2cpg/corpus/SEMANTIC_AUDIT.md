@@ -520,3 +520,30 @@ matches three additional calls per pattern field (state check, negation and
 initialization store); file, internal-method and UNKNOWN counts are unchanged.
 All twelve refreshed reports have the same source fingerprint. Existing stock
 false positives and inconclusive searches retain their prior dispositions.
+
+## List pattern extraction and invocation reuse
+
+List patterns previously used an opaque shape predicate, intrinsic indexing and
+a rest operator. That omitted user-defined list member targets, evaluated untyped
+wildcards and repeated reads across cases. Exporter 0.3.13 records the required
+list type and length/index/sublist targets; lowering uses explicit size tests and
+lazy extraction storage. Prefix and tail positions have different keys, while
+matching tail offsets share a key across cases with different prefixes. Rest
+slices retain their prefix/trailing counts. A trailing rest passes the optional
+null end argument; a rest-only pattern avoids an unnecessary length read.
+
+The pinned runtime oracle checks lengths zero through four, empty and rest-only
+patterns, typed/untyped wildcards, repeated cases, prefix/tail extraction and
+slice bounds. Null, string and integer elements exercise typed wildcard outcomes.
+The graph regression checks targets, argument positions, shared storage and
+omitted wildcard accesses. These are extraction contracts, not a claim of exact
+collection-slot dataflow, complete virtual targets or generic match feasibility.
+Comparison invocations inside list patterns still need their own cache handling.
+
+Validation passes: 79 native tests, 115 Dart frontend/package tests, all three
+applications and both holdouts, staged packaging, four CLI integration tests and
+fourteen console tests. Graph-count changes were derived independently from native
+exporter facts: length guards, skipped wildcard reads, cached prefix/tail reads
+and slices account for every delta. File, internal-method and UNKNOWN counts are
+unchanged. All twelve reports share the current source fingerprint and exporter
+0.3.13. The existing inconclusive queries remain open.

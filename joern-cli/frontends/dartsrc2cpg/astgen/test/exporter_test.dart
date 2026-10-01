@@ -171,6 +171,38 @@ void main() { late int local = 1; print(local); }
     );
   });
 
+  test('export list pattern type and member targets', () async {
+    write(
+      'main.dart',
+      File(
+        '../src/test/resources/semantics/list_patterns.dart',
+      ).readAsStringSync(),
+    );
+    final unit = units(await export()).single;
+    expect(unit['status'], 'resolved');
+    final symbols = {
+      for (final symbol in entries(unit, 'symbols')) symbol['id']: symbol,
+    };
+    final patterns = entries(
+      unit,
+      'nodes',
+    ).where((node) => node['kind'] == 'ListPattern').toList();
+    expect(patterns, isNotEmpty);
+    for (final pattern in patterns) {
+      expect(pattern['requiredType'], 'List<Object?>');
+      for (final entry in {
+        'lengthTarget': 'length',
+        'indexTarget': '[]',
+        'sublistTarget': 'sublist',
+      }.entries) {
+        final target = symbols[pattern[entry.key]];
+        expect(target, isNotNull, reason: entry.key);
+        expect(target!['name'], entry.value);
+        expect(symbols[target['owner']]!['name'], 'LoggedList');
+      }
+    }
+  });
+
   test(
     'export comparison targets for constant and relational patterns',
     () async {

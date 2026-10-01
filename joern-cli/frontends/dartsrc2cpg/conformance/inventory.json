@@ -141,6 +141,15 @@
       "valueFlow": "existing record projection and object getter regressions",
       "negative": "separate nested receivers and matching constructs; null input bypasses getter execution",
       "interaction": "astgen/test/pattern_cache_test.dart: stateful getters and object wildcard side effects; comparison/collection cache keys remain open"
+    },
+    "list-patterns": {
+      "exporter": "astgen/test/exporter_test.dart: required list type and resolved length/index/sublist members",
+      "lowering": "DartFrontendTests: explicit size tests, wildcard skipping, indexed extraction and rest bounds",
+      "resolution": "concrete matched-interface members with required-list fallback; general virtual target completeness unqualified",
+      "cfg": "lazy per-match length/index/slice storage; prefix and tail invocation identities remain distinct",
+      "valueFlow": "existing scalar pattern bindings; exact collection slots unqualified",
+      "negative": "untyped wildcard indices/slices absent; rest-only slice has no length read; typed wildcard still reads an element",
+      "interaction": "astgen/test/list_patterns_test.dart: lengths zero through four, null/string/int elements, repeated cases and rest slicing"
     }
   },
   "constructs": [
@@ -916,9 +925,9 @@
       "construct": "ListPattern",
       "scope": "dart-3.9",
       "exporterCase": "ListPattern",
-      "contract": "syntax",
+      "contract": "list-patterns",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "List extraction targets, size guards, lazy invocation reuse, wildcard skipping and rest bounds tested; generic/virtual dispatch, exact collection slots and map qualification remain open."
     },
     {
       "construct": "LogicalAndPattern",
@@ -1252,9 +1261,9 @@
       "construct": "RestPatternElement",
       "scope": "dart-3.9",
       "exporterCase": "RestPatternElement",
-      "contract": "syntax",
+      "contract": "list-patterns",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "List extraction targets, size guards, lazy invocation reuse, wildcard skipping and rest bounds tested; generic/virtual dispatch, exact collection slots and map qualification remain open."
     },
     {
       "construct": "RethrowExpression",

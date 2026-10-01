@@ -44,8 +44,9 @@ evaluation regressions also have execution oracles. Constant and relational patt
 comparisons preserve receiver direction, user operator targets and null guards,
 with ordinary and dynamic equality evaluation traces. Ordinary object and record
 field extraction now uses lazy storage shared across cases within each match.
-Comparison/collection/extension invocation caching and broader dispatch
-qualification remain open. This is
+List patterns now resolve and cache length, index and slice reads, with bounded
+wildcard/rest execution traces. Map/comparison/extension invocation caching and
+broader dispatch qualification remain open. This is
 not complete language or runtime analysis support.
 This plan supersedes the completion assumptions in the original implementation
 plan in `agents/plan.md`; it does not mark the remaining work as done.

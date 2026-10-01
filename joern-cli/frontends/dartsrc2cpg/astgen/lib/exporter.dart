@@ -14,7 +14,7 @@ import 'package:analyzer/source/line_info.dart';
 import 'package:path/path.dart' as p;
 
 const protocolVersion = 1;
-const exporterVersion = '0.3.12';
+const exporterVersion = '0.3.13';
 const analyzerVersion = '8.4.1';
 const supportedSdkVersion = '3.9.2';
 
@@ -991,6 +991,25 @@ class _UnitEncoder {
         child('pattern', ast.pattern);
       case ListPattern():
         kind = 'ListPattern';
+        final required = ast.requiredType?.extensionTypeErasure;
+        final matched = ast.matchedValueType?.extensionTypeErasure;
+        record['requiredType'] = ast.requiredType?.getDisplayString();
+        record['requiredTypeId'] = typeId(ast.requiredType);
+        if (required is InterfaceType) {
+          final receiver = matched is InterfaceType ? matched : required;
+          record['lengthTarget'] = symbol(
+            receiver.lookUpGetter('length', receiver.element.library) ??
+                required.lookUpGetter('length', required.element.library),
+          );
+          record['indexTarget'] = symbol(
+            receiver.lookUpMethod('[]', receiver.element.library) ??
+                required.lookUpMethod('[]', required.element.library),
+          );
+          record['sublistTarget'] = symbol(
+            receiver.lookUpMethod('sublist', receiver.element.library) ??
+                required.lookUpMethod('sublist', required.element.library),
+          );
+        }
         many('element', ast.elements);
       case MapPattern():
         kind = 'MapPattern';

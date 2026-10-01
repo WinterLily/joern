@@ -3,8 +3,8 @@
     "project": "localsend-1.17.0",
     "analysisSources": {
       "algorithm": "sha256-path-nul-content-nul",
-      "sha256": "25330d8f3dcd8eaac6df63b16de9da8b4889711d27f2ded5b718b32309ebae2f",
-      "files": 361,
+      "sha256": "1bf663b15894b10f2de93da7eacc760478fcdcadaaca2e85b1b43d7b1e681960",
+      "files": 362,
       "roots": [
         "joern-cli/frontends/dartsrc2cpg/src",
         "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -43,7 +43,7 @@
     "exporter": {
       "record": "header",
       "protocolVersion": 1,
-      "exporterVersion": "0.3.12",
+      "exporterVersion": "0.3.13",
       "analyzerVersion": "8.4.1",
       "sdkVersion": "3.9.2",
       "offsetEncoding": "utf-16",
@@ -62,7 +62,7 @@
       "iterable": "# Dart SDK 3.9.2: lib/core/iterable.dart and lib/internal/iterable.dart.\n# Explicit element values with pure predicates/transforms and statically known callbacks.\n# Selection, lazy execution timing and callback side effects are outside this contract.\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:where\" 0 -> 0 1 -> 1 0 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:map\" 0 -> 0 1 -> 1 1 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:join\" 0 -> 0 1 -> 1 0 -> -1 1 -> -1\n",
       "bytes": "# Dart SDK 3.9.2 byte-content contract for Uint8List allocation and standard List.setRange.\n# Length/range inputs select size and positions; they are not copied element values.\n# Keep the constructor offset exact: other dart:typed_data unnamed constructors include SIMD values.\n\"dart:typed_data\\x2336552:CONSTRUCTOR:new\" 1 -> 1\n\"dart:core/list[.]dart\\x2329446:METHOD:setRange\" 0 -> 0 1 -> 1 2 -> 2 3 -> 3 4 -> 4 3 -> 0\n"
     },
-    "reachingDefEdges": 751949,
+    "reachingDefEdges": 752005,
     "maxCallDepth": 4,
     "maxFieldDepth": 4,
     "pathSelection": "longest-per-endpoint-pair",
@@ -360,8 +360,8 @@
     "project": "saber-0.26.0",
     "analysisSources": {
       "algorithm": "sha256-path-nul-content-nul",
-      "sha256": "25330d8f3dcd8eaac6df63b16de9da8b4889711d27f2ded5b718b32309ebae2f",
-      "files": 361,
+      "sha256": "1bf663b15894b10f2de93da7eacc760478fcdcadaaca2e85b1b43d7b1e681960",
+      "files": 362,
       "roots": [
         "joern-cli/frontends/dartsrc2cpg/src",
         "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -400,7 +400,7 @@
     "exporter": {
       "record": "header",
       "protocolVersion": 1,
-      "exporterVersion": "0.3.12",
+      "exporterVersion": "0.3.13",
       "analyzerVersion": "8.4.1",
       "sdkVersion": "3.9.2",
       "offsetEncoding": "utf-16",
@@ -712,8 +712,8 @@
     "project": "dart-sass-1.89.2",
     "analysisSources": {
       "algorithm": "sha256-path-nul-content-nul",
-      "sha256": "25330d8f3dcd8eaac6df63b16de9da8b4889711d27f2ded5b718b32309ebae2f",
-      "files": 361,
+      "sha256": "1bf663b15894b10f2de93da7eacc760478fcdcadaaca2e85b1b43d7b1e681960",
+      "files": 362,
       "roots": [
         "joern-cli/frontends/dartsrc2cpg/src",
         "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -751,7 +751,7 @@
     "exporter": {
       "record": "header",
       "protocolVersion": 1,
-      "exporterVersion": "0.3.12",
+      "exporterVersion": "0.3.13",
       "analyzerVersion": "8.4.1",
       "sdkVersion": "3.9.2",
       "offsetEncoding": "utf-16",
@@ -770,7 +770,7 @@
       "iterable": "# Dart SDK 3.9.2: lib/core/iterable.dart and lib/internal/iterable.dart.\n# Explicit element values with pure predicates/transforms and statically known callbacks.\n# Selection, lazy execution timing and callback side effects are outside this contract.\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:where\" 0 -> 0 1 -> 1 0 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:map\" 0 -> 0 1 -> 1 1 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:join\" 0 -> 0 1 -> 1 0 -> -1 1 -> -1\n",
       "bytes": "# Dart SDK 3.9.2 byte-content contract for Uint8List allocation and standard List.setRange.\n# Length/range inputs select size and positions; they are not copied element values.\n# Keep the constructor offset exact: other dart:typed_data unnamed constructors include SIMD values.\n\"dart:typed_data\\x2336552:CONSTRUCTOR:new\" 1 -> 1\n\"dart:core/list[.]dart\\x2329446:METHOD:setRange\" 0 -> 0 1 -> 1 2 -> 2 3 -> 3 4 -> 4 3 -> 0\n"
     },
-    "reachingDefEdges": 501209,
+    "reachingDefEdges": 506393,
     "maxCallDepth": 4,
     "maxFieldDepth": 4,
     "pathSelection": "longest-per-endpoint-pair",

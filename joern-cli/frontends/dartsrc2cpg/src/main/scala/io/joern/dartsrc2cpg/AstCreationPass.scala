@@ -857,6 +857,19 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
         result.root.collect { case block: NewBlock => block.typeFullName = local.typeFullName }
         result
     }
+    def patternMember(syntax: Value, targetId: String, name: String, values: Seq[Ast]): Ast = {
+      val target = sym(targetId)
+      val out    = located(
+        NewCall()
+          .name(name)
+          .methodFullName(if (targetId.nonEmpty) targetId else s"<unresolved>.$name")
+          .code(code(syntax))
+          .typeFullName(string(target, "returnTypeId", string(target, "returnType", "ANY")))
+          .dispatchType(DispatchTypes.DYNAMIC_DISPATCH),
+        syntax
+      )
+      args(out, values, values.indices).withReceiverEdge(out, values.head.root.get)
+    }
     def pattern(syntax: Value, value: () => Ast, parent: Vector[String] = Vector("this")): Ast = {
       def and(values: Seq[Ast]): Ast = values
         .reduceOption((left, right) => operator(syntax, Operators.logicalAnd, Seq(left, right)))
@@ -932,45 +945,84 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
             val key = parent :+ (if (extension) s"extension:${entry("id")}" else name)
             saved(entry, patternAccess(entry, key, access))(ref => pattern(child(entry, "pattern"), ref, key))
           })
-        case "ListPattern" | "MapPattern" =>
+        case "ListPattern" =>
           val elements = children(syntax, "element")
           val rest     = elements.indexWhere(entry => string(entry, "kind") == "RestPatternElement")
-          and(
-            Seq(operator(syntax, "<operator>.patternShape", Seq(value(), literal(syntax, code(syntax))))) ++
-              elements.zipWithIndex.flatMap { case (entry, index) =>
-                val kind = string(entry, "kind")
-                if (kind == "RestPatternElement") children(entry, "pattern").map { inner =>
-                  saved(
-                    entry,
-                    operator(
-                      entry,
-                      "<operator>.patternRest",
-                      Seq(value(), literal(entry, index.toString), literal(entry, (elements.size - index - 1).toString))
-                    )
-                  )(ref => pattern(inner, ref, parent :+ s"rest:$index:${elements.size - index - 1}"))
-                }
-                else {
-                  val key =
-                    if (kind == "MapPatternEntry") expression(child(entry, "key"))
-                    else if (rest >= 0 && index > rest)
-                      operator(
-                        entry,
-                        Operators.subtraction,
-                        Seq(field(entry, value(), "length"), literal(entry, (elements.size - index).toString, "int"))
-                      )
-                    else literal(entry, index.toString, "int")
-                  val inner      = if (kind == "MapPatternEntry") child(entry, "pattern") else entry
-                  val invocation =
-                    if (kind == "MapPatternEntry") s"map:${entry("id")}"
-                    else if (rest >= 0 && index > rest) s"tail:${elements.size - index - 1}"
-                    else s"index:$index"
-                  Seq(
-                    saved(entry, operator(entry, Operators.indexAccess, Seq(value(), key)))(ref =>
-                      pattern(inner, ref, parent :+ invocation)
-                    )
+          val minimum  = elements.size - (if (rest >= 0) 1 else 0)
+          def wildcard(entry: Value): Boolean =
+            string(entry, "kind") == "WildcardPattern" && children(entry, "type").isEmpty
+          def length(): Ast = patternAccess(
+            syntax,
+            parent :+ "length",
+            patternMember(syntax, string(syntax, "lengthTarget"), "length", Seq(value()))
+          )
+          val typeTest = operator(
+            syntax,
+            Operators.instanceOf,
+            Seq(
+              value(),
+              Ast(
+                NewTypeRef()
+                  .code(string(syntax, "requiredType", "List"))
+                  .typeFullName(string(syntax, "requiredTypeId", "List"))
+              )
+            )
+          )
+          val sizeTest =
+            if (rest < 0 || minimum > 0)
+              Seq(
+                operator(
+                  syntax,
+                  if (rest < 0) Operators.equals else Operators.greaterEqualsThan,
+                  Seq(length(), literal(syntax, minimum.toString, "int"))
+                )
+              )
+            else Nil
+          val extracted = elements.zipWithIndex.flatMap { case (entry, index) =>
+            if (index == rest) children(entry, "pattern").filterNot(wildcard).map { inner =>
+              val trailing = elements.size - index - 1
+              val key      = parent :+ s"rest:$index:$trailing"
+              val end      =
+                if (trailing == 0) literal(entry, "null", "Null")
+                else operator(entry, Operators.subtraction, Seq(length(), literal(entry, trailing.toString, "int")))
+              val slice = patternMember(
+                entry,
+                string(syntax, "sublistTarget"),
+                "sublist",
+                Seq(value(), literal(entry, index.toString, "int"), end)
+              )
+              saved(entry, patternAccess(entry, key, slice))(ref => pattern(inner, ref, key))
+            }
+            else if (wildcard(entry)) Nil
+            else {
+              val fromEnd  = rest >= 0 && index > rest
+              val position = if (fromEnd) elements.size - index - 1 else index
+              val key      = parent :+ s"${if (fromEnd) "tail" else "index"}:$position"
+              val offset   =
+                if (fromEnd)
+                  operator(entry, Operators.subtraction, Seq(length(), literal(entry, (position + 1).toString, "int")))
+                else literal(entry, position.toString, "int")
+              val element = patternMember(entry, string(syntax, "indexTarget"), "[]", Seq(value(), offset))
+              Seq(saved(entry, patternAccess(entry, key, element))(ref => pattern(entry, ref, key)))
+            }
+          }
+          and(Seq(typeTest) ++ sizeTest ++ extracted)
+        case "MapPattern" =>
+          val extracted = children(syntax, "element").flatMap { entry =>
+            string(entry, "kind") match {
+              case "MapPatternEntry" =>
+                val key = expression(child(entry, "key"))
+                Seq(
+                  saved(entry, operator(entry, Operators.indexAccess, Seq(value(), key)))(ref =>
+                    pattern(child(entry, "pattern"), ref, parent :+ s"map:${entry("id")}")
                   )
-                }
-              }
+                )
+              case "RestPatternElement" if children(entry, "pattern").isEmpty => Nil
+              case _                                                          => Seq(unknown(entry))
+            }
+          }
+          and(
+            Seq(operator(syntax, "<operator>.patternShape", Seq(value(), literal(syntax, code(syntax))))) ++ extracted
           )
         case _ => unknown(syntax)
       }

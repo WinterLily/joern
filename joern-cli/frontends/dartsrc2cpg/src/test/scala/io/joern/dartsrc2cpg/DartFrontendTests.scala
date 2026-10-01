@@ -428,13 +428,15 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
             "<operator>.patternShape",
             "<operator>.instanceOf",
             "<operator>.logicalNot",
+            "<operator>.equals",
             "<operator>.notEquals",
             "<operator>.logicalAnd"
           )
           .l
         predicates.map(_.name).toSet should contain allOf (
           "<operator>.isInitialized",
-          "<operator>.patternShape",
+          "<operator>.instanceOf",
+          "<operator>.equals",
           "<operator>.notEquals"
         )
         predicates.foreach(call =>
@@ -1964,7 +1966,7 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         dataflow = false
       ) { (cpg, _) =>
         cpg.unknown.size shouldBe 0
-        cpg.call.nameExact("<operator>.patternRest").size shouldBe 1
+        cpg.call.nameExact("sublist").size shouldBe 1
         cpg.identifier.nameExact("value").refsTo.name.toSet shouldBe Set("value")
         cpg.local.nameExact("a", "b").size shouldBe 2
         cpg.controlStructure.controlStructureTypeExact("SWITCH").size shouldBe 1
@@ -2064,6 +2066,56 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
           }
         """
         ) { (cpg, _) => assertFlow(cpg, expected) }
+      }
+    }
+    "resolve and cache list pattern members while skipping untyped wildcards" in {
+      fixture(Files.readString(frontend.resolve("src/test/resources/semantics/list_patterns.dart")), "void main() {}") {
+        (cpg, _) =>
+          for (
+            (name, indexed) <- Seq(
+              "wildcards"           -> 0,
+              "empty"               -> 0,
+              "prefixRest"          -> 1,
+              "typedWildcard"       -> 1,
+              "headAndRestWildcard" -> 0,
+              "cases"               -> 1,
+              "rest"                -> 2,
+              "tail"                -> 1
+            )
+          ) {
+            val method  = cpg.method.nameExact(name).head
+            val lengths = method.call.nameExact("length").l
+            withClue(name) {
+              lengths.nonEmpty shouldBe true
+              lengths.iterator.callee.isExternal.toSet shouldBe Set(false)
+              val indices = method.call.nameExact("[]").l
+              indices.iterator.callee.isExternal.toSet shouldBe (if (indexed == 0) Set.empty else Set(false))
+              def storage(calls: List[io.shiftleft.codepropertygraph.generated.nodes.Call]): Set[Long] =
+                calls
+                  .flatMap(
+                    _.astParent
+                      .asInstanceOf[io.shiftleft.codepropertygraph.generated.nodes.Call]
+                      .argument(1)
+                      .start
+                      .isIdentifier
+                      .refsTo
+                      .id
+                      .l
+                  )
+                  .toSet
+              storage(lengths).size shouldBe 1
+              storage(indices).size shouldBe indexed
+              method.call.nameExact(Operators.indexAccess).size shouldBe 0
+            }
+          }
+          cpg.method.nameExact("restWildcard").call.nameExact("length", "[]", "sublist").size shouldBe 0
+          cpg.method.nameExact("all").call.nameExact("length", "[]").size shouldBe 0
+          cpg.method.nameExact("all").call.nameExact("sublist").argument(2).code.l shouldBe List("null")
+          cpg.method.nameExact("prefixRest").call.nameExact("sublist").argument(2).code.l shouldBe List("null")
+          val rest = cpg.method.nameExact("rest").call.nameExact("sublist").head
+          rest.callee.isExternal.toSet shouldBe Set(false)
+          rest.argument(1).code shouldBe "1"
+          rest.argument(2).start.isCall.name.l shouldBe List(Operators.subtraction)
       }
     }
     "share lazy pattern getter storage across cases and separate nested paths" in {
@@ -2344,7 +2396,7 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         val coverage = ujson.read(Files.readString(report))
         coverage("includedFiles").num shouldBe 0
         coverage("stringConversionOrder").str shouldBe "after-expression-evaluation"
-        coverage("exporter")("exporterVersion").str shouldBe "0.3.12"
+        coverage("exporter")("exporterVersion").str shouldBe "0.3.13"
         coverage("exporter")("sdkVersion").str shouldBe "3.9.2"
         coverage("exporter")("analyzerVersion").str shouldBe "8.4.1"
         Files.writeString(dir.resolve("excluded.dart"), "void excluded() {}")
@@ -2364,7 +2416,7 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         "offsetEncoding"  -> "utf-16",
         "analyzerVersion" -> "8.4.1",
         "sdkVersion"      -> "3.9.2",
-        "exporterVersion" -> "0.3.12"
+        "exporterVersion" -> "0.3.13"
       )
       intercept[IllegalArgumentException](ExportProtocol.units(Seq(valid)))
       intercept[IllegalArgumentException](

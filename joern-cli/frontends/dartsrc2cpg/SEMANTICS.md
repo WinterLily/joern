@@ -100,20 +100,27 @@ of otherwise supported declarations. Modern syntax uses the conventions below.
 
 ## Modern Dart lowering
 
-Records use `<operator>.record` with ordered key/value associations. Positional
-keys are `$1`, `$2`, etc.; named keys retain their names. Reads and destructuring
-use field accesses. The shared engine can propagate whole-record dependencies;
-this representation does not promise independent taint for every record field.
+Records initialize explicit field slots in source order. Positional keys are
+`$1`, `$2`, etc.; named keys retain their names and do not increment positional
+indices. Reads and destructuring use field accesses. Constant field paths retain
+independent dependencies within the engine's field-depth limit; arbitrary aliases
+and mutable collection slots remain outside that contract.
 
 Patterns evaluate the matched value once. Variable patterns declare/reference
 locals with analyzer identities; logical-or variables use their joined identity.
-Record/object/list/map patterns combine an opaque `<operator>.patternShape`
-predicate with field/getter/index extraction. Rest patterns use
-`<operator>.patternRest`, including the count of trailing elements. Typed,
-relational, constant and null-check patterns use ordinary operators. Logical
-patterns and guards short-circuit. Cast/null-assert patterns retain their operators.
-Shape and rest operators preserve dependencies and structure, but have no exact
-runtime matching or slice summaries. Predicate paths are conservative.
+Record and object patterns combine a shape predicate with lazy field/getter
+extraction shared within one match. Nested receiver paths keep storage separate.
+List patterns test the required type and length, then call resolved index and
+sublist members. Untyped list wildcards skip extraction; typed wildcards retain
+their reads and type tests. Prefix positions, tail offsets and slice bounds
+identify cached extractions. Map patterns still use an opaque shape predicate
+and intrinsic indexing; key-presence checks and invocation reuse remain open.
+Constant comparisons call equality on the constant receiver, while relational
+comparisons call the matched receiver. Equality preserves operand evaluation
+order and skips user dispatch for null operands. Comparison invocation reuse
+and substituted extension invocation identities remain open. Logical patterns
+and guards short-circuit. Cast/null-assert patterns retain their operators.
+Predicate paths and virtual targets remain conservative.
 
 Destructuring includes a mismatch THROW path; exact exception types and atomic
 assignment behavior on failures are not simulated. Switch expressions assign a
