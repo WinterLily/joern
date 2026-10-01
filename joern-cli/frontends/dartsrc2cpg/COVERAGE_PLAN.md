@@ -68,7 +68,12 @@ input/output bindings now have per-target adapters, bounded SDK oracles and
 independent receiver regressions. Default adapters now share equivalent bodies
 without merging omission masks or captures; cross-file positional defaults and
 receiver/argument traces have SDK/graph controls. Captured receiver state flows
-through explicit entry-point capture edges. Runtime receiver contexts, runtime
+through explicit entry-point capture edges. Primitive constructor values now
+retain the selected caller when captured reads enter an enclosing parameter;
+saved-receiver rebinding and nested aliases have depth-four/eight controls.
+The shared context correction is Dart-only, with ordinary-call, wrong-owner and
+foreign-language boundary tests. Static storage DART-FLOW-006 remains open.
+Runtime receiver contexts, runtime
 type environments and bound checks remain open. Mixin superclass operations now include preceding implementations from
 observed applications, with private lookup, cross-file and bound-operation
 regressions. Application-specific contexts remain open; default adaptation preserves each selected target's named slots. Broader dispatch and

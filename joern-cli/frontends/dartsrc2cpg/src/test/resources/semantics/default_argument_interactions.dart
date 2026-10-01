@@ -71,3 +71,30 @@ String positionalBound(PositionalChoice receiver) {
   final callback = receiver.pick;
   return callback();
 }
+
+String capturedValues(String first, String second) =>
+    captured(NamedState(first), NamedState(second));
+
+String rebound(String input, String replacement) {
+  NamedChoice receiver = NamedState(input);
+  final callback = receiver.pick;
+  receiver = NamedState(replacement);
+  return callback();
+}
+
+String nestedBound(String input, String replacement) {
+  NamedChoice receiver = NamedState(input);
+  final callback = receiver.pick;
+  final alias = callback;
+  String invoke() => alias();
+  receiver = NamedState(replacement);
+  return invoke();
+}
+
+String nestedSupplied(String input, String ignored) {
+  NamedChoice receiver = NamedOverride();
+  final callback = receiver.pick;
+  final alias = callback;
+  String invoke() => alias(ignored: ignored, first: input);
+  return invoke();
+}

@@ -3,8 +3,8 @@
     "project": "localsend-1.17.0",
     "analysisSources": {
       "algorithm": "sha256-path-nul-content-nul",
-      "sha256": "9e629ed09004d9533c8160ef55c5ccd7c00a7a27f7932df195c0473a403c8b67",
-      "files": 391,
+      "sha256": "95938dc61bd10cdb3e17cca97470e2afee7d232be68097ab849f39fbe5f3d7f5",
+      "files": 392,
       "roots": [
         "joern-cli/frontends/dartsrc2cpg/src",
         "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -373,8 +373,8 @@
     "project": "saber-0.26.0",
     "analysisSources": {
       "algorithm": "sha256-path-nul-content-nul",
-      "sha256": "9e629ed09004d9533c8160ef55c5ccd7c00a7a27f7932df195c0473a403c8b67",
-      "files": 391,
+      "sha256": "95938dc61bd10cdb3e17cca97470e2afee7d232be68097ab849f39fbe5f3d7f5",
+      "files": 392,
       "roots": [
         "joern-cli/frontends/dartsrc2cpg/src",
         "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -738,8 +738,8 @@
     "project": "dart-sass-1.89.2",
     "analysisSources": {
       "algorithm": "sha256-path-nul-content-nul",
-      "sha256": "9e629ed09004d9533c8160ef55c5ccd7c00a7a27f7932df195c0473a403c8b67",
-      "files": 391,
+      "sha256": "95938dc61bd10cdb3e17cca97470e2afee7d232be68097ab849f39fbe5f3d7f5",
+      "files": 392,
       "roots": [
         "joern-cli/frontends/dartsrc2cpg/src",
         "joern-cli/frontends/dartsrc2cpg/astgen/lib",

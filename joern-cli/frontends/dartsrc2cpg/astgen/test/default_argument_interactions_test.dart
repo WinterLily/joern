@@ -24,6 +24,12 @@ void main() {
           'ignored2',
           'first2',
         ]);
+        for (final replacement in ['', 'replacement']) {
+          expect(fixture.capturedValues(input, replacement), replacement);
+          expect(fixture.rebound(input, replacement), input);
+          expect(fixture.nestedBound(input, replacement), input);
+          expect(fixture.nestedSupplied(input, replacement), input);
+        }
         final named = implementations.NamedOverride();
         expect(fixture.repeated(named, input), 'constant');
         expect(fixture.repeatedInput(named, input), input);

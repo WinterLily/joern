@@ -941,3 +941,39 @@ holdout expectations match. Five modeled negative searches remain inconclusive.
 Historical witness snapshots do not certify these refreshed paths. The static
 setter/getter false negative DART-FLOW-006 and the remaining coverage-plan gates
 are unchanged.
+
+
+## Captured enclosing parameters retain caller context
+
+The previous receiver-object query did not exercise primitive input forwarded
+through an ordinary caller and constructor. The SDK oracle now constructs two
+NamedState objects from separate strings, invokes the left bound receiver and
+returns the right receiver's state. The graph missed the second string at call
+depths four and eight with no reported query limitation. The captured read had
+reached the lexical owner's parameter while its closure invocation remained at
+the top of the call stack, so parameter expansion looked for arguments at the
+wrong call site.
+
+TaskCreator now removes Dart closure frames only when ordinary METHOD_REF/CAPTURE
+edges establish their lexical owner, including nested captured scopes. It retains
+the selected ordinary caller, call depth accounting and constant-field demand.
+The regression checks constructor values, original receiver rebinding after
+capture, nested aliases and named input isolation at depths four and eight with
+empty diagnostics. The independent SDK oracle checks empty and nonempty inputs.
+A graph-level boundary regression covers direct matched calls, absent CAPTURE,
+wrong owners, nested captured scopes and C, Java, JavaScript and Kotlin. Foreign
+language contexts return through the existing path without context adjustment.
+This shared prerequisite fixes the reproduced Dart failure; it does not qualify
+arbitrary mutable callable targets, allocation-sensitive heap updates or static
+storage.
+
+All 99 native tests, clean Dart analysis, the updated inventory, all 157
+frontend/package tests, three applications, both holdouts, staged packaging,
+four CLI checks, fourteen console tests, 29 shared access-path tests and formatting
+checks pass. The twelve refreshed reports share independently checked fingerprint
+`95938dc61bd10cdb3e17cca97470e2afee7d232be68097ab849f39fbe5f3d7f5`
+(392 files), with unchanged exporter 0.3.19. Counts remain 7,606 unique default
+adapters, 50,929 links and 522 unique external delegates. Original endpoint
+expectations remain 74/76 stock, 76/76 modeled and 4/4 holdout. Five modeled
+negative searches remain inconclusive; historical snapshots do not certify
+current paths. DART-FLOW-006 and the remaining plan gates stay open.

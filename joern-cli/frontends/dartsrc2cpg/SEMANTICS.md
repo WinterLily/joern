@@ -60,6 +60,13 @@ METHOD_REF/CAPTURE edges to the saved receiver, created alongside the original
 bound reference. The original reference remains the block's resulting value;
 entry-point references do not reevaluate the receiver. Copying a capture ID onto
 a local alone is insufficient for capture discovery.
+When a captured read reaches an enclosing parameter, Dart query expansion drops
+closure invocation frames only when their METHOD_REF/CAPTURE edges establish the
+lexical owner, including nested captured scopes. It retains the selected ordinary
+caller and field demand. Constructor-value, saved-receiver rebinding and nested
+alias regressions check used versus independent inputs at call depths four and
+eight with no reported search limitations. This does not qualify arbitrary
+mutable callback targets or cross-method static storage.
 The original declarations, call identity and dispatch kind are retained. Adapter
 calls select an already resolved target statically. These extra methods consume
 call depth; the `defaultArguments` report distinguishes adapted call sites,

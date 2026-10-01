@@ -93,34 +93,51 @@ class TaskCreator(context: EngineContext) {
   private def tasksForParams(results: Vector[ReachableByResult]): Vector[ReachableByTask] = {
     startsAtParameter(results).flatMap { result =>
       val param = result.path.head.node.asInstanceOf[MethodParameterIn]
-      result.callSiteStack match {
+      val stack = parameterContext(param, result.callSiteStack)
+      val depth = result.callDepth - (result.callSiteStack.size - stack.size)
+      val path  =
+        if (stack == result.callSiteStack) result.path
+        else result.path.updated(0, result.path.head.copy(callSiteStack = stack))
+      stack match {
         case callSite :: tail =>
           // Case 1
           paramToArgs(param).filter(x => x.inCall.exists(c => c == callSite)).map { arg =>
             ReachableByTask(
-              result.taskStack :+ TaskFingerprint(
-                arg,
-                tail,
-                result.callDepth - 1,
-                fieldDemand = result.path.head.fieldDemand
-              ),
-              result.path
+              result.taskStack :+ TaskFingerprint(arg, tail, depth - 1, fieldDemand = result.path.head.fieldDemand),
+              path
             )
           }
         case _ =>
           // Case 2
           paramToArgs(param).map { arg =>
             ReachableByTask(
-              result.taskStack :+ TaskFingerprint(
-                arg,
-                List(),
-                result.callDepth + 1,
-                fieldDemand = result.path.head.fieldDemand
-              ),
-              result.path
+              result.taskStack :+ TaskFingerprint(arg, List(), depth + 1, fieldDemand = result.path.head.fieldDemand),
+              path
             )
           }
       }
+    }
+  }
+
+  private def parameterContext(param: MethodParameterIn, original: List[Call]): List[Call] = {
+    if (!io.joern.dataflowengineoss.isDart(param)) return original
+    val owner                                                                 = param.method
+    def capturesOwner(method: Method, seen: Set[Method] = Set.empty): Boolean =
+      !seen(method) && method._refIn.collectAll[MethodRef].exists { reference =>
+        reference.inAst.isMethod.headOption.exists { scope =>
+          val capturesScope = reference._captureOut.collectAll[ClosureBinding].exists { binding =>
+            binding._refOut.collectAll[Declaration].exists {
+              case source: AstNode => source.inAst.isMethod.headOption.contains(scope)
+              case _               => false
+            }
+          }
+          capturesScope && (scope == owner || capturesOwner(scope, seen + method))
+        }
+      }
+    // Captured reads enter the lexical owner without consuming the closure's formal arguments.
+    original.dropWhile { call =>
+      val targets = NoResolve.getCalledMethods(call).toList
+      !targets.contains(owner) && targets.exists(capturesOwner(_))
     }
   }
 

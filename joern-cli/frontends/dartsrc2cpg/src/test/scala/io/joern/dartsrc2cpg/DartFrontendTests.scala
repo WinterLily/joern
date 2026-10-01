@@ -77,6 +77,37 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
   }
 
   "Dart frontend" should {
+    "preserve constructor values and saved receivers through nested default invocations" in {
+      val directory = frontend.resolve("src/test/resources/semantics")
+      fixture(
+        "",
+        "void main() {}",
+        extraFiles = Seq("default_argument_interactions.dart", "default_argument_implementations.dart")
+          .map(name => s"lib/$name" -> Files.readString(directory.resolve(name)))
+          .toMap
+      ) { (cpg, _) =>
+        for (
+          depth                <- Seq(4, 8);
+          (name, used, unused) <- Seq(
+            ("capturedValues", "second", "first"),
+            ("rebound", "input", "replacement"),
+            ("nestedBound", "input", "replacement"),
+            ("nestedSupplied", "input", "ignored")
+          );
+          source <- Seq(used, unused)
+        ) {
+          val method      = cpg.method.nameExact(name).head
+          val diagnostics = new QueryDiagnostics
+          val engine      = EngineContext(config = EngineConfig(maxCallDepth = depth, diagnostics = Some(diagnostics)))
+          withClue(s"$name $source depth=$depth") {
+            method.ast.isReturn
+              .reachableByFlows(method.parameter.nameExact(source))(engine)
+              .nonEmpty shouldBe (source == used)
+            diagnostics.limitations shouldBe empty
+          }
+        }
+      }
+    }
     "retain captured receiver state through default adapters" in {
       val directory = frontend.resolve("src/test/resources/semantics")
       fixture(
