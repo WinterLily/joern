@@ -1,11 +1,9 @@
 # Distribution and operational checks
 
-The native exporter is built per host. CI targets Linux x86-64/arm64, macOS
-x86-64/arm64 and Windows x86-64 with Dart 3.9.2, analyzer 8.4.1, exporter 0.3.13,
-protocol 1 and JDK 21. Linux x86-64 has been verified locally; the other targets
-require successful runs of `.github/workflows/dart.yml` before claiming release
-validation. Windows arm64 distributions use the x86-64 exporter under emulation;
-this is not a declared native Dart target. SDK resources are **not** embedded:
+The native exporter is built per host with Dart 3.9.2, analyzer 8.4.1, exporter
+0.3.13, protocol 1 and JDK 21. Linux x86-64 has been verified locally. Linux
+arm64, macOS x86-64/arm64 and Windows x86-64 require local validation before
+claiming release support. SDK resources are **not** embedded:
 install the matching Dart SDK and set `DART_SDK`, or pass `--dart-sdk`.
 
 ## Build and install
@@ -26,26 +24,10 @@ stage smoke test archives the stage, extracts it into a fresh installation path,
 invokes the installed CLI and checks its graph and metrics. The archive is written
 to `agents/dart-stage.tar.gz` and preserves executable permissions.
 The Scala acceptance tests apply overlays, query cross-file dataflow, save the
-CPG, reopen it and repeat the query. CI also exercises `joern-parse` and console
-import through an isolated installation. Release workflows run the same native
-preparation before Sbt distribution staging. CI uploads the standalone stage and
-corpus measurements for each platform; it does not bundle an analysis SDK.
-
-The Dart workflow has three tiers. Changes to the frontend, shared CFG/dataflow
-engine, semantic traversals or build configuration first run Linux native,
-frontend, mutation and shared-engine regressions. Pull requests then run the
-pinned package corpus, Flutter fixture and staged CLI on Linux. Relevant master
-pushes, manual dispatches and the weekly schedule run that installation suite on
-all five configured platforms. The Linux installation tier also runs the VM,
-AOT and dart2js/Node execution oracle.
-
-Scheduled and manually dispatched runs additionally prepare and audit the pinned
-server/parser regression corpus. Its earlier holdout status does not make it a
-fresh generalization sample. Jobs have explicit timeouts and retain test reports
-and available coverage/query diagnostics even on failure. Compact report artifacts
-are generated under `agents/`; failed runs do not upload a committed baseline as
-if it were a fresh result. Local validation of these commands and workflow YAML
-does not establish a successful hosted or non-Linux run.
+CPG, reopen it and repeat the query. Local integration tests also exercise
+`joern-parse` and console import through an isolated installation. Prepare the
+native exporter explicitly before staging; CI and release workflow changes are
+outside this frontend implementation's scope.
 
 Copy the whole standalone stage, including `bin` and `lib`, to install it. Set
 `DART_SDK` on the destination machine and invoke `bin/dartsrc2cpg` (or `.bat`).

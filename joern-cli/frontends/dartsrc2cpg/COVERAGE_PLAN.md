@@ -267,14 +267,13 @@ outside complete runtime coverage until analyzed or modeled.
       rerun the holdout and record newly discovered gaps.
 - [ ] Run the conformance suite on each advertised SDK/analyzer combination and
       platform. Separate native exporter, staged CLI, console and dataflow checks.
-- [x] CI tiers: fast semantic regressions on changes; pinned corpus and model
-      checks on relevant changes; scheduled broader/holdout/resource runs. Keep
-      large downloads and code generation explicit, pinned and reproducible.
-      The workflow is configured and its commands validated locally; hosted
-      platform qualification remains a separate unchecked obligation above.
 - [ ] Enforce file coverage, executable UNKNOWN, diagnostic, skipped-method,
       timeout/truncation, peak-memory and query-depth reporting. Failure or skip
       is visible in the release report; partial results cannot receive a clean label.
+
+CI and release workflow changes are outside this implementation's scope. Run
+semantic, corpus, model and resource checks locally with explicit, pinned downloads
+and code generation.
 
 Exit: every construct in the pinned scope is accounted for; all required semantic
 and operational gates pass; there are no undisclosed correctness failures or
