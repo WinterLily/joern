@@ -205,6 +205,9 @@ class TaskSolver(task: ReachableByTask, context: EngineContext, sources: Set[Cfg
     val res = curNode match {
       case _: Call if path.head.outputChannel != OutputChannel.Normal =>
         createPartialResultForOutputArgOrRet()
+      case call: Call if StaticStorage.readKey(call).nonEmpty =>
+        (if (sources.contains(call)) Vector(ReachableByResult(task.taskStack, path)) else Vector.empty) ++
+          createPartialResultForOutputArgOrRet()
       // Case 1: we have reached a source => return result and continue traversing (expand into parents)
       case x if sources.contains(x.asInstanceOf[NodeType]) =>
         if (x.isInstanceOf[MethodParameterIn]) {

@@ -1,0 +1,2332 @@
+{
+  "schemaVersion": 1,
+  "analysisSources": {
+    "algorithm": "sha256-path-nul-content-nul",
+    "sha256": "bd43efa880caaa4af2e98f2655a0d8bee1e00e961bb7520ee7d016a0ca2cf70d",
+    "files": 399,
+    "roots": [
+      "joern-cli/frontends/dartsrc2cpg/src",
+      "joern-cli/frontends/dartsrc2cpg/astgen/lib",
+      "joern-cli/frontends/dartsrc2cpg/astgen/bin",
+      "joern-cli/frontends/x2cpg/src/main",
+      "dataflowengineoss/src/main",
+      "semanticcpg/src/main",
+      "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.lock",
+      "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.yaml",
+      "joern-cli/frontends/dartsrc2cpg/build.sbt",
+      "joern-cli/frontends/x2cpg/build.sbt",
+      "joern-cli/build.sbt",
+      "dataflowengineoss/build.sbt",
+      "semanticcpg/build.sbt",
+      "build.sbt",
+      "project/Versions.scala",
+      "project/Projects.scala"
+    ]
+  },
+  "source": {
+    "fixture": "src/test/resources/semantics/static_storage.dart",
+    "sha256": "067c4f462b1610dee5e79de6010f1e25cc9be24a5cfdc9c480461adcef8d531f",
+    "executionOracle": "astgen/test/static_storage_test.dart",
+    "inputs": [
+      "",
+      "input",
+      "second"
+    ],
+    "branches": [
+      false,
+      true
+    ]
+  },
+  "queryLimits": {
+    "maxCallDepth": 4,
+    "maxFieldDepth": 4,
+    "maxWitnessesPerEndpoint": 4,
+    "maxHeldTaskIterations": 0,
+    "maxStaticStorageNodes": 10000,
+    "maxArgsToAllow": 1000,
+    "maxOutputArgsExpansion": 1000
+  },
+  "disposition": "All returned transitions for direct, nested and lastCall have a disposition. The matching store-to-read dependency uses CFG/caller state evidence; it is not a scalar void-return dependency. The generated field-node code repeats the declaration text; accessor identities, operators and argument slots identify the actual store/read.",
+  "limitations": [
+    "Initialization-state correlation remains conservative and is explicitly diagnosed on all three searches.",
+    "The review covers six returned node sequences, not exhaustive execution paths or branch feasibility.",
+    "The exceptional throwing-helper/catch dependency remains missed and diagnosed; no complete static-storage or heap claim follows.",
+    "The SDK oracle establishes observed executions; the graph controls establish endpoint isolation only within the reported search contract."
+  ],
+  "reviews": [
+    {
+      "query": "direct",
+      "elements": [
+        [
+          "111669149702",
+          0,
+          true,
+          false,
+          "input",
+          []
+        ],
+        [
+          "68719476770",
+          0,
+          true,
+          false,
+          "input",
+          []
+        ],
+        [
+          "68719476769",
+          0,
+          true,
+          false,
+          "<tmp>7",
+          []
+        ],
+        [
+          "68719476771",
+          0,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "111669149696",
+          1,
+          true,
+          false,
+          "value",
+          []
+        ],
+        [
+          "68719476742",
+          1,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771079",
+          1,
+          true,
+          false,
+          "<STATIC_STORAGE>",
+          []
+        ],
+        [
+          "124554051585",
+          1,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771107",
+          0,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "107374182400",
+          2,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771078",
+          2,
+          true,
+          true,
+          "value = 'initial'",
+          []
+        ],
+        [
+          "141733920768",
+          2,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051584",
+          0,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771108",
+          0,
+          true,
+          true,
+          "Shared.value",
+          []
+        ],
+        [
+          "141733920774",
+          0,
+          true,
+          false,
+          "",
+          []
+        ]
+      ],
+      "transitions": [
+        [
+          0,
+          1,
+          "parameter use"
+        ],
+        [
+          1,
+          2,
+          "assignment or use"
+        ],
+        [
+          2,
+          3,
+          "assignment or use"
+        ],
+        [
+          3,
+          4,
+          "parameter binding"
+        ],
+        [
+          4,
+          5,
+          "parameter use"
+        ],
+        [
+          5,
+          6,
+          "storage write"
+        ],
+        [
+          6,
+          7,
+          "memory effect exit"
+        ],
+        [
+          7,
+          8,
+          "memory effect exit"
+        ],
+        [
+          8,
+          9,
+          "storage continuation"
+        ],
+        [
+          9,
+          10,
+          "storage continuation"
+        ],
+        [
+          10,
+          11,
+          "returned value"
+        ],
+        [
+          11,
+          12,
+          "return exit"
+        ],
+        [
+          12,
+          13,
+          "return binding"
+        ],
+        [
+          13,
+          14,
+          "returned value"
+        ]
+      ]
+    },
+    {
+      "query": "direct",
+      "elements": [
+        [
+          "111669149702",
+          0,
+          true,
+          false,
+          "input",
+          []
+        ],
+        [
+          "68719476770",
+          0,
+          false,
+          false,
+          "input",
+          []
+        ],
+        [
+          "68719476771",
+          0,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "111669149696",
+          1,
+          true,
+          false,
+          "value",
+          []
+        ],
+        [
+          "68719476742",
+          1,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771079",
+          1,
+          true,
+          false,
+          "<STATIC_STORAGE>",
+          []
+        ],
+        [
+          "124554051585",
+          1,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771107",
+          0,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "107374182400",
+          2,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771078",
+          2,
+          true,
+          true,
+          "value = 'initial'",
+          []
+        ],
+        [
+          "141733920768",
+          2,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051584",
+          0,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771108",
+          0,
+          true,
+          true,
+          "Shared.value",
+          []
+        ],
+        [
+          "141733920774",
+          0,
+          true,
+          false,
+          "",
+          []
+        ]
+      ],
+      "transitions": [
+        [
+          0,
+          1,
+          "parameter use"
+        ],
+        [
+          1,
+          2,
+          "assignment or use"
+        ],
+        [
+          2,
+          3,
+          "parameter binding"
+        ],
+        [
+          3,
+          4,
+          "parameter use"
+        ],
+        [
+          4,
+          5,
+          "storage write"
+        ],
+        [
+          5,
+          6,
+          "memory effect exit"
+        ],
+        [
+          6,
+          7,
+          "memory effect exit"
+        ],
+        [
+          7,
+          8,
+          "storage continuation"
+        ],
+        [
+          8,
+          9,
+          "storage continuation"
+        ],
+        [
+          9,
+          10,
+          "returned value"
+        ],
+        [
+          10,
+          11,
+          "return exit"
+        ],
+        [
+          11,
+          12,
+          "return binding"
+        ],
+        [
+          12,
+          13,
+          "returned value"
+        ]
+      ]
+    },
+    {
+      "query": "nested",
+      "elements": [
+        [
+          "111669149703",
+          0,
+          true,
+          false,
+          "input",
+          []
+        ],
+        [
+          "68719476773",
+          0,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "111669149701",
+          3,
+          true,
+          false,
+          "input",
+          []
+        ],
+        [
+          "68719476764",
+          3,
+          true,
+          false,
+          "input",
+          []
+        ],
+        [
+          "68719476763",
+          3,
+          true,
+          false,
+          "<tmp>5",
+          []
+        ],
+        [
+          "68719476765",
+          3,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "111669149696",
+          4,
+          true,
+          false,
+          "value",
+          []
+        ],
+        [
+          "68719476742",
+          4,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771079",
+          4,
+          true,
+          false,
+          "<STATIC_STORAGE>",
+          []
+        ],
+        [
+          "124554051585",
+          4,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771103",
+          3,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051594",
+          3,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771109",
+          0,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "107374182411",
+          5,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "107374182400",
+          6,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771078",
+          6,
+          true,
+          true,
+          "value = 'initial'",
+          []
+        ],
+        [
+          "141733920768",
+          6,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051584",
+          5,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771104",
+          5,
+          true,
+          true,
+          "Shared.value",
+          []
+        ],
+        [
+          "141733920773",
+          5,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051595",
+          0,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771110",
+          0,
+          true,
+          true,
+          "read()",
+          []
+        ],
+        [
+          "141733920775",
+          0,
+          true,
+          false,
+          "",
+          []
+        ]
+      ],
+      "transitions": [
+        [
+          0,
+          1,
+          "parameter use"
+        ],
+        [
+          1,
+          2,
+          "parameter binding"
+        ],
+        [
+          2,
+          3,
+          "parameter use"
+        ],
+        [
+          3,
+          4,
+          "assignment or use"
+        ],
+        [
+          4,
+          5,
+          "assignment or use"
+        ],
+        [
+          5,
+          6,
+          "parameter binding"
+        ],
+        [
+          6,
+          7,
+          "parameter use"
+        ],
+        [
+          7,
+          8,
+          "storage write"
+        ],
+        [
+          8,
+          9,
+          "memory effect exit"
+        ],
+        [
+          9,
+          10,
+          "memory effect exit"
+        ],
+        [
+          10,
+          11,
+          "memory effect exit"
+        ],
+        [
+          11,
+          12,
+          "memory effect exit"
+        ],
+        [
+          12,
+          13,
+          "storage continuation"
+        ],
+        [
+          13,
+          14,
+          "storage continuation"
+        ],
+        [
+          14,
+          15,
+          "storage continuation"
+        ],
+        [
+          15,
+          16,
+          "returned value"
+        ],
+        [
+          16,
+          17,
+          "return exit"
+        ],
+        [
+          17,
+          18,
+          "return binding"
+        ],
+        [
+          18,
+          19,
+          "returned value"
+        ],
+        [
+          19,
+          20,
+          "return exit"
+        ],
+        [
+          20,
+          21,
+          "return binding"
+        ],
+        [
+          21,
+          22,
+          "returned value"
+        ]
+      ]
+    },
+    {
+      "query": "nested",
+      "elements": [
+        [
+          "111669149703",
+          0,
+          true,
+          false,
+          "input",
+          []
+        ],
+        [
+          "68719476773",
+          0,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "111669149701",
+          3,
+          true,
+          false,
+          "input",
+          []
+        ],
+        [
+          "68719476764",
+          3,
+          false,
+          false,
+          "input",
+          []
+        ],
+        [
+          "68719476765",
+          3,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "111669149696",
+          4,
+          true,
+          false,
+          "value",
+          []
+        ],
+        [
+          "68719476742",
+          4,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771079",
+          4,
+          true,
+          false,
+          "<STATIC_STORAGE>",
+          []
+        ],
+        [
+          "124554051585",
+          4,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771103",
+          3,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051594",
+          3,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771109",
+          0,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "107374182411",
+          5,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "107374182400",
+          6,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771078",
+          6,
+          true,
+          true,
+          "value = 'initial'",
+          []
+        ],
+        [
+          "141733920768",
+          6,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051584",
+          5,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771104",
+          5,
+          true,
+          true,
+          "Shared.value",
+          []
+        ],
+        [
+          "141733920773",
+          5,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051595",
+          0,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771110",
+          0,
+          true,
+          true,
+          "read()",
+          []
+        ],
+        [
+          "141733920775",
+          0,
+          true,
+          false,
+          "",
+          []
+        ]
+      ],
+      "transitions": [
+        [
+          0,
+          1,
+          "parameter use"
+        ],
+        [
+          1,
+          2,
+          "parameter binding"
+        ],
+        [
+          2,
+          3,
+          "parameter use"
+        ],
+        [
+          3,
+          4,
+          "assignment or use"
+        ],
+        [
+          4,
+          5,
+          "parameter binding"
+        ],
+        [
+          5,
+          6,
+          "parameter use"
+        ],
+        [
+          6,
+          7,
+          "storage write"
+        ],
+        [
+          7,
+          8,
+          "memory effect exit"
+        ],
+        [
+          8,
+          9,
+          "memory effect exit"
+        ],
+        [
+          9,
+          10,
+          "memory effect exit"
+        ],
+        [
+          10,
+          11,
+          "memory effect exit"
+        ],
+        [
+          11,
+          12,
+          "storage continuation"
+        ],
+        [
+          12,
+          13,
+          "storage continuation"
+        ],
+        [
+          13,
+          14,
+          "storage continuation"
+        ],
+        [
+          14,
+          15,
+          "returned value"
+        ],
+        [
+          15,
+          16,
+          "return exit"
+        ],
+        [
+          16,
+          17,
+          "return binding"
+        ],
+        [
+          17,
+          18,
+          "returned value"
+        ],
+        [
+          18,
+          19,
+          "return exit"
+        ],
+        [
+          19,
+          20,
+          "return binding"
+        ],
+        [
+          20,
+          21,
+          "returned value"
+        ]
+      ]
+    },
+    {
+      "query": "lastCall",
+      "elements": [
+        [
+          "111669149717",
+          0,
+          true,
+          false,
+          "input",
+          []
+        ],
+        [
+          "68719476812",
+          0,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "111669149716",
+          7,
+          true,
+          false,
+          "input",
+          []
+        ],
+        [
+          "68719476811",
+          7,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "111669149701",
+          8,
+          true,
+          false,
+          "input",
+          []
+        ],
+        [
+          "68719476764",
+          8,
+          true,
+          false,
+          "input",
+          []
+        ],
+        [
+          "68719476763",
+          8,
+          true,
+          false,
+          "<tmp>5",
+          []
+        ],
+        [
+          "68719476765",
+          8,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "111669149696",
+          9,
+          true,
+          false,
+          "value",
+          []
+        ],
+        [
+          "68719476742",
+          9,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771079",
+          9,
+          true,
+          false,
+          "<STATIC_STORAGE>",
+          []
+        ],
+        [
+          "124554051585",
+          9,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771103",
+          8,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051594",
+          8,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771149",
+          7,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "107374182411",
+          10,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "107374182400",
+          11,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771078",
+          11,
+          true,
+          true,
+          "value = 'initial'",
+          []
+        ],
+        [
+          "141733920768",
+          11,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051584",
+          10,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771104",
+          10,
+          true,
+          true,
+          "Shared.value",
+          []
+        ],
+        [
+          "141733920773",
+          10,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051595",
+          7,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771150",
+          7,
+          true,
+          true,
+          "read()",
+          []
+        ],
+        [
+          "141733920785",
+          7,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051607",
+          0,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771152",
+          0,
+          true,
+          true,
+          "exchange(input)",
+          []
+        ],
+        [
+          "141733920786",
+          0,
+          true,
+          false,
+          "",
+          []
+        ]
+      ],
+      "transitions": [
+        [
+          0,
+          1,
+          "parameter use"
+        ],
+        [
+          1,
+          2,
+          "parameter binding"
+        ],
+        [
+          2,
+          3,
+          "parameter use"
+        ],
+        [
+          3,
+          4,
+          "parameter binding"
+        ],
+        [
+          4,
+          5,
+          "parameter use"
+        ],
+        [
+          5,
+          6,
+          "assignment or use"
+        ],
+        [
+          6,
+          7,
+          "assignment or use"
+        ],
+        [
+          7,
+          8,
+          "parameter binding"
+        ],
+        [
+          8,
+          9,
+          "parameter use"
+        ],
+        [
+          9,
+          10,
+          "storage write"
+        ],
+        [
+          10,
+          11,
+          "memory effect exit"
+        ],
+        [
+          11,
+          12,
+          "memory effect exit"
+        ],
+        [
+          12,
+          13,
+          "memory effect exit"
+        ],
+        [
+          13,
+          14,
+          "memory effect exit"
+        ],
+        [
+          14,
+          15,
+          "storage continuation"
+        ],
+        [
+          15,
+          16,
+          "storage continuation"
+        ],
+        [
+          16,
+          17,
+          "storage continuation"
+        ],
+        [
+          17,
+          18,
+          "returned value"
+        ],
+        [
+          18,
+          19,
+          "return exit"
+        ],
+        [
+          19,
+          20,
+          "return binding"
+        ],
+        [
+          20,
+          21,
+          "returned value"
+        ],
+        [
+          21,
+          22,
+          "return exit"
+        ],
+        [
+          22,
+          23,
+          "return binding"
+        ],
+        [
+          23,
+          24,
+          "returned value"
+        ],
+        [
+          24,
+          25,
+          "return exit"
+        ],
+        [
+          25,
+          26,
+          "return binding"
+        ],
+        [
+          26,
+          27,
+          "returned value"
+        ]
+      ]
+    },
+    {
+      "query": "lastCall",
+      "elements": [
+        [
+          "111669149717",
+          0,
+          true,
+          false,
+          "input",
+          []
+        ],
+        [
+          "68719476812",
+          0,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "111669149716",
+          7,
+          true,
+          false,
+          "input",
+          []
+        ],
+        [
+          "68719476811",
+          7,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "111669149701",
+          8,
+          true,
+          false,
+          "input",
+          []
+        ],
+        [
+          "68719476764",
+          8,
+          false,
+          false,
+          "input",
+          []
+        ],
+        [
+          "68719476765",
+          8,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "111669149696",
+          9,
+          true,
+          false,
+          "value",
+          []
+        ],
+        [
+          "68719476742",
+          9,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771079",
+          9,
+          true,
+          false,
+          "<STATIC_STORAGE>",
+          []
+        ],
+        [
+          "124554051585",
+          9,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771103",
+          8,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051594",
+          8,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771149",
+          7,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "107374182411",
+          10,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "107374182400",
+          11,
+          false,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771078",
+          11,
+          true,
+          true,
+          "value = 'initial'",
+          []
+        ],
+        [
+          "141733920768",
+          11,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051584",
+          10,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771104",
+          10,
+          true,
+          true,
+          "Shared.value",
+          []
+        ],
+        [
+          "141733920773",
+          10,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051595",
+          7,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771150",
+          7,
+          true,
+          true,
+          "read()",
+          []
+        ],
+        [
+          "141733920785",
+          7,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "124554051607",
+          0,
+          true,
+          false,
+          "",
+          []
+        ],
+        [
+          "30064771152",
+          0,
+          true,
+          true,
+          "exchange(input)",
+          []
+        ],
+        [
+          "141733920786",
+          0,
+          true,
+          false,
+          "",
+          []
+        ]
+      ],
+      "transitions": [
+        [
+          0,
+          1,
+          "parameter use"
+        ],
+        [
+          1,
+          2,
+          "parameter binding"
+        ],
+        [
+          2,
+          3,
+          "parameter use"
+        ],
+        [
+          3,
+          4,
+          "parameter binding"
+        ],
+        [
+          4,
+          5,
+          "parameter use"
+        ],
+        [
+          5,
+          6,
+          "assignment or use"
+        ],
+        [
+          6,
+          7,
+          "parameter binding"
+        ],
+        [
+          7,
+          8,
+          "parameter use"
+        ],
+        [
+          8,
+          9,
+          "storage write"
+        ],
+        [
+          9,
+          10,
+          "memory effect exit"
+        ],
+        [
+          10,
+          11,
+          "memory effect exit"
+        ],
+        [
+          11,
+          12,
+          "memory effect exit"
+        ],
+        [
+          12,
+          13,
+          "memory effect exit"
+        ],
+        [
+          13,
+          14,
+          "storage continuation"
+        ],
+        [
+          14,
+          15,
+          "storage continuation"
+        ],
+        [
+          15,
+          16,
+          "storage continuation"
+        ],
+        [
+          16,
+          17,
+          "returned value"
+        ],
+        [
+          17,
+          18,
+          "return exit"
+        ],
+        [
+          18,
+          19,
+          "return binding"
+        ],
+        [
+          19,
+          20,
+          "returned value"
+        ],
+        [
+          20,
+          21,
+          "return exit"
+        ],
+        [
+          21,
+          22,
+          "return binding"
+        ],
+        [
+          22,
+          23,
+          "returned value"
+        ],
+        [
+          23,
+          24,
+          "return exit"
+        ],
+        [
+          24,
+          25,
+          "return binding"
+        ],
+        [
+          25,
+          26,
+          "returned value"
+        ]
+      ]
+    }
+  ],
+  "elementColumns": [
+    "nodeId",
+    "contextIndex",
+    "visible",
+    "isOutputArg",
+    "outEdgeLabel",
+    "fieldDemand"
+  ],
+  "transitionColumns": [
+    "fromIndex",
+    "toIndex",
+    "category"
+  ],
+  "nodes": {
+    "111669149702": {
+      "nodeId": "111669149702",
+      "label": "METHOD_PARAMETER_IN",
+      "method": "lib/helper.dart#235:FUNCTION:direct",
+      "code": "String input",
+      "line": 16,
+      "parameterIndex": 1
+    },
+    "68719476770": {
+      "nodeId": "68719476770",
+      "label": "IDENTIFIER",
+      "method": "lib/helper.dart#235:FUNCTION:direct",
+      "code": "input",
+      "line": 17,
+      "argumentsOf": [
+        [
+          "30064771106",
+          2
+        ]
+      ]
+    },
+    "68719476769": {
+      "nodeId": "68719476769",
+      "label": "IDENTIFIER",
+      "method": "lib/helper.dart#235:FUNCTION:direct",
+      "code": "<tmp>7",
+      "line": 17,
+      "argumentsOf": [
+        [
+          "30064771106",
+          1
+        ]
+      ]
+    },
+    "68719476771": {
+      "nodeId": "68719476771",
+      "label": "IDENTIFIER",
+      "method": "lib/helper.dart#235:FUNCTION:direct",
+      "code": "<tmp>7",
+      "line": 17,
+      "argumentsOf": [
+        [
+          "30064771107",
+          1
+        ]
+      ]
+    },
+    "111669149696": {
+      "nodeId": "111669149696",
+      "label": "METHOD_PARAMETER_IN",
+      "method": "lib/helper.dart#6:SETTER:value",
+      "code": "value",
+      "line": -1,
+      "parameterIndex": 1
+    },
+    "68719476742": {
+      "nodeId": "68719476742",
+      "label": "IDENTIFIER",
+      "method": "lib/helper.dart#6:SETTER:value",
+      "code": "value",
+      "line": 2,
+      "argumentsOf": [
+        [
+          "30064771079",
+          2
+        ]
+      ]
+    },
+    "30064771079": {
+      "nodeId": "30064771079",
+      "label": "CALL",
+      "method": "lib/helper.dart#6:SETTER:value",
+      "code": "value = 'initial'",
+      "line": 2,
+      "call": "30064771079"
+    },
+    "124554051585": {
+      "nodeId": "124554051585",
+      "label": "METHOD_RETURN",
+      "method": "lib/helper.dart#6:SETTER:value",
+      "code": "RET",
+      "line": -1
+    },
+    "30064771107": {
+      "nodeId": "30064771107",
+      "label": "CALL",
+      "method": "lib/helper.dart#235:FUNCTION:direct",
+      "code": "Shared.value = input",
+      "line": 17,
+      "call": "30064771107"
+    },
+    "107374182400": {
+      "nodeId": "107374182400",
+      "label": "METHOD",
+      "method": "lib/helper.dart#6:GETTER:value",
+      "code": "value = 'initial'",
+      "line": 2
+    },
+    "30064771078": {
+      "nodeId": "30064771078",
+      "label": "CALL",
+      "method": "lib/helper.dart#6:GETTER:value",
+      "code": "value = 'initial'",
+      "line": 2,
+      "call": "30064771078"
+    },
+    "141733920768": {
+      "nodeId": "141733920768",
+      "label": "RETURN",
+      "method": "lib/helper.dart#6:GETTER:value",
+      "code": "return value",
+      "line": -1
+    },
+    "124554051584": {
+      "nodeId": "124554051584",
+      "label": "METHOD_RETURN",
+      "method": "lib/helper.dart#6:GETTER:value",
+      "code": "RET",
+      "line": -1
+    },
+    "30064771108": {
+      "nodeId": "30064771108",
+      "label": "CALL",
+      "method": "lib/helper.dart#235:FUNCTION:direct",
+      "code": "Shared.value",
+      "line": 18,
+      "call": "30064771108"
+    },
+    "141733920774": {
+      "nodeId": "141733920774",
+      "label": "RETURN",
+      "method": "lib/helper.dart#235:FUNCTION:direct",
+      "code": "return Shared.value;",
+      "line": 18
+    },
+    "111669149703": {
+      "nodeId": "111669149703",
+      "label": "METHOD_PARAMETER_IN",
+      "method": "lib/helper.dart#315:FUNCTION:nested",
+      "code": "String input",
+      "line": 21,
+      "parameterIndex": 1
+    },
+    "68719476773": {
+      "nodeId": "68719476773",
+      "label": "IDENTIFIER",
+      "method": "lib/helper.dart#315:FUNCTION:nested",
+      "code": "input",
+      "line": 22,
+      "argumentsOf": [
+        [
+          "30064771109",
+          1
+        ]
+      ]
+    },
+    "111669149701": {
+      "nodeId": "111669149701",
+      "label": "METHOD_PARAMETER_IN",
+      "method": "lib/helper.dart#147:FUNCTION:write",
+      "code": "String input",
+      "line": 10,
+      "parameterIndex": 1
+    },
+    "68719476764": {
+      "nodeId": "68719476764",
+      "label": "IDENTIFIER",
+      "method": "lib/helper.dart#147:FUNCTION:write",
+      "code": "input",
+      "line": 11,
+      "argumentsOf": [
+        [
+          "30064771102",
+          2
+        ]
+      ]
+    },
+    "68719476763": {
+      "nodeId": "68719476763",
+      "label": "IDENTIFIER",
+      "method": "lib/helper.dart#147:FUNCTION:write",
+      "code": "<tmp>5",
+      "line": 11,
+      "argumentsOf": [
+        [
+          "30064771102",
+          1
+        ]
+      ]
+    },
+    "68719476765": {
+      "nodeId": "68719476765",
+      "label": "IDENTIFIER",
+      "method": "lib/helper.dart#147:FUNCTION:write",
+      "code": "<tmp>5",
+      "line": 11,
+      "argumentsOf": [
+        [
+          "30064771103",
+          1
+        ]
+      ]
+    },
+    "30064771103": {
+      "nodeId": "30064771103",
+      "label": "CALL",
+      "method": "lib/helper.dart#147:FUNCTION:write",
+      "code": "Shared.value = input",
+      "line": 11,
+      "call": "30064771103"
+    },
+    "124554051594": {
+      "nodeId": "124554051594",
+      "label": "METHOD_RETURN",
+      "method": "lib/helper.dart#147:FUNCTION:write",
+      "code": "RET",
+      "line": -1
+    },
+    "30064771109": {
+      "nodeId": "30064771109",
+      "label": "CALL",
+      "method": "lib/helper.dart#315:FUNCTION:nested",
+      "code": "write(input)",
+      "line": 22,
+      "call": "30064771109"
+    },
+    "107374182411": {
+      "nodeId": "107374182411",
+      "label": "METHOD",
+      "method": "lib/helper.dart#203:FUNCTION:read",
+      "code": "String read() => Shared.value;",
+      "line": 14
+    },
+    "30064771104": {
+      "nodeId": "30064771104",
+      "label": "CALL",
+      "method": "lib/helper.dart#203:FUNCTION:read",
+      "code": "Shared.value",
+      "line": 14,
+      "call": "30064771104"
+    },
+    "141733920773": {
+      "nodeId": "141733920773",
+      "label": "RETURN",
+      "method": "lib/helper.dart#203:FUNCTION:read",
+      "code": "=> Shared.value;",
+      "line": 14
+    },
+    "124554051595": {
+      "nodeId": "124554051595",
+      "label": "METHOD_RETURN",
+      "method": "lib/helper.dart#203:FUNCTION:read",
+      "code": "RET",
+      "line": -1
+    },
+    "30064771110": {
+      "nodeId": "30064771110",
+      "label": "CALL",
+      "method": "lib/helper.dart#315:FUNCTION:nested",
+      "code": "read()",
+      "line": 23,
+      "call": "30064771110"
+    },
+    "141733920775": {
+      "nodeId": "141733920775",
+      "label": "RETURN",
+      "method": "lib/helper.dart#315:FUNCTION:nested",
+      "code": "return read();",
+      "line": 23
+    },
+    "111669149717": {
+      "nodeId": "111669149717",
+      "label": "METHOD_PARAMETER_IN",
+      "method": "lib/helper.dart#1482:FUNCTION:lastCall",
+      "code": "String input",
+      "line": 93,
+      "parameterIndex": 1
+    },
+    "68719476812": {
+      "nodeId": "68719476812",
+      "label": "IDENTIFIER",
+      "method": "lib/helper.dart#1482:FUNCTION:lastCall",
+      "code": "input",
+      "line": 95,
+      "argumentsOf": [
+        [
+          "30064771152",
+          1
+        ]
+      ]
+    },
+    "111669149716": {
+      "nodeId": "111669149716",
+      "label": "METHOD_PARAMETER_IN",
+      "method": "lib/helper.dart#1414:FUNCTION:exchange",
+      "code": "String input",
+      "line": 88,
+      "parameterIndex": 1
+    },
+    "68719476811": {
+      "nodeId": "68719476811",
+      "label": "IDENTIFIER",
+      "method": "lib/helper.dart#1414:FUNCTION:exchange",
+      "code": "input",
+      "line": 89,
+      "argumentsOf": [
+        [
+          "30064771149",
+          1
+        ]
+      ]
+    },
+    "30064771149": {
+      "nodeId": "30064771149",
+      "label": "CALL",
+      "method": "lib/helper.dart#1414:FUNCTION:exchange",
+      "code": "write(input)",
+      "line": 89,
+      "call": "30064771149"
+    },
+    "30064771150": {
+      "nodeId": "30064771150",
+      "label": "CALL",
+      "method": "lib/helper.dart#1414:FUNCTION:exchange",
+      "code": "read()",
+      "line": 90,
+      "call": "30064771150"
+    },
+    "141733920785": {
+      "nodeId": "141733920785",
+      "label": "RETURN",
+      "method": "lib/helper.dart#1414:FUNCTION:exchange",
+      "code": "return read();",
+      "line": 90
+    },
+    "124554051607": {
+      "nodeId": "124554051607",
+      "label": "METHOD_RETURN",
+      "method": "lib/helper.dart#1414:FUNCTION:exchange",
+      "code": "RET",
+      "line": -1
+    },
+    "30064771152": {
+      "nodeId": "30064771152",
+      "label": "CALL",
+      "method": "lib/helper.dart#1482:FUNCTION:lastCall",
+      "code": "exchange(input)",
+      "line": 95,
+      "call": "30064771152"
+    },
+    "141733920786": {
+      "nodeId": "141733920786",
+      "label": "RETURN",
+      "method": "lib/helper.dart#1482:FUNCTION:lastCall",
+      "code": "return exchange(input);",
+      "line": 95
+    }
+  },
+  "calls": {
+    "30064771106": {
+      "nodeId": "30064771106",
+      "name": "<operator>.assignment",
+      "target": "<operator>.assignment",
+      "code": "<tmp>7 = Shared.value = input",
+      "callees": [
+        {
+          "fullName": "<operator>.assignment",
+          "external": true
+        }
+      ]
+    },
+    "30064771107": {
+      "nodeId": "30064771107",
+      "name": "value",
+      "target": "lib/helper.dart#6:SETTER:value",
+      "code": "Shared.value = input",
+      "callees": [
+        {
+          "fullName": "lib/helper.dart#6:SETTER:value",
+          "external": false
+        }
+      ]
+    },
+    "30064771079": {
+      "nodeId": "30064771079",
+      "name": "<operator>.assignment",
+      "target": "<operator>.assignment",
+      "code": "value = 'initial'",
+      "callees": [
+        {
+          "fullName": "<operator>.assignment",
+          "external": true
+        }
+      ]
+    },
+    "30064771108": {
+      "nodeId": "30064771108",
+      "name": "value",
+      "target": "lib/helper.dart#6:GETTER:value",
+      "code": "Shared.value",
+      "callees": [
+        {
+          "fullName": "lib/helper.dart#6:GETTER:value",
+          "external": false
+        }
+      ]
+    },
+    "30064771078": {
+      "nodeId": "30064771078",
+      "name": "<operator>.fieldAccess",
+      "target": "<operator>.fieldAccess",
+      "code": "value = 'initial'",
+      "callees": [
+        {
+          "fullName": "<operator>.fieldAccess",
+          "external": true
+        }
+      ]
+    },
+    "30064771109": {
+      "nodeId": "30064771109",
+      "name": "write",
+      "target": "lib/helper.dart#147:FUNCTION:write",
+      "code": "write(input)",
+      "callees": [
+        {
+          "fullName": "lib/helper.dart#147:FUNCTION:write",
+          "external": false
+        }
+      ]
+    },
+    "30064771102": {
+      "nodeId": "30064771102",
+      "name": "<operator>.assignment",
+      "target": "<operator>.assignment",
+      "code": "<tmp>5 = Shared.value = input",
+      "callees": [
+        {
+          "fullName": "<operator>.assignment",
+          "external": true
+        }
+      ]
+    },
+    "30064771103": {
+      "nodeId": "30064771103",
+      "name": "value",
+      "target": "lib/helper.dart#6:SETTER:value",
+      "code": "Shared.value = input",
+      "callees": [
+        {
+          "fullName": "lib/helper.dart#6:SETTER:value",
+          "external": false
+        }
+      ]
+    },
+    "30064771110": {
+      "nodeId": "30064771110",
+      "name": "read",
+      "target": "lib/helper.dart#203:FUNCTION:read",
+      "code": "read()",
+      "callees": [
+        {
+          "fullName": "lib/helper.dart#203:FUNCTION:read",
+          "external": false
+        }
+      ]
+    },
+    "30064771104": {
+      "nodeId": "30064771104",
+      "name": "value",
+      "target": "lib/helper.dart#6:GETTER:value",
+      "code": "Shared.value",
+      "callees": [
+        {
+          "fullName": "lib/helper.dart#6:GETTER:value",
+          "external": false
+        }
+      ]
+    },
+    "30064771152": {
+      "nodeId": "30064771152",
+      "name": "exchange",
+      "target": "lib/helper.dart#1414:FUNCTION:exchange",
+      "code": "exchange(input)",
+      "callees": [
+        {
+          "fullName": "lib/helper.dart#1414:FUNCTION:exchange",
+          "external": false
+        }
+      ]
+    },
+    "30064771149": {
+      "nodeId": "30064771149",
+      "name": "write",
+      "target": "lib/helper.dart#147:FUNCTION:write",
+      "code": "write(input)",
+      "callees": [
+        {
+          "fullName": "lib/helper.dart#147:FUNCTION:write",
+          "external": false
+        }
+      ]
+    },
+    "30064771150": {
+      "nodeId": "30064771150",
+      "name": "read",
+      "target": "lib/helper.dart#203:FUNCTION:read",
+      "code": "read()",
+      "callees": [
+        {
+          "fullName": "lib/helper.dart#203:FUNCTION:read",
+          "external": false
+        }
+      ]
+    }
+  },
+  "contexts": [
+    [],
+    [
+      "30064771107"
+    ],
+    [
+      "30064771108"
+    ],
+    [
+      "30064771109"
+    ],
+    [
+      "30064771103",
+      "30064771109"
+    ],
+    [
+      "30064771110"
+    ],
+    [
+      "30064771104",
+      "30064771110"
+    ],
+    [
+      "30064771152"
+    ],
+    [
+      "30064771149",
+      "30064771152"
+    ],
+    [
+      "30064771103",
+      "30064771149",
+      "30064771152"
+    ],
+    [
+      "30064771150",
+      "30064771152"
+    ],
+    [
+      "30064771104",
+      "30064771150",
+      "30064771152"
+    ]
+  ],
+  "categories": {
+    "parameter use": "The callee/enclosing parameter supplies its value use.",
+    "assignment or use": "Source/saved evaluation temporaries carry the supplied value without reevaluating it.",
+    "parameter binding": "Argument slot one enters the selected caller context.",
+    "storage write": "The setter value is the RHS of the matching static-member assignment.",
+    "memory effect exit": "The resolved call selects this callee; memory effects survive void returns without treating RET as a scalar value.",
+    "storage continuation": "Invisible entry evidence connects the caller storage state to the callee read.",
+    "returned value": "The field read or resolved call result is the return operand.",
+    "return exit": "Normal method-exit evidence carries the stored state or explicit return value.",
+    "return binding": "The resolved call selects this callee; memory effects survive void returns without treating RET as a scalar value."
+  }
+}

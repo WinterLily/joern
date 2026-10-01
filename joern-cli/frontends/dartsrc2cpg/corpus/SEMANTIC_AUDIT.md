@@ -840,7 +840,7 @@ make missing implementations visible; they do not prove whole-program dispatch.
 Unscanned subclasses/bodies, runtime receiver contexts, type-check feasibility,
 differing override defaults and named output bindings remain unqualified.
 
-DART-FLOW-006: the reduced `lazyIncrement` program stores input in a static field
+DART-FLOW-006 (initial finding; see the static-storage increment below): the reduced `lazyIncrement` program stores input in a static field
 and returns its old value after incrementing it. The runtime oracle confirms the
 input-to-return dependency. The graph retains getter/setter calls and the input
 passed to the setter, but the shared engine does not recover that dependency
@@ -980,6 +980,9 @@ current paths. DART-FLOW-006 and the remaining plan gates stay open.
 
 ## Bounded witness alternatives and combination limits
 
+This section records checkpoint `5880702d2`; the static-storage increment below
+supersedes its source fingerprint and negative-limit counts.
+
 The opt-in Dart witness bound retains distinct raw paths through intraprocedural,
 held-task and final selection. It preserves call stacks, output flags/channels
 and field demands; the default and foreign-language selection remain unchanged.
@@ -1017,10 +1020,10 @@ A round bound does not bound one round's runtime. The completed two-round packag
 audit took about five and a half minutes; application and holdout queries also
 completed. Larger searches remain resource qualification obligations.
 
-Current ordinary and bounded reports share source fingerprint
+At that checkpoint, ordinary and bounded reports shared source fingerprint
 `4ca12f51b696f7688a2fbf704dbc951a937b05b91fb0e5021145f90eea7b6a6a`
 (396 files) and exporter 0.3.19. The summary scripts independently verify the
-current implementation fingerprint and the reviewed raw paths/call contexts.
+implementation fingerprint and the reviewed raw paths/call contexts.
 Ordinary endpoints remain 74/76 stock and 76/76 modeled, with five modeled negative
 searches inconclusive; holdouts remain 4/4. Validation passed 101 native runtime/
 Flutter/corpus tests, 162 frontend/package tests, three application graphs, two
@@ -1028,3 +1031,49 @@ holdout graphs, staging, four CLI tests, fourteen console tests and formatting.
 The optional saved-graph audit is separately enabled and passed all three corpus
 categories. Historical reviewed snapshots do not certify these new alternatives.
 DART-FLOW-006 static storage and the remaining coverage-plan obligations stay open.
+
+## Bounded static-storage prerequisite
+
+DART-FLOW-006's original `lazyIncrement` input-to-return regression now passes.
+The Dart-only shared engine follows static reads through CFG predecessors and
+resolved calls, retaining the selected caller context and stopping each route at
+its nearest matching owner/member store. It creates an ordinary RHS value task;
+no accessor signatures, receiver parameters or source DDG edges are invented.
+Foreign and instance-field traversal retain their prior behavior.
+
+The independent `static_storage_test.dart` oracle exercises three inputs and both
+branch booleans. Graph controls cover direct/nested stores, independent fields
+and owners, repeated helper calls, conditional/loop writes, overwrites on both
+branches, and saved reads before subsequent writes. Depth and node-budget
+exhaustion are diagnosed. The [reviewed storage snapshot](static-storage-witness-review.json)
+retains six returned paths for `direct`, `nested` and `lastCall`, with dispositions
+for all 123 transitions and their complete call contexts. Void method exits are
+memory-effect evidence, not scalar return dependencies. Generated accessor code
+repeats declaration text; operator/argument identities distinguish actual stores
+and reads. All reviewed exchange frames select `exchange(input)`.
+
+This does not close DART-FLOW-006. Initialization-state correlation remains
+conservative. The runtime `exceptional` case stores input in a throwing helper
+and reads it in a catch; its graph query still misses that memory effect and
+reports `static-storage-exception-state`. External effects, initialization checks
+and unfinished storage searches also make absence inconclusive. The ordinary
+corpus now has seven modeled negative searches with limits: `chunk-empty-return`
+and `config-not-directory` join the previous five. Endpoint expectations remain
+stock 74/76, modeled 76/76, and holdout 4/4.
+
+All twelve graphs and reports share fingerprint
+`bd43efa880caaa4af2e98f2655a0d8bee1e00e961bb7520ee7d016a0ca2cf70d`
+(399 analysis files); exporter version remains 0.3.19. Independent source/count
+checks passed. Qualification passed 102 native runtime/Flutter/corpus tests,
+165 frontend/package tests (the optional saved-graph audit is canceled in this
+ordinary run), three application graphs, two holdouts, staging, four CLI tests
+and fourteen console tests, with clean analysis and formatting checks.
+
+The refreshed two-witness/two-round audit retains all 80 endpoint observations:
+stock 86 visible/89 detailed paths and modeled 81/83, unchanged from the preceding
+snapshot. Limits affect 43 stock and 42 modeled queries; seven stock and eight
+modeled negative searches are inconclusive. Both modes hit the 10,000-position
+storage budget on `plural-count-not-name-control`; each still has five queries
+with held-task round limits. The http_parser capture review was rechecked against
+the current raw paths. Other new corpus routes remain pending transition review.
+Larger search budgets and the remaining coverage-plan gates are unfinished.

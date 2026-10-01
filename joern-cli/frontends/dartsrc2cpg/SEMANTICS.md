@@ -89,7 +89,7 @@ lexical owner, including nested captured scopes. It retains the selected ordinar
 caller and field demand. Constructor-value, saved-receiver rebinding and nested
 alias regressions check used versus independent inputs at call depths four and
 eight with no reported search limitations. This does not qualify arbitrary
-mutable callback targets or cross-method static storage.
+mutable callback targets. Static storage has the separate bounded contract below.
 The original declarations, call identity and dispatch kind are retained. Adapter
 calls select an already resolved target statically. These extra methods consume
 call depth; the `defaultArguments` report distinguishes adapted call sites,
@@ -400,6 +400,33 @@ use file/offset identities when declarations are unavailable. External function
 tear-offs receive method stubs even without a direct CALL site.
 
 ## Lazy and late initialization
+
+The Dart-only shared query prerequisite follows a static-field read backward
+through CFG predecessors and resolved calls. It identifies the slot by the
+qualified owner and canonical name of a STATIC member, retains selected caller
+stacks, and stops each route at its nearest matching assignment. The stored RHS
+becomes an ordinary value-flow task with the original field demand. Getter and
+setter signatures and source graphs stay unchanged; the memory transition is
+reported as `<STATIC_STORAGE>` in detailed witnesses.
+
+`static_storage.dart` and its SDK oracle check direct/nested writes, unrelated
+owners and fields, repeated helper calls, conditional and loop-carried writes,
+overwrites on both branches, and reads saved before a subsequent write.
+The original `lazyIncrement` input-to-return regression now passes. Each storage
+search visits at most `EngineConfig.maxStaticStorageNodes` CFG positions (default
+10,000), and also obeys call-depth, caller-expansion and output-task limits.
+An unfinished search records `static-storage-search`.
+
+This traversal joins CFG routes rather than proving initialization predicates.
+It records `static-storage-initialization-state` for the relevant state checks,
+`static-storage-external-effects` for unresolved/external calls, and
+`static-storage-exception-state` for protected calls/try regions. A negative
+result with these diagnostics is inconclusive. In particular, `exceptional`
+stores input in a throwing helper and reads it in a catch: the SDK returns input,
+but the graph query still misses that exceptional memory effect and reports the
+limitation. Reentrant initialization, retry state, arbitrary callbacks and
+exceptional store delivery remain open parts of DART-FLOW-006. This is a bounded
+may-flow prerequisite, not full heap or execution-state qualification.
 
 Late fields and top-level variables use analyzer-identified getter/setter methods.
 Initializers live in getters rather than constructors or eager initialization

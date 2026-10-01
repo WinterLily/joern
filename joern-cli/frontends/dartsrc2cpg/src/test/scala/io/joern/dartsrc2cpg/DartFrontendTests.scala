@@ -77,6 +77,55 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
   }
 
   "Dart frontend" should {
+    "follow static storage in call order with overwrites and independent locations" in {
+      fixture(
+        Files.readString(frontend.resolve("src/test/resources/semantics/static_storage.dart")),
+        "void main() {}"
+      ) { (cpg, _) =>
+        for (
+          (name, expected) <- Seq(
+            "direct"            -> true,
+            "nested"            -> true,
+            "repeated"          -> true,
+            "conditional"       -> true,
+            "looped"            -> true,
+            "returnedAfterRead" -> true,
+            "lastCall"          -> true,
+            "independentCall"   -> false,
+            "bothBranches"      -> false,
+            "overwritten"       -> false,
+            "independent"       -> false,
+            "differentOwner"    -> false,
+            "before"            -> false
+          )
+        ) {
+          val method = cpg.method.nameExact(name).head
+          withClue(name) {
+            method.ast.isReturn.reachableByFlows(method.parameter.nameExact("input")).nonEmpty shouldBe expected
+          }
+        }
+        val method           = cpg.method.nameExact("nested").head
+        val stateDiagnostics = new QueryDiagnostics
+        val stateContext     = EngineContext(config = EngineConfig(diagnostics = Some(stateDiagnostics)))
+        method.ast.isReturn.reachableByFlows(method.parameter.nameExact("input"))(stateContext).nonEmpty shouldBe true
+        stateDiagnostics.limitations should contain("static-storage-initialization-state")
+        val exceptional          = cpg.method.nameExact("exceptional").head
+        val exceptionDiagnostics = new QueryDiagnostics
+        val exceptionContext     = EngineContext(config = EngineConfig(diagnostics = Some(exceptionDiagnostics)))
+        exceptional.ast.isReturn
+          .reachableByFlows(exceptional.parameter.nameExact("input"))(exceptionContext)
+          .nonEmpty shouldBe false
+        exceptionDiagnostics.limitations should contain("static-storage-exception-state")
+        for (config <- Seq(EngineConfig(maxCallDepth = 1), EngineConfig(maxStaticStorageNodes = 1))) {
+          val diagnostics = new QueryDiagnostics
+          val limited     = EngineContext(config = config.copy(diagnostics = Some(diagnostics)))
+          method.ast.isReturn.reachableByFlows(method.parameter.nameExact("input"))(limited).nonEmpty shouldBe false
+          diagnostics.limitations should contain(
+            if (config.maxCallDepth == 1) "call-depth" else "static-storage-search"
+          )
+        }
+      }
+    }
     "retain bounded alternative witnesses through branches and repeated calls" in {
       fixture(
         Files.readString(frontend.resolve("src/test/resources/semantics/witness_alternatives.dart")),
@@ -357,6 +406,7 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         increment.call.methodFullName(".*:GETTER:next").size shouldBe 1
         increment.call.methodFullName(".*:SETTER:next").size shouldBe 2
         increment.call.nameExact("<operator>.postIncrement").size shouldBe 0
+        increment.ast.isReturn.reachableByFlows(increment.parameter.nameExact("input")).nonEmpty shouldBe true
         increment.call
           .methodFullName(".*:SETTER:next")
           .argument(1)

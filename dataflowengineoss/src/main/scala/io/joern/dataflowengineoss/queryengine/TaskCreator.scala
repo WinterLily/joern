@@ -17,7 +17,9 @@ class TaskCreator(context: EngineContext) {
     */
   def createFromResults(results: Vector[ReachableByResult]): Vector[ReachableByTask] = {
     val (exceptional, normal) = results.partition(_.path.head.outputChannel != OutputChannel.Normal)
-    val newTasks = tasksForParams(normal) ++ tasksForUnresolvedOutArgs(normal) ++ tasksForExceptions(exceptional)
+    val (storage, ordinary)   = normal.partition(result => StaticStorage.readKey(result.startingPoint).nonEmpty)
+    val newTasks              = restrictSize(storage.flatMap(StaticStorage.tasks(_, context.config))) ++
+      tasksForParams(ordinary) ++ tasksForUnresolvedOutArgs(ordinary) ++ tasksForExceptions(exceptional)
     removeTasksWithLoopsAndTooHighCallDepth(newTasks)
   }
 

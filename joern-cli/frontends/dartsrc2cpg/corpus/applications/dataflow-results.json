@@ -3,8 +3,8 @@
     "project": "localsend-1.17.0",
     "analysisSources": {
       "algorithm": "sha256-path-nul-content-nul",
-      "sha256": "4ca12f51b696f7688a2fbf704dbc951a937b05b91fb0e5021145f90eea7b6a6a",
-      "files": 396,
+      "sha256": "bd43efa880caaa4af2e98f2655a0d8bee1e00e961bb7520ee7d016a0ca2cf70d",
+      "files": 399,
       "roots": [
         "joern-cli/frontends/dartsrc2cpg/src",
         "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -148,8 +148,18 @@
         "stockOutcome": "flow-observed",
         "modeledOutcome": "flow-observed",
         "limitations": {
-          "stock": [],
-          "modeled": []
+          "stock": [
+            "call-depth",
+            "static-storage-exception-state",
+            "static-storage-external-effects",
+            "static-storage-initialization-state"
+          ],
+          "modeled": [
+            "call-depth",
+            "static-storage-exception-state",
+            "static-storage-external-effects",
+            "static-storage-initialization-state"
+          ]
         },
         "omittedWitnesses": {
           "stock": 0,
@@ -172,10 +182,16 @@
         "modeledOutcome": "flow-observed",
         "limitations": {
           "stock": [
-            "call-depth"
+            "call-depth",
+            "static-storage-exception-state",
+            "static-storage-external-effects",
+            "static-storage-initialization-state"
           ],
           "modeled": [
-            "call-depth"
+            "call-depth",
+            "static-storage-exception-state",
+            "static-storage-external-effects",
+            "static-storage-initialization-state"
           ]
         },
         "omittedWitnesses": {
@@ -333,10 +349,14 @@
         "modeledOutcome": "flow-observed",
         "limitations": {
           "stock": [
-            "call-depth"
+            "call-depth",
+            "static-storage-external-effects",
+            "static-storage-initialization-state"
           ],
           "modeled": [
-            "call-depth"
+            "call-depth",
+            "static-storage-external-effects",
+            "static-storage-initialization-state"
           ]
         },
         "omittedWitnesses": {
@@ -359,8 +379,16 @@
         "stockOutcome": "flow-observed",
         "modeledOutcome": "flow-observed",
         "limitations": {
-          "stock": [],
-          "modeled": []
+          "stock": [
+            "static-storage-exception-state",
+            "static-storage-external-effects",
+            "static-storage-initialization-state"
+          ],
+          "modeled": [
+            "static-storage-exception-state",
+            "static-storage-external-effects",
+            "static-storage-initialization-state"
+          ]
         },
         "omittedWitnesses": {
           "stock": 0,
@@ -373,8 +401,8 @@
     "project": "saber-0.26.0",
     "analysisSources": {
       "algorithm": "sha256-path-nul-content-nul",
-      "sha256": "4ca12f51b696f7688a2fbf704dbc951a937b05b91fb0e5021145f90eea7b6a6a",
-      "files": 396,
+      "sha256": "bd43efa880caaa4af2e98f2655a0d8bee1e00e961bb7520ee7d016a0ca2cf70d",
+      "files": 399,
       "roots": [
         "joern-cli/frontends/dartsrc2cpg/src",
         "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -563,10 +591,16 @@
         "modeledOutcome": "flow-observed",
         "limitations": {
           "stock": [
-            "call-depth"
+            "call-depth",
+            "static-storage-exception-state",
+            "static-storage-external-effects",
+            "static-storage-initialization-state"
           ],
           "modeled": [
-            "call-depth"
+            "call-depth",
+            "static-storage-exception-state",
+            "static-storage-external-effects",
+            "static-storage-initialization-state"
           ]
         },
         "omittedWitnesses": {
@@ -586,11 +620,19 @@
         "distinctEndpoints": true,
         "viaSatisfied": true,
         "semanticReview": "see witness-reviews.json and source ledger; snapshots do not certify current paths",
-        "stockOutcome": "no-flow-observed-within-limits",
-        "modeledOutcome": "no-flow-observed-within-limits",
+        "stockOutcome": "inconclusive-query-limits",
+        "modeledOutcome": "inconclusive-query-limits",
         "limitations": {
-          "stock": [],
-          "modeled": []
+          "stock": [
+            "call-depth",
+            "static-storage-exception-state",
+            "static-storage-external-effects"
+          ],
+          "modeled": [
+            "call-depth",
+            "static-storage-exception-state",
+            "static-storage-external-effects"
+          ]
         },
         "omittedWitnesses": {
           "stock": 0,
@@ -618,10 +660,16 @@
         "modeledOutcome": "flow-observed",
         "limitations": {
           "stock": [
-            "call-depth"
+            "call-depth",
+            "static-storage-exception-state",
+            "static-storage-external-effects",
+            "static-storage-initialization-state"
           ],
           "modeled": [
-            "call-depth"
+            "call-depth",
+            "static-storage-exception-state",
+            "static-storage-external-effects",
+            "static-storage-initialization-state"
           ]
         },
         "omittedWitnesses": {
@@ -645,7 +693,9 @@
         "modeledOutcome": "no-flow-observed-within-limits",
         "limitations": {
           "stock": [
-            "call-depth"
+            "call-depth",
+            "static-storage-external-effects",
+            "static-storage-initialization-state"
           ],
           "modeled": []
         },
@@ -721,10 +771,14 @@
         "modeledOutcome": "flow-observed",
         "limitations": {
           "stock": [
-            "call-depth"
+            "call-depth",
+            "static-storage-external-effects",
+            "static-storage-initialization-state"
           ],
           "modeled": [
-            "call-depth"
+            "call-depth",
+            "static-storage-external-effects",
+            "static-storage-initialization-state"
           ]
         },
         "omittedWitnesses": {
@@ -738,8 +792,8 @@
     "project": "dart-sass-1.89.2",
     "analysisSources": {
       "algorithm": "sha256-path-nul-content-nul",
-      "sha256": "4ca12f51b696f7688a2fbf704dbc951a937b05b91fb0e5021145f90eea7b6a6a",
-      "files": 396,
+      "sha256": "bd43efa880caaa4af2e98f2655a0d8bee1e00e961bb7520ee7d016a0ca2cf70d",
+      "files": 399,
       "roots": [
         "joern-cli/frontends/dartsrc2cpg/src",
         "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -830,10 +884,14 @@
         "modeledOutcome": "flow-observed",
         "limitations": {
           "stock": [
-            "call-depth"
+            "call-depth",
+            "static-storage-exception-state",
+            "static-storage-external-effects"
           ],
           "modeled": [
-            "call-depth"
+            "call-depth",
+            "static-storage-exception-state",
+            "static-storage-external-effects"
           ]
         },
         "omittedWitnesses": {
@@ -916,10 +974,14 @@
         "modeledOutcome": "flow-observed",
         "limitations": {
           "stock": [
-            "call-depth"
+            "call-depth",
+            "static-storage-exception-state",
+            "static-storage-external-effects"
           ],
           "modeled": [
-            "call-depth"
+            "call-depth",
+            "static-storage-exception-state",
+            "static-storage-external-effects"
           ]
         },
         "omittedWitnesses": {
@@ -943,10 +1005,14 @@
         "modeledOutcome": "flow-observed",
         "limitations": {
           "stock": [
-            "call-depth"
+            "call-depth",
+            "static-storage-exception-state",
+            "static-storage-external-effects"
           ],
           "modeled": [
-            "call-depth"
+            "call-depth",
+            "static-storage-exception-state",
+            "static-storage-external-effects"
           ]
         },
         "omittedWitnesses": {
@@ -1103,11 +1169,19 @@
         "limitations": {
           "stock": [
             "call-depth",
-            "field-depth-widening"
+            "field-depth-widening",
+            "static-storage-exception-state",
+            "static-storage-external-effects",
+            "static-storage-initialization-state",
+            "static-storage-search"
           ],
           "modeled": [
             "call-depth",
-            "field-depth-widening"
+            "field-depth-widening",
+            "static-storage-exception-state",
+            "static-storage-external-effects",
+            "static-storage-initialization-state",
+            "static-storage-search"
           ]
         },
         "omittedWitnesses": {

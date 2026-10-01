@@ -45,6 +45,16 @@ through 2. Execution establishes the behavior of those paths only. In particular
 a predicate that changes collection membership may change observable output
 without contributing an explicit element value.
 
+`static_storage_test.dart` executes three input values through direct/nested
+stores, repeated calls, independent owner/field controls and saved reads. Both
+branch booleans exercise conditional/loop writes and overwrites on every branch.
+The graph regressions recover these value dependencies through a bounded,
+Dart-only shared-engine prerequisite; C/Java/JavaScript/Kotlin and instance-field
+traversal retain their prior behavior. Call-depth and storage-node exhaustion
+report explicit limits. A throwing-helper/catch case returns input at runtime
+while the query still misses the exceptional memory effect and reports it as a
+limitation. Initialization-state correlation and exceptional storage remain open.
+
 `upstream/manifest.json` records selected SDK language tests at the pinned SDK
 revision, original/adapted hashes, license and the exact adaptations. Valid
 runtime cases retain their original bodies and expected values; only the expect

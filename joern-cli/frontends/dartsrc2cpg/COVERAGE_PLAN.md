@@ -72,7 +72,11 @@ through explicit entry-point capture edges. Primitive constructor values now
 retain the selected caller when captured reads enter an enclosing parameter;
 saved-receiver rebinding and nested aliases have depth-four/eight controls.
 The shared context correction is Dart-only, with ordinary-call, wrong-owner and
-foreign-language boundary tests. Static storage DART-FLOW-006 remains open.
+foreign-language boundary tests. A bounded Dart-only static-storage traversal now
+recovers DART-FLOW-006's original `lazyIncrement` dependency and has call-order,
+overwrite, loop, independent-slot and repeated-call controls. Initialization-state
+correlation and exceptional memory effects remain open; the throwing-helper/catch
+oracle still exposes a missed dependency with an explicit diagnostic.
 An opt-in Dart witness bound now retains distinct routes through intraprocedural,
 held-task and final selection, with explicit pruning diagnostics and detailed
 call-context reports. Three-route branch/call isolation has graph and bounded

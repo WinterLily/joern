@@ -58,6 +58,7 @@ def summarize():
                     maxCallDepth=stock["maxCallDepth"], maxFieldDepth=stock["maxFieldDepth"],
                     maxWitnessesPerEndpoint=stock["maxWitnessesPerEndpoint"], modes=modes,
                     maxHeldTaskIterations=stock["maxHeldTaskIterations"],
+                    maxStaticStorageNodes=stock["maxStaticStorageNodes"],
                     maxArgsToAllow=stock["maxArgsToAllow"], maxOutputArgsExpansion=stock["maxOutputArgsExpansion"],
                     positiveControl=stock.get("positiveControl"),
                     semanticReview="pending transition review; endpoint observations and route counts are not correctness claims",

@@ -115,6 +115,7 @@ private[dartsrc2cpg] object CorpusDataflow {
           maxFieldDepth = probe.obj.get("maxFieldDepth").map(_.num.toInt).getOrElse(4),
           maxWitnessesPerEndpoint = probe.obj.get("maxWitnessesPerEndpoint").map(_.num.toInt).getOrElse(1),
           maxHeldTaskIterations = probe.obj.get("maxHeldTaskIterations").map(_.num.toInt).getOrElse(0),
+          maxStaticStorageNodes = probe.obj.get("maxStaticStorageNodes").map(_.num.toInt).getOrElse(10000),
           diagnostics = Some(diagnostics)
         )
       )
@@ -178,6 +179,7 @@ private[dartsrc2cpg] object CorpusDataflow {
         "maxFieldDepth"           -> context.config.maxFieldDepth,
         "maxWitnessesPerEndpoint" -> context.config.maxWitnessesPerEndpoint,
         "maxHeldTaskIterations"   -> context.config.maxHeldTaskIterations,
+        "maxStaticStorageNodes"   -> context.config.maxStaticStorageNodes,
         "maxArgsToAllow"          -> context.config.maxArgsToAllow,
         "maxOutputArgsExpansion"  -> context.config.maxOutputArgsExpansion,
         "limitations"             -> ujson.Arr.from(diagnostics.limitations.toSeq.sorted),
@@ -227,7 +229,8 @@ private[dartsrc2cpg] object CorpusDataflow {
           c("expected").bool && c("passed").bool && c("distinctEndpoints").bool && c("source") == probe("source") &&
             c("maxCallDepth") == result("maxCallDepth") && c("maxFieldDepth") == result("maxFieldDepth") &&
             c("maxWitnessesPerEndpoint") == result("maxWitnessesPerEndpoint") &&
-            c("maxHeldTaskIterations") == result("maxHeldTaskIterations")
+            c("maxHeldTaskIterations") == result("maxHeldTaskIterations") &&
+            c("maxStaticStorageNodes") == result("maxStaticStorageNodes")
         )
         result("positiveControl") = probe.obj.getOrElse("positiveControl", ujson.Null)
         result("positiveControlSatisfied") = satisfied

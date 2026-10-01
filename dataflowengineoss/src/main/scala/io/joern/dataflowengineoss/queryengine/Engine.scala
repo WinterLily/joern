@@ -340,6 +340,8 @@ case class EngineContext(semantics: Semantics = DefaultSemantics(), config: Engi
   *   bounded distinct Dart witnesses per endpoint pair at each selection stage; one preserves longest-witness selection
   * @param maxHeldTaskIterations
   *   Dart held-task combination rounds; zero keeps the existing unbounded fixed-point search
+  * @param maxStaticStorageNodes
+  *   maximum CFG positions inspected for one Dart static-storage read
   */
 case class EngineConfig(
   var maxCallDepth: Int = 4,
@@ -350,11 +352,13 @@ case class EngineConfig(
   diagnostics: Option[QueryDiagnostics] = None,
   maxFieldDepth: Int = 4,
   maxWitnessesPerEndpoint: Int = 1,
-  maxHeldTaskIterations: Int = 0
+  maxHeldTaskIterations: Int = 0,
+  maxStaticStorageNodes: Int = 10000
 ) {
   require(maxFieldDepth >= 0, "Field depth must be nonnegative")
   require(maxWitnessesPerEndpoint > 0, "Witness bound must be positive")
   require(maxHeldTaskIterations >= 0, "Held-task iteration bound must be nonnegative")
+  require(maxStaticStorageNodes > 0, "Static-storage search bound must be positive")
 }
 
 /** Per-query evidence that a search omitted work. Use a fresh instance for each query. */

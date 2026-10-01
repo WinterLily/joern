@@ -84,9 +84,9 @@
       "lowering": "DartFrontendTests: defer ordinary static and top-level initialization until a getter is read; late-local and late-field regressions",
       "resolution": "analyzer getter/setter identities and separate const/final/late flags",
       "cfg": "guarded first reads; writes skip initial reads; final reentrant error branches",
-      "valueFlow": "DartFrontendTests: initializer return through guarded getter; late local capture flow",
-      "negative": "DartFrontendTests: setters contain no initializer calls or initialization reads",
-      "interaction": "astgen/test/lazy_static_evaluation_test.dart; late_evaluation_test.dart; upstream late-field oracle"
+      "valueFlow": "DartFrontendTests: initializer return through guarded getter; late local capture flow; static_storage.dart: bounded static stores across resolved calls and original lazyIncrement return",
+      "negative": "DartFrontendTests: setters contain no initializer calls or initialization reads; static-storage owner/field, overwrite and repeated-call controls; initialization-state and exceptional-memory absence remains inconclusive",
+      "interaction": "astgen/test/lazy_static_evaluation_test.dart; late_evaluation_test.dart; upstream late-field oracle; astgen/test/static_storage_test.dart: three inputs, both branch booleans, loop writes, saved reads and throwing-helper/catch oracle"
     },
     "strings": {
       "exporter": "astgen/lib/exporter.dart: interpolation conversion targets, nullability, bounds and extension erasure",
