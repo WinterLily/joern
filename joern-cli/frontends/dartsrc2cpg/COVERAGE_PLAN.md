@@ -93,11 +93,16 @@ families classify selected bounded alternatives, including conservative detours
 and endpoint identity. Other alternatives still require review; Gate 1 stays open.
 Bounded witness ordering now skips ranking identical entries and unnecessary
 length groups, with task-context, field/output-flag, tie and pruning regressions.
-Larger searches still require independent resource and route qualification.
+An isolated four-witness/two-held-round audit now passes baseline comparisons
+on all twelve graphs under explicit worker heap/CPU and wall-clock budgets.
+Its four initial holdout queries have complete transition reviews and pinned
+library execution controls; the remaining additional routes still require review.
 Held-task combination rounds now have an optional Dart-only budget with explicit
 inconclusive diagnostics; default and foreign-language searches retain their
 previous behavior. A four-witness package audit exceeded its seven-minute worker
 budget at the analyzer callback query and remains an inconclusive resource case.
+The new four-witness/two-round result does not qualify that historical unbounded
+search or the fifty-round interruption.
 Runtime receiver contexts, runtime
 type environments and bound checks remain open. Mixin superclass operations now include preceding implementations from
 observed applications, with private lookup, cross-file and bound-operation
@@ -178,6 +183,13 @@ positives. It is historical and does not certify newly generated paths. Seven
 modeled negative searches remain inconclusive in the current ordinary reports
 (eight with the bounded alternative configuration). Unreturned
 alternatives and negative-search qualification remain outstanding.
+
+The [four-witness results](corpus/four-witness-results.json) retain 131 detailed
+stock paths and 117 modeled paths with unchanged endpoint outcomes. The
+[holdout review](corpus/holdout-witness-review.json) classifies all 19 transitions
+in the three distinct Shelf/YAML paths, with same-budget positive controls for
+both isolation queries. Eight modeled negative searches elsewhere remain
+inconclusive. Additional sequences are not necessarily new semantic route families.
 
 Bounded alternative reporting is now available through `DartWitnessAuditTests`
 on saved corpus graphs. It preserves intermediate call contexts and reports

@@ -1,0 +1,998 @@
+{
+  "schemaVersion": 2,
+  "analysisBaseCommit": "c4e2523dc",
+  "scope": "All four initial holdout queries at witness bound four/two held rounds, both model sets; complete review of returned paths and source-grounded bounded absence controls.",
+  "elementColumns": [
+    "nodeId",
+    "contextIndex",
+    "visible",
+    "isOutputArg",
+    "outEdgeLabel",
+    "fieldDemand"
+  ],
+  "representation": "Project-local dictionaries preserve complete detailed node metadata, flags, field demands and empty caller stacks. All storage demand sets are empty. Stock/modeled paths are shared.",
+  "transitionClasses": {
+    "field-projection": {
+      "meaning": "Request.url selects the URI field; the source demand is url."
+    },
+    "assignment": {
+      "meaning": "The projected URI is stored in an interpolation temporary."
+    },
+    "local-read": {
+      "meaning": "Read of the same saved interpolation temporary."
+    },
+    "external-return": {
+      "meaning": "Resolved external Uri.toString return approximation; its body is outside the graph."
+    },
+    "operator-value": {
+      "meaning": "String concatenation depends on the converted URI text."
+    },
+    "block-result": {
+      "meaning": "Generated interpolation block supplies the Response.ok body argument."
+    },
+    "parameter-read": {
+      "meaning": "Read of the selected source parameter in the same method."
+    },
+    "parameter-binding": {
+      "meaning": "Argument slot one binds the resolved internal callee source parameter."
+    }
+  },
+  "executionOracles": [
+    {
+      "file": "astgen/test/holdout_boundaries_test.dart",
+      "sha256": "fa2b1b135fd656fb5ff30c0501029a22d785fcd972a849f332a60ca0c4338959",
+      "scope": "Dart 3.9.2, Shelf 1.4.2 unchanged example handler and yaml 3.1.3 actual APIs: three independent URI/document inputs, both recovery flags, two recoverable scanner errors and one fatal parser error."
+    }
+  ],
+  "limitations": [
+    "No server callback delivery, complete YAML parser correctness or arbitrary runtime feasibility claim.",
+    "No query limitation is recorded for these four endpoints; this does not qualify the remaining corpus negative searches.",
+    "These releases already informed fixes and are regression holdouts; future generalization needs fresh projects or releases."
+  ],
+  "totals": {
+    "queries": 4,
+    "selectedPaths": 6,
+    "distinctPaths": 3,
+    "distinctTransitions": 19
+  },
+  "projects": [
+    {
+      "project": "shelf-1.4.2",
+      "source": {
+        "name": "shelf",
+        "version": "1.4.2",
+        "sha256": "e7dd780a7ffb623c57850b33f43309312fc863fb6aa3d276a754bb299839ef12",
+        "roots": [
+          "lib",
+          "example"
+        ],
+        "sourceSha256": "483a582828572c6b081baed74146268f6c2aed19bd260fc3cd1408c37330f2df",
+        "probe": "_echoRequest",
+        "input": "."
+      },
+      "analysisSources": {
+        "algorithm": "sha256-path-nul-content-nul",
+        "sha256": "067ae48b90f8f891485eedfc142d904ce8069cd5fd5b82a3dff90ca521385e7c",
+        "files": 403,
+        "roots": [
+          "joern-cli/frontends/dartsrc2cpg/src",
+          "joern-cli/frontends/dartsrc2cpg/astgen/lib",
+          "joern-cli/frontends/dartsrc2cpg/astgen/bin",
+          "joern-cli/frontends/x2cpg/src/main",
+          "dataflowengineoss/src/main",
+          "semanticcpg/src/main",
+          "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.lock",
+          "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.yaml",
+          "joern-cli/frontends/dartsrc2cpg/build.sbt",
+          "joern-cli/frontends/x2cpg/build.sbt",
+          "joern-cli/build.sbt",
+          "dataflowengineoss/build.sbt",
+          "semanticcpg/build.sbt",
+          "build.sbt",
+          "project/Versions.scala",
+          "project/Projects.scala"
+        ]
+      },
+      "exporter": {
+        "record": "header",
+        "protocolVersion": 1,
+        "exporterVersion": "0.3.19",
+        "analyzerVersion": "8.4.1",
+        "sdkVersion": "3.9.2",
+        "offsetEncoding": "utf-16",
+        "conditionalEnvironment": "analyzer-default"
+      },
+      "modelFilesSha256": {
+        "async": "c482e7bc9300c13523e5a921d43d67952fffa69290b0cf7ca6ba48e55cb2f48c",
+        "worker_manager": "972688de95dc40d77a055b86cb3c3422ac6242bcb18379cacb1d6fe4fde82c13",
+        "iterable": "f557cbefb4e70574ec692d069c90d1d3fb812e3e09511816c6af62fe82f6b4d3",
+        "bytes": "868e7d0918ddb0761370255754488290d5c6d9a175951a3b76cc88ad2bc95ad4"
+      },
+      "sourceEvidence": [
+        {
+          "file": "example/example.dart",
+          "startLine": 20,
+          "endLine": 21,
+          "fileSha256": "95d720fd1dbde1a900662685baeda9ab41cf10bf80345735cdf727ad0c770ea7",
+          "excerpt": "Response _echoRequest(Request request) =>\n    Response.ok('Request for \"${request.url}\"');"
+        },
+        {
+          "file": "lib/src/response.dart",
+          "startLine": 66,
+          "endLine": 73,
+          "fileSha256": "fd969a2bec7ea320f51f18d281b252476875233abd66d29a94c6740a2d459616",
+          "excerpt": "  Response.ok(\n    Object? body, {\n    Map<String, /* String | List<String> */ Object>? headers,\n    Encoding? encoding,\n    Map<String, Object>? context,\n  }) : this(200,\n            body: body, headers: headers, encoding: encoding, context: context);\n"
+        },
+        {
+          "file": "lib/src/response.dart",
+          "startLine": 263,
+          "endLine": 267,
+          "fileSha256": "fd969a2bec7ea320f51f18d281b252476875233abd66d29a94c6740a2d459616",
+          "excerpt": "  Response(\n    this.statusCode, {\n    Object? body,\n    Map<String, /* String | List<String> */ Object>? headers,\n    Encoding? encoding,"
+        }
+      ],
+      "queries": [
+        {
+          "id": "request-to-response-body",
+          "expectedFlow": true,
+          "disposition": "Explicit request.url projection and interpolation supply Response.ok argument one. The two routes differ in a generated concatenation node. External Uri conversion is a return approximation, checked by bounded pinned execution; no HTTP callback delivery claim.",
+          "modes": {
+            "stock": {
+              "outcome": "flow-observed",
+              "passed": true,
+              "limitations": [],
+              "source": {
+                "file": "example/example.dart",
+                "method": "_echoRequest",
+                "kind": "parameter",
+                "name": "request"
+              },
+              "sink": {
+                "file": "example/example.dart",
+                "method": "_echoRequest",
+                "kind": "call",
+                "name": "ok",
+                "argument": 1
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "pathIndices": [
+                0,
+                1
+              ]
+            },
+            "modeled": {
+              "outcome": "flow-observed",
+              "passed": true,
+              "limitations": [],
+              "source": {
+                "file": "example/example.dart",
+                "method": "_echoRequest",
+                "kind": "parameter",
+                "name": "request"
+              },
+              "sink": {
+                "file": "example/example.dart",
+                "method": "_echoRequest",
+                "kind": "call",
+                "name": "ok",
+                "argument": 1
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "pathIndices": [
+                0,
+                1
+              ]
+            }
+          }
+        },
+        {
+          "id": "request-not-status",
+          "expectedFlow": false,
+          "disposition": "Response.ok redirects to Response(200, body: body, ...). The status argument is a distinct constant node, not derived from the request. Same-source/same-budget request-to-response-body returns both routes without query limitations. This is a bounded graph absence supported by source isolation, not a general runtime absence theorem.",
+          "modes": {
+            "stock": {
+              "outcome": "no-flow-observed-within-limits",
+              "passed": true,
+              "limitations": [],
+              "source": {
+                "file": "example/example.dart",
+                "method": "_echoRequest",
+                "kind": "parameter",
+                "name": "request"
+              },
+              "sink": {
+                "file": "lib/src/response.dart",
+                "method": "ok",
+                "owner": "Response",
+                "kind": "call",
+                "name": "<init>",
+                "argument": 1
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "positiveControl": "request-to-response-body",
+              "positiveControlSatisfied": true,
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "pathIndices": []
+            },
+            "modeled": {
+              "outcome": "no-flow-observed-within-limits",
+              "passed": true,
+              "limitations": [],
+              "source": {
+                "file": "example/example.dart",
+                "method": "_echoRequest",
+                "kind": "parameter",
+                "name": "request"
+              },
+              "sink": {
+                "file": "lib/src/response.dart",
+                "method": "ok",
+                "owner": "Response",
+                "kind": "call",
+                "name": "<init>",
+                "argument": 1
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "positiveControl": "request-to-response-body",
+              "positiveControlSatisfied": true,
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "pathIndices": []
+            }
+          }
+        }
+      ],
+      "nodes": {
+        "111669149696": {
+          "label": "METHOD_PARAMETER_IN",
+          "method": "example/example.dart#627:FUNCTION:_echoRequest",
+          "code": "Request request",
+          "line": 20,
+          "parameterIndex": 1
+        },
+        "30064771099": {
+          "label": "CALL",
+          "method": "example/example.dart#627:FUNCTION:_echoRequest",
+          "code": "request.url",
+          "line": 21,
+          "call": "30064771099",
+          "argumentsOf": [
+            [
+              "30064771098",
+              2
+            ]
+          ]
+        },
+        "68719476753": {
+          "label": "IDENTIFIER",
+          "method": "example/example.dart#627:FUNCTION:_echoRequest",
+          "code": "<tmp>6",
+          "line": 21,
+          "argumentsOf": [
+            [
+              "30064771098",
+              1
+            ]
+          ]
+        },
+        "68719476755": {
+          "label": "IDENTIFIER",
+          "method": "example/example.dart#627:FUNCTION:_echoRequest",
+          "code": "<tmp>6",
+          "line": 21,
+          "argumentsOf": [
+            [
+              "30064771102",
+              0
+            ]
+          ]
+        },
+        "30064771102": {
+          "label": "CALL",
+          "method": "example/example.dart#627:FUNCTION:_echoRequest",
+          "code": "${request.url}",
+          "line": 21,
+          "call": "30064771102",
+          "argumentsOf": [
+            [
+              "30064771101",
+              2
+            ]
+          ]
+        },
+        "30064771101": {
+          "label": "CALL",
+          "method": "example/example.dart#627:FUNCTION:_echoRequest",
+          "code": "'Request for \"${request.url}\"'",
+          "line": 21,
+          "call": "30064771101",
+          "argumentsOf": [
+            [
+              "30064771100",
+              1
+            ]
+          ]
+        },
+        "30064771100": {
+          "label": "CALL",
+          "method": "example/example.dart#627:FUNCTION:_echoRequest",
+          "code": "'Request for \"${request.url}\"'",
+          "line": 21,
+          "call": "30064771100"
+        },
+        "25769803783": {
+          "label": "BLOCK",
+          "method": "example/example.dart#627:FUNCTION:_echoRequest",
+          "code": "'Request for \"${request.url}\"'",
+          "line": 21,
+          "argumentsOf": [
+            [
+              "30064771097",
+              1
+            ]
+          ]
+        }
+      },
+      "calls": {
+        "30064771099": {
+          "nodeId": "30064771099",
+          "name": "<operator>.fieldAccess",
+          "target": "<operator>.fieldAccess",
+          "code": "request.url",
+          "callees": [
+            {
+              "fullName": "<operator>.fieldAccess",
+              "external": true
+            }
+          ]
+        },
+        "30064771098": {
+          "nodeId": "30064771098",
+          "name": "<operator>.assignment",
+          "target": "<operator>.assignment",
+          "code": "<tmp>6 = 'Request for \"${request.url}\"'",
+          "callees": [
+            {
+              "fullName": "<operator>.assignment",
+              "external": true
+            }
+          ]
+        },
+        "30064771102": {
+          "nodeId": "30064771102",
+          "name": "toString",
+          "target": "dart:core/uri.dart#27335:METHOD:toString",
+          "code": "${request.url}",
+          "callees": [
+            {
+              "fullName": "dart:core/uri.dart#27335:METHOD:toString",
+              "external": true
+            }
+          ]
+        },
+        "30064771101": {
+          "nodeId": "30064771101",
+          "name": "<operator>.addition",
+          "target": "<operator>.addition",
+          "code": "'Request for \"${request.url}\"'",
+          "callees": [
+            {
+              "fullName": "<operator>.addition",
+              "external": true
+            }
+          ]
+        },
+        "30064771100": {
+          "nodeId": "30064771100",
+          "name": "<operator>.addition",
+          "target": "<operator>.addition",
+          "code": "'Request for \"${request.url}\"'",
+          "callees": [
+            {
+              "fullName": "<operator>.addition",
+              "external": true
+            }
+          ]
+        },
+        "30064771097": {
+          "nodeId": "30064771097",
+          "name": "ok",
+          "target": "package:shelf/src/response.dart#2636:CONSTRUCTOR:ok",
+          "code": "Response.ok('Request for \"${request.url}\"')",
+          "callees": [
+            {
+              "fullName": "package:shelf/src/response.dart#2636:CONSTRUCTOR:ok",
+              "external": false
+            }
+          ]
+        }
+      },
+      "contexts": [
+        []
+      ],
+      "paths": [
+        {
+          "elements": [
+            [
+              "111669149696",
+              0,
+              true,
+              false,
+              "request",
+              [
+                "url"
+              ]
+            ],
+            [
+              "30064771099",
+              0,
+              true,
+              false,
+              "request.url",
+              []
+            ],
+            [
+              "68719476753",
+              0,
+              true,
+              false,
+              "<tmp>6",
+              []
+            ],
+            [
+              "68719476755",
+              0,
+              true,
+              false,
+              "<tmp>6",
+              []
+            ],
+            [
+              "30064771102",
+              0,
+              false,
+              false,
+              "${request.url}",
+              []
+            ],
+            [
+              "30064771101",
+              0,
+              false,
+              false,
+              "'Request for \"${request.url}\"'",
+              []
+            ],
+            [
+              "30064771100",
+              0,
+              true,
+              false,
+              "'Request for \"${request.url}\"'",
+              []
+            ],
+            [
+              "25769803783",
+              0,
+              true,
+              false,
+              "",
+              []
+            ]
+          ],
+          "transitions": [
+            "field-projection",
+            "assignment",
+            "local-read",
+            "external-return",
+            "operator-value",
+            "operator-value",
+            "block-result"
+          ]
+        },
+        {
+          "elements": [
+            [
+              "111669149696",
+              0,
+              true,
+              false,
+              "request",
+              [
+                "url"
+              ]
+            ],
+            [
+              "30064771099",
+              0,
+              true,
+              false,
+              "request.url",
+              []
+            ],
+            [
+              "68719476753",
+              0,
+              true,
+              false,
+              "<tmp>6",
+              []
+            ],
+            [
+              "68719476755",
+              0,
+              true,
+              false,
+              "<tmp>6",
+              []
+            ],
+            [
+              "30064771102",
+              0,
+              false,
+              false,
+              "${request.url}",
+              []
+            ],
+            [
+              "30064771101",
+              0,
+              false,
+              false,
+              "'Request for \"${request.url}\"'",
+              []
+            ],
+            [
+              "25769803783",
+              0,
+              true,
+              false,
+              "",
+              []
+            ]
+          ],
+          "transitions": [
+            "field-projection",
+            "assignment",
+            "local-read",
+            "external-return",
+            "operator-value",
+            "block-result"
+          ]
+        }
+      ]
+    },
+    {
+      "project": "yaml-3.1.3",
+      "source": {
+        "name": "yaml",
+        "version": "3.1.3",
+        "sha256": "b9da305ac7c39faa3f030eccd175340f968459dae4af175130b3fc47e40d76ce",
+        "roots": [
+          "lib"
+        ],
+        "sourceSha256": "9c159d8330afe1c57be30ac3b4cf3ad916022a313dfe4cd0bbfba04bceaac1bf",
+        "probe": "loadYaml",
+        "input": "."
+      },
+      "analysisSources": {
+        "algorithm": "sha256-path-nul-content-nul",
+        "sha256": "067ae48b90f8f891485eedfc142d904ce8069cd5fd5b82a3dff90ca521385e7c",
+        "files": 403,
+        "roots": [
+          "joern-cli/frontends/dartsrc2cpg/src",
+          "joern-cli/frontends/dartsrc2cpg/astgen/lib",
+          "joern-cli/frontends/dartsrc2cpg/astgen/bin",
+          "joern-cli/frontends/x2cpg/src/main",
+          "dataflowengineoss/src/main",
+          "semanticcpg/src/main",
+          "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.lock",
+          "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.yaml",
+          "joern-cli/frontends/dartsrc2cpg/build.sbt",
+          "joern-cli/frontends/x2cpg/build.sbt",
+          "joern-cli/build.sbt",
+          "dataflowengineoss/build.sbt",
+          "semanticcpg/build.sbt",
+          "build.sbt",
+          "project/Versions.scala",
+          "project/Projects.scala"
+        ]
+      },
+      "exporter": {
+        "record": "header",
+        "protocolVersion": 1,
+        "exporterVersion": "0.3.19",
+        "analyzerVersion": "8.4.1",
+        "sdkVersion": "3.9.2",
+        "offsetEncoding": "utf-16",
+        "conditionalEnvironment": "analyzer-default"
+      },
+      "modelFilesSha256": {
+        "async": "c482e7bc9300c13523e5a921d43d67952fffa69290b0cf7ca6ba48e55cb2f48c",
+        "worker_manager": "972688de95dc40d77a055b86cb3c3422ac6242bcb18379cacb1d6fe4fde82c13",
+        "iterable": "f557cbefb4e70574ec692d069c90d1d3fb812e3e09511816c6af62fe82f6b4d3",
+        "bytes": "868e7d0918ddb0761370255754488290d5c6d9a175951a3b76cc88ad2bc95ad4"
+      },
+      "sourceEvidence": [
+        {
+          "file": "lib/yaml.dart",
+          "startLine": 39,
+          "endLine": 71,
+          "fileSha256": "44541ff66817521e2e9381be53f9d54fb3a17c8c6fd0eba34da0383a0db1cfda",
+          "excerpt": "dynamic loadYaml(String yaml,\n        {Uri? sourceUrl, bool recover = false, ErrorListener? errorListener}) =>\n    loadYamlNode(yaml,\n            sourceUrl: sourceUrl,\n            recover: recover,\n            errorListener: errorListener)\n        .value;\n\n/// Loads a single document from a YAML string as a [YamlNode].\n///\n/// This is just like [loadYaml], except that where [loadYaml] would return a\n/// normal Dart value this returns a [YamlNode] instead. This allows the caller\n/// to be confident that the return value will always be a [YamlNode].\nYamlNode loadYamlNode(String yaml,\n        {Uri? sourceUrl, bool recover = false, ErrorListener? errorListener}) =>\n    loadYamlDocument(yaml,\n            sourceUrl: sourceUrl,\n            recover: recover,\n            errorListener: errorListener)\n        .contents;\n\n/// Loads a single document from a YAML string as a [YamlDocument].\n///\n/// This is just like [loadYaml], except that where [loadYaml] would return a\n/// normal Dart value this returns a [YamlDocument] instead. This allows the\n/// caller to access document metadata.\nYamlDocument loadYamlDocument(String yaml,\n    {Uri? sourceUrl, bool recover = false, ErrorListener? errorListener}) {\n  var loader = Loader(yaml,\n      sourceUrl: sourceUrl, recover: recover, errorListener: errorListener);\n  var document = loader.load();\n  if (document == null) {\n    return YamlDocument.internal(YamlScalar.internalWithSpan(null, loader.span),"
+        },
+        {
+          "file": "lib/src/loader.dart",
+          "startLine": 37,
+          "endLine": 44,
+          "fileSha256": "b10332603fda0622450d062120c3bcf45837d4eff0d962363a7e6fa682b5964f",
+          "excerpt": "  factory Loader(String source,\n      {Uri? sourceUrl, bool recover = false, ErrorListener? errorListener}) {\n    var parser = Parser(source,\n        sourceUrl: sourceUrl, recover: recover, errorListener: errorListener);\n    var event = parser.parse();\n    assert(event.type == EventType.streamStart);\n    return Loader._(parser, event.span);\n  }"
+        },
+        {
+          "file": "lib/src/scanner.dart",
+          "startLine": 480,
+          "endLine": 487,
+          "fileSha256": "16572b4ea2bf110314e2ff58eab45f8e92ce7d35a16add292df0103c54015d73",
+          "excerpt": "      if (!_inBlockContext) continue;\n\n      if (key.line == _scanner.line) continue;\n\n      if (key.required) {\n        _reportError(YamlException(\"Expected ':'.\", _scanner.emptySpan));\n        _tokens.insert(key.tokenNumber - _tokensParsed,\n            Token(TokenType.key, key.location.pointSpan() as FileSpan));"
+        },
+        {
+          "file": "lib/src/scanner.dart",
+          "startLine": 1635,
+          "endLine": 1643,
+          "fileSha256": "16572b4ea2bf110314e2ff58eab45f8e92ce7d35a16add292df0103c54015d73",
+          "excerpt": "  /// Reports a [YamlException] to [_errorListener] if [_recover] is true,\n  /// otherwise throws the exception.\n  void _reportError(YamlException exception) {\n    if (!_recover) {\n      throw exception;\n    }\n    _errorListener?.onError(exception);\n  }\n}"
+        }
+      ],
+      "queries": [
+        {
+          "id": "document-to-loader",
+          "expectedFlow": true,
+          "disposition": "loadYaml passes yaml to loadYamlNode, loadYamlDocument and Loader source slot one. All three binding transitions resolve the exact internal target and slot. Paths begin at a formal parameter and have empty caller stacks; they do not establish one selected external invocation or parser/evaluator correctness.",
+          "modes": {
+            "stock": {
+              "outcome": "flow-observed",
+              "passed": true,
+              "limitations": [],
+              "source": {
+                "file": "lib/yaml.dart",
+                "method": "loadYaml",
+                "kind": "parameter",
+                "name": "yaml"
+              },
+              "sink": {
+                "file": "lib/src/loader.dart",
+                "method": "<init>",
+                "owner": "Loader",
+                "kind": "parameter",
+                "name": "source"
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "pathIndices": [
+                0
+              ]
+            },
+            "modeled": {
+              "outcome": "flow-observed",
+              "passed": true,
+              "limitations": [],
+              "source": {
+                "file": "lib/yaml.dart",
+                "method": "loadYaml",
+                "kind": "parameter",
+                "name": "yaml"
+              },
+              "sink": {
+                "file": "lib/src/loader.dart",
+                "method": "<init>",
+                "owner": "Loader",
+                "kind": "parameter",
+                "name": "source"
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "pathIndices": [
+                0
+              ]
+            }
+          }
+        },
+        {
+          "id": "document-not-recovery-mode",
+          "expectedFlow": false,
+          "disposition": "Each wrapper forwards recover independently from yaml. The Loader recover formal is distinct from source. Same-source/same-budget document-to-loader returns the forwarding path without query limitations. Runtime controls distinguish scanner recovery from fatal parser errors; they do not prove general error recovery.",
+          "modes": {
+            "stock": {
+              "outcome": "no-flow-observed-within-limits",
+              "passed": true,
+              "limitations": [],
+              "source": {
+                "file": "lib/yaml.dart",
+                "method": "loadYaml",
+                "kind": "parameter",
+                "name": "yaml"
+              },
+              "sink": {
+                "file": "lib/src/loader.dart",
+                "method": "<init>",
+                "owner": "Loader",
+                "kind": "parameter",
+                "name": "recover"
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "positiveControl": "document-to-loader",
+              "positiveControlSatisfied": true,
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "pathIndices": []
+            },
+            "modeled": {
+              "outcome": "no-flow-observed-within-limits",
+              "passed": true,
+              "limitations": [],
+              "source": {
+                "file": "lib/yaml.dart",
+                "method": "loadYaml",
+                "kind": "parameter",
+                "name": "yaml"
+              },
+              "sink": {
+                "file": "lib/src/loader.dart",
+                "method": "<init>",
+                "owner": "Loader",
+                "kind": "parameter",
+                "name": "recover"
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "positiveControl": "document-to-loader",
+              "positiveControlSatisfied": true,
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "pathIndices": []
+            }
+          }
+        }
+      ],
+      "nodes": {
+        "111669150271": {
+          "label": "METHOD_PARAMETER_IN",
+          "method": "package:yaml/yaml.dart#1607:FUNCTION:loadYaml",
+          "code": "String yaml",
+          "line": 39,
+          "parameterIndex": 1
+        },
+        "68719481233": {
+          "label": "IDENTIFIER",
+          "method": "package:yaml/yaml.dart#1607:FUNCTION:loadYaml",
+          "code": "yaml",
+          "line": 41,
+          "argumentsOf": [
+            [
+              "30064776335",
+              1
+            ]
+          ]
+        },
+        "111669150275": {
+          "label": "METHOD_PARAMETER_IN",
+          "method": "package:yaml/yaml.dart#2162:FUNCTION:loadYamlNode",
+          "code": "String yaml",
+          "line": 52,
+          "parameterIndex": 1
+        },
+        "68719481237": {
+          "label": "IDENTIFIER",
+          "method": "package:yaml/yaml.dart#2162:FUNCTION:loadYamlNode",
+          "code": "yaml",
+          "line": 54,
+          "argumentsOf": [
+            [
+              "30064776337",
+              1
+            ]
+          ]
+        },
+        "111669150279": {
+          "label": "METHOD_PARAMETER_IN",
+          "method": "package:yaml/yaml.dart#2702:FUNCTION:loadYamlDocument",
+          "code": "String yaml",
+          "line": 65,
+          "parameterIndex": 1
+        },
+        "68719481243": {
+          "label": "IDENTIFIER",
+          "method": "package:yaml/yaml.dart#2702:FUNCTION:loadYamlDocument",
+          "code": "yaml",
+          "line": 67,
+          "argumentsOf": [
+            [
+              "30064776340",
+              1
+            ]
+          ]
+        },
+        "111669149801": {
+          "label": "METHOD_PARAMETER_IN",
+          "method": "package:yaml/src/loader.dart#1096:CONSTRUCTOR:new",
+          "code": "String source",
+          "line": 37,
+          "parameterIndex": 1
+        }
+      },
+      "calls": {
+        "30064776335": {
+          "nodeId": "30064776335",
+          "name": "loadYamlNode",
+          "target": "package:yaml/yaml.dart#2162:FUNCTION:loadYamlNode",
+          "code": "loadYamlNode(yaml,\n            sourceUrl: sourceUrl,\n            recover: recover,\n            errorListener: errorListener)",
+          "callees": [
+            {
+              "fullName": "package:yaml/yaml.dart#2162:FUNCTION:loadYamlNode",
+              "external": false
+            }
+          ]
+        },
+        "30064776337": {
+          "nodeId": "30064776337",
+          "name": "loadYamlDocument",
+          "target": "package:yaml/yaml.dart#2702:FUNCTION:loadYamlDocument",
+          "code": "loadYamlDocument(yaml,\n            sourceUrl: sourceUrl,\n            recover: recover,\n            errorListener: errorListener)",
+          "callees": [
+            {
+              "fullName": "package:yaml/yaml.dart#2702:FUNCTION:loadYamlDocument",
+              "external": false
+            }
+          ]
+        },
+        "30064776340": {
+          "nodeId": "30064776340",
+          "name": "<init>",
+          "target": "package:yaml/src/loader.dart#1096:CONSTRUCTOR:new",
+          "code": "Loader(yaml,\n      sourceUrl: sourceUrl, recover: recover, errorListener: errorListener)",
+          "callees": [
+            {
+              "fullName": "package:yaml/src/loader.dart#1096:CONSTRUCTOR:new",
+              "external": false
+            }
+          ]
+        }
+      },
+      "contexts": [
+        []
+      ],
+      "paths": [
+        {
+          "elements": [
+            [
+              "111669150271",
+              0,
+              true,
+              false,
+              "yaml",
+              []
+            ],
+            [
+              "68719481233",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "111669150275",
+              0,
+              true,
+              false,
+              "yaml",
+              []
+            ],
+            [
+              "68719481237",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "111669150279",
+              0,
+              true,
+              false,
+              "yaml",
+              []
+            ],
+            [
+              "68719481243",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "111669149801",
+              0,
+              true,
+              false,
+              "",
+              []
+            ]
+          ],
+          "transitions": [
+            "parameter-read",
+            "parameter-binding",
+            "parameter-read",
+            "parameter-binding",
+            "parameter-read",
+            "parameter-binding"
+          ]
+        }
+      ]
+    }
+  ]
+}

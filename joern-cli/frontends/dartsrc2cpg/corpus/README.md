@@ -148,7 +148,7 @@ refresh `alternative-witness-results.json`. The script rejects stale or mixed
 source fingerprints and reporting omissions. The separate
 [media-type review](media-type-alternative-review.json) classifies both returned
 capture alternatives. The [forwarding review](forwarding-alternative-review.json)
-classifies 18 distinct routes across seven selected path, async and parser queries,
+classifies 19 distinct routes across seven selected path, async and parser queries,
 including conservative detours and an endpoint identity. The summary verifies
 their exact nodes, caller contexts, flags, model/provenance and query limits before
 linking them. Other new paths remain pending review.
@@ -163,6 +163,32 @@ run at a smaller bound does not qualify that larger search.
 The same report retains a later two-witness, fifty-round worker interruption.
 The completed snapshot uses two witnesses and two rounds; it exposes remaining
 round, depth and field limits without qualifying the interrupted configurations.
+
+The separate [four-witness snapshot](four-witness-results.json) completes a
+four-witness/two-held-round audit on all twelve graphs. Stock matches 78/80
+expectations and models match 80/80, retaining 131/117 detailed paths. Package,
+application and holdout subprocesses stayed within separate ten-minute budgets,
+with explicit 8 GiB forked-worker heaps and four worker processors. These
+observations qualify this configuration; the historical interrupted searches
+remain inconclusive. The [holdout review](holdout-witness-review.json) covers
+all four Shelf/YAML queries; other additional paths remain pending review.
+
+To check the isolated reports and reproduce the summary:
+
+```sh
+python3 joern-cli/frontends/dartsrc2cpg/scripts/summarize_four_witnesses.py
+```
+
+It reads `agents/dart-witness-four/<category>/<name-version>/alternative-audit.json`
+and `agents/four-witness-resource-results.json`, comparing the ordinary and
+two-witness reports beside the saved graphs. Keep those baseline reports when
+running larger audits. The existing `DartWitnessAuditTests` accepts
+`DART_WITNESS_BOUND=4`, `DART_WITNESS_HELD_ITERATIONS=2` and each
+`DART_WITNESS_CATEGORY`; it writes beside the saved graphs, so stage its outputs
+in the isolated directory and restore the baseline before summarizing. The
+recorded run used an isolated temporary test driver to preserve baselines and
+compare both model modes. Resource observations include sbt startup, graph loading
+and queries; sampled process-family RSS does not establish peak memory.
 
 A focused regression also records the shared engine's field approximation:
 `Box(input).other` can be tainted even when `other` is constant, because the

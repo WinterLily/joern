@@ -1357,3 +1357,57 @@ automatic maximum heap was 8,162,115,584 bytes; the sbt parent's 6 GiB setting i
 separate. Resident-memory samples do not qualify peak memory. Larger searches,
 other route families, negative-search qualification and all remaining plan gates
 stay open.
+
+## Four-witness resource qualification and holdout transition review
+
+The [isolated four-witness results](four-witness-results.json) use the same twelve
+saved graphs and analysis fingerprint as the ordering qualification. Both model
+modes preserve every ordinary and two-witness endpoint outcome and source/sink
+count: stock matches 78/80 expectations, including its two known false positives;
+models match 80/80. There is no reporting truncation. Stock retains 120 visible/
+131 detailed paths; models retain 109/117. Query limitations affect 42/40 checks,
+with seven/eight inconclusive negative searches and five held-round limitations
+per mode. The full detailed sequences include 48/39 sequences absent from the
+two-witness snapshot, while six/five previous sequences are not retained. Different
+temporaries and contexts can change those comparisons; these counts do not count
+new independently feasible semantic routes.
+
+Each category ran in a separate subprocess with a ten-minute wall-clock budget,
+an explicit forked-worker maximum heap of 8 GiB and four worker processors. The
+package run completed in 396,421 ms, applications in 43,259 ms and holdouts in
+27,156 ms, including startup and graph loading. Once-per-second process-family
+RSS samples reached 5,965,540 / 5,213,700 / 2,279,068 KiB respectively. These are
+sampled resident sums, not measured peaks or one worker's heap. This successful
+four-witness/two-round configuration does not certify the historical unbounded
+four-witness or fifty-round interruptions. The missing timing executable and a
+temporary test-driver compilation error were setup failures corrected before
+these runs; neither was a semantic or resource outcome.
+
+The [holdout review](holdout-witness-review.json) preserves all nodes, resolved
+calls, field demands, visibility/output flags and empty caller stacks for the
+four initial Shelf/YAML queries in both modes. Six selected paths share three
+distinct routes with 19 classified transitions. Shelf projects `request.url`,
+saves it for interpolation and passes the resulting text to `Response.ok`.
+The two routes differ in a generated concatenation node. URI conversion remains
+an external return approximation. YAML passes source slot one through
+`loadYamlNode`, `loadYamlDocument` and `Loader`; each binding has an exact internal
+target and formal slot. This is source forwarding, not parser correctness.
+
+The status/recovery isolation queries have distinct endpoints, positive controls
+with identical sources and budgets, and no recorded query limitation. Shelf's
+status is the redirecting constructor's constant 200; YAML forwards `recover`
+independently from document text. The native oracle executes the actual pinned
+Shelf handler and YAML APIs on three independent inputs, both recovery flags,
+two recoverable missing-colon errors and one fatal parser error. An initial
+assumption that recovery accepted incomplete flow sequences failed against the
+actual library; the corrected oracle retains that fatal boundary.
+
+Validation passes all 106 native tests with runtime, Flutter, corpus and holdout
+flags enabled, final-file analysis and formatting, independently checked unchanged
+403-file/all-twelve-graph provenance, byte-identical summary regeneration and
+thirteen verifier mutations for stale sources/oracles, altered demands/calls/flags,
+missing classifications/queries, reporting omissions and unfinished resource runs.
+The verifier reconstructs detailed paths before linking the holdout review.
+Other new route families, the eight modeled inconclusive negative searches and
+the remaining plan gates stay open. No server callback delivery or full parser
+pipeline qualification follows from these observations.
