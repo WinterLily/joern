@@ -39,8 +39,9 @@ class DartSrc2Cpg extends X2CpgFrontend {
         Some(config.ignoredFiles)
       )
     }
-    var virtualDispatch: Value = ujson.Obj()
-    val cpg                    = X2Cpg
+    var virtualDispatch: Value  = ujson.Obj()
+    var defaultArguments: Value = ujson.Obj()
+    val cpg                     = X2Cpg
       .withNewEmptyCpg(config.outputPath, config) { (cpg, _) =>
         new MetaDataPass(cpg, DartLanguage.Name, root.toString).createAndApply()
         new AstCreationPass(cpg, units, config).createAndApply()
@@ -49,6 +50,9 @@ class DartSrc2Cpg extends X2CpgFrontend {
         val virtualCalls = new VirtualCallPass(cpg, units)
         virtualCalls.createAndApply()
         virtualDispatch = virtualCalls.report
+        val defaults = new DefaultArgumentPass(cpg, units)
+        defaults.createAndApply()
+        defaultArguments = defaults.report
         TypeNodePass.withTypesFromCpg(cpg).createAndApply()
       }
       .get
@@ -70,6 +74,7 @@ class DartSrc2Cpg extends X2CpgFrontend {
           ) && n.obj.get("target").forall(_ == ujson.Null)
         ),
         "virtualDispatch"      -> virtualDispatch,
+        "defaultArguments"     -> defaultArguments,
         "elapsedMillis"        -> ((System.nanoTime() - started) / 1000000),
         "exporterPeakRssBytes" -> records.last.obj.getOrElse("peakRssBytes", ujson.Null)
       )

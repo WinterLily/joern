@@ -259,9 +259,29 @@ class DartCorpusTests extends AnyWordSpec with Matchers {
           withClue(errors.take(30).mkString("\n")) { errors shouldBe empty }
           val failedFlows = flows.arr.filterNot(_("passed").bool).map(_("id").str)
           withClue(s"Dataflow failures in $name: ") { failedFlows shouldBe empty }
+          val coverage = ujson.read(Files.readString(root.resolve("coverage.json")))
+          val adapters = reloaded.method.annotation.fullNameExact("dart.defaultArguments").inAst.isMethod.toList
+          adapters.size shouldBe coverage("defaultArguments")("targetAdapters").num.toInt
+          adapters.foreach { adapter =>
+            val delegate = adapter.call.toList
+            delegate.size shouldBe 1
+            withClue(adapter.fullName) {
+              delegate.head.callee.fullName.toSet shouldBe Set(delegate.head.methodFullName)
+            }
+            delegate.head.argument.foreach { argument =>
+              val parameter = delegate.head.callee.parameter.index(argument.argumentIndex).head
+              val opaque    =
+                parameter.method.isExternal && parameter.name == s"p${parameter.index}" && parameter.code == parameter.name
+              if (!opaque) argument.argumentName.foreach(name => parameter.name shouldBe name)
+            }
+          }
+          adapters.count(_.call.callee.exists(_.isExternal)) shouldBe coverage("defaultArguments")(
+            "externalTargetAdapters"
+          ).num.toInt
           val expected = baseline.find(_("project").str == name).get
           expected.obj.foreach { case (key, value) =>
-            withClue(s"$name: $key: ") { report(key) shouldBe value }
+            val adjusted = if (Set("methods", "calls")(key)) ujson.Num(value.num + adapters.size) else value
+            withClue(s"$name: $key (including ${adapters.size} default adapters): ") { report(key) shouldBe adjusted }
           }
         } finally reloaded.close()
       }

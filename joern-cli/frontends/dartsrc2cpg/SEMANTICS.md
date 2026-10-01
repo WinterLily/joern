@@ -1,5 +1,12 @@
 # Dart graph conventions
 
+The frontend uses Joern's `X2CpgFrontend`, `CpgPass`, `Ast`, standard node/edge
+schema and shared overlays. Named binding uses `argumentName`, also used by the
+Kotlin and Python frontends. Generated callable bodies use ordinary methods and
+capture/REF edges, following the same representation conventions as Java lambda
+methods. Dart-specific passes handle analyzer facts and Dart lowering rules;
+shared binding/linking exceptions require a `DART` graph and boundary regressions.
+
 ## Names, libraries and types
 
 The analyzer's declaration IDs are authoritative, including library-private names
@@ -41,6 +48,18 @@ RECEIVER edge. Static calls and factories have no receiver. Arguments retain
 source evaluation order in `order`, parameter binding in `argumentIndex`, and
 named bindings in `argumentName`. Omitted optional arguments follow explicit
 arguments as constant literals, using exported default source or `null`.
+When resolved implementations have different defaults or additional optional
+parameters, `DefaultArgumentPass` replaces declaration defaults with per-target
+`<defaultArguments>` methods. Each method forwards explicitly supplied values
+and supplies that target's defaults by name or positional slot. Explicit values
+are evaluated in the caller; a bound tear-off reuses its captured receiver.
+The original declarations, call identity and dispatch kind are retained. Adapter
+calls select an already resolved target statically. These extra methods consume
+call depth; the `defaultArguments` report exposes adapted calls, target adapters
+and adapters delegating to external placeholders. External `pN` parameter stubs
+retain positional slots; their bodies and named signature metadata are unqualified.
+Defaults retain exported constant source; this does not model arbitrary constant
+object state or establish runtime receiver contexts.
 
 Generative creation is a block that saves an allocation in a local, initializes
 that receiver, and yields the same local. Generative constructors, including
@@ -66,7 +85,7 @@ values with a known initializer link to that target, including stable copies and
 explicit generic instantiation through those copies. Targets come from the actual
 initializer value; a reference nested in a call argument or conditional branch
 does not identify that value. Named binding and omitted defaults use the known
-declaration's parameters. Mutable, conditional and returned function values and
+declaration's parameters, with the same per-target default adaptation for known bound calls. Mutable, conditional and returned function values and
 higher-order callback targets remain dynamic; this frontend does not
 perform a whole-program function-value points-to analysis.
 
@@ -243,15 +262,19 @@ input-to-return dependency that the current dataflow engine does not recover.
 The `virtualDispatch` report records resolved calls, calls without observed
 targets, external targets and unmodeled implicit accessors. The target union does
 not establish runtime receiver points-to, type-check feasibility or unscanned
-implementations. Differing override defaults and named-parameter output bindings
-remain unqualified.
+implementations. Reordered named inputs and output parameters have bounded
+execution and receiver-isolation regressions, including implementations with
+additional optional parameters. Dart output binding uses names; unavailable
+external stubs with generic `pN` parameters retain positional fallback. Other
+languages retain their existing binding. Unknown callable targets and external
+bodies remain unqualified.
 Mixin superclass operations additionally link implementations preceding the mixin
 in observed applications, including superclass overrides and earlier mixins.
 Lookup respects private library identities. A Dart-specific call pass adds these
 edges before shared overlays. The graph retains one mixin body and unions targets
 across applications, alongside its resolved constraint target. It does not select
 an application-specific body for each caller. Unscanned applications, external
-implementation bodies and differing named-parameter orders remain unqualified.
+implementation bodies and application-specific receiver contexts remain unqualified.
 Calls without a resolved target retain `<unresolved>.name`; the
 frontend does not invent targets for arbitrary dynamic dispatch. External method
 stubs come from the Dart pass or Joern's overlays. Their bodies and library-specific

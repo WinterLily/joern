@@ -847,3 +847,53 @@ passed to the setter, but the shared engine does not recover that dependency
 across static storage. Owner: interprocedural heap analysis; this is an open false
 negative, not a completed value-flow contract. No broader frontend/runtime
 completion or majority-correctness claim follows from this increment.
+
+## Named override arguments and target defaults
+
+The reduced `override_arguments.dart` case exposed three distinct failures:
+ordinary bound wrappers dropped named argument identities, output-parameter
+binding used declaration positions after an override reordered names, and omitted
+arguments carried defaults from the interface instead of each implementation.
+An override's additional optional parameter was also absent from its invocation.
+The independent SDK oracle exercises direct, bound and mixin defaults, explicit
+literals equal to declaration defaults, bounded input/ignored values and writes
+to independent cells. Graph checks distinguish returned extra defaults from
+unused defaults and preserve the positive writer/negative unrelated receiver
+pair, including a void delegate with an additional optional parameter.
+
+Bound wrappers now forward names. Dart-only output binding selects names and
+falls back to position only for opaque external `pN` slots. A Dart-owned pass
+adds one ordinary adapter method per selected implementation where default
+binding differs. Explicit arguments remain evaluated by the caller; each adapter
+forwards values and supplies its own target's defaults. A Dart-only static-linker
+guard preserves those selected adapter targets. Boundary regressions exercise
+C, Java, JavaScript and Kotlin as well as marked/unmarked Dart calls; their
+existing linking and output binding remain unchanged.
+
+Corpus baselines retain the graph before default adapters. The harness checks
+adapter counts, delegate target identities and named source bindings, then permits
+exactly one added method and call per adapter. Opaque external slots remain
+visible in `externalTargetAdapters`; they do not receive a source-name binding
+qualification. See `default-argument-count-review.json` for the refreshed counts.
+These structural checks and the bounded oracle do not establish runtime receiver
+contexts, all callable/default interactions, arbitrary constant object state or
+unavailable external signatures/bodies. Adapters also consume call depth. The
+static-storage false negative DART-FLOW-006 remains open.
+
+Validation passed clean Dart analysis, all 98 native tests with runtime/Flutter
+enabled, the updated inventory check, all 153 frontend/package tests, all three
+applications, both holdouts, staged packaging, four CLI tests, fourteen console
+tests, shared formatting and 29 shared access-path tests. All twelve refreshed
+reports and the independently checked current source tree share fingerprint
+`ddf35474712ce8ae07f1e8edc1c5430e85919c69cf9af34e9911f685a4b9284f`
+(389 files), with unchanged exporter 0.3.19. Original endpoints remain 74/76 stock
+and 76/76 modeled; all four holdout expectations match. Five modeled negatives
+remain inconclusive, and historical witness snapshots do not certify new paths.
+
+The representation adds 50,929 adapter methods across these twelve graphs,
+including 6,006 delegating to external placeholders. Large hierarchy unions,
+especially in Flutter applications, multiply adapters per invocation; this cost
+is visible in the reports and needs further resource qualification. These counts
+are generated representation nodes, not newly implemented source methods or
+proofs of feasible runtime targets. No majority-correctness or frontend completion
+claim follows from this iteration.

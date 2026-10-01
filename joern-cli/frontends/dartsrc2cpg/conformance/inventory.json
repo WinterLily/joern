@@ -180,12 +180,12 @@
     },
     "dispatch": {
       "exporter": "analyzer member identities, abstract/external flags, library-aware hierarchy implementations and SuperExpression static type",
-      "lowering": "DartFrontendTests: static super/extension calls and tear-offs; dynamic virtual calls with Dart-owned target linking; implicit field accessor bodies; constructor storage stays direct",
-      "resolution": "covariant and renamed generic overrides, receiver static-type filtering, private library lookup and source implicit accessors; mixin super target union; unscanned implementations, runtime points-to and differing named/default arguments unqualified",
+      "lowering": "DartFrontendTests: static super/extension calls and tear-offs; dynamic virtual calls with Dart-owned target linking; implicit field accessor bodies; constructor storage stays direct; DefaultArgumentPass per-target default adapters",
+      "resolution": "covariant and renamed generic overrides, receiver static-type filtering, private library lookup and source implicit accessors; mixin super target union; unscanned implementations, runtime points-to unqualified",
       "cfg": "same this receiver with superclass static view; existing exactly-once bound receiver evaluation",
-      "valueFlow": "first/ignored operand isolation across virtual/interface/super/extension calls and bound tear-offs; ordinary and overridden field getter returns; static lazy field increment reads/writes",
-      "negative": "super excludes later overrides; unrelated siblings and cross-library private methods excluded; abstract source declarations are not executable targets; explicit setters are not duplicated",
-      "interaction": "astgen/test/virtual_overrides_test.dart, override_privacy_test.dart and implicit_accessors_test.dart: bounded implementation traces, covariant runtime rejection, final fields with explicit setters, super storage and lazy increments; prior static_dispatch_test.dart and mixin_super_test.dart remain"
+      "valueFlow": "first/ignored operand isolation across virtual/interface/super/extension calls and bound tear-offs; ordinary and overridden field getter returns; static lazy field increment reads/writes; reordered named input/output binding and per-target omitted defaults",
+      "negative": "super excludes later overrides; unrelated siblings and cross-library private methods excluded; abstract source declarations are not executable targets; explicit setters are not duplicated; unused extra defaults, explicit literals equal to declaration defaults and independent output receivers",
+      "interaction": "astgen/test/virtual_overrides_test.dart, override_privacy_test.dart and implicit_accessors_test.dart: bounded implementation traces, covariant runtime rejection, final fields with explicit setters, super storage and lazy increments; prior static_dispatch_test.dart and mixin_super_test.dart remain; astgen/test/override_arguments_test.dart: direct/bound/mixin defaults and named writer overrides"
     }
   },
   "constructs": [
@@ -1027,7 +1027,7 @@
       "exporterCase": "MixinDeclaration",
       "contract": "dispatch",
       "qualification": "conservative",
-      "reason": "Selected superclass/extension and analyzer hierarchy targets tested, including covariant/generic overrides and source implicit accessors; runtime receiver contexts, named/default override compatibility and heap qualification remain open."
+      "reason": "Selected superclass/extension and analyzer hierarchy targets tested, including covariant/generic overrides and source implicit accessors; runtime receiver contexts, general callable binding and heap qualification remain open."
     },
     {
       "construct": "MixinOnClause",
@@ -1395,7 +1395,7 @@
       "exporterCase": "SuperExpression",
       "contract": "dispatch",
       "qualification": "conservative",
-      "reason": "Selected superclass/extension and analyzer hierarchy targets tested, including covariant/generic overrides and source implicit accessors; runtime receiver contexts, named/default override compatibility and heap qualification remain open."
+      "reason": "Selected superclass/extension and analyzer hierarchy targets tested, including covariant/generic overrides and source implicit accessors; runtime receiver contexts, general callable binding and heap qualification remain open."
     },
     {
       "construct": "SuperFormalParameter",

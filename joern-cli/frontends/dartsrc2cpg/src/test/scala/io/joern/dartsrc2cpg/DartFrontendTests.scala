@@ -77,6 +77,70 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
   }
 
   "Dart frontend" should {
+    "supply defaults from each implementation through direct, bound and mixin calls" in {
+      fixture(
+        Files.readString(frontend.resolve("src/test/resources/semantics/override_arguments.dart")),
+        "void main() {}"
+      ) { (cpg, _) =>
+        for (name <- Seq("omitted", "boundOmitted", "mixed")) {
+          val caller     = cpg.method.nameExact(name).head
+          val invocation = caller.call.filter(call => Set("pick", "callback").contains(call.name)).head
+          val expected   =
+            if (name == "mixed") Set("'base'", "'prefix'")
+            else Set("'ordered'", "'extra first'", "'extra result unused'")
+          val adapters = invocation.callee.toList
+          adapters.map(_.name).toSet shouldBe Set("<defaultArguments>")
+          adapters
+            .flatMap(_.call.nameExact("pick").argument.argumentNameExact("first").isLiteral.code)
+            .toSet shouldBe expected
+          invocation.argument.isLiteral.size shouldBe 0
+          if (name != "mixed") {
+            caller.ast.isReturn
+              .reachableByFlows(adapters.iterator.flatMap(_.ast.isLiteral.codeExact("'additional result'")))
+              .nonEmpty shouldBe true
+            caller.ast.isReturn
+              .reachableByFlows(adapters.iterator.flatMap(_.ast.isLiteral.codeExact("'extra result unused'")))
+              .nonEmpty shouldBe false
+          }
+          adapters.foreach { adapter =>
+            adapter.call.nameExact("pick").dispatchType.toSet shouldBe Set(
+              io.shiftleft.codepropertygraph.generated.DispatchTypes.STATIC_DISPATCH
+            )
+          }
+        }
+      }
+    }
+    "preserve explicitly supplied literals that equal a declaration default" in {
+      fixture(
+        Files.readString(frontend.resolve("src/test/resources/semantics/override_arguments.dart")),
+        "void main() {}"
+      ) { (cpg, _) =>
+        val caller = cpg.method.nameExact("literalSupplied").head
+        caller.ast.isReturn.reachableByFlows(caller.ast.isLiteral.codeExact("'abstract'")).nonEmpty shouldBe true
+      }
+    }
+    "bind reordered override arguments and preserve independent output receivers" in {
+      fixture(
+        Files.readString(frontend.resolve("src/test/resources/semantics/override_arguments.dart")),
+        "void main() {}"
+      ) { (cpg, _) =>
+        for (name <- Seq("explicit", "bound")) {
+          val method = cpg.method.nameExact(name).head
+          for (source <- Seq("input", "ignored")) {
+            withClue(s"$name $source") {
+              method.ast.isReturn.reachableByFlows(method.parameter.nameExact(source)).nonEmpty shouldBe
+                (source == "input")
+            }
+          }
+        }
+        for ((name, expected) <- Seq("written" -> true, "unrelated" -> false)) {
+          val method = cpg.method.nameExact(name).head
+          withClue(name) {
+            method.ast.isReturn.reachableByFlows(method.parameter.nameExact("input")).nonEmpty shouldBe expected
+          }
+        }
+      }
+    }
     "retain implicit field accessor bodies and override their virtual accesses" in {
       fixture(
         Files.readString(frontend.resolve("src/test/resources/semantics/implicit_accessors.dart")),

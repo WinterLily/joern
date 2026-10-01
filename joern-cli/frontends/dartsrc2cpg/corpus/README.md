@@ -146,3 +146,10 @@ the added allocation/result assignments, the seven corpus tests were rerun and
 passed. Staging, Scala formatting and lint checks passed; the staged SDK summary
 matches the source file. All seven library source hashes still match the pinned
 manifest. Scratch graphs and detailed logs are excluded from version control.
+
+Graph baselines retain counts before per-target default-argument adapters. The
+corpus test checks the reported adapter count against generated methods, checks
+one correctly bound delegate per adapter, then adds exactly one method and one
+call per adapter to the method/call baseline. Counts for the remaining graph
+remain unchanged. Compact reports expose these additions separately; adapter
+counts are representation evidence, not a runtime correctness denominator.

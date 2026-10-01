@@ -63,13 +63,12 @@ now retain static targets; extension tear-offs/setters and static member shadows
 have operand-isolation and bounded execution controls. Ordinary virtual calls
 retain analyzer-selected hierarchy implementations, including covariant/generic
 overrides and source implicit field accessor bodies. Private library identity and
-receiver static-type filtering have isolation regressions. Runtime receiver
-contexts, differing override defaults and named-parameter output binding remain
-open. Runtime type environments and bound checks remain
+receiver static-type filtering have isolation regressions. Differing override defaults, extra optional parameters and reordered named
+input/output bindings now have per-target adapters, bounded SDK oracles and
+independent receiver regressions. Runtime receiver contexts remain open. Runtime type environments and bound checks remain
 open. Mixin superclass operations now include preceding implementations from
 observed applications, with private lookup, cross-file and bound-operation
-regressions. Application-specific contexts and differing named-parameter orders remain
-open. Broader dispatch and
+regressions. Application-specific contexts remain open; default adaptation preserves each selected target's named slots. Broader dispatch and
 type-model qualification remain open. This is
 not complete language or runtime analysis support.
 Shared support is restricted to `DART` graphs; existing-language CFG/dataflow
@@ -105,7 +104,8 @@ as complete Dart dataflow coverage.
 
 The corpus contains seven library releases and three application/compiler
 checkouts: 1,322 Dart files and 76,200 internal methods in the selected source
-roots (including generated initialization and implicit field accessors). The application scopes are documented in [applications/README.md](corpus/applications/README.md).
+roots (including generated initialization and implicit field accessors, before per-target
+default-argument adapters). The application scopes are documented in [applications/README.md](corpus/applications/README.md).
 Dependencies are resolved but their bodies are generally outside each graph.
 
 The original committed queries check 67 selected relationships: 46 expected flows and 21

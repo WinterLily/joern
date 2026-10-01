@@ -46,6 +46,7 @@ def main():
             project=name, analysisSources=audit["analysisSources"], source=audit["source"], exporter=audit["coverage"]["exporter"], overlay=overlay,
             stringConversionOrder=audit["coverage"]["stringConversionOrder"],
             virtualDispatch=audit["coverage"]["virtualDispatch"],
+            defaultArguments=audit["coverage"]["defaultArguments"],
             modelFiles=audit["modelFiles"], reachingDefEdges=audit["reachingDefEdges"],
             maxCallDepth=audit["maxCallDepth"], maxFieldDepth=audit["maxFieldDepth"],
             pathSelection="longest-per-endpoint-pair", checks=checks,

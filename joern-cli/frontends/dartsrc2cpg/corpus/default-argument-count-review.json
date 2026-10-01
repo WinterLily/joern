@@ -1,0 +1,186 @@
+{
+  "scope": "Twelve pinned corpora; graph representation counts, not runtime precision/recall",
+  "analysisSources": {
+    "algorithm": "sha256-path-nul-content-nul",
+    "sha256": "ddf35474712ce8ae07f1e8edc1c5430e85919c69cf9af34e9911f685a4b9284f",
+    "files": 389,
+    "roots": [
+      "joern-cli/frontends/dartsrc2cpg/src",
+      "joern-cli/frontends/dartsrc2cpg/astgen/lib",
+      "joern-cli/frontends/dartsrc2cpg/astgen/bin",
+      "joern-cli/frontends/x2cpg/src/main",
+      "dataflowengineoss/src/main",
+      "semanticcpg/src/main",
+      "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.lock",
+      "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.yaml",
+      "joern-cli/frontends/dartsrc2cpg/build.sbt",
+      "joern-cli/frontends/x2cpg/build.sbt",
+      "joern-cli/build.sbt",
+      "dataflowengineoss/build.sbt",
+      "semanticcpg/build.sbt",
+      "build.sbt",
+      "project/Versions.scala",
+      "project/Projects.scala"
+    ]
+  },
+  "qualification": "DartCorpusTests: one delegate per annotated adapter, exact resolved target identity and source named slot binding; external generic pN slots remain opaque. override_arguments_test.dart independently executes direct, bound and mixin defaults, explicit values and independent writer receivers.",
+  "baselineMeaning": "Graph baselines before default adapters; each adapter adds one method and one call. All remaining method/call counts must stay at their previous baseline.",
+  "projects": [
+    {
+      "project": "path-1.9.1",
+      "category": "packages",
+      "baselineMethods": 236,
+      "baselineCalls": 2026,
+      "defaultArguments": {
+        "adaptedCalls": 0,
+        "targetAdapters": 0,
+        "externalTargetAdapters": 0
+      },
+      "methods": 236,
+      "calls": 2026
+    },
+    {
+      "project": "collection-1.19.1",
+      "category": "packages",
+      "baselineMethods": 760,
+      "baselineCalls": 4610,
+      "defaultArguments": {
+        "adaptedCalls": 0,
+        "targetAdapters": 0,
+        "externalTargetAdapters": 0
+      },
+      "methods": 760,
+      "calls": 4610
+    },
+    {
+      "project": "meta-1.17.0",
+      "category": "packages",
+      "baselineMethods": 42,
+      "baselineCalls": 327,
+      "defaultArguments": {
+        "adaptedCalls": 0,
+        "targetAdapters": 0,
+        "externalTargetAdapters": 0
+      },
+      "methods": 42,
+      "calls": 327
+    },
+    {
+      "project": "args-2.7.0",
+      "category": "packages",
+      "baselineMethods": 219,
+      "baselineCalls": 2292,
+      "defaultArguments": {
+        "adaptedCalls": 0,
+        "targetAdapters": 0,
+        "externalTargetAdapters": 0
+      },
+      "methods": 219,
+      "calls": 2292
+    },
+    {
+      "project": "async-2.13.0",
+      "category": "packages",
+      "baselineMethods": 700,
+      "baselineCalls": 3420,
+      "defaultArguments": {
+        "adaptedCalls": 0,
+        "targetAdapters": 0,
+        "externalTargetAdapters": 0
+      },
+      "methods": 700,
+      "calls": 3420
+    },
+    {
+      "project": "http_parser-4.1.2",
+      "category": "packages",
+      "baselineMethods": 91,
+      "baselineCalls": 1135,
+      "defaultArguments": {
+        "adaptedCalls": 0,
+        "targetAdapters": 0,
+        "externalTargetAdapters": 0
+      },
+      "methods": 91,
+      "calls": 1135
+    },
+    {
+      "project": "analyzer-8.4.1",
+      "category": "packages",
+      "baselineMethods": 28397,
+      "baselineCalls": 225702,
+      "defaultArguments": {
+        "adaptedCalls": 182,
+        "targetAdapters": 2006,
+        "externalTargetAdapters": 0
+      },
+      "methods": 30403,
+      "calls": 227708
+    },
+    {
+      "project": "localsend-1.17.0",
+      "category": "applications",
+      "baselineMethods": 28611,
+      "baselineCalls": 103474,
+      "defaultArguments": {
+        "adaptedCalls": 967,
+        "targetAdapters": 39647,
+        "externalTargetAdapters": 4835
+      },
+      "methods": 68258,
+      "calls": 143121
+    },
+    {
+      "project": "saber-0.26.0",
+      "category": "applications",
+      "baselineMethods": 9935,
+      "baselineCalls": 53385,
+      "defaultArguments": {
+        "adaptedCalls": 258,
+        "targetAdapters": 5344,
+        "externalTargetAdapters": 1016
+      },
+      "methods": 15279,
+      "calls": 58729
+    },
+    {
+      "project": "dart-sass-1.89.2",
+      "category": "applications",
+      "baselineMethods": 7209,
+      "baselineCalls": 85621,
+      "defaultArguments": {
+        "adaptedCalls": 58,
+        "targetAdapters": 3904,
+        "externalTargetAdapters": 150
+      },
+      "methods": 11113,
+      "calls": 89525
+    },
+    {
+      "project": "shelf-1.4.2",
+      "category": "holdout",
+      "baselineMethods": 214,
+      "baselineCalls": 1682,
+      "defaultArguments": {
+        "adaptedCalls": 0,
+        "targetAdapters": 0,
+        "externalTargetAdapters": 0
+      },
+      "methods": 214,
+      "calls": 1682
+    },
+    {
+      "project": "yaml-3.1.3",
+      "category": "holdout",
+      "baselineMethods": 383,
+      "baselineCalls": 5318,
+      "defaultArguments": {
+        "adaptedCalls": 1,
+        "targetAdapters": 28,
+        "externalTargetAdapters": 5
+      },
+      "methods": 411,
+      "calls": 5346
+    }
+  ]
+}

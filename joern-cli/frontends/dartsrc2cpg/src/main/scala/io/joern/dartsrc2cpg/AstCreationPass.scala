@@ -299,6 +299,11 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
           if (bool(paramNode, "named")) ast.root.collect { case entryNode: ExpressionNew =>
             entryNode.argumentName = Some(string(paramNode, "name"))
           }
+          ast.root.foreach { root =>
+            val tag = NewTag().name(DefaultArgumentPass.DefaultTag).value(id)
+            diffGraph.addNode(tag)
+            diffGraph.addEdge(root, tag, io.shiftleft.codepropertygraph.generated.EdgeTypes.TAGGED_BY)
+          }
           (ast, i + 1)
       }
       val out = located(
@@ -378,8 +383,9 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
       }
       val base    = NewIdentifier().name("this").code("this").typeFullName(local.typeFullName)
       val baseAst = Ast(base).withRefEdge(base, local)
-      val values  = parameters.map { paramNode =>
+      val values  = parameters.zip(strings(target, "parameters")).map { case (paramNode, symbolId) =>
         val value = NewIdentifier().name(paramNode.name).code(paramNode.name).typeFullName(paramNode.typeFullName)
+        if (bool(sym(symbolId), "named")) value.argumentName(Some(paramNode.name))
         Ast(value).withRefEdge(value, paramNode)
       }
       val callNode = located(

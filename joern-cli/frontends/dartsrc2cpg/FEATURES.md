@@ -47,8 +47,11 @@ feasibility remain unqualified. Type literals are TYPE_REFs.
 targets. Static tear-offs cannot select subclass static shadows. Ordinary virtual
 calls use analyzer hierarchy implementations, including tested covariant/generic
 overrides and source implicit accessors. Private lookup respects library identity,
-and receiver static types exclude unrelated siblings. Runtime receiver contexts,
-differing named/default arguments and general heap effects remain unqualified.
+and receiver static types exclude unrelated siblings. Per-target default adapters
+cover differing named defaults and additional optional parameters in direct,
+bound and mixin calls. Reordered named input/output binding has independent
+receiver controls. Runtime receiver contexts, unknown callable targets, external
+signature/body metadata and general heap effects remain unqualified.
 Named switch labels and continue-to-case retain their
 CFG targets, including jumps past a target pattern guard. Null-aware collection
 elements and map keys/values have explicit guards and evaluation-order tests.

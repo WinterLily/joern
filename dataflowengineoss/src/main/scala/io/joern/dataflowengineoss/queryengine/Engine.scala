@@ -295,9 +295,15 @@ object Engine {
   }
 
   def argToOutputParams(arg: Expression): Iterator[MethodParameterOut] = {
-    argToMethods(arg).parameter
-      .index(arg.argumentIndex)
-      .asOutput
+    val methods = argToMethods(arg)
+    if (io.joern.dataflowengineoss.isDart(arg) && arg.argumentName.nonEmpty)
+      methods.iterator.flatMap { method =>
+        val named = method.parameter.nameExact(arg.argumentName.get).asOutput.toList
+        if (named.nonEmpty || !method.isExternal) named.iterator
+        else
+          method.parameter.index(arg.argumentIndex).filter(p => p.name == s"p${p.index}" && p.code == p.name).asOutput
+      }
+    else methods.parameter.index(arg.argumentIndex).asOutput
   }
 
   def argToMethods(arg: Expression): List[Method] = {
