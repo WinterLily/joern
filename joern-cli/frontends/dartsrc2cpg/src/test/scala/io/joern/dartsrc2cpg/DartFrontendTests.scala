@@ -3,7 +3,7 @@ package io.joern.dartsrc2cpg
 import io.joern.dataflowengineoss.language.*
 import io.joern.dataflowengineoss.DefaultSemantics
 import io.joern.dataflowengineoss.semanticsloader.FullNameSemanticsParser
-import io.joern.dataflowengineoss.queryengine.EngineContext
+import io.joern.dataflowengineoss.queryengine.{EngineConfig, EngineContext, QueryDiagnostics}
 import io.joern.dataflowengineoss.layers.dataflows.{OssDataFlow, OssDataFlowOptions}
 import io.joern.x2cpg.{ValidationMode, X2Cpg}
 import io.shiftleft.codepropertygraph.generated.{Cpg, Operators}
@@ -1925,7 +1925,8 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         cpg.unknown.size shouldBe 0
         cpg.call.nameExact("source").size shouldBe 1
         cpg.call.nameExact("<operator>.record").size shouldBe 3
-        cpg.controlStructure.controlStructureTypeExact("IF").size shouldBe 6
+        cpg.controlStructure.controlStructureTypeExact("IF").size shouldBe 12
+        cpg.call.nameExact("<operator>.isInitialized").size shouldBe 6
         cpg.local.nameExact("value", "count", "left", "right", "text", "selected").size should be >= 7
         cpg.identifier.nameExact("text").refsTo.name.toSet shouldBe Set("text")
         cpg.call.nameExact("<operator>.fieldAccess").argument(2).code.toSet should contain allOf ("$1", "count")
@@ -2028,7 +2029,8 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         cpg.call.nameExact("source").size shouldBe 1
         cpg.call.nameExact("<operator>.spread").size shouldBe 2
         cpg.controlStructure.controlStructureTypeExact("FOR", "WHILE").size shouldBe 2
-        cpg.controlStructure.controlStructureTypeExact("IF").size shouldBe 3
+        cpg.controlStructure.controlStructureTypeExact("IF").size shouldBe 5
+        cpg.call.nameExact("<operator>.isInitialized").size shouldBe 2
       }
     }
     "mark async functions, await, yields and stream iteration" in {
@@ -2062,6 +2064,55 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
           }
         """
         ) { (cpg, _) => assertFlow(cpg, expected) }
+      }
+    }
+    "share lazy pattern getter storage across cases and separate nested paths" in {
+      fixture(Files.readString(frontend.resolve("src/test/resources/semantics/pattern_cache.dart")), "void main() {}") {
+        (cpg, _) =>
+          for (
+            (name, slots) <- Seq(
+              "cases"      -> 1,
+              "guarded"    -> 1,
+              "statements" -> 1,
+              "nested"     -> 2,
+              "wildcard"   -> 1,
+              "logical"    -> 1,
+              "separate"   -> 2
+            )
+          ) {
+            val method  = cpg.method.nameExact(name).head
+            val getters = method.call.nameExact("item").l
+            val storage = getters.flatMap { getter =>
+              getter.astParent
+                .asInstanceOf[io.shiftleft.codepropertygraph.generated.nodes.Call]
+                .argument(1)
+                .start
+                .isIdentifier
+                .refsTo
+                .id
+                .l
+            }.toSet
+            withClue(name) {
+              storage.size shouldBe slots
+              val guarded = method.call.nameExact("<operator>.isInitialized").argument.isIdentifier.refsTo.id.toSet
+              storage.subsetOf(guarded) shouldBe true
+            }
+          }
+        val results = Seq("direct", "wrapped", "nestedDirect", "selected", "independent").map { name =>
+          val diagnostics                     = new QueryDiagnostics
+          implicit val context: EngineContext =
+            EngineContext(config = EngineConfig(diagnostics = Some(diagnostics)))
+          val method = cpg.method.nameExact(name).head
+          val flow   = method.ast.isReturn.reachableByFlows(method.parameter.nameExact("input")).nonEmpty
+          (name, flow, diagnostics.limitations)
+        }
+        results shouldBe Seq(
+          ("direct", true, Set.empty),
+          ("wrapped", true, Set.empty),
+          ("nestedDirect", true, Set.empty),
+          ("selected", true, Set.empty),
+          ("independent", false, Set.empty)
+        )
       }
     }
     "resolve pattern comparison operators with the correct receiver" in {

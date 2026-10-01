@@ -132,6 +132,15 @@
       "valueFlow": "receiver/argument binding to internal operators",
       "negative": "independent operand isolation and null literals without user dispatch",
       "interaction": "astgen/test/pattern_operators_test.dart: bounded null/value matrix and dispatch traces; invocation caching remains open"
+    },
+    "pattern-fields": {
+      "exporter": "analyzer field/getter identities and structural pattern fields",
+      "lowering": "DartFrontendTests: lazy shared field storage per matching construct",
+      "resolution": "ordinary object/record member names with distinct parent extraction paths; generic extension caching remains open",
+      "cfg": "DartFrontendTests: initialization guards; pattern_cache_test.dart: failed cases/guards, logical patterns and separate matches",
+      "valueFlow": "existing record projection and object getter regressions",
+      "negative": "separate nested receivers and matching constructs; null input bypasses getter execution",
+      "interaction": "astgen/test/pattern_cache_test.dart: stateful getters and object wildcard side effects; comparison/collection cache keys remain open"
     }
   },
   "constructs": [
@@ -1059,9 +1068,9 @@
       "construct": "ObjectPattern",
       "scope": "dart-3.9",
       "exporterCase": "ObjectPattern",
-      "contract": "syntax",
+      "contract": "pattern-fields",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Ordinary getter invocation reuse, laziness and nested paths tested; extension substitutions, general shape constraints and full invocation-key coverage remain open."
     },
     {
       "construct": "ParenthesizedExpression",
@@ -1189,7 +1198,7 @@
       "exporterCase": "RecordPattern",
       "contract": "records",
       "qualification": "unqualified",
-      "reason": "Field extraction and binding isolation tested, including interleaved named/positional fields; general shape and branch-feasibility qualification remain open."
+      "reason": "Field extraction, binding isolation and per-match field caching tested; general shape and branch-feasibility qualification remain open."
     },
     {
       "construct": "RecordTypeAnnotation",

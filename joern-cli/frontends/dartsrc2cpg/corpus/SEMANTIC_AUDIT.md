@@ -484,3 +484,39 @@ The same accounting matches all three applications and both holdouts, whose
 graph and endpoint checks pass. All twelve reports share the current source
 fingerprint and exporter 0.3.12. Staged packaging, four CLI integration tests and
 fourteen console tests pass; the existing inconclusive queries remain open.
+
+## Lazy pattern field extraction
+
+A stateful getter exposed a second pattern defect: the graph lowered the same
+field read independently for each case. Ordinary object and record fields now
+share lazy storage within one matching construct. Parent extraction paths keep
+nested receivers separate. Guards can fail after extracting a field without
+forcing it to be extracted again. The runtime fixture also checks logical
+patterns, switch statements, unrelated null input, object wildcard side effects,
+and two independent matches in one method.
+
+The graph retains initialization guards at each possible first-use location;
+this is not a claim that the path-insensitive engine proves the guard outcomes.
+Extension members retain separate storage at each source access until their
+substituted invocation identities are exported. Comparison and collection
+invocation reuse remain open.
+
+The field-isolation controls exposed two shared prerequisites. Nested expression
+blocks lost their final value at a return or call argument; the reaching-definition
+pass now follows nested final blocks and parameter definitions. Reduced graphs
+under C and Dart metadata, plus C statement-expression regressions, check both
+flow and a constant final value after an unrelated input read. The synthetic
+`patternShape` and `isInitialized` predicates now have read-only summaries: the
+former fallback could route a field value through a pattern literal and back
+into the aggregate receiver. Direct and wrapped getters, nested accesses, selected
+fields and unrelated fields have paired runtime/graph controls. Queries use depth
+four and check that no search-limit diagnostics occurred.
+
+Validation passes: 50 shared-engine tests, 136 C/C++ dataflow tests, 114 Dart
+frontend/package tests, all three applications and both holdouts, 77 native tests,
+staged packaging, four CLI integration tests and fourteen console tests. The new
+native isolation cases also pass after their addition. Every graph-count delta
+matches three additional calls per pattern field (state check, negation and
+initialization store); file, internal-method and UNKNOWN counts are unchanged.
+All twelve refreshed reports have the same source fingerprint. Existing stock
+false positives and inconclusive searches retain their prior dispositions.

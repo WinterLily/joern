@@ -27,7 +27,7 @@
     "project": "args-2.7.0",
     "files": 12,
     "methods": 156,
-    "calls": 2217,
+    "calls": 2223,
     "unknown": 0,
     "unknownKinds": {}
   },
@@ -51,7 +51,7 @@
     "project": "analyzer-8.4.1",
     "files": 458,
     "methods": 22754,
-    "calls": 217887,
+    "calls": 218682,
     "unknown": 0,
     "unknownKinds": {}
   }

@@ -80,6 +80,7 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
     val continueTargets                      = mutable.Map.empty[Int, String]
     val collectionBodies                     = mutable.Map.empty[Int, () => Seq[Ast]]
     val guardedAccesses                      = mutable.Set.empty[Int]
+    var patternCache                         = Option.empty[mutable.LinkedHashMap[Vector[String], NewLocal]]
 
     def children(syntax: Value, role: String): Seq[Value] =
       syntax("children").arr.filter(_("role").str == role).map(entryNode => nodes(entryNode("node").num.toInt)).toSeq
@@ -818,7 +819,45 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
           case None => expressionBody(syntax)
         }
     }
-    def pattern(syntax: Value, value: () => Ast): Ast = {
+    def patternScope(syntax: Value)(body: => Ast): Ast = {
+      val previous = patternCache
+      val storage  = mutable.LinkedHashMap.empty[Vector[String], NewLocal]
+      patternCache = Some(storage)
+      val result = body
+      patternCache = previous
+      if (storage.isEmpty) result else block(syntax, storage.values.toSeq.map(Ast(_)) :+ result)
+    }
+    def patternAccess(syntax: Value, key: Vector[String], value: Ast): Ast = patternCache match {
+      case None          => value
+      case Some(storage) =>
+        val local = storage.getOrElseUpdate(
+          key, {
+            temporary += 1
+            val name  = s"<pattern>$temporary"
+            val local = located(NewLocal().name(name).code(name).typeFullName(astType(value)), syntax)
+            declarations(name) = local
+            local
+          }
+        )
+        def ref(): Ast = identifier(syntax, local.name, local.name, local.typeFullName)
+        val assignment = operator(syntax, Operators.assignment, Seq(ref(), value))
+        assignment.root.collect { case call: NewCall => call.code = s"${local.name} = ${code(syntax)}" }
+        val result = block(
+          syntax,
+          Seq(
+            control(
+              syntax,
+              ControlStructureTypes.IF,
+              operator(syntax, Operators.logicalNot, Seq(operator(syntax, "<operator>.isInitialized", Seq(ref())))),
+              block(syntax, Seq(assignment))
+            ),
+            ref()
+          )
+        )
+        result.root.collect { case block: NewBlock => block.typeFullName = local.typeFullName }
+        result
+    }
+    def pattern(syntax: Value, value: () => Ast, parent: Vector[String] = Vector("this")): Ast = {
       def and(values: Seq[Ast]): Ast = values
         .reduceOption((left, right) => operator(syntax, Operators.logicalAnd, Seq(left, right)))
         .getOrElse(literal(syntax, "true", "bool"))
@@ -862,19 +901,19 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
           operator(
             syntax,
             if (string(syntax, "kind") == "LogicalAndPattern") Operators.logicalAnd else Operators.logicalOr,
-            Seq(pattern(child(syntax, "left"), value), pattern(child(syntax, "right"), value))
+            Seq(pattern(child(syntax, "left"), value, parent), pattern(child(syntax, "right"), value, parent))
           )
-        case "ParenthesizedPattern" => pattern(child(syntax, "pattern"), value)
+        case "ParenthesizedPattern" => pattern(child(syntax, "pattern"), value, parent)
         case "CastPattern"          =>
           val typ = child(syntax, "type")
           saved(
             syntax,
             operator(syntax, Operators.cast, Seq(value(), Ast(NewTypeRef().code(code(typ)).typeFullName(tpe(typ)))))
-          )(ref => pattern(child(syntax, "pattern"), ref))
-        case "NullCheckPattern"  => and(Seq(nonNull(syntax, value()), pattern(child(syntax, "pattern"), value)))
+          )(ref => pattern(child(syntax, "pattern"), ref, parent))
+        case "NullCheckPattern"  => and(Seq(nonNull(syntax, value()), pattern(child(syntax, "pattern"), value, parent)))
         case "NullAssertPattern" =>
           saved(syntax, operator(syntax, "<operator>.notNullAssert", Seq(value())))(ref =>
-            pattern(child(syntax, "pattern"), ref)
+            pattern(child(syntax, "pattern"), ref, parent)
           )
         case "RecordPattern" | "ObjectPattern" =>
           val shape    = operator(syntax, "<operator>.patternShape", Seq(value(), literal(syntax, code(syntax))))
@@ -888,7 +927,10 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
               if (string(syntax, "kind") == "ObjectPattern")
                 reference(entry, string(entry, "reference"), name, Some(value()))
               else field(entry, value(), name)
-            saved(entry, access)(ref => pattern(child(entry, "pattern"), ref))
+            val extension = string(sym(string(sym(string(entry, "reference")), "owner")), "kind") == "EXTENSION"
+            // Generic extension substitutions are not yet part of the exported identity.
+            val key = parent :+ (if (extension) s"extension:${entry("id")}" else name)
+            saved(entry, patternAccess(entry, key, access))(ref => pattern(child(entry, "pattern"), ref, key))
           })
         case "ListPattern" | "MapPattern" =>
           val elements = children(syntax, "element")
@@ -905,7 +947,7 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
                       "<operator>.patternRest",
                       Seq(value(), literal(entry, index.toString), literal(entry, (elements.size - index - 1).toString))
                     )
-                  )(ref => pattern(inner, ref))
+                  )(ref => pattern(inner, ref, parent :+ s"rest:$index:${elements.size - index - 1}"))
                 }
                 else {
                   val key =
@@ -917,9 +959,15 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
                         Seq(field(entry, value(), "length"), literal(entry, (elements.size - index).toString, "int"))
                       )
                     else literal(entry, index.toString, "int")
-                  val inner = if (kind == "MapPatternEntry") child(entry, "pattern") else entry
+                  val inner      = if (kind == "MapPatternEntry") child(entry, "pattern") else entry
+                  val invocation =
+                    if (kind == "MapPatternEntry") s"map:${entry("id")}"
+                    else if (rest >= 0 && index > rest) s"tail:${elements.size - index - 1}"
+                    else s"index:$index"
                   Seq(
-                    saved(entry, operator(entry, Operators.indexAccess, Seq(value(), key)))(ref => pattern(inner, ref))
+                    saved(entry, operator(entry, Operators.indexAccess, Seq(value(), key)))(ref =>
+                      pattern(inner, ref, parent :+ invocation)
+                    )
                   )
                 }
               }
@@ -934,8 +982,11 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
       )
     }
     def condition(syntax: Value): Ast = children(syntax, "case").headOption match {
-      case Some(clause) => saved(syntax, expression(child(syntax, "condition")))(ref => guard(clause, ref))
-      case None         => expression(child(syntax, "condition"))
+      case Some(clause) =>
+        patternScope(syntax) {
+          saved(syntax, expression(child(syntax, "condition")))(ref => guard(clause, ref))
+        }
+      case None => expression(child(syntax, "condition"))
     }
     def expressionBody(syntax: Value): Ast = string(syntax, "kind") match {
       case "RecordLiteral" =>
@@ -952,51 +1003,55 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
           } :+ ref()
         }
       case "PatternAssignment" | "PatternVariableDeclaration" =>
-        savedSequence(syntax, expression(child(syntax, "expression")))(ref =>
-          Seq(
-            control(
-              syntax,
-              ControlStructureTypes.IF,
-              operator(syntax, Operators.logicalNot, Seq(pattern(child(syntax, "pattern"), ref))),
-              Ast(
-                located(
-                  NewControlStructure().controlStructureType(ControlStructureTypes.THROW).code("<pattern mismatch>"),
-                  syntax
-                )
-              )
-            ),
-            ref()
-          )
-        )
-      case "SwitchExpression" =>
-        savedSequence(syntax, literal(syntax, "null", tpe(syntax))) { result =>
-          val matched = saved(syntax, expression(child(syntax, "expression"))) { ref =>
-            def cases(remaining: List[Value]): Ast = remaining match {
-              case head :: tail =>
-                val cond = guard(child(head, "guard"), ref)
-                control(
-                  head,
-                  ControlStructureTypes.IF,
-                  cond,
-                  block(
-                    head,
-                    Seq(operator(head, Operators.assignment, Seq(result(), expression(child(head, "expression")))))
-                  ),
-                  Some(cases(tail))
-                )
-              case Nil =>
+        patternScope(syntax) {
+          savedSequence(syntax, expression(child(syntax, "expression")))(ref =>
+            Seq(
+              control(
+                syntax,
+                ControlStructureTypes.IF,
+                operator(syntax, Operators.logicalNot, Seq(pattern(child(syntax, "pattern"), ref))),
                 Ast(
                   located(
-                    NewControlStructure()
-                      .controlStructureType(ControlStructureTypes.THROW)
-                      .code("<non-exhaustive switch>"),
+                    NewControlStructure().controlStructureType(ControlStructureTypes.THROW).code("<pattern mismatch>"),
                     syntax
                   )
                 )
+              ),
+              ref()
+            )
+          )
+        }
+      case "SwitchExpression" =>
+        patternScope(syntax) {
+          savedSequence(syntax, literal(syntax, "null", tpe(syntax))) { result =>
+            val matched = saved(syntax, expression(child(syntax, "expression"))) { ref =>
+              def cases(remaining: List[Value]): Ast = remaining match {
+                case head :: tail =>
+                  val cond = guard(child(head, "guard"), ref)
+                  control(
+                    head,
+                    ControlStructureTypes.IF,
+                    cond,
+                    block(
+                      head,
+                      Seq(operator(head, Operators.assignment, Seq(result(), expression(child(head, "expression")))))
+                    ),
+                    Some(cases(tail))
+                  )
+                case Nil =>
+                  Ast(
+                    located(
+                      NewControlStructure()
+                        .controlStructureType(ControlStructureTypes.THROW)
+                        .code("<non-exhaustive switch>"),
+                      syntax
+                    )
+                  )
+              }
+              cases(children(syntax, "case").toList)
             }
-            cases(children(syntax, "case").toList)
+            Seq(matched, result())
           }
-          Seq(matched, result())
         }
       case "AssertStatement" | "AssertInitializer" =>
         val failure = Ast(
@@ -1465,7 +1520,8 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
               )
             )(ref => {
               val assign =
-                if (children(parts, "pattern").nonEmpty) pattern(variable, () => field(syntax, ref(), "current"))
+                if (children(parts, "pattern").nonEmpty)
+                  patternScope(syntax) { pattern(variable, () => field(syntax, ref(), "current")) }
                 else
                   operator(
                     syntax,
@@ -1543,71 +1599,80 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
       case "SwitchStatement"
           if children(syntax, "member").exists(memberSyntax => string(memberSyntax, "kind") == "SwitchPatternCase") =>
         withSwitchLabels(syntax) {
-          Seq(saved(syntax, expression(child(syntax, "condition"))) { ref =>
-            def cases(remaining: List[Value]): Ast = remaining match {
-              case head :: _ =>
-                val (empty, rest)                    = remaining.span(children(_, "statement").isEmpty)
-                val group                            = empty ++ rest.headOption
-                val tail                             = rest.drop(1)
-                def joins(member: Value): Seq[Value] = member.obj.get("joins").toSeq.flatMap(_.arr)
-                val locals                           =
-                  group.flatMap(joins).map(string(_, "target")).distinct.filterNot(declarations.contains).map { id =>
-                    val local = located(
-                      NewLocal().name(string(sym(id), "name")).code(string(sym(id), "name")).typeFullName(tpe(sym(id))),
-                      head
-                    )
-                    declarations(id) = local
-                    Ast(local)
-                  }
-                val conditions = group.map { member =>
-                  val matched = string(member, "kind") match {
-                    case "SwitchDefault"     => literal(member, "true", "bool")
-                    case "SwitchPatternCase" => guard(child(member, "guard"), ref)
-                    case _ => operator(member, Operators.equals, Seq(ref(), expression(child(member, "expression"))))
-                  }
-                  val copies = joins(member).map { binding =>
-                    val source = string(binding, "source")
-                    val target = string(binding, "target")
-                    operator(
-                      member,
-                      Operators.assignment,
-                      Seq(
-                        identifier(member, string(sym(target), "name"), target, tpe(sym(target))),
-                        identifier(member, string(sym(source), "name"), source, tpe(sym(source)))
+          Seq(patternScope(syntax) {
+            saved(syntax, expression(child(syntax, "condition"))) { ref =>
+              def cases(remaining: List[Value]): Ast = remaining match {
+                case head :: _ =>
+                  val (empty, rest)                    = remaining.span(children(_, "statement").isEmpty)
+                  val group                            = empty ++ rest.headOption
+                  val tail                             = rest.drop(1)
+                  def joins(member: Value): Seq[Value] = member.obj.get("joins").toSeq.flatMap(_.arr)
+                  val locals                           =
+                    group.flatMap(joins).map(string(_, "target")).distinct.filterNot(declarations.contains).map { id =>
+                      val local = located(
+                        NewLocal()
+                          .name(string(sym(id), "name"))
+                          .code(string(sym(id), "name"))
+                          .typeFullName(tpe(sym(id))),
+                        head
                       )
-                    )
+                      declarations(id) = local
+                      Ast(local)
+                    }
+                  val conditions = group.map { member =>
+                    val matched = string(member, "kind") match {
+                      case "SwitchDefault"     => literal(member, "true", "bool")
+                      case "SwitchPatternCase" => guard(child(member, "guard"), ref)
+                      case _ => operator(member, Operators.equals, Seq(ref(), expression(child(member, "expression"))))
+                    }
+                    val copies = joins(member).map { binding =>
+                      val source = string(binding, "source")
+                      val target = string(binding, "target")
+                      operator(
+                        member,
+                        Operators.assignment,
+                        Seq(
+                          identifier(member, string(sym(target), "name"), target, tpe(sym(target))),
+                          identifier(member, string(sym(source), "name"), source, tpe(sym(source)))
+                        )
+                      )
+                    }
+                    if (copies.isEmpty) matched
+                    else
+                      operator(
+                        member,
+                        Operators.logicalAnd,
+                        Seq(matched, block(member, copies :+ literal(member, "true", "bool")))
+                      )
                   }
-                  if (copies.isEmpty) matched
-                  else
-                    operator(
-                      member,
-                      Operators.logicalAnd,
-                      Seq(matched, block(member, copies :+ literal(member, "true", "bool")))
-                    )
-                }
-                val cond = conditions.reduceLeft((left, right) => operator(head, Operators.logicalOr, Seq(left, right)))
-                control(
-                  head,
-                  ControlStructureTypes.IF,
-                  if (locals.isEmpty) cond else block(head, locals :+ cond),
-                  block(head, group.flatMap(caseLabels) ++ group.flatMap(children(_, "statement")).flatMap(statements)),
-                  if (tail.nonEmpty) Some(cases(tail)) else None
-                )
-              case Nil => block(syntax, Nil)
-            }
-            // Keep a switch boundary for explicit break statements.
-            control(
-              syntax,
-              ControlStructureTypes.SWITCH,
-              ref(),
-              block(
+                  val cond =
+                    conditions.reduceLeft((left, right) => operator(head, Operators.logicalOr, Seq(left, right)))
+                  control(
+                    head,
+                    ControlStructureTypes.IF,
+                    if (locals.isEmpty) cond else block(head, locals :+ cond),
+                    block(
+                      head,
+                      group.flatMap(caseLabels) ++ group.flatMap(children(_, "statement")).flatMap(statements)
+                    ),
+                    if (tail.nonEmpty) Some(cases(tail)) else None
+                  )
+                case Nil => block(syntax, Nil)
+              }
+              // Keep a switch boundary for explicit break statements.
+              control(
                 syntax,
-                Seq(
-                  Ast(NewJumpTarget().name("default").code("default").parserTypeName("SwitchDefault")),
-                  cases(children(syntax, "member").toList)
+                ControlStructureTypes.SWITCH,
+                ref(),
+                block(
+                  syntax,
+                  Seq(
+                    Ast(NewJumpTarget().name("default").code("default").parserTypeName("SwitchDefault")),
+                    cases(children(syntax, "member").toList)
+                  )
                 )
               )
-            )
+            }
           })
         }
       case "SwitchStatement" =>

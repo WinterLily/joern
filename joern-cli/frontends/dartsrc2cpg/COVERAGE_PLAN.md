@@ -42,8 +42,10 @@ replacement within closures and nested captures; callback timing remains open.
 Record field-isolation, interleaved named/positional indexing and source-order
 evaluation regressions also have execution oracles. Constant and relational pattern
 comparisons preserve receiver direction, user operator targets and null guards,
-with ordinary and dynamic equality evaluation traces. Pattern invocation caching
-and broader dispatch qualification remain open. This is
+with ordinary and dynamic equality evaluation traces. Ordinary object and record
+field extraction now uses lazy storage shared across cases within each match.
+Comparison/collection/extension invocation caching and broader dispatch
+qualification remain open. This is
 not complete language or runtime analysis support.
 This plan supersedes the completion assumptions in the original implementation
 plan in `agents/plan.md`; it does not mark the remaining work as done.

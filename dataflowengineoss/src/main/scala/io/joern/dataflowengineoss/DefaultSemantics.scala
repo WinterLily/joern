@@ -59,6 +59,8 @@ object DefaultSemantics {
     F(Operators.greaterEqualsThan, List((1, -1), (2, -1))),
     F(Operators.elvis, List((1, -1), (2, -1))),
     F(Operators.notNullAssert, List((1, -1))),
+    F("<operator>.isInitialized", List((1, -1))),
+    F("<operator>.patternShape", List((1, -1), (2, -1))),
     F(Operators.fieldAccess, List((1, -1))),
     F(Operators.getElementPtr, List((1, -1))),
     PTF(Operators.modulo, List.empty),
