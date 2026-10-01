@@ -2,56 +2,56 @@
   {
     "project": "path-1.9.1",
     "files": 13,
-    "methods": 199,
-    "calls": 1983,
+    "methods": 236,
+    "calls": 2026,
     "unknown": 0,
     "unknownKinds": {}
   },
   {
     "project": "collection-1.19.1",
     "files": 29,
-    "methods": 685,
-    "calls": 4521,
+    "methods": 760,
+    "calls": 4610,
     "unknown": 0,
     "unknownKinds": {}
   },
   {
     "project": "meta-1.17.0",
     "files": 3,
-    "methods": 35,
-    "calls": 320,
+    "methods": 42,
+    "calls": 327,
     "unknown": 0,
     "unknownKinds": {}
   },
   {
     "project": "args-2.7.0",
     "files": 12,
-    "methods": 156,
-    "calls": 2223,
+    "methods": 219,
+    "calls": 2292,
     "unknown": 0,
     "unknownKinds": {}
   },
   {
     "project": "async-2.13.0",
     "files": 45,
-    "methods": 537,
-    "calls": 3211,
+    "methods": 700,
+    "calls": 3420,
     "unknown": 0,
     "unknownKinds": {}
   },
   {
     "project": "http_parser-4.1.2",
     "files": 11,
-    "methods": 81,
-    "calls": 1124,
+    "methods": 91,
+    "calls": 1135,
     "unknown": 0,
     "unknownKinds": {}
   },
   {
     "project": "analyzer-8.4.1",
     "files": 458,
-    "methods": 22754,
-    "calls": 218859,
+    "methods": 28397,
+    "calls": 225702,
     "unknown": 0,
     "unknownKinds": {}
   }

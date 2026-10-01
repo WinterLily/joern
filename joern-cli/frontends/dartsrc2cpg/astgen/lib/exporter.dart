@@ -23,7 +23,7 @@ import 'package:analyzer/source/line_info.dart';
 import 'package:path/path.dart' as p;
 
 const protocolVersion = 1;
-const exporterVersion = '0.3.18';
+const exporterVersion = '0.3.19';
 const analyzerVersion = '8.4.1';
 const supportedSdkVersion = '3.9.2';
 
@@ -81,6 +81,7 @@ Stream<Map<String, Object?>> exportProject({
       ? [input]
       : sourceFiles(Directory(input)).map((file) => file.path).toList();
   files.sort();
+  final scannedFiles = files.toSet();
   final variables = <String, String>{};
   if (environment != 'analyzer-default') {
     final targets =
@@ -141,7 +142,13 @@ Stream<Map<String, Object?>> exportProject({
         result = error;
       }
       if (result is ResolvedUnitResult) {
-        yield _UnitEncoder(root, file, result.content, result.lineInfo).encode(
+        yield _UnitEncoder(
+          root,
+          file,
+          result.content,
+          result.lineInfo,
+          scannedFiles,
+        ).encode(
           result.unit,
           result.diagnostics
               .map(
@@ -162,26 +169,28 @@ Stream<Map<String, Object?>> exportProject({
           path: file,
           throwIfDiagnostics: false,
         );
-        yield _UnitEncoder(root, file, parsed.content, parsed.lineInfo).encode(
-          parsed.unit,
-          [
-            {
-              'code': 'resolution_unavailable',
-              'message': 'Resolution unavailable: $result',
-              'severity': 'ERROR',
+        yield _UnitEncoder(
+          root,
+          file,
+          parsed.content,
+          parsed.lineInfo,
+          scannedFiles,
+        ).encode(parsed.unit, [
+          {
+            'code': 'resolution_unavailable',
+            'message': 'Resolution unavailable: $result',
+            'severity': 'ERROR',
+          },
+          ...parsed.errors.map(
+            (error) => <String, Object?>{
+              'code': error.diagnosticCode.name,
+              'severity': error.diagnosticCode.severity.name,
+              'message': error.message,
+              'offset': error.offset,
+              'length': error.length,
             },
-            ...parsed.errors.map(
-              (error) => <String, Object?>{
-                'code': error.diagnosticCode.name,
-                'severity': error.diagnosticCode.severity.name,
-                'message': error.message,
-                'offset': error.offset,
-                'length': error.length,
-              },
-            ),
-          ],
-          resolved: false,
-        );
+          ),
+        ], resolved: false);
       }
     }
     yield {'record': 'summary', 'files': files.length};
@@ -195,6 +204,7 @@ class _UnitEncoder {
   final String file;
   final String source;
   final LineInfo lines;
+  final Set<String> scannedFiles;
   final Map<String, Map<String, Object?>> symbols = {};
   final List<Map<String, Object?>> nodes = [];
   final Set<String> unsupported = {};
@@ -257,7 +267,13 @@ class _UnitEncoder {
     return bindings.values.toList();
   }
 
-  _UnitEncoder(this.root, this.file, this.source, this.lines);
+  _UnitEncoder(
+    this.root,
+    this.file,
+    this.source,
+    this.lines,
+    this.scannedFiles,
+  );
 
   String fileId(String path) => p.isWithin(root, path)
       ? Uri(
@@ -283,7 +299,7 @@ class _UnitEncoder {
     _ => type?.getDisplayString(),
   };
 
-  String? symbol(Element? element) {
+  String? symbol(Element? element, {bool details = true}) {
     if (element == null) return null;
     while (element is PatternVariableElement &&
         element.join != null &&
@@ -317,14 +333,19 @@ class _UnitEncoder {
         ? ':${symbol(owner)}:${owner is FunctionTypedElement ? owner.formalParameters.indexOf(element) : -1}:${element.type.getDisplayString()}'
         : '';
     final id = '$location#$offset:${element.kind.name}:${element.name}$slot';
+    if (!details) return id;
     if (!symbols.containsKey(id)) {
       symbols[id] = {
         'id': id,
         'name': element.name,
         'kind': element.kind.name,
-        'private': element.isPrivate,
-        'synthetic': element.isSynthetic,
-        if (element is ExecutableElement) 'static': element.isStatic,
+        if (element.isPrivate) 'private': true,
+        if (element.isSynthetic) 'synthetic': true,
+        if (element is ExecutableElement) ...{
+          if (element.isStatic) 'static': true,
+          if (element.isAbstract) 'abstract': true,
+          if (element.isExternal) 'external': true,
+        },
         if (element is PropertyAccessorElement)
           'variable': symbol(element.variable),
         if (element is InterfaceElement) ...{
@@ -340,7 +361,7 @@ class _UnitEncoder {
             : fileId(element.library!.firstFragment.source.fullName),
         if (element is VariableElement) ...{
           'type': element.type.getDisplayString(),
-          'static': element.isStatic,
+          if (element.isStatic) 'static': true,
           'final': element.isFinal || element.isConst,
           'late': element.isLate,
           'const': element.isConst,
@@ -359,7 +380,11 @@ class _UnitEncoder {
         symbols[id]!['typeId'] = typeId(element.type);
       }
       if (element is PropertyInducingElement &&
-          (element.isLate || (element.isStatic && !element.isConst))) {
+          (element.isLate ||
+              (element is FieldElement &&
+                  !element.isStatic &&
+                  unit?.source.fullName == file) ||
+              (element.isStatic && !element.isConst))) {
         symbols[id]!['getter'] = symbol(element.getter);
         symbols[id]!['setter'] = symbol(element.setter);
       }
@@ -471,6 +496,59 @@ class _UnitEncoder {
     PostfixExpression() => superOperation(ast.operand),
     _ => false,
   };
+
+  List<Map<String, Object?>> virtualTargets(InterfaceElement? element) {
+    if (element == null) return [];
+    final result = <Map<String, Object?>>[];
+    final seen = <Element>{};
+    for (final owner in [
+      element,
+      ...element.allSupertypes.map((type) => type.element),
+    ]) {
+      for (final member in <ExecutableElement>[
+        ...owner.methods,
+        ...owner.getters,
+        ...owner.setters,
+      ]) {
+        if (member.isStatic || !seen.add(member.baseElement)) continue;
+        final target = switch (member) {
+          MethodElement() => element.lookUpMethod(
+            name: member.name!,
+            library: member.library,
+          ),
+          GetterElement() => element.lookUpGetter(
+            name: member.name!,
+            library: member.library,
+          ),
+          SetterElement() => element.lookUpSetter(
+            name: member.name!,
+            library: member.library,
+          ),
+          _ => null,
+        };
+        if (target != null && !target.isStatic && !target.isAbstract) {
+          final memberId = symbol(member, details: false);
+          final implementation = symbol(target, details: false);
+          final generatedEnum =
+              element is EnumElement &&
+              ((member.name == 'index' && owner.name == 'Enum') ||
+                  (member.name == 'toString' && owner.name == 'Object'));
+          if (memberId == implementation && !generatedEnum) continue;
+          // Scanned declarations supply their own metadata; avoid expanding it in every subclass's unit.
+          result.add({
+            'member': memberId,
+            'implementation': symbol(
+              target,
+              details: !scannedFiles.contains(
+                target.firstFragment.libraryFragment.source.fullName,
+              ),
+            ),
+          });
+        }
+      }
+    }
+    return result;
+  }
 
   Map<String, Object?> encode(
     CompilationUnit unit,
@@ -650,6 +728,9 @@ class _UnitEncoder {
         child('type', ast.fieldType);
       case EnumDeclaration():
         kind = 'EnumDeclaration';
+        record['virtualTargets'] = virtualTargets(
+          ast.declaredFragment?.element,
+        );
         record['values'] = symbol(
           ast.declaredFragment?.element.getField('values'),
         );
@@ -678,6 +759,9 @@ class _UnitEncoder {
         child('arguments', ast.arguments?.argumentList);
       case ClassTypeAlias():
         kind = 'ClassTypeAlias';
+        record['virtualTargets'] = virtualTargets(
+          ast.declaredFragment?.element,
+        );
         record['name'] = ast.name.lexeme;
         record['declaration'] = symbol(ast.declaredFragment?.element);
         record['constructors'] =
@@ -694,6 +778,9 @@ class _UnitEncoder {
         child('typeParameters', ast.typeParameters);
       case ClassDeclaration():
         kind = 'ClassDeclaration';
+        record['virtualTargets'] = virtualTargets(
+          ast.declaredFragment?.element,
+        );
         record['modifiers'] = [
           if (ast.abstractKeyword != null) 'abstract',
           if (ast.baseKeyword != null) 'base',

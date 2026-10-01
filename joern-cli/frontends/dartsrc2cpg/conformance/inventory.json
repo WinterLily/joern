@@ -179,13 +179,13 @@
       "interaction": "astgen/test/generic_tearoffs_test.dart: String/int type tests, bounded values/branches and receiver traces; static_dispatch_test.dart: bound super/extension and static shadow controls; runtime bound checks unqualified"
     },
     "dispatch": {
-      "exporter": "analyzer member identities, owners, static flags and SuperExpression static type",
-      "lowering": "DartFrontendTests: static super calls/accessors/operators/tear-offs and extension calls/setters/tear-offs; ordinary virtual calls remain dynamic",
-      "resolution": "selected superclass/extension/static targets; mixin super target union from observed applications; known function-value invocation selects the value; covariant/generic signature, named-parameter compatibility and synthetic accessor overrides unqualified",
+      "exporter": "analyzer member identities, abstract/external flags, library-aware hierarchy implementations and SuperExpression static type",
+      "lowering": "DartFrontendTests: static super/extension calls and tear-offs; dynamic virtual calls with Dart-owned target linking; implicit field accessor bodies; constructor storage stays direct",
+      "resolution": "covariant and renamed generic overrides, receiver static-type filtering, private library lookup and source implicit accessors; mixin super target union; unscanned implementations, runtime points-to and differing named/default arguments unqualified",
       "cfg": "same this receiver with superclass static view; existing exactly-once bound receiver evaluation",
-      "valueFlow": "first/ignored operand isolation through super/extension/static calls and tear-offs; superclass getter/setter/operator return controls",
-      "negative": "super cannot select subclass overrides; static tear-offs cannot select subclass static shadows; superclass list callback flow retains positive control",
-      "interaction": "astgen/test/static_dispatch_test.dart: bounded super operations, extensions, static shadows and ordinary virtual override control; mixin_super_test.dart: preceding class/mixin implementations, named applications and subclass override exclusion; exporter_test.dart: private library lookup; DartFrontendTests: cross-file application facts"
+      "valueFlow": "first/ignored operand isolation across virtual/interface/super/extension calls and bound tear-offs; ordinary and overridden field getter returns; static lazy field increment reads/writes",
+      "negative": "super excludes later overrides; unrelated siblings and cross-library private methods excluded; abstract source declarations are not executable targets; explicit setters are not duplicated",
+      "interaction": "astgen/test/virtual_overrides_test.dart, override_privacy_test.dart and implicit_accessors_test.dart: bounded implementation traces, covariant runtime rejection, final fields with explicit setters, super storage and lazy increments; prior static_dispatch_test.dart and mixin_super_test.dart remain"
     }
   },
   "constructs": [
@@ -1027,7 +1027,7 @@
       "exporterCase": "MixinDeclaration",
       "contract": "dispatch",
       "qualification": "conservative",
-      "reason": "Superclass target union across observed applications, private lookup and bound operations tested; application-specific contexts and differing named-parameter orders unqualified."
+      "reason": "Selected superclass/extension and analyzer hierarchy targets tested, including covariant/generic overrides and source implicit accessors; runtime receiver contexts, named/default override compatibility and heap qualification remain open."
     },
     {
       "construct": "MixinOnClause",
@@ -1395,7 +1395,7 @@
       "exporterCase": "SuperExpression",
       "contract": "dispatch",
       "qualification": "conservative",
-      "reason": "Selected superclass calls/accessors/operators and tear-offs tested; same receiver identity retained; broader generic/interface and synthetic field-accessor dispatch unqualified."
+      "reason": "Selected superclass/extension and analyzer hierarchy targets tested, including covariant/generic overrides and source implicit accessors; runtime receiver contexts, named/default override compatibility and heap qualification remain open."
     },
     {
       "construct": "SuperFormalParameter",

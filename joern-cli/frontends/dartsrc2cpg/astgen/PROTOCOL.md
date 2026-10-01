@@ -7,7 +7,7 @@ unsupported protocol versions, and unsupported analyzer/exporter versions before
 constructing a graph. The Scala consumer validates the protocol, analyzer, SDK and offset encoding
 before constructing a graph. Exporter 0.3 adds modern-language fields to protocol 1.
 
-The header declares `protocolVersion` (1), `exporterVersion` (0.3.18),
+The header declares `protocolVersion` (1), `exporterVersion` (0.3.19),
 `analyzerVersion` (8.4.1), `sdkVersion` (3.9.2), and `offsetEncoding` (`utf-16`).
 No timestamps or checkout root are emitted. The exporter builds records one file
 at a time; the analyzer may retain project state internally.
@@ -75,9 +75,23 @@ Core nodes include classes/members, constructors and initializers, function
 expressions/references, control structures, and core operators/collections.
 Executable and variable symbols expose static/private/synthetic flags. Variables
 also expose finality; property accessors identify their backing variable.
+False static/private/synthetic/abstract/external flags may be omitted and default
+to false. Executables record abstract/external declarations. Source instance
+fields identify their implicit getter and setter; explicit accessors keep their
+own declarations.
 Constructors identify factory status and super targets. Classes expose display
 supertypes and canonical `superDeclarations`. `typeId` and `returnTypeId` provide
 canonical interface identities alongside the original display types.
+
+Class, named mixin-application and enum nodes expose `virtualTargets`, mapping
+ancestor `member` IDs to analyzer-selected concrete `implementation` IDs.
+Unchanged implementations are omitted; selected declarations remain available
+as the call's original target. Generated enum defaults are also recorded. Lookup
+uses each member's library for private visibility. Scanned implementations supply
+their metadata in their declaration unit; consumers resolve IDs across the
+stream and merge repeated symbol metadata. Unscanned implementations retain
+external symbol metadata. These facts do not enumerate unscanned subclasses or
+provide runtime receiver points-to information.
 
 Assignment expressions expose `read` and `write` targets separately: analyzer
 identifiers on the left of a write do not necessarily carry a reference. Access

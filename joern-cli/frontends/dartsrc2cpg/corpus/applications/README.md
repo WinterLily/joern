@@ -18,16 +18,16 @@ and dataflow tests, not executions of the applications or their UI test suites.
 
 | Project | Release | Dart files | Generated files¹ | Internal methods | CALLs | UNKNOWN aliases |
 | --- | --- | ---: | ---: | ---: | ---: | ---: |
-| LocalSend | 1.17.0 | 260 | 75 | 21,014 | 64,517 | 2 |
-| Saber | 0.26.0 | 143 | 17 | 7,220 | 39,180 | 7 |
-| Dart Sass | 1.89.2 | 348 | 3 | 6,057 | 66,535 | 16 |
+| LocalSend | 1.17.0 | 260 | 75 | 28,611 | 103,474 | 0 |
+| Saber | 0.26.0 | 143 | 17 | 9,935 | 53,385 | 0 |
+| Dart Sass | 1.89.2 | 348 | 3 | 7,209 | 85,621 | 0 |
 
 ¹ Files named `.g.dart`, `.mapper.dart`, `.freezed.dart` or protobuf output.
 Generated translations account for many methods; totals are not claims about
-handwritten method counts. The 25 UNKNOWN nodes are type aliases, with no omitted
-executable bodies.
+handwritten method counts. Totals include generated implicit field accessors and
+initialization helpers. There are no executable UNKNOWN nodes.
 
-Use Dart 3.9.2, the rebuilt exporter 0.3.18, JDK 21, Flutter 3.35.3 for Saber and
+Use Dart 3.9.2, the rebuilt exporter 0.3.19, JDK 21, Flutter 3.35.3 for Saber and
 `protoc` 36.1. The preparation script fetches LocalSend's pinned Flutter 3.24.5
 framework and engine Dart sources; Pub and analysis run with Dart 3.9.2. No native
 Flutter engine is executed. The script generates Sass's three missing protobuf
@@ -56,14 +56,15 @@ Graphs pass schema validation, V3 post-frontend validation and the original corp
 walk after saving/reloading. Compiler-generated deferred-import `loadLibrary`
 stubs are permitted as external: they have no source body to lower.
 
-OSS dataflow covers all 34,291 internal methods. The largest method has 3,085
+OSS dataflow covers all 45,755 internal methods. The largest method has 3,013
 generated definitions, below both the engine's default 4,000 limit and the suite's
 20,000 limit. The suite checks every method before building the overlay and
 queries the reopened graph at maximum call depth four.
 
-`dataflow-probes.json` contains 31 source-grounded positive and negative checks:
-10 for LocalSend, 11 for Saber and 10 for Sass. Stock semantics passes 30/31;
-all 31 pass with the optional summaries. They cover:
+`dataflow-probes.json` contains 33 source-grounded positive and negative checks:
+11 for each application. Stock semantics matches 32/33;
+all 33 match with the optional summaries, including two inconclusive negative
+searches recorded separately. They cover:
 
 - LocalSend: certificate decoding/hashing, output-file paths, cross-method save
   argument bindings, content-URI encoding and filename construction.

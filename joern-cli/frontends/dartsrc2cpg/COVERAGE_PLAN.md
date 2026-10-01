@@ -61,8 +61,11 @@ regressions. Nested references no longer supply guessed targets for conditional
 or returned function values. Super calls/accessors/operators and bound tear-offs
 now retain static targets; extension tear-offs/setters and static member shadows
 have operand-isolation and bounded execution controls. Ordinary virtual calls
-retain overrides. Covariant/generic signature compatibility and synthetic field
-accessor overrides remain open. Runtime type environments and bound checks remain
+retain analyzer-selected hierarchy implementations, including covariant/generic
+overrides and source implicit field accessor bodies. Private library identity and
+receiver static-type filtering have isolation regressions. Runtime receiver
+contexts, differing override defaults and named-parameter output binding remain
+open. Runtime type environments and bound checks remain
 open. Mixin superclass operations now include preceding implementations from
 observed applications, with private lookup, cross-file and bound-operation
 regressions. Application-specific contexts and differing named-parameter orders remain
@@ -101,8 +104,8 @@ as complete Dart dataflow coverage.
 ## Current evidence and its limits
 
 The corpus contains seven library releases and three application/compiler
-checkouts: 1,322 Dart files and 63,655 internal methods in the selected source
-roots (including generated initialization accessors). The application scopes are documented in [applications/README.md](corpus/applications/README.md).
+checkouts: 1,322 Dart files and 76,200 internal methods in the selected source
+roots (including generated initialization and implicit field accessors). The application scopes are documented in [applications/README.md](corpus/applications/README.md).
 Dependencies are resolved but their bodies are generally outside each graph.
 
 The original committed queries check 67 selected relationships: 46 expected flows and 21
@@ -136,9 +139,10 @@ Progress: see the [semantic audit](corpus/SEMANTIC_AUDIT.md). Witness reporting
 now defaults to all returned paths and records any explicit reporting truncation.
 All 21 negative queries have enforced distinct-node positive controls (nine new controls).
 The certificate route has a reduced Scala regression, a Dart execution oracle
-and a complete transition review. The current snapshot reviews all 76 expectations
+and a complete transition review. The committed review snapshot covers all 76 expectations
 and all 63 distinct returned paths (540 transitions), including two endpoint identities and both stock false
-positives. Five modeled negative searches remain inconclusive. Unreturned
+positives. It is historical and does not certify newly generated paths. Five
+modeled negative searches remain inconclusive. Unreturned
 alternatives and negative-search qualification remain outstanding.
 
 

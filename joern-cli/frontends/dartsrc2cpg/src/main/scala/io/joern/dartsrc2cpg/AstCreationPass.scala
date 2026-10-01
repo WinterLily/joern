@@ -19,7 +19,9 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
   private implicit val schemaValidation: ValidationMode = config.schemaValidation
   private val logger                                    = LoggerFactory.getLogger(getClass)
   private val symbols                                   =
-    units.flatMap(_("symbols").arr).map(symbolRecord => symbolRecord("id").str -> symbolRecord).toMap
+    units.flatMap(_("symbols").arr).groupMapReduce(symbolRecord => symbolRecord("id").str)(identity) { (first, last) =>
+      ujson.Obj.from(first.obj ++ last.obj)
+    }
   private def string(syntax: Value, key: String, default: String = ""): String =
     syntax.obj.get(key).flatMap(_.strOpt).getOrElse(default)
   private def bool(syntax: Value, key: String): Boolean = syntax.obj.get(key).flatMap(_.boolOpt).getOrElse(false)
@@ -54,6 +56,22 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
           node("children").arr.exists(_("role").str == "initializer")))
     }
     .map(string(_, "declaration"))
+    .toSet
+
+  private val instanceMembers = units
+    .flatMap(_("nodes").arr)
+    .filter(node =>
+      string(node, "kind") == "VariableDeclaration" &&
+        string(symbol(node), "kind") == "FIELD" && !bool(symbol(node), "static")
+    )
+    .map(string(_, "declaration"))
+    .toSet
+  private val accessorMembers = lazyMembers ++ instanceMembers
+  private val virtualMembers  = units
+    .flatMap(_("nodes").arr)
+    .flatMap { node =>
+      node.obj.get("virtualTargets").toSeq.flatMap(_.arr).map(target => string(target, "member"))
+    }
     .toSet
 
   override def run(diffGraph: DiffGraphBuilder): Unit = units.foreach { unit =>
@@ -154,6 +172,10 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
       val target = sym(id)
       bool(target, "static") || string(target, "kind") == "CONSTRUCTOR" ||
       string(sym(string(target, "owner")), "kind") == "EXTENSION" || superReceiver(syntax)
+    }
+    def accessorCall(syntax: Value, id: String): Boolean = {
+      val variable = string(sym(id), "variable", id)
+      lazyMembers(variable) || virtualMembers(id) || (superReceiver(syntax) && instanceMembers(variable))
     }
     def selectedMember(syntax: Value, id: String, receiverType: String): String =
       enumTarget(id, if (superReceiver(syntax) && enumTypes(currentType)) currentType else receiverType)
@@ -407,10 +429,10 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
           if (bool(target, "static")) methodRef(syntax, id)
           else boundMethodRef(syntax, id, receiver.getOrElse(thisAst(syntax)))
         case "GETTER" | "SETTER" =>
-          if (bool(target, "synthetic") && !lazyMembers.contains(string(target, "variable"))) field(syntax, base, name)
+          if (bool(target, "synthetic") && !accessorCall(syntax, id)) field(syntax, base, name)
           else call(syntax, id, name, None, if (bool(target, "static")) None else Some(base))
         case "FIELD" | "TOP_LEVEL_VARIABLE" =>
-          if (lazyMembers.contains(id))
+          if (accessorCall(syntax, string(target, "getter")))
             call(syntax, string(target, "getter"), name, None, if (bool(target, "static")) None else Some(base))
           else field(syntax, base, name)
         case _
@@ -674,7 +696,7 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
           if (lateLocals.contains(writeId)) lateLocalWrite(syntax, writeId, string(left, "name"), value)
           else if (
             string(sym(writeId), "kind") == "SETTER" &&
-            (!bool(sym(writeId), "synthetic") || lazyMembers.contains(string(sym(writeId), "variable")))
+            (!bool(sym(writeId), "synthetic") || accessorCall(syntax, writeId))
           ) {
             val out = located(
               NewCall()
@@ -1474,7 +1496,8 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
         val readId   = string(syntax, "read", string(operand, "reference"))
         val writeId  = string(syntax, "write", string(operand, "reference"))
         val accessor = Seq(readId, writeId).exists(id =>
-          Set("GETTER", "SETTER").contains(string(sym(id), "kind")) && !bool(sym(id), "synthetic")
+          Set("GETTER", "SETTER").contains(string(sym(id), "kind")) &&
+            (!bool(sym(id), "synthetic") || accessorCall(syntax, id))
         )
         if (
           Set("++", "--").contains(string(syntax, "operator")) &&
@@ -2207,6 +2230,7 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
       )
       val annotations = execution.map(name => Ast(NewAnnotation().name(name).fullName(s"dart.$name").code(name)))
       val modifiers   = Seq(if (bool(target, "private")) ModifierTypes.PRIVATE else ModifierTypes.PUBLIC) ++
+        (if (bool(target, "abstract")) Seq(ModifierTypes.ABSTRACT) else Nil) ++
         (if (constructor) Seq(ModifierTypes.CONSTRUCTOR) else Nil) ++ (if (!instance) Seq(ModifierTypes.STATIC)
                                                                        else Nil)
       val result =
@@ -2329,14 +2353,14 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
         )
       )
     }
-    def lazyAccessors(syntax: Value): Seq[Ast] = {
+    def fieldAccessors(syntax: Value, lazyInitialization: Boolean): Seq[Ast] = {
       val variable = symbol(syntax)
       val instance = !bool(variable, "static")
       val name     = string(syntax, "name")
       val outer    = declarations.toMap
       Seq("getter", "setter").flatMap { kind =>
         val id = string(variable, kind)
-        if (id.isEmpty) Nil
+        if (id.isEmpty || !bool(sym(id), "synthetic")) Nil
         else {
           val parameters = (if (instance) Seq("this" -> currentType) else Nil) ++
             (if (kind == "setter") Seq("value" -> tpe(variable)) else Nil)
@@ -2359,35 +2383,41 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
             field(syntax, if (instance) thisAst(syntax) else identifier(syntax, owner, "", owner), name)
           def initialized(): Ast = operator(syntax, "<operator>.isInitialized", Seq(location()))
           def fail(): Ast        = lateFailure(syntax, name)
-          val guard              = if (kind == "getter") {
-            Seq(
-              initializeIfNeeded(
-                syntax,
-                name,
-                () => location(),
-                children(syntax, "initializer").headOption.map(expression),
-                bool(variable, "final")
-              ),
-              args(NewReturn().code(s"return $name"), Seq(location()))
-            )
-          } else {
-            (if (bool(variable, "final"))
-               Seq(control(syntax, ControlStructureTypes.IF, initialized(), block(syntax, Seq(fail()))))
-             else Nil) :+
-              operator(
-                syntax,
-                Operators.assignment,
-                Seq(location(), identifier(syntax, "value", "value", tpe(variable)))
-              )
-          }
+          val abstractMember     = bool(sym(id), "abstract")
+          val externalMember     = bool(sym(id), "external")
+          val guard              =
+            if (abstractMember || externalMember) Nil
+            else if (kind == "getter") {
+              (if (lazyInitialization)
+                 Seq(
+                   initializeIfNeeded(
+                     syntax,
+                     name,
+                     () => location(),
+                     children(syntax, "initializer").headOption.map(expression),
+                     bool(variable, "final")
+                   )
+                 )
+               else Nil) :+ args(NewReturn().code(s"return $name"), Seq(location()))
+            } else {
+              (if (lazyInitialization && bool(variable, "final"))
+                 Seq(control(syntax, ControlStructureTypes.IF, initialized(), block(syntax, Seq(fail()))))
+               else Nil) :+
+                operator(
+                  syntax,
+                  Operators.assignment,
+                  Seq(location(), identifier(syntax, "value", "value", tpe(variable)))
+                )
+            }
           val out = located(
             NewMethod()
               .name(name)
               .fullName(id)
               .code(code(syntax))
               .filename(filename)
-              .isExternal(false)
-              .signature(s"${if (kind == "getter") tpe(variable) else "void"}(${if (kind == "getter") 0 else 1})")
+              .isExternal(externalMember)
+              .signature(s"${string(sym(id), "returnType", "ANY")}(${if (kind == "getter") 0 else 1})")
+              .genericSignature(string(sym(id), "genericSignature"))
               .astParentType(ownerType)
               .astParentFullName(owner),
             syntax
@@ -2403,10 +2433,14 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
                   .evaluationStrategy(EvaluationStrategies.BY_VALUE)
               )
             )
-            .withChild({
-              val annotation = if (bool(variable, "late")) "late" else "lazy"
-              Ast(NewAnnotation().name(annotation).fullName(s"dart.$annotation").code(annotation))
-            })
+            .withChildren(
+              if (lazyInitialization) Seq({
+                val annotation = if (bool(variable, "late")) "late" else "lazy"
+                Ast(NewAnnotation().name(annotation).fullName(s"dart.$annotation").code(annotation))
+              })
+              else Nil
+            )
+            .withChildren(if (abstractMember) Seq(Ast(NewModifier().modifierType(ModifierTypes.ABSTRACT))) else Nil)
             .withChildren(if (instance) Nil else Seq(Ast(NewModifier().modifierType(ModifierTypes.STATIC))))
           declarations.clear(); declarations ++= outer
           Seq(ast)
@@ -2652,7 +2686,9 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
       case "MethodDeclaration" | "ConstructorDeclaration"     => Seq(method(syntax, syntax))
       case "TopLevelVariableDeclaration" | "FieldDeclaration" =>
         children(child(syntax, "variables"), "variable").flatMap { variable =>
-          Seq(member(variable)) ++ (if (lazyMembers.contains(string(variable, "declaration"))) lazyAccessors(variable)
+          val id = string(variable, "declaration")
+          Seq(member(variable)) ++ (if (accessorMembers(id))
+                                      fieldAccessors(variable, lazyMembers(id))
                                     else Nil)
         }
       case "ClassDeclaration" | "ClassTypeAlias" | "EnumDeclaration" | "MixinDeclaration" | "ExtensionDeclaration" |

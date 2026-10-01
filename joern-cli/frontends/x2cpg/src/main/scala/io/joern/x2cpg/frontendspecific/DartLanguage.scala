@@ -4,8 +4,9 @@ import io.shiftleft.codepropertygraph.generated.Operators
 
 // The pinned CPG schema does not yet provide Languages.DART.
 object DartLanguage {
-  final val Name        = "DART"
-  val readOnlyOperators = Set(
+  final val Name                = "DART"
+  final val ResolvedDispatchTag = "dart.resolvedDispatch"
+  val readOnlyOperators         = Set(
     Operators.subtraction,
     Operators.multiplication,
     Operators.division,

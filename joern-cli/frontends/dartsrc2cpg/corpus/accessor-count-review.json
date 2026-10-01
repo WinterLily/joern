@@ -1,0 +1,104 @@
+{
+  "previousExporter": "0.3.18",
+  "exporter": "0.3.19",
+  "derivation": "Count unique synthetic getter/setter IDs of scanned nonstatic, nonlate field declarations. Existing late/lazy accessors are excluded. Abstract accessors contribute methods without body calls; concrete getters add one storage call and setters add storage plus assignment. Six analyzer increments/decrements add 4 calls each, plus one saved qualified receiver; Saber has one bare static increment adding 4. All predicted method/call deltas match the twelve graph audits.",
+  "lazyUpdates": {
+    "analyzer-8.4.1": [
+      "driver.dart: allowedNumberOfContextsToWrite--",
+      "library_graph.dart: _nextId++",
+      "element.dart: _lockResolutionLoading++",
+      "element.dart: _lockResolutionLoading--",
+      "element.dart: FragmentImpl._NEXT_ID++",
+      "element.dart: _NEXT_ID++"
+    ],
+    "saber-0.26.0": [
+      "components/home/syncing_button.dart: filesTransferred++"
+    ]
+  },
+  "projects": [
+    {
+      "category": "",
+      "project": "path-1.9.1",
+      "addedMethods": 37,
+      "addedAccessorCalls": 43,
+      "extraLazyUpdateCalls": 0
+    },
+    {
+      "category": "",
+      "project": "collection-1.19.1",
+      "addedMethods": 75,
+      "addedAccessorCalls": 89,
+      "extraLazyUpdateCalls": 0
+    },
+    {
+      "category": "",
+      "project": "meta-1.17.0",
+      "addedMethods": 7,
+      "addedAccessorCalls": 7,
+      "extraLazyUpdateCalls": 0
+    },
+    {
+      "category": "",
+      "project": "args-2.7.0",
+      "addedMethods": 63,
+      "addedAccessorCalls": 69,
+      "extraLazyUpdateCalls": 0
+    },
+    {
+      "category": "",
+      "project": "async-2.13.0",
+      "addedMethods": 163,
+      "addedAccessorCalls": 209,
+      "extraLazyUpdateCalls": 0
+    },
+    {
+      "category": "",
+      "project": "http_parser-4.1.2",
+      "addedMethods": 10,
+      "addedAccessorCalls": 11,
+      "extraLazyUpdateCalls": 0
+    },
+    {
+      "category": "",
+      "project": "analyzer-8.4.1",
+      "addedMethods": 5643,
+      "addedAccessorCalls": 6818,
+      "extraLazyUpdateCalls": 25
+    },
+    {
+      "category": "applications",
+      "project": "localsend-1.17.0",
+      "addedMethods": 4050,
+      "addedAccessorCalls": 4098,
+      "extraLazyUpdateCalls": 0
+    },
+    {
+      "category": "applications",
+      "project": "saber-0.26.0",
+      "addedMethods": 1702,
+      "addedAccessorCalls": 1838,
+      "extraLazyUpdateCalls": 4
+    },
+    {
+      "category": "applications",
+      "project": "dart-sass-1.89.2",
+      "addedMethods": 795,
+      "addedAccessorCalls": 898,
+      "extraLazyUpdateCalls": 0
+    },
+    {
+      "category": "holdout",
+      "project": "shelf-1.4.2",
+      "addedMethods": 43,
+      "addedAccessorCalls": 52,
+      "extraLazyUpdateCalls": 0
+    },
+    {
+      "category": "holdout",
+      "project": "yaml-3.1.3",
+      "addedMethods": 109,
+      "addedAccessorCalls": 117,
+      "extraLazyUpdateCalls": 0
+    }
+  ]
+}

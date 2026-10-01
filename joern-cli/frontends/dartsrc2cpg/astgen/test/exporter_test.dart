@@ -36,6 +36,65 @@ void main() {
   tearDown(() => project.deleteSync(recursive: true));
 
   test(
+    'virtual implementation facts preserve covariant and generic declarations',
+    () async {
+      write(
+        'main.dart',
+        File(
+          '../src/test/resources/semantics/virtual_overrides.dart',
+        ).readAsStringSync(),
+      );
+      final unit = units(await export()).single;
+      expect(unit['status'], 'resolved');
+      final symbols = {
+        for (final value in entries(unit, 'symbols')) value['id']: value,
+      };
+      final nodes = entries(unit, 'nodes');
+      final surface = nodes.singleWhere(
+        (node) =>
+            node['kind'] == 'ClassDeclaration' && node['name'] == 'Surface',
+      )['declaration'];
+      final concrete = nodes.singleWhere(
+        (node) =>
+            node['kind'] == 'ClassDeclaration' && node['name'] == 'Concrete',
+      )['declaration'];
+      final layer = nodes.singleWhere(
+        (node) => node['kind'] == 'MixinDeclaration' && node['name'] == 'Layer',
+      )['declaration'];
+      final mixed = nodes.singleWhere(
+        (node) => node['kind'] == 'ClassDeclaration' && node['name'] == 'Mixed',
+      );
+      final targets = (mixed['virtualTargets'] as List).cast<Map>();
+      for (final origin in [surface, concrete]) {
+        final member = symbols.values.singleWhere(
+          (s) =>
+              s['owner'] == origin &&
+              s['kind'] == 'METHOD' &&
+              s['name'] == 'echo',
+        );
+        final target = targets.singleWhere(
+          (fact) => fact['member'] == member['id'],
+        );
+        expect(symbols[target['implementation']]!['owner'], layer);
+      }
+      for (final (owner, returnType) in [
+        (surface, 'T'),
+        (concrete, 'U'),
+        (layer, 'V'),
+      ]) {
+        final method = symbols.values.singleWhere(
+          (s) =>
+              s['owner'] == owner &&
+              s['kind'] == 'METHOD' &&
+              s['name'] == 'generic',
+        );
+        expect(method['returnType'], returnType);
+        expect(method['abstract'] == true, owner == surface);
+      }
+    },
+  );
+
+  test(
     'mixin super targets retain order and private library identities',
     () async {
       write('base.dart', """

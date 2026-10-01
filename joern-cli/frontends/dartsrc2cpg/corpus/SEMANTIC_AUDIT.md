@@ -789,3 +789,61 @@ tests and fourteen console tests. All twelve refreshed reports share one current
 source fingerprint and exporter 0.3.18. Graph baselines, reaching-definition
 counts, endpoint checks and limitations are unchanged. All changes are within
 the Dart frontend; other language handling and shared passes are unchanged.
+
+## Analyzer hierarchy dispatch and implicit field accessors
+
+Exporter 0.3.19 records concrete implementations selected by the pinned analyzer
+for scanned class hierarchies. The reduced override case previously missed
+covariant and renamed generic overrides under signature matching. A Dart-owned
+pass now links those implementations while retaining declaration signatures and
+dynamic dispatch. Private lookup uses the member's library; receiver static types
+exclude unrelated sibling implementations. Abstract source declarations remain
+represented but do not act as executable targets. External API declarations
+remain placeholders for unavailable implementations and optional summaries.
+
+Source instance fields now have implicit accessor bodies. Ordinary storage reads
+and writes retain their existing lowering when no observed override changes the
+member. Virtual and super accesses retain accessor calls, while constructor field
+initialization writes storage directly. Final fields with explicit setters do not
+produce duplicate setters. Lazy-field increments/decrements now include their
+setter operation. Independent bounded SDK oracles check implementation traces,
+covariant rejection, constructor/super storage and old/new increment values;
+graph regressions check target sets and source/ignored operand isolation.
+
+The shared dynamic linker has one directly necessary integration guard: marked
+DART calls retain the frontend's selected target set. It otherwise added invalid
+same-named private or incompatible targets after Dart resolution. The regression
+checks marked/unmarked DART, C, Java, JavaScript and Kotlin graphs; other languages
+retain existing linking rules. No other frontend implementation changed.
+
+The [accessor count review](accessor-count-review.json) derives the method/call
+increases independently from source accessor declarations and seven lazy updates.
+All twelve graph baselines match those predictions. Repeated hierarchy metadata
+was compacted, scanned declarations supply their accessor facts, and false flags
+may be omitted; repeated symbol records are merged across units. The analyzer
+export is 261,416,148 bytes, within the unchanged 268,435,456-byte limit.
+
+Validation passes: clean Dart analysis, all 97 native tests with runtime and
+Flutter checks enabled, the updated inventory check, all 148 frontend/package
+tests, all three applications, both holdouts, staged packaging, four CLI checks,
+fourteen console tests and shared formatting checks. All twelve refreshed reports
+share current source fingerprint
+`ef1fd1c0a972db8c0d602a6c45e680a229017f069850fa2ac62fe0ae6c908ea1`
+and exporter 0.3.19. Original corpus endpoints remain 74/76 stock and 76/76 modeled;
+all four holdout expectations match. Five modeled negatives remain inconclusive.
+The historical witness review does not certify newly generated paths.
+
+The new dispatch reports expose 105 calls without observed targets across async
+and analyzer, and six unmodeled external implicit accessors at Sass's dependency
+boundaries. Scanned source accessors pass the source-target audit. These counters
+make missing implementations visible; they do not prove whole-program dispatch.
+Unscanned subclasses/bodies, runtime receiver contexts, type-check feasibility,
+differing override defaults and named output bindings remain unqualified.
+
+DART-FLOW-006: the reduced `lazyIncrement` program stores input in a static field
+and returns its old value after incrementing it. The runtime oracle confirms the
+input-to-return dependency. The graph retains getter/setter calls and the input
+passed to the setter, but the shared engine does not recover that dependency
+across static storage. Owner: interprocedural heap analysis; this is an open false
+negative, not a completed value-flow contract. No broader frontend/runtime
+completion or majority-correctness claim follows from this increment.

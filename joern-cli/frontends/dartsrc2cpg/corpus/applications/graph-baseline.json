@@ -2,24 +2,24 @@
   {
     "project": "localsend-1.17.0",
     "files": 260,
-    "methods": 24561,
-    "calls": 99376,
+    "methods": 28611,
+    "calls": 103474,
     "unknown": 0,
     "unknownKinds": {}
   },
   {
     "project": "saber-0.26.0",
     "files": 143,
-    "methods": 8233,
-    "calls": 51543,
+    "methods": 9935,
+    "calls": 53385,
     "unknown": 0,
     "unknownKinds": {}
   },
   {
     "project": "dart-sass-1.89.2",
     "files": 348,
-    "methods": 6414,
-    "calls": 84723,
+    "methods": 7209,
+    "calls": 85621,
     "unknown": 0,
     "unknownKinds": {}
   }

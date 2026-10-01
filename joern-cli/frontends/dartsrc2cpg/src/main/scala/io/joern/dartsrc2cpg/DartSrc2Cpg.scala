@@ -39,12 +39,16 @@ class DartSrc2Cpg extends X2CpgFrontend {
         Some(config.ignoredFiles)
       )
     }
-    val cpg = X2Cpg
+    var virtualDispatch: Value = ujson.Obj()
+    val cpg                    = X2Cpg
       .withNewEmptyCpg(config.outputPath, config) { (cpg, _) =>
         new MetaDataPass(cpg, DartLanguage.Name, root.toString).createAndApply()
         new AstCreationPass(cpg, units, config).createAndApply()
         new MethodReferencePass(cpg, units).createAndApply()
         new MixinSuperCallPass(cpg, units).createAndApply()
+        val virtualCalls = new VirtualCallPass(cpg, units)
+        virtualCalls.createAndApply()
+        virtualDispatch = virtualCalls.report
         TypeNodePass.withTypesFromCpg(cpg).createAndApply()
       }
       .get
@@ -65,6 +69,7 @@ class DartSrc2Cpg extends X2CpgFrontend {
             n("kind").str
           ) && n.obj.get("target").forall(_ == ujson.Null)
         ),
+        "virtualDispatch"      -> virtualDispatch,
         "elapsedMillis"        -> ((System.nanoTime() - started) / 1000000),
         "exporterPeakRssBytes" -> records.last.obj.getOrElse("peakRssBytes", ujson.Null)
       )
@@ -86,7 +91,7 @@ private[dartsrc2cpg] object ExportProtocol {
     require(
       header("record").str == "header" && header("protocolVersion").num == 1 &&
         header("offsetEncoding").str == "utf-16" && header("analyzerVersion").str == "8.4.1" &&
-        header("sdkVersion").str == "3.9.2" && header.obj.get("exporterVersion").contains(ujson.Str("0.3.18")),
+        header("sdkVersion").str == "3.9.2" && header.obj.get("exporterVersion").contains(ujson.Str("0.3.19")),
       "Incompatible Dart exporter protocol"
     )
     require(records.last("record").str == "summary", "Truncated Dart exporter output")

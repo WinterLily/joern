@@ -1,6 +1,6 @@
 # Dart and Flutter feature matrix
 
-Tested with Dart 3.9.2, analyzer 8.4.1, exporter 0.3.18 and Flutter 3.35.3
+Tested with Dart 3.9.2, analyzer 8.4.1, exporter 0.3.19 and Flutter 3.35.3
 (framework revision `a402d9a437`). “Parsed” means explicit exporter nodes rather
 than UNKNOWN. Resolution uses existing package configuration and SDK resources.
 Dataflow claims below refer to the OSS engine with default semantics, not Dart
@@ -45,8 +45,10 @@ environments, mutable/conditional/returned function targets and promoted-type
 feasibility remain unqualified. Type literals are TYPE_REFs.
 `super` calls, accessors, operators and tear-offs retain their selected superclass
 targets. Static tear-offs cannot select subclass static shadows. Ordinary virtual
-calls still include tested overrides; covariant/generic signatures and synthetic
-field-accessor overrides remain unqualified.
+calls use analyzer hierarchy implementations, including tested covariant/generic
+overrides and source implicit accessors. Private lookup respects library identity,
+and receiver static types exclude unrelated siblings. Runtime receiver contexts,
+differing named/default arguments and general heap effects remain unqualified.
 Named switch labels and continue-to-case retain their
 CFG targets, including jumps past a target pattern guard. Null-aware collection
 elements and map keys/values have explicit guards and evaluation-order tests.

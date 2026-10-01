@@ -219,14 +219,32 @@ are still scanned independently, but references follow the selected library.
 
 ## Resolution and analysis limits
 
-Resolved calls carry analyzer declaration IDs. Joern's default call graph overlay
-links those targets and can add overrides using inheritance and compatible method
-signatures. Static members, constructors, extensions and `super` operations retain
+Resolved calls carry analyzer declaration IDs. A Dart-owned pass links virtual
+implementations selected by analyzer lookup across scanned class hierarchies,
+including covariant returns/parameters and renamed generic parameters. Lookup
+respects private library identity, and receiver static types restrict the union
+to compatible observed classes. Abstract source declarations remain represented
+but are excluded as executable targets. Unavailable external API declarations
+remain placeholders for unresolved implementations and optional summaries.
+Static members, constructors, extensions and `super` operations retain
 static dispatch, including bound tear-offs and accessors/operators. Calls through
 a known function value select that value; an ordinary bound instance tear-off's
 wrapper still invokes its receiver virtually. `super` retains the lexical
-superclass view of the same `this` object. Covariant overrides, generic signature
-compatibility and synthetic field-accessor overrides remain unqualified.
+superclass view of the same `this` object. Source instance fields have internal
+implicit getter/setter bodies, unless abstract or explicitly external. Explicit
+accessors retain their own bodies. Reads/writes use accessor calls when an observed
+override can change the selected member; otherwise they use direct storage.
+Constructor initializing formals and field initializers always write storage
+directly. Super accessor calls select the lexical storage implementation. Lazy
+accessor increments retain both their read and write operations.
+Static storage across separate setter/getter calls remains an interprocedural
+heap limitation: `lazyIncrement` in the implicit-accessor fixture has a runtime
+input-to-return dependency that the current dataflow engine does not recover.
+The `virtualDispatch` report records resolved calls, calls without observed
+targets, external targets and unmodeled implicit accessors. The target union does
+not establish runtime receiver points-to, type-check feasibility or unscanned
+implementations. Differing override defaults and named-parameter output bindings
+remain unqualified.
 Mixin superclass operations additionally link implementations preceding the mixin
 in observed applications, including superclass overrides and earlier mixins.
 Lookup respects private library identities. A Dart-specific call pass adds these
@@ -236,8 +254,9 @@ an application-specific body for each caller. Unscanned applications, external
 implementation bodies and differing named-parameter orders remain unqualified.
 Calls without a resolved target retain `<unresolved>.name`; the
 frontend does not invent targets for arbitrary dynamic dispatch. External method
-stubs come from Joern's overlays. Their bodies and library-specific effects are
-not inferred.
+stubs come from the Dart pass or Joern's overlays. Their bodies and library-specific
+effects are not inferred. A small shared-linker guard preserves marked Dart target
+sets; unmarked Dart calls and every other language retain existing linking rules.
 
 The shared CFG overlay approximates exception matching and path feasibility;
 the explicit catch and cleanup contracts above do not qualify arbitrary paths.

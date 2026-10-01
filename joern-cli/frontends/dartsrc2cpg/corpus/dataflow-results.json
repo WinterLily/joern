@@ -3,8 +3,8 @@
     "project": "path-1.9.1",
     "analysisSources": {
       "algorithm": "sha256-path-nul-content-nul",
-      "sha256": "4bbc91808f13a7e891ed8444b71a03f411662a39269803781b89a3437fe2273e",
-      "files": 380,
+      "sha256": "ef1fd1c0a972db8c0d602a6c45e680a229017f069850fa2ac62fe0ae6c908ea1",
+      "files": 386,
       "roots": [
         "joern-cli/frontends/dartsrc2cpg/src",
         "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -34,26 +34,33 @@
     "exporter": {
       "record": "header",
       "protocolVersion": 1,
-      "exporterVersion": "0.3.18",
+      "exporterVersion": "0.3.19",
       "analyzerVersion": "8.4.1",
       "sdkVersion": "3.9.2",
       "offsetEncoding": "utf-16",
       "conditionalEnvironment": "analyzer-default"
     },
     "overlay": {
-      "methods": 199,
+      "methods": 236,
       "maxDefinitions": 443,
       "definitionLimit": 20000,
       "aboveDefaultLimit": {}
     },
     "stringConversionOrder": "after-expression-evaluation",
+    "virtualDispatch": {
+      "approximation": "analyzer-hierarchy-target-union",
+      "resolvedCalls": 484,
+      "withoutObservedTarget": 0,
+      "externalTargets": 65,
+      "unmodeledImplicitAccessors": 0
+    },
     "modelFiles": {
       "async": "# Completer.completeError stores the error and stack trace in the completer.\n# It does not copy either argument into the other and has no return value.\n# Load these method names as regular expressions; declaration offsets may vary.\n\"dart:async/future[.]dart\\x23[0-9]+:METHOD:completeError\" 0 -> 0 1 -> 1 2 -> 2 1 -> 0 2 -> 0\n",
       "worker_manager": "# Executor.execute stores the task and priority and returns its cancelable result.\n# The task's values do not change the priority argument. This does not model scheduling.\n# Tested against worker_manager 7.2.6; load the method name as a regular expression.\n\"package:worker_manager/src/scheduling/executor[.]dart\\x23[0-9]+:METHOD:execute\" 0 -> 0 1 -> 1 2 -> 2 1 -> 0 2 -> 0 1 -> -1\n",
       "iterable": "# Dart SDK 3.9.2: lib/core/iterable.dart and lib/internal/iterable.dart.\n# Explicit element values with pure predicates/transforms and statically known callbacks.\n# Selection, lazy execution timing and callback side effects are outside this contract.\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:where\" 0 -> 0 1 -> 1 0 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:map\" 0 -> 0 1 -> 1 1 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:join\" 0 -> 0 1 -> 1 0 -> -1 1 -> -1\n",
       "bytes": "# Dart SDK 3.9.2 byte-content contract for Uint8List allocation and standard List.setRange.\n# Length/range inputs select size and positions; they are not copied element values.\n# Keep the constructor offset exact: other dart:typed_data unnamed constructors include SIMD values.\n\"dart:typed_data\\x2336552:CONSTRUCTOR:new\" 1 -> 1\n\"dart:core/list[.]dart\\x2329446:METHOD:setRange\" 0 -> 0 1 -> 1 2 -> 2 3 -> 3 4 -> 4 3 -> 0\n"
     },
-    "reachingDefEdges": 13243,
+    "reachingDefEdges": 13602,
     "maxCallDepth": 4,
     "maxFieldDepth": 4,
     "pathSelection": "longest-per-endpoint-pair",
@@ -196,8 +203,8 @@
     "project": "collection-1.19.1",
     "analysisSources": {
       "algorithm": "sha256-path-nul-content-nul",
-      "sha256": "4bbc91808f13a7e891ed8444b71a03f411662a39269803781b89a3437fe2273e",
-      "files": 380,
+      "sha256": "ef1fd1c0a972db8c0d602a6c45e680a229017f069850fa2ac62fe0ae6c908ea1",
+      "files": 386,
       "roots": [
         "joern-cli/frontends/dartsrc2cpg/src",
         "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -227,26 +234,33 @@
     "exporter": {
       "record": "header",
       "protocolVersion": 1,
-      "exporterVersion": "0.3.18",
+      "exporterVersion": "0.3.19",
       "analyzerVersion": "8.4.1",
       "sdkVersion": "3.9.2",
       "offsetEncoding": "utf-16",
       "conditionalEnvironment": "analyzer-default"
     },
     "overlay": {
-      "methods": 685,
+      "methods": 760,
       "maxDefinitions": 181,
       "definitionLimit": 20000,
       "aboveDefaultLimit": {}
     },
     "stringConversionOrder": "after-expression-evaluation",
+    "virtualDispatch": {
+      "approximation": "analyzer-hierarchy-target-union",
+      "resolvedCalls": 808,
+      "withoutObservedTarget": 0,
+      "externalTargets": 226,
+      "unmodeledImplicitAccessors": 0
+    },
     "modelFiles": {
       "async": "# Completer.completeError stores the error and stack trace in the completer.\n# It does not copy either argument into the other and has no return value.\n# Load these method names as regular expressions; declaration offsets may vary.\n\"dart:async/future[.]dart\\x23[0-9]+:METHOD:completeError\" 0 -> 0 1 -> 1 2 -> 2 1 -> 0 2 -> 0\n",
       "worker_manager": "# Executor.execute stores the task and priority and returns its cancelable result.\n# The task's values do not change the priority argument. This does not model scheduling.\n# Tested against worker_manager 7.2.6; load the method name as a regular expression.\n\"package:worker_manager/src/scheduling/executor[.]dart\\x23[0-9]+:METHOD:execute\" 0 -> 0 1 -> 1 2 -> 2 1 -> 0 2 -> 0 1 -> -1\n",
       "iterable": "# Dart SDK 3.9.2: lib/core/iterable.dart and lib/internal/iterable.dart.\n# Explicit element values with pure predicates/transforms and statically known callbacks.\n# Selection, lazy execution timing and callback side effects are outside this contract.\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:where\" 0 -> 0 1 -> 1 0 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:map\" 0 -> 0 1 -> 1 1 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:join\" 0 -> 0 1 -> 1 0 -> -1 1 -> -1\n",
       "bytes": "# Dart SDK 3.9.2 byte-content contract for Uint8List allocation and standard List.setRange.\n# Length/range inputs select size and positions; they are not copied element values.\n# Keep the constructor offset exact: other dart:typed_data unnamed constructors include SIMD values.\n\"dart:typed_data\\x2336552:CONSTRUCTOR:new\" 1 -> 1\n\"dart:core/list[.]dart\\x2329446:METHOD:setRange\" 0 -> 0 1 -> 1 2 -> 2 3 -> 3 4 -> 4 3 -> 0\n"
     },
-    "reachingDefEdges": 32556,
+    "reachingDefEdges": 33133,
     "maxCallDepth": 4,
     "maxFieldDepth": 4,
     "pathSelection": "longest-per-endpoint-pair",
@@ -340,8 +354,12 @@
         "stockOutcome": "flow-observed",
         "modeledOutcome": "flow-observed",
         "limitations": {
-          "stock": [],
-          "modeled": []
+          "stock": [
+            "call-depth"
+          ],
+          "modeled": [
+            "call-depth"
+          ]
         },
         "omittedWitnesses": {
           "stock": 0,
@@ -428,8 +446,8 @@
     "project": "meta-1.17.0",
     "analysisSources": {
       "algorithm": "sha256-path-nul-content-nul",
-      "sha256": "4bbc91808f13a7e891ed8444b71a03f411662a39269803781b89a3437fe2273e",
-      "files": 380,
+      "sha256": "ef1fd1c0a972db8c0d602a6c45e680a229017f069850fa2ac62fe0ae6c908ea1",
+      "files": 386,
       "roots": [
         "joern-cli/frontends/dartsrc2cpg/src",
         "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -459,26 +477,33 @@
     "exporter": {
       "record": "header",
       "protocolVersion": 1,
-      "exporterVersion": "0.3.18",
+      "exporterVersion": "0.3.19",
       "analyzerVersion": "8.4.1",
       "sdkVersion": "3.9.2",
       "offsetEncoding": "utf-16",
       "conditionalEnvironment": "analyzer-default"
     },
     "overlay": {
-      "methods": 35,
+      "methods": 42,
       "maxDefinitions": 208,
       "definitionLimit": 20000,
       "aboveDefaultLimit": {}
     },
     "stringConversionOrder": "after-expression-evaluation",
+    "virtualDispatch": {
+      "approximation": "analyzer-hierarchy-target-union",
+      "resolvedCalls": 1,
+      "withoutObservedTarget": 0,
+      "externalTargets": 1,
+      "unmodeledImplicitAccessors": 0
+    },
     "modelFiles": {
       "async": "# Completer.completeError stores the error and stack trace in the completer.\n# It does not copy either argument into the other and has no return value.\n# Load these method names as regular expressions; declaration offsets may vary.\n\"dart:async/future[.]dart\\x23[0-9]+:METHOD:completeError\" 0 -> 0 1 -> 1 2 -> 2 1 -> 0 2 -> 0\n",
       "worker_manager": "# Executor.execute stores the task and priority and returns its cancelable result.\n# The task's values do not change the priority argument. This does not model scheduling.\n# Tested against worker_manager 7.2.6; load the method name as a regular expression.\n\"package:worker_manager/src/scheduling/executor[.]dart\\x23[0-9]+:METHOD:execute\" 0 -> 0 1 -> 1 2 -> 2 1 -> 0 2 -> 0 1 -> -1\n",
       "iterable": "# Dart SDK 3.9.2: lib/core/iterable.dart and lib/internal/iterable.dart.\n# Explicit element values with pure predicates/transforms and statically known callbacks.\n# Selection, lazy execution timing and callback side effects are outside this contract.\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:where\" 0 -> 0 1 -> 1 0 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:map\" 0 -> 0 1 -> 1 1 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:join\" 0 -> 0 1 -> 1 0 -> -1 1 -> -1\n",
       "bytes": "# Dart SDK 3.9.2 byte-content contract for Uint8List allocation and standard List.setRange.\n# Length/range inputs select size and positions; they are not copied element values.\n# Keep the constructor offset exact: other dart:typed_data unnamed constructors include SIMD values.\n\"dart:typed_data\\x2336552:CONSTRUCTOR:new\" 1 -> 1\n\"dart:core/list[.]dart\\x2329446:METHOD:setRange\" 0 -> 0 1 -> 1 2 -> 2 3 -> 3 4 -> 4 3 -> 0\n"
     },
-    "reachingDefEdges": 2721,
+    "reachingDefEdges": 2784,
     "maxCallDepth": 4,
     "maxFieldDepth": 4,
     "pathSelection": "longest-per-endpoint-pair",
@@ -716,8 +741,8 @@
     "project": "args-2.7.0",
     "analysisSources": {
       "algorithm": "sha256-path-nul-content-nul",
-      "sha256": "4bbc91808f13a7e891ed8444b71a03f411662a39269803781b89a3437fe2273e",
-      "files": 380,
+      "sha256": "ef1fd1c0a972db8c0d602a6c45e680a229017f069850fa2ac62fe0ae6c908ea1",
+      "files": 386,
       "roots": [
         "joern-cli/frontends/dartsrc2cpg/src",
         "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -747,26 +772,33 @@
     "exporter": {
       "record": "header",
       "protocolVersion": 1,
-      "exporterVersion": "0.3.18",
+      "exporterVersion": "0.3.19",
       "analyzerVersion": "8.4.1",
       "sdkVersion": "3.9.2",
       "offsetEncoding": "utf-16",
       "conditionalEnvironment": "analyzer-default"
     },
     "overlay": {
-      "methods": 156,
+      "methods": 219,
       "maxDefinitions": 189,
       "definitionLimit": 20000,
       "aboveDefaultLimit": {}
     },
     "stringConversionOrder": "after-expression-evaluation",
+    "virtualDispatch": {
+      "approximation": "analyzer-hierarchy-target-union",
+      "resolvedCalls": 476,
+      "withoutObservedTarget": 0,
+      "externalTargets": 56,
+      "unmodeledImplicitAccessors": 0
+    },
     "modelFiles": {
       "async": "# Completer.completeError stores the error and stack trace in the completer.\n# It does not copy either argument into the other and has no return value.\n# Load these method names as regular expressions; declaration offsets may vary.\n\"dart:async/future[.]dart\\x23[0-9]+:METHOD:completeError\" 0 -> 0 1 -> 1 2 -> 2 1 -> 0 2 -> 0\n",
       "worker_manager": "# Executor.execute stores the task and priority and returns its cancelable result.\n# The task's values do not change the priority argument. This does not model scheduling.\n# Tested against worker_manager 7.2.6; load the method name as a regular expression.\n\"package:worker_manager/src/scheduling/executor[.]dart\\x23[0-9]+:METHOD:execute\" 0 -> 0 1 -> 1 2 -> 2 1 -> 0 2 -> 0 1 -> -1\n",
       "iterable": "# Dart SDK 3.9.2: lib/core/iterable.dart and lib/internal/iterable.dart.\n# Explicit element values with pure predicates/transforms and statically known callbacks.\n# Selection, lazy execution timing and callback side effects are outside this contract.\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:where\" 0 -> 0 1 -> 1 0 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:map\" 0 -> 0 1 -> 1 1 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:join\" 0 -> 0 1 -> 1 0 -> -1 1 -> -1\n",
       "bytes": "# Dart SDK 3.9.2 byte-content contract for Uint8List allocation and standard List.setRange.\n# Length/range inputs select size and positions; they are not copied element values.\n# Keep the constructor offset exact: other dart:typed_data unnamed constructors include SIMD values.\n\"dart:typed_data\\x2336552:CONSTRUCTOR:new\" 1 -> 1\n\"dart:core/list[.]dart\\x2329446:METHOD:setRange\" 0 -> 0 1 -> 1 2 -> 2 3 -> 3 4 -> 4 3 -> 0\n"
     },
-    "reachingDefEdges": 14296,
+    "reachingDefEdges": 14938,
     "maxCallDepth": 4,
     "maxFieldDepth": 4,
     "pathSelection": "longest-per-endpoint-pair",
@@ -937,8 +969,8 @@
     "project": "async-2.13.0",
     "analysisSources": {
       "algorithm": "sha256-path-nul-content-nul",
-      "sha256": "4bbc91808f13a7e891ed8444b71a03f411662a39269803781b89a3437fe2273e",
-      "files": 380,
+      "sha256": "ef1fd1c0a972db8c0d602a6c45e680a229017f069850fa2ac62fe0ae6c908ea1",
+      "files": 386,
       "roots": [
         "joern-cli/frontends/dartsrc2cpg/src",
         "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -968,26 +1000,33 @@
     "exporter": {
       "record": "header",
       "protocolVersion": 1,
-      "exporterVersion": "0.3.18",
+      "exporterVersion": "0.3.19",
       "analyzerVersion": "8.4.1",
       "sdkVersion": "3.9.2",
       "offsetEncoding": "utf-16",
       "conditionalEnvironment": "analyzer-default"
     },
     "overlay": {
-      "methods": 537,
+      "methods": 700,
       "maxDefinitions": 110,
       "definitionLimit": 20000,
       "aboveDefaultLimit": {}
     },
     "stringConversionOrder": "after-expression-evaluation",
+    "virtualDispatch": {
+      "approximation": "analyzer-hierarchy-target-union",
+      "resolvedCalls": 769,
+      "withoutObservedTarget": 6,
+      "externalTargets": 89,
+      "unmodeledImplicitAccessors": 0
+    },
     "modelFiles": {
       "async": "# Completer.completeError stores the error and stack trace in the completer.\n# It does not copy either argument into the other and has no return value.\n# Load these method names as regular expressions; declaration offsets may vary.\n\"dart:async/future[.]dart\\x23[0-9]+:METHOD:completeError\" 0 -> 0 1 -> 1 2 -> 2 1 -> 0 2 -> 0\n",
       "worker_manager": "# Executor.execute stores the task and priority and returns its cancelable result.\n# The task's values do not change the priority argument. This does not model scheduling.\n# Tested against worker_manager 7.2.6; load the method name as a regular expression.\n\"package:worker_manager/src/scheduling/executor[.]dart\\x23[0-9]+:METHOD:execute\" 0 -> 0 1 -> 1 2 -> 2 1 -> 0 2 -> 0 1 -> -1\n",
       "iterable": "# Dart SDK 3.9.2: lib/core/iterable.dart and lib/internal/iterable.dart.\n# Explicit element values with pure predicates/transforms and statically known callbacks.\n# Selection, lazy execution timing and callback side effects are outside this contract.\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:where\" 0 -> 0 1 -> 1 0 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:map\" 0 -> 0 1 -> 1 1 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:join\" 0 -> 0 1 -> 1 0 -> -1 1 -> -1\n",
       "bytes": "# Dart SDK 3.9.2 byte-content contract for Uint8List allocation and standard List.setRange.\n# Length/range inputs select size and positions; they are not copied element values.\n# Keep the constructor offset exact: other dart:typed_data unnamed constructors include SIMD values.\n\"dart:typed_data\\x2336552:CONSTRUCTOR:new\" 1 -> 1\n\"dart:core/list[.]dart\\x2329446:METHOD:setRange\" 0 -> 0 1 -> 1 2 -> 2 3 -> 3 4 -> 4 3 -> 0\n"
     },
-    "reachingDefEdges": 21745,
+    "reachingDefEdges": 23206,
     "maxCallDepth": 4,
     "maxFieldDepth": 4,
     "pathSelection": "longest-per-endpoint-pair",
@@ -1134,8 +1173,8 @@
     "project": "http_parser-4.1.2",
     "analysisSources": {
       "algorithm": "sha256-path-nul-content-nul",
-      "sha256": "4bbc91808f13a7e891ed8444b71a03f411662a39269803781b89a3437fe2273e",
-      "files": 380,
+      "sha256": "ef1fd1c0a972db8c0d602a6c45e680a229017f069850fa2ac62fe0ae6c908ea1",
+      "files": 386,
       "roots": [
         "joern-cli/frontends/dartsrc2cpg/src",
         "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -1165,26 +1204,33 @@
     "exporter": {
       "record": "header",
       "protocolVersion": 1,
-      "exporterVersion": "0.3.18",
+      "exporterVersion": "0.3.19",
       "analyzerVersion": "8.4.1",
       "sdkVersion": "3.9.2",
       "offsetEncoding": "utf-16",
       "conditionalEnvironment": "analyzer-default"
     },
     "overlay": {
-      "methods": 81,
+      "methods": 91,
       "maxDefinitions": 153,
       "definitionLimit": 20000,
       "aboveDefaultLimit": {}
     },
     "stringConversionOrder": "after-expression-evaluation",
+    "virtualDispatch": {
+      "approximation": "analyzer-hierarchy-target-union",
+      "resolvedCalls": 212,
+      "withoutObservedTarget": 0,
+      "externalTargets": 50,
+      "unmodeledImplicitAccessors": 0
+    },
     "modelFiles": {
       "async": "# Completer.completeError stores the error and stack trace in the completer.\n# It does not copy either argument into the other and has no return value.\n# Load these method names as regular expressions; declaration offsets may vary.\n\"dart:async/future[.]dart\\x23[0-9]+:METHOD:completeError\" 0 -> 0 1 -> 1 2 -> 2 1 -> 0 2 -> 0\n",
       "worker_manager": "# Executor.execute stores the task and priority and returns its cancelable result.\n# The task's values do not change the priority argument. This does not model scheduling.\n# Tested against worker_manager 7.2.6; load the method name as a regular expression.\n\"package:worker_manager/src/scheduling/executor[.]dart\\x23[0-9]+:METHOD:execute\" 0 -> 0 1 -> 1 2 -> 2 1 -> 0 2 -> 0 1 -> -1\n",
       "iterable": "# Dart SDK 3.9.2: lib/core/iterable.dart and lib/internal/iterable.dart.\n# Explicit element values with pure predicates/transforms and statically known callbacks.\n# Selection, lazy execution timing and callback side effects are outside this contract.\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:where\" 0 -> 0 1 -> 1 0 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:map\" 0 -> 0 1 -> 1 1 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:join\" 0 -> 0 1 -> 1 0 -> -1 1 -> -1\n",
       "bytes": "# Dart SDK 3.9.2 byte-content contract for Uint8List allocation and standard List.setRange.\n# Length/range inputs select size and positions; they are not copied element values.\n# Keep the constructor offset exact: other dart:typed_data unnamed constructors include SIMD values.\n\"dart:typed_data\\x2336552:CONSTRUCTOR:new\" 1 -> 1\n\"dart:core/list[.]dart\\x2329446:METHOD:setRange\" 0 -> 0 1 -> 1 2 -> 2 3 -> 3 4 -> 4 3 -> 0\n"
     },
-    "reachingDefEdges": 7454,
+    "reachingDefEdges": 7556,
     "maxCallDepth": 4,
     "maxFieldDepth": 4,
     "pathSelection": "longest-per-endpoint-pair",
@@ -1204,8 +1250,12 @@
         "stockOutcome": "flow-observed",
         "modeledOutcome": "flow-observed",
         "limitations": {
-          "stock": [],
-          "modeled": []
+          "stock": [
+            "call-depth"
+          ],
+          "modeled": [
+            "call-depth"
+          ]
         },
         "omittedWitnesses": {
           "stock": 0,
@@ -1227,8 +1277,12 @@
         "stockOutcome": "flow-observed",
         "modeledOutcome": "flow-observed",
         "limitations": {
-          "stock": [],
-          "modeled": []
+          "stock": [
+            "call-depth"
+          ],
+          "modeled": [
+            "call-depth"
+          ]
         },
         "omittedWitnesses": {
           "stock": 0,
@@ -1319,8 +1373,8 @@
     "project": "analyzer-8.4.1",
     "analysisSources": {
       "algorithm": "sha256-path-nul-content-nul",
-      "sha256": "4bbc91808f13a7e891ed8444b71a03f411662a39269803781b89a3437fe2273e",
-      "files": 380,
+      "sha256": "ef1fd1c0a972db8c0d602a6c45e680a229017f069850fa2ac62fe0ae6c908ea1",
+      "files": 386,
       "roots": [
         "joern-cli/frontends/dartsrc2cpg/src",
         "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -1350,14 +1404,14 @@
     "exporter": {
       "record": "header",
       "protocolVersion": 1,
-      "exporterVersion": "0.3.18",
+      "exporterVersion": "0.3.19",
       "analyzerVersion": "8.4.1",
       "sdkVersion": "3.9.2",
       "offsetEncoding": "utf-16",
       "conditionalEnvironment": "analyzer-default"
     },
     "overlay": {
-      "methods": 22754,
+      "methods": 28397,
       "maxDefinitions": 6711,
       "definitionLimit": 20000,
       "aboveDefaultLimit": {
@@ -1365,13 +1419,20 @@
       }
     },
     "stringConversionOrder": "after-expression-evaluation",
+    "virtualDispatch": {
+      "approximation": "analyzer-hierarchy-target-union",
+      "resolvedCalls": 52648,
+      "withoutObservedTarget": 99,
+      "externalTargets": 703,
+      "unmodeledImplicitAccessors": 0
+    },
     "modelFiles": {
       "async": "# Completer.completeError stores the error and stack trace in the completer.\n# It does not copy either argument into the other and has no return value.\n# Load these method names as regular expressions; declaration offsets may vary.\n\"dart:async/future[.]dart\\x23[0-9]+:METHOD:completeError\" 0 -> 0 1 -> 1 2 -> 2 1 -> 0 2 -> 0\n",
       "worker_manager": "# Executor.execute stores the task and priority and returns its cancelable result.\n# The task's values do not change the priority argument. This does not model scheduling.\n# Tested against worker_manager 7.2.6; load the method name as a regular expression.\n\"package:worker_manager/src/scheduling/executor[.]dart\\x23[0-9]+:METHOD:execute\" 0 -> 0 1 -> 1 2 -> 2 1 -> 0 2 -> 0 1 -> -1\n",
       "iterable": "# Dart SDK 3.9.2: lib/core/iterable.dart and lib/internal/iterable.dart.\n# Explicit element values with pure predicates/transforms and statically known callbacks.\n# Selection, lazy execution timing and callback side effects are outside this contract.\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:where\" 0 -> 0 1 -> 1 0 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:map\" 0 -> 0 1 -> 1 1 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:join\" 0 -> 0 1 -> 1 0 -> -1 1 -> -1\n",
       "bytes": "# Dart SDK 3.9.2 byte-content contract for Uint8List allocation and standard List.setRange.\n# Length/range inputs select size and positions; they are not copied element values.\n# Keep the constructor offset exact: other dart:typed_data unnamed constructors include SIMD values.\n\"dart:typed_data\\x2336552:CONSTRUCTOR:new\" 1 -> 1\n\"dart:core/list[.]dart\\x2329446:METHOD:setRange\" 0 -> 0 1 -> 1 2 -> 2 3 -> 3 4 -> 4 3 -> 0\n"
     },
-    "reachingDefEdges": 1616928,
+    "reachingDefEdges": 1675285,
     "maxCallDepth": 4,
     "maxFieldDepth": 4,
     "pathSelection": "longest-per-endpoint-pair",

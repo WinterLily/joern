@@ -77,6 +77,122 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
   }
 
   "Dart frontend" should {
+    "retain implicit field accessor bodies and override their virtual accesses" in {
+      fixture(
+        Files.readString(frontend.resolve("src/test/resources/semantics/implicit_accessors.dart")),
+        "void main() {}"
+      ) { (cpg, _) =>
+        val plain   = cpg.typeDecl.nameExact("Plain").head
+        val derived = cpg.typeDecl.nameExact("Derived").head
+        val fixed   = cpg.typeDecl.nameExact("Fixed").head
+        plain.method.nameExact("value").isExternal.l shouldBe List(false, false)
+        fixed.method.nameExact("value").isExternal.l shouldBe List(false, false)
+        val interface = cpg.method.nameExact("throughInterface").head
+        interface.call.nameExact("value").foreach { call =>
+          call.callee.astParentFullName.toSet shouldBe Set(plain.fullName, derived.fullName, fixed.fullName)
+          call.callee.isExternal.l.forall(_ == false) shouldBe true
+        }
+        derived.method.nameExact("inherited", "replace").call.nameExact("value").foreach { call =>
+          call.dispatchType shouldBe io.shiftleft.codepropertygraph.generated.DispatchTypes.STATIC_DISPATCH
+          call.callee.astParentFullName.toSet shouldBe Set(plain.fullName)
+        }
+        derived.method.nameExact("<init>").call.nameExact("value").size shouldBe 0
+        val increment = cpg.method.nameExact("lazyIncrement").head
+        increment.call.methodFullName(".*:GETTER:next").size shouldBe 1
+        increment.call.methodFullName(".*:SETTER:next").size shouldBe 2
+        increment.call.nameExact("<operator>.postIncrement").size shouldBe 0
+        increment.call
+          .methodFullName(".*:SETTER:next")
+          .argument(1)
+          .reachableByFlows(increment.parameter.nameExact("input"))
+          .nonEmpty shouldBe true
+        for ((name, expected) <- Seq("direct" -> true, "constant" -> false, "inherited" -> true)) {
+          val method = cpg.method.nameExact(name).filter(_.astParentType == "NAMESPACE_BLOCK").head
+          withClue(name) {
+            method.ast.isReturn.reachableByFlows(method.parameter.nameExact("input")).nonEmpty shouldBe expected
+          }
+        }
+      }
+    }
+    "constrain virtual targets by private library identity and receiver static type" in {
+      val directory = frontend.resolve("src/test/resources/semantics")
+      fixture(
+        "",
+        "void main() {}",
+        extraFiles = Map(
+          "lib/override_privacy.dart"         -> Files.readString(directory.resolve("override_privacy.dart")),
+          "lib/override_privacy_foreign.dart" -> Files.readString(directory.resolve("override_privacy_foreign.dart"))
+        )
+      ) { (cpg, _) =>
+        val base    = cpg.typeDecl.nameExact("Base").head.fullName
+        val foreign = cpg.typeDecl.nameExact("Foreign").head.fullName
+        cpg.method.nameExact("invoke").head.call.nameExact("_pick").callee.astParentFullName.toSet shouldBe Set(base)
+        cpg.method.nameExact("own").head.call.nameExact("_pick").callee.astParentFullName.toSet shouldBe Set(foreign)
+        val expected = Set(base, cpg.typeDecl.nameExact("SubBranch").head.fullName)
+        cpg.method.nameExact("narrow").head.call.nameExact("echo").callee.astParentFullName.toSet shouldBe expected
+        val bound = cpg.method.nameExact("boundNarrow").head.call.nameExact("callback").callee.nameExact("<bound>").head
+        bound.call.nameExact("echo").callee.astParentFullName.toSet shouldBe expected
+        for (name <- Seq("invoke", "own", "narrow", "boundNarrow")) {
+          val method = cpg.method.nameExact(name).head
+          for (source <- Seq(if (Set("invoke", "own")(name)) "value" else "input", "ignored")) {
+            val selected = if (name == "own") source == "ignored" else source != "ignored"
+            withClue(s"$name $source") {
+              method.ast.isReturn.reachableByFlows(method.parameter.nameExact(source)).nonEmpty shouldBe selected
+            }
+          }
+        }
+      }
+    }
+    "resolve covariant and renamed generic overrides without changing declarations" in {
+      fixture(
+        Files.readString(frontend.resolve("src/test/resources/semantics/virtual_overrides.dart")),
+        "void main() {}"
+      ) { (cpg, _) =>
+        val surface  = cpg.typeDecl.nameExact("Surface").head
+        val concrete = cpg.typeDecl.nameExact("Concrete").head
+        val layer    = cpg.typeDecl.nameExact("Layer").head
+        val targets  = Set(concrete.fullName, layer.fullName)
+        for ((name, member) <- Seq("invoke" -> "echo", "generic" -> "generic")) {
+          cpg.method
+            .nameExact(name)
+            .filter(_.astParentType == "NAMESPACE_BLOCK")
+            .head
+            .call
+            .nameExact(member)
+            .callee
+            .astParentFullName
+            .toSet shouldBe targets
+        }
+        for ((name, member) <- Seq("bound" -> "echo", "genericBound" -> "generic")) {
+          val bound = cpg.method.nameExact(name).head.call.nameExact("callback").callee.nameExact("<bound>").head
+          bound.call.nameExact(member).callee.astParentFullName.toSet shouldBe targets
+        }
+        cpg.method.nameExact("concrete").head.call.nameExact("echo").callee.astParentFullName.toSet shouldBe Set(
+          concrete.fullName,
+          layer.fullName
+        )
+        for ((name, member) <- Seq("getter" -> "read", "plus" -> "+", "index" -> "[]")) {
+          cpg.method.nameExact(name).head.call.nameExact(member).callee.astParentFullName.toSet shouldBe Set(
+            concrete.fullName
+          )
+        }
+        surface.method.nameExact("echo").signature.l shouldBe List("Object(2)")
+        concrete.method.nameExact("echo").signature.l shouldBe List("String(2)")
+        for ((owner, signature) <- Seq(surface -> "T(2)", concrete -> "U(2)", layer -> "V(2)")) {
+          owner.method.nameExact("generic").signature.l shouldBe List(signature)
+        }
+        for (name <- Seq("invoke", "generic", "bound", "genericBound", "concrete")) {
+          val method = cpg.method.nameExact(name).filter(_.astParentType == "NAMESPACE_BLOCK").head
+          for (source <- Seq("input", "ignored")) {
+            withClue(s"$name $source") {
+              method.ast.isReturn
+                .reachableByFlows(method.parameter.nameExact(source))
+                .nonEmpty shouldBe (source == "input")
+            }
+          }
+        }
+      }
+    }
     "resolve mixin super members from preceding application implementations" in {
       val source  = Files.readString(frontend.resolve("src/test/resources/semantics/mixin_super.dart"))
       val splitAt = source.indexOf("class Direct")
@@ -2803,7 +2919,7 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         val coverage = ujson.read(Files.readString(report))
         coverage("includedFiles").num shouldBe 0
         coverage("stringConversionOrder").str shouldBe "after-expression-evaluation"
-        coverage("exporter")("exporterVersion").str shouldBe "0.3.18"
+        coverage("exporter")("exporterVersion").str shouldBe "0.3.19"
         coverage("exporter")("sdkVersion").str shouldBe "3.9.2"
         coverage("exporter")("analyzerVersion").str shouldBe "8.4.1"
         Files.writeString(dir.resolve("excluded.dart"), "void excluded() {}")
@@ -2823,7 +2939,7 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         "offsetEncoding"  -> "utf-16",
         "analyzerVersion" -> "8.4.1",
         "sdkVersion"      -> "3.9.2",
-        "exporterVersion" -> "0.3.18"
+        "exporterVersion" -> "0.3.19"
       )
       intercept[IllegalArgumentException](ExportProtocol.units(Seq(valid)))
       intercept[IllegalArgumentException](

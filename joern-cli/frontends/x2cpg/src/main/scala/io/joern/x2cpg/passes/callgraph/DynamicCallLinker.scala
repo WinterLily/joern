@@ -1,6 +1,7 @@
 package io.joern.x2cpg.passes.callgraph
 
 import io.joern.x2cpg.Defines.DynamicCallUnknownFullName
+import io.joern.x2cpg.frontendspecific.DartLanguage
 import io.shiftleft.codepropertygraph.generated.DispatchTypes
 import io.shiftleft.codepropertygraph.generated.EdgeTypes
 import io.shiftleft.codepropertygraph.generated.PropertyNames
@@ -72,14 +73,20 @@ class DynamicCallLinker(cpg: Cpg) extends CpgPass(cpg) {
 
     subclassCache.clear()
 
-    cpg.call.filter(_.dispatchType == DispatchTypes.DYNAMIC_DISPATCH).foreach { call =>
-      try {
-        linkDynamicCall(call, dstGraph)
-      } catch {
-        case NonFatal(exception) =>
-          throw new RuntimeException(exception)
+    val dart = cpg.metaData.language.contains(DartLanguage.Name)
+    cpg.call
+      .filter(_.dispatchType == DispatchTypes.DYNAMIC_DISPATCH)
+      .filterNot { call =>
+        dart && call.tag.nameExact(DartLanguage.ResolvedDispatchTag).nonEmpty
       }
-    }
+      .foreach { call =>
+        try {
+          linkDynamicCall(call, dstGraph)
+        } catch {
+          case NonFatal(exception) =>
+            throw new RuntimeException(exception)
+        }
+      }
   }
 
   /** Recursively returns all the sub-types of the given type declaration. Does account for circular hierarchies.
