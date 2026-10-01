@@ -16,7 +16,8 @@ object EdgeValidator {
       case (childNode: Expression, parentNode)
           if isCallRetval(parentNode) || !isValidEdgeToExpression(parentNode, childNode) =>
         false
-      case (call: Call, argument: Expression) if call.argument.contains(argument) =>
+      case (call: Call, argument: Expression)
+          if io.joern.dataflowengineoss.isDart(call) && call.argument.contains(argument) =>
         val summaries = semanticsForCall(call)
         summaries.isEmpty || summaries.exists(_.mappings.exists {
           case FlowMapping(ParameterNode(_, Some(name)), ParameterNode(-1, None)) if argument.argumentName.isDefined =>

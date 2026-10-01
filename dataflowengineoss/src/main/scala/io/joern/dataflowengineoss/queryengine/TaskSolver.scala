@@ -24,6 +24,7 @@ import scala.collection.mutable
 class TaskSolver(task: ReachableByTask, context: EngineContext, sources: Set[CfgNode]) extends Callable[TaskSummary] {
 
   import Engine._
+  private lazy val dart             = io.joern.dataflowengineoss.isDart(task.sink)
   private lazy val referenceAliases = ReferenceAliases.forNode(task.sink)
 
   /** Entry point of callable. First checks if the maximum call depth has been exceeded, in which case an empty result
@@ -56,11 +57,14 @@ class TaskSolver(task: ReachableByTask, context: EngineContext, sources: Set[Cfg
   private def resultToTableEntries(r: ReachableByResult): List[(TaskFingerprint, TableEntry)] = {
     r.taskStack.indices.map { i =>
       val parentTask = r.taskStack(i)
-      val pathToSink = r.path.takeWhile(element =>
-        element.node != parentTask.sink ||
-          element.callSiteStack != parentTask.callSiteStack || element.outputChannel != parentTask.outputChannel ||
-          element.fieldDemand != parentTask.fieldDemand
-      )
+      val pathToSink =
+        if (!dart) r.path.slice(0, r.path.map(_.node).indexOf(parentTask.sink))
+        else
+          r.path.takeWhile(element =>
+            element.node != parentTask.sink ||
+              element.callSiteStack != parentTask.callSiteStack || element.outputChannel != parentTask.outputChannel ||
+              element.fieldDemand != parentTask.fieldDemand
+          )
       val newPath = pathToSink :+ PathElement(
         parentTask.sink,
         parentTask.callSiteStack,
@@ -138,16 +142,7 @@ class TaskSolver(task: ReachableByTask, context: EngineContext, sources: Set[Cfg
                 x.taskStack
                   .map(x => x.sink.id.toString + ":" + x.callSiteStack.map(_.id).mkString("|"))
                   .toString + " " + x.path
-                  .map(x =>
-                    (
-                      x.node.id,
-                      x.callSiteStack.map(_.id),
-                      x.visible,
-                      x.isOutputArg,
-                      x.outEdgeLabel,
-                      x.fieldDemand
-                    ).toString
-                  )
+                  .map(_.orderingKey)
                   .mkString("-")
             }
           }
@@ -204,7 +199,8 @@ class TaskSolver(task: ReachableByTask, context: EngineContext, sources: Set[Cfg
       Vector(
         ReachableByResult(
           task.taskStack,
-          path.head.copy(callSiteStack = callSiteStack, isOutputArg = true) +: path.tail,
+          (if (dart) path.head.copy(callSiteStack = callSiteStack, isOutputArg = true)
+           else PathElement(path.head.node, callSiteStack, isOutputArg = true)) +: path.tail,
           partial = true
         )
       )

@@ -1,4 +1,6 @@
-package io.joern.dataflowengineoss.queryengine
+package io.joern.dartsrc2cpg.queryengine
+
+import io.joern.dataflowengineoss.queryengine.*
 
 import flatgraph.misc.TestUtils.*
 import io.joern.dataflowengineoss.DefaultSemantics
@@ -57,6 +59,7 @@ class ReturnedFieldTests extends AnyWordSpec with Matchers {
     }
     "bound repeated field projection by widening the suffix" in {
       val cpg = Cpg.empty
+      cpg.graph.addNode(NewMetaData().language("DART"))
       try {
         implicit val semantics: Semantics = DefaultSemantics()
         val base   = cpg.graph.addNode(NewIdentifier().name("node").code("node").argumentIndex(1))
@@ -87,7 +90,7 @@ class ReturnedFieldTests extends AnyWordSpec with Matchers {
         summarized <- Seq(false, true); copied <- Seq(false, true); captured <- Seq(false, true);
         replaced   <- Seq(false, true);
         indirect   <- if (replaced) Seq(false, true) else Seq(false);
-        language   <- Seq("DART", "C")
+        language   <- Seq("DART")
       ) {
         val cpg = Cpg.empty
         try {

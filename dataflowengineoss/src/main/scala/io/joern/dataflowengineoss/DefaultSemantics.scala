@@ -12,9 +12,17 @@ object DefaultSemantics {
     *   a default set of common external procedure calls for all languages.
     */
   def apply(): FullNameSemantics = {
-    val list = operatorFlows ++ cFlows ++ javaFlows
+    val list = operatorFlows ++ dartOperatorFlows ++ cFlows ++ javaFlows
     FullNameSemantics.fromList(list)
   }
+
+  private def dartOperatorFlows: List[FlowSemantic] =
+    io.joern.x2cpg.frontendspecific.DartLanguage.readOnlyOperators.toList.map { name =>
+      F(
+        io.joern.x2cpg.frontendspecific.DartLanguage.operatorName(name),
+        if (name == "<operator>.isInitialized") List((1, -1)) else List((1, -1), (2, -1))
+      )
+    }
 
   private def F = (x: String, y: List[(Int, Int)]) => FlowSemantic.from(x, y)
 
@@ -23,17 +31,6 @@ object DefaultSemantics {
 
   def operatorFlows: List[FlowSemantic] = List(
     F(Operators.addition, List((1, -1), (2, -1))),
-    F(Operators.subtraction, List((1, -1), (2, -1))),
-    F(Operators.multiplication, List((1, -1), (2, -1))),
-    F(Operators.division, List((1, -1), (2, -1))),
-    F(Operators.and, List((1, -1), (2, -1))),
-    F(Operators.or, List((1, -1), (2, -1))),
-    F(Operators.xor, List((1, -1), (2, -1))),
-    F(Operators.shiftLeft, List((1, -1), (2, -1))),
-    F(Operators.arithmeticShiftRight, List((1, -1), (2, -1))),
-    F(Operators.logicalShiftRight, List((1, -1), (2, -1))),
-    F(Operators.logicalAnd, List((1, -1), (2, -1))),
-    F(Operators.logicalOr, List((1, -1), (2, -1))),
     F(Operators.addressOf, List((1, -1))),
     F(Operators.assignment, List((2, 1), (2, -1))),
     F(Operators.assignmentAnd, List((2, 1), (1, 1), (2, -1))),
@@ -51,16 +48,8 @@ object DefaultSemantics {
     F(Operators.cast, List((1, -1), (2, -1))),
     F(Operators.computedMemberAccess, List((1, -1))),
     F(Operators.conditional, List((2, -1), (3, -1))),
-    F(Operators.equals, List((1, -1), (2, -1))),
-    F(Operators.notEquals, List((1, -1), (2, -1))),
-    F(Operators.lessThan, List((1, -1), (2, -1))),
-    F(Operators.lessEqualsThan, List((1, -1), (2, -1))),
-    F(Operators.greaterThan, List((1, -1), (2, -1))),
-    F(Operators.greaterEqualsThan, List((1, -1), (2, -1))),
     F(Operators.elvis, List((1, -1), (2, -1))),
     F(Operators.notNullAssert, List((1, -1))),
-    F("<operator>.isInitialized", List((1, -1))),
-    F("<operator>.patternShape", List((1, -1), (2, -1))),
     F(Operators.fieldAccess, List((1, -1))),
     F(Operators.getElementPtr, List((1, -1))),
     PTF(Operators.modulo, List.empty),

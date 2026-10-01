@@ -1,4 +1,6 @@
-package io.joern.dataflowengineoss.queryengine
+package io.joern.dartsrc2cpg.queryengine
+
+import io.joern.dataflowengineoss.queryengine.*
 
 import flatgraph.misc.TestUtils.*
 import io.shiftleft.codepropertygraph.generated.{Cpg, EdgeTypes}
@@ -9,42 +11,54 @@ import org.scalatest.wordspec.AnyWordSpec
 class QueryDiagnosticsTests extends AnyWordSpec with Matchers {
   "Nested output arguments" should {
     "preserve the enclosing call stack when expanding a callee mutation" in {
-      val cpg = Cpg.empty
-      try {
-        val graph     = cpg.graph
-        val method    = graph.addNode(NewMethod().name("mutate").fullName("mutate").isExternal(false))
-        val parameter = graph.addNode(NewMethodParameterIn().name("object").index(1))
-        val output    = graph.addNode(NewMethodParameterOut().name("object").index(1))
-        val call      = graph.addNode(NewCall().name("mutate").methodFullName("mutate"))
-        val argument  = graph.addNode(NewIdentifier().name("object").argumentIndex(1))
-        val outer     = graph.addNode(NewCall().name("wrapper").methodFullName("wrapper"))
-        val edges     = Cpg.newDiffGraphBuilder
-        edges.addEdge(method, parameter, EdgeTypes.AST)
-        edges.addEdge(method, output, EdgeTypes.AST)
-        edges.addEdge(parameter, output, EdgeTypes.PARAMETER_LINK)
-        edges.addEdge(call, method, EdgeTypes.CALL)
-        edges.addEdge(call, argument, EdgeTypes.ARGUMENT)
-        edges.apply(graph)
-        val result = ReachableByResult(
-          List(TaskFingerprint(argument, List(outer), 1)),
-          Vector(PathElement(argument, List(outer), isOutputArg = true))
-        )
-        val tasks = new TaskCreator(EngineContext()).createFromResults(Vector(result))
-        tasks.map(_.sink) shouldBe Vector(output)
-        tasks.head.callSiteStack shouldBe List(call, outer)
-        tasks.head.callDepth shouldBe 2
-        val semantics = io.joern.dataflowengineoss
-          .DefaultSemantics()
-          .plus(List(io.joern.dataflowengineoss.semanticsloader.FlowSemantic.from("mutate", List((1, 1), (1, -1)))))
-        semantics.initialize(cpg)
-        new TaskCreator(EngineContext(semantics = semantics)).createFromResults(Vector(result)) shouldBe empty
-      } finally cpg.close()
+      for (language <- Seq("C", "JAVASCRIPT", "JAVA", "KOTLIN", "DART")) {
+        val cpg = Cpg.empty
+        cpg.graph.addNode(NewMetaData().language(language))
+        try {
+          val graph     = cpg.graph
+          val method    = graph.addNode(NewMethod().name("mutate").fullName("mutate").isExternal(false))
+          val parameter = graph.addNode(NewMethodParameterIn().name("object").index(1))
+          val output    = graph.addNode(NewMethodParameterOut().name("object").index(1))
+          val call      = graph.addNode(NewCall().name("mutate").methodFullName("mutate"))
+          val argument  = graph.addNode(NewIdentifier().name("object").argumentIndex(1))
+          val outer     = graph.addNode(NewCall().name("wrapper").methodFullName("wrapper"))
+          val edges     = Cpg.newDiffGraphBuilder
+          edges.addEdge(method, parameter, EdgeTypes.AST)
+          edges.addEdge(method, output, EdgeTypes.AST)
+          edges.addEdge(parameter, output, EdgeTypes.PARAMETER_LINK)
+          edges.addEdge(call, method, EdgeTypes.CALL)
+          edges.addEdge(call, argument, EdgeTypes.ARGUMENT)
+          edges.apply(graph)
+          val result = ReachableByResult(
+            List(TaskFingerprint(argument, List(outer), 1)),
+            Vector(PathElement(argument, List(outer), isOutputArg = true))
+          )
+          val tasks = new TaskCreator(EngineContext()).createFromResults(Vector(result))
+          if (language == "DART") {
+            tasks.map(_.sink) shouldBe Vector(output)
+            tasks.head.callSiteStack shouldBe List(call, outer)
+            tasks.head.callDepth shouldBe 2
+          } else tasks shouldBe empty
+          val semantics = io.joern.dataflowengineoss
+            .DefaultSemantics()
+            .plus(List(io.joern.dataflowengineoss.semanticsloader.FlowSemantic.from("mutate", List((1, 1), (1, -1)))))
+          semantics.initialize(cpg)
+          new TaskCreator(EngineContext(semantics = semantics)).createFromResults(Vector(result)) shouldBe empty
+          val shallow = result.copy(
+            path = Vector(PathElement(argument, isOutputArg = true)),
+            taskStack = List(TaskFingerprint(argument, Nil, 0))
+          )
+          val summarized = new TaskCreator(EngineContext(semantics = semantics)).createFromResults(Vector(shallow))
+          summarized.map(_.sink) shouldBe (if (language == "DART") Vector.empty else Vector(output))
+        } finally cpg.close()
+      }
     }
   }
 
   "Query diagnostics" should {
     "record discarded work without changing task expansion" in {
       val cpg = Cpg.empty
+      cpg.graph.addNode(NewMetaData().language("DART"))
       try {
         val graph     = cpg.graph
         val method    = graph.addNode(NewMethod().name("f").fullName("f").isExternal(false))

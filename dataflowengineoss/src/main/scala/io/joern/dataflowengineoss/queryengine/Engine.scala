@@ -172,9 +172,7 @@ class Engine(context: EngineContext) {
         } else {
           withMaxLength.minBy { x =>
             x.path
-              .map(x =>
-                (x.node.id, x.callSiteStack.map(_.id), x.visible, x.isOutputArg, x.outEdgeLabel, x.fieldDemand).toString
-              )
+              .map(_.orderingKey)
               .mkString("-")
           }
         }
@@ -207,6 +205,8 @@ object Engine {
     config: EngineConfig = EngineConfig(),
     referenceAliases: Option[ReferenceAliases] = None
   )(implicit semantics: Semantics): Vector[PathElement] = {
+    if (!io.joern.dataflowengineoss.isDart(curNode))
+      return ddgInE(curNode, path, callSiteStack).flatMap(x => elemForEdge(x, callSiteStack))
     val demand  = path.headOption.map(_.fieldDemand).getOrElse(Nil)
     val aliases = referenceAliases.getOrElse(ReferenceAliases.forNode(curNode))
     ddgInE(curNode, path, callSiteStack).flatMap { edge =>
@@ -230,7 +230,10 @@ object Engine {
     val variablePropertyMaybe = Option(e.property).map(_.asInstanceOf[String])
     val outLabel              = variablePropertyMaybe.getOrElse("")
 
-    if (parNode.isInstanceOf[Call] && OutputChannel.fromEdge(outLabel) != OutputChannel.Normal) {
+    if (
+      io.joern.dataflowengineoss.isDart(parNode) && parNode
+        .isInstanceOf[Call] && OutputChannel.fromEdge(outLabel) != OutputChannel.Normal
+    ) {
       return Some(PathElement(parNode, callSiteStack, outEdgeLabel = outLabel))
     }
 

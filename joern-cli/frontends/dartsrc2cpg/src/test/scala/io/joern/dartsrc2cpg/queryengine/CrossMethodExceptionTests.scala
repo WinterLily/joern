@@ -1,4 +1,6 @@
-package io.joern.dataflowengineoss.queryengine
+package io.joern.dartsrc2cpg.queryengine
+
+import io.joern.dataflowengineoss.queryengine.*
 
 import flatgraph.misc.TestUtils.*
 import io.joern.dataflowengineoss.DefaultSemantics
@@ -24,6 +26,7 @@ class CrossMethodExceptionTests extends AnyWordSpec with Matchers {
     "separate thrown values, normal results and repeated invocations" in {
       for (model <- Seq("body", "return summary", "no return summary")) {
         val cpg = Cpg.empty
+        cpg.graph.addNode(NewMetaData().language("DART"))
         try {
           implicit val validation: ValidationMode = ValidationMode.Enabled
           implicit val semantics: Semantics       = model match {
@@ -157,6 +160,7 @@ class CrossMethodExceptionTests extends AnyWordSpec with Matchers {
     }
     "report unavailable implicit and external exception payloads" in {
       val cpg = Cpg.empty
+      cpg.graph.addNode(NewMetaData().language("DART"))
       try {
         for (
           (name, external, reason) <- Seq(

@@ -48,6 +48,9 @@ List patterns now resolve and cache length, index and slice reads, with bounded
 wildcard/rest execution traces. Map/comparison/extension invocation caching and
 broader dispatch qualification remain open. This is
 not complete language or runtime analysis support.
+Shared support is restricted to `DART` graphs; existing-language CFG/dataflow
+behavior and operator summaries retain their pre-Dart semantics. Added regression
+tests live in this frontend and include checks for that language boundary.
 This plan supersedes the completion assumptions in the original implementation
 plan in `agents/plan.md`; it does not mark the remaining work as done.
 

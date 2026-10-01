@@ -1,4 +1,6 @@
-package io.joern.dataflowengineoss.queryengine
+package io.joern.dartsrc2cpg.queryengine
+
+import io.joern.dataflowengineoss.queryengine.*
 
 import flatgraph.misc.TestUtils.*
 import io.joern.dataflowengineoss.DefaultSemantics
@@ -17,8 +19,12 @@ import org.scalatest.wordspec.AnyWordSpec
 class BlockValueTests extends AnyWordSpec with Matchers {
   "Expression blocks" should {
     "propagate only the final value through nested blocks in returns and arguments" in {
-      for (language <- Seq("C", "DART"); depth <- 1 to 3; dependent <- Seq(false, true); argument <- Seq(false, true)) {
+      for (
+        language <- Seq("C", "JAVASCRIPT", "JAVA", "KOTLIN", "DART"); depth <- 1 to 3; dependent <- Seq(false, true);
+        argument <- Seq(false, true)
+      ) {
         val cpg = Cpg.empty
+
         try {
           implicit val validation: ValidationMode = ValidationMode.Enabled
           implicit val semantics: Semantics       = DefaultSemantics()
@@ -68,7 +74,7 @@ class BlockValueTests extends AnyWordSpec with Matchers {
               cpg.method.nameExact("choose").parameter.l
             )
             withClue(s"$language depth=$depth dependent=$dependent argument=$argument: ") {
-              paths.nonEmpty shouldBe dependent
+              paths.nonEmpty shouldBe (dependent && language == "DART")
             }
           } finally engine.shutdown()
         } finally cpg.close()

@@ -1,6 +1,11 @@
 package io.joern.dataflowengineoss.passes.reachingdef
 
-import io.joern.dataflowengineoss.{firstIdentifierFromCapturedScopes, globalFromLiteral, identifierToFirstUsages}
+import io.joern.dataflowengineoss.{
+  firstIdentifierFromCapturedScopes,
+  globalFromLiteral,
+  identifierToFirstUsages,
+  isDart
+}
 import io.joern.dataflowengineoss.queryengine.AccessPathUsage.toTrackedBaseAndAccessPathSimple
 import io.joern.dataflowengineoss.queryengine.OutputChannel
 import io.joern.dataflowengineoss.semanticsloader.Semantics
@@ -54,7 +59,8 @@ class DdgGenerator(semantics: Semantics) {
 
     val allNodes      = in.keys.toList
     val usageAnalyzer = new UsageAnalyzer(problem, in)
-    val exitReturns   = returnsReachingExit(method)
+    val dart          = isDart(method)
+    val exitReturns   = if (dart) returnsReachingExit(method) else Set.empty[Return]
 
     /** Add an edge from the entry node to each node that does not have other incoming definitions.
       */
@@ -76,9 +82,9 @@ class DdgGenerator(semantics: Semantics) {
             .flatMap(numberToNode.get)
             .filter(inDef => usageAnalyzer.isUsing(node, inDef))
             .collect {
-              case identifier: Identifier       => identifier
-              case call: Call                   => call
-              case parameter: MethodParameterIn => parameter
+              case identifier: Identifier               => identifier
+              case call: Call                           => call
+              case parameter: MethodParameterIn if dart => parameter
             }
           edgesToAdd.foreach { inNode =>
             addEdge(inNode, block, nodeToEdgeLabel(inNode))
@@ -89,7 +95,7 @@ class DdgGenerator(semantics: Semantics) {
         case Some(node: Call) =>
           addEdge(node, block, nodeToEdgeLabel(node))
           addEdge(block, towards)
-        case Some(node: Block) =>
+        case Some(node: Block) if dart =>
           addEdgeForBlock(node, block)
           addEdge(block, towards)
         case _ => // Do nothing
@@ -100,7 +106,7 @@ class DdgGenerator(semantics: Semantics) {
       */
     def addEdgesToCallSite(call: Call): Unit = {
       if (
-        call.name == Operators.fieldAccess &&
+        dart && call.name == Operators.fieldAccess &&
         !call.inCall.exists(parent => parent.name == Operators.assignment && call.argumentIndex == 1)
       ) {
         call.argumentOption(1).collect { case base: Call => addEdge(base, call, nodeToEdgeLabel(base)) }
@@ -149,7 +155,7 @@ class DdgGenerator(semantics: Semantics) {
           addEdge(method, ret)
         }
       }
-      if (exitReturns.contains(ret)) addEdge(ret, method.methodReturn, "<RET>")
+      if (!dart || exitReturns.contains(ret)) addEdge(ret, method.methodReturn, "<RET>")
     }
 
     def addEdgesToThrowOperands(thrown: ControlStructure): Unit = {
@@ -258,7 +264,10 @@ class DdgGenerator(semantics: Semantics) {
           addEdge(src, dst, nodeToEdgeLabel(src))
         }
       method.parameter.foreach { param =>
-        firstIdentifierFromCapturedScopes(param, includeModeledInputs = true).foreach { identifier =>
+        val identifiers =
+          if (dart) firstIdentifierFromCapturedScopes(param, includeModeledInputs = true)
+          else param.capturedByMethodRef.referencedMethod.ast.isIdentifier.l
+        identifiers.foreach { identifier =>
           addEdge(param, identifier, nodeToEdgeLabel(param))
         }
       }
@@ -285,12 +294,12 @@ class DdgGenerator(semantics: Semantics) {
       case call: Call                   => addEdgesToCallSite(call)
       case ret: Return                  => addEdgesToReturn(ret)
       case paramOut: MethodParameterOut => addEdgesToMethodParameterOut(paramOut)
-      case thrown: ControlStructure if thrown.controlStructureType == ControlStructureTypes.THROW =>
+      case thrown: ControlStructure if dart && thrown.controlStructureType == ControlStructureTypes.THROW =>
         addEdgesToThrowOperands(thrown)
       case _ =>
     }
 
-    addCaughtValueEdges()
+    if (dart) addCaughtValueEdges()
     addEdgesToCapturedIdentifiersAndParameters()
     addEdgesToExitNode(method.methodReturn)
     addEdgesFromLoneIdentifiersToExit(method)
@@ -384,6 +393,7 @@ private class UsageAnalyzer(problem: DataFlowProblem[CfgNode, mutable.BitSet], i
     Set(Operators.fieldAccess, Operators.indexAccess, Operators.indirectIndexAccess, Operators.indirectFieldAccess)
   private val indirectionAccessSet = Set(Operators.addressOf, Operators.indirection)
   private val aliases = new ReferenceAliases(Some(problem.flowGraph.asInstanceOf[ReachingDefFlowGraph].method))
+  private val dart    = isDart(problem.flowGraph.asInstanceOf[ReachingDefFlowGraph].method)
   val usedIncomingDefs: Map[CfgNode, Map[CfgNode, Set[Definition]]] = initUsedIncomingDefs()
 
   def initUsedIncomingDefs(): Map[CfgNode, Map[CfgNode, Set[Definition]]] = {
@@ -458,7 +468,7 @@ private class UsageAnalyzer(problem: DataFlowProblem[CfgNode, mutable.BitSet], i
       case ret: Return                  => ret.astChildren.collect { case x: Expression => x }.toSet
       case call: Call                   => call.argument.toSet
       case paramOut: MethodParameterOut => Set(paramOut)
-      case thrown: ControlStructure if thrown.controlStructureType == ControlStructureTypes.THROW =>
+      case thrown: ControlStructure if dart && thrown.controlStructureType == ControlStructureTypes.THROW =>
         thrown._argumentOut.cast[Expression].toSet
       case _ => Set()
     }
@@ -474,7 +484,7 @@ private class UsageAnalyzer(problem: DataFlowProblem[CfgNode, mutable.BitSet], i
       case call: Call if indirectionAccessSet.contains(call.name) =>
         call.argumentOption(1).exists(x => nodeToString(use).contains(x.code))
       // Captured receivers can give different storage locations the same source text.
-      case call: Call if containerSet.contains(call.name) && (use match {
+      case call: Call if dart && containerSet.contains(call.name) && (use match {
             case other: Call => containerSet.contains(other.name)
             case _           => false
           }) =>

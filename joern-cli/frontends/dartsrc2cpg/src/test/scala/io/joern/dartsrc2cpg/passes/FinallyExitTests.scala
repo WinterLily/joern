@@ -1,4 +1,4 @@
-package io.joern.x2cpg.passes
+package io.joern.dartsrc2cpg.passes
 
 import flatgraph.misc.TestUtils.*
 import io.joern.x2cpg.passes.controlflow.CfgCreationPass
@@ -13,6 +13,7 @@ class FinallyExitTests extends AnyWordSpec with Matchers {
     "consume protected throws at an explicitly unconditional catch without swallowing handler failures" in {
       for (unconditional <- Seq(false, true); invocation <- Seq(false, true)) {
         val cpg = Cpg.empty
+        cpg.graph.addNode(NewMetaData().language("DART"))
         try {
           val graph     = cpg.graph
           val method    = graph.addNode(NewMethod().name("handled").fullName("handled"))
@@ -70,6 +71,7 @@ class FinallyExitTests extends AnyWordSpec with Matchers {
     }
     "never reinterpret an explicitly linked second catch as a finally body" in {
       val cpg = Cpg.empty
+      cpg.graph.addNode(NewMetaData().language("DART"))
       try {
         val graph     = cpg.graph
         val method    = graph.addNode(NewMethod().name("catches").fullName("catches"))
@@ -96,6 +98,7 @@ class FinallyExitTests extends AnyWordSpec with Matchers {
     "run cleanup before explicit returns, throws and loop exits" in {
       for (kind <- Seq("return", "throw", "break", "continue"); nested <- Seq(false, true)) {
         val cpg = Cpg.empty
+        cpg.graph.addNode(NewMetaData().language("DART"))
         try {
           val graph  = cpg.graph
           val method = graph.addNode(NewMethod().name("test").fullName("test"))
@@ -168,6 +171,7 @@ class FinallyExitTests extends AnyWordSpec with Matchers {
     "let an abrupt finally replace a pending return or throw" in {
       for (thrown <- Seq(false, true)) {
         val cpg = Cpg.empty
+        cpg.graph.addNode(NewMetaData().language("DART"))
         try {
           val graph     = cpg.graph
           val method    = graph.addNode(NewMethod().name("overrideExit").fullName("overrideExit"))
@@ -204,6 +208,7 @@ class FinallyExitTests extends AnyWordSpec with Matchers {
     }
     "offer a catch path from an early call rather than only the try fringe" in {
       val cpg = Cpg.empty
+      cpg.graph.addNode(NewMetaData().language("DART"))
       try {
         val graph     = cpg.graph
         val method    = graph.addNode(NewMethod().name("catchEarly").fullName("catchEarly"))
@@ -238,6 +243,7 @@ class FinallyExitTests extends AnyWordSpec with Matchers {
     "run finally for outward labeled jumps while retaining jumps within the protected body" in {
       for (label <- Seq("inside", "outside")) {
         val cpg = Cpg.empty
+        cpg.graph.addNode(NewMetaData().language("DART"))
         try {
           val graph     = cpg.graph
           val method    = graph.addNode(NewMethod().name("jump").fullName("jump"))

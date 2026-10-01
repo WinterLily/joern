@@ -287,7 +287,7 @@ class ReachingDefTransferFunction(flowGraph: ReachingDefFlowGraph) extends Trans
           allCalls(call.code).iterator
             .filter(x => x.id != call.id)
             .filter { other =>
-              if (isFieldAccess(call.name) && isFieldAccess(other.name)) {
+              if (io.joern.dataflowengineoss.isDart(method) && isFieldAccess(call.name) && isFieldAccess(other.name)) {
                 val (base, path)           = toTrackedBaseAndAccessPathSimple(call)
                 val (otherBase, otherPath) = toTrackedBaseAndAccessPathSimple(other)
                 base == otherBase && path.matchAndDiff(otherPath.elements)._1 == MatchResult.EXACT_MATCH

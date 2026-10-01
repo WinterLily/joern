@@ -1,4 +1,6 @@
-package io.joern.dataflowengineoss.queryengine
+package io.joern.dartsrc2cpg.queryengine
+
+import io.joern.dataflowengineoss.queryengine.*
 
 import flatgraph.misc.TestUtils.*
 import io.joern.dataflowengineoss.firstIdentifierFromCapturedScopes
@@ -12,8 +14,12 @@ import org.scalatest.wordspec.AnyWordSpec
 class CapturedBindingTests extends AnyWordSpec with Matchers {
   "Captured bindings" should {
     "follow identities through nested scopes and stop at replacements on each CFG route" in {
-      for (parameter <- Seq(false, true); conditional <- Seq(false, true)) {
+      for (
+        language    <- Seq("C", "JAVASCRIPT", "JAVA", "KOTLIN", "DART"); parameter <- Seq(false, true);
+        conditional <- Seq(false, true)
+      ) {
         val cpg = Cpg.empty
+        cpg.graph.addNode(NewMetaData().language(language))
         try {
           val graph               = cpg.graph
           val source: Declaration =
@@ -34,7 +40,7 @@ class CapturedBindingTests extends AnyWordSpec with Matchers {
             (method, proxy, reference)
           }
           def identifier(method: Method, declaration: Declaration): Identifier = {
-            val node = graph.addNode(NewIdentifier().name(declaration.name))
+            val node = graph.addNode(NewIdentifier().name(declaration.name).lineNumber(2))
             edges.addEdge(method, node, EdgeTypes.AST)
             edges.addEdge(node, declaration, EdgeTypes.REF)
             node
@@ -46,9 +52,10 @@ class CapturedBindingTests extends AnyWordSpec with Matchers {
           edges.addEdge(inner, nestedRead, EdgeTypes.CFG)
           val shadow = graph.addNode(NewLocal().name("input"))
           edges.addEdge(outer, shadow, EdgeTypes.AST)
-          val unrelated   = identifier(outer, shadow)
+          val unrelated = identifier(outer, shadow)
+          graph.applyDiff(_.setNodeProperty(unrelated, "LINE_NUMBER", 1))
           val readBefore  = identifier(outer, proxy)
-          val target      = graph.addNode(NewIdentifier().name("input").argumentIndex(1))
+          val target      = graph.addNode(NewIdentifier().name("input").argumentIndex(1).lineNumber(2))
           val constant    = graph.addNode(NewLiteral().code("constant").argumentIndex(2))
           val replacement = graph.addNode(NewCall().name(Operators.assignment))
           edges.addEdge(outer, replacement, EdgeTypes.AST)
@@ -73,10 +80,13 @@ class CapturedBindingTests extends AnyWordSpec with Matchers {
           edges.addEdge(modeled, modeledRead, EdgeTypes.CFG)
           edges.apply(graph)
           new ContainsEdgePass(cpg).createAndApply()
-          val expected = Set(readBefore, nestedRead) ++
-            (if (conditional) Set(readAfter, laterRead) else Set.empty) ++
-            (if (parameter) Set(modeledRead) else Set.empty)
-          withClue(s"parameter=$parameter conditional=$conditional: ") {
+          val expected =
+            if (language != "DART") Set(unrelated)
+            else
+              Set(readBefore, nestedRead) ++
+                (if (conditional) Set(readAfter, laterRead) else Set.empty) ++
+                (if (parameter) Set(modeledRead) else Set.empty)
+          withClue(s"$language parameter=$parameter conditional=$conditional: ") {
             firstIdentifierFromCapturedScopes(source, includeModeledInputs = true).toSet shouldBe expected
             firstIdentifierFromCapturedScopes(source).toSet shouldBe expected - modeledRead
           }

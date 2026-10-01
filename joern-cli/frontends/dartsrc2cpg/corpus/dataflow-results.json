@@ -3,8 +3,8 @@
     "project": "path-1.9.1",
     "analysisSources": {
       "algorithm": "sha256-path-nul-content-nul",
-      "sha256": "1bf663b15894b10f2de93da7eacc760478fcdcadaaca2e85b1b43d7b1e681960",
-      "files": 362,
+      "sha256": "0f0d113b8d3632c90cd52c09f9de8060eb1a42051c662e2feb35072fc1c54bae",
+      "files": 371,
       "roots": [
         "joern-cli/frontends/dartsrc2cpg/src",
         "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -196,8 +196,8 @@
     "project": "collection-1.19.1",
     "analysisSources": {
       "algorithm": "sha256-path-nul-content-nul",
-      "sha256": "1bf663b15894b10f2de93da7eacc760478fcdcadaaca2e85b1b43d7b1e681960",
-      "files": 362,
+      "sha256": "0f0d113b8d3632c90cd52c09f9de8060eb1a42051c662e2feb35072fc1c54bae",
+      "files": 371,
       "roots": [
         "joern-cli/frontends/dartsrc2cpg/src",
         "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -428,8 +428,8 @@
     "project": "meta-1.17.0",
     "analysisSources": {
       "algorithm": "sha256-path-nul-content-nul",
-      "sha256": "1bf663b15894b10f2de93da7eacc760478fcdcadaaca2e85b1b43d7b1e681960",
-      "files": 362,
+      "sha256": "0f0d113b8d3632c90cd52c09f9de8060eb1a42051c662e2feb35072fc1c54bae",
+      "files": 371,
       "roots": [
         "joern-cli/frontends/dartsrc2cpg/src",
         "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -716,8 +716,8 @@
     "project": "args-2.7.0",
     "analysisSources": {
       "algorithm": "sha256-path-nul-content-nul",
-      "sha256": "1bf663b15894b10f2de93da7eacc760478fcdcadaaca2e85b1b43d7b1e681960",
-      "files": 362,
+      "sha256": "0f0d113b8d3632c90cd52c09f9de8060eb1a42051c662e2feb35072fc1c54bae",
+      "files": 371,
       "roots": [
         "joern-cli/frontends/dartsrc2cpg/src",
         "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -937,8 +937,8 @@
     "project": "async-2.13.0",
     "analysisSources": {
       "algorithm": "sha256-path-nul-content-nul",
-      "sha256": "1bf663b15894b10f2de93da7eacc760478fcdcadaaca2e85b1b43d7b1e681960",
-      "files": 362,
+      "sha256": "0f0d113b8d3632c90cd52c09f9de8060eb1a42051c662e2feb35072fc1c54bae",
+      "files": 371,
       "roots": [
         "joern-cli/frontends/dartsrc2cpg/src",
         "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -1134,8 +1134,8 @@
     "project": "http_parser-4.1.2",
     "analysisSources": {
       "algorithm": "sha256-path-nul-content-nul",
-      "sha256": "1bf663b15894b10f2de93da7eacc760478fcdcadaaca2e85b1b43d7b1e681960",
-      "files": 362,
+      "sha256": "0f0d113b8d3632c90cd52c09f9de8060eb1a42051c662e2feb35072fc1c54bae",
+      "files": 371,
       "roots": [
         "joern-cli/frontends/dartsrc2cpg/src",
         "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -1319,8 +1319,8 @@
     "project": "analyzer-8.4.1",
     "analysisSources": {
       "algorithm": "sha256-path-nul-content-nul",
-      "sha256": "1bf663b15894b10f2de93da7eacc760478fcdcadaaca2e85b1b43d7b1e681960",
-      "files": 362,
+      "sha256": "0f0d113b8d3632c90cd52c09f9de8060eb1a42051c662e2feb35072fc1c54bae",
+      "files": 371,
       "roots": [
         "joern-cli/frontends/dartsrc2cpg/src",
         "joern-cli/frontends/dartsrc2cpg/astgen/lib",

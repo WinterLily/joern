@@ -1,4 +1,6 @@
-package io.joern.dataflowengineoss.queryengine
+package io.joern.dartsrc2cpg.queryengine
+
+import io.joern.dataflowengineoss.queryengine.*
 
 import flatgraph.misc.TestUtils.*
 import io.joern.dataflowengineoss.DefaultSemantics
@@ -16,6 +18,7 @@ class FinallyReturnTests extends AnyWordSpec with Matchers {
     "preserve a pending return only when cleanup handles its own exception" in {
       for (scenario <- Seq("inside", "outside", "nested cleanup", "rethrow", "replacement return")) {
         val cpg = Cpg.empty
+        cpg.graph.addNode(NewMetaData().language("DART"))
         try {
           implicit val semantics: Semantics                     = DefaultSemantics()
           val graph                                             = cpg.graph
@@ -97,8 +100,11 @@ class FinallyReturnTests extends AnyWordSpec with Matchers {
     }
 
     "exclude pending values when finally returns or throws instead" in {
-      for (cleanupKind <- Seq("normal", "return", "throw")) {
+      for (
+        language <- Seq("C", "JAVASCRIPT", "JAVA", "KOTLIN", "DART"); cleanupKind <- Seq("normal", "return", "throw")
+      ) {
         val cpg = Cpg.empty
+        cpg.graph.addNode(NewMetaData().language(language))
         try {
           implicit val semantics: Semantics = DefaultSemantics()
           val graph                         = cpg.graph
@@ -145,8 +151,8 @@ class FinallyReturnTests extends AnyWordSpec with Matchers {
           }
           new CfgCreationPass(cpg).createAndApply()
           new ReachingDefPass(cpg).createAndApply()
-          withClue(cleanupKind) {
-            pending.out(EdgeTypes.REACHING_DEF).contains(exit) shouldBe (cleanupKind == "normal")
+          withClue(s"$language $cleanupKind") {
+            pending.out(EdgeTypes.REACHING_DEF).contains(exit) shouldBe (language != "DART" || cleanupKind == "normal")
           }
         } finally cpg.close()
       }

@@ -2,7 +2,7 @@ package io.joern.x2cpg.passes.controlflow.cfgcreation
 
 import io.joern.x2cpg.passes.controlflow.cfgcreation.Cfg.CfgEdgeType
 import io.shiftleft.codepropertygraph.generated.nodes.*
-import io.shiftleft.codepropertygraph.generated.{ControlStructureTypes, DispatchTypes, EdgeTypes, Operators}
+import io.shiftleft.codepropertygraph.generated.{Cpg, ControlStructureTypes, DispatchTypes, EdgeTypes, Operators}
 import io.shiftleft.semanticcpg.language.*
 import io.shiftleft.codepropertygraph.generated.DiffGraphBuilder
 import org.slf4j.LoggerFactory
@@ -54,6 +54,7 @@ class CfgCreator(entryNode: Method, diffGraph: DiffGraphBuilder) {
     * nodes representing formal return parameters, of which there exists exactly one per method.
     */
   private val exitNode: MethodReturn = entryNode.methodReturn
+  private val isDart                 = new Cpg(entryNode.graph).metaData.language.contains("DART")
   private var protectedDepth         = 0
 
   private def cfgForProtected(node: AstNode): Cfg = {
@@ -66,8 +67,11 @@ class CfgCreator(entryNode: Method, diffGraph: DiffGraphBuilder) {
     * then resolving gotos.
     */
   def run(): Unit = {
-    val cfg = cfgForMethod(entryNode).withResolvedJumpToLabel()
-    (cfg.edges ++ cfg.exits.flatMap { case (node, _) => singleEdge(node, exitNode) }).distinct.foreach { edge =>
+    val cfg   = cfgForMethod(entryNode).withResolvedJumpToLabel()
+    val edges =
+      if (isDart) (cfg.edges ++ cfg.exits.flatMap { case (node, _) => singleEdge(node, exitNode) }).distinct
+      else cfg.edges
+    edges.foreach { edge =>
       // TODO: we are ignoring edge.edgeType because the
       //  CFG spec doesn't define an edge type at the moment
       diffGraph.addEdge(edge.src, edge.dst, EdgeTypes.CFG)
@@ -93,6 +97,13 @@ class CfgCreator(entryNode: Method, diffGraph: DiffGraphBuilder) {
   private def cfgForChildren(node: AstNode): Cfg =
     node.astChildren.l.map(cfgFor).reduceOption((accumCfg, nextCfg) => accumCfg ++ nextCfg).getOrElse(Cfg.empty)
 
+  private def withinATryBlock(node: AstNode): Boolean = {
+    if (node._astIn.hasNext) {
+      val parentNode = node.parentBlock.astParent
+      parentNode.isControlStructure.isTry.nonEmpty
+    } else false
+  }
+
   /** This method dispatches AST nodes by type and calls corresponding conversion methods.
     */
   protected def cfgFor(node: AstNode): Cfg =
@@ -105,6 +116,8 @@ class CfgCreator(entryNode: Method, diffGraph: DiffGraphBuilder) {
         cfgForControlStructure(controlStructure)
       case jumpTarget: JumpTarget =>
         cfgForJumpTarget(jumpTarget)
+      case ret: Return if !isDart && withinATryBlock(ret) =>
+        cfgForReturn(ret, inheritFringe = true)
       case ret: Return =>
         cfgForReturn(ret)
       case call: Call if call.name == Operators.logicalAnd =>
@@ -119,10 +132,10 @@ class CfgCreator(entryNode: Method, diffGraph: DiffGraphBuilder) {
         cfgForChildren(block)
       case _: Block =>
         cfgForChildren(node) ++ cfgForSingleNode(node.asInstanceOf[CfgNode])
-      case call: Call =>
+      case call: Call if isDart =>
         val own = cfgForSingleNode(call)
         cfgForChildren(call) ++ (if (protectedDepth > 0) own.copy(exits = List(call -> ExitKind.Thrown)) else own)
-      case _: FieldIdentifier | _: Identifier | _: Literal | _: Block | _: Unknown =>
+      case _: Call | _: FieldIdentifier | _: Identifier | _: Literal | _: Block | _: Unknown =>
         cfgForChildren(node) ++ cfgForSingleNode(node.asInstanceOf[CfgNode])
       case _ =>
         cfgForChildren(node)
@@ -186,7 +199,24 @@ class CfgCreator(entryNode: Method, diffGraph: DiffGraphBuilder) {
         Cfg.empty
     }
 
+  private def cfgForLegacyThrowStatement(node: ControlStructure): Cfg = {
+    val throwExprCfg = Iterator(node)
+      .coalesce(
+        _._argumentOut.cast[AstNode],
+        { node =>
+          CfgCreator.warnOnce("Using order fallback for throw statement argument")
+          node.astChildren.order(1)
+        }
+      )
+      .headOption
+      .map(cfgFor)
+      .getOrElse(Cfg.empty)
+    val concatedNatedCfg = throwExprCfg ++ Cfg(entryNode = Option(node))
+    concatedNatedCfg.copy(edges = concatedNatedCfg.edges ++ singleEdge(node, exitNode))
+  }
+
   protected def cfgForThrowStatement(node: ControlStructure): Cfg = {
+    if (!isDart) return cfgForLegacyThrowStatement(node)
     val throwExprCfg = Iterator(node)
       .coalesce(
         _._argumentOut.cast[AstNode],
@@ -311,8 +341,20 @@ class CfgCreator(entryNode: Method, diffGraph: DiffGraphBuilder) {
     * of the CFG for calculation of that expression, appended to a CFG containing only the return node, connected with a
     * pending method exit. Enclosing finally bodies may intercept or replace it. The normal fringe is empty.
     */
-  protected def cfgForReturn(actualRet: Return): Cfg =
-    cfgForChildren(actualRet) ++ Cfg(entryNode = Option(actualRet), exits = List(actualRet -> ExitKind.Returned))
+  private def cfgForLegacyReturn(actualRet: Return, inheritFringe: Boolean = false): Cfg = {
+    val childrenCfg = cfgForChildren(actualRet)
+    childrenCfg ++
+      Cfg(
+        entryNode = Option(actualRet),
+        edges = singleEdge(actualRet, exitNode),
+        if (inheritFringe) childrenCfg.fringe else List()
+      )
+  }
+
+  protected def cfgForReturn(actualRet: Return, inheritFringe: Boolean = false): Cfg =
+    if (isDart)
+      cfgForChildren(actualRet) ++ Cfg(entryNode = Option(actualRet), exits = List(actualRet -> ExitKind.Returned))
+    else cfgForLegacyReturn(actualRet, inheritFringe)
 
   /** The right hand side of a logical AND expression is only evaluated if the left hand side is true as the entire
     * expression can only be true if both expressions are true. This is encoded in the corresponding control flow graph
@@ -597,7 +639,101 @@ class CfgCreator(entryNode: Method, diffGraph: DiffGraphBuilder) {
     * as a `catch`, with no `finally` present. To treat the last child of the node as the `finally` block, the `code`
     * field of the `Block` node must be set to `finally`.
     */
-  protected def cfgForTryStatement(node: ControlStructure): Cfg = {
+  private def cfgForLegacyTryStatement(node: ControlStructure): Cfg = {
+    val maybeTryBlock = Iterator(node)
+      .coalesce(
+        _._tryBodyOut.cast[AstNode].filter(_.astChildren.nonEmpty),
+        { node =>
+          CfgCreator.warnOnce("Using order fallback for try statement body")
+          node.astChildren.order(1).where(_.astChildren)
+        }
+      )
+      .headOption
+
+    val tryBodyCfg: Cfg = maybeTryBlock.map(cfgFor).getOrElse(Cfg.empty)
+
+    val catchControlStructures =
+      (node.astChildren.isControlStructure.isCatch ++ node.astChildren.isControlStructure.isElse).toList
+    val catchBodyFallback =
+      if (catchControlStructures.isEmpty) node.astChildren.order(2)
+      else catchControlStructures.iterator
+
+    val catchBodyCfgs = Iterator(node)
+      .coalesce(
+        _._catchBodyOut.cast[AstNode],
+        { _ =>
+          CfgCreator.warnOnce("Using order fallback for try statement catch body")
+          catchBodyFallback
+        }
+      )
+      .map(cfgFor)
+      .toList match {
+      case Nil  => List(Cfg.empty)
+      case asts => asts
+    }
+
+    val finallyControlStructures = node.astChildren.isControlStructure.isFinally.toList
+    val finallyBodyFallback      =
+      if (catchControlStructures.isEmpty && finallyControlStructures.isEmpty) {
+        node.astChildren.order(3)
+      } else {
+        finallyControlStructures.iterator
+      }
+
+    val maybeFinallyBodyCfg = Iterator(node)
+      .coalesce(
+        _._finallyBodyOut.cast[AstNode],
+        { _ =>
+          CfgCreator.warnOnce("Using order fallback for try statement finally body")
+          finallyBodyFallback
+        }
+      )
+      .map(cfgFor)
+      .headOption // Assume there can only be one
+      .toList
+
+    val tryToCatchEdges = catchBodyCfgs.flatMap { catchBodyCfg =>
+      edgesFromFringeTo(tryBodyCfg, catchBodyCfg.entryNode)
+    }
+
+    val catchToFinallyEdges = (
+      for (
+        catchBodyCfg   <- catchBodyCfgs;
+        finallyBodyCfg <- maybeFinallyBodyCfg
+      ) yield edgesFromFringeTo(catchBodyCfg, finallyBodyCfg.entryNode)
+    ).flatten
+
+    val tryToFinallyEdges = maybeFinallyBodyCfg.flatMap { cfg =>
+      edgesFromFringeTo(tryBodyCfg, cfg.entryNode)
+    }
+
+    val diffGraphs = tryToCatchEdges ++ catchToFinallyEdges ++ tryToFinallyEdges
+
+    if (maybeTryBlock.isEmpty) {
+      // This case deals with the situation where the try block is empty. In this case,
+      // no catch block can be executed since nothing can be thrown, but the finally block
+      // will still be executed.
+      maybeFinallyBodyCfg.headOption.getOrElse(Cfg.empty)
+    } else {
+      Cfg
+        .from(Seq(tryBodyCfg) ++ catchBodyCfgs ++ maybeFinallyBodyCfg*)
+        .copy(
+          entryNode = tryBodyCfg.entryNode,
+          edges =
+            diffGraphs ++ tryBodyCfg.edges ++ catchBodyCfgs.flatMap(_.edges) ++ maybeFinallyBodyCfg.flatMap(_.edges),
+          fringe = if (maybeFinallyBodyCfg.flatMap(_.entryNode).nonEmpty) {
+            maybeFinallyBodyCfg.head.fringe
+          } else {
+            tryBodyCfg.fringe ++ catchBodyCfgs.flatMap(_.fringe)
+          }
+        )
+    }
+  }
+
+  protected def cfgForTryStatement(node: ControlStructure): Cfg =
+    if (isDart) cfgForDartTryStatement(node) else cfgForLegacyTryStatement(node)
+
+  private def cfgForDartTryStatement(node: ControlStructure): Cfg = {
     val maybeTryBlock = Iterator(node)
       .coalesce(
         _._tryBodyOut.cast[AstNode].filter(_.astChildren.nonEmpty),

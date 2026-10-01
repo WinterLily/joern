@@ -56,6 +56,12 @@ explicit condition/body edges. Switch cases with statements have implicit breaks
 For-in loops evaluate the iterable once and lower to iterator/moveNext/current.
 Short-circuit boolean operators use Joern's standard logical operators.
 
+The added exception routing, lexical capture, nested block-value and constant-field
+flow rules apply only to graphs whose metadata language is `DART`. Other languages
+retain their previous CFG and dataflow behavior. Read-only Dart operator summaries
+use `<operator>.dart.*` method full names while call names retain the standard
+operators, preserving CFG recognition without changing existing operator summaries.
+
 A try statement has one catch dispatcher. It reads `<operator>.caughtException`
 and `<operator>.caughtStackTrace` once into distinct temporaries, tests typed
 clauses in source order, and binds each clause's locals on its selected branch.

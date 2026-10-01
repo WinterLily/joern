@@ -91,9 +91,14 @@ package object queryengine {
     fieldDemand: List[String] = Nil
   ) {
     def outputChannel: OutputChannel = node match {
-      case _: Call => OutputChannel.fromEdge(outEdgeLabel)
-      case _       => OutputChannel.Normal
+      case _: Call if io.joern.dataflowengineoss.isDart(node) => OutputChannel.fromEdge(outEdgeLabel)
+      case _                                                  => OutputChannel.Normal
     }
+
+    def orderingKey: String =
+      if (io.joern.dataflowengineoss.isDart(node))
+        (node.id, callSiteStack.map(_.id), visible, isOutputArg, outEdgeLabel, fieldDemand).toString
+      else (node.id, callSiteStack.map(_.id), visible, isOutputArg, outEdgeLabel).toString
   }
 
   /** @param taskStack

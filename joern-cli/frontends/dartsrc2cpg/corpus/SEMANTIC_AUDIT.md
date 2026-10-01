@@ -547,3 +547,28 @@ exporter facts: length guards, skipped wildcard reads, cached prefix/tail reads
 and slices account for every delta. File, internal-method and UNKNOWN counts are
 unchanged. All twelve reports share the current source fingerprint and exporter
 0.3.13. The existing inconclusive queries remain open.
+
+## Restrict shared support to Dart
+
+The earlier shared fixes also changed existing-language behavior. Those global
+effects have been removed: legacy CFG return/throw/try construction, capture
+lookup, block values, field matching, summary filtering and output expansion are
+preserved for other languages. The extended paths require `DART` metadata.
+Primitive and pattern read-only summaries use separate `<operator>.dart.*`
+method full names emitted by this frontend; standard operator summaries are
+unchanged. Call names still identify the standard operators for CFG construction.
+
+Added regressions now live in the Dart frontend. Their language matrices check
+legacy block, capture, return-summary, nested-output and finally behavior under
+C, JavaScript, Java and Kotlin metadata alongside the Dart extensions. All prior
+C/C++ test-file changes are reverted rather than changing their expectations.
+
+Validation passes: 36 original shared-engine tests, 177 original C/C++ dataflow
+and CFG tests, 16 shared CFG/dominator tests, all 40 JavaScript dataflow tests,
+five JavaScript closure tests and five Kotlin lambda dataflow tests. The Dart
+frontend's 135 tests, all three applications, both holdouts, staged packaging,
+four CLI integration tests and fourteen console tests also pass. Legacy CFG
+function bodies and standard operator summaries match the pre-Dart source;
+shared-engine, shared-CFG and C/C++ test files match that source exactly. All
+twelve corpus reports share the new source fingerprint. Their endpoint outcomes
+and graph baselines are unchanged; inconclusive searches remain unqualified.

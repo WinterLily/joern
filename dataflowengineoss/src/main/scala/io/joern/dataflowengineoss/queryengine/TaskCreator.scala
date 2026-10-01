@@ -209,9 +209,10 @@ class TaskCreator(context: EngineContext) {
     val forArgs = outArgsAndCalls.flatMap { case (result, args, path, callDepth) =>
       args.toList.flatMap {
         case arg: Expression =>
-          val outParams = argToOutputParams(arg).l
+          val dart      = io.joern.dataflowengineoss.isDart(arg)
+          val outParams = if (dart || result.callSiteStack.isEmpty) argToOutputParams(arg).l else Nil
           outParams
-            .filterNot(p => p.method.isExternal || context.semantics.forMethod(p.method).isDefined)
+            .filterNot(p => p.method.isExternal || dart && context.semantics.forMethod(p.method).isDefined)
             .map { p =>
               val newStack =
                 arg.inCall.headOption.map { x => x :: result.callSiteStack }.getOrElse(result.callSiteStack)

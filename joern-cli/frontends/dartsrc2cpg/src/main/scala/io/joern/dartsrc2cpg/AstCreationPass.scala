@@ -131,7 +131,7 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
         located(
           NewCall()
             .name(name)
-            .methodFullName(name)
+            .methodFullName(io.joern.x2cpg.frontendspecific.DartLanguage.operatorName(name))
             .code(code(syntax))
             .typeFullName(resultType)
             .dispatchType(DispatchTypes.STATIC_DISPATCH),

@@ -168,9 +168,7 @@ class HeldTaskCompletion(
         } else {
           withMaxLength.minBy { x =>
             x.path
-              .map(x =>
-                (x.node.id, x.callSiteStack.map(_.id), x.visible, x.isOutputArg, x.outEdgeLabel, x.fieldDemand).toString
-              )
+              .map(_.orderingKey)
               .mkString("-")
           }
         }

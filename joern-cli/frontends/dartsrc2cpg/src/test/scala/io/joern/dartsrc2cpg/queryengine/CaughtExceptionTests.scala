@@ -1,4 +1,6 @@
-package io.joern.dataflowengineoss.queryengine
+package io.joern.dartsrc2cpg.queryengine
+
+import io.joern.dataflowengineoss.queryengine.*
 
 import flatgraph.misc.TestUtils.*
 import io.joern.dataflowengineoss.DefaultSemantics
@@ -35,6 +37,7 @@ class CaughtExceptionTests extends AnyWordSpec with Matchers {
         )
       ) {
         val cpg = Cpg.empty
+        cpg.graph.addNode(NewMetaData().language("DART"))
         try {
           implicit val semantics: Semantics       = DefaultSemantics()
           implicit val validation: ValidationMode = ValidationMode.Enabled
@@ -134,6 +137,7 @@ class CaughtExceptionTests extends AnyWordSpec with Matchers {
 
     "bind explicit throw operands to their handler without mixing payloads and stacks" in {
       val cpg = Cpg.empty
+      cpg.graph.addNode(NewMetaData().language("DART"))
       try {
         implicit val semantics: Semantics = DefaultSemantics()
         val graph                         = cpg.graph

@@ -9,6 +9,9 @@ import scala.collection.mutable
 
 package object dataflowengineoss {
 
+  def isDart(node: StoredNode): Boolean =
+    new io.shiftleft.codepropertygraph.generated.Cpg(node.graph).metaData.language.contains("DART")
+
   /** Returns the target of an assignment involving [[lit]], if the assignment is found inside a module method.
     *
     * @param lit
@@ -44,6 +47,10 @@ package object dataflowengineoss {
     declaration: Declaration,
     includeModeledInputs: Boolean = false
   ): List[Identifier] = {
+    if (!isDart(declaration))
+      return declaration.capturedByMethodRef.referencedMethod
+        .flatMap(_.ast.isIdentifier.nameExact(declaration.name).sortBy(x => (x.lineNumber, x.columnNumber)).headOption)
+        .l
     val result  = mutable.LinkedHashSet.empty[Identifier]
     val visited = mutable.HashSet.empty[(ClosureBinding, MethodRef)]
 
