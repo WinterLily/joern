@@ -63,6 +63,9 @@ now retain static targets; extension tear-offs/setters and static member shadows
 have operand-isolation and bounded execution controls. Ordinary virtual calls
 retain overrides. Covariant/generic signature compatibility and synthetic field
 accessor overrides remain open. Runtime type environments and bound checks remain
+open. Mixin superclass operations now include preceding implementations from
+observed applications, with private lookup, cross-file and bound-operation
+regressions. Application-specific contexts and differing named-parameter orders remain
 open. Broader dispatch and
 type-model qualification remain open. This is
 not complete language or runtime analysis support.

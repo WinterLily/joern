@@ -3,8 +3,8 @@
     "project": "shelf-1.4.2",
     "analysisSources": {
       "algorithm": "sha256-path-nul-content-nul",
-      "sha256": "77f8483e5c2fba9efae359042b6c05b407238c26050ad2f6f731a74e329f9548",
-      "files": 378,
+      "sha256": "4bbc91808f13a7e891ed8444b71a03f411662a39269803781b89a3437fe2273e",
+      "files": 380,
       "roots": [
         "joern-cli/frontends/dartsrc2cpg/src",
         "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -39,7 +39,7 @@
     "exporter": {
       "record": "header",
       "protocolVersion": 1,
-      "exporterVersion": "0.3.17",
+      "exporterVersion": "0.3.18",
       "analyzerVersion": "8.4.1",
       "sdkVersion": "3.9.2",
       "offsetEncoding": "utf-16",
@@ -120,8 +120,8 @@
     "project": "yaml-3.1.3",
     "analysisSources": {
       "algorithm": "sha256-path-nul-content-nul",
-      "sha256": "77f8483e5c2fba9efae359042b6c05b407238c26050ad2f6f731a74e329f9548",
-      "files": 378,
+      "sha256": "4bbc91808f13a7e891ed8444b71a03f411662a39269803781b89a3437fe2273e",
+      "files": 380,
       "roots": [
         "joern-cli/frontends/dartsrc2cpg/src",
         "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -155,7 +155,7 @@
     "exporter": {
       "record": "header",
       "protocolVersion": 1,
-      "exporterVersion": "0.3.17",
+      "exporterVersion": "0.3.18",
       "analyzerVersion": "8.4.1",
       "sdkVersion": "3.9.2",
       "offsetEncoding": "utf-16",

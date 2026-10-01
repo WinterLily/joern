@@ -754,3 +754,38 @@ checks enabled, all 142 frontend/package tests, all three applications, both
 holdouts, staged packaging, four CLI integration tests and fourteen console tests.
 All twelve refreshed reports share one current source fingerprint and exporter
 0.3.17. Graph baselines, endpoint checks and limitations are unchanged.
+
+## Mixin superclass implementation unions
+
+The selected-superclass regression exposed a separate Dart requirement: a
+mixin's `on` constraint provides the static member declaration, while each
+application may supply a different preceding implementation. The reduced graph
+initially retained only Base, missing Prefix and an earlier Prior mixin. The
+pinned SDK oracle independently selects those implementations for their
+applications, including a named application and a subclass with a later override.
+This follows Dart's [mixin superclass constraints](https://dart.dev/language/mixins#use-the-on-clause-to-declare-a-superclass).
+
+Exporter 0.3.18 records lexical mixin superclass operations and preceding
+implementation facts. It uses the pinned analyzer's super-invoked-name inventory,
+reverse mixin application order and superclass implementation lookup. Private
+names use the mixin's library, excluding same-named private members elsewhere.
+A Dart-owned pass adds CALL edges to available implementations before shared
+overlays. The same mixin body unions observed application targets and retains its
+resolved constraint target; it does not specialize bodies or select a unique
+application for each caller. Unscanned applications, unavailable bodies and
+different named-parameter orders remain unqualified. General covariant/generic
+override compatibility and synthetic field-accessor overrides remain open.
+
+Graph regressions check direct/bound super calls, getters/setters, arithmetic and
+index operators, source/ignored operand isolation and target sets excluding later
+overrides. They also split applications into another file. The exporter regression
+checks named applications and private library identities. The runtime oracle
+checks bounded values and implementation traces across five receiver classes.
+
+Validation passes: Dart analyze, all 93 native tests with VM/web and Flutter
+checks enabled, the refreshed inventory test, all 144 frontend/package tests,
+all three applications, both holdouts, staged packaging, four CLI integration
+tests and fourteen console tests. All twelve refreshed reports share one current
+source fingerprint and exporter 0.3.18. Graph baselines, reaching-definition
+counts, endpoint checks and limitations are unchanged. All changes are within
+the Dart frontend; other language handling and shared passes are unchanged.

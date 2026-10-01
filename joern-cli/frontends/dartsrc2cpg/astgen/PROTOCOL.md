@@ -7,7 +7,7 @@ unsupported protocol versions, and unsupported analyzer/exporter versions before
 constructing a graph. The Scala consumer validates the protocol, analyzer, SDK and offset encoding
 before constructing a graph. Exporter 0.3 adds modern-language fields to protocol 1.
 
-The header declares `protocolVersion` (1), `exporterVersion` (0.3.17),
+The header declares `protocolVersion` (1), `exporterVersion` (0.3.18),
 `analyzerVersion` (8.4.1), `sdkVersion` (3.9.2), and `offsetEncoding` (`utf-16`).
 No timestamps or checkout root are emitted. The exporter builds records one file
 at a time; the analyzer may retain project state internally.
@@ -233,6 +233,22 @@ declaration identities. Their symbols retain `owner`, `boundType` and
 Explicit bounds on other parameters preserve those parameter identities.
 Executable symbols retain `genericSignature` as the analyzer's displayed
 function type. This metadata does not represent separate generic instantiations.
+
+## Mixin super application targets (0.3.18)
+
+Expression nodes with a direct superclass operation inside a mixin declaration
+record `mixinSuper`, its lexical mixin declaration ID. Assignment/update nodes
+retain this alongside their existing read/write member identities; this does not
+make an operator on a property's value a superclass operator.
+
+Interface symbols with applied mixins record `mixinSuperTargets`. Each entry has
+the mixin ID, member `name`, executable `kind` and resolved implementation `target`.
+Lookup visits preceding mixins in reverse application order, then the superclass's
+implementation hierarchy. The applying class's own members and later mixins are
+excluded. Private lookup uses the mixin's library. The pinned analyzer's internal
+super-invoked-name inventory limits entries to members actually invoked by that
+mixin. These facts identify declarations; generic substitutions and named-parameter
+compatibility remain separate obligations.
 
 ## Anonymous generic function scopes (0.3.17)
 

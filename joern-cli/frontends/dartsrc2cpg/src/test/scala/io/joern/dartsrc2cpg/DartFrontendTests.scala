@@ -77,6 +77,45 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
   }
 
   "Dart frontend" should {
+    "resolve mixin super members from preceding application implementations" in {
+      val source  = Files.readString(frontend.resolve("src/test/resources/semantics/mixin_super.dart"))
+      val splitAt = source.indexOf("class Direct")
+      for (split <- Seq(false, true))
+        fixture(
+          if (split) source.take(splitAt) else source,
+          "void main() {}",
+          extraFiles =
+            if (split) Map("lib/applications.dart" -> ("import 'helper.dart';\n" + source.drop(splitAt))) else Map.empty
+        ) { (cpg, _) =>
+          val owners = Set("Base", "Prefix", "Prior").map(name => cpg.typeDecl.nameExact(name).head.fullName)
+          val probe  = cpg.typeDecl.nameExact("Probe").head
+          for (
+            (name, member) <- Seq(
+              "invoke"   -> "echo",
+              "getter"   -> "read",
+              "setter"   -> "write",
+              "plus"     -> "+",
+              "index"    -> "[]",
+              "indexSet" -> "[]="
+            )
+          ) {
+            val call = probe.method.nameExact(name).call.nameExact(member).head
+            withClue(name) { call.callee.astParentFullName.toSet shouldBe owners }
+          }
+          val bound = probe.method.nameExact("bound").call.nameExact("callback").callee.nameExact("<bound>").head
+          bound.call.nameExact("echo").callee.astParentFullName.toSet shouldBe owners
+          for (name <- Seq("invoke", "bound")) {
+            val method = probe.method.nameExact(name).head
+            for (source <- Seq("input", "ignored")) {
+              withClue(s"$name $source") {
+                method.ast.isReturn
+                  .reachableByFlows(method.parameter.nameExact(source))
+                  .nonEmpty shouldBe (source == "input")
+              }
+            }
+          }
+        }
+    }
     "pin super and extension dispatch while retaining virtual calls" in {
       fixture(
         Files.readString(frontend.resolve("src/test/resources/semantics/static_dispatch.dart")),
@@ -2764,7 +2803,7 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         val coverage = ujson.read(Files.readString(report))
         coverage("includedFiles").num shouldBe 0
         coverage("stringConversionOrder").str shouldBe "after-expression-evaluation"
-        coverage("exporter")("exporterVersion").str shouldBe "0.3.17"
+        coverage("exporter")("exporterVersion").str shouldBe "0.3.18"
         coverage("exporter")("sdkVersion").str shouldBe "3.9.2"
         coverage("exporter")("analyzerVersion").str shouldBe "8.4.1"
         Files.writeString(dir.resolve("excluded.dart"), "void excluded() {}")
@@ -2784,7 +2823,7 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         "offsetEncoding"  -> "utf-16",
         "analyzerVersion" -> "8.4.1",
         "sdkVersion"      -> "3.9.2",
-        "exporterVersion" -> "0.3.17"
+        "exporterVersion" -> "0.3.18"
       )
       intercept[IllegalArgumentException](ExportProtocol.units(Seq(valid)))
       intercept[IllegalArgumentException](

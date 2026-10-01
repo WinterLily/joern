@@ -36,6 +36,70 @@ void main() {
   tearDown(() => project.deleteSync(recursive: true));
 
   test(
+    'mixin super targets retain order and private library identities',
+    () async {
+      write('base.dart', """
+class Base {
+  String echo(String value, String ignored) => value;
+  String _hidden(String value) => value;
+}
+mixin Probe on Base {
+  String invoke(String value, String ignored) => super.echo(value, ignored);
+  String hidden(String value) => super._hidden(value);
+}
+""");
+      write('main.dart', """
+import 'base.dart';
+mixin Before {
+  String echo(String value, String ignored) => value;
+  String _hidden(String value) => 'unrelated';
+}
+class Applied extends Base with Before, Probe {}
+class Named = Base with Before, Probe;
+class End extends Applied {
+  String echo(String value, String ignored) => ignored;
+}
+""");
+      final exported = units(await export());
+      expect(exported.every((unit) => unit['status'] == 'resolved'), isTrue);
+      final symbols = <String, Map<String, Object?>>{
+        for (final unit in exported)
+          for (final value in entries(unit, 'symbols'))
+            value['id'] as String: value,
+      };
+      final probe = symbols.values.singleWhere(
+        (s) => s['kind'] == 'MIXIN' && s['name'] == 'Probe',
+      )['id'];
+      for (final name in ['Applied', 'Named']) {
+        final application = symbols.values.singleWhere(
+          (s) => s['kind'] == 'CLASS' && s['name'] == name,
+        );
+        final targets = (application['mixinSuperTargets'] as List).cast<Map>();
+        final echo = targets.singleWhere(
+          (target) => target['mixin'] == probe && target['name'] == 'echo',
+        );
+        final hidden = targets.singleWhere(
+          (target) => target['mixin'] == probe && target['name'] == '_hidden',
+        );
+        expect(symbols[symbols[echo['target']]!['owner']]!['name'], 'Before');
+        expect(symbols[symbols[hidden['target']]!['owner']]!['name'], 'Base');
+      }
+      final sites = exported
+          .expand((unit) => entries(unit, 'nodes'))
+          .where((node) => node.containsKey('mixinSuper'))
+          .toList();
+      expect(sites.length, 2);
+      expect(
+        sites.every(
+          (site) =>
+              site['kind'] == 'MethodInvocation' && site['mixinSuper'] == probe,
+        ),
+        isTrue,
+      );
+    },
+  );
+
+  test(
     'export catch filters separately from exception and stack bindings',
     () async {
       write('main.dart', """

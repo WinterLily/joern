@@ -1,6 +1,6 @@
 # Dart and Flutter feature matrix
 
-Tested with Dart 3.9.2, analyzer 8.4.1, exporter 0.3.17 and Flutter 3.35.3
+Tested with Dart 3.9.2, analyzer 8.4.1, exporter 0.3.18 and Flutter 3.35.3
 (framework revision `a402d9a437`). “Parsed” means explicit exporter nodes rather
 than UNKNOWN. Resolution uses existing package configuration and SDK resources.
 Dataflow claims below refer to the OSS engine with default semantics, not Dart
@@ -15,7 +15,7 @@ execution or exhaustive language conformance.
 | Map/object patterns | Yes | Required map type and nullable presence guards; lazy constant-key and ordinary object-field storage | Map index/containsKey and object getter targets, bound locals | Internal index-return flow, independent receiver/constant-result controls and per-match invocation reuse; exact mutable slots and complete virtual targets unqualified |
 | Constant/relational/logical/typed/null/cast patterns | Yes | Short-circuit predicates, casts and null checks/assertions | Analyzer types and references | Scalar binding flow; constant/relational user operator targets and null guards; per-match comparison reuse; path-sensitive match feasibility unqualified |
 | If-case, guarded switch cases, switch expressions | Yes | Ordered tests, guard short-circuiting, result assignments, switch break boundary | Guard/body references | Positive scalar switch result and negative constant result |
-| Mixins | Yes | TYPE_DECLs, inherited type identities, methods | Mixed-in method targets and forwarding application constructors | Constructor argument to superclass field; mixin dispatch |
+| Mixins | Yes | TYPE_DECLs, inherited identities, methods and forwarding constructors; superclass target union across observed applications | Preceding superclass/mixin implementations and private library lookup | Constructor-to-superclass field and super/tear-off operand isolation; application-specific contexts and differing named-parameter orders unqualified |
 | Extensions | Yes | TYPE_DECL owner, receiver at index 0, static calls/accessors/tear-offs, explicit overrides; per-match getter/operator reuse | Implicit/explicit calls, bound targets and inferred pattern substitutions | Pattern invocation reuse/isolation and tear-off operand isolation; general generic dispatch and heap effects unqualified |
 | Extension types | Yes | TYPE_DECL, representation MEMBER and primary constructor assignment | Primary constructor and member targets | Structural/resolution only; runtime erasure is not simulated |
 | Class modifiers | Yes | Source plus `dart.*` annotations; ABSTRACT/FINAL where applicable | Analyzer checks validity | Not a dataflow feature |

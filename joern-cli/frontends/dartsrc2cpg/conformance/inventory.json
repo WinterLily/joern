@@ -181,11 +181,11 @@
     "dispatch": {
       "exporter": "analyzer member identities, owners, static flags and SuperExpression static type",
       "lowering": "DartFrontendTests: static super calls/accessors/operators/tear-offs and extension calls/setters/tear-offs; ordinary virtual calls remain dynamic",
-      "resolution": "selected superclass/extension/static targets; known function-value invocation selects the value; covariant/generic signature and synthetic accessor overrides unqualified",
+      "resolution": "selected superclass/extension/static targets; mixin super target union from observed applications; known function-value invocation selects the value; covariant/generic signature, named-parameter compatibility and synthetic accessor overrides unqualified",
       "cfg": "same this receiver with superclass static view; existing exactly-once bound receiver evaluation",
       "valueFlow": "first/ignored operand isolation through super/extension/static calls and tear-offs; superclass getter/setter/operator return controls",
       "negative": "super cannot select subclass overrides; static tear-offs cannot select subclass static shadows; superclass list callback flow retains positive control",
-      "interaction": "astgen/test/static_dispatch_test.dart: bounded super operations, extensions, static shadows and ordinary virtual override control"
+      "interaction": "astgen/test/static_dispatch_test.dart: bounded super operations, extensions, static shadows and ordinary virtual override control; mixin_super_test.dart: preceding class/mixin implementations, named applications and subclass override exclusion; exporter_test.dart: private library lookup; DartFrontendTests: cross-file application facts"
     }
   },
   "constructs": [
@@ -1025,9 +1025,9 @@
       "construct": "MixinDeclaration",
       "scope": "dart-3.9",
       "exporterCase": "MixinDeclaration",
-      "contract": "syntax",
-      "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "contract": "dispatch",
+      "qualification": "conservative",
+      "reason": "Superclass target union across observed applications, private lookup and bound operations tested; application-specific contexts and differing named-parameter orders unqualified."
     },
     {
       "construct": "MixinOnClause",

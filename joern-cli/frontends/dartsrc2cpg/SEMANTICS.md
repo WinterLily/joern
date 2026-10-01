@@ -227,6 +227,13 @@ a known function value select that value; an ordinary bound instance tear-off's
 wrapper still invokes its receiver virtually. `super` retains the lexical
 superclass view of the same `this` object. Covariant overrides, generic signature
 compatibility and synthetic field-accessor overrides remain unqualified.
+Mixin superclass operations additionally link implementations preceding the mixin
+in observed applications, including superclass overrides and earlier mixins.
+Lookup respects private library identities. A Dart-specific call pass adds these
+edges before shared overlays. The graph retains one mixin body and unions targets
+across applications, alongside its resolved constraint target. It does not select
+an application-specific body for each caller. Unscanned applications, external
+implementation bodies and differing named-parameter orders remain unqualified.
 Calls without a resolved target retain `<unresolved>.name`; the
 frontend does not invent targets for arbitrary dynamic dispatch. External method
 stubs come from Joern's overlays. Their bodies and library-specific effects are

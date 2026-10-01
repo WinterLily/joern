@@ -14,13 +14,16 @@ import 'package:analyzer/dart/element/nullability_suffix.dart';
 // Pattern elements omit inferred extension arguments; reuse the pinned analyzer's inference.
 // ignore: implementation_imports
 import 'package:analyzer/src/dart/element/type.dart';
+// Mixin super-invoked names are exposed only by the pinned implementation.
+// ignore: implementation_imports
+import 'package:analyzer/src/dart/element/element.dart' show MixinElementImpl;
 // ignore: implementation_imports
 import 'package:analyzer/src/dart/resolver/applicable_extensions.dart';
 import 'package:analyzer/source/line_info.dart';
 import 'package:path/path.dart' as p;
 
 const protocolVersion = 1;
-const exporterVersion = '0.3.17';
+const exporterVersion = '0.3.18';
 const analyzerVersion = '8.4.1';
 const supportedSdkVersion = '3.9.2';
 
@@ -378,6 +381,9 @@ class _UnitEncoder {
         symbols[id]!['superDeclarations'] = element.allSupertypes
             .map((t) => symbol(t.element))
             .toList();
+        if (element.mixins.isNotEmpty) {
+          symbols[id]!['mixinSuperTargets'] = mixinSuperTargets(element);
+        }
       }
       if (element is TypeParameterElement ||
           element.enclosingElement is InterfaceElement ||
@@ -396,6 +402,75 @@ class _UnitEncoder {
     }
     return id;
   }
+
+  List<Map<String, Object?>> mixinSuperTargets(InterfaceElement element) {
+    final result = <Map<String, Object?>>[];
+    for (var index = 0; index < element.mixins.length; index++) {
+      final mixin = element.mixins[index].element;
+      if (mixin is! MixinElementImpl) continue;
+      for (final name in mixin.superInvokedNames) {
+        for (final kind in ['METHOD', 'GETTER', 'SETTER']) {
+          if (kind == 'SETTER' && !name.endsWith('=')) continue;
+          final memberName = kind == 'SETTER'
+              ? name.substring(0, name.length - 1)
+              : name;
+          ExecutableElement? declared(InterfaceElement owner) => switch (kind) {
+            'METHOD' => owner.getMethod(memberName),
+            'GETTER' => owner.getGetter(memberName),
+            _ => owner.getSetter(memberName),
+          };
+          ExecutableElement? target;
+          for (final prior in element.mixins.take(index).toList().reversed) {
+            final member = declared(prior.element);
+            if (member != null &&
+                !member.isAbstract &&
+                !member.isStatic &&
+                member.isAccessibleIn(mixin.library)) {
+              target = member;
+              break;
+            }
+          }
+          final superclass = element.supertype?.element;
+          target ??= superclass == null
+              ? null
+              : switch (kind) {
+                  'METHOD' => superclass.lookUpMethod(
+                    name: memberName,
+                    library: mixin.library,
+                  ),
+                  'GETTER' => superclass.lookUpGetter(
+                    name: memberName,
+                    library: mixin.library,
+                  ),
+                  _ => superclass.lookUpSetter(
+                    name: memberName,
+                    library: mixin.library,
+                  ),
+                };
+          if (target != null && !target.isStatic && !target.isAbstract) {
+            result.add({
+              'mixin': symbol(mixin),
+              'name': target.name,
+              'kind': kind,
+              'target': symbol(target),
+            });
+          }
+        }
+      }
+    }
+    return result;
+  }
+
+  bool superOperation(AstNode ast) => switch (ast) {
+    MethodInvocation() => ast.target is SuperExpression,
+    PropertyAccess() => ast.target is SuperExpression,
+    IndexExpression() => ast.target is SuperExpression,
+    BinaryExpression() => ast.leftOperand is SuperExpression,
+    AssignmentExpression() => superOperation(ast.leftHandSide),
+    PrefixExpression() => superOperation(ast.operand),
+    PostfixExpression() => superOperation(ast.operand),
+    _ => false,
+  };
 
   Map<String, Object?> encode(
     CompilationUnit unit,
@@ -1307,6 +1382,12 @@ class _UnitEncoder {
     if (ast is Expression) {
       record['type'] = ast.staticType?.getDisplayString();
       record['typeId'] = typeId(ast.staticType);
+      if (superOperation(ast)) {
+        final mixin = ast.thisOrAncestorOfType<MixinDeclaration>();
+        if (mixin != null) {
+          record['mixinSuper'] = symbol(mixin.declaredFragment?.element);
+        }
+      }
     }
     record['children'] = children;
     return id;
