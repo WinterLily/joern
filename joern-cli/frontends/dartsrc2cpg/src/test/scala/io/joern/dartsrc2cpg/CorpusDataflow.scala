@@ -215,6 +215,14 @@ private[dartsrc2cpg] object CorpusDataflow {
             node("isOutputArg") = element.isOutputArg
             node("outEdgeLabel") = element.outEdgeLabel
             node("fieldDemand") = ujson.Arr.from(element.fieldDemand)
+            node("storageDemands") = ujson.Arr.from(element.storageDemands.map { demand =>
+              ujson.Obj(
+                "method"        -> demand.method.fullName,
+                "methodNodeId"  -> demand.method.id,
+                "callSiteStack" -> ujson.Arr.from(demand.callSiteStack.map(callEvidence)),
+                "pendingExit"   -> demand.pendingExit.toString
+              )
+            })
             node
           })
         })

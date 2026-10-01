@@ -133,9 +133,11 @@ controls must use the same storage-search budget. `static-storage-search` report
 an unfinished CFG search. Initialization-state, exceptional-memory and external
 effect diagnostics also make absence inconclusive. `static-storage-exit-metadata`
 requires a graph refreshed with the exit-tag producer; `static-storage-joined-exits`
-and `static-storage-implicit-exception-effects` retain pending-exit/value-task and
+and `static-storage-implicit-exception-effects` retain ordinary local-join and
 unmodeled runtime-effect limits. The [exception review](static-exception-witness-review.json)
-records a concrete cleanup-copy false positive; see [the storage contract](../SEMANTICS.md#lazy-and-late-initialization).
+records the historical cleanup-copy false positive; the
+[current copy review](static-cleanup-copy-witness-review.json) includes serialized
+`storageDemands`, corrected field-copy controls and the remaining local-join defect; see [the storage contract](../SEMANTICS.md#lazy-and-late-initialization).
 After auditing all three categories, run
 `python3 joern-cli/frontends/dartsrc2cpg/scripts/summarize_alternatives.py` to
 refresh `alternative-witness-results.json`. The script rejects stale or mixed

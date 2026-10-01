@@ -103,7 +103,10 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
             "rethrown"            -> true,
             "swallowedResult"     -> true,
             "joinedNormal"        -> false,
-            "joinedCaught"        -> true
+            "joinedCaught"        -> true,
+            "copiedCaught"        -> true,
+            "localCopyCaught"     -> true,
+            "copiedIndependent"   -> false
           )
         ) {
           val method = cpg.method.nameExact(name).head
@@ -111,12 +114,33 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
             method.ast.isReturn.reachableByFlows(method.parameter.nameExact("input")).nonEmpty shouldBe expected
           }
         }
-        val copied        = cpg.method.nameExact("copiedNormal").head
-        val diagnostics   = new QueryDiagnostics
-        val copiedContext = EngineContext(config = EngineConfig(diagnostics = Some(diagnostics)))
-        // Ordinary RHS tasks still lose the pending exit; retain this diagnosed counterexample until that channel is extended.
-        copied.ast.isReturn.reachableByFlows(copied.parameter.nameExact("input"))(copiedContext).nonEmpty shouldBe true
-        diagnostics.limitations should contain("static-storage-joined-exits")
+        for (depth <- Seq(4, 8); bound <- Seq(1, 2)) {
+          val diagnostics = new QueryDiagnostics
+          val context     = EngineContext(config =
+            EngineConfig(maxCallDepth = depth, maxWitnessesPerEndpoint = bound, diagnostics = Some(diagnostics))
+          )
+          for (
+            (name, expected) <- Seq("copiedNormal" -> false, "helperCopyNormal" -> false, "helperCopyCaught" -> true)
+          ) {
+            val method = cpg.method.nameExact(name).head
+            withClue(s"$name depth=$depth bound=$bound") {
+              method.ast.isReturn
+                .reachableByFlows(method.parameter.nameExact("input"))(context)
+                .nonEmpty shouldBe expected
+            }
+          }
+          val both  = cpg.method.nameExact("copiedBoth").head
+          val paths = both.ast.isReturn.reachableByFlows(both.parameter.nameExact("input"))(context).toList
+          paths should not be empty
+          paths.map(_.elements.last.code).toSet shouldBe Set("return caught;")
+          diagnostics.limitations should contain("static-storage-joined-exits")
+        }
+        val local            = cpg.method.nameExact("localCopyNormal").head
+        val localDiagnostics = new QueryDiagnostics
+        val localContext     = EngineContext(config = EngineConfig(diagnostics = Some(localDiagnostics)))
+        // DART-FLOW-008: ordinary local reaching definitions still join the throw-only assignment into cleanup.
+        local.ast.isReturn.reachableByFlows(local.parameter.nameExact("input"))(localContext).nonEmpty shouldBe true
+        localDiagnostics.limitations should contain("static-storage-joined-exits")
       }
     }
     "follow static storage in call order with overwrites and independent locations" in {

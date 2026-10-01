@@ -1080,6 +1080,9 @@ Larger search budgets and the remaining coverage-plan gates are unfinished.
 
 ## Static memory on exceptional and resumed cleanup exits
 
+This section records checkpoint `d98a3b345`; the RHS increment below supersedes
+its implementation fingerprint and original field-copy false positive.
+
 The preceding static-storage section records checkpoint `bba06f047`; this
 increment supersedes its source fingerprint and the missed `exceptional` case.
 That throwing-helper/catch dependency now passes. The CFG producer retains its
@@ -1136,3 +1139,60 @@ three application graphs, two holdout graphs, staging, four CLI tests and fourte
 console tests. Focused shared CFG/dominator checks and formatting passed. This
 increment fixes exceptional storage traversal and explicitly records the remaining
 RHS-demand defect; it does not close initialization, heap or release qualification.
+
+## Preserve cleanup exit demands through RHS value tasks
+
+DART-FLOW-007's original `copiedNormal` false positive is rejected. Static-storage
+RHS tasks retain demands keyed by method and selected caller stack; ordinary DDG
+expansion, parameter/return/output tasks, task caches, held combinations and
+witness identity preserve them independently of scalar/exception channels and
+field demands. A subsequent getter restores the matching invocation's pending
+cleanup exit. Detailed witnesses serialize the demands. Foreign/default tasks
+have empty demands and retain their existing traversal and selection behavior.
+
+The graph controls cover field copies, a saved getter value through two helpers,
+an intervening other-slot overwrite, repeated independent inputs and simultaneous
+normal/caught sinks from the same call site. Depths four/eight and default/two-
+witness selection pass. The independent SDK oracle executes three inputs and
+both branch booleans. `copiedBothNormal` and `copiedBothCaught` also provide a
+same-source negative/positive pair that exercises task/cache context isolation.
+
+The [copy snapshot](static-cleanup-copy-witness-review.json) retains 12 paths and
+311 classified transitions across 13 queries, including complete call contexts,
+producer exit tags and serialized demand sets. Forwarding controls share the
+exact negative source endpoints. Four absence observations match their expected
+endpoints but remain inconclusive under the recorded limits. The original
+[exception snapshot](static-exception-witness-review.json) is historical evidence
+for the defect before this fix, rather than certification of the new queries.
+
+DART-FLOW-008 is the remaining diagnosed local-join counterexample.
+`localCopyCleanup` assigns input to a local only before throwing, then copies that
+local into static storage in finally. Its normal runtime result is constant.
+The query retains a normal demand but ordinary local reaching definitions still
+join the throw-only assignment into that normal result. `localCopyCaught` returns
+input on the thrown branch and supplies the nearby control. The snapshot retains
+both routes and their differing demands. This establishes context transport and
+the selected field-copy correction, not general DDG feasibility or initialization/
+heap qualification.
+
+All twelve graphs share independently checked fingerprint
+`401483031286b439c21e6e9630971b286c2f6625e2d44667c5d43a2d9e03b01e`
+(400 analysis files), with unchanged exporter 0.3.19 and unchanged representation
+counts. Ordinary endpoints remain stock 74/76, modeled 76/76 and holdout 4/4;
+seven modeled negative searches remain inconclusive. Validation passed all 103
+native runtime/Flutter/corpus tests, clean analysis, the inventory check, 167
+frontend/package tests, three application graphs, both holdouts, staging, four
+CLI tests, fourteen console tests and 29 shared access-path tests. Focused storage/
+witness selection boundary tests and formatting passed. Remaining coverage-plan
+obligations stay open.
+
+The refreshed two-witness/two-round audit passes all 80 expectations per mode,
+with unchanged 86 visible/89 detailed stock paths and 81/83 modeled paths.
+Limits affect 43 stock and 42 modeled queries; seven stock/eight modeled negatives
+remain inconclusive, and each mode has five held-round limits. The package worker
+completed in 9 minutes 48 seconds within the monitored ten-minute budget;
+applications and holdouts also passed. The profile places the expensive work in
+held-task witness ordering/combination. This run does not qualify historical
+larger searches. The HTTP capture review, source/count checks and deterministic
+summary were regenerated and verified against current raw contexts. Other new
+corpus alternatives and the remaining plan gates still require qualification.

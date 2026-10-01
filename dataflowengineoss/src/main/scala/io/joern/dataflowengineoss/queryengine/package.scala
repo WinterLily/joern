@@ -1,6 +1,6 @@
 package io.joern.dataflowengineoss
 
-import io.shiftleft.codepropertygraph.generated.nodes.{AstNode, Call, CfgNode}
+import io.shiftleft.codepropertygraph.generated.nodes.{AstNode, Call, CfgNode, Method}
 
 package object queryengine {
 
@@ -18,6 +18,13 @@ package object queryengine {
     }
   }
 
+  enum PendingExit { case Normal, Thrown }
+
+  // RHS tasks can revisit cleanup through getters; the exit demand belongs to the selected invocation.
+  case class StaticStorageDemand(method: Method, callSiteStack: List[Call], pendingExit: PendingExit) {
+    def orderingKey: String = (method.id, callSiteStack.map(_.id), pendingExit.ordinal).toString
+  }
+
   /** The TaskFingerprint uniquely identifies a task.
     */
   case class TaskFingerprint(
@@ -25,7 +32,8 @@ package object queryengine {
     callSiteStack: List[Call],
     callDepth: Int,
     outputChannel: OutputChannel = OutputChannel.Normal,
-    fieldDemand: List[String] = Nil
+    fieldDemand: List[String] = Nil,
+    storageDemands: List[StaticStorageDemand] = Nil
   )
 
   /** A (partial) result, informing about a path that exists from a source to another node in the graph.
@@ -88,7 +96,8 @@ package object queryengine {
     visible: Boolean = true,
     isOutputArg: Boolean = false,
     outEdgeLabel: String = "",
-    fieldDemand: List[String] = Nil
+    fieldDemand: List[String] = Nil,
+    storageDemands: List[StaticStorageDemand] = Nil
   ) {
     def outputChannel: OutputChannel = node match {
       case _: Call if io.joern.dataflowengineoss.isDart(node) => OutputChannel.fromEdge(outEdgeLabel)
@@ -97,7 +106,15 @@ package object queryengine {
 
     def orderingKey: String =
       if (io.joern.dataflowengineoss.isDart(node))
-        (node.id, callSiteStack.map(_.id), visible, isOutputArg, outEdgeLabel, fieldDemand).toString
+        (
+          node.id,
+          callSiteStack.map(_.id),
+          visible,
+          isOutputArg,
+          outEdgeLabel,
+          fieldDemand,
+          storageDemands.map(_.orderingKey)
+        ).toString
       else (node.id, callSiteStack.map(_.id), visible, isOutputArg, outEdgeLabel).toString
   }
 

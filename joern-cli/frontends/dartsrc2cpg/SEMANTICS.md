@@ -438,14 +438,26 @@ replacement. `static-storage-implicit-exception-effects` reports unavailable
 implicit failures; those routes stop. Joined exit roles report
 `static-storage-joined-exits`.
 
-Pending exit demands still stop when a matching store becomes an ordinary RHS
-value task. DART-FLOW-007's `copiedNormal` reads a field written in a throw-only
-branch through a cleanup field copy: its runtime normal result is constant, but
-the graph returns an infeasible input route with joined-exit diagnostics. Its
-nearby `copiedCaught` control really returns input. Reentrant initialization,
-retry state, arbitrary callbacks and pending-state value/heap propagation remain
-open. This is a bounded may-flow prerequisite, not full heap or execution-state
-qualification.
+Pending exit demands now travel through ordinary RHS tasks, internal returns,
+parameter bindings and DDG expansion. They identify the method and exact selected
+caller stack, independently of field demands and scalar/exception output channels.
+Task caches, held-task combinations, cycle checks and witness selection preserve
+these demands; detailed reports serialize them as `storageDemands`. A later static
+read restores the pending cleanup state for that invocation. DART-FLOW-007's
+original `copiedNormal` false positive is rejected, while `copiedCaught` preserves
+input. Controls include a saved RHS through two helpers, an intervening other-slot
+write, independent repeated calls, and simultaneous normal/caught queries from one
+call site, at call depths four/eight and default/two-witness selection.
+
+DART-FLOW-008's `localCopyNormal` is still a diagnosed false positive. Its cleanup
+stores a local that receives input only before throwing; ordinary local reaching
+definitions join that assignment into the normal result even though the query
+retains its normal-exit demand. The runtime returns a constant or throws, and
+`localCopyCaught` supplies the nearby positive control. The new context transport
+therefore does not qualify general DDG path feasibility. Reentrant initialization,
+retry state, arbitrary callbacks and broader execution-state/heap propagation
+remain open. This is a bounded may-flow prerequisite, not full heap or execution-
+state qualification.
 
 Late fields and top-level variables use analyzer-identified getter/setter methods.
 Initializers live in getters rather than constructors or eager initialization

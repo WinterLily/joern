@@ -37,12 +37,11 @@ private[queryengine] object StaticStorage {
   def tasks(result: ReachableByResult, config: EngineConfig): Vector[ReachableByTask] = {
     val read = result.path.head.node.asInstanceOf[CfgNode]
     readKey(read).toVector.flatMap { storage =>
-      enum ExitMode { case Normal, Thrown }
       case class Scope(
         stack: List[Call],
         depth: Int,
-        pendingExit: Option[ExitMode],
-        continuations: List[Option[ExitMode]]
+        pendingExit: Option[PendingExit],
+        continuations: List[Option[PendingExit]]
       )
       case class Position(node: CfgNode, scope: Scope, evidence: Vector[PathElement], exceptional: Boolean)
       val seen                                   = mutable.HashSet.empty[(CfgNode, Scope, Boolean)]
@@ -82,31 +81,31 @@ private[queryengine] object StaticStorage {
           else
             predecessor match {
               case _: Return =>
-                if (!scope.pendingExit.contains(ExitMode.Thrown))
+                if (!scope.pendingExit.contains(PendingExit.Thrown))
                   enqueue(predecessor, scope.copy(pendingExit = None), evidence)
               case control: ControlStructure if control.controlStructureType == ControlStructureTypes.THROW =>
-                if (!scope.pendingExit.contains(ExitMode.Normal))
+                if (!scope.pendingExit.contains(PendingExit.Normal))
                   enqueue(predecessor, scope.copy(pendingExit = None), evidence, exceptional = true)
               case call: Call
                   if inCleanup(call) && modes(call).exists(kind => kind == "normal.after" || kind == "throw.after") =>
                 for (
                   mode <- scope.pendingExit.toList match {
-                    case Nil      => List(ExitMode.Normal, ExitMode.Thrown)
+                    case Nil      => List(PendingExit.Normal, PendingExit.Thrown)
                     case selected => selected
                   }
                 ) {
-                  val label = if (mode == ExitMode.Normal) "normal.after" else "throw.after"
+                  val label = if (mode == PendingExit.Normal) "normal.after" else "throw.after"
                   if (modes(call).contains(label)) enqueue(call, scope.copy(pendingExit = Some(mode)), evidence)
                 }
-                if (!scope.pendingExit.contains(ExitMode.Normal) && modes(call).contains("throw.before"))
+                if (!scope.pendingExit.contains(PendingExit.Normal) && modes(call).contains("throw.before"))
                   enqueue(call, scope.copy(pendingExit = None), evidence, exceptional = true)
               case call: Call =>
-                if (!scope.pendingExit.contains(ExitMode.Thrown))
+                if (!scope.pendingExit.contains(PendingExit.Thrown))
                   enqueue(call, scope.copy(pendingExit = None), evidence)
-                if (!scope.pendingExit.contains(ExitMode.Normal))
+                if (!scope.pendingExit.contains(PendingExit.Normal))
                   enqueue(call, scope.copy(pendingExit = None), evidence, exceptional = true)
               case _ =>
-                if (!scope.pendingExit.contains(ExitMode.Thrown))
+                if (!scope.pendingExit.contains(PendingExit.Thrown))
                   enqueue(predecessor, scope.copy(pendingExit = None), evidence)
             }
         }
@@ -121,11 +120,11 @@ private[queryengine] object StaticStorage {
             if (kinds.contains("normal.after") && kinds.contains("throw.after"))
               config.diagnostics.foreach(_.record("static-storage-joined-exits"))
             if (!exceptional && kinds.contains("normal.after")) {
-              val demand = Option.when(inCleanup(node) && !node.isInstanceOf[Return])(ExitMode.Normal)
+              val demand = Option.when(inCleanup(node) && !node.isInstanceOf[Return])(PendingExit.Normal)
               enqueue(node, scope.copy(pendingExit = demand), evidence)
             }
             if (exceptional && kinds.contains("throw.after"))
-              enqueue(node, scope.copy(pendingExit = Some(ExitMode.Thrown)), evidence)
+              enqueue(node, scope.copy(pendingExit = Some(PendingExit.Thrown)), evidence)
             if (exceptional && kinds.contains("throw.before"))
               enqueue(node, scope.copy(pendingExit = None), evidence, exceptional = true)
           }
@@ -141,7 +140,28 @@ private[queryengine] object StaticStorage {
         }
       }
 
-      val initial = Scope(result.callSiteStack, result.callDepth, None, result.callSiteStack.map(_ => None))
+      val inherited                                                      = result.path.head.storageDemands
+      def demand(method: Method, stack: List[Call]): Option[PendingExit] =
+        inherited.find(d => d.method == method && d.callSiteStack == stack).map(_.pendingExit)
+      def demands(node: CfgNode, scope: Scope): List[StaticStorageDemand] = {
+        val contexts =
+          (node.method, scope.stack, scope.pendingExit) :: scope.stack.zip(scope.continuations).zipWithIndex.map {
+            case ((call, exit), index) => (call.method, scope.stack.drop(index + 1), exit)
+          }
+        val retained = inherited.filterNot(d =>
+          contexts.exists { case (method, stack, _) => d.method == method && d.callSiteStack == stack }
+        )
+        (retained ++ contexts.collect { case (method, stack, Some(exit)) => StaticStorageDemand(method, stack, exit) })
+          .sortBy(_.orderingKey)
+      }
+      val initial = Scope(
+        result.callSiteStack,
+        result.callDepth,
+        demand(read.method, result.callSiteStack),
+        result.callSiteStack.zipWithIndex.map { case (call, index) =>
+          demand(call.method, result.callSiteStack.drop(index + 1))
+        }
+      )
       before(read, initial, Vector.empty)
       while (pending.nonEmpty && seen.size < config.maxStaticStorageNodes) {
         val Position(node, scope, evidence, exceptional) = pending.removeHead()
@@ -151,12 +171,20 @@ private[queryengine] object StaticStorage {
               if !exceptional && assignment.name == Operators.assignment &&
                 assignment.argument.filter(_.argumentIndex == 1).cast[CfgNode].exists(key(_).contains(storage)) =>
             assignment.argument.filter(_.argumentIndex == 2).cast[CfgNode].foreach { value =>
-              val fingerprint = TaskFingerprint(value, stack, scope.depth, fieldDemand = result.path.head.fieldDemand)
-              val store       = PathElement(
+              val constraints = demands(assignment, scope)
+              val fingerprint = TaskFingerprint(
+                value,
+                stack,
+                scope.depth,
+                fieldDemand = result.path.head.fieldDemand,
+                storageDemands = constraints
+              )
+              val store = PathElement(
                 assignment,
                 stack,
                 outEdgeLabel = "<STATIC_STORAGE>",
-                fieldDemand = result.path.head.fieldDemand
+                fieldDemand = result.path.head.fieldDemand,
+                storageDemands = constraints
               )
               definitions.append(
                 ReachableByTask(result.taskStack :+ fingerprint, Vector(store) ++ evidence ++ result.path)
@@ -179,7 +207,7 @@ private[queryengine] object StaticStorage {
                   callers.foreach(call =>
                     before(
                       call,
-                      Scope(Nil, scope.depth + 1, None, Nil),
+                      Scope(Nil, scope.depth + 1, demand(call.method, Nil), Nil),
                       Vector(PathElement(method, Nil, visible = false)) ++ evidence
                     )
                   )

@@ -201,7 +201,7 @@ object Engine {
           .transfer(curNode, parent.node.asInstanceOf[CfgNode], demand, aliases)
           .map { fields =>
             if (fields.size > config.maxFieldDepth) config.diagnostics.foreach(_.record("field-depth-widening"))
-            parent.copy(fieldDemand = fields.take(config.maxFieldDepth))
+            parent.copy(fieldDemand = fields.take(config.maxFieldDepth), storageDemands = path.head.storageDemands)
           }
       }
     }

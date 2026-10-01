@@ -44,7 +44,8 @@ class HeldTaskCompletion(
           x.fingerprint.callSiteStack.map(_.id).toString,
           x.callDepth,
           x.fingerprint.outputChannel.ordinal,
-          x.fingerprint.fieldDemand.toString
+          x.fingerprint.fieldDemand.toString,
+          x.fingerprint.storageDemands.map(_.orderingKey).toString
         )
       )
     var resultsProducedByTask: Map[ReachableByTask, Set[(TaskFingerprint, TableEntry)]] = Map()
@@ -120,8 +121,16 @@ class HeldTaskCompletion(
     parentTasks
       .map { parentTask =>
         val stopIndex = initialPath
-          .map(x => (x.node, x.callSiteStack, x.outputChannel, x.fieldDemand))
-          .indexOf((parentTask.sink, parentTask.callSiteStack, parentTask.outputChannel, parentTask.fieldDemand)) + 1
+          .map(x => (x.node, x.callSiteStack, x.outputChannel, x.fieldDemand, x.storageDemands))
+          .indexOf(
+            (
+              parentTask.sink,
+              parentTask.callSiteStack,
+              parentTask.outputChannel,
+              parentTask.fieldDemand,
+              parentTask.storageDemands
+            )
+          ) + 1
         val initialPathOnlyUpToSink = initialPath.slice(0, stopIndex)
         val newPath                 = result.path ++ initialPathOnlyUpToSink
         (parentTask, TableEntry(newPath))
@@ -130,7 +139,9 @@ class HeldTaskCompletion(
   }
 
   private def containsCycle(tableEntry: TableEntry): Boolean = {
-    val pathSeq = tableEntry.path.map(x => (x.node, x.callSiteStack, x.isOutputArg, x.outEdgeLabel, x.fieldDemand))
+    val pathSeq = tableEntry.path.map(x =>
+      (x.node, x.callSiteStack, x.isOutputArg, x.outEdgeLabel, x.fieldDemand, x.storageDemands)
+    )
     pathSeq.distinct.size == pathSeq.size
   }
 
@@ -164,9 +175,13 @@ class HeldTaskCompletion(
     list
       .groupBy { result =>
         val head =
-          result.path.headOption.map(x => (x.node, x.callSiteStack, x.isOutputArg, x.outputChannel, x.fieldDemand)).get
+          result.path.headOption
+            .map(x => (x.node, x.callSiteStack, x.isOutputArg, x.outputChannel, x.fieldDemand, x.storageDemands))
+            .get
         val last =
-          result.path.lastOption.map(x => (x.node, x.callSiteStack, x.isOutputArg, x.outputChannel, x.fieldDemand)).get
+          result.path.lastOption
+            .map(x => (x.node, x.callSiteStack, x.isOutputArg, x.outputChannel, x.fieldDemand, x.storageDemands))
+            .get
         (head, last)
       }
       .flatMap { case (_, list) =>

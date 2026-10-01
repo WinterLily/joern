@@ -37,7 +37,8 @@ class TaskSolver(task: ReachableByTask, context: EngineContext, sources: Set[Cfg
         task.sink,
         task.callSiteStack,
         outEdgeLabel = task.fingerprint.outputChannel.edgeLabel,
-        fieldDemand = task.fingerprint.fieldDemand
+        fieldDemand = task.fingerprint.fieldDemand,
+        storageDemands = task.fingerprint.storageDemands
       )
     )
     val table: mutable.Map[TaskFingerprint, Vector[ReachableByResult]] = mutable.Map()
@@ -63,13 +64,14 @@ class TaskSolver(task: ReachableByTask, context: EngineContext, sources: Set[Cfg
           r.path.takeWhile(element =>
             element.node != parentTask.sink ||
               element.callSiteStack != parentTask.callSiteStack || element.outputChannel != parentTask.outputChannel ||
-              element.fieldDemand != parentTask.fieldDemand
+              element.fieldDemand != parentTask.fieldDemand || element.storageDemands != parentTask.storageDemands
           )
       val newPath = pathToSink :+ PathElement(
         parentTask.sink,
         parentTask.callSiteStack,
         outEdgeLabel = parentTask.outputChannel.edgeLabel,
-        fieldDemand = parentTask.fieldDemand
+        fieldDemand = parentTask.fieldDemand,
+        storageDemands = parentTask.storageDemands
       )
       (parentTask, TableEntry(path = newPath))
     }.toList
@@ -120,10 +122,10 @@ class TaskSolver(task: ReachableByTask, context: EngineContext, sources: Set[Cfg
       vec
         .groupBy { result =>
           val head = result.path.headOption
-            .map(x => (x.node, x.callSiteStack, x.isOutputArg, x.outputChannel, x.fieldDemand))
+            .map(x => (x.node, x.callSiteStack, x.isOutputArg, x.outputChannel, x.fieldDemand, x.storageDemands))
             .get
           val last = result.path.lastOption
-            .map(x => (x.node, x.callSiteStack, x.isOutputArg, x.outputChannel, x.fieldDemand))
+            .map(x => (x.node, x.callSiteStack, x.isOutputArg, x.outputChannel, x.fieldDemand, x.storageDemands))
             .get
           (head, last, result.partial, result.callDepth)
         }
@@ -174,14 +176,15 @@ class TaskSolver(task: ReachableByTask, context: EngineContext, sources: Set[Cfg
             callSiteStack,
             callDepth,
             first.outputChannel,
-            first.fieldDemand
+            first.fieldDemand,
+            first.storageDemands
           )
         )
         .map { res =>
           res.map { r =>
             val stopIndex = r.path
-              .map(x => (x.node, x.callSiteStack, x.outputChannel, x.fieldDemand))
-              .indexOf((first.node, first.callSiteStack, first.outputChannel, first.fieldDemand))
+              .map(x => (x.node, x.callSiteStack, x.outputChannel, x.fieldDemand, x.storageDemands))
+              .indexOf((first.node, first.callSiteStack, first.outputChannel, first.fieldDemand, first.storageDemands))
             val pathToFirstNode = r.path.slice(0, stopIndex)
             val completePath    = pathToFirstNode ++ (first +: remainder)
             r.copy(path = Vector(completePath.head) ++ completePath.tail)
@@ -248,7 +251,8 @@ class TaskSolver(task: ReachableByTask, context: EngineContext, sources: Set[Cfg
         task.callSiteStack,
         task.callDepth,
         path.head.outputChannel,
-        path.head.fieldDemand
+        path.head.fieldDemand,
+        path.head.storageDemands
       )
     table.updateWith(key) {
       case Some(existingValue) => Some(existingValue ++ res)
@@ -259,9 +263,9 @@ class TaskSolver(task: ReachableByTask, context: EngineContext, sources: Set[Cfg
 
   private def isArgOrRetOfMethodWeCameFrom(call: Call, path: Vector[PathElement]): Boolean =
     path match {
-      case Vector(_, PathElement(x: MethodReturn, _, _, _, _, _), _*)      => methodsForCall(call).contains(x.method)
-      case Vector(_, PathElement(x: MethodParameterIn, _, _, _, _, _), _*) => methodsForCall(call).contains(x.method)
-      case _                                                               => false
+      case Vector(_, PathElement(x: MethodReturn, _, _, _, _, _, _), _*)      => methodsForCall(call).contains(x.method)
+      case Vector(_, PathElement(x: MethodParameterIn, _, _, _, _, _, _), _*) => methodsForCall(call).contains(x.method)
+      case _                                                                  => false
     }
 
 }

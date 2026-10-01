@@ -85,8 +85,8 @@
       "resolution": "analyzer getter/setter identities and separate const/final/late flags",
       "cfg": "guarded first reads; writes skip initial reads; final reentrant error branches",
       "valueFlow": "DartFrontendTests: initializer return through guarded getter; late local capture flow; static_storage.dart: bounded static stores across resolved calls and original lazyIncrement return",
-      "negative": "DartFrontendTests: setters contain no initializer calls or initialization reads; static-storage owner/field, overwrite and repeated-call controls; initialization-state absence remains inconclusive; static_exception_storage.dart: normal/caught exit isolation and cleanup kills, diagnosed DART-FLOW-007 field-copy false positive",
-      "interaction": "astgen/test/lazy_static_evaluation_test.dart; late_evaluation_test.dart; upstream late-field oracle; astgen/test/static_storage_test.dart: three inputs, both branch booleans, loop writes, saved reads and throwing-helper/catch oracle; astgen/test/static_exception_storage_test.dart: three inputs, both booleans, cleanup overwrites and return/throw replacement"
+      "negative": "DartFrontendTests: setters contain no initializer calls or initialization reads; static-storage owner/field, overwrite and repeated-call controls; initialization-state absence remains inconclusive; static_exception_storage.dart: normal/caught exit isolation and cleanup kills, DART-FLOW-007 field-copy normal/caught isolation; diagnosed DART-FLOW-008 local-join false positive",
+      "interaction": "astgen/test/lazy_static_evaluation_test.dart; late_evaluation_test.dart; upstream late-field oracle; astgen/test/static_storage_test.dart: three inputs, both branch booleans, loop writes, saved reads and throwing-helper/catch oracle; astgen/test/static_exception_storage_test.dart: three inputs, both booleans, cleanup overwrites and return/throw replacement; saved helper copies, intervening other-slot write and same-call normal/caught sinks"
     },
     "strings": {
       "exporter": "astgen/lib/exporter.dart: interpolation conversion targets, nullability, bounds and extension erasure",
@@ -111,8 +111,8 @@
       "lowering": "DartFrontendTests: returned instances and bare returns; receiver evaluation retained once",
       "resolution": "resolved constructor and accessor targets; general virtual dispatch unqualified",
       "cfg": "replacement stores on every route to field reads and stable parameter outputs, including potentially escaping calls",
-      "valueFlow": "ReturnedFieldTests and DartFrontendTests: bounded field demands across calls, nested fields, stable aliases, called field writes and caught objects; StaticStorageTests and DartFrontendTests: ordered static storage through normal/exceptional calls and cleanup, with pending-exit demands local to storage traversal",
-      "negative": "unrelated fields and inputs, same-code independent storage, constant-field overwrites; opaque summaries remain conservative; ordinary RHS cleanup copies lose pending-exit demands (DART-FLOW-007); initialization-state correlation remains conservative",
+      "valueFlow": "ReturnedFieldTests and DartFrontendTests: bounded field demands across calls, nested fields, stable aliases, called field writes and caught objects; StaticStorageTests and DartFrontendTests: ordered static storage through normal/exceptional calls and cleanup, with invocation-specific pending-exit demands retained through RHS tasks, internal returns, parameters, caches and held combinations",
+      "negative": "unrelated fields and inputs, same-code independent storage, constant-field overwrites; opaque summaries remain conservative; static RHS cleanup copies retain pending-exit demands (DART-FLOW-007); ordinary local joins still admit an infeasible normal result (DART-FLOW-008); initialization-state correlation remains conservative",
       "interaction": "astgen/test/returned_fields_test.dart: calls, aliases, copies, local/called overwrites, independent objects, parameter rebinding and exceptions before/after writes"
     },
     "exceptions": {
@@ -121,7 +121,7 @@
       "resolution": "analyzer filter type identities and clause-local REF edges; explicit active exception/stack for rethrow",
       "cfg": "source-ordered filters with unmatched rethrow; explicit total dispatcher; shared FinallyExitTests; StaticStorageTests: Dart-only normal.after, throw.before and throw.after metadata, with foreign-language boundary controls",
       "valueFlow": "CaughtExceptionTests, CrossMethodExceptionTests, FinallyReturnTests and DartFrontendTests: separate exception/stack channels, internal calls, construction, rethrow and pending values across cleanup; unavailable runtime payloads reported; DartFrontendTests: caught static-memory effects, cleanup overwrite kills and direct joined-exit isolation",
-      "negative": "replacement values, stack independence, independent handlers/calls, normal-return summary isolation, depth limits and outward versus cleanup-local break/continue; DART-FLOW-007: copied cleanup field value leaks a throw-only input into a normal read",
+      "negative": "replacement values, stack independence, independent handlers/calls, normal-return summary isolation, depth limits and outward versus cleanup-local break/continue; copied field values isolate normal/caught exits at depths four/eight and one/two witnesses; DART-FLOW-008 local cleanup assignment retains a diagnosed false positive",
       "interaction": "astgen/test/catch_dispatch_test.dart and exception_calls_test.dart: typed/fallback selection, overlap, unmatched propagation, wrapper/rethrow identity, handled cleanup and abrupt exit replacement; astgen/test/static_exception_storage_test.dart: independent native memory-state oracle and copiedNormal counterexample"
     },
     "pattern-comparisons": {

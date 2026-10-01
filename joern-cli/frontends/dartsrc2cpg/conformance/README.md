@@ -56,11 +56,15 @@ report explicit limits. The throwing-helper/catch dependency is now recovered.
 through normal versus caught reads, cleanup overwrites, nested cleanup, rethrow
 and return/throw replacement. Dart CFG exit tags preserve completed cleanup versus
 failed-call evidence without changing CFG edges. Private pending-exit demands
-keep direct joined-cleanup reads isolated. DART-FLOW-007 records a diagnosed false
-positive when a cleanup copies another static field: the ordinary RHS task loses
-that pending-exit demand. Initialization-state correlation and broader exception/
+keep direct joined-cleanup reads isolated. The RHS task now retains that pending-exit demand, fixing
+DART-FLOW-007's static field copy. Saved helper reads, an intervening other-slot
+write and simultaneous normal/caught sinks check context/cache isolation at depths
+four/eight and one/two-witness selection. DART-FLOW-008 records the remaining local
+assignment join: a throw-only local value still reaches a normal cleanup store. Initialization-state correlation and broader exception/
 heap qualification remain open. The [exception witness review](../corpus/static-exception-witness-review.json)
-retains this counterexample alongside the positive controls.
+is the historical DART-FLOW-007 counterexample; the
+[current copy review](../corpus/static-cleanup-copy-witness-review.json) records
+the corrected controls and remaining local-join defect.
 
 `upstream/manifest.json` records selected SDK language tests at the pinned SDK
 revision, original/adapted hashes, license and the exact adaptations. Valid

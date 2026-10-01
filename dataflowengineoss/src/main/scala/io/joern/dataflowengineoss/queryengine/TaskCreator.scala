@@ -46,15 +46,30 @@ class TaskCreator(context: EngineContext) {
                       operand,
                       callStack,
                       result.callDepth + 1,
-                      fieldDemand = result.path.head.fieldDemand
+                      fieldDemand = result.path.head.fieldDemand,
+                      storageDemands = result.path.head.storageDemands
                     )
                     val path =
-                      Vector(PathElement(thrown, callStack, fieldDemand = result.path.head.fieldDemand)) ++ result.path
+                      Vector(
+                        PathElement(
+                          thrown,
+                          callStack,
+                          fieldDemand = result.path.head.fieldDemand,
+                          storageDemands = result.path.head.storageDemands
+                        )
+                      ) ++ result.path
                     ReachableByTask(result.taskStack :+ fingerprint, path)
                   }
                 case nested: Call =>
                   val fingerprint =
-                    TaskFingerprint(nested, callStack, result.callDepth + 1, channel, result.path.head.fieldDemand)
+                    TaskFingerprint(
+                      nested,
+                      callStack,
+                      result.callDepth + 1,
+                      channel,
+                      result.path.head.fieldDemand,
+                      result.path.head.storageDemands
+                    )
                   Vector(ReachableByTask(result.taskStack :+ fingerprint, result.path))
                 case _ => Vector.empty
               }
@@ -105,7 +120,13 @@ class TaskCreator(context: EngineContext) {
           // Case 1
           paramToArgs(param).filter(x => x.inCall.exists(c => c == callSite)).map { arg =>
             ReachableByTask(
-              result.taskStack :+ TaskFingerprint(arg, tail, depth - 1, fieldDemand = result.path.head.fieldDemand),
+              result.taskStack :+ TaskFingerprint(
+                arg,
+                tail,
+                depth - 1,
+                fieldDemand = result.path.head.fieldDemand,
+                storageDemands = result.path.head.storageDemands
+              ),
               path
             )
           }
@@ -113,7 +134,13 @@ class TaskCreator(context: EngineContext) {
           // Case 2
           paramToArgs(param).map { arg =>
             ReachableByTask(
-              result.taskStack :+ TaskFingerprint(arg, List(), depth + 1, fieldDemand = result.path.head.fieldDemand),
+              result.taskStack :+ TaskFingerprint(
+                arg,
+                List(),
+                depth + 1,
+                fieldDemand = result.path.head.fieldDemand,
+                storageDemands = result.path.head.storageDemands
+              ),
               path
             )
           }
@@ -203,19 +230,32 @@ class TaskCreator(context: EngineContext) {
             if (method.isExternal || method.start.isStub.nonEmpty) {
               val newPath = path
               (call.receiver.l ++ call.argument.l).map { arg =>
-                val taskStack = result.taskStack :+ TaskFingerprint(arg, result.callSiteStack, callDepth)
+                val taskStack = result.taskStack :+ TaskFingerprint(
+                  arg,
+                  result.callSiteStack,
+                  callDepth,
+                  storageDemands = path.head.storageDemands
+                )
                 ReachableByTask(taskStack, newPath)
               }
             } else {
               returnStatements.map { returnStatement =>
                 val newPath =
-                  Vector(PathElement(methodReturn, result.callSiteStack, fieldDemand = path.head.fieldDemand)) ++ path
+                  Vector(
+                    PathElement(
+                      methodReturn,
+                      result.callSiteStack,
+                      fieldDemand = path.head.fieldDemand,
+                      storageDemands = path.head.storageDemands
+                    )
+                  ) ++ path
                 val taskStack =
                   result.taskStack :+ TaskFingerprint(
                     returnStatement,
                     call :: result.callSiteStack,
                     callDepth + 1,
-                    fieldDemand = path.head.fieldDemand
+                    fieldDemand = path.head.fieldDemand,
+                    storageDemands = path.head.storageDemands
                   )
                 ReachableByTask(taskStack, newPath)
               }
@@ -236,7 +276,13 @@ class TaskCreator(context: EngineContext) {
               val newStack =
                 arg.inCall.headOption.map { x => x :: result.callSiteStack }.getOrElse(result.callSiteStack)
               ReachableByTask(
-                result.taskStack :+ TaskFingerprint(p, newStack, callDepth + 1, fieldDemand = path.head.fieldDemand),
+                result.taskStack :+ TaskFingerprint(
+                  p,
+                  newStack,
+                  callDepth + 1,
+                  fieldDemand = path.head.fieldDemand,
+                  storageDemands = path.head.storageDemands
+                ),
                 path
               )
             }
@@ -252,13 +298,21 @@ class TaskCreator(context: EngineContext) {
             val returnStatements = methodReturn._reachingDefIn.toList.collect { case r: Return => r }
             returnStatements.map { returnStatement =>
               val newPath =
-                Vector(PathElement(methodReturn, result.callSiteStack, fieldDemand = path.head.fieldDemand)) ++ path
+                Vector(
+                  PathElement(
+                    methodReturn,
+                    result.callSiteStack,
+                    fieldDemand = path.head.fieldDemand,
+                    storageDemands = path.head.storageDemands
+                  )
+                ) ++ path
               val taskStack =
                 result.taskStack :+ TaskFingerprint(
                   returnStatement,
                   result.callSiteStack,
                   callDepth + 1,
-                  fieldDemand = path.head.fieldDemand
+                  fieldDemand = path.head.fieldDemand,
+                  storageDemands = path.head.storageDemands
                 )
               ReachableByTask(taskStack, newPath)
             }

@@ -268,3 +268,80 @@ String copiedCaught(String input, bool fail) {
   }
   return 'normal result';
 }
+
+String copiedBoth(String input, bool fail) {
+  try {
+    copiedCleanup(input, fail);
+    return read();
+  } on StateError {
+    final caught = read();
+    return caught;
+  }
+}
+
+String otherValue() => Shared.other;
+String identity(String value) => value;
+
+void helperCopyCleanup(String input, bool fail) {
+  try {
+    otherBranch(input, fail);
+  } finally {
+    final saved = identity(otherValue());
+    Shared.other = 'after saved read';
+    Shared.value = saved;
+  }
+}
+
+String helperCopyNormal(String input, bool fail) {
+  helperCopyCleanup(input, fail);
+  return read();
+}
+
+String helperCopyCaught(String input, bool fail) {
+  try {
+    helperCopyCleanup(input, fail);
+  } on StateError {
+    return read();
+  }
+  return 'normal result';
+}
+
+String copiedIndependent(String input) {
+  try {
+    copiedCleanup(input, true);
+  } on StateError {
+    // The second copy selects independent input in the same helper.
+  }
+  try {
+    copiedCleanup('constant', true);
+  } on StateError {
+    return read();
+  }
+  return 'unreachable';
+}
+
+void localCopyCleanup(String input, bool fail) {
+  var saved = 'normal local';
+  try {
+    if (fail) {
+      saved = input;
+      throw StateError('local branch');
+    }
+  } finally {
+    Shared.value = saved;
+  }
+}
+
+String localCopyNormal(String input, bool fail) {
+  localCopyCleanup(input, fail);
+  return read();
+}
+
+String localCopyCaught(String input, bool fail) {
+  try {
+    localCopyCleanup(input, fail);
+  } on StateError {
+    return read();
+  }
+  return 'normal result';
+}
