@@ -65,7 +65,7 @@
     "Intermediate pruning, depth and held-round budgets exclude routes; negative searches with limits remain inconclusive.",
     "New sequences may differ only in temporary/context details; larger bounds need not retain all smaller-bound sequences.",
     "Memory values are sampled process-family sums, not measured peak RSS or the heap of one process.",
-    "Only the four holdout queries have full transition reviews in this snapshot; other additional routes remain pending."
+    "Only four holdout and four analyzer query families have full transition reviews in this snapshot; other additional routes remain pending."
   ],
   "projects": [
     {
@@ -3217,7 +3217,7 @@
               "detailedWitnessesSha256": "d28bae6d2282d79519195a309ff9a030aea40608f7dc4a0175c85ed6e4202eed"
             }
           },
-          "semanticReview": "pending transition review; additional sequences are not necessarily distinct semantic route families"
+          "semanticReview": "see analyzer-alternative-review.json; Source writeByte forwards byte to _addByte RHS. All four returned routes instead exit readonly byte output slots, select a writeEnum or directive-kind caller, then re-enter writeByte and _addByte. Their contexts differ by caller; they are conservative argument-output detours, not scalar mutation or independent runtime byte provenance (DART-FLOW-004). The final store is genuine forwarding; full routes are approximations."
         },
         {
           "id": "uint32-high-byte",
@@ -3359,7 +3359,7 @@
               "detailedWitnessesSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
             }
           },
-          "semanticReview": "pending transition review; additional sequences are not necessarily distinct semantic route families"
+          "semanticReview": "see analyzer-alternative-review.json; The reset assigns literal zero after _length reaches the fixed buffer capacity. Byte content cannot alter that assigned value. No returned path or query limitation is recorded; same-source/same-budget positive control reaches the store, with its own conservative routes and explicit limits retained. Source isolation and bounded execution support this constant-value absence, not arbitrary exception/heap feasibility."
         },
         {
           "id": "list-element-callback",
@@ -3455,7 +3455,7 @@
               "detailedWitnessesSha256": "7384f63f020e1c755e7326d5026b2b155e64515745f8454e34238eca64f4645c"
             }
           },
-          "semanticReview": "pending transition review; additional sequences are not necessarily distinct semantic route families"
+          "semanticReview": "see analyzer-alternative-review.json; Source writeList passes items[i] to writeItem once per loop iteration. Returned routes leave via readonly items/getter outputs, select a typeParameterFragments caller and traverse metadata or bound/type-argument lists before re-entering writeList. Flat-buffer length getter paths also use offset-to-buffer external getUint8 effects. Receiver field demands and selected call frames are preserved. These are conservative output/heap/dispatch/external detours, not exact element provenance, a specific runtime list implementation or general callback delivery. Stock and modeled routes differ despite the same justified endpoint. Stock includes a record positionalFields branch, while modeled includes typeArguments branches; their shared optional models do not certify either runtime branch."
         },
         {
           "id": "fork-offset-field",
@@ -3622,7 +3622,7 @@
               "detailedWitnessesSha256": "46f52e831fbafe350f9dd69a4fd203e878be4e0696760c482493272999b5013b"
             }
           },
-          "semanticReview": "pending transition review; additional sequences are not necessarily distinct semantic route families"
+          "semanticReview": "see analyzer-alternative-review.json; Source _addByte directly stores its byte RHS. All four routes first exit _addByte/writeUint30 readonly outputs, select list length or resolution-offset callers, and re-enter writeUint30 and _addByte. Unchanged integer outputs and selected caller contexts are conservative evidence, not mutation or allocation/call-order qualification (DART-FLOW-004)."
         }
       ]
     },

@@ -1411,3 +1411,53 @@ The verifier reconstructs detailed paths before linking the holdout review.
 Other new route families, the eight modeled inconclusive negative searches and
 the remaining plan gates stay open. No server callback delivery or full parser
 pipeline qualification follows from these observations.
+
+## Analyzer byte-write and callback alternative review
+
+The [analyzer review](analyzer-alternative-review.json) adds four query families
+from the current four-witness/two-round snapshot: byte forwarding, list callback
+input, reset isolation and its positive control. Twenty-four selected paths share
+15 distinct routes with 529 classified transitions. Source file hashes cover all
+represented internal methods, and the compact dictionaries preserve exact call
+slots, selected stacks, visibility/output flags and field demands. Binding and
+return transitions were checked against resolved targets and available frames.
+
+The source directly forwards `writeByte` to `_addByte`, which stores its byte RHS.
+The returned byte-write and positive-control routes instead leave through readonly
+integer output slots, select enum/directive-kind or length/offset callers and then
+re-enter the writer. They differ in caller context. These are the conservative
+argument-output mechanism already tracked by DART-FLOW-004, not runtime integer
+mutation, allocation identity or a proof of the intervening caller order.
+
+`writeList` supplies `items[i]` to its callback. Its longer routes select a
+`typeParameterFragments` caller, traverse metadata, record positional fields or
+type arguments, then re-enter another list-writing call. Selected `length` getters
+and external `getUint8` effects add receiver/field and offset-to-buffer detours.
+Stock and modeled reports return different routes with the same endpoint outcome.
+These mechanisms are conservative shared-engine/library/dispatch approximations;
+they do not prove exact element provenance or a particular runtime list class.
+The endpoint is the callback argument, not callback delivery through a framework.
+The pending broader heap/dispatch/model obligations own those remaining claims.
+
+The reset sink assigns literal zero when the fixed buffer capacity is reached.
+The negative query returns no path and records no query limitation. Its control
+uses the identical `_addByte` source and budgets and reaches the byte store, while
+retaining the control's own depth/field/external/pruning limitations. The constant
+source assignment explains the bounded absence; this does not establish arbitrary
+exception or heap feasibility.
+
+`binary_writer_test.dart` executes the pinned analyzer 8.4.1 implementation.
+Bytes 0, 1 and 255 survive 131,073 writes across the 128 KiB flush boundary, with
+independent writers and offsets. Empty, single and three-element immutable lists
+produce exact callback visits and serialized bytes; interleaved writes to another
+writer remain independent. These exercised standard lists do not certify the
+internal getter/type-fragment detours in the saved witnesses.
+
+Both review sets pass thirteen verifier rejection checks each, including missing
+declared queries, altered fields/calls/flags/budgets, stale source/oracle hashes,
+reporting omissions and incomplete resource runs. The summary is byte-identical
+on regeneration and now links eight reviewed query families. All 108 native tests
+pass with runtime/Flutter/corpus/holdout enabled, as do final-file analysis and
+formatting and unchanged analysis provenance. The installed native BinaryWriter
+source matches the pinned graph source byte for byte. Other additional
+routes and negative searches remain open.

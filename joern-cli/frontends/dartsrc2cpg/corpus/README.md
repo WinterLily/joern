@@ -171,7 +171,10 @@ application and holdout subprocesses stayed within separate ten-minute budgets,
 with explicit 8 GiB forked-worker heaps and four worker processors. These
 observations qualify this configuration; the historical interrupted searches
 remain inconclusive. The [holdout review](holdout-witness-review.json) covers
-all four Shelf/YAML queries; other additional paths remain pending review.
+all four Shelf/YAML queries. The [analyzer review](analyzer-alternative-review.json)
+covers four byte-write/callback/reset query families, preserving conservative
+caller, receiver and external-read detours. Other additional paths remain pending
+review.
 
 To check the isolated reports and reproduce the summary:
 
