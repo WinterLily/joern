@@ -25,6 +25,7 @@ class TaskSolver(task: ReachableByTask, context: EngineContext, sources: Set[Cfg
 
   import Engine._
   private lazy val dart             = io.joern.dataflowengineoss.isDart(task.sink)
+  private lazy val pendingExitFlow  = new PendingExitFlow(context.config)
   private lazy val referenceAliases = ReferenceAliases.forNode(task.sink)
 
   /** Entry point of callable. First checks if the maximum call depth has been exceeded, in which case an empty result
@@ -106,15 +107,15 @@ class TaskSolver(task: ReachableByTask, context: EngineContext, sources: Set[Cfg
       */
     def computeResultsForParents() = {
       deduplicateWithinTask(
-        expandIn(
-          curNode.asInstanceOf[CfgNode],
-          path,
-          callSiteStack,
-          context.config,
-          Some(referenceAliases)
-        ).iterator.flatMap { parent =>
-          createResultsFromCacheOrCompute(parent, path)
-        }.toVector
+        expandIn(curNode.asInstanceOf[CfgNode], path, callSiteStack, context.config, Some(referenceAliases)).iterator
+          .flatMap { parent =>
+            if (dart && path.head.storageDemands.nonEmpty) pendingExitFlow.expand(path.head, parent)
+            else Vector(parent)
+          }
+          .flatMap { parent =>
+            createResultsFromCacheOrCompute(parent, path)
+          }
+          .toVector
       )
     }
 

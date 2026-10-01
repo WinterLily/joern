@@ -417,13 +417,17 @@ search visits at most `EngineConfig.maxStaticStorageNodes` CFG positions (defaul
 10,000), and also obeys call-depth, caller-expansion and output-task limits.
 An unfinished search records `static-storage-search`.
 
-The CFG builder records `dart.cfg.exit` tags on analyzed Dart bodies: `complete`
-on the method return, `normal.after` for completed normal exits, `throw.before`
+The CFG builder records `dart.cfg.exit` tags on analyzed Dart bodies: `complete:2`
+on the method return, `normal.after` for completed nonthrow exits and entries into cleanup, `throw.before`
 for a failing call/explicit throw, and `throw.after` for an exception resumed
-after cleanup. Intermediate cleanup positions also retain these roles. The
+after cleanup. Intermediate cleanup positions also retain these roles, including nonthrow
+break/continue/label resumptions. Version two distinguishes normal entry from a
+protected operation that only enters cleanup after failing before completion. The
 storage search keeps pending normal/thrown exit demands and restores them across
 selected callee frames. Cleanup returns/throws replace the pending exit. Catch
 entry edges select exceptional callee effects; normal reads select normal exits.
+A completed cleanup resuming an exception remains a completed value definition;
+a failure before the cleanup operation completes does not define its result.
 No tags are added for foreign languages or external bodies. Saved graphs without
 the contract report `static-storage-exit-metadata` and require regenerated graphs.
 
@@ -449,15 +453,28 @@ input. Controls include a saved RHS through two helpers, an intervening other-sl
 write, independent repeated calls, and simultaneous normal/caught queries from one
 call site, at call depths four/eight and default/two-witness selection.
 
-DART-FLOW-008's `localCopyNormal` is still a diagnosed false positive. Its cleanup
-stores a local that receives input only before throwing; ordinary local reaching
-definitions join that assignment into the normal result even though the query
-retains its normal-exit demand. The runtime returns a constant or throws, and
-`localCopyCaught` supplies the nearby positive control. The new context transport
-therefore does not qualify general DDG path feasibility. Reentrant initialization,
-retry state, arbitrary callbacks and broader execution-state/heap propagation
-remain open. This is a bounded may-flow prerequisite, not full heap or execution-
-state qualification.
+DART-FLOW-008's original `localCopyNormal` false positive is rejected. Ordinary
+RHS reaching definitions are checked against backward CFG routes under the current
+invocation's pending exit. Assignment values use the completed assignment as their
+CFG point, since the identifier on its LHS is visited before RHS evaluation.
+Crossing the relevant cleanup consumes its demand; earlier cleanup can therefore
+have a different exit kind. Normal/caught local and loop copies, prior handled
+cleanup, return replacement and simultaneous sinks have graph and SDK controls.
+A constant-return replacement rejects the prior input, and inline cleanup retains
+its stored input. The prior-cleanup review distinguishes the scalar return route
+from a conservative unchanged-argument output route; it does not claim String
+mutation.
+
+This bounded availability check uses `maxStaticStorageNodes` independently for
+each distinct use/definition/exit query. Unfinished checks report
+`static-storage-value-search`; cross-method value contexts and unavailable call
+effects report `static-storage-value-context` and
+`static-storage-value-external-effects`. Implicit operator-failure origins stop
+with the existing diagnostic. Foreign/default paths have no pending demand and
+retain their prior behavior. The check joins remaining CFG alternatives rather
+than solving predicates, allocation identities or unbounded execution. Reentrant
+initialization, retry state, arbitrary callbacks and general execution-state/heap
+qualification remain open.
 
 Late fields and top-level variables use analyzer-identified getter/setter methods.
 Initializers live in getters rather than constructors or eager initialization

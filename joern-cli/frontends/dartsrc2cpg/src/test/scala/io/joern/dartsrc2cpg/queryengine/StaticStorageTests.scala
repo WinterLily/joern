@@ -44,9 +44,14 @@ class StaticStorageTests extends AnyWordSpec with Matchers {
           val diff = Cpg.newDiffGraphBuilder
           for (
             (name, body) <- Seq(
-              "throwOnly"  -> thrown("throwOnly"),
-              "resumed"    -> protectedBody(block(thrown("pending")), block(cleanup("resumed"))),
-              "overridden" -> protectedBody(block(thrown("overriddenThrow")), block(returned("overridden")))
+              "throwOnly"    -> thrown("throwOnly"),
+              "failureEntry" -> protectedBody(
+                block(cleanup("beforeThrow"), thrown("entryThrow")),
+                block(cleanup("failedResumption"))
+              ),
+              "normalEntry" -> protectedBody(block(cleanup("completedSource")), block(cleanup("completedResumption"))),
+              "resumed"     -> protectedBody(block(thrown("pending")), block(cleanup("resumed"))),
+              "overridden"  -> protectedBody(block(thrown("overriddenThrow")), block(returned("overridden")))
             )
           ) {
             Ast.storeInDiffGraph(
@@ -58,9 +63,12 @@ class StaticStorageTests extends AnyWordSpec with Matchers {
           diff.apply(cpg.graph)
           new CfgCreationPass(cpg).createAndApply()
           if (language == "DART") {
-            cpg.methodReturn.tag.nameExact("dart.cfg.exit").value.toSet shouldBe Set("complete")
+            cpg.methodReturn.tag.nameExact("dart.cfg.exit").value.toSet shouldBe Set("complete:2")
             cpg.controlStructure.codeExact("throwOnly").tag.value.toSet shouldBe Set("throw.before")
             cpg.call.codeExact("resumed").tag.value.toSet shouldBe Set("throw.after")
+            cpg.call.codeExact("beforeThrow").tag.value.toSet shouldBe Set("throw.before")
+            cpg.call.codeExact("completedSource").tag.value.toSet shouldBe Set("normal.after", "throw.before")
+            cpg.call.codeExact("completedResumption").tag.value.toSet shouldBe Set("normal.after", "throw.after")
             cpg.ret.codeExact("overridden").tag.value.toSet shouldBe Set("normal.after")
             cpg.controlStructure.codeExact("overriddenThrow").tag.l shouldBe empty
           } else cpg.tag.l shouldBe empty

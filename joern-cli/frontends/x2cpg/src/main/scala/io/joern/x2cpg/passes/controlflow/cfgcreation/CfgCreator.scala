@@ -89,7 +89,7 @@ class CfgCreator(entryNode: Method, diffGraph: DiffGraphBuilder) {
           tags.getOrElseUpdate(value, NewTag().name("dart.cfg.exit").value(value)),
           EdgeTypes.TAGGED_BY
         )
-      tag(exitNode, "complete")
+      tag(exitNode, "complete:2")
       (resumedNormal.toList ++ cfg.edges.filter(_.dst == exitNode).map(_.src) ++
         cfg.exits.collect { case (node, ExitKind.Returned) => node }).distinct.foreach(tag(_, "normal.after"))
       resumedThrows.foreach(tag(_, "throw.after"))
@@ -871,9 +871,14 @@ class CfgCreator(entryNode: Method, diffGraph: DiffGraphBuilder) {
           def resume[T](pending: List[(CfgNode, T)]): List[(CfgNode, T)] =
             pending.flatMap { case (_, target) => finallyCfg.fringe.map { case (node, _) => node -> target } }.distinct
           val resumedExits = resume(protectedCfg.exits)
+          resumedNormal ++= normalFringe.map(_._1) ++ protectedCfg.breaks.map(_._1) ++
+            protectedCfg.continues.map(_._1) ++ leavingJumps.map(_._1)
           resumedThrows ++= resumedExits.collect { case (node, ExitKind.Thrown) => node }
           resumedNormal ++= resumedExits.collect { case (node, ExitKind.Returned) => node }
-          if (normalFringe.nonEmpty) resumedNormal ++= finallyCfg.fringe.map(_._1)
+          if (
+            normalFringe.nonEmpty || protectedCfg.breaks.nonEmpty || protectedCfg.continues.nonEmpty || leavingJumps.nonEmpty
+          )
+            resumedNormal ++= finallyCfg.fringe.map(_._1)
           Cfg
             .from(protectedCfg, finallyCfg)
             .copy(

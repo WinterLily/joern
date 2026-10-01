@@ -27,6 +27,11 @@ void main() {
             fixture.localCopyCaught(input, fail),
             fail ? input : 'normal result',
           );
+          expect(fixture.localBoth(input, fail), fail ? input : 'normal local');
+          expect(
+            fixture.localLoopCaught(input, fail),
+            fail ? input : 'normal result',
+          );
           expect(
             fixture.helperCopyCaught(input, fail),
             fail ? input : 'normal result',
@@ -40,6 +45,10 @@ void main() {
               throwsStateError,
             );
             expect(
+              () => fixture.localLoopNormal(input, fail),
+              throwsStateError,
+            );
+            expect(
               () => fixture.helperCopyNormal(input, fail),
               throwsStateError,
             );
@@ -49,6 +58,7 @@ void main() {
             expect(fixture.joinedNormal(input, fail), 'normal');
             expect(fixture.copiedNormal(input, fail), 'normal copy');
             expect(fixture.localCopyNormal(input, fail), 'normal local');
+            expect(fixture.localLoopNormal(input, fail), 'normal loop');
             expect(fixture.helperCopyNormal(input, fail), 'normal copy');
           }
           expect(
@@ -64,6 +74,10 @@ void main() {
         expect(fixture.caughtOverwrite(input), 'constant');
         expect(fixture.caughtIndependent(input), 'constant');
         expect(fixture.copiedIndependent(input), 'constant');
+        expect(fixture.localPriorResult(input), input);
+        expect(fixture.localReplacementResult(input), input);
+        expect(fixture.localConstantResult(input), 'constant replacement');
+        expect(fixture.inlineCleanupResult(input), input);
         expect(fixture.cleanupKilled(input), 'cleanup');
         expect(fixture.cleanupPreserved(input), input);
         expect(storage.Shared.other, 'unrelated cleanup');

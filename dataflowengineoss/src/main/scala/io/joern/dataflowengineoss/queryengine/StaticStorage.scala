@@ -44,22 +44,14 @@ private[queryengine] object StaticStorage {
         continuations: List[Option[PendingExit]]
       )
       case class Position(node: CfgNode, scope: Scope, evidence: Vector[PathElement], exceptional: Boolean)
-      val seen                                   = mutable.HashSet.empty[(CfgNode, Scope, Boolean)]
-      val pending                                = mutable.ArrayDeque.empty[Position]
-      val definitions                            = mutable.ArrayBuffer.empty[ReachableByTask]
-      val escaping                               = mutable.Map.empty[Method, List[CfgNode]]
-      val ancestry                               = mutable.Map.empty[CfgNode, Set[AstNode]]
-      val exitModes                              = mutable.Map.empty[CfgNode, Set[String]]
-      def ancestors(node: CfgNode): Set[AstNode] = ancestry.getOrElseUpdate(node, Iterator.single(node).inAst.toSet)
-      def modes(node: CfgNode): Set[String]      =
-        exitModes.getOrElseUpdate(node, node.tag.nameExact("dart.cfg.exit").value.toSet)
-      def inCleanup(node: CfgNode): Boolean = ancestors(node)
-        .collect { case control: ControlStructure => control }
-        .exists(_._finallyBodyOut.cast[AstNode].exists(ancestors(node).contains))
-      def cleanups(node: CfgNode): Set[AstNode] = ancestors(node)
-        .collect { case control: ControlStructure => control }
-        .flatMap(_._finallyBodyOut.cast[AstNode])
-        .filterNot(ancestors(node).contains)
+      val seen                                  = mutable.HashSet.empty[(CfgNode, Scope, Boolean)]
+      val pending                               = mutable.ArrayDeque.empty[Position]
+      val definitions                           = mutable.ArrayBuffer.empty[ReachableByTask]
+      val escaping                              = mutable.Map.empty[Method, List[CfgNode]]
+      val routing                               = new DartExitRouting
+      def modes(node: CfgNode): Set[String]     = routing.modes(node)
+      def inCleanup(node: CfgNode): Boolean     = routing.inCleanup(node)
+      def cleanups(node: CfgNode): Set[AstNode] = routing.cleanups(node)
 
       def enqueue(node: CfgNode, scope: Scope, evidence: Vector[PathElement], exceptional: Boolean = false): Unit = {
         if (config.maxCallDepth != -1 && scope.depth > config.maxCallDepth)
@@ -67,52 +59,13 @@ private[queryengine] object StaticStorage {
         else pending.append(Position(node, scope, evidence, exceptional))
       }
 
-      def before(node: CfgNode, scope: Scope, evidence: Vector[PathElement]): Unit = {
-        val catches = ancestors(node).collect {
-          case handler: ControlStructure if handler.controlStructureType == ControlStructureTypes.CATCH => handler
+      def before(node: CfgNode, scope: Scope, evidence: Vector[PathElement]): Unit =
+        routing.before(node, scope.pendingExit).foreach { position =>
+          enqueue(position.node, scope.copy(pendingExit = position.pendingExit), evidence, position.exceptional)
         }
-        node._cfgIn.cast[CfgNode].foreach { predecessor =>
-          val entersCatch = ExitRouting
-            .handlerOwner(predecessor, predecessor.method)
-            .exists(owner => owner._catchBodyOut.cast[AstNode].exists(catches.contains))
-          val entersCleanup = cleanups(predecessor).exists(ancestors(node).contains)
-          if (entersCatch) enqueue(predecessor, scope, evidence, exceptional = true)
-          else if (!entersCleanup) enqueue(predecessor, scope, evidence)
-          else
-            predecessor match {
-              case _: Return =>
-                if (!scope.pendingExit.contains(PendingExit.Thrown))
-                  enqueue(predecessor, scope.copy(pendingExit = None), evidence)
-              case control: ControlStructure if control.controlStructureType == ControlStructureTypes.THROW =>
-                if (!scope.pendingExit.contains(PendingExit.Normal))
-                  enqueue(predecessor, scope.copy(pendingExit = None), evidence, exceptional = true)
-              case call: Call
-                  if inCleanup(call) && modes(call).exists(kind => kind == "normal.after" || kind == "throw.after") =>
-                for (
-                  mode <- scope.pendingExit.toList match {
-                    case Nil      => List(PendingExit.Normal, PendingExit.Thrown)
-                    case selected => selected
-                  }
-                ) {
-                  val label = if (mode == PendingExit.Normal) "normal.after" else "throw.after"
-                  if (modes(call).contains(label)) enqueue(call, scope.copy(pendingExit = Some(mode)), evidence)
-                }
-                if (!scope.pendingExit.contains(PendingExit.Normal) && modes(call).contains("throw.before"))
-                  enqueue(call, scope.copy(pendingExit = None), evidence, exceptional = true)
-              case call: Call =>
-                if (!scope.pendingExit.contains(PendingExit.Thrown))
-                  enqueue(call, scope.copy(pendingExit = None), evidence)
-                if (!scope.pendingExit.contains(PendingExit.Normal))
-                  enqueue(call, scope.copy(pendingExit = None), evidence, exceptional = true)
-              case _ =>
-                if (!scope.pendingExit.contains(PendingExit.Thrown))
-                  enqueue(predecessor, scope.copy(pendingExit = None), evidence)
-            }
-        }
-      }
 
       def exits(method: Method, scope: Scope, evidence: Vector[PathElement], exceptional: Boolean): Unit = {
-        if (!modes(method.methodReturn).contains("complete"))
+        if (!routing.complete(method))
           config.diagnostics.foreach(_.record("static-storage-exit-metadata"))
         else {
           method.methodReturn._cfgIn.cast[CfgNode].foreach { node =>

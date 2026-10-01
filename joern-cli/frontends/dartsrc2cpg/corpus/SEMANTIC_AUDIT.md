@@ -1125,8 +1125,8 @@ All twelve graphs share independently checked fingerprint
 `3877d5d83af53418f3e3f3fa785694f63e39f9248dcedc0ad6a1484ab2020ca6`
 (400 analysis files), with unchanged exporter 0.3.19. Ordinary endpoint observations
 remain stock 74/76, modeled 76/76, and holdout 4/4. Seven modeled negative searches
-remain inconclusive. The two-witness/two-held-round audit passes all 80 endpoint
-expectations per mode and retains the preceding 86 visible/89 detailed stock paths
+remain inconclusive. The two-witness/two-held-round audit retains all 80 endpoint
+observations per mode (stock matches 78/80, modeled 80/80) and retains the preceding 86 visible/89 detailed stock paths
 and 81/83 modeled paths. Limits affect 43 stock and 42 modeled queries, including
 seven stock/eight modeled inconclusive negatives and five held-round limits per
 mode. Its package worker took 6 minutes 47 seconds. The HTTP capture review and
@@ -1141,6 +1141,9 @@ increment fixes exceptional storage traversal and explicitly records the remaini
 RHS-demand defect; it does not close initialization, heap or release qualification.
 
 ## Preserve cleanup exit demands through RHS value tasks
+
+This section records checkpoint `09b8f5a2c`; the local-exit increment below
+supersedes its fingerprint and the DART-FLOW-008 counterexample.
 
 DART-FLOW-007's original `copiedNormal` false positive is rejected. Static-storage
 RHS tasks retain demands keyed by method and selected caller stack; ordinary DDG
@@ -1186,7 +1189,8 @@ CLI tests, fourteen console tests and 29 shared access-path tests. Focused stora
 witness selection boundary tests and formatting passed. Remaining coverage-plan
 obligations stay open.
 
-The refreshed two-witness/two-round audit passes all 80 expectations per mode,
+The refreshed two-witness/two-round audit preserves all 80 observations per mode
+(stock matches 78/80, modeled 80/80),
 with unchanged 86 visible/89 detailed stock paths and 81/83 modeled paths.
 Limits affect 43 stock and 42 modeled queries; seven stock/eight modeled negatives
 remain inconclusive, and each mode has five held-round limits. The package worker
@@ -1196,3 +1200,59 @@ held-task witness ordering/combination. This run does not qualify historical
 larger searches. The HTTP capture review, source/count checks and deterministic
 summary were regenerated and verified against current raw contexts. Other new
 corpus alternatives and the remaining plan gates still require qualification.
+
+## Local value availability under cleanup exits
+
+DART-FLOW-008's original `localCopyNormal` false positive is rejected. RHS tasks
+check local reaching definitions against bounded CFG routes under the selected
+invocation's pending exit. Assignment values are available at the completed
+assignment, and crossing the relevant cleanup consumes its demand. Earlier handled
+cleanup may therefore have a different exit kind. The Dart-only producer contract
+is `complete:2`: it distinguishes normal cleanup entry from failure before a
+protected operation completes. Catch entry also distinguishes a completed cleanup
+resuming an exception from a failed cleanup operation. Older exit metadata is an
+explicit limit requiring graph regeneration.
+
+Graph and independent SDK controls cover normal/caught local copies, loop copies,
+simultaneous normal/caught sinks, return replacement, inline cleanup and a saved
+value from earlier handled cleanup. The last case returns input through a helper;
+its constant-return replacement rejects the prior input. Depths four/eight and
+one/two-witness selection pass. A one-position value-search budget produces an
+explicit `static-storage-value-search` limit rather than an asserted semantic
+negative.
+
+The [local exit snapshot](static-local-exit-witness-review.json) retains all
+11 returned paths and 199 classified transitions across 13 queries. Four absence
+observations have matching same-source positive controls and budgets, but remain
+inconclusive under their recorded limits. The prior-cleanup paths separately
+classify scalar return and conservative unchanged-argument output; the latter
+does not establish String mutation. The inline cleanup retains two value-temporary routes to the same setter;
+both preserve the thrown demand, and their distinct nodes remain in the review. The [ordinary storage snapshot](static-storage-witness-review.json)
+is refreshed with six paths and 123 classified transitions. The field-copy and
+exception snapshots retain their historical provenance. These bounded reviews
+are dependency evidence, not complete execution traces or predicate proofs.
+
+All twelve graphs share independently checked fingerprint
+`da1afc7d6dd7d24b92bb946dbc1422655fe666e5231d32887d2477d8f98ec028`
+(402 analysis files), with unchanged exporter 0.3.19 and representation counts.
+Ordinary endpoints remain stock 74/76, modeled 76/76 and holdout 4/4; seven modeled
+negative searches remain inconclusive. Validation passed 103 native runtime/
+Flutter/corpus tests, clean Dart analysis, 167 frontend/package tests, three
+application graphs, both holdouts, staging, four CLI tests and fourteen console
+tests. Focused storage/witness tests, 16 shared CFG/dominator checks, 29 shared
+access-path checks and formatting also passed. Initialization-state correlation,
+cross-context values, implicit/external effects, broader heap/lifecycle contracts
+and the remaining coverage-plan obligations stay open.
+
+The refreshed two-witness/two-held-round audit preserves all 80 observations per
+mode: stock matches 78/80 expectations, including the two known false positives,
+and modeled matches 80/80. It retains 86 visible/89 detailed stock paths and
+81/83 modeled paths. Limits affect 43 stock and 42 modeled queries; seven stock/
+eight modeled negative searches remain inconclusive, and each mode has five
+held-round limits. The package test completed in 8 minutes 48 seconds within the
+monitored ten-minute worker budget; applications and holdouts also passed. A
+worker sample observed approximately 6.5 GiB resident memory, with active held-task
+witness deduplication. This sample is not a peak-memory qualification. Larger
+historical searches remain inconclusive. The HTTP capture review and deterministic
+summary were rechecked against current raw contexts; other corpus alternatives
+still require review.

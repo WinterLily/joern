@@ -79,9 +79,11 @@ correlation remains open. Exceptional stores now reach catch-time reads with
 normal/thrown exit isolation, cleanup overwrites and rethrow/return replacement
 controls. DART-FLOW-007's original field-copy false positive is now rejected: RHS tasks,
 caches and held combinations retain invocation-specific pending exit demands.
-DART-FLOW-008 exposes ordinary local reaching-definition joins that still admit
-a throw-only assignment into a normal cleanup result; that diagnosed case remains
-unfinished.
+DART-FLOW-008's original local-join false positive is now rejected by bounded
+CFG availability checks on RHS reaching definitions. Completed-assignment points,
+normal versus failed cleanup entry, consumed demands, prior handled cleanup and
+return replacement have controls. Initialization state, cross-context value/heap
+qualification and general predicate feasibility remain unfinished.
 An opt-in Dart witness bound now retains distinct routes through intraprocedural,
 held-task and final selection, with explicit pruning diagnostics and detailed
 call-context reports. Three-route branch/call isolation has graph and bounded

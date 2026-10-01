@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "analysisSources": {
     "algorithm": "sha256-path-nul-content-nul",
-    "sha256": "401483031286b439c21e6e9630971b286c2f6625e2d44667c5d43a2d9e03b01e",
-    "files": 400,
+    "sha256": "da1afc7d6dd7d24b92bb946dbc1422655fe666e5231d32887d2477d8f98ec028",
+    "files": 402,
     "roots": [
       "joern-cli/frontends/dartsrc2cpg/src",
       "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -82,12 +82,12 @@
               "detailedPaths": 2,
               "legacyPaths": 1,
               "visibleLengths": [
-                30,
-                30
+                31,
+                31
               ],
               "detailedLengths": [
-                30,
-                30
+                31,
+                31
               ],
               "outcome": "flow-observed",
               "limitations": [
@@ -101,8 +101,8 @@
               "distinctEndpoints": true,
               "viaSatisfied": true,
               "positiveControlSatisfied": null,
-              "witnessesSha256": "57af24058c8b1c81e8282155c73580659ea9b00852f1dc8f4bd45d2656230a8e",
-              "detailedWitnessesSha256": "623e6d6c829350a7501972d07da262c1d48d695dd8a60f483b2d9cd25da1b993"
+              "witnessesSha256": "ce1375445d93bbdcd223abe656b0a7996b36d74fc3788eb77fe4d65b2bc1f92e",
+              "detailedWitnessesSha256": "17fc94990fdab9da647356cf0ab2461b50c8b0fbcc6f89cd35f166fdc7f123f9"
             },
             "modeled": {
               "paths": 2,
@@ -162,11 +162,11 @@
               "detailedPaths": 2,
               "legacyPaths": 1,
               "visibleLengths": [
-                70,
+                68,
                 66
               ],
               "detailedLengths": [
-                71,
+                69,
                 67
               ],
               "outcome": "flow-observed",
@@ -181,8 +181,8 @@
               "distinctEndpoints": true,
               "viaSatisfied": true,
               "positiveControlSatisfied": null,
-              "witnessesSha256": "0bc670797a3c4d13b4b5d79c8c0b1805dbd67450200b13e098525e5cf2da6fb4",
-              "detailedWitnessesSha256": "37a17965470a023ab88a3ac47609ea1c91ab976b0fc961d3dba6cd39c3902eef"
+              "witnessesSha256": "a434a82f04f04a650a4121c31416c96e322833969b862735e980cb3ba8165b93",
+              "detailedWitnessesSha256": "222effa569bca00456772dbefb0ffeb9c973419aac03041c50296fe7731cf15d"
             },
             "modeled": {
               "paths": 2,
@@ -2497,8 +2497,8 @@
               "distinctEndpoints": true,
               "viaSatisfied": true,
               "positiveControlSatisfied": null,
-              "witnessesSha256": "2c22cbcd28e3dc905cde866102106d652f18504a0a0eba583fc832b23a646eab",
-              "detailedWitnessesSha256": "101d34ae0315f14b5da37bba84c64788720e75ab9089a5e894cede0201c613b7"
+              "witnessesSha256": "8d62b3073ba3b84a8cee0f4de338a68b98e22c2b2c98a9c818866007694d3d58",
+              "detailedWitnessesSha256": "beb5763321715cdfcbf550d2003dd2a5cd25ac4d2d44e8132d4ecb8da590eebf"
             },
             "modeled": {
               "paths": 1,
@@ -2558,12 +2558,12 @@
               "detailedPaths": 2,
               "legacyPaths": 1,
               "visibleLengths": [
-                66,
-                66
+                55,
+                55
               ],
               "detailedLengths": [
-                74,
-                74
+                55,
+                55
               ],
               "outcome": "flow-observed",
               "limitations": [
@@ -2578,8 +2578,8 @@
               "distinctEndpoints": true,
               "viaSatisfied": true,
               "positiveControlSatisfied": null,
-              "witnessesSha256": "46794fe298253972b6f2ccd08710f7052c9dbbb77b6d058802bffbf107057786",
-              "detailedWitnessesSha256": "e87d3336c58c10a627b2620770114d625ed76c790006a660b98298fb27c25c13"
+              "witnessesSha256": "8f7a047ac8eaed93ba3b709702ca4d594c28661d3eca9d50bc86bf4bffc9fc30",
+              "detailedWitnessesSha256": "ac3800c6a05b8093b983d6c5b0f34afff40ad003e0a2b50e84f3e5e34b9d36d2"
             },
             "modeled": {
               "paths": 2,
@@ -3119,11 +3119,11 @@
               "detailedPaths": 2,
               "legacyPaths": 1,
               "visibleLengths": [
-                60,
-                55
+                58,
+                58
               ],
               "detailedLengths": [
-                63,
+                62,
                 62
               ],
               "outcome": "flow-observed",
@@ -3141,8 +3141,8 @@
               "distinctEndpoints": true,
               "viaSatisfied": true,
               "positiveControlSatisfied": null,
-              "witnessesSha256": "464d0f8cc0a228a77f15117e56833ac7537390faffeb2b9d38c6b4789e6912bf",
-              "detailedWitnessesSha256": "8956d145823e25235cf64d04724cbf016fac53535bb98639a6365161585a0d91"
+              "witnessesSha256": "79a9e0bfebb943e2088541e90ae7c9686374356694fecef5836f9dbc0d85a6e2",
+              "detailedWitnessesSha256": "0e0c9051eae8d869b1ab788c32e7aeaee4a5926a28e46ecaed459cb2ac0a9dea"
             },
             "modeled": {
               "paths": 2,
@@ -3150,11 +3150,11 @@
               "legacyPaths": 1,
               "visibleLengths": [
                 58,
-                53
+                58
               ],
               "detailedLengths": [
                 61,
-                60
+                61
               ],
               "outcome": "flow-observed",
               "limitations": [
@@ -3171,8 +3171,8 @@
               "distinctEndpoints": true,
               "viaSatisfied": true,
               "positiveControlSatisfied": null,
-              "witnessesSha256": "22a276bd5a0e0c22400726b7f4481ea92ca03615605d1ec3fa787b56974d6596",
-              "detailedWitnessesSha256": "5bdb33778d911d3b339eded0f27feb03c8c286f077d2d3fd34714c908a78033e"
+              "witnessesSha256": "79a9e0bfebb943e2088541e90ae7c9686374356694fecef5836f9dbc0d85a6e2",
+              "detailedWitnessesSha256": "c68e2ebda546f3e9f87228f8f16c9dd5ab1dc1bf8eaa4c4bedaeb677ad159199"
             }
           },
           "maxHeldTaskIterations": 2,
@@ -5527,7 +5527,7 @@
               "legacyPaths": 1,
               "visibleLengths": [
                 21,
-                20
+                21
               ],
               "detailedLengths": [
                 29,
@@ -5545,8 +5545,8 @@
               "distinctEndpoints": true,
               "viaSatisfied": true,
               "positiveControlSatisfied": null,
-              "witnessesSha256": "079a375dc639528998af577e120c69230860271bcd5b21fada1b9906f6b9dbc1",
-              "detailedWitnessesSha256": "c55da4fd148472fb86cf32a2e965d344615d2cd40085a144d9a574bca95226e5"
+              "witnessesSha256": "3e746f1b95e73712647ca2477b3774f9662ee751e05730e0d41621817b85df4c",
+              "detailedWitnessesSha256": "5fb75a57ad16e4cb1ce75868ad767a2620ea74cd49ffbc9a9ea16df014be4274"
             },
             "modeled": {
               "paths": 2,
@@ -5902,7 +5902,6 @@
                 "field-depth-widening",
                 "static-storage-exception-state",
                 "static-storage-external-effects",
-                "static-storage-implicit-exception-effects",
                 "static-storage-initialization-state",
                 "static-storage-joined-exits",
                 "static-storage-search",
@@ -5935,7 +5934,6 @@
                 "field-depth-widening",
                 "static-storage-exception-state",
                 "static-storage-external-effects",
-                "static-storage-implicit-exception-effects",
                 "static-storage-initialization-state",
                 "static-storage-joined-exits",
                 "static-storage-search",

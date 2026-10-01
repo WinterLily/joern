@@ -3,7 +3,16 @@ package io.joern.dartsrc2cpg
 import io.joern.dataflowengineoss.language.*
 import io.joern.dataflowengineoss.DefaultSemantics
 import io.joern.dataflowengineoss.semanticsloader.FullNameSemanticsParser
-import io.joern.dataflowengineoss.queryengine.{EngineConfig, EngineContext, QueryDiagnostics}
+import io.joern.dataflowengineoss.queryengine.{
+  EngineConfig,
+  EngineContext,
+  QueryDiagnostics,
+  StaticStorageDemand,
+  PendingExit,
+  ReachableByTask,
+  TaskFingerprint,
+  TaskSolver
+}
 import io.joern.dataflowengineoss.layers.dataflows.{OssDataFlow, OssDataFlowOptions}
 import io.joern.x2cpg.{ValidationMode, X2Cpg}
 import io.shiftleft.codepropertygraph.generated.{Cpg, Operators}
@@ -88,25 +97,29 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
       ) { (cpg, _) =>
         for (
           (name, expected) <- Seq(
-            "normalBranch"        -> false,
-            "caughtBranch"        -> true,
-            "nestedThrow"         -> true,
-            "caughtOverwrite"     -> false,
-            "caughtIndependent"   -> false,
-            "cleanupPreserved"    -> true,
-            "cleanupKilled"       -> false,
-            "conditionalCleanup"  -> true,
-            "suppressedResult"    -> true,
-            "cleanupThrows"       -> true,
-            "replacedException"   -> false,
-            "nestedCleanupKilled" -> false,
-            "rethrown"            -> true,
-            "swallowedResult"     -> true,
-            "joinedNormal"        -> false,
-            "joinedCaught"        -> true,
-            "copiedCaught"        -> true,
-            "localCopyCaught"     -> true,
-            "copiedIndependent"   -> false
+            "normalBranch"           -> false,
+            "caughtBranch"           -> true,
+            "nestedThrow"            -> true,
+            "caughtOverwrite"        -> false,
+            "caughtIndependent"      -> false,
+            "cleanupPreserved"       -> true,
+            "cleanupKilled"          -> false,
+            "conditionalCleanup"     -> true,
+            "suppressedResult"       -> true,
+            "cleanupThrows"          -> true,
+            "replacedException"      -> false,
+            "nestedCleanupKilled"    -> false,
+            "rethrown"               -> true,
+            "swallowedResult"        -> true,
+            "joinedNormal"           -> false,
+            "joinedCaught"           -> true,
+            "copiedCaught"           -> true,
+            "localCopyCaught"        -> true,
+            "localPriorResult"       -> true,
+            "localReplacementResult" -> true,
+            "inlineCleanupResult"    -> true,
+            "localConstantResult"    -> false,
+            "copiedIndependent"      -> false
           )
         ) {
           val method = cpg.method.nameExact(name).head
@@ -120,7 +133,14 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
             EngineConfig(maxCallDepth = depth, maxWitnessesPerEndpoint = bound, diagnostics = Some(diagnostics))
           )
           for (
-            (name, expected) <- Seq("copiedNormal" -> false, "helperCopyNormal" -> false, "helperCopyCaught" -> true)
+            (name, expected) <- Seq(
+              "copiedNormal"     -> false,
+              "helperCopyNormal" -> false,
+              "helperCopyCaught" -> true,
+              "localCopyNormal"  -> false,
+              "localLoopNormal"  -> false,
+              "localLoopCaught"  -> true
+            )
           ) {
             val method = cpg.method.nameExact(name).head
             withClue(s"$name depth=$depth bound=$bound") {
@@ -133,14 +153,38 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
           val paths = both.ast.isReturn.reachableByFlows(both.parameter.nameExact("input"))(context).toList
           paths should not be empty
           paths.map(_.elements.last.code).toSet shouldBe Set("return caught;")
+          val localBoth  = cpg.method.nameExact("localBoth").head
+          val localPaths =
+            localBoth.ast.isReturn.reachableByFlows(localBoth.parameter.nameExact("input"))(context).toList
+          localPaths should not be empty
+          localPaths.map(_.elements.last.code).toSet shouldBe Set("return caught;")
           diagnostics.limitations should contain("static-storage-joined-exits")
         }
         val local            = cpg.method.nameExact("localCopyNormal").head
         val localDiagnostics = new QueryDiagnostics
         val localContext     = EngineContext(config = EngineConfig(diagnostics = Some(localDiagnostics)))
-        // DART-FLOW-008: ordinary local reaching definitions still join the throw-only assignment into cleanup.
-        local.ast.isReturn.reachableByFlows(local.parameter.nameExact("input"))(localContext).nonEmpty shouldBe true
+        local.ast.isReturn.reachableByFlows(local.parameter.nameExact("input"))(localContext).nonEmpty shouldBe false
         localDiagnostics.limitations should contain("static-storage-joined-exits")
+        val cleanup = cpg.method.nameExact("localCopyCleanup").head
+        val saved   = cleanup.ast.isIdentifier
+          .nameExact("saved")
+          .find { node =>
+            node.inAst.isBlock.exists(block => block._finallyBodyIn.nonEmpty)
+          }
+          .get
+        val demand                                         = List(StaticStorageDemand(cleanup, Nil, PendingExit.Thrown))
+        def localQuery(limit: Int): (Boolean, Set[String]) = {
+          val diagnostics = new QueryDiagnostics
+          val context     =
+            EngineContext(config = EngineConfig(maxStaticStorageNodes = limit, diagnostics = Some(diagnostics)))
+          val task   = ReachableByTask(List(TaskFingerprint(saved, Nil, 0, storageDemands = demand)), Vector.empty)
+          val result = new TaskSolver(task, context, Set(cleanup.parameter.nameExact("input").head)).call()
+          (result.tableEntries.nonEmpty, diagnostics.limitations)
+        }
+        localQuery(10000)._1 shouldBe true
+        val limited = localQuery(1)
+        limited._1 shouldBe false
+        limited._2 should contain("static-storage-value-search")
       }
     }
     "follow static storage in call order with overwrites and independent locations" in {
@@ -191,7 +235,7 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
           )
         }
         val stale = Cpg.newDiffGraphBuilder
-        cpg.tag.nameExact("dart.cfg.exit").valueExact("complete").foreach { tag =>
+        cpg.tag.nameExact("dart.cfg.exit").valueExact("complete:2").foreach { tag =>
           stale.setNodeProperty(tag, "VALUE", "stale")
         }
         flatgraph.DiffGraphApplier.applyDiff(cpg.graph, stale)

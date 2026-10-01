@@ -59,12 +59,17 @@ failed-call evidence without changing CFG edges. Private pending-exit demands
 keep direct joined-cleanup reads isolated. The RHS task now retains that pending-exit demand, fixing
 DART-FLOW-007's static field copy. Saved helper reads, an intervening other-slot
 write and simultaneous normal/caught sinks check context/cache isolation at depths
-four/eight and one/two-witness selection. DART-FLOW-008 records the remaining local
-assignment join: a throw-only local value still reaches a normal cleanup store. Initialization-state correlation and broader exception/
+four/eight and one/two-witness selection. DART-FLOW-008's local
+assignment join is now rejected by CFG availability under the pending exit.
+Completed assignments, consumed demands, earlier handled cleanup, return
+replacement, loop copies and same-source normal/caught sinks have controls;
+truncated value searches are explicitly inconclusive. Initialization-state correlation and broader exception/
 heap qualification remain open. The [exception witness review](../corpus/static-exception-witness-review.json)
 is the historical DART-FLOW-007 counterexample; the
-[current copy review](../corpus/static-cleanup-copy-witness-review.json) records
-the corrected controls and remaining local-join defect.
+[historical copy review](../corpus/static-cleanup-copy-witness-review.json) records
+the historical corrected field-copy controls and local-join defect. The
+[local exit review](../corpus/static-local-exit-witness-review.json) records the
+current correction.
 
 `upstream/manifest.json` records selected SDK language tests at the pinned SDK
 revision, original/adapted hashes, license and the exact adaptations. Valid

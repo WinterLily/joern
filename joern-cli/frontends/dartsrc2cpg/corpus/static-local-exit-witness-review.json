@@ -1,0 +1,5095 @@
+{
+  "schemaVersion": 2,
+  "analysisSources": {
+    "algorithm": "sha256-path-nul-content-nul",
+    "sha256": "da1afc7d6dd7d24b92bb946dbc1422655fe666e5231d32887d2477d8f98ec028",
+    "files": 402,
+    "roots": [
+      "joern-cli/frontends/dartsrc2cpg/src",
+      "joern-cli/frontends/dartsrc2cpg/astgen/lib",
+      "joern-cli/frontends/dartsrc2cpg/astgen/bin",
+      "joern-cli/frontends/x2cpg/src/main",
+      "dataflowengineoss/src/main",
+      "semanticcpg/src/main",
+      "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.lock",
+      "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.yaml",
+      "joern-cli/frontends/dartsrc2cpg/build.sbt",
+      "joern-cli/frontends/x2cpg/build.sbt",
+      "joern-cli/build.sbt",
+      "dataflowengineoss/build.sbt",
+      "semanticcpg/build.sbt",
+      "build.sbt",
+      "project/Versions.scala",
+      "project/Projects.scala"
+    ]
+  },
+  "source": {
+    "fixture": "src/test/resources/semantics/static_exception_storage.dart",
+    "sha256": "08cc2c94949f2108dac883757a45f896d1522d9ffd72a49a2e8b7e2fa4c77e7c",
+    "executionOracle": "astgen/test/static_exception_storage_test.dart",
+    "sdk": "3.9.2",
+    "analyzer": "8.4.1",
+    "exporter": "0.3.19",
+    "inputs": [
+      "",
+      "input",
+      "second"
+    ],
+    "branches": [
+      false,
+      true
+    ]
+  },
+  "queryLimits": {
+    "maxCallDepth": 4,
+    "maxFieldDepth": 4,
+    "maxWitnessesPerEndpoint": 2,
+    "maxHeldTaskIterations": 0,
+    "maxStaticStorageNodes": 10000,
+    "maxArgsToAllow": 1000,
+    "maxOutputArgsExpansion": 1000
+  },
+  "queries": [
+    {
+      "id": "localCopyNormal",
+      "expected": false,
+      "passed": true,
+      "outcome": "inconclusive-query-limits",
+      "limitations": [
+        "static-storage-exception-state",
+        "static-storage-initialization-state",
+        "static-storage-joined-exits"
+      ],
+      "paths": 0,
+      "detailedPaths": 0,
+      "source": {
+        "file": "lib/helper.dart",
+        "method": "localCopyNormal",
+        "kind": "parameter",
+        "name": "input"
+      },
+      "sink": {
+        "file": "lib/helper.dart",
+        "method": "localCopyNormal",
+        "kind": "return",
+        "code": "return read();"
+      },
+      "positiveControl": "localArgument",
+      "positiveControlSatisfied": true
+    },
+    {
+      "id": "localCopyCaught",
+      "expected": true,
+      "passed": true,
+      "outcome": "flow-observed",
+      "limitations": [
+        "static-storage-exception-state",
+        "static-storage-implicit-exception-effects",
+        "static-storage-initialization-state",
+        "static-storage-joined-exits",
+        "static-storage-value-external-effects"
+      ],
+      "paths": 1,
+      "detailedPaths": 1,
+      "source": {
+        "file": "lib/helper.dart",
+        "method": "localCopyCaught",
+        "kind": "parameter",
+        "name": "input"
+      },
+      "sink": {
+        "file": "lib/helper.dart",
+        "method": "localCopyCaught",
+        "kind": "return",
+        "code": "return read();"
+      }
+    },
+    {
+      "id": "localBothNormal",
+      "expected": false,
+      "passed": true,
+      "outcome": "inconclusive-query-limits",
+      "limitations": [
+        "static-storage-exception-state",
+        "static-storage-initialization-state",
+        "static-storage-joined-exits"
+      ],
+      "paths": 0,
+      "detailedPaths": 0,
+      "source": {
+        "file": "lib/helper.dart",
+        "method": "localBoth",
+        "kind": "parameter",
+        "name": "input"
+      },
+      "sink": {
+        "file": "lib/helper.dart",
+        "method": "localBoth",
+        "kind": "return",
+        "code": "return read();"
+      },
+      "positiveControl": "localBothCaught",
+      "positiveControlSatisfied": true
+    },
+    {
+      "id": "localBothCaught",
+      "expected": true,
+      "passed": true,
+      "outcome": "flow-observed",
+      "limitations": [
+        "static-storage-exception-state",
+        "static-storage-implicit-exception-effects",
+        "static-storage-initialization-state",
+        "static-storage-joined-exits",
+        "static-storage-value-external-effects"
+      ],
+      "paths": 1,
+      "detailedPaths": 1,
+      "source": {
+        "file": "lib/helper.dart",
+        "method": "localBoth",
+        "kind": "parameter",
+        "name": "input"
+      },
+      "sink": {
+        "file": "lib/helper.dart",
+        "method": "localBoth",
+        "kind": "return",
+        "code": "return caught;"
+      }
+    },
+    {
+      "id": "localLoopNormal",
+      "expected": false,
+      "passed": true,
+      "outcome": "inconclusive-query-limits",
+      "limitations": [
+        "static-storage-exception-state",
+        "static-storage-initialization-state",
+        "static-storage-joined-exits"
+      ],
+      "paths": 0,
+      "detailedPaths": 0,
+      "source": {
+        "file": "lib/helper.dart",
+        "method": "localLoopNormal",
+        "kind": "parameter",
+        "name": "input"
+      },
+      "sink": {
+        "file": "lib/helper.dart",
+        "method": "localLoopNormal",
+        "kind": "return",
+        "code": "return read();"
+      },
+      "positiveControl": "loopArgument",
+      "positiveControlSatisfied": true
+    },
+    {
+      "id": "localLoopCaught",
+      "expected": true,
+      "passed": true,
+      "outcome": "flow-observed",
+      "limitations": [
+        "static-storage-exception-state",
+        "static-storage-implicit-exception-effects",
+        "static-storage-initialization-state",
+        "static-storage-joined-exits",
+        "static-storage-value-external-effects"
+      ],
+      "paths": 1,
+      "detailedPaths": 1,
+      "source": {
+        "file": "lib/helper.dart",
+        "method": "localLoopCaught",
+        "kind": "parameter",
+        "name": "input"
+      },
+      "sink": {
+        "file": "lib/helper.dart",
+        "method": "localLoopCaught",
+        "kind": "return",
+        "code": "return read();"
+      }
+    },
+    {
+      "id": "localPriorResult",
+      "expected": true,
+      "passed": true,
+      "outcome": "flow-observed",
+      "limitations": [
+        "static-storage-exception-state",
+        "static-storage-implicit-exception-effects",
+        "static-storage-initialization-state",
+        "static-storage-joined-exits",
+        "static-storage-value-external-effects",
+        "witness-alternatives"
+      ],
+      "paths": 2,
+      "detailedPaths": 2,
+      "source": {
+        "file": "lib/helper.dart",
+        "method": "localPriorResult",
+        "kind": "parameter",
+        "name": "input"
+      },
+      "sink": {
+        "file": "lib/helper.dart",
+        "method": "localPriorResult",
+        "kind": "return",
+        "code": "return read();"
+      }
+    },
+    {
+      "id": "localReplacementResult",
+      "expected": true,
+      "passed": true,
+      "outcome": "flow-observed",
+      "limitations": [
+        "static-storage-exception-state",
+        "static-storage-initialization-state"
+      ],
+      "paths": 1,
+      "detailedPaths": 1,
+      "source": {
+        "file": "lib/helper.dart",
+        "method": "localReplacementResult",
+        "kind": "parameter",
+        "name": "input"
+      },
+      "sink": {
+        "file": "lib/helper.dart",
+        "method": "localReplacementResult",
+        "kind": "return",
+        "code": "return read();"
+      }
+    },
+    {
+      "id": "inlineCleanupResult",
+      "expected": true,
+      "passed": true,
+      "outcome": "flow-observed",
+      "limitations": [
+        "static-storage-exception-state",
+        "static-storage-implicit-exception-effects",
+        "static-storage-initialization-state"
+      ],
+      "paths": 2,
+      "detailedPaths": 2,
+      "source": {
+        "file": "lib/helper.dart",
+        "method": "inlineCleanupResult",
+        "kind": "parameter",
+        "name": "input"
+      },
+      "sink": {
+        "file": "lib/helper.dart",
+        "method": "inlineCleanupResult",
+        "kind": "return",
+        "code": "return read();"
+      }
+    },
+    {
+      "id": "localConstantResult",
+      "expected": false,
+      "passed": true,
+      "outcome": "inconclusive-query-limits",
+      "limitations": [
+        "static-storage-exception-state",
+        "static-storage-implicit-exception-effects",
+        "static-storage-initialization-state"
+      ],
+      "paths": 0,
+      "detailedPaths": 0,
+      "source": {
+        "file": "lib/helper.dart",
+        "method": "localConstantResult",
+        "kind": "parameter",
+        "name": "input"
+      },
+      "sink": {
+        "file": "lib/helper.dart",
+        "method": "localConstantResult",
+        "kind": "return",
+        "code": "return read();"
+      },
+      "positiveControl": "constantArgument",
+      "positiveControlSatisfied": true
+    },
+    {
+      "id": "localArgument",
+      "expected": true,
+      "passed": true,
+      "outcome": "flow-observed",
+      "limitations": [],
+      "paths": 1,
+      "detailedPaths": 1,
+      "source": {
+        "file": "lib/helper.dart",
+        "method": "localCopyNormal",
+        "kind": "parameter",
+        "name": "input"
+      },
+      "sink": {
+        "file": "lib/helper.dart",
+        "method": "localCopyCleanup",
+        "kind": "parameter",
+        "name": "input"
+      }
+    },
+    {
+      "id": "loopArgument",
+      "expected": true,
+      "passed": true,
+      "outcome": "flow-observed",
+      "limitations": [],
+      "paths": 1,
+      "detailedPaths": 1,
+      "source": {
+        "file": "lib/helper.dart",
+        "method": "localLoopNormal",
+        "kind": "parameter",
+        "name": "input"
+      },
+      "sink": {
+        "file": "lib/helper.dart",
+        "method": "localLoopCleanup",
+        "kind": "parameter",
+        "name": "input"
+      }
+    },
+    {
+      "id": "constantArgument",
+      "expected": true,
+      "passed": true,
+      "outcome": "flow-observed",
+      "limitations": [],
+      "paths": 1,
+      "detailedPaths": 1,
+      "source": {
+        "file": "lib/helper.dart",
+        "method": "localConstantResult",
+        "kind": "parameter",
+        "name": "input"
+      },
+      "sink": {
+        "file": "lib/helper.dart",
+        "method": "localConstantResult",
+        "kind": "call",
+        "name": "constantValue",
+        "argument": 1
+      }
+    }
+  ],
+  "categories": {
+    "parameter binding": "Exact argument slot one enters its resolved target and selected call context.",
+    "caller argument binding": "A formal sink expands to its caller argument slot one without an initially selected callee frame; exact resolved target identity is checked.",
+    "unchanged argument output": "The identity parameter is unchanged; this conservative argument-output route is distinct from the scalar return and does not establish String mutation. localConstantResult excludes old input when the return replacement is independent.",
+    "argument output binding": "Output slot one returns to the exact selected caller argument, with its output flag and caller context retained.",
+    "parameter use": "The parameter supplies a value use in the same method.",
+    "storage write": "The actual setter assignment uses the RHS in argument slot two; field declaration code is not the stored value.",
+    "exceptional memory effect exit": "Stored state crosses a failed call or resumed thrown exit; this is not an exception payload or scalar return dependency.",
+    "resolved call exit": "The method identity matches the resolved caller target; void setters/helpers carry memory effects, getters/read return scalar values.",
+    "storage continuation": "Invisible entry evidence resumes CFG storage traversal at the selected caller; completed unrelated-slot cleanup does not kill the requested slot.",
+    "method exit evidence": "Return/normal completion carries stored state or the scalar getter/helper value.",
+    "returned value": "The getter/read value supplies its explicit return operand.",
+    "assignment or use": "Source/evaluation temporary storage supplies a later use without reevaluation.",
+    "saved scalar result": "The resolved getter/helper return supplies a saved RHS or caught-result temporary."
+  },
+  "limitations": [
+    "DART-FLOW-008 original local normal-return false positive is rejected. All four negative queries have matching same-source positive controls and recorded budgets; other query limits still make these absence observations inconclusive.",
+    "Normal/caught local and loop copies retain the correct pending demand. localBoth queries share a source and invocation. localPriorResult consumes its later normal demand before following an earlier handled thrown cleanup; localReplacementResult needs no pending demand because its cleanup return replaces the exit.",
+    "The native oracle executes three inputs and both booleans. It establishes observed local/field values, loop behavior, handled prior cleanup and return replacement; it is not proof over arbitrary executions.",
+    "Complete returned transitions and task demands are retained; CFG search histories are not complete execution traces. Initialization-state correlation, implicit/external effects, cross-context values, predicate feasibility and general heap/lifecycle qualification remain open."
+  ],
+  "elementColumns": [
+    "nodeId",
+    "contextIndex",
+    "visible",
+    "isOutputArg",
+    "outEdgeLabel",
+    "fieldDemand",
+    "demandSetIndex"
+  ],
+  "transitionColumns": [
+    "fromIndex",
+    "toIndex",
+    "category"
+  ],
+  "nodes": {
+    "111669149756": {
+      "nodeId": "111669149756",
+      "label": "METHOD_PARAMETER_IN",
+      "method": "lib/helper.dart#5954:FUNCTION:localCopyCaught",
+      "code": "String input",
+      "line": 340,
+      "parameterIndex": 1,
+      "exitModes": [],
+      "argumentsOf": []
+    },
+    "68719476975": {
+      "nodeId": "68719476975",
+      "label": "IDENTIFIER",
+      "method": "lib/helper.dart#5954:FUNCTION:localCopyCaught",
+      "code": "input",
+      "line": 342,
+      "exitModes": [],
+      "argumentsOf": [
+        [
+          "30064771305",
+          1
+        ]
+      ]
+    },
+    "111669149752": {
+      "nodeId": "111669149752",
+      "label": "METHOD_PARAMETER_IN",
+      "method": "lib/helper.dart#5632:FUNCTION:localCopyCleanup",
+      "code": "String input",
+      "line": 323,
+      "parameterIndex": 1,
+      "exitModes": [],
+      "argumentsOf": []
+    },
+    "68719476963": {
+      "nodeId": "68719476963",
+      "label": "IDENTIFIER",
+      "method": "lib/helper.dart#5632:FUNCTION:localCopyCleanup",
+      "code": "input",
+      "line": 327,
+      "exitModes": [],
+      "argumentsOf": [
+        [
+          "30064771296",
+          2
+        ]
+      ]
+    },
+    "68719476962": {
+      "nodeId": "68719476962",
+      "label": "IDENTIFIER",
+      "method": "lib/helper.dart#5632:FUNCTION:localCopyCleanup",
+      "code": "saved",
+      "line": 327,
+      "exitModes": [],
+      "argumentsOf": [
+        [
+          "30064771296",
+          1
+        ]
+      ]
+    },
+    "68719476970": {
+      "nodeId": "68719476970",
+      "label": "IDENTIFIER",
+      "method": "lib/helper.dart#5632:FUNCTION:localCopyCleanup",
+      "code": "saved",
+      "line": 331,
+      "exitModes": [],
+      "argumentsOf": [
+        [
+          "30064771301",
+          2
+        ]
+      ]
+    },
+    "68719476969": {
+      "nodeId": "68719476969",
+      "label": "IDENTIFIER",
+      "method": "lib/helper.dart#5632:FUNCTION:localCopyCleanup",
+      "code": "<tmp>67",
+      "line": 331,
+      "exitModes": [],
+      "argumentsOf": [
+        [
+          "30064771301",
+          1
+        ]
+      ]
+    },
+    "68719476971": {
+      "nodeId": "68719476971",
+      "label": "IDENTIFIER",
+      "method": "lib/helper.dart#5632:FUNCTION:localCopyCleanup",
+      "code": "<tmp>67",
+      "line": 331,
+      "exitModes": [],
+      "argumentsOf": [
+        [
+          "30064771302",
+          1
+        ]
+      ]
+    },
+    "111669149773": {
+      "nodeId": "111669149773",
+      "label": "METHOD_PARAMETER_IN",
+      "method": "lib/static_storage.dart#6:SETTER:value",
+      "code": "value",
+      "line": -1,
+      "parameterIndex": 1,
+      "exitModes": [],
+      "argumentsOf": []
+    },
+    "68719477089": {
+      "nodeId": "68719477089",
+      "label": "IDENTIFIER",
+      "method": "lib/static_storage.dart#6:SETTER:value",
+      "code": "value",
+      "line": 2,
+      "exitModes": [],
+      "argumentsOf": [
+        [
+          "30064771402",
+          2
+        ]
+      ]
+    },
+    "30064771402": {
+      "nodeId": "30064771402",
+      "label": "CALL",
+      "method": "lib/static_storage.dart#6:SETTER:value",
+      "code": "value = 'initial'",
+      "line": 2,
+      "exitModes": [
+        "normal.after"
+      ],
+      "call": "30064771402",
+      "argumentsOf": []
+    },
+    "124554051638": {
+      "nodeId": "124554051638",
+      "label": "METHOD_RETURN",
+      "method": "lib/static_storage.dart#6:SETTER:value",
+      "code": "RET",
+      "line": -1,
+      "exitModes": [
+        "complete:2"
+      ],
+      "argumentsOf": []
+    },
+    "30064771302": {
+      "nodeId": "30064771302",
+      "label": "CALL",
+      "method": "lib/helper.dart#5632:FUNCTION:localCopyCleanup",
+      "code": "Shared.value = saved",
+      "line": 331,
+      "exitModes": [],
+      "call": "30064771302",
+      "argumentsOf": []
+    },
+    "124554051623": {
+      "nodeId": "124554051623",
+      "label": "METHOD_RETURN",
+      "method": "lib/helper.dart#5632:FUNCTION:localCopyCleanup",
+      "code": "RET",
+      "line": -1,
+      "exitModes": [
+        "complete:2"
+      ],
+      "argumentsOf": []
+    },
+    "30064771305": {
+      "nodeId": "30064771305",
+      "label": "CALL",
+      "method": "lib/helper.dart#5954:FUNCTION:localCopyCaught",
+      "code": "localCopyCleanup(input, fail)",
+      "line": 342,
+      "exitModes": [
+        "throw.before"
+      ],
+      "call": "30064771305",
+      "argumentsOf": []
+    },
+    "107374182464": {
+      "nodeId": "107374182464",
+      "label": "METHOD",
+      "method": "lib/static_storage.dart#203:FUNCTION:read",
+      "code": "String read() => Shared.value;",
+      "line": 14,
+      "exitModes": [],
+      "argumentsOf": []
+    },
+    "107374182453": {
+      "nodeId": "107374182453",
+      "label": "METHOD",
+      "method": "lib/static_storage.dart#6:GETTER:value",
+      "code": "value = 'initial'",
+      "line": 2,
+      "exitModes": [],
+      "argumentsOf": []
+    },
+    "30064771401": {
+      "nodeId": "30064771401",
+      "label": "CALL",
+      "method": "lib/static_storage.dart#6:GETTER:value",
+      "code": "value = 'initial'",
+      "line": 2,
+      "exitModes": [],
+      "call": "30064771401",
+      "argumentsOf": []
+    },
+    "141733920827": {
+      "nodeId": "141733920827",
+      "label": "RETURN",
+      "method": "lib/static_storage.dart#6:GETTER:value",
+      "code": "return value",
+      "line": -1,
+      "exitModes": [
+        "normal.after"
+      ],
+      "argumentsOf": []
+    },
+    "124554051637": {
+      "nodeId": "124554051637",
+      "label": "METHOD_RETURN",
+      "method": "lib/static_storage.dart#6:GETTER:value",
+      "code": "RET",
+      "line": -1,
+      "exitModes": [
+        "complete:2"
+      ],
+      "argumentsOf": []
+    },
+    "30064771427": {
+      "nodeId": "30064771427",
+      "label": "CALL",
+      "method": "lib/static_storage.dart#203:FUNCTION:read",
+      "code": "Shared.value",
+      "line": 14,
+      "exitModes": [],
+      "call": "30064771427",
+      "argumentsOf": []
+    },
+    "141733920832": {
+      "nodeId": "141733920832",
+      "label": "RETURN",
+      "method": "lib/static_storage.dart#203:FUNCTION:read",
+      "code": "=> Shared.value;",
+      "line": 14,
+      "exitModes": [
+        "normal.after"
+      ],
+      "argumentsOf": []
+    },
+    "124554051648": {
+      "nodeId": "124554051648",
+      "label": "METHOD_RETURN",
+      "method": "lib/static_storage.dart#203:FUNCTION:read",
+      "code": "RET",
+      "line": -1,
+      "exitModes": [
+        "complete:2"
+      ],
+      "argumentsOf": []
+    },
+    "30064771311": {
+      "nodeId": "30064771311",
+      "label": "CALL",
+      "method": "lib/helper.dart#5954:FUNCTION:localCopyCaught",
+      "code": "read()",
+      "line": 344,
+      "exitModes": [
+        "throw.before"
+      ],
+      "call": "30064771311",
+      "argumentsOf": []
+    },
+    "141733920812": {
+      "nodeId": "141733920812",
+      "label": "RETURN",
+      "method": "lib/helper.dart#5954:FUNCTION:localCopyCaught",
+      "code": "return read();",
+      "line": 344,
+      "exitModes": [
+        "normal.after"
+      ],
+      "argumentsOf": []
+    },
+    "111669149758": {
+      "nodeId": "111669149758",
+      "label": "METHOD_PARAMETER_IN",
+      "method": "lib/helper.dart#6119:FUNCTION:localBoth",
+      "code": "String input",
+      "line": 349,
+      "parameterIndex": 1,
+      "exitModes": [],
+      "argumentsOf": []
+    },
+    "68719476982": {
+      "nodeId": "68719476982",
+      "label": "IDENTIFIER",
+      "method": "lib/helper.dart#6119:FUNCTION:localBoth",
+      "code": "input",
+      "line": 351,
+      "exitModes": [],
+      "argumentsOf": [
+        [
+          "30064771312",
+          1
+        ]
+      ]
+    },
+    "30064771312": {
+      "nodeId": "30064771312",
+      "label": "CALL",
+      "method": "lib/helper.dart#6119:FUNCTION:localBoth",
+      "code": "localCopyCleanup(input, fail)",
+      "line": 351,
+      "exitModes": [
+        "throw.before"
+      ],
+      "call": "30064771312",
+      "argumentsOf": []
+    },
+    "30064771320": {
+      "nodeId": "30064771320",
+      "label": "CALL",
+      "method": "lib/helper.dart#6119:FUNCTION:localBoth",
+      "code": "read()",
+      "line": 354,
+      "exitModes": [
+        "throw.before"
+      ],
+      "call": "30064771320",
+      "argumentsOf": [
+        [
+          "30064771319",
+          2
+        ]
+      ]
+    },
+    "68719476987": {
+      "nodeId": "68719476987",
+      "label": "IDENTIFIER",
+      "method": "lib/helper.dart#6119:FUNCTION:localBoth",
+      "code": "caught",
+      "line": 354,
+      "exitModes": [],
+      "argumentsOf": [
+        [
+          "30064771319",
+          1
+        ]
+      ]
+    },
+    "68719476988": {
+      "nodeId": "68719476988",
+      "label": "IDENTIFIER",
+      "method": "lib/helper.dart#6119:FUNCTION:localBoth",
+      "code": "caught",
+      "line": 355,
+      "exitModes": [],
+      "argumentsOf": []
+    },
+    "141733920815": {
+      "nodeId": "141733920815",
+      "label": "RETURN",
+      "method": "lib/helper.dart#6119:FUNCTION:localBoth",
+      "code": "return caught;",
+      "line": 355,
+      "exitModes": [
+        "normal.after"
+      ],
+      "argumentsOf": []
+    },
+    "111669149768": {
+      "nodeId": "111669149768",
+      "label": "METHOD_PARAMETER_IN",
+      "method": "lib/helper.dart#7376:FUNCTION:localLoopCaught",
+      "code": "String input",
+      "line": 416,
+      "parameterIndex": 1,
+      "exitModes": [],
+      "argumentsOf": []
+    },
+    "68719477044": {
+      "nodeId": "68719477044",
+      "label": "IDENTIFIER",
+      "method": "lib/helper.dart#7376:FUNCTION:localLoopCaught",
+      "code": "input",
+      "line": 418,
+      "exitModes": [],
+      "argumentsOf": [
+        [
+          "30064771361",
+          1
+        ]
+      ]
+    },
+    "111669149764": {
+      "nodeId": "111669149764",
+      "label": "METHOD_PARAMETER_IN",
+      "method": "lib/helper.dart#7053:FUNCTION:localLoopCleanup",
+      "code": "String input",
+      "line": 399,
+      "parameterIndex": 1,
+      "exitModes": [],
+      "argumentsOf": []
+    },
+    "68719477032": {
+      "nodeId": "68719477032",
+      "label": "IDENTIFIER",
+      "method": "lib/helper.dart#7053:FUNCTION:localLoopCleanup",
+      "code": "input",
+      "line": 403,
+      "exitModes": [],
+      "argumentsOf": [
+        [
+          "30064771352",
+          2
+        ]
+      ]
+    },
+    "68719477031": {
+      "nodeId": "68719477031",
+      "label": "IDENTIFIER",
+      "method": "lib/helper.dart#7053:FUNCTION:localLoopCleanup",
+      "code": "saved",
+      "line": 403,
+      "exitModes": [],
+      "argumentsOf": [
+        [
+          "30064771352",
+          1
+        ]
+      ]
+    },
+    "68719477039": {
+      "nodeId": "68719477039",
+      "label": "IDENTIFIER",
+      "method": "lib/helper.dart#7053:FUNCTION:localLoopCleanup",
+      "code": "saved",
+      "line": 407,
+      "exitModes": [],
+      "argumentsOf": [
+        [
+          "30064771357",
+          2
+        ]
+      ]
+    },
+    "68719477038": {
+      "nodeId": "68719477038",
+      "label": "IDENTIFIER",
+      "method": "lib/helper.dart#7053:FUNCTION:localLoopCleanup",
+      "code": "<tmp>84",
+      "line": 407,
+      "exitModes": [],
+      "argumentsOf": [
+        [
+          "30064771357",
+          1
+        ]
+      ]
+    },
+    "68719477040": {
+      "nodeId": "68719477040",
+      "label": "IDENTIFIER",
+      "method": "lib/helper.dart#7053:FUNCTION:localLoopCleanup",
+      "code": "<tmp>84",
+      "line": 407,
+      "exitModes": [],
+      "argumentsOf": [
+        [
+          "30064771358",
+          1
+        ]
+      ]
+    },
+    "30064771358": {
+      "nodeId": "30064771358",
+      "label": "CALL",
+      "method": "lib/helper.dart#7053:FUNCTION:localLoopCleanup",
+      "code": "Shared.value = saved",
+      "line": 407,
+      "exitModes": [],
+      "call": "30064771358",
+      "argumentsOf": []
+    },
+    "124554051631": {
+      "nodeId": "124554051631",
+      "label": "METHOD_RETURN",
+      "method": "lib/helper.dart#7053:FUNCTION:localLoopCleanup",
+      "code": "RET",
+      "line": -1,
+      "exitModes": [
+        "complete:2"
+      ],
+      "argumentsOf": []
+    },
+    "30064771361": {
+      "nodeId": "30064771361",
+      "label": "CALL",
+      "method": "lib/helper.dart#7376:FUNCTION:localLoopCaught",
+      "code": "localLoopCleanup(input, fail)",
+      "line": 418,
+      "exitModes": [
+        "throw.before"
+      ],
+      "call": "30064771361",
+      "argumentsOf": []
+    },
+    "30064771367": {
+      "nodeId": "30064771367",
+      "label": "CALL",
+      "method": "lib/helper.dart#7376:FUNCTION:localLoopCaught",
+      "code": "read()",
+      "line": 420,
+      "exitModes": [
+        "throw.before"
+      ],
+      "call": "30064771367",
+      "argumentsOf": []
+    },
+    "141733920820": {
+      "nodeId": "141733920820",
+      "label": "RETURN",
+      "method": "lib/helper.dart#7376:FUNCTION:localLoopCaught",
+      "code": "return read();",
+      "line": 420,
+      "exitModes": [
+        "normal.after"
+      ],
+      "argumentsOf": []
+    },
+    "111669149761": {
+      "nodeId": "111669149761",
+      "label": "METHOD_PARAMETER_IN",
+      "method": "lib/helper.dart#6687:FUNCTION:localPriorResult",
+      "code": "String input",
+      "line": 378,
+      "parameterIndex": 1,
+      "exitModes": [],
+      "argumentsOf": []
+    },
+    "68719477015": {
+      "nodeId": "68719477015",
+      "label": "IDENTIFIER",
+      "method": "lib/helper.dart#6687:FUNCTION:localPriorResult",
+      "code": "input",
+      "line": 379,
+      "exitModes": [],
+      "argumentsOf": [
+        [
+          "30064771339",
+          1
+        ]
+      ]
+    },
+    "111669149760": {
+      "nodeId": "111669149760",
+      "label": "METHOD_PARAMETER_IN",
+      "method": "lib/helper.dart#6296:FUNCTION:localPriorCleanup",
+      "code": "String input",
+      "line": 359,
+      "parameterIndex": 1,
+      "exitModes": [],
+      "argumentsOf": []
+    },
+    "68719476993": {
+      "nodeId": "68719476993",
+      "label": "IDENTIFIER",
+      "method": "lib/helper.dart#6296:FUNCTION:localPriorCleanup",
+      "code": "input",
+      "line": 363,
+      "exitModes": [],
+      "argumentsOf": [
+        [
+          "30064771322",
+          2
+        ]
+      ]
+    },
+    "68719476992": {
+      "nodeId": "68719476992",
+      "label": "IDENTIFIER",
+      "method": "lib/helper.dart#6296:FUNCTION:localPriorCleanup",
+      "code": "saved",
+      "line": 363,
+      "exitModes": [],
+      "argumentsOf": [
+        [
+          "30064771322",
+          1
+        ]
+      ]
+    },
+    "68719476998": {
+      "nodeId": "68719476998",
+      "label": "IDENTIFIER",
+      "method": "lib/helper.dart#6296:FUNCTION:localPriorCleanup",
+      "code": "saved",
+      "line": 366,
+      "exitModes": [],
+      "argumentsOf": [
+        [
+          "30064771327",
+          1
+        ]
+      ]
+    },
+    "111669149744": {
+      "nodeId": "111669149744",
+      "label": "METHOD_PARAMETER_IN",
+      "method": "lib/helper.dart#4816:FUNCTION:identity",
+      "code": "String value",
+      "line": 283,
+      "parameterIndex": 1,
+      "exitModes": [],
+      "argumentsOf": []
+    },
+    "68719476925": {
+      "nodeId": "68719476925",
+      "label": "IDENTIFIER",
+      "method": "lib/helper.dart#4816:FUNCTION:identity",
+      "code": "value",
+      "line": 283,
+      "exitModes": [],
+      "argumentsOf": []
+    },
+    "141733920805": {
+      "nodeId": "141733920805",
+      "label": "RETURN",
+      "method": "lib/helper.dart#4816:FUNCTION:identity",
+      "code": "=> value;",
+      "line": 283,
+      "exitModes": [
+        "normal.after"
+      ],
+      "argumentsOf": []
+    },
+    "124554051618": {
+      "nodeId": "124554051618",
+      "label": "METHOD_RETURN",
+      "method": "lib/helper.dart#4816:FUNCTION:identity",
+      "code": "RET",
+      "line": -1,
+      "exitModes": [
+        "complete:2"
+      ],
+      "argumentsOf": []
+    },
+    "30064771327": {
+      "nodeId": "30064771327",
+      "label": "CALL",
+      "method": "lib/helper.dart#6296:FUNCTION:localPriorCleanup",
+      "code": "identity(saved)",
+      "line": 366,
+      "exitModes": [
+        "throw.before"
+      ],
+      "call": "30064771327",
+      "argumentsOf": [
+        [
+          "30064771326",
+          2
+        ]
+      ]
+    },
+    "68719476997": {
+      "nodeId": "68719476997",
+      "label": "IDENTIFIER",
+      "method": "lib/helper.dart#6296:FUNCTION:localPriorCleanup",
+      "code": "saved",
+      "line": 366,
+      "exitModes": [],
+      "argumentsOf": [
+        [
+          "30064771326",
+          1
+        ]
+      ]
+    },
+    "68719477012": {
+      "nodeId": "68719477012",
+      "label": "IDENTIFIER",
+      "method": "lib/helper.dart#6296:FUNCTION:localPriorCleanup",
+      "code": "saved",
+      "line": 374,
+      "exitModes": [],
+      "argumentsOf": [
+        [
+          "30064771337",
+          2
+        ]
+      ]
+    },
+    "68719477011": {
+      "nodeId": "68719477011",
+      "label": "IDENTIFIER",
+      "method": "lib/helper.dart#6296:FUNCTION:localPriorCleanup",
+      "code": "<tmp>78",
+      "line": 374,
+      "exitModes": [],
+      "argumentsOf": [
+        [
+          "30064771337",
+          1
+        ]
+      ]
+    },
+    "68719477013": {
+      "nodeId": "68719477013",
+      "label": "IDENTIFIER",
+      "method": "lib/helper.dart#6296:FUNCTION:localPriorCleanup",
+      "code": "<tmp>78",
+      "line": 374,
+      "exitModes": [],
+      "argumentsOf": [
+        [
+          "30064771338",
+          1
+        ]
+      ]
+    },
+    "30064771338": {
+      "nodeId": "30064771338",
+      "label": "CALL",
+      "method": "lib/helper.dart#6296:FUNCTION:localPriorCleanup",
+      "code": "Shared.value = saved",
+      "line": 374,
+      "exitModes": [],
+      "call": "30064771338",
+      "argumentsOf": []
+    },
+    "124554051627": {
+      "nodeId": "124554051627",
+      "label": "METHOD_RETURN",
+      "method": "lib/helper.dart#6296:FUNCTION:localPriorCleanup",
+      "code": "RET",
+      "line": -1,
+      "exitModes": [
+        "complete:2"
+      ],
+      "argumentsOf": []
+    },
+    "30064771339": {
+      "nodeId": "30064771339",
+      "label": "CALL",
+      "method": "lib/helper.dart#6687:FUNCTION:localPriorResult",
+      "code": "localPriorCleanup(input)",
+      "line": 379,
+      "exitModes": [],
+      "call": "30064771339",
+      "argumentsOf": []
+    },
+    "30064771340": {
+      "nodeId": "30064771340",
+      "label": "CALL",
+      "method": "lib/helper.dart#6687:FUNCTION:localPriorResult",
+      "code": "read()",
+      "line": 380,
+      "exitModes": [],
+      "call": "30064771340",
+      "argumentsOf": []
+    },
+    "141733920816": {
+      "nodeId": "141733920816",
+      "label": "RETURN",
+      "method": "lib/helper.dart#6687:FUNCTION:localPriorResult",
+      "code": "return read();",
+      "line": 380,
+      "exitModes": [
+        "normal.after"
+      ],
+      "argumentsOf": []
+    },
+    "115964117040": {
+      "nodeId": "115964117040",
+      "label": "METHOD_PARAMETER_OUT",
+      "method": "lib/helper.dart#4816:FUNCTION:identity",
+      "code": "String value",
+      "line": 283,
+      "parameterIndex": 1,
+      "exitModes": [],
+      "argumentsOf": []
+    },
+    "111669149763": {
+      "nodeId": "111669149763",
+      "label": "METHOD_PARAMETER_IN",
+      "method": "lib/helper.dart#6962:FUNCTION:localReplacementResult",
+      "code": "String input",
+      "line": 394,
+      "parameterIndex": 1,
+      "exitModes": [],
+      "argumentsOf": []
+    },
+    "68719477028": {
+      "nodeId": "68719477028",
+      "label": "IDENTIFIER",
+      "method": "lib/helper.dart#6962:FUNCTION:localReplacementResult",
+      "code": "input",
+      "line": 395,
+      "exitModes": [],
+      "argumentsOf": [
+        [
+          "30064771349",
+          1
+        ]
+      ]
+    },
+    "111669149762": {
+      "nodeId": "111669149762",
+      "label": "METHOD_PARAMETER_IN",
+      "method": "lib/helper.dart#6773:FUNCTION:localReplacement",
+      "code": "String input",
+      "line": 383,
+      "parameterIndex": 1,
+      "exitModes": [],
+      "argumentsOf": []
+    },
+    "68719477018": {
+      "nodeId": "68719477018",
+      "label": "IDENTIFIER",
+      "method": "lib/helper.dart#6773:FUNCTION:localReplacement",
+      "code": "input",
+      "line": 386,
+      "exitModes": [],
+      "argumentsOf": [
+        [
+          "30064771342",
+          2
+        ]
+      ]
+    },
+    "68719477017": {
+      "nodeId": "68719477017",
+      "label": "IDENTIFIER",
+      "method": "lib/helper.dart#6773:FUNCTION:localReplacement",
+      "code": "saved",
+      "line": 386,
+      "exitModes": [],
+      "argumentsOf": [
+        [
+          "30064771342",
+          1
+        ]
+      ]
+    },
+    "68719477025": {
+      "nodeId": "68719477025",
+      "label": "IDENTIFIER",
+      "method": "lib/helper.dart#6773:FUNCTION:localReplacement",
+      "code": "saved",
+      "line": 389,
+      "exitModes": [],
+      "argumentsOf": [
+        [
+          "30064771347",
+          2
+        ]
+      ]
+    },
+    "68719477024": {
+      "nodeId": "68719477024",
+      "label": "IDENTIFIER",
+      "method": "lib/helper.dart#6773:FUNCTION:localReplacement",
+      "code": "<tmp>81",
+      "line": 389,
+      "exitModes": [],
+      "argumentsOf": [
+        [
+          "30064771347",
+          1
+        ]
+      ]
+    },
+    "68719477026": {
+      "nodeId": "68719477026",
+      "label": "IDENTIFIER",
+      "method": "lib/helper.dart#6773:FUNCTION:localReplacement",
+      "code": "<tmp>81",
+      "line": 389,
+      "exitModes": [],
+      "argumentsOf": [
+        [
+          "30064771348",
+          1
+        ]
+      ]
+    },
+    "30064771348": {
+      "nodeId": "30064771348",
+      "label": "CALL",
+      "method": "lib/helper.dart#6773:FUNCTION:localReplacement",
+      "code": "Shared.value = saved",
+      "line": 389,
+      "exitModes": [],
+      "call": "30064771348",
+      "argumentsOf": []
+    },
+    "124554051629": {
+      "nodeId": "124554051629",
+      "label": "METHOD_RETURN",
+      "method": "lib/helper.dart#6773:FUNCTION:localReplacement",
+      "code": "RET",
+      "line": -1,
+      "exitModes": [
+        "complete:2"
+      ],
+      "argumentsOf": []
+    },
+    "30064771349": {
+      "nodeId": "30064771349",
+      "label": "CALL",
+      "method": "lib/helper.dart#6962:FUNCTION:localReplacementResult",
+      "code": "localReplacement(input)",
+      "line": 395,
+      "exitModes": [],
+      "call": "30064771349",
+      "argumentsOf": []
+    },
+    "30064771350": {
+      "nodeId": "30064771350",
+      "label": "CALL",
+      "method": "lib/helper.dart#6962:FUNCTION:localReplacementResult",
+      "code": "read()",
+      "line": 396,
+      "exitModes": [],
+      "call": "30064771350",
+      "argumentsOf": []
+    },
+    "141733920818": {
+      "nodeId": "141733920818",
+      "label": "RETURN",
+      "method": "lib/helper.dart#6962:FUNCTION:localReplacementResult",
+      "code": "return read();",
+      "line": 396,
+      "exitModes": [
+        "normal.after"
+      ],
+      "argumentsOf": []
+    },
+    "111669149772": {
+      "nodeId": "111669149772",
+      "label": "METHOD_PARAMETER_IN",
+      "method": "lib/helper.dart#7886:FUNCTION:inlineCleanupResult",
+      "code": "String input",
+      "line": 442,
+      "parameterIndex": 1,
+      "exitModes": [],
+      "argumentsOf": []
+    },
+    "68719477075": {
+      "nodeId": "68719477075",
+      "label": "IDENTIFIER",
+      "method": "lib/helper.dart#7886:FUNCTION:inlineCleanupResult",
+      "code": "input",
+      "line": 447,
+      "exitModes": [],
+      "argumentsOf": [
+        [
+          "30064771387",
+          2
+        ]
+      ]
+    },
+    "68719477074": {
+      "nodeId": "68719477074",
+      "label": "IDENTIFIER",
+      "method": "lib/helper.dart#7886:FUNCTION:inlineCleanupResult",
+      "code": "<tmp>94",
+      "line": 447,
+      "exitModes": [],
+      "argumentsOf": [
+        [
+          "30064771387",
+          1
+        ]
+      ]
+    },
+    "68719477076": {
+      "nodeId": "68719477076",
+      "label": "IDENTIFIER",
+      "method": "lib/helper.dart#7886:FUNCTION:inlineCleanupResult",
+      "code": "<tmp>94",
+      "line": 447,
+      "exitModes": [],
+      "argumentsOf": [
+        [
+          "30064771388",
+          1
+        ]
+      ]
+    },
+    "30064771388": {
+      "nodeId": "30064771388",
+      "label": "CALL",
+      "method": "lib/helper.dart#7886:FUNCTION:inlineCleanupResult",
+      "code": "Shared.value = input",
+      "line": 447,
+      "exitModes": [
+        "throw.before"
+      ],
+      "call": "30064771388",
+      "argumentsOf": []
+    },
+    "30064771394": {
+      "nodeId": "30064771394",
+      "label": "CALL",
+      "method": "lib/helper.dart#7886:FUNCTION:inlineCleanupResult",
+      "code": "read()",
+      "line": 450,
+      "exitModes": [
+        "throw.before"
+      ],
+      "call": "30064771394",
+      "argumentsOf": []
+    },
+    "141733920825": {
+      "nodeId": "141733920825",
+      "label": "RETURN",
+      "method": "lib/helper.dart#7886:FUNCTION:inlineCleanupResult",
+      "code": "return read();",
+      "line": 450,
+      "exitModes": [
+        "normal.after"
+      ],
+      "argumentsOf": []
+    },
+    "111669149754": {
+      "nodeId": "111669149754",
+      "label": "METHOD_PARAMETER_IN",
+      "method": "lib/helper.dart#5851:FUNCTION:localCopyNormal",
+      "code": "String input",
+      "line": 335,
+      "parameterIndex": 1,
+      "exitModes": [],
+      "argumentsOf": []
+    },
+    "68719476973": {
+      "nodeId": "68719476973",
+      "label": "IDENTIFIER",
+      "method": "lib/helper.dart#5851:FUNCTION:localCopyNormal",
+      "code": "input",
+      "line": 336,
+      "exitModes": [],
+      "argumentsOf": [
+        [
+          "30064771303",
+          1
+        ]
+      ]
+    },
+    "111669149766": {
+      "nodeId": "111669149766",
+      "label": "METHOD_PARAMETER_IN",
+      "method": "lib/helper.dart#7273:FUNCTION:localLoopNormal",
+      "code": "String input",
+      "line": 411,
+      "parameterIndex": 1,
+      "exitModes": [],
+      "argumentsOf": []
+    },
+    "68719477042": {
+      "nodeId": "68719477042",
+      "label": "IDENTIFIER",
+      "method": "lib/helper.dart#7273:FUNCTION:localLoopNormal",
+      "code": "input",
+      "line": 412,
+      "exitModes": [],
+      "argumentsOf": [
+        [
+          "30064771359",
+          1
+        ]
+      ]
+    },
+    "111669149771": {
+      "nodeId": "111669149771",
+      "label": "METHOD_PARAMETER_IN",
+      "method": "lib/helper.dart#7604:FUNCTION:localConstantResult",
+      "code": "String input",
+      "line": 427,
+      "parameterIndex": 1,
+      "exitModes": [],
+      "argumentsOf": []
+    },
+    "68719477052": {
+      "nodeId": "68719477052",
+      "label": "IDENTIFIER",
+      "method": "lib/helper.dart#7604:FUNCTION:localConstantResult",
+      "code": "input",
+      "line": 428,
+      "exitModes": [],
+      "argumentsOf": [
+        [
+          "30064771368",
+          2
+        ]
+      ]
+    },
+    "68719477051": {
+      "nodeId": "68719477051",
+      "label": "IDENTIFIER",
+      "method": "lib/helper.dart#7604:FUNCTION:localConstantResult",
+      "code": "saved",
+      "line": 428,
+      "exitModes": [],
+      "argumentsOf": [
+        [
+          "30064771368",
+          1
+        ]
+      ]
+    },
+    "68719477057": {
+      "nodeId": "68719477057",
+      "label": "IDENTIFIER",
+      "method": "lib/helper.dart#7604:FUNCTION:localConstantResult",
+      "code": "saved",
+      "line": 433,
+      "exitModes": [],
+      "argumentsOf": [
+        [
+          "30064771373",
+          1
+        ]
+      ]
+    }
+  },
+  "calls": {
+    "30064771305": {
+      "nodeId": "30064771305",
+      "name": "localCopyCleanup",
+      "target": "lib/helper.dart#5632:FUNCTION:localCopyCleanup",
+      "code": "localCopyCleanup(input, fail)",
+      "callees": [
+        {
+          "fullName": "lib/helper.dart#5632:FUNCTION:localCopyCleanup",
+          "external": false
+        }
+      ]
+    },
+    "30064771296": {
+      "nodeId": "30064771296",
+      "name": "<operator>.assignment",
+      "target": "<operator>.assignment",
+      "code": "saved = input",
+      "callees": [
+        {
+          "fullName": "<operator>.assignment",
+          "external": true
+        }
+      ]
+    },
+    "30064771301": {
+      "nodeId": "30064771301",
+      "name": "<operator>.assignment",
+      "target": "<operator>.assignment",
+      "code": "<tmp>67 = Shared.value = saved",
+      "callees": [
+        {
+          "fullName": "<operator>.assignment",
+          "external": true
+        }
+      ]
+    },
+    "30064771302": {
+      "nodeId": "30064771302",
+      "name": "value",
+      "target": "lib/static_storage.dart#6:SETTER:value",
+      "code": "Shared.value = saved",
+      "callees": [
+        {
+          "fullName": "lib/static_storage.dart#6:SETTER:value",
+          "external": false
+        }
+      ]
+    },
+    "30064771402": {
+      "nodeId": "30064771402",
+      "name": "<operator>.assignment",
+      "target": "<operator>.assignment",
+      "code": "value = 'initial'",
+      "callees": [
+        {
+          "fullName": "<operator>.assignment",
+          "external": true
+        }
+      ]
+    },
+    "30064771311": {
+      "nodeId": "30064771311",
+      "name": "read",
+      "target": "lib/static_storage.dart#203:FUNCTION:read",
+      "code": "read()",
+      "callees": [
+        {
+          "fullName": "lib/static_storage.dart#203:FUNCTION:read",
+          "external": false
+        }
+      ]
+    },
+    "30064771427": {
+      "nodeId": "30064771427",
+      "name": "value",
+      "target": "lib/static_storage.dart#6:GETTER:value",
+      "code": "Shared.value",
+      "callees": [
+        {
+          "fullName": "lib/static_storage.dart#6:GETTER:value",
+          "external": false
+        }
+      ]
+    },
+    "30064771401": {
+      "nodeId": "30064771401",
+      "name": "<operator>.fieldAccess",
+      "target": "<operator>.fieldAccess",
+      "code": "value = 'initial'",
+      "callees": [
+        {
+          "fullName": "<operator>.fieldAccess",
+          "external": true
+        }
+      ]
+    },
+    "30064771312": {
+      "nodeId": "30064771312",
+      "name": "localCopyCleanup",
+      "target": "lib/helper.dart#5632:FUNCTION:localCopyCleanup",
+      "code": "localCopyCleanup(input, fail)",
+      "callees": [
+        {
+          "fullName": "lib/helper.dart#5632:FUNCTION:localCopyCleanup",
+          "external": false
+        }
+      ]
+    },
+    "30064771320": {
+      "nodeId": "30064771320",
+      "name": "read",
+      "target": "lib/static_storage.dart#203:FUNCTION:read",
+      "code": "read()",
+      "callees": [
+        {
+          "fullName": "lib/static_storage.dart#203:FUNCTION:read",
+          "external": false
+        }
+      ]
+    },
+    "30064771319": {
+      "nodeId": "30064771319",
+      "name": "<operator>.assignment",
+      "target": "<operator>.assignment",
+      "code": "caught = read()",
+      "callees": [
+        {
+          "fullName": "<operator>.assignment",
+          "external": true
+        }
+      ]
+    },
+    "30064771361": {
+      "nodeId": "30064771361",
+      "name": "localLoopCleanup",
+      "target": "lib/helper.dart#7053:FUNCTION:localLoopCleanup",
+      "code": "localLoopCleanup(input, fail)",
+      "callees": [
+        {
+          "fullName": "lib/helper.dart#7053:FUNCTION:localLoopCleanup",
+          "external": false
+        }
+      ]
+    },
+    "30064771352": {
+      "nodeId": "30064771352",
+      "name": "<operator>.assignment",
+      "target": "<operator>.assignment",
+      "code": "saved = input",
+      "callees": [
+        {
+          "fullName": "<operator>.assignment",
+          "external": true
+        }
+      ]
+    },
+    "30064771357": {
+      "nodeId": "30064771357",
+      "name": "<operator>.assignment",
+      "target": "<operator>.assignment",
+      "code": "<tmp>84 = Shared.value = saved",
+      "callees": [
+        {
+          "fullName": "<operator>.assignment",
+          "external": true
+        }
+      ]
+    },
+    "30064771358": {
+      "nodeId": "30064771358",
+      "name": "value",
+      "target": "lib/static_storage.dart#6:SETTER:value",
+      "code": "Shared.value = saved",
+      "callees": [
+        {
+          "fullName": "lib/static_storage.dart#6:SETTER:value",
+          "external": false
+        }
+      ]
+    },
+    "30064771367": {
+      "nodeId": "30064771367",
+      "name": "read",
+      "target": "lib/static_storage.dart#203:FUNCTION:read",
+      "code": "read()",
+      "callees": [
+        {
+          "fullName": "lib/static_storage.dart#203:FUNCTION:read",
+          "external": false
+        }
+      ]
+    },
+    "30064771339": {
+      "nodeId": "30064771339",
+      "name": "localPriorCleanup",
+      "target": "lib/helper.dart#6296:FUNCTION:localPriorCleanup",
+      "code": "localPriorCleanup(input)",
+      "callees": [
+        {
+          "fullName": "lib/helper.dart#6296:FUNCTION:localPriorCleanup",
+          "external": false
+        }
+      ]
+    },
+    "30064771322": {
+      "nodeId": "30064771322",
+      "name": "<operator>.assignment",
+      "target": "<operator>.assignment",
+      "code": "saved = input",
+      "callees": [
+        {
+          "fullName": "<operator>.assignment",
+          "external": true
+        }
+      ]
+    },
+    "30064771327": {
+      "nodeId": "30064771327",
+      "name": "identity",
+      "target": "lib/helper.dart#4816:FUNCTION:identity",
+      "code": "identity(saved)",
+      "callees": [
+        {
+          "fullName": "lib/helper.dart#4816:FUNCTION:identity",
+          "external": false
+        }
+      ]
+    },
+    "30064771326": {
+      "nodeId": "30064771326",
+      "name": "<operator>.assignment",
+      "target": "<operator>.assignment",
+      "code": "saved = identity(saved)",
+      "callees": [
+        {
+          "fullName": "<operator>.assignment",
+          "external": true
+        }
+      ]
+    },
+    "30064771337": {
+      "nodeId": "30064771337",
+      "name": "<operator>.assignment",
+      "target": "<operator>.assignment",
+      "code": "<tmp>78 = Shared.value = saved",
+      "callees": [
+        {
+          "fullName": "<operator>.assignment",
+          "external": true
+        }
+      ]
+    },
+    "30064771338": {
+      "nodeId": "30064771338",
+      "name": "value",
+      "target": "lib/static_storage.dart#6:SETTER:value",
+      "code": "Shared.value = saved",
+      "callees": [
+        {
+          "fullName": "lib/static_storage.dart#6:SETTER:value",
+          "external": false
+        }
+      ]
+    },
+    "30064771340": {
+      "nodeId": "30064771340",
+      "name": "read",
+      "target": "lib/static_storage.dart#203:FUNCTION:read",
+      "code": "read()",
+      "callees": [
+        {
+          "fullName": "lib/static_storage.dart#203:FUNCTION:read",
+          "external": false
+        }
+      ]
+    },
+    "30064771349": {
+      "nodeId": "30064771349",
+      "name": "localReplacement",
+      "target": "lib/helper.dart#6773:FUNCTION:localReplacement",
+      "code": "localReplacement(input)",
+      "callees": [
+        {
+          "fullName": "lib/helper.dart#6773:FUNCTION:localReplacement",
+          "external": false
+        }
+      ]
+    },
+    "30064771342": {
+      "nodeId": "30064771342",
+      "name": "<operator>.assignment",
+      "target": "<operator>.assignment",
+      "code": "saved = input",
+      "callees": [
+        {
+          "fullName": "<operator>.assignment",
+          "external": true
+        }
+      ]
+    },
+    "30064771347": {
+      "nodeId": "30064771347",
+      "name": "<operator>.assignment",
+      "target": "<operator>.assignment",
+      "code": "<tmp>81 = Shared.value = saved",
+      "callees": [
+        {
+          "fullName": "<operator>.assignment",
+          "external": true
+        }
+      ]
+    },
+    "30064771348": {
+      "nodeId": "30064771348",
+      "name": "value",
+      "target": "lib/static_storage.dart#6:SETTER:value",
+      "code": "Shared.value = saved",
+      "callees": [
+        {
+          "fullName": "lib/static_storage.dart#6:SETTER:value",
+          "external": false
+        }
+      ]
+    },
+    "30064771350": {
+      "nodeId": "30064771350",
+      "name": "read",
+      "target": "lib/static_storage.dart#203:FUNCTION:read",
+      "code": "read()",
+      "callees": [
+        {
+          "fullName": "lib/static_storage.dart#203:FUNCTION:read",
+          "external": false
+        }
+      ]
+    },
+    "30064771387": {
+      "nodeId": "30064771387",
+      "name": "<operator>.assignment",
+      "target": "<operator>.assignment",
+      "code": "<tmp>94 = Shared.value = input",
+      "callees": [
+        {
+          "fullName": "<operator>.assignment",
+          "external": true
+        }
+      ]
+    },
+    "30064771388": {
+      "nodeId": "30064771388",
+      "name": "value",
+      "target": "lib/static_storage.dart#6:SETTER:value",
+      "code": "Shared.value = input",
+      "callees": [
+        {
+          "fullName": "lib/static_storage.dart#6:SETTER:value",
+          "external": false
+        }
+      ]
+    },
+    "30064771394": {
+      "nodeId": "30064771394",
+      "name": "read",
+      "target": "lib/static_storage.dart#203:FUNCTION:read",
+      "code": "read()",
+      "callees": [
+        {
+          "fullName": "lib/static_storage.dart#203:FUNCTION:read",
+          "external": false
+        }
+      ]
+    },
+    "30064771303": {
+      "nodeId": "30064771303",
+      "name": "localCopyCleanup",
+      "target": "lib/helper.dart#5632:FUNCTION:localCopyCleanup",
+      "code": "localCopyCleanup(input, fail)",
+      "callees": [
+        {
+          "fullName": "lib/helper.dart#5632:FUNCTION:localCopyCleanup",
+          "external": false
+        }
+      ]
+    },
+    "30064771359": {
+      "nodeId": "30064771359",
+      "name": "localLoopCleanup",
+      "target": "lib/helper.dart#7053:FUNCTION:localLoopCleanup",
+      "code": "localLoopCleanup(input, fail)",
+      "callees": [
+        {
+          "fullName": "lib/helper.dart#7053:FUNCTION:localLoopCleanup",
+          "external": false
+        }
+      ]
+    },
+    "30064771368": {
+      "nodeId": "30064771368",
+      "name": "<operator>.assignment",
+      "target": "<operator>.assignment",
+      "code": "saved = input",
+      "callees": [
+        {
+          "fullName": "<operator>.assignment",
+          "external": true
+        }
+      ]
+    },
+    "30064771373": {
+      "nodeId": "30064771373",
+      "name": "constantValue",
+      "target": "lib/helper.dart#7541:FUNCTION:constantValue",
+      "code": "constantValue(saved)",
+      "callees": [
+        {
+          "fullName": "lib/helper.dart#7541:FUNCTION:constantValue",
+          "external": false
+        }
+      ]
+    }
+  },
+  "contexts": [
+    [],
+    [
+      "30064771305"
+    ],
+    [
+      "30064771302",
+      "30064771305"
+    ],
+    [
+      "30064771311"
+    ],
+    [
+      "30064771427",
+      "30064771311"
+    ],
+    [
+      "30064771312"
+    ],
+    [
+      "30064771302",
+      "30064771312"
+    ],
+    [
+      "30064771320"
+    ],
+    [
+      "30064771427",
+      "30064771320"
+    ],
+    [
+      "30064771361"
+    ],
+    [
+      "30064771358",
+      "30064771361"
+    ],
+    [
+      "30064771367"
+    ],
+    [
+      "30064771427",
+      "30064771367"
+    ],
+    [
+      "30064771339"
+    ],
+    [
+      "30064771327",
+      "30064771339"
+    ],
+    [
+      "30064771338",
+      "30064771339"
+    ],
+    [
+      "30064771340"
+    ],
+    [
+      "30064771427",
+      "30064771340"
+    ],
+    [
+      "30064771349"
+    ],
+    [
+      "30064771348",
+      "30064771349"
+    ],
+    [
+      "30064771350"
+    ],
+    [
+      "30064771427",
+      "30064771350"
+    ],
+    [
+      "30064771388"
+    ],
+    [
+      "30064771394"
+    ],
+    [
+      "30064771427",
+      "30064771394"
+    ]
+  ],
+  "demands": [
+    {
+      "method": "lib/helper.dart#5632:FUNCTION:localCopyCleanup",
+      "methodNodeId": "107374182439",
+      "contextIndex": 1,
+      "pendingExit": "Thrown"
+    },
+    {
+      "method": "lib/helper.dart#5632:FUNCTION:localCopyCleanup",
+      "methodNodeId": "107374182439",
+      "contextIndex": 5,
+      "pendingExit": "Thrown"
+    },
+    {
+      "method": "lib/helper.dart#7053:FUNCTION:localLoopCleanup",
+      "methodNodeId": "107374182447",
+      "contextIndex": 9,
+      "pendingExit": "Thrown"
+    },
+    {
+      "method": "lib/helper.dart#6296:FUNCTION:localPriorCleanup",
+      "methodNodeId": "107374182443",
+      "contextIndex": 13,
+      "pendingExit": "Thrown"
+    },
+    {
+      "method": "lib/helper.dart#6296:FUNCTION:localPriorCleanup",
+      "methodNodeId": "107374182443",
+      "contextIndex": 13,
+      "pendingExit": "Normal"
+    },
+    {
+      "method": "lib/helper.dart#7886:FUNCTION:inlineCleanupResult",
+      "methodNodeId": "107374182452",
+      "contextIndex": 0,
+      "pendingExit": "Thrown"
+    }
+  ],
+  "demandSets": [
+    [],
+    [
+      0
+    ],
+    [
+      1
+    ],
+    [
+      2
+    ],
+    [
+      3
+    ],
+    [
+      4
+    ],
+    [
+      5
+    ]
+  ],
+  "reviews": [
+    {
+      "query": "localCopyCaught",
+      "transitions": [
+        [
+          0,
+          1,
+          "parameter use"
+        ],
+        [
+          1,
+          2,
+          "parameter binding"
+        ],
+        [
+          2,
+          3,
+          "parameter use"
+        ],
+        [
+          3,
+          4,
+          "assignment or use"
+        ],
+        [
+          4,
+          5,
+          "assignment or use"
+        ],
+        [
+          5,
+          6,
+          "assignment or use"
+        ],
+        [
+          6,
+          7,
+          "assignment or use"
+        ],
+        [
+          7,
+          8,
+          "parameter binding"
+        ],
+        [
+          8,
+          9,
+          "parameter use"
+        ],
+        [
+          9,
+          10,
+          "storage write"
+        ],
+        [
+          10,
+          11,
+          "method exit evidence"
+        ],
+        [
+          11,
+          12,
+          "resolved call exit"
+        ],
+        [
+          12,
+          13,
+          "exceptional memory effect exit"
+        ],
+        [
+          13,
+          14,
+          "exceptional memory effect exit"
+        ],
+        [
+          14,
+          15,
+          "storage continuation"
+        ],
+        [
+          15,
+          16,
+          "storage continuation"
+        ],
+        [
+          16,
+          17,
+          "storage continuation"
+        ],
+        [
+          17,
+          18,
+          "returned value"
+        ],
+        [
+          18,
+          19,
+          "method exit evidence"
+        ],
+        [
+          19,
+          20,
+          "resolved call exit"
+        ],
+        [
+          20,
+          21,
+          "returned value"
+        ],
+        [
+          21,
+          22,
+          "method exit evidence"
+        ],
+        [
+          22,
+          23,
+          "resolved call exit"
+        ],
+        [
+          23,
+          24,
+          "returned value"
+        ]
+      ],
+      "disposition": "reviewed bounded dependency evidence; conservative CFG/call scaffolding is not an execution trace",
+      "elements": [
+        [
+          "111669149756",
+          0,
+          true,
+          false,
+          "input",
+          [],
+          0
+        ],
+        [
+          "68719476975",
+          0,
+          true,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "111669149752",
+          1,
+          true,
+          false,
+          "input",
+          [],
+          0
+        ],
+        [
+          "68719476963",
+          1,
+          true,
+          false,
+          "input",
+          [],
+          0
+        ],
+        [
+          "68719476962",
+          1,
+          true,
+          false,
+          "saved",
+          [],
+          0
+        ],
+        [
+          "68719476970",
+          1,
+          true,
+          false,
+          "saved",
+          [],
+          1
+        ],
+        [
+          "68719476969",
+          1,
+          true,
+          false,
+          "<tmp>67",
+          [],
+          1
+        ],
+        [
+          "68719476971",
+          1,
+          true,
+          false,
+          "",
+          [],
+          1
+        ],
+        [
+          "111669149773",
+          2,
+          true,
+          false,
+          "value",
+          [],
+          1
+        ],
+        [
+          "68719477089",
+          2,
+          true,
+          false,
+          "",
+          [],
+          1
+        ],
+        [
+          "30064771402",
+          2,
+          true,
+          false,
+          "<STATIC_STORAGE>",
+          [],
+          1
+        ],
+        [
+          "124554051638",
+          2,
+          false,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "30064771302",
+          1,
+          true,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "124554051623",
+          1,
+          false,
+          false,
+          "<STATIC_STORAGE_EXCEPTION>",
+          [],
+          0
+        ],
+        [
+          "30064771305",
+          0,
+          true,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "107374182464",
+          3,
+          false,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "107374182453",
+          4,
+          false,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "30064771401",
+          4,
+          true,
+          true,
+          "value = 'initial'",
+          [],
+          0
+        ],
+        [
+          "141733920827",
+          4,
+          true,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "124554051637",
+          3,
+          true,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "30064771427",
+          3,
+          true,
+          true,
+          "Shared.value",
+          [],
+          0
+        ],
+        [
+          "141733920832",
+          3,
+          true,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "124554051648",
+          0,
+          true,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "30064771311",
+          0,
+          true,
+          true,
+          "read()",
+          [],
+          0
+        ],
+        [
+          "141733920812",
+          0,
+          true,
+          false,
+          "",
+          [],
+          0
+        ]
+      ]
+    },
+    {
+      "query": "localBothCaught",
+      "transitions": [
+        [
+          0,
+          1,
+          "parameter use"
+        ],
+        [
+          1,
+          2,
+          "parameter binding"
+        ],
+        [
+          2,
+          3,
+          "parameter use"
+        ],
+        [
+          3,
+          4,
+          "assignment or use"
+        ],
+        [
+          4,
+          5,
+          "assignment or use"
+        ],
+        [
+          5,
+          6,
+          "assignment or use"
+        ],
+        [
+          6,
+          7,
+          "assignment or use"
+        ],
+        [
+          7,
+          8,
+          "parameter binding"
+        ],
+        [
+          8,
+          9,
+          "parameter use"
+        ],
+        [
+          9,
+          10,
+          "storage write"
+        ],
+        [
+          10,
+          11,
+          "method exit evidence"
+        ],
+        [
+          11,
+          12,
+          "resolved call exit"
+        ],
+        [
+          12,
+          13,
+          "exceptional memory effect exit"
+        ],
+        [
+          13,
+          14,
+          "exceptional memory effect exit"
+        ],
+        [
+          14,
+          15,
+          "storage continuation"
+        ],
+        [
+          15,
+          16,
+          "storage continuation"
+        ],
+        [
+          16,
+          17,
+          "storage continuation"
+        ],
+        [
+          17,
+          18,
+          "returned value"
+        ],
+        [
+          18,
+          19,
+          "method exit evidence"
+        ],
+        [
+          19,
+          20,
+          "resolved call exit"
+        ],
+        [
+          20,
+          21,
+          "returned value"
+        ],
+        [
+          21,
+          22,
+          "method exit evidence"
+        ],
+        [
+          22,
+          23,
+          "resolved call exit"
+        ],
+        [
+          23,
+          24,
+          "saved scalar result"
+        ],
+        [
+          24,
+          25,
+          "assignment or use"
+        ],
+        [
+          25,
+          26,
+          "returned value"
+        ]
+      ],
+      "disposition": "reviewed bounded dependency evidence; conservative CFG/call scaffolding is not an execution trace",
+      "elements": [
+        [
+          "111669149758",
+          0,
+          true,
+          false,
+          "input",
+          [],
+          0
+        ],
+        [
+          "68719476982",
+          0,
+          true,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "111669149752",
+          5,
+          true,
+          false,
+          "input",
+          [],
+          0
+        ],
+        [
+          "68719476963",
+          5,
+          true,
+          false,
+          "input",
+          [],
+          0
+        ],
+        [
+          "68719476962",
+          5,
+          true,
+          false,
+          "saved",
+          [],
+          0
+        ],
+        [
+          "68719476970",
+          5,
+          true,
+          false,
+          "saved",
+          [],
+          2
+        ],
+        [
+          "68719476969",
+          5,
+          true,
+          false,
+          "<tmp>67",
+          [],
+          2
+        ],
+        [
+          "68719476971",
+          5,
+          true,
+          false,
+          "",
+          [],
+          2
+        ],
+        [
+          "111669149773",
+          6,
+          true,
+          false,
+          "value",
+          [],
+          2
+        ],
+        [
+          "68719477089",
+          6,
+          true,
+          false,
+          "",
+          [],
+          2
+        ],
+        [
+          "30064771402",
+          6,
+          true,
+          false,
+          "<STATIC_STORAGE>",
+          [],
+          2
+        ],
+        [
+          "124554051638",
+          6,
+          false,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "30064771302",
+          5,
+          true,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "124554051623",
+          5,
+          false,
+          false,
+          "<STATIC_STORAGE_EXCEPTION>",
+          [],
+          0
+        ],
+        [
+          "30064771312",
+          0,
+          true,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "107374182464",
+          7,
+          false,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "107374182453",
+          8,
+          false,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "30064771401",
+          8,
+          true,
+          true,
+          "value = 'initial'",
+          [],
+          0
+        ],
+        [
+          "141733920827",
+          8,
+          true,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "124554051637",
+          7,
+          true,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "30064771427",
+          7,
+          true,
+          true,
+          "Shared.value",
+          [],
+          0
+        ],
+        [
+          "141733920832",
+          7,
+          true,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "124554051648",
+          0,
+          true,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "30064771320",
+          0,
+          true,
+          true,
+          "read()",
+          [],
+          0
+        ],
+        [
+          "68719476987",
+          0,
+          true,
+          false,
+          "caught",
+          [],
+          0
+        ],
+        [
+          "68719476988",
+          0,
+          true,
+          false,
+          "caught",
+          [],
+          0
+        ],
+        [
+          "141733920815",
+          0,
+          true,
+          false,
+          "",
+          [],
+          0
+        ]
+      ]
+    },
+    {
+      "query": "localLoopCaught",
+      "transitions": [
+        [
+          0,
+          1,
+          "parameter use"
+        ],
+        [
+          1,
+          2,
+          "parameter binding"
+        ],
+        [
+          2,
+          3,
+          "parameter use"
+        ],
+        [
+          3,
+          4,
+          "assignment or use"
+        ],
+        [
+          4,
+          5,
+          "assignment or use"
+        ],
+        [
+          5,
+          6,
+          "assignment or use"
+        ],
+        [
+          6,
+          7,
+          "assignment or use"
+        ],
+        [
+          7,
+          8,
+          "parameter binding"
+        ],
+        [
+          8,
+          9,
+          "parameter use"
+        ],
+        [
+          9,
+          10,
+          "storage write"
+        ],
+        [
+          10,
+          11,
+          "method exit evidence"
+        ],
+        [
+          11,
+          12,
+          "resolved call exit"
+        ],
+        [
+          12,
+          13,
+          "exceptional memory effect exit"
+        ],
+        [
+          13,
+          14,
+          "exceptional memory effect exit"
+        ],
+        [
+          14,
+          15,
+          "storage continuation"
+        ],
+        [
+          15,
+          16,
+          "storage continuation"
+        ],
+        [
+          16,
+          17,
+          "storage continuation"
+        ],
+        [
+          17,
+          18,
+          "returned value"
+        ],
+        [
+          18,
+          19,
+          "method exit evidence"
+        ],
+        [
+          19,
+          20,
+          "resolved call exit"
+        ],
+        [
+          20,
+          21,
+          "returned value"
+        ],
+        [
+          21,
+          22,
+          "method exit evidence"
+        ],
+        [
+          22,
+          23,
+          "resolved call exit"
+        ],
+        [
+          23,
+          24,
+          "returned value"
+        ]
+      ],
+      "disposition": "reviewed bounded dependency evidence; conservative CFG/call scaffolding is not an execution trace",
+      "elements": [
+        [
+          "111669149768",
+          0,
+          true,
+          false,
+          "input",
+          [],
+          0
+        ],
+        [
+          "68719477044",
+          0,
+          true,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "111669149764",
+          9,
+          true,
+          false,
+          "input",
+          [],
+          0
+        ],
+        [
+          "68719477032",
+          9,
+          true,
+          false,
+          "input",
+          [],
+          0
+        ],
+        [
+          "68719477031",
+          9,
+          true,
+          false,
+          "saved",
+          [],
+          0
+        ],
+        [
+          "68719477039",
+          9,
+          true,
+          false,
+          "saved",
+          [],
+          3
+        ],
+        [
+          "68719477038",
+          9,
+          true,
+          false,
+          "<tmp>84",
+          [],
+          3
+        ],
+        [
+          "68719477040",
+          9,
+          true,
+          false,
+          "",
+          [],
+          3
+        ],
+        [
+          "111669149773",
+          10,
+          true,
+          false,
+          "value",
+          [],
+          3
+        ],
+        [
+          "68719477089",
+          10,
+          true,
+          false,
+          "",
+          [],
+          3
+        ],
+        [
+          "30064771402",
+          10,
+          true,
+          false,
+          "<STATIC_STORAGE>",
+          [],
+          3
+        ],
+        [
+          "124554051638",
+          10,
+          false,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "30064771358",
+          9,
+          true,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "124554051631",
+          9,
+          false,
+          false,
+          "<STATIC_STORAGE_EXCEPTION>",
+          [],
+          0
+        ],
+        [
+          "30064771361",
+          0,
+          true,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "107374182464",
+          11,
+          false,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "107374182453",
+          12,
+          false,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "30064771401",
+          12,
+          true,
+          true,
+          "value = 'initial'",
+          [],
+          0
+        ],
+        [
+          "141733920827",
+          12,
+          true,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "124554051637",
+          11,
+          true,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "30064771427",
+          11,
+          true,
+          true,
+          "Shared.value",
+          [],
+          0
+        ],
+        [
+          "141733920832",
+          11,
+          true,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "124554051648",
+          0,
+          true,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "30064771367",
+          0,
+          true,
+          true,
+          "read()",
+          [],
+          0
+        ],
+        [
+          "141733920820",
+          0,
+          true,
+          false,
+          "",
+          [],
+          0
+        ]
+      ]
+    },
+    {
+      "query": "localPriorResult",
+      "transitions": [
+        [
+          0,
+          1,
+          "parameter use"
+        ],
+        [
+          1,
+          2,
+          "parameter binding"
+        ],
+        [
+          2,
+          3,
+          "parameter use"
+        ],
+        [
+          3,
+          4,
+          "assignment or use"
+        ],
+        [
+          4,
+          5,
+          "assignment or use"
+        ],
+        [
+          5,
+          6,
+          "parameter binding"
+        ],
+        [
+          6,
+          7,
+          "parameter use"
+        ],
+        [
+          7,
+          8,
+          "returned value"
+        ],
+        [
+          8,
+          9,
+          "method exit evidence"
+        ],
+        [
+          9,
+          10,
+          "resolved call exit"
+        ],
+        [
+          10,
+          11,
+          "saved scalar result"
+        ],
+        [
+          11,
+          12,
+          "assignment or use"
+        ],
+        [
+          12,
+          13,
+          "assignment or use"
+        ],
+        [
+          13,
+          14,
+          "assignment or use"
+        ],
+        [
+          14,
+          15,
+          "parameter binding"
+        ],
+        [
+          15,
+          16,
+          "parameter use"
+        ],
+        [
+          16,
+          17,
+          "storage write"
+        ],
+        [
+          17,
+          18,
+          "method exit evidence"
+        ],
+        [
+          18,
+          19,
+          "resolved call exit"
+        ],
+        [
+          19,
+          20,
+          "method exit evidence"
+        ],
+        [
+          20,
+          21,
+          "resolved call exit"
+        ],
+        [
+          21,
+          22,
+          "storage continuation"
+        ],
+        [
+          22,
+          23,
+          "storage continuation"
+        ],
+        [
+          23,
+          24,
+          "storage continuation"
+        ],
+        [
+          24,
+          25,
+          "returned value"
+        ],
+        [
+          25,
+          26,
+          "method exit evidence"
+        ],
+        [
+          26,
+          27,
+          "resolved call exit"
+        ],
+        [
+          27,
+          28,
+          "returned value"
+        ],
+        [
+          28,
+          29,
+          "method exit evidence"
+        ],
+        [
+          29,
+          30,
+          "resolved call exit"
+        ],
+        [
+          30,
+          31,
+          "returned value"
+        ]
+      ],
+      "disposition": "reviewed bounded dependency evidence; conservative CFG/call scaffolding is not an execution trace",
+      "elements": [
+        [
+          "111669149761",
+          0,
+          true,
+          false,
+          "input",
+          [],
+          0
+        ],
+        [
+          "68719477015",
+          0,
+          true,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "111669149760",
+          13,
+          true,
+          false,
+          "input",
+          [],
+          0
+        ],
+        [
+          "68719476993",
+          13,
+          true,
+          false,
+          "input",
+          [],
+          0
+        ],
+        [
+          "68719476992",
+          13,
+          true,
+          false,
+          "saved",
+          [],
+          0
+        ],
+        [
+          "68719476998",
+          13,
+          true,
+          false,
+          "",
+          [],
+          4
+        ],
+        [
+          "111669149744",
+          14,
+          true,
+          false,
+          "value",
+          [],
+          4
+        ],
+        [
+          "68719476925",
+          14,
+          true,
+          false,
+          "value",
+          [],
+          4
+        ],
+        [
+          "141733920805",
+          14,
+          true,
+          false,
+          "",
+          [],
+          4
+        ],
+        [
+          "124554051618",
+          13,
+          true,
+          false,
+          "",
+          [],
+          4
+        ],
+        [
+          "30064771327",
+          13,
+          true,
+          true,
+          "identity(saved)",
+          [],
+          4
+        ],
+        [
+          "68719476997",
+          13,
+          true,
+          false,
+          "saved",
+          [],
+          4
+        ],
+        [
+          "68719477012",
+          13,
+          true,
+          false,
+          "saved",
+          [],
+          5
+        ],
+        [
+          "68719477011",
+          13,
+          true,
+          false,
+          "<tmp>78",
+          [],
+          5
+        ],
+        [
+          "68719477013",
+          13,
+          true,
+          false,
+          "",
+          [],
+          5
+        ],
+        [
+          "111669149773",
+          15,
+          true,
+          false,
+          "value",
+          [],
+          5
+        ],
+        [
+          "68719477089",
+          15,
+          true,
+          false,
+          "",
+          [],
+          5
+        ],
+        [
+          "30064771402",
+          15,
+          true,
+          false,
+          "<STATIC_STORAGE>",
+          [],
+          5
+        ],
+        [
+          "124554051638",
+          15,
+          false,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "30064771338",
+          13,
+          true,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "124554051627",
+          13,
+          false,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "30064771339",
+          0,
+          true,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "107374182464",
+          16,
+          false,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "107374182453",
+          17,
+          false,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "30064771401",
+          17,
+          true,
+          true,
+          "value = 'initial'",
+          [],
+          0
+        ],
+        [
+          "141733920827",
+          17,
+          true,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "124554051637",
+          16,
+          true,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "30064771427",
+          16,
+          true,
+          true,
+          "Shared.value",
+          [],
+          0
+        ],
+        [
+          "141733920832",
+          16,
+          true,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "124554051648",
+          0,
+          true,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "30064771340",
+          0,
+          true,
+          true,
+          "read()",
+          [],
+          0
+        ],
+        [
+          "141733920816",
+          0,
+          true,
+          false,
+          "",
+          [],
+          0
+        ]
+      ]
+    },
+    {
+      "query": "localPriorResult",
+      "transitions": [
+        [
+          0,
+          1,
+          "parameter use"
+        ],
+        [
+          1,
+          2,
+          "parameter binding"
+        ],
+        [
+          2,
+          3,
+          "parameter use"
+        ],
+        [
+          3,
+          4,
+          "assignment or use"
+        ],
+        [
+          4,
+          5,
+          "assignment or use"
+        ],
+        [
+          5,
+          6,
+          "parameter binding"
+        ],
+        [
+          6,
+          7,
+          "unchanged argument output"
+        ],
+        [
+          7,
+          8,
+          "argument output binding"
+        ],
+        [
+          8,
+          9,
+          "assignment or use"
+        ],
+        [
+          9,
+          10,
+          "assignment or use"
+        ],
+        [
+          10,
+          11,
+          "assignment or use"
+        ],
+        [
+          11,
+          12,
+          "parameter binding"
+        ],
+        [
+          12,
+          13,
+          "parameter use"
+        ],
+        [
+          13,
+          14,
+          "storage write"
+        ],
+        [
+          14,
+          15,
+          "method exit evidence"
+        ],
+        [
+          15,
+          16,
+          "resolved call exit"
+        ],
+        [
+          16,
+          17,
+          "method exit evidence"
+        ],
+        [
+          17,
+          18,
+          "resolved call exit"
+        ],
+        [
+          18,
+          19,
+          "storage continuation"
+        ],
+        [
+          19,
+          20,
+          "storage continuation"
+        ],
+        [
+          20,
+          21,
+          "storage continuation"
+        ],
+        [
+          21,
+          22,
+          "returned value"
+        ],
+        [
+          22,
+          23,
+          "method exit evidence"
+        ],
+        [
+          23,
+          24,
+          "resolved call exit"
+        ],
+        [
+          24,
+          25,
+          "returned value"
+        ],
+        [
+          25,
+          26,
+          "method exit evidence"
+        ],
+        [
+          26,
+          27,
+          "resolved call exit"
+        ],
+        [
+          27,
+          28,
+          "returned value"
+        ]
+      ],
+      "disposition": "conservative unchanged-argument output alternative; no String mutation claim",
+      "elements": [
+        [
+          "111669149761",
+          0,
+          true,
+          false,
+          "input",
+          [],
+          0
+        ],
+        [
+          "68719477015",
+          0,
+          true,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "111669149760",
+          13,
+          true,
+          false,
+          "input",
+          [],
+          0
+        ],
+        [
+          "68719476993",
+          13,
+          true,
+          false,
+          "input",
+          [],
+          0
+        ],
+        [
+          "68719476992",
+          13,
+          true,
+          false,
+          "saved",
+          [],
+          0
+        ],
+        [
+          "68719476998",
+          13,
+          true,
+          false,
+          "",
+          [],
+          4
+        ],
+        [
+          "111669149744",
+          14,
+          true,
+          false,
+          "value",
+          [],
+          4
+        ],
+        [
+          "115964117040",
+          14,
+          true,
+          false,
+          "",
+          [],
+          4
+        ],
+        [
+          "68719476998",
+          13,
+          true,
+          true,
+          "saved",
+          [],
+          4
+        ],
+        [
+          "68719477012",
+          13,
+          true,
+          false,
+          "saved",
+          [],
+          5
+        ],
+        [
+          "68719477011",
+          13,
+          true,
+          false,
+          "<tmp>78",
+          [],
+          5
+        ],
+        [
+          "68719477013",
+          13,
+          true,
+          false,
+          "",
+          [],
+          5
+        ],
+        [
+          "111669149773",
+          15,
+          true,
+          false,
+          "value",
+          [],
+          5
+        ],
+        [
+          "68719477089",
+          15,
+          true,
+          false,
+          "",
+          [],
+          5
+        ],
+        [
+          "30064771402",
+          15,
+          true,
+          false,
+          "<STATIC_STORAGE>",
+          [],
+          5
+        ],
+        [
+          "124554051638",
+          15,
+          false,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "30064771338",
+          13,
+          true,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "124554051627",
+          13,
+          false,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "30064771339",
+          0,
+          true,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "107374182464",
+          16,
+          false,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "107374182453",
+          17,
+          false,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "30064771401",
+          17,
+          true,
+          true,
+          "value = 'initial'",
+          [],
+          0
+        ],
+        [
+          "141733920827",
+          17,
+          true,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "124554051637",
+          16,
+          true,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "30064771427",
+          16,
+          true,
+          true,
+          "Shared.value",
+          [],
+          0
+        ],
+        [
+          "141733920832",
+          16,
+          true,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "124554051648",
+          0,
+          true,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "30064771340",
+          0,
+          true,
+          true,
+          "read()",
+          [],
+          0
+        ],
+        [
+          "141733920816",
+          0,
+          true,
+          false,
+          "",
+          [],
+          0
+        ]
+      ]
+    },
+    {
+      "query": "localReplacementResult",
+      "transitions": [
+        [
+          0,
+          1,
+          "parameter use"
+        ],
+        [
+          1,
+          2,
+          "parameter binding"
+        ],
+        [
+          2,
+          3,
+          "parameter use"
+        ],
+        [
+          3,
+          4,
+          "assignment or use"
+        ],
+        [
+          4,
+          5,
+          "assignment or use"
+        ],
+        [
+          5,
+          6,
+          "assignment or use"
+        ],
+        [
+          6,
+          7,
+          "assignment or use"
+        ],
+        [
+          7,
+          8,
+          "parameter binding"
+        ],
+        [
+          8,
+          9,
+          "parameter use"
+        ],
+        [
+          9,
+          10,
+          "storage write"
+        ],
+        [
+          10,
+          11,
+          "method exit evidence"
+        ],
+        [
+          11,
+          12,
+          "resolved call exit"
+        ],
+        [
+          12,
+          13,
+          "method exit evidence"
+        ],
+        [
+          13,
+          14,
+          "resolved call exit"
+        ],
+        [
+          14,
+          15,
+          "storage continuation"
+        ],
+        [
+          15,
+          16,
+          "storage continuation"
+        ],
+        [
+          16,
+          17,
+          "storage continuation"
+        ],
+        [
+          17,
+          18,
+          "returned value"
+        ],
+        [
+          18,
+          19,
+          "method exit evidence"
+        ],
+        [
+          19,
+          20,
+          "resolved call exit"
+        ],
+        [
+          20,
+          21,
+          "returned value"
+        ],
+        [
+          21,
+          22,
+          "method exit evidence"
+        ],
+        [
+          22,
+          23,
+          "resolved call exit"
+        ],
+        [
+          23,
+          24,
+          "returned value"
+        ]
+      ],
+      "disposition": "reviewed bounded dependency evidence; conservative CFG/call scaffolding is not an execution trace",
+      "elements": [
+        [
+          "111669149763",
+          0,
+          true,
+          false,
+          "input",
+          [],
+          0
+        ],
+        [
+          "68719477028",
+          0,
+          true,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "111669149762",
+          18,
+          true,
+          false,
+          "input",
+          [],
+          0
+        ],
+        [
+          "68719477018",
+          18,
+          true,
+          false,
+          "input",
+          [],
+          0
+        ],
+        [
+          "68719477017",
+          18,
+          true,
+          false,
+          "saved",
+          [],
+          0
+        ],
+        [
+          "68719477025",
+          18,
+          true,
+          false,
+          "saved",
+          [],
+          0
+        ],
+        [
+          "68719477024",
+          18,
+          true,
+          false,
+          "<tmp>81",
+          [],
+          0
+        ],
+        [
+          "68719477026",
+          18,
+          true,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "111669149773",
+          19,
+          true,
+          false,
+          "value",
+          [],
+          0
+        ],
+        [
+          "68719477089",
+          19,
+          true,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "30064771402",
+          19,
+          true,
+          false,
+          "<STATIC_STORAGE>",
+          [],
+          0
+        ],
+        [
+          "124554051638",
+          19,
+          false,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "30064771348",
+          18,
+          true,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "124554051629",
+          18,
+          false,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "30064771349",
+          0,
+          true,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "107374182464",
+          20,
+          false,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "107374182453",
+          21,
+          false,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "30064771401",
+          21,
+          true,
+          true,
+          "value = 'initial'",
+          [],
+          0
+        ],
+        [
+          "141733920827",
+          21,
+          true,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "124554051637",
+          20,
+          true,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "30064771427",
+          20,
+          true,
+          true,
+          "Shared.value",
+          [],
+          0
+        ],
+        [
+          "141733920832",
+          20,
+          true,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "124554051648",
+          0,
+          true,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "30064771350",
+          0,
+          true,
+          true,
+          "read()",
+          [],
+          0
+        ],
+        [
+          "141733920818",
+          0,
+          true,
+          false,
+          "",
+          [],
+          0
+        ]
+      ]
+    },
+    {
+      "query": "inlineCleanupResult",
+      "transitions": [
+        [
+          0,
+          1,
+          "parameter use"
+        ],
+        [
+          1,
+          2,
+          "assignment or use"
+        ],
+        [
+          2,
+          3,
+          "assignment or use"
+        ],
+        [
+          3,
+          4,
+          "parameter binding"
+        ],
+        [
+          4,
+          5,
+          "parameter use"
+        ],
+        [
+          5,
+          6,
+          "storage write"
+        ],
+        [
+          6,
+          7,
+          "method exit evidence"
+        ],
+        [
+          7,
+          8,
+          "resolved call exit"
+        ],
+        [
+          8,
+          9,
+          "storage continuation"
+        ],
+        [
+          9,
+          10,
+          "storage continuation"
+        ],
+        [
+          10,
+          11,
+          "storage continuation"
+        ],
+        [
+          11,
+          12,
+          "returned value"
+        ],
+        [
+          12,
+          13,
+          "method exit evidence"
+        ],
+        [
+          13,
+          14,
+          "resolved call exit"
+        ],
+        [
+          14,
+          15,
+          "returned value"
+        ],
+        [
+          15,
+          16,
+          "method exit evidence"
+        ],
+        [
+          16,
+          17,
+          "resolved call exit"
+        ],
+        [
+          17,
+          18,
+          "returned value"
+        ]
+      ],
+      "disposition": "reviewed bounded dependency evidence; conservative CFG/call scaffolding is not an execution trace",
+      "elements": [
+        [
+          "111669149772",
+          0,
+          true,
+          false,
+          "input",
+          [],
+          0
+        ],
+        [
+          "68719477075",
+          0,
+          true,
+          false,
+          "input",
+          [],
+          6
+        ],
+        [
+          "68719477074",
+          0,
+          true,
+          false,
+          "<tmp>94",
+          [],
+          6
+        ],
+        [
+          "68719477076",
+          0,
+          true,
+          false,
+          "",
+          [],
+          6
+        ],
+        [
+          "111669149773",
+          22,
+          true,
+          false,
+          "value",
+          [],
+          6
+        ],
+        [
+          "68719477089",
+          22,
+          true,
+          false,
+          "",
+          [],
+          6
+        ],
+        [
+          "30064771402",
+          22,
+          true,
+          false,
+          "<STATIC_STORAGE>",
+          [],
+          6
+        ],
+        [
+          "124554051638",
+          22,
+          false,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "30064771388",
+          0,
+          true,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "107374182464",
+          23,
+          false,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "107374182453",
+          24,
+          false,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "30064771401",
+          24,
+          true,
+          true,
+          "value = 'initial'",
+          [],
+          0
+        ],
+        [
+          "141733920827",
+          24,
+          true,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "124554051637",
+          23,
+          true,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "30064771427",
+          23,
+          true,
+          true,
+          "Shared.value",
+          [],
+          0
+        ],
+        [
+          "141733920832",
+          23,
+          true,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "124554051648",
+          0,
+          true,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "30064771394",
+          0,
+          true,
+          true,
+          "read()",
+          [],
+          0
+        ],
+        [
+          "141733920825",
+          0,
+          true,
+          false,
+          "",
+          [],
+          0
+        ]
+      ]
+    },
+    {
+      "query": "inlineCleanupResult",
+      "transitions": [
+        [
+          0,
+          1,
+          "parameter use"
+        ],
+        [
+          1,
+          2,
+          "assignment or use"
+        ],
+        [
+          2,
+          3,
+          "parameter binding"
+        ],
+        [
+          3,
+          4,
+          "parameter use"
+        ],
+        [
+          4,
+          5,
+          "storage write"
+        ],
+        [
+          5,
+          6,
+          "method exit evidence"
+        ],
+        [
+          6,
+          7,
+          "resolved call exit"
+        ],
+        [
+          7,
+          8,
+          "storage continuation"
+        ],
+        [
+          8,
+          9,
+          "storage continuation"
+        ],
+        [
+          9,
+          10,
+          "storage continuation"
+        ],
+        [
+          10,
+          11,
+          "returned value"
+        ],
+        [
+          11,
+          12,
+          "method exit evidence"
+        ],
+        [
+          12,
+          13,
+          "resolved call exit"
+        ],
+        [
+          13,
+          14,
+          "returned value"
+        ],
+        [
+          14,
+          15,
+          "method exit evidence"
+        ],
+        [
+          15,
+          16,
+          "resolved call exit"
+        ],
+        [
+          16,
+          17,
+          "returned value"
+        ]
+      ],
+      "disposition": "reviewed bounded dependency evidence; conservative CFG/call scaffolding is not an execution trace",
+      "elements": [
+        [
+          "111669149772",
+          0,
+          true,
+          false,
+          "input",
+          [],
+          0
+        ],
+        [
+          "68719477075",
+          0,
+          false,
+          false,
+          "input",
+          [],
+          6
+        ],
+        [
+          "68719477076",
+          0,
+          true,
+          false,
+          "",
+          [],
+          6
+        ],
+        [
+          "111669149773",
+          22,
+          true,
+          false,
+          "value",
+          [],
+          6
+        ],
+        [
+          "68719477089",
+          22,
+          true,
+          false,
+          "",
+          [],
+          6
+        ],
+        [
+          "30064771402",
+          22,
+          true,
+          false,
+          "<STATIC_STORAGE>",
+          [],
+          6
+        ],
+        [
+          "124554051638",
+          22,
+          false,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "30064771388",
+          0,
+          true,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "107374182464",
+          23,
+          false,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "107374182453",
+          24,
+          false,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "30064771401",
+          24,
+          true,
+          true,
+          "value = 'initial'",
+          [],
+          0
+        ],
+        [
+          "141733920827",
+          24,
+          true,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "124554051637",
+          23,
+          true,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "30064771427",
+          23,
+          true,
+          true,
+          "Shared.value",
+          [],
+          0
+        ],
+        [
+          "141733920832",
+          23,
+          true,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "124554051648",
+          0,
+          true,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "30064771394",
+          0,
+          true,
+          true,
+          "read()",
+          [],
+          0
+        ],
+        [
+          "141733920825",
+          0,
+          true,
+          false,
+          "",
+          [],
+          0
+        ]
+      ]
+    },
+    {
+      "query": "localArgument",
+      "transitions": [
+        [
+          0,
+          1,
+          "parameter use"
+        ],
+        [
+          1,
+          2,
+          "caller argument binding"
+        ]
+      ],
+      "disposition": "reviewed bounded dependency evidence; conservative CFG/call scaffolding is not an execution trace",
+      "elements": [
+        [
+          "111669149754",
+          0,
+          true,
+          false,
+          "input",
+          [],
+          0
+        ],
+        [
+          "68719476973",
+          0,
+          true,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "111669149752",
+          0,
+          true,
+          false,
+          "",
+          [],
+          0
+        ]
+      ]
+    },
+    {
+      "query": "loopArgument",
+      "transitions": [
+        [
+          0,
+          1,
+          "parameter use"
+        ],
+        [
+          1,
+          2,
+          "caller argument binding"
+        ]
+      ],
+      "disposition": "reviewed bounded dependency evidence; conservative CFG/call scaffolding is not an execution trace",
+      "elements": [
+        [
+          "111669149766",
+          0,
+          true,
+          false,
+          "input",
+          [],
+          0
+        ],
+        [
+          "68719477042",
+          0,
+          true,
+          false,
+          "",
+          [],
+          0
+        ],
+        [
+          "111669149764",
+          0,
+          true,
+          false,
+          "",
+          [],
+          0
+        ]
+      ]
+    },
+    {
+      "query": "constantArgument",
+      "transitions": [
+        [
+          0,
+          1,
+          "parameter use"
+        ],
+        [
+          1,
+          2,
+          "assignment or use"
+        ],
+        [
+          2,
+          3,
+          "assignment or use"
+        ]
+      ],
+      "disposition": "reviewed bounded dependency evidence; conservative CFG/call scaffolding is not an execution trace",
+      "elements": [
+        [
+          "111669149771",
+          0,
+          true,
+          false,
+          "input",
+          [],
+          0
+        ],
+        [
+          "68719477052",
+          0,
+          true,
+          false,
+          "input",
+          [],
+          0
+        ],
+        [
+          "68719477051",
+          0,
+          true,
+          false,
+          "saved",
+          [],
+          0
+        ],
+        [
+          "68719477057",
+          0,
+          true,
+          false,
+          "",
+          [],
+          0
+        ]
+      ]
+    }
+  ]
+}

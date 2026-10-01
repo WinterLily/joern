@@ -345,3 +345,109 @@ String localCopyCaught(String input, bool fail) {
   }
   return 'normal result';
 }
+
+String localBoth(String input, bool fail) {
+  try {
+    localCopyCleanup(input, fail);
+    return read();
+  } on StateError {
+    final caught = read();
+    return caught;
+  }
+}
+
+void localPriorCleanup(String input) {
+  var saved = 'before';
+  try {
+    try {
+      saved = input;
+      throw StateError('prior cleanup');
+    } finally {
+      saved = identity(saved);
+    }
+  } on StateError {
+    // The first cleanup resumes a thrown exit, which the handler consumes.
+  }
+  try {
+    Shared.other = 'normal boundary';
+  } finally {
+    Shared.value = saved;
+  }
+}
+
+String localPriorResult(String input) {
+  localPriorCleanup(input);
+  return read();
+}
+
+void localReplacement(String input) {
+  var saved = 'before';
+  try {
+    saved = input;
+    throw StateError('replaced exit');
+  } finally {
+    Shared.value = saved;
+    return;
+  }
+}
+
+String localReplacementResult(String input) {
+  localReplacement(input);
+  return read();
+}
+
+void localLoopCleanup(String input, bool fail) {
+  var saved = 'normal loop';
+  try {
+    while (fail) {
+      saved = input;
+      throw StateError('loop branch');
+    }
+  } finally {
+    Shared.value = saved;
+  }
+}
+
+String localLoopNormal(String input, bool fail) {
+  localLoopCleanup(input, fail);
+  return read();
+}
+
+String localLoopCaught(String input, bool fail) {
+  try {
+    localLoopCleanup(input, fail);
+  } on StateError {
+    return read();
+  }
+  return 'normal result';
+}
+
+String constantValue(String value) => 'constant replacement';
+
+String localConstantResult(String input) {
+  var saved = input;
+  try {
+    try {
+      throw StateError('constant cleanup');
+    } finally {
+      saved = constantValue(saved);
+      Shared.value = saved;
+    }
+  } on StateError {
+    return read();
+  }
+  return 'unreachable';
+}
+
+String inlineCleanupResult(String input) {
+  try {
+    try {
+      throw StateError('inline cleanup');
+    } finally {
+      Shared.value = input;
+    }
+  } on StateError {
+    return read();
+  }
+  return 'unreachable';
+}
