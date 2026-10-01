@@ -77,6 +77,64 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
   }
 
   "Dart frontend" should {
+    "retain bounded alternative witnesses through branches and repeated calls" in {
+      fixture(
+        Files.readString(frontend.resolve("src/test/resources/semantics/witness_alternatives.dart")),
+        "void main() {}"
+      ) { (cpg, _) =>
+        val probe = ujson.read("""{
+          "id": "choices", "expected": true, "maxWitnessesPerEndpoint": 16,
+          "source": {"file": "lib/helper.dart", "method": "choice", "kind": "parameter", "name": "input"},
+          "sink": {"file": "lib/helper.dart", "method": "choice", "kind": "return"}
+        }""")
+        val audit = CorpusDataflow.audit(cpg, Seq(probe), DefaultSemantics()).arr.head
+        audit("passed").bool shouldBe true
+        audit("paths").num should be >= 3.0
+        audit("pathSelection").str shouldBe "bounded-alternatives-per-endpoint-pair"
+        audit("limitations").arr shouldBe empty
+        audit("detailedWitnesses").arr.size.toDouble shouldBe audit("detailedPaths").num
+        audit("detailedWitnesses").arr.flatMap(_.arr).exists(node => node("callSiteStack").arr.nonEmpty) shouldBe true
+        probe("maxWitnessesPerEndpoint") = 2
+        val limitedAudit = CorpusDataflow.audit(cpg, Seq(probe), DefaultSemantics()).arr.head
+        limitedAudit("limitations").arr.map(_.str) should contain("witness-alternatives")
+        limitedAudit("searchComplete").bool shouldBe false
+        val omitted = CorpusDataflow.audit(cpg, Seq(probe), DefaultSemantics(), Some(0)).arr.head
+        omitted("detailedWitnesses").arr shouldBe empty
+        omitted("omittedDetailedWitnesses").num shouldBe omitted("detailedPaths").num
+        for (name <- Seq("choice", "repeated")) {
+          val method = cpg.method.nameExact(name).head
+          val source = method.parameter.nameExact("input").head
+          val sink   = method.ast.isReturn.head
+          val legacy = sink.start.reachableByFlows(source.start).l
+          legacy.size shouldBe 1
+          val diagnostics = new QueryDiagnostics
+          val engine      =
+            EngineContext(config = EngineConfig(maxWitnessesPerEndpoint = 16, diagnostics = Some(diagnostics)))
+          val alternatives = sink.start.reachableByFlows(source.start)(engine).l
+          withClue(name) {
+            alternatives.size should be > legacy.size
+            alternatives.exists(_.elements.exists {
+              case parameter: io.shiftleft.codepropertygraph.generated.nodes.MethodParameterIn =>
+                parameter.method.name == "longer"
+              case _ => false
+            }) shouldBe true
+            alternatives.exists(!_.elements.exists {
+              case parameter: io.shiftleft.codepropertygraph.generated.nodes.MethodParameterIn =>
+                parameter.method.name == "longer"
+              case _ => false
+            }) shouldBe true
+            diagnostics.limitations shouldBe empty
+          }
+          val limitedDiagnostics = new QueryDiagnostics
+          val limited            =
+            EngineContext(config = EngineConfig(maxWitnessesPerEndpoint = 2, diagnostics = Some(limitedDiagnostics)))
+          sink.start.reachableByFlows(source.start)(limited).size should be <= 2
+          limitedDiagnostics.limitations should contain("witness-alternatives")
+          val independent = cpg.method.nameExact("independent").head
+          independent.ast.isReturn.reachableByFlows(independent.parameter.nameExact("input"))(engine) shouldBe empty
+        }
+      }
+    }
     "preserve constructor values and saved receivers through nested default invocations" in {
       val directory = frontend.resolve("src/test/resources/semantics")
       fixture(

@@ -119,7 +119,7 @@ class Engine(context: EngineContext) {
       "Time measurement -----> Task processing done in " +
         (taskFinishTimeSec - startTimeSec) + " seconds"
     )
-    new HeldTaskCompletion(held.toList, mainResultTable).completeHeldTasks()
+    new HeldTaskCompletion(held.toList, mainResultTable, context.config).completeHeldTasks()
     val dedupResult          = deduplicateFinal(extractResultsFromTable(sinks))
     val allDoneTimeSec: Long = System.currentTimeMillis / 1000
 
@@ -160,22 +160,8 @@ class Engine(context: EngineContext) {
         val last = result.path.last.node
         (head, last)
       }
-      .map { case (_, list) =>
-        val lenIdPathPairs = list.map(x => (x.path.length, x))
-        val withMaxLength  = (lenIdPathPairs.sortBy(_._1).reverse match {
-          case Nil    => Nil
-          case h :: t => h :: t.takeWhile(y => y._1 == h._1)
-        }).map(_._2)
-
-        if (withMaxLength.length == 1) {
-          withMaxLength.head
-        } else {
-          withMaxLength.minBy { x =>
-            x.path
-              .map(_.orderingKey)
-              .mkString("-")
-          }
-        }
+      .flatMap { case (_, list) =>
+        WitnessSelection.select[TableEntry](list, _.path, context.config, _.path.map(_.orderingKey).mkString("-"))
       }
       .toList
   }
@@ -350,6 +336,10 @@ case class EngineContext(semantics: Semantics = DefaultSemantics(), config: Engi
   *   max limit on number arguments for which tasks will be created for unresolved arguments
   * @param maxFieldDepth
   *   maximum tracked constant-field prefix; deeper suffixes are conservatively widened
+  * @param maxWitnessesPerEndpoint
+  *   bounded distinct Dart witnesses per endpoint pair at each selection stage; one preserves longest-witness selection
+  * @param maxHeldTaskIterations
+  *   Dart held-task combination rounds; zero keeps the existing unbounded fixed-point search
   */
 case class EngineConfig(
   var maxCallDepth: Int = 4,
@@ -358,9 +348,13 @@ case class EngineConfig(
   maxArgsToAllow: Int = 1000,
   maxOutputArgsExpansion: Int = 1000,
   diagnostics: Option[QueryDiagnostics] = None,
-  maxFieldDepth: Int = 4
+  maxFieldDepth: Int = 4,
+  maxWitnessesPerEndpoint: Int = 1,
+  maxHeldTaskIterations: Int = 0
 ) {
   require(maxFieldDepth >= 0, "Field depth must be nonnegative")
+  require(maxWitnessesPerEndpoint > 0, "Witness bound must be positive")
+  require(maxHeldTaskIterations >= 0, "Held-task iteration bound must be nonnegative")
 }
 
 /** Per-query evidence that a search omitted work. Use a fresh instance for each query. */

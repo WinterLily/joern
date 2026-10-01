@@ -127,25 +127,19 @@ class TaskSolver(task: ReachableByTask, context: EngineContext, sources: Set[Cfg
             .get
           (head, last, result.partial, result.callDepth)
         }
-        .map { case (_, list) =>
-          val lenIdPathPairs = list.map(x => (x.path.length, x)).toList
-          val withMaxLength  = (lenIdPathPairs.sortBy(_._1).reverse match {
-            case Nil    => Nil
-            case h :: t => h :: t.takeWhile(y => y._1 == h._1)
-          }).map(_._2)
-
-          if (withMaxLength.length == 1) {
-            withMaxLength.head
-          } else {
-            withMaxLength.minBy { x =>
+        .flatMap { case (_, list) =>
+          WitnessSelection.select[ReachableByResult](
+            list.toList,
+            _.path,
+            context.config,
+            x =>
               x.callDepth.toString + " " +
                 x.taskStack
                   .map(x => x.sink.id.toString + ":" + x.callSiteStack.map(_.id).mkString("|"))
                   .toString + " " + x.path
                   .map(_.orderingKey)
                   .mkString("-")
-            }
-          }
+          )
         }
         .toVector
     }

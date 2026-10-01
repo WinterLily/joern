@@ -18,7 +18,8 @@ import scala.collection.parallel.CollectionConverters.*
   */
 class HeldTaskCompletion(
   heldTasks: List[ReachableByTask],
-  resultTable: mutable.Map[TaskFingerprint, List[TableEntry]]
+  resultTable: mutable.Map[TaskFingerprint, List[TableEntry]],
+  config: EngineConfig = EngineConfig()
 ) {
 
   /** Add results produced by held task until no more change can be observed.
@@ -52,8 +53,17 @@ class HeldTaskCompletion(
     def noneChanged = toProcess.map { t => t.fingerprint -> false }.toMap
 
     var changed: Map[TaskFingerprint, Boolean] = allChanged
+    val limit                                  =
+      if (toProcess.forall(task => io.joern.dataflowengineoss.isDart(task.sink)))
+        config.maxHeldTaskIterations
+      else 0
+    var iterations = 0
 
-    while (changed.values.toList.contains(true)) {
+    def pending: Boolean =
+      if (limit == 0) changed.values.toList.contains(true)
+      else toProcess.exists(task => changed.getOrElse(task.fingerprint, false))
+    while (pending && (limit == 0 || iterations < limit)) {
+      iterations += 1
       val taskResultsPairs = toProcess
         .filter(t => changed(t.fingerprint))
         .par
@@ -74,6 +84,7 @@ class HeldTaskCompletion(
         resultsProducedByTask += (t -> resultsForTask)
       }
     }
+    if (pending) config.diagnostics.foreach(_.record("held-task-iterations"))
     deduplicateResultTable()
   }
 
@@ -146,6 +157,8 @@ class HeldTaskCompletion(
     * For a group of flows that we treat as the same, we select the flow with the maximum length. If there are multiple
     * flows with maximum length, then we compute a string representation of the flows - taking into account all fields
     *   - and select the flow with maximum length that is smallest in terms of this string representation.
+    * Dart's opt-in witness bound retains additional distinct paths in the same ordering and reports omitted
+    * alternatives.
     */
   private def deduplicateTableEntries(list: List[TableEntry]): List[TableEntry] = {
     list
@@ -156,22 +169,8 @@ class HeldTaskCompletion(
           result.path.lastOption.map(x => (x.node, x.callSiteStack, x.isOutputArg, x.outputChannel, x.fieldDemand)).get
         (head, last)
       }
-      .map { case (_, list) =>
-        val lenIdPathPairs = list.map(x => (x.path.length, x))
-        val withMaxLength  = (lenIdPathPairs.sortBy(_._1).reverse match {
-          case Nil    => Nil
-          case h :: t => h :: t.takeWhile(y => y._1 == h._1)
-        }).map(_._2)
-
-        if (withMaxLength.length == 1) {
-          withMaxLength.head
-        } else {
-          withMaxLength.minBy { x =>
-            x.path
-              .map(_.orderingKey)
-              .mkString("-")
-          }
-        }
+      .flatMap { case (_, list) =>
+        WitnessSelection.select[TableEntry](list, _.path, config, _.path.map(_.orderingKey).mkString("-"))
       }
       .toList
   }

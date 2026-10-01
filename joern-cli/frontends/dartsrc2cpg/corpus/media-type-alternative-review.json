@@ -1,0 +1,265 @@
+{
+  "schemaVersion": 1,
+  "source": {
+    "name": "http_parser",
+    "version": "4.1.2",
+    "sha256": "178d74305e7866013777bab2c3d8726205dc5a4dd935297175b19a23a2e66571",
+    "librarySha256": "739aeba9feb50dc075b2038553b24ba716ec92a3f57e164902a275b403e21d0b",
+    "probe": "convert"
+  },
+  "analysisSources": {
+    "algorithm": "sha256-path-nul-content-nul",
+    "sha256": "4ca12f51b696f7688a2fbf704dbc951a937b05b91fb0e5021145f90eea7b6a6a",
+    "files": 396,
+    "roots": [
+      "joern-cli/frontends/dartsrc2cpg/src",
+      "joern-cli/frontends/dartsrc2cpg/astgen/lib",
+      "joern-cli/frontends/dartsrc2cpg/astgen/bin",
+      "joern-cli/frontends/x2cpg/src/main",
+      "dataflowengineoss/src/main",
+      "semanticcpg/src/main",
+      "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.lock",
+      "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.yaml",
+      "joern-cli/frontends/dartsrc2cpg/build.sbt",
+      "joern-cli/frontends/x2cpg/build.sbt",
+      "joern-cli/build.sbt",
+      "dataflowengineoss/build.sbt",
+      "semanticcpg/build.sbt",
+      "build.sbt",
+      "project/Versions.scala",
+      "project/Projects.scala"
+    ]
+  },
+  "exporter": {
+    "record": "header",
+    "protocolVersion": 1,
+    "exporterVersion": "0.3.19",
+    "analyzerVersion": "8.4.1",
+    "sdkVersion": "3.9.2",
+    "offsetEncoding": "utf-16",
+    "conditionalEnvironment": "analyzer-default"
+  },
+  "query": {
+    "id": "captured-media-type",
+    "source": {
+      "file": "src/media_type.dart",
+      "method": "parse",
+      "kind": "parameter",
+      "name": "mediaType"
+    },
+    "sink": {
+      "file": "src/media_type.dart",
+      "method": "<lambda>",
+      "kind": "call",
+      "code": "StringScanner(mediaType)",
+      "argument": 1,
+      "name": "<init>"
+    },
+    "maxCallDepth": 4,
+    "maxFieldDepth": 4,
+    "maxWitnessesPerEndpoint": 2,
+    "maxHeldTaskIterations": 2,
+    "maxArgsToAllow": 1000,
+    "maxOutputArgsExpansion": 1000,
+    "limitations": [],
+    "pathSelection": "bounded-alternatives-per-endpoint-pair"
+  },
+  "sourceLocations": [
+    {
+      "file": "lib/src/media_type.dart",
+      "lines": [
+        43,
+        46,
+        47
+      ],
+      "reason": "The factory closes over mediaType and supplies that exact captured value to StringScanner."
+    },
+    {
+      "file": "lib/src/utils.dart",
+      "lines": [
+        11,
+        13
+      ],
+      "reason": "wrapFormatException immediately invokes body(). Its value parameter is used only to format caught errors, with no assignment to that parameter."
+    }
+  ],
+  "disposition": "Both returned alternatives have a complete transition disposition. The short lexical-capture route is an explicit value dependency. The long route includes conservative argument-output effects.",
+  "executionOracle": {
+    "test": "astgen/test/corpus_capture_test.dart",
+    "command": "cd joern-cli/frontends/dartsrc2cpg/astgen && DART_CORPUS_TESTS=1 dart test test/corpus_capture_test.dart",
+    "inputs": [
+      "text/plain",
+      "TEXT/PLAIN; charset=utf-8",
+      "invalid-a",
+      "invalid-b"
+    ],
+    "expectations": [
+      "The valid inputs produce text/plain; the parameterized input retains charset utf-8.",
+      "Each invalid input throws a FormatException retaining that same input as its source."
+    ]
+  },
+  "limitations": [
+    "The sink is the captured argument, not the external StringScanner implementation or subsequent parser pipeline.",
+    "Observed executions exercise the pinned synchronous wrapper; they do not qualify general callback delivery or timing.",
+    "Returning two paths with no reported limit does not prove all path families or branch feasibility.",
+    "This review covers captured-media-type only; other new corpus alternatives remain pending."
+  ],
+  "reviews": [
+    {
+      "nodes": [
+        {
+          "nodeId": "111669149791",
+          "label": "METHOD_PARAMETER_IN",
+          "method": "package:http_parser/src/media_type.dart#1333:CONSTRUCTOR:parse",
+          "code": "String mediaType",
+          "line": 43,
+          "visible": true,
+          "isOutputArg": false,
+          "outEdgeLabel": "mediaType",
+          "fieldDemand": [],
+          "callSiteStack": []
+        },
+        {
+          "nodeId": "68719477571",
+          "label": "IDENTIFIER",
+          "method": "package:http_parser/src/media_type.dart#1548:FUNCTION:null",
+          "code": "mediaType",
+          "line": 47,
+          "visible": true,
+          "isOutputArg": false,
+          "outEdgeLabel": "",
+          "fieldDemand": [],
+          "callSiteStack": []
+        }
+      ],
+      "transitions": [
+        {
+          "source": "111669149791",
+          "target": "68719477571",
+          "classification": "lexical-capture",
+          "reason": "The callback reads the enclosing MediaType.parse parameter unchanged as argument 1 of StringScanner. This is availability of a captured value when the callback runs."
+        }
+      ],
+      "disposition": "source-grounded direct capture"
+    },
+    {
+      "nodes": [
+        {
+          "nodeId": "111669149791",
+          "label": "METHOD_PARAMETER_IN",
+          "method": "package:http_parser/src/media_type.dart#1333:CONSTRUCTOR:parse",
+          "code": "String mediaType",
+          "line": 43,
+          "visible": true,
+          "isOutputArg": false,
+          "outEdgeLabel": "mediaType",
+          "fieldDemand": [],
+          "callSiteStack": []
+        },
+        {
+          "nodeId": "68719477485",
+          "label": "IDENTIFIER",
+          "method": "package:http_parser/src/media_type.dart#1333:CONSTRUCTOR:parse",
+          "code": "mediaType",
+          "line": 46,
+          "visible": true,
+          "isOutputArg": false,
+          "outEdgeLabel": "",
+          "fieldDemand": [],
+          "callSiteStack": []
+        },
+        {
+          "nodeId": "111669149812",
+          "label": "METHOD_PARAMETER_IN",
+          "method": "package:http_parser/src/utils.dart#435:FUNCTION:wrapFormatException",
+          "code": "String value",
+          "line": 11,
+          "visible": true,
+          "isOutputArg": false,
+          "outEdgeLabel": "value",
+          "fieldDemand": [],
+          "callSiteStack": [
+            {
+              "nodeId": "30064771907",
+              "target": "package:http_parser/src/utils.dart#435:FUNCTION:wrapFormatException"
+            }
+          ]
+        },
+        {
+          "nodeId": "115964117108",
+          "label": "METHOD_PARAMETER_OUT",
+          "method": "package:http_parser/src/utils.dart#435:FUNCTION:wrapFormatException",
+          "code": "String value",
+          "line": 11,
+          "visible": true,
+          "isOutputArg": false,
+          "outEdgeLabel": "",
+          "fieldDemand": [],
+          "callSiteStack": [
+            {
+              "nodeId": "30064771907",
+              "target": "package:http_parser/src/utils.dart#435:FUNCTION:wrapFormatException"
+            }
+          ]
+        },
+        {
+          "nodeId": "68719477485",
+          "label": "IDENTIFIER",
+          "method": "package:http_parser/src/media_type.dart#1333:CONSTRUCTOR:parse",
+          "code": "mediaType",
+          "line": 46,
+          "visible": true,
+          "isOutputArg": true,
+          "outEdgeLabel": "mediaType",
+          "fieldDemand": [],
+          "callSiteStack": []
+        },
+        {
+          "nodeId": "68719477571",
+          "label": "IDENTIFIER",
+          "method": "package:http_parser/src/media_type.dart#1548:FUNCTION:null",
+          "code": "mediaType",
+          "line": 47,
+          "visible": true,
+          "isOutputArg": false,
+          "outEdgeLabel": "",
+          "fieldDemand": [],
+          "callSiteStack": []
+        }
+      ],
+      "transitions": [
+        {
+          "source": "111669149791",
+          "target": "68719477485",
+          "classification": "parameter-use",
+          "reason": "The caller evaluates mediaType as argument 2 to wrapFormatException."
+        },
+        {
+          "source": "68719477485",
+          "target": "111669149812",
+          "classification": "parameter-binding",
+          "reason": "Argument 2 binds to wrapFormatException value; the recorded call stack identifies that call."
+        },
+        {
+          "source": "111669149812",
+          "target": "115964117108",
+          "classification": "conservative-parameter-output",
+          "reason": "The engine carries value to its output slot. The source does not assign to this String parameter; this is an argument-output approximation."
+        },
+        {
+          "source": "115964117108",
+          "target": "68719477485",
+          "classification": "output-argument-binding",
+          "reason": "The same call stack maps the output slot to the original mediaType argument. The caller node is marked isOutputArg. No runtime mutation of a String is implied."
+        },
+        {
+          "source": "68719477485",
+          "target": "68719477571",
+          "classification": "unchanged-captured-value",
+          "reason": "The caller argument and callback read depend on the same unchanged outer parameter. The caller detour is redundant; the direct capture route establishes the value dependency."
+        }
+      ],
+      "disposition": "conservative argument-output detour; no mutation or path-feasibility claim"
+    }
+  ]
+}

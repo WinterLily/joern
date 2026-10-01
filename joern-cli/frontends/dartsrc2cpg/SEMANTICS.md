@@ -7,6 +7,29 @@ capture/REF edges, following the same representation conventions as Java lambda
 methods. Dart-specific passes handle analyzer facts and Dart lowering rules;
 shared binding/linking exceptions require a `DART` graph and boundary regressions.
 
+## Query witnesses
+
+The default engine selects one longest witness per endpoint pair. For Dart graphs,
+`EngineConfig(maxWitnessesPerEndpoint = N)` with `N > 1` retains up to `N` distinct
+paths at each intraprocedural, held-task and final selection stage. Selection
+orders longer paths first and uses the existing deterministic tie breaker.
+Distinct paths retain call contexts, output channels and field demands. Other
+languages keep their previous selection behavior.
+
+This is a bounded audit mode. Intermediate pruning can exclude a route before
+final selection, and loops, call depth and other engine limits still apply.
+`QueryDiagnostics` records `witness-alternatives` whenever the bound drops a
+distinct path. No absence or path-feasibility guarantee follows from returning
+several witnesses. The corpus harness records the bound, omitted reporting counts
+and detailed paths with invisible nodes, call stacks, output flags and field
+demands. Visible paths may merge details that differ only in engine context.
+`maxHeldTaskIterations` separately bounds Dart held-task combination rounds.
+Its default of zero preserves the previous fixed-point search. When pending
+combinations remain at a positive bound, diagnostics record `held-task-iterations`;
+any absent result under that limit is inconclusive. It does not bound the runtime
+of one round or qualify unreturned routes. Foreign and mixed-language held-task
+sets retain their previous behavior.
+
 ## Names, libraries and types
 
 The analyzer's declaration IDs are authoritative, including library-private names

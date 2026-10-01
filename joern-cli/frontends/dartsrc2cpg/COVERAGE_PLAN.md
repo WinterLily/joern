@@ -73,6 +73,15 @@ retain the selected caller when captured reads enter an enclosing parameter;
 saved-receiver rebinding and nested aliases have depth-four/eight controls.
 The shared context correction is Dart-only, with ordinary-call, wrong-owner and
 foreign-language boundary tests. Static storage DART-FLOW-006 remains open.
+An opt-in Dart witness bound now retains distinct routes through intraprocedural,
+held-task and final selection, with explicit pruning diagnostics and detailed
+call-context reports. Three-route branch/call isolation has graph and bounded
+SDK execution controls; C/Java/JavaScript/Kotlin keep longest-witness selection.
+New corpus alternatives require transition review and do not close Gate 1.
+Held-task combination rounds now have an optional Dart-only budget with explicit
+inconclusive diagnostics; default and foreign-language searches retain their
+previous behavior. A four-witness package audit exceeded its seven-minute worker
+budget at the analyzer callback query and remains an inconclusive resource case.
 Runtime receiver contexts, runtime
 type environments and bound checks remain open. Mixin superclass operations now include preceding implementations from
 observed applications, with private lookup, cross-file and bound-operation
@@ -152,6 +161,12 @@ and all 63 distinct returned paths (540 transitions), including two endpoint ide
 positives. It is historical and does not certify newly generated paths. Five
 modeled negative searches remain inconclusive. Unreturned
 alternatives and negative-search qualification remain outstanding.
+
+Bounded alternative reporting is now available through `DartWitnessAuditTests`
+on saved corpus graphs. It preserves intermediate call contexts and reports
+`witness-alternatives` when selection omits distinct paths. Intermediate pruning,
+query-depth limits and source-parameter aggregation still prevent an exhaustive
+route claim. Default corpus reports retain their existing selection contract.
 
 
 - [x] Review all 67 existing expectations against pinned source. Record exact

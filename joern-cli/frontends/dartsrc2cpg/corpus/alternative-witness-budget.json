@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "analysisSources": {
+    "algorithm": "sha256-path-nul-content-nul",
+    "sha256": "6c145024d76be83bb18ba9c484e7ee428bad1020e33982857db656da6841c3c7",
+    "files": 396,
+    "roots": [
+      "joern-cli/frontends/dartsrc2cpg/src",
+      "joern-cli/frontends/dartsrc2cpg/astgen/lib",
+      "joern-cli/frontends/dartsrc2cpg/astgen/bin",
+      "joern-cli/frontends/x2cpg/src/main",
+      "dataflowengineoss/src/main",
+      "semanticcpg/src/main",
+      "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.lock",
+      "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.yaml",
+      "joern-cli/frontends/dartsrc2cpg/build.sbt",
+      "joern-cli/frontends/x2cpg/build.sbt",
+      "joern-cli/build.sbt",
+      "dataflowengineoss/build.sbt",
+      "semanticcpg/build.sbt",
+      "build.sbt",
+      "project/Versions.scala",
+      "project/Projects.scala"
+    ]
+  },
+  "sdk": "3.9.2",
+  "analyzer": "8.4.1",
+  "maxWitnessesPerEndpoint": 4,
+  "maxCallDepth": 4,
+  "maxFieldDepth": 4,
+  "scope": "Opt-in saved package-graph alternative audit worker; includes graph loading and previous completed queries",
+  "budgetMillis": 420000,
+  "outcome": "inconclusive-wall-clock-budget",
+  "observedPendingQuery": {
+    "project": "analyzer-8.4.1",
+    "id": "list-element-callback",
+    "mode": "stock"
+  },
+  "action": "The audit worker was terminated after exceeding the wall budget; its pending query has no completed alternative result.",
+  "reproduction": "DART_WITNESS_AUDIT_TESTS=1 DART_WITNESS_CATEGORY=packages DART_WITNESS_BOUND=4 sbt \"dartsrc2cpg/testOnly *DartWitnessAuditTests\"",
+  "limitations": [
+    "No absent-flow or exhaustive-route claim is made for the terminated query.",
+    "The two-witness retry is a separate configuration, not qualification of this four-witness run.",
+    "The ordinary longest-witness frontend, corpus, stage and import tests passed."
+  ],
+  "owner": "shared query engine: held-task route combination and bounded witness resource qualification",
+  "subsequentAttempts": [
+    {
+      "analysisSources": {
+        "algorithm": "sha256-path-nul-content-nul",
+        "sha256": "4ca12f51b696f7688a2fbf704dbc951a937b05b91fb0e5021145f90eea7b6a6a",
+        "files": 396,
+        "roots": [
+          "joern-cli/frontends/dartsrc2cpg/src",
+          "joern-cli/frontends/dartsrc2cpg/astgen/lib",
+          "joern-cli/frontends/dartsrc2cpg/astgen/bin",
+          "joern-cli/frontends/x2cpg/src/main",
+          "dataflowengineoss/src/main",
+          "semanticcpg/src/main",
+          "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.lock",
+          "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.yaml",
+          "joern-cli/frontends/dartsrc2cpg/build.sbt",
+          "joern-cli/frontends/x2cpg/build.sbt",
+          "joern-cli/build.sbt",
+          "dataflowengineoss/build.sbt",
+          "semanticcpg/build.sbt",
+          "build.sbt",
+          "project/Versions.scala",
+          "project/Projects.scala"
+        ]
+      },
+      "maxWitnessesPerEndpoint": 2,
+      "maxHeldTaskIterations": 50,
+      "maxCallDepth": 4,
+      "maxFieldDepth": 4,
+      "outcome": "inconclusive-wall-clock-budget",
+      "observedWorkerMillisAtLeast": 396000,
+      "observedPendingQuery": {
+        "project": "analyzer-8.4.1",
+        "id": "list-element-callback",
+        "mode": "stock"
+      },
+      "scope": "The saved package audit worker, including previous completed queries; no precise individual-query timing is claimed.",
+      "action": "The worker was terminated while this query remained pending. The round bound does not bound the runtime of one round."
+    }
+  ]
+}

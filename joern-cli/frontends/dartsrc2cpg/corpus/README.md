@@ -105,6 +105,43 @@ include source locations and all returned witness paths per query, with explicit
 counts for any requested reporting truncation. See the [semantic audit](SEMANTIC_AUDIT.md)
 for query limits, positive controls and unresolved witness findings.
 
+To audit additional routes from prepared, saved graphs, run:
+
+```sh
+DART_WITNESS_AUDIT_TESTS=1 DART_WITNESS_CATEGORY=packages DART_WITNESS_BOUND=2 \
+  DART_WITNESS_HELD_ITERATIONS=2 \
+  sbt 'dartsrc2cpg/testOnly *DartWitnessAuditTests'
+```
+
+Categories are `packages`, `applications` and `holdout`; `DART_WITNESS_PROJECT`
+optionally selects one project by name. Run the corresponding corpus tests first
+to refresh graphs and their source fingerprints. The audit writes
+`alternative-audit.json` beside each saved graph, with both model sets, detailed
+call contexts and explicit selection/depth limits. It leaves the ordinary report
+intact. The bound applies at intermediate selection stages as well as to final
+endpoint pairs. Retained alternatives require transition review; neither matching
+endpoints nor an empty limitations set proves route feasibility or exhaustiveness.
+The probe field `maxWitnessesPerEndpoint` selects the same mode for an individual
+query; positive controls must use matching call, field and witness bounds.
+`DART_WITNESS_HELD_ITERATIONS` bounds held-task combination rounds, independently
+of witness count. Zero preserves the original fixed-point search; a positive
+bound reports `held-task-iterations` when pending combinations remain. Negative
+results with that diagnostic are inconclusive. Positive controls also require
+matching round bounds.
+After auditing all three categories, run
+`python3 joern-cli/frontends/dartsrc2cpg/scripts/summarize_alternatives.py` to
+refresh `alternative-witness-results.json`. The script rejects stale or mixed
+source fingerprints and reporting omissions. The separate
+[media-type review](media-type-alternative-review.json) classifies both returned
+capture alternatives; other new paths remain pending review.
+The separate [budget report](alternative-witness-budget.json) records an
+inconclusive four-witness package run: the analyzer callback query was still
+pending when the audit worker exceeded a seven-minute wall budget. A completed
+run at a smaller bound does not qualify that larger search.
+The same report retains a later two-witness, fifty-round worker interruption.
+The completed snapshot uses two witnesses and two rounds; it exposes remaining
+round, depth and field limits without qualifying the interrupted configurations.
+
 A focused regression also records the shared engine's field approximation:
 `Box(input).other` can be tainted even when `other` is constant, because the
 returned object carries constructor input across method boundaries. This is a

@@ -977,3 +977,54 @@ adapters, 50,929 links and 522 unique external delegates. Original endpoint
 expectations remain 74/76 stock, 76/76 modeled and 4/4 holdout. Five modeled
 negative searches remain inconclusive; historical snapshots do not certify
 current paths. DART-FLOW-006 and the remaining plan gates stay open.
+
+## Bounded witness alternatives and combination limits
+
+The opt-in Dart witness bound retains distinct raw paths through intraprocedural,
+held-task and final selection. It preserves call stacks, output flags/channels
+and field demands; the default and foreign-language selection remain unchanged.
+The separate held-task round bound reports `held-task-iterations` when pending
+combinations remain. A negative result under that limit is inconclusive. Tests
+exercise three feasible value routes, independent repeated calls, deterministic
+truncation, held-task reuse and the C/Java/JavaScript/Kotlin boundary. An independent
+SDK oracle exhausts two input values and both branch booleans with exact traces.
+
+The [alternative results](alternative-witness-results.json) cover all twelve saved
+graphs and 80 endpoint expectations in each model mode, including the four holdout
+checks. At call/field depth four, two witnesses and two held-task rounds, stock
+semantics returns 86 visible and 89 detailed paths; optional models return 81 and
+83. The corresponding ordinary reports return 59 and 57 visible paths. These
+counts describe returned node sequences, not independently feasible executions.
+There are 41 stock and 40 modeled queries with recorded limitations; five queries
+in each mode record an unfinished held-task search. Six modeled negatives remain
+inconclusive in this configuration. No reporting cap omits returned witnesses.
+
+The [media-type review](media-type-alternative-review.json) classifies all six
+transitions across both returned capture paths. The newly visible two-node route
+reads the enclosing factory parameter directly in its callback. The six-node
+route contains conservative String argument-output effects through
+`wrapFormatException`; it does not establish runtime parameter mutation. The
+source invokes the callback synchronously. The opt-in `corpus_capture_test.dart`
+executes http_parser 4.1.2 on two valid and two independent invalid inputs, checking
+parsed content and retained error sources. The sink remains the external scanner
+argument; this does not qualify its implementation or the subsequent parser.
+Other new corpus alternatives still require transition review.
+
+The [budget record](alternative-witness-budget.json) preserves a historical
+four-witness run that exceeded a seven-minute package-worker wall budget and a
+later two-witness, fifty-round interruption, both at the analyzer callback query.
+A round bound does not bound one round's runtime. The completed two-round package
+audit took about five and a half minutes; application and holdout queries also
+completed. Larger searches remain resource qualification obligations.
+
+Current ordinary and bounded reports share source fingerprint
+`4ca12f51b696f7688a2fbf704dbc951a937b05b91fb0e5021145f90eea7b6a6a`
+(396 files) and exporter 0.3.19. The summary scripts independently verify the
+current implementation fingerprint and the reviewed raw paths/call contexts.
+Ordinary endpoints remain 74/76 stock and 76/76 modeled, with five modeled negative
+searches inconclusive; holdouts remain 4/4. Validation passed 101 native runtime/
+Flutter/corpus tests, 162 frontend/package tests, three application graphs, two
+holdout graphs, staging, four CLI tests, fourteen console tests and formatting.
+The optional saved-graph audit is separately enabled and passed all three corpus
+categories. Historical reviewed snapshots do not certify these new alternatives.
+DART-FLOW-006 static storage and the remaining coverage-plan obligations stay open.

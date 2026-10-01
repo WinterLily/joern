@@ -24,6 +24,20 @@ identity checks matter: name-based reaching definitions can hide a missing REF
 from an endpoint-only query. These are targeted mutation checks, not a mutation
 score over every frontend implementation statement.
 
+`witness_alternatives.dart` has three feasible value routes and repeated-call
+isolation controls. Its independent Dart oracle exhausts both branch booleans for
+two input values and checks exact helper traces. `DartFrontendTests` checks the
+same graph under default and bounded witness selection, including reporting
+truncation and saved call contexts. `WitnessSelectionTests` covers intermediate
+task selection, held-task reuse, deterministic bounds and the C/Java/JavaScript/
+Kotlin boundary. This qualifies the selected route families and auditing controls;
+bounded enumeration is not exhaustive path analysis.
+The opt-in `corpus_capture_test.dart` executes the prepared http_parser 4.1.2
+release against two valid inputs and two independent invalid inputs. Enable it
+with `DART_CORPUS_TESTS=1`; it fetches no dependencies. It exercises the source's
+synchronous wrapper and captured input, without asserting general callback timing
+or external parser implementation coverage.
+
 The Dart execution tests provide independent runtime oracles for operators,
 late initialization, exception cleanup and collection evaluation. Bounded inputs
 include numeric updates from -1 through 1 and nested collection counts from 0

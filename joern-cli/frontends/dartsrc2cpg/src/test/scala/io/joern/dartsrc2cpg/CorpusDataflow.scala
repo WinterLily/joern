@@ -2,7 +2,7 @@ package io.joern.dartsrc2cpg
 
 import io.joern.dataflowengineoss.language.*
 import io.joern.dataflowengineoss.semanticsloader.Semantics
-import io.joern.dataflowengineoss.queryengine.{EngineContext, EngineConfig, QueryDiagnostics}
+import io.joern.dataflowengineoss.queryengine.{EngineContext, EngineConfig, QueryDiagnostics, SourcesToStartingPoints}
 import io.shiftleft.codepropertygraph.generated.Cpg
 import io.shiftleft.codepropertygraph.generated.nodes.*
 import io.shiftleft.semanticcpg.language.*
@@ -113,15 +113,44 @@ private[dartsrc2cpg] object CorpusDataflow {
         config = EngineConfig(
           maxCallDepth = probe.obj.get("maxCallDepth").map(_.num.toInt).getOrElse(4),
           maxFieldDepth = probe.obj.get("maxFieldDepth").map(_.num.toInt).getOrElse(4),
+          maxWitnessesPerEndpoint = probe.obj.get("maxWitnessesPerEndpoint").map(_.num.toInt).getOrElse(1),
+          maxHeldTaskIterations = probe.obj.get("maxHeldTaskIterations").map(_.num.toInt).getOrElse(0),
           diagnostics = Some(diagnostics)
         )
       )
       println(s"Dart dataflow: ${probe("id").str}")
-      val sources = select(cpg, probe("source"))
-      val sinks   = select(cpg, probe("sink"))
-      val started = System.nanoTime()
-      val paths   = sinks.iterator.reachableByFlows(sources.iterator).l
-      val via     = probe.obj
+      val sources  = select(cpg, probe("source"))
+      val sinks    = select(cpg, probe("sink"))
+      val started  = System.nanoTime()
+      val detailed =
+        if (context.config.maxWitnessesPerEndpoint > 1) sinks.iterator.reachableByDetailed(sources.iterator)
+        else Vector.empty
+      val paths =
+        if (context.config.maxWitnessesPerEndpoint == 1) sinks.iterator.reachableByFlows(sources.iterator).l
+        else {
+          val startingPoints =
+            SourcesToStartingPoints.sourceTravsToStartingPoints(sources.iterator).map(_.startingPoint).toSet
+          detailed
+            .filter(result => result.path.head.visible || startingPoints.contains(result.path.head.node))
+            .map { result =>
+              val visible =
+                result.path.filter(element => element.visible || startingPoints.contains(element.node)).map(_.node)
+              val nodes = visible.headOption
+                .map(head =>
+                  head :: visible
+                    .sliding(2)
+                    .collect {
+                      case Seq(a, b) if a != b => b
+                    }
+                    .toList
+                )
+                .getOrElse(Nil)
+              io.joern.dataflowengineoss.language.Path(nodes)
+            }
+            .distinct
+            .toList
+        }
+      val via = probe.obj
         .get("via")
         .forall(name =>
           paths.exists(_.elements.exists {
@@ -138,36 +167,57 @@ private[dartsrc2cpg] object CorpusDataflow {
         else if (paths.nonEmpty) "flow-observed"
         else if (diagnostics.limitations.nonEmpty) "inconclusive-query-limits"
         else "no-flow-observed-within-limits"
-      ujson.Obj(
-        "id"                     -> probe("id"),
-        "expected"               -> probe("expected"),
-        "source"                 -> probe("source"),
-        "sink"                   -> probe("sink"),
-        "outcome"                -> outcome,
-        "semanticReview"         -> "pending",
-        "maxCallDepth"           -> context.config.maxCallDepth,
-        "maxFieldDepth"          -> context.config.maxFieldDepth,
-        "maxArgsToAllow"         -> context.config.maxArgsToAllow,
-        "maxOutputArgsExpansion" -> context.config.maxOutputArgsExpansion,
-        "limitations"            -> ujson.Arr.from(diagnostics.limitations.toSeq.sorted),
-        "searchComplete"         -> diagnostics.limitations.isEmpty,
-        "pathSelection"          -> "longest-per-endpoint-pair",
-        "alternativeRoutes"      -> "not-returned-by-engine",
-        "witnessLimit"           -> witnessLimit.map(ujson.Num(_)).getOrElse(ujson.Null),
-        "retainedWitnesses"      -> retained.size,
-        "omittedWitnesses"       -> (paths.size - retained.size),
-        "passed"                 -> passed,
-        "sources"                -> sources.size,
-        "sinks"                  -> sinks.size,
-        "distinctEndpoints"      -> (endpointsValid && sources.head != sinks.head),
-        "paths"                  -> paths.size,
-        "viaSatisfied"           -> via,
-        "elapsedMillis"          -> ujson.Num((System.nanoTime() - started) / 1000000.0),
-        "witnesses"              -> ujson.Arr.from(
+      val result = ujson.Obj(
+        "id"                      -> probe("id"),
+        "expected"                -> probe("expected"),
+        "source"                  -> probe("source"),
+        "sink"                    -> probe("sink"),
+        "outcome"                 -> outcome,
+        "semanticReview"          -> "pending",
+        "maxCallDepth"            -> context.config.maxCallDepth,
+        "maxFieldDepth"           -> context.config.maxFieldDepth,
+        "maxWitnessesPerEndpoint" -> context.config.maxWitnessesPerEndpoint,
+        "maxHeldTaskIterations"   -> context.config.maxHeldTaskIterations,
+        "maxArgsToAllow"          -> context.config.maxArgsToAllow,
+        "maxOutputArgsExpansion"  -> context.config.maxOutputArgsExpansion,
+        "limitations"             -> ujson.Arr.from(diagnostics.limitations.toSeq.sorted),
+        "searchComplete"          -> diagnostics.limitations.isEmpty,
+        "pathSelection"           -> (if (context.config.maxWitnessesPerEndpoint == 1) "longest-per-endpoint-pair"
+                            else "bounded-alternatives-per-endpoint-pair"),
+        "alternativeRoutes" -> (if (context.config.maxWitnessesPerEndpoint == 1) "not-returned-by-engine"
+                                else "retained-within-engine-bound"),
+        "witnessLimit"      -> witnessLimit.map(ujson.Num(_)).getOrElse(ujson.Null),
+        "retainedWitnesses" -> retained.size,
+        "omittedWitnesses"  -> (paths.size - retained.size),
+        "passed"            -> passed,
+        "sources"           -> sources.size,
+        "sinks"             -> sinks.size,
+        "distinctEndpoints" -> (endpointsValid && sources.head != sinks.head),
+        "paths"             -> paths.size,
+        "viaSatisfied"      -> via,
+        "elapsedMillis"     -> ujson.Num((System.nanoTime() - started) / 1000000.0),
+        "witnesses"         -> ujson.Arr.from(
           retained
             .map(path => ujson.Arr.from(path.elements.map(nodeEvidence)))
         )
       )
+      if (context.config.maxWitnessesPerEndpoint > 1) {
+        val retainedDetails = witnessLimit.fold(detailed)(detailed.take)
+        result("detailedPaths") = detailed.size
+        result("omittedDetailedWitnesses") = detailed.size - retainedDetails.size
+        result("detailedWitnesses") = ujson.Arr.from(retainedDetails.map { entry =>
+          ujson.Arr.from(entry.path.map { element =>
+            val node = nodeEvidence(element.node)
+            node("callSiteStack") = ujson.Arr.from(element.callSiteStack.map(callEvidence))
+            node("visible") = element.visible
+            node("isOutputArg") = element.isOutputArg
+            node("outEdgeLabel") = element.outEdgeLabel
+            node("fieldDemand") = ujson.Arr.from(element.fieldDemand)
+            node
+          })
+        })
+      }
+      result
     }
     val byId = results.map(result => result("id").str -> result).toMap
     probes.zip(results).foreach { case (probe, result) =>
@@ -175,7 +225,9 @@ private[dartsrc2cpg] object CorpusDataflow {
         val control   = probe.obj.get("positiveControl").flatMap(id => byId.get(id.str))
         val satisfied = control.exists(c =>
           c("expected").bool && c("passed").bool && c("distinctEndpoints").bool && c("source") == probe("source") &&
-            c("maxCallDepth") == result("maxCallDepth")
+            c("maxCallDepth") == result("maxCallDepth") && c("maxFieldDepth") == result("maxFieldDepth") &&
+            c("maxWitnessesPerEndpoint") == result("maxWitnessesPerEndpoint") &&
+            c("maxHeldTaskIterations") == result("maxHeldTaskIterations")
         )
         result("positiveControl") = probe.obj.getOrElse("positiveControl", ujson.Null)
         result("positiveControlSatisfied") = satisfied
