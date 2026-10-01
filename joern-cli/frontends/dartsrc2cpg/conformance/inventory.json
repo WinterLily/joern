@@ -140,7 +140,7 @@
       "cfg": "DartFrontendTests: initialization guards; pattern_cache_test.dart: failed cases/guards, logical patterns and separate matches",
       "valueFlow": "existing record projection and object getter regressions",
       "negative": "separate nested receivers and matching constructs; null input bypasses getter execution",
-      "interaction": "astgen/test/pattern_cache_test.dart: stateful getters and object wildcard side effects; comparison/collection cache keys remain open"
+      "interaction": "astgen/test/pattern_cache_test.dart: stateful getters and object wildcard side effects; comparison/extension invocation keys remain open"
     },
     "list-patterns": {
       "exporter": "astgen/test/exporter_test.dart: required list type and resolved length/index/sublist members",
@@ -150,6 +150,15 @@
       "valueFlow": "existing scalar pattern bindings; exact collection slots unqualified",
       "negative": "untyped wildcard indices/slices absent; rest-only slice has no length read; typed wildcard still reads an element",
       "interaction": "astgen/test/list_patterns_test.dart: lengths zero through four, null/string/int elements, repeated cases and rest slicing"
+    },
+    "map-patterns": {
+      "exporter": "astgen/test/exporter_test.dart: required map/value type, index/containsKey targets and constant-key identities",
+      "lowering": "DartFrontendTests: resolved extraction, key evaluation once and separate lazy read/presence storage",
+      "resolution": "concrete matched-interface lookup with required-map fallback; complete virtual targets unqualified",
+      "cfg": "DartFrontendTests: short-circuit presence checks guarded by null is V and nullable read, entry order and per-match initialization",
+      "valueFlow": "DartFrontendTests: internal map index return flows and independent receiver/constant-result controls; exact mutable slots unqualified",
+      "negative": "missing keys differ from present null; wildcard entries retain reads; distinct keys, nested receiver paths and separate matches have separate storage",
+      "interaction": "astgen/test/map_patterns_test.dart: bounded absent/null/string/int matrix, alias/null keys, failed cases/guards, nested maps/member names and generic nullable/nonnullable types"
     }
   },
   "constructs": [
@@ -957,17 +966,17 @@
       "construct": "MapPattern",
       "scope": "dart-3.9",
       "exporterCase": "MapPattern",
-      "contract": "syntax",
-      "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "contract": "map-patterns",
+      "qualification": "conservative",
+      "reason": "Required-type and nullable presence tests, resolved reads and per-match constant-key invocation reuse have graph/runtime regressions; exact collection slots, generic feasibility and complete virtual dispatch remain unqualified."
     },
     {
       "construct": "MapPatternEntry",
       "scope": "dart-3.9",
       "exporterCase": "MapPatternEntry",
-      "contract": "syntax",
-      "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "contract": "map-patterns",
+      "qualification": "conservative",
+      "reason": "Required-type and nullable presence tests, resolved reads and per-match constant-key invocation reuse have graph/runtime regressions; exact collection slots, generic feasibility and complete virtual dispatch remain unqualified."
     },
     {
       "construct": "MethodDeclaration",

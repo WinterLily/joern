@@ -1011,19 +1011,57 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
           val extracted = children(syntax, "element").flatMap { entry =>
             string(entry, "kind") match {
               case "MapPatternEntry" =>
-                val key = expression(child(entry, "key"))
-                Seq(
-                  saved(entry, operator(entry, Operators.indexAccess, Seq(value(), key)))(ref =>
-                    pattern(child(entry, "pattern"), ref, parent :+ s"map:${entry("id")}")
-                  )
-                )
+                val identity = string(entry, "keyIdentity", s"source:${entry("id")}")
+                val key      = parent :+ s"map:$identity"
+                Seq(saved(entry, expression(child(entry, "key"))) { constant =>
+                  val access = patternMember(entry, string(syntax, "indexTarget"), "[]", Seq(value(), constant()))
+                  saved(entry, patternAccess(entry, key, access)) { ref =>
+                    val acceptsNull = operator(
+                      entry,
+                      Operators.instanceOf,
+                      Seq(
+                        literal(entry, "null", "Null"),
+                        Ast(
+                          NewTypeRef()
+                            .code(string(syntax, "valueType", "dynamic"))
+                            .typeFullName(string(syntax, "valueType", "dynamic"))
+                        )
+                      )
+                    )
+                    val presence = patternAccess(
+                      entry,
+                      parent :+ s"mapContains:$identity",
+                      patternMember(entry, string(syntax, "containsKeyTarget"), "containsKey", Seq(value(), constant()))
+                    )
+                    and(
+                      Seq(
+                        operator(
+                          entry,
+                          Operators.logicalOr,
+                          Seq(nonNull(entry, ref()), operator(entry, Operators.logicalAnd, Seq(acceptsNull, presence)))
+                        ),
+                        pattern(child(entry, "pattern"), ref, key)
+                      )
+                    )
+                  }
+                })
               case "RestPatternElement" if children(entry, "pattern").isEmpty => Nil
               case _                                                          => Seq(unknown(entry))
             }
           }
-          and(
-            Seq(operator(syntax, "<operator>.patternShape", Seq(value(), literal(syntax, code(syntax))))) ++ extracted
+          val typeTest = operator(
+            syntax,
+            Operators.instanceOf,
+            Seq(
+              value(),
+              Ast(
+                NewTypeRef()
+                  .code(string(syntax, "requiredType", "Map"))
+                  .typeFullName(string(syntax, "requiredTypeId", "Map"))
+              )
+            )
           )
+          and(Seq(typeTest) ++ extracted)
         case _ => unknown(syntax)
       }
     }

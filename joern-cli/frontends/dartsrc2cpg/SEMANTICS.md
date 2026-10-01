@@ -119,8 +119,12 @@ extraction shared within one match. Nested receiver paths keep storage separate.
 List patterns test the required type and length, then call resolved index and
 sublist members. Untyped list wildcards skip extraction; typed wildcards retain
 their reads and type tests. Prefix positions, tail offsets and slice bounds
-identify cached extractions. Map patterns still use an opaque shape predicate
-and intrinsic indexing; key-presence checks and invocation reuse remain open.
+identify cached extractions. Map patterns test the required type and call resolved
+index/containsKey members in entry order, including wildcard entries. A null read
+requires both `null is V` and key presence; non-null reads bypass containsKey.
+Constant key values, including aliases and null, identify shared per-match read
+and presence storage. Nested receiver paths and separate matches stay distinct.
+Exact mutable collection-slot dataflow and complete virtual dispatch remain open.
 Constant comparisons call equality on the constant receiver, while relational
 comparisons call the matched receiver. Equality preserves operand evaluation
 order and skips user dispatch for null operands. Comparison invocation reuse

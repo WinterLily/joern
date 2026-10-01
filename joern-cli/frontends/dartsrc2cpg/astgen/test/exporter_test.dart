@@ -171,6 +171,63 @@ void main() { late int local = 1; print(local); }
     );
   });
 
+  test('export map pattern targets and constant key identities', () async {
+    write(
+      'main.dart',
+      File(
+        '../src/test/resources/semantics/map_patterns.dart',
+      ).readAsStringSync(),
+    );
+    final unit = units(await export()).single;
+    expect(unit['status'], 'resolved');
+    final symbols = {
+      for (final symbol in entries(unit, 'symbols')) symbol['id']: symbol,
+    };
+    final nodes = entries(unit, 'nodes');
+    final owners = <Object?>{};
+    for (final pattern in nodes.where((node) => node['kind'] == 'MapPattern')) {
+      expect(pattern['requiredType'], startsWith('Map<'));
+      expect(pattern['valueType'], isNotNull);
+      for (final entry in {
+        'indexTarget': '[]',
+        'containsKeyTarget': 'containsKey',
+      }.entries) {
+        final target = symbols[pattern[entry.key]];
+        expect(target, isNotNull, reason: entry.key);
+        expect(target!['name'], entry.value);
+        owners.add(symbols[target['owner']]!['name']);
+      }
+    }
+    expect(owners, containsAll(['LoggedMap', 'ScalarMap', 'Map']));
+    expect(
+      nodes
+          .where((node) => node['kind'] == 'MapPattern')
+          .map((node) => node['valueType']),
+      containsAll(['Object?', 'int', 'T', 'String']),
+    );
+    final keys = <String, Set<Object?>>{};
+    for (final entry in nodes.where(
+      (node) => node['kind'] == 'MapPatternEntry',
+    )) {
+      final key = (entry['children'] as List).cast<Map>().singleWhere(
+        (child) => child['role'] == 'key',
+      );
+      final node = nodes[key['node'] as int];
+      final offset = node['offset'] as int;
+      final code = (unit['source'] as String).substring(
+        offset,
+        offset + (node['length'] as int),
+      );
+      expect(entry['keyIdentity'], isNotNull);
+      keys.putIfAbsent(code, () => {}).add(entry['keyIdentity']);
+    }
+    expect(keys['selectedKey'], hasLength(1));
+    expect(keys['selectedAlias'], keys['selectedKey']);
+    expect(keys["'other'"], isNot(keys['selectedKey']));
+    expect(keys['null'], hasLength(1));
+    expect(keys['null'], isNot(keys['selectedKey']));
+  });
+
   test('export list pattern type and member targets', () async {
     write(
       'main.dart',

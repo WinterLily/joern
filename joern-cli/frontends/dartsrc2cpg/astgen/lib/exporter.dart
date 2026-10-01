@@ -7,6 +7,7 @@ import 'package:analyzer/src/dart/analysis/analysis_context_collection.dart';
 import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:analyzer/dart/ast/ast.dart';
+import 'package:analyzer/dart/constant/value.dart';
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:analyzer/dart/element/nullability_suffix.dart';
@@ -14,7 +15,7 @@ import 'package:analyzer/source/line_info.dart';
 import 'package:path/path.dart' as p;
 
 const protocolVersion = 1;
-const exporterVersion = '0.3.13';
+const exporterVersion = '0.3.14';
 const analyzerVersion = '8.4.1';
 const supportedSdkVersion = '3.9.2';
 
@@ -190,6 +191,7 @@ class _UnitEncoder {
   final List<Map<String, Object?>> nodes = [];
   final Set<String> unsupported = {};
   final Set<JoinPatternVariableElement> sharedCaseJoins = {};
+  final Map<DartObject, int> constantKeys = {};
 
   Iterable<PatternVariableElement> patternVariables(AstNode ast) sync* {
     if (ast is DeclaredVariablePattern) {
@@ -408,6 +410,27 @@ class _UnitEncoder {
     void many(String role, Iterable<AstNode> values) {
       for (final value in values) {
         child(role, value);
+      }
+    }
+
+    void patternMembers(
+      DartPattern pattern,
+      DartType? requiredType,
+      Map<String, String> members,
+    ) {
+      record['requiredType'] = requiredType?.getDisplayString();
+      record['requiredTypeId'] = typeId(requiredType);
+      final required = requiredType?.extensionTypeErasure;
+      final matched = pattern.matchedValueType?.extensionTypeErasure;
+      if (required is! InterfaceType) return;
+      final receiver = matched is InterfaceType ? matched : required;
+      for (final member in members.entries) {
+        record[member.key] = symbol(
+          receiver.lookUpGetter(member.value, receiver.element.library) ??
+              receiver.lookUpMethod(member.value, receiver.element.library) ??
+              required.lookUpGetter(member.value, required.element.library) ??
+              required.lookUpMethod(member.value, required.element.library),
+        );
       }
     }
 
@@ -991,31 +1014,31 @@ class _UnitEncoder {
         child('pattern', ast.pattern);
       case ListPattern():
         kind = 'ListPattern';
-        final required = ast.requiredType?.extensionTypeErasure;
-        final matched = ast.matchedValueType?.extensionTypeErasure;
-        record['requiredType'] = ast.requiredType?.getDisplayString();
-        record['requiredTypeId'] = typeId(ast.requiredType);
-        if (required is InterfaceType) {
-          final receiver = matched is InterfaceType ? matched : required;
-          record['lengthTarget'] = symbol(
-            receiver.lookUpGetter('length', receiver.element.library) ??
-                required.lookUpGetter('length', required.element.library),
-          );
-          record['indexTarget'] = symbol(
-            receiver.lookUpMethod('[]', receiver.element.library) ??
-                required.lookUpMethod('[]', required.element.library),
-          );
-          record['sublistTarget'] = symbol(
-            receiver.lookUpMethod('sublist', receiver.element.library) ??
-                required.lookUpMethod('sublist', required.element.library),
-          );
-        }
+        patternMembers(ast, ast.requiredType, {
+          'lengthTarget': 'length',
+          'indexTarget': '[]',
+          'sublistTarget': 'sublist',
+        });
         many('element', ast.elements);
       case MapPattern():
         kind = 'MapPattern';
+        patternMembers(ast, ast.requiredType, {
+          'indexTarget': '[]',
+          'containsKeyTarget': 'containsKey',
+        });
+        final required = ast.requiredType?.extensionTypeErasure;
+        if (required is InterfaceType) {
+          record['valueType'] = required.typeArguments[1].getDisplayString();
+        }
         many('element', ast.elements);
       case MapPatternEntry():
         kind = 'MapPatternEntry';
+        final key = ast.key.computeConstantValue()?.value;
+        if (key != null) {
+          record['keyIdentity'] = constantKeys
+              .putIfAbsent(key, () => constantKeys.length)
+              .toString();
+        }
         child('key', ast.key);
         child('pattern', ast.value);
       case RestPatternElement():

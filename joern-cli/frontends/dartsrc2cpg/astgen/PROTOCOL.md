@@ -7,7 +7,7 @@ unsupported protocol versions, and unsupported analyzer/exporter versions before
 constructing a graph. The Scala consumer validates the protocol, analyzer, SDK and offset encoding
 before constructing a graph. Exporter 0.3 adds modern-language fields to protocol 1.
 
-The header declares `protocolVersion` (1), `exporterVersion` (0.3.13),
+The header declares `protocolVersion` (1), `exporterVersion` (0.3.14),
 `analyzerVersion` (8.4.1), `sdkVersion` (3.9.2), and `offsetEncoding` (`utf-16`).
 No timestamps or checkout root are emitted. The exporter builds records one file
 at a time; the analyzer may retain project state internally.
@@ -200,3 +200,13 @@ untyped wildcard elements do not read an index. A trailing rest slice uses the
 optional null end argument, matching the pinned runtime without an extra length
 read. General virtual target completeness and collection-slot dataflow remain
 separate qualification obligations.
+
+Exporter 0.3.14 adds `requiredType`, `requiredTypeId`, `valueType`, `indexTarget`
+and `containsKeyTarget` to `MapPattern`, using the same member lookup as list
+patterns. `valueType` retains nullability and type parameters for `null is V`.
+`MapPatternEntry.keyIdentity` identifies equal analyzer constant values within
+one unit, including constant aliases and null keys. Invalid/unresolved constant
+keys omit this identity and keep separate source-local storage. The consumer
+uses these identities only within a single matching construct and receiver path;
+read and presence invocations have separate lazy storage. Protocol version 1
+remains unchanged; the frontend requires this exporter revision.

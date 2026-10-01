@@ -572,3 +572,38 @@ function bodies and standard operator summaries match the pre-Dart source;
 shared-engine, shared-CFG and C/C++ test files match that source exactly. All
 twelve corpus reports share the new source fingerprint. Their endpoint outcomes
 and graph baselines are unchanged; inconclusive searches remain unqualified.
+
+## Map pattern presence and invocation reuse
+
+Map patterns previously used an opaque shape predicate and intrinsic indexing.
+That omitted user index targets, conflated missing keys with present null values
+and had no invocation reuse across cases. Exporter 0.3.14 retains required-map
+and value types, index/containsKey targets and unit-local constant-key identities.
+Lowering evaluates each key once, caches reads and presence separately within a
+match, and tests entries in source order. Presence checks run only after a null
+read and a successful `null is V` test. Wildcard entries still read their keys.
+These rules follow the [Dart pattern specification](https://github.com/dart-lang/language/blob/main/accepted/3.0/patterns/feature-specification.md#pattern-matching).
+
+The pinned runtime oracle exercises missing/present keys, null/string/int values,
+constant aliases and null keys, failed cases/guards, separate matches, nested maps
+and generic nullable/nonnullable value types. Graph regressions check resolved
+internal members, short-circuit CFG bypasses, shared initialization storage and
+separate receiver paths. Map membership and a mapped object's `containsKey`
+getter have separate cache identities. Internal index-return flow has independent
+receiver and constant-result negative controls.
+
+Exact mutable collection slots, complete virtual targets and path-sensitive
+generic match feasibility remain unqualified. Comparison and substituted
+extension invocation reuse remain open. Existing inconclusive corpus searches
+retain their prior dispositions.
+
+Validation passes: Dart analyze, all 81 native tests with VM/web and Flutter
+checks enabled, all 136 frontend/package tests, all three applications, both
+holdouts, staged packaging, four CLI integration tests and fourteen console
+tests. All twelve refreshed corpus reports share the current source fingerprint
+and exporter 0.3.14; endpoint outcomes and limitations retain their prior
+dispositions. The sole affected corpus pattern is Sass's main-package export
+selection. Its thirteen added calls consist of a saved key, lazy read storage,
+null/type/presence tests, lazy presence storage and conjunction with the value
+pattern. All file, internal-method and UNKNOWN counts are unchanged. Source
+changes are confined to this frontend.

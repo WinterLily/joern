@@ -45,8 +45,11 @@ comparisons preserve receiver direction, user operator targets and null guards,
 with ordinary and dynamic equality evaluation traces. Ordinary object and record
 field extraction now uses lazy storage shared across cases within each match.
 List patterns now resolve and cache length, index and slice reads, with bounded
-wildcard/rest execution traces. Map/comparison/extension invocation caching and
-broader dispatch qualification remain open. This is
+wildcard/rest execution traces. Map patterns now retain resolved index/presence
+calls, nullable-value guards and per-match constant-key storage, with alias/null
+keys, nested receivers, failed guards and generic nullable/nonnullable execution
+checks. Comparison/extension invocation caching and broader dispatch qualification
+remain open. This is
 not complete language or runtime analysis support.
 Shared support is restricted to `DART` graphs; existing-language CFG/dataflow
 behavior and operator summaries retain their pre-Dart semantics. Added regression

@@ -2068,6 +2068,89 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         ) { (cpg, _) => assertFlow(cpg, expected) }
       }
     }
+    "resolve map pattern calls and share lazy storage by constant key" in {
+      fixture(Files.readString(frontend.resolve("src/test/resources/semantics/map_patterns.dart")), "void main() {}") {
+        (cpg, _) =>
+          cpg.unknown.size shouldBe 0
+          for ((name, expected) <- Seq("selected" -> true, "independent" -> false, "constant" -> false)) {
+            val method = cpg.method.nameExact(name).head
+            withClue(name) {
+              method.ast.isReturn.reachableByFlows(method.parameter.nameExact("input")).nonEmpty shouldBe expected
+            }
+          }
+          val generic =
+            cpg.method.nameExact("generic").call.nameExact(Operators.instanceOf).argument.isTypeRef.typeFullName.toSet
+          generic should contain("T")
+          val nullableChecks = cpg.method
+            .nameExact("generic")
+            .call
+            .nameExact(Operators.instanceOf)
+            .filter(_.argument(1).code == "null")
+            .l
+          nullableChecks.size shouldBe 1
+          val nullableCheck = nullableChecks.head
+          val presenceGuard = nullableCheck.astParent.asInstanceOf[io.shiftleft.codepropertygraph.generated.nodes.Call]
+          presenceGuard.name shouldBe Operators.logicalAnd
+          presenceGuard.argument(2).ast.isCall.nameExact("containsKey").size shouldBe 1
+          nullableCheck.cfgNext.l should contain(presenceGuard)
+          val nonNullGuard = presenceGuard.astParent.asInstanceOf[io.shiftleft.codepropertygraph.generated.nodes.Call]
+          nonNullGuard.name shouldBe Operators.logicalOr
+          nonNullGuard.argument(1).cfgNext.l should contain(nonNullGuard)
+          cpg.method.nameExact("nestedMember").local.name("<pattern>.*").size shouldBe 3
+          val nested = cpg.method.nameExact("nested").call.nameExact("[]").l
+          nested
+            .flatMap(
+              _.astParent
+                .asInstanceOf[io.shiftleft.codepropertygraph.generated.nodes.Call]
+                .argument(1)
+                .start
+                .isIdentifier
+                .refsTo
+                .id
+                .l
+            )
+            .toSet
+            .size shouldBe 4
+          for (
+            (name, slots) <- Seq(
+              "wildcard"      -> 1,
+              "typedWildcard" -> 1,
+              "cases"         -> 1,
+              "nullKey"       -> 1,
+              "guarded"       -> 1,
+              "multiple"      -> 2,
+              "separate"      -> 2
+            )
+          ) {
+            val method = cpg.method.nameExact(name).head
+            method.call.nameExact(Operators.indexAccess, "<operator>.patternShape").size shouldBe 0
+            for (member <- Seq("[]", "containsKey")) {
+              val calls = method.call.nameExact(member).l
+              withClue(s"$name $member") {
+                calls.nonEmpty shouldBe true
+                calls.iterator.callee.isExternal.toSet shouldBe Set(false)
+                val storage = calls
+                  .flatMap(
+                    _.astParent
+                      .asInstanceOf[io.shiftleft.codepropertygraph.generated.nodes.Call]
+                      .argument(1)
+                      .start
+                      .isIdentifier
+                      .refsTo
+                      .id
+                      .l
+                  )
+                  .toSet
+                storage.size shouldBe slots
+                val guarded = method.call.nameExact("<operator>.isInitialized").argument.isIdentifier.refsTo.id.toSet
+                storage.subsetOf(guarded) shouldBe true
+              }
+            }
+            method.call.nameExact(Operators.instanceOf).argument.isTypeRef.typeFullName.toSet.size shouldBe
+              (if (name == "typedWildcard") 3 else 2)
+          }
+      }
+    }
     "resolve and cache list pattern members while skipping untyped wildcards" in {
       fixture(Files.readString(frontend.resolve("src/test/resources/semantics/list_patterns.dart")), "void main() {}") {
         (cpg, _) =>
@@ -2396,7 +2479,7 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         val coverage = ujson.read(Files.readString(report))
         coverage("includedFiles").num shouldBe 0
         coverage("stringConversionOrder").str shouldBe "after-expression-evaluation"
-        coverage("exporter")("exporterVersion").str shouldBe "0.3.13"
+        coverage("exporter")("exporterVersion").str shouldBe "0.3.14"
         coverage("exporter")("sdkVersion").str shouldBe "3.9.2"
         coverage("exporter")("analyzerVersion").str shouldBe "8.4.1"
         Files.writeString(dir.resolve("excluded.dart"), "void excluded() {}")
@@ -2416,7 +2499,7 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         "offsetEncoding"  -> "utf-16",
         "analyzerVersion" -> "8.4.1",
         "sdkVersion"      -> "3.9.2",
-        "exporterVersion" -> "0.3.13"
+        "exporterVersion" -> "0.3.14"
       )
       intercept[IllegalArgumentException](ExportProtocol.units(Seq(valid)))
       intercept[IllegalArgumentException](
