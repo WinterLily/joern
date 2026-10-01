@@ -88,7 +88,9 @@ An opt-in Dart witness bound now retains distinct routes through intraprocedural
 held-task and final selection, with explicit pruning diagnostics and detailed
 call-context reports. Three-route branch/call isolation has graph and bounded
 SDK execution controls; C/Java/JavaScript/Kotlin keep longest-witness selection.
-New corpus alternatives require transition review and do not close Gate 1.
+The current HTTP capture review and seven additional path/async/parser query
+families classify selected bounded alternatives, including conservative detours
+and endpoint identity. Other alternatives still require review; Gate 1 stays open.
 Held-task combination rounds now have an optional Dart-only budget with explicit
 inconclusive diagnostics; default and foreign-language searches retain their
 previous behavior. A four-witness package audit exceeded its seven-minute worker

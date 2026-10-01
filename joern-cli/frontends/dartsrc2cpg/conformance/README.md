@@ -36,7 +36,11 @@ The opt-in `corpus_capture_test.dart` executes the prepared http_parser 4.1.2
 release against two valid inputs and two independent invalid inputs. Enable it
 with `DART_CORPUS_TESTS=1`; it fetches no dependencies. It exercises the source's
 synchronous wrapper and captured input, without asserting general callback timing
-or external parser implementation coverage.
+or external parser implementation coverage. A second pinned-package check uses
+three inputs to separate the FormatException message input from its preserved
+source/offset, and checks the distinct SourceSpanFormatException message, span
+identity and exactly-once body invocation. It uses source_span 1.10.2 from the
+prepared package configuration.
 
 The Dart execution tests provide independent runtime oracles for operators,
 late initialization, exception cleanup and collection evaluation. Bounded inputs

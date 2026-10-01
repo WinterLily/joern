@@ -7,15 +7,57 @@ from pathlib import Path
 FRONTEND = Path(__file__).resolve().parents[1]
 ROOT = FRONTEND.parents[2]
 REVIEWS = {("http_parser-4.1.2", "captured-media-type"): "media-type-alternative-review.json"}
+FORWARDING_REVIEW = "forwarding-alternative-review.json"
 
 
 def digest(value):
     return hashlib.sha256(json.dumps(value, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
 
 
+def validate_forwarding_review(project, review, mode, query):
+    selected = review["modes"][mode]
+    if review["expectedFlow"] != query["expected"] or any(
+        value != query.get(key) for key, value in selected.items() if key != "pathIndices"
+    ):
+        raise ValueError(f"Changed reviewed query: {project['project']} {query['id']}")
+    paths = []
+    for index in selected["pathIndices"]:
+        path = project["paths"][index]
+        if len(path["transitions"]) != len(path["elements"]) - 1:
+            raise ValueError(f"Incomplete transition review: {query['id']}")
+        nodes = []
+        for node_id, context, visible, output, edge, field in path["elements"]:
+            node = dict(project["nodes"][node_id], nodeId=node_id)
+            if "call" in node:
+                node["call"] = project["calls"][node["call"]]
+            if "argumentsOf" in node:
+                node["argumentsOf"] = [
+                    dict(project["calls"][call], argumentIndex=argument) for call, argument in node["argumentsOf"]
+                ]
+            node.update(
+                callSiteStack=[project["calls"][call] for call in project["contexts"][context]],
+                visible=visible, isOutputArg=output, outEdgeLabel=edge, fieldDemand=field, storageDemands=[],
+            )
+            nodes.append(node)
+        paths.append(nodes)
+    if sorted(map(digest, paths)) != sorted(map(digest, query["detailedWitnesses"])):
+        raise ValueError(f"Changed reviewed paths: {project['project']} {query['id']}")
+
+
 def summarize():
     projects = []
     fingerprints = set()
+    forwarding = json.loads((FRONTEND / "corpus" / FORWARDING_REVIEW).read_text())
+    if forwarding["schemaVersion"] != 2:
+        raise ValueError("Unsupported forwarding review schema")
+    for project in forwarding["projects"]:
+        for path in project["paths"]:
+            if any(category not in forwarding["transitionClasses"] for category in path["transitions"]):
+                raise ValueError(f"Unknown transition classification: {project['project']}")
+    for oracle in forwarding["executionOracles"]:
+        if "sha256" in oracle and hashlib.sha256((FRONTEND / oracle["file"]).read_bytes()).hexdigest() != oracle["sha256"]:
+            raise ValueError(f"Changed execution oracle: {oracle['file']}")
+    forwarding = {project["project"]: project for project in forwarding["projects"]}
     for category, scratch in [
         ("", ROOT / "agents/dart-corpus"),
         ("applications", ROOT / "agents/application-corpus/results"),
@@ -28,6 +70,16 @@ def summarize():
             alternatives = json.loads((directory / "alternative-audit.json").read_text())
             if alternatives["graphAnalysisSources"] != original["analysisSources"]:
                 raise ValueError(f"Stale graph provenance: {name}")
+            reviewed = forwarding.get(name)
+            if reviewed and (
+                reviewed["analysisSources"] != original["analysisSources"]
+                or reviewed["source"] != alternatives["source"]
+                or reviewed["exporter"] != alternatives["exporter"]
+                or reviewed["modelFilesSha256"] != {
+                    key: hashlib.sha256(value.encode()).hexdigest() for key, value in alternatives["modelFiles"].items()
+                }
+            ):
+                raise ValueError(f"Stale forwarding review: {name}")
             fingerprints.add(original["analysisSources"]["sha256"])
             checks = []
             for stock, modeled in zip(alternatives["defaultSemantics"], alternatives["dartSummaries"], strict=True):
@@ -69,15 +121,21 @@ def summarize():
                     if review["analysisSources"] != original["analysisSources"]:
                         raise ValueError(f"Stale transition review: {name} {stock['id']}")
                     keys = review["reviews"][0]["nodes"][0].keys() - {"callSiteStack"}
-                    reviewed = [path["nodes"] for path in review["reviews"]]
+                    reviewed_paths = [path["nodes"] for path in review["reviews"]]
                     observed = [[
                         {key: node[key] for key in keys} | {"callSiteStack": [
                             {"nodeId": call["nodeId"], "target": call["target"]} for call in node["callSiteStack"]
                         ]} for node in path
                     ] for path in stock["detailedWitnesses"]]
-                    if sorted(map(digest, reviewed)) != sorted(map(digest, observed)):
+                    if sorted(map(digest, reviewed_paths)) != sorted(map(digest, observed)):
                         raise ValueError(f"Changed reviewed paths: {name} {stock['id']}")
                     checks[-1]["semanticReview"] = f"see {review_file}; direct capture and conservative output detour classified"
+                elif reviewed:
+                    review = next((query for query in reviewed["queries"] if query["id"] == stock["id"]), None)
+                    if review:
+                        for mode, query in [("stock", stock), ("modeled", modeled)]:
+                            validate_forwarding_review(reviewed, review, mode, query)
+                        checks[-1]["semanticReview"] = f"see {FORWARDING_REVIEW}; {review['disposition']}"
             projects.append(dict(
                 project=name, category=category or "packages", source=alternatives["source"],
                 exporter=alternatives["exporter"],

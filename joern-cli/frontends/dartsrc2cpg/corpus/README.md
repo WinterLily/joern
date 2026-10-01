@@ -147,7 +147,11 @@ After auditing all three categories, run
 refresh `alternative-witness-results.json`. The script rejects stale or mixed
 source fingerprints and reporting omissions. The separate
 [media-type review](media-type-alternative-review.json) classifies both returned
-capture alternatives; other new paths remain pending review.
+capture alternatives. The [forwarding review](forwarding-alternative-review.json)
+classifies 18 distinct routes across seven selected path, async and parser queries,
+including conservative detours and an endpoint identity. The summary verifies
+their exact nodes, caller contexts, flags, model/provenance and query limits before
+linking them. Other new paths remain pending review.
 The separate [budget report](alternative-witness-budget.json) records an
 inconclusive four-witness package run: the analyzer callback query was still
 pending when the audit worker exceeded a seven-minute wall budget. A completed

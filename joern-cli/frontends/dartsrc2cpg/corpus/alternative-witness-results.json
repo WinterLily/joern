@@ -137,7 +137,7 @@
           "maxArgsToAllow": 1000,
           "maxOutputArgsExpansion": 1000,
           "positiveControl": null,
-          "semanticReview": "pending transition review; endpoint observations and route counts are not correctness claims"
+          "semanticReview": "see forwarding-alternative-review.json; Both retained routes leave normalize through the readonly _needsNormalization output slot, then select a fromUri caller and re-enter normalization helpers. The source directly returns an already normalized path. These are conservative caller/output detours (DART-FLOW-004), not runtime String mutation."
         },
         {
           "id": "set-extension-path",
@@ -217,7 +217,7 @@
           "maxArgsToAllow": 1000,
           "maxOutputArgsExpansion": 1000,
           "positiveControl": null,
-          "semanticReview": "pending transition review; endpoint observations and route counts are not correctness claims"
+          "semanticReview": "see forwarding-alternative-review.json; The source parses and edits the final path part before rendering. Both routes combine actual forwarding with readonly output slots, substring/index effects, whole-object projections and external builder effects. They differ in helper output detours; neither establishes allocation or field independence (DART-FLOW-006)."
         },
         {
           "id": "set-extension-suffix",
@@ -2116,7 +2116,7 @@
           "maxArgsToAllow": 1000,
           "maxOutputArgsExpansion": 1000,
           "positiveControl": "error-stored-in-completer",
-          "semanticReview": "pending transition review; endpoint observations and route counts are not correctness claims"
+          "semanticReview": "see forwarding-alternative-review.json; The source passes error and stackTrace separately to completeError. Stock has direct cross-argument and receiver-mediated alternatives; both are unjustified payload mixing for this API. The optional versioned completeError model excludes the mix, with its same-budget positive control; this endpoint does not qualify completion delivery."
         },
         {
           "id": "error-to-error-argument",
@@ -2274,7 +2274,7 @@
           "maxArgsToAllow": 1000,
           "maxOutputArgsExpansion": 1000,
           "positiveControl": null,
-          "semanticReview": "pending transition review; endpoint observations and route counts are not correctness claims"
+          "semanticReview": "see forwarding-alternative-review.json; The source field read is already the sink.add argument: source and sink are the same graph node. This is an endpoint identity, not independent forwarding evidence. The retained routes traverse CaptureSink.add/Result.capture value wrappers and whole-receiver field projections, including re-entry in the longer route. Parameter slots justify forwarding; aggregate projections remain conservative and do not prove EventSink delivery or receiver identity."
         },
         {
           "id": "cancellation-cascade",
@@ -2532,7 +2532,7 @@
           "maxArgsToAllow": 1000,
           "maxOutputArgsExpansion": 1000,
           "positiveControl": null,
-          "semanticReview": "pending transition review; endpoint observations and route counts are not correctness claims"
+          "semanticReview": "see forwarding-alternative-review.json; The source forwards input to the bytes slot of _convert and copies it with setRange. Both stock alternatives instead follow input length, size/header allocation and setRange argument effects; the only difference is the allocation temporary. They are size/position detours, not byte-content traces (DART-FLOW-003). The byte model retains direct input-to-bytes forwarding."
         },
         {
           "id": "chunk-return-buffer",
@@ -2615,7 +2615,7 @@
           "maxArgsToAllow": 1000,
           "maxOutputArgsExpansion": 1000,
           "positiveControl": null,
-          "semanticReview": "pending transition review; endpoint observations and route counts are not correctness claims"
+          "semanticReview": "see forwarding-alternative-review.json; The source copies bytes into the returned list. Both retained routes depend on conservative setRange cross-argument effects and revisit _convert through selected convert/add/addSlice callers. This does not prove arbitrary caller ordering, exact buffer contents or slot independence; the byte model bounds allocation and setRange effects (DART-FLOW-003)."
         },
         {
           "id": "chunk-empty-return",
@@ -2840,7 +2840,7 @@
           "maxArgsToAllow": 1000,
           "maxOutputArgsExpansion": 1000,
           "positiveControl": null,
-          "semanticReview": "pending transition review; endpoint observations and route counts are not correctness claims"
+          "semanticReview": "see forwarding-alternative-review.json; The FormatException handler interpolates value into its error message. Both routes carry the saved value through interpolation and generated expression blocks; one also visits its temporary read. This is an explicit text dependency on the selected catch branch, not proof that every body invocation throws or that the external exception implementation is analyzed."
         }
       ]
     },

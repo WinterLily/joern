@@ -1256,3 +1256,50 @@ witness deduplication. This sample is not a peak-memory qualification. Larger
 historical searches remain inconclusive. The HTTP capture review and deterministic
 summary were rechecked against current raw contexts; other corpus alternatives
 still require review.
+
+## Review selected bounded forwarding alternatives
+
+The [forwarding snapshot](forwarding-alternative-review.json) reviews seven
+path/async/http_parser queries under checkpoint `234571fe5`: 25 selected stock/
+modeled paths share 18 distinct detailed routes and 517 classified transitions.
+It retains exact nodes, call targets, argument slots, selected caller contexts,
+output flags, field demands, model hashes, source evidence and query budgets.
+Scalar return bindings and constructor argument-output return evidence already
+in a caller frame have separate categories. The latter is conservative output
+analysis, rather than proof of a scalar return or runtime mutation.
+
+`normalize-fast-return` and `set-extension-path` retain readonly output/caller,
+aggregate and external-call detours. The two stock `error-not-stacktrace` routes
+remain known false positives: direct argument mixing and receiver-mediated mixing.
+Its versioned optional summary rejects the mix with the same-budget positive
+control. `value-to-event-sink` selects the same graph node as source and sink;
+its longer wrapper/aggregate routes do not provide independent forwarding evidence.
+The stock byte-copy routes follow size/allocation and external argument effects,
+while the byte model retains direct input-to-bytes forwarding. Returned-buffer
+routes revisit selected conversion callers and retain conservative copy/receiver
+effects. Neither route family qualifies arbitrary callback delivery, allocation
+identity or byte slots. The error-message alternatives differ in a saved-value
+temporary and retain the explicit interpolation dependency on its selected catch.
+
+A new independent pinned-package execution check runs http_parser 4.1.2 with
+source_span 1.10.2 on three message inputs. It checks exactly-once synchronous
+body execution, an independent normal result, FormatException message interpolation
+with preserved independent source/offset, and the separate span exception branch
+with unchanged span identity and a message independent of the input. This
+supplements the captured-input oracle and the existing reduced readonly/byte-copy
+and SDK completion controls. It does not qualify the full parser pipeline or
+arbitrary event scheduling.
+
+The compact corpus summary now links these seven dispositions after verifying
+source/exporter/model provenance, query limits and exact reconstructed raw paths
+in both modes. Seven deliberate mutations are rejected: stale analysis sources,
+changed caller context, changed output flag, missing transition, changed depth,
+unknown category and stale execution oracle. Repeated summary generation is
+byte-identical. Six focused native oracle tests, clean Dart analysis and the
+inventory check pass. The twelve graph fingerprints/counts were independently
+rechecked and remain those of `234571fe5` (402 analysis files); graph/query
+implementation and the recorded bounded results are unchanged.
+
+The HTTP capture review remains current. Other corpus alternatives, larger
+searches, inconclusive negatives and the remaining coverage-plan gates stay open.
+No checkbox closes on the basis of these selected routes.
