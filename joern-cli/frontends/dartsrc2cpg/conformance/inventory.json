@@ -159,6 +159,15 @@
       "valueFlow": "DartFrontendTests: internal map index return flows and independent receiver/constant-result controls; exact mutable slots unqualified",
       "negative": "missing keys differ from present null; wildcard entries retain reads; distinct keys, nested receiver paths and separate matches have separate storage",
       "interaction": "astgen/test/map_patterns_test.dart: bounded absent/null/string/int matrix, alias/null keys, failed cases/guards, nested maps/member names and generic nullable/nonnullable types"
+    },
+    "generic-scopes": {
+      "exporter": "exporter_test.dart: scoped declaration IDs, parameter references and bound identities",
+      "lowering": "DartFrontendTests: nested class/method/alias TYPE_DECL parameters and Dart generic signatures",
+      "resolution": "scoped symbolic parameter types, bound type relations and resolved bound-member calls; inline function-type scopes unqualified",
+      "cfg": "declarations have no execution; generic fixture methods retain ordinary CFG",
+      "valueFlow": "generic identity and bound-member bodies use ordinary parameter/return lowering; instantiation-specific effects unqualified",
+      "negative": "same-named parameters in unrelated and nested scopes; implicit nullable versus explicit bounds",
+      "interaction": "astgen/test/generic_scopes_test.dart: bounded calls, aliases and nullable values; runtime generic dispatch unqualified"
     }
   },
   "constructs": [
@@ -750,9 +759,9 @@
       "construct": "FunctionTypeAlias",
       "scope": "dart-3.9",
       "exporterCase": "FunctionTypeAlias",
-      "contract": "syntax",
+      "contract": "generic-scopes",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Class/method/alias parameter identities, bound relations and signatures tested; inline generic function types and runtime instantiation remain unqualified."
     },
     {
       "construct": "FunctionTypedFormalParameter",
@@ -774,9 +783,9 @@
       "construct": "GenericTypeAlias",
       "scope": "dart-3.9",
       "exporterCase": "GenericTypeAlias",
-      "contract": "syntax",
+      "contract": "generic-scopes",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Class/method/alias parameter identities, bound relations and signatures tested; inline generic function types and runtime instantiation remain unqualified."
     },
     {
       "construct": "GuardedPattern",
@@ -1486,17 +1495,17 @@
       "construct": "TypeParameter",
       "scope": "dart-3.9",
       "exporterCase": "TypeParameter",
-      "contract": "syntax",
+      "contract": "generic-scopes",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Class/method/alias parameter identities, bound relations and signatures tested; inline generic function types and runtime instantiation remain unqualified."
     },
     {
       "construct": "TypeParameterList",
       "scope": "dart-3.9",
       "exporterCase": "TypeParameterList",
-      "contract": "syntax",
+      "contract": "generic-scopes",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Class/method/alias parameter identities, bound relations and signatures tested; inline generic function types and runtime instantiation remain unqualified."
     },
     {
       "construct": "VariableDeclaration",

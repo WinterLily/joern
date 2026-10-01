@@ -243,6 +243,53 @@ void main() { late int local = 1; print(local); }
     },
   );
 
+  test('export scoped generic declarations and bounds', () async {
+    write(
+      'main.dart',
+      File(
+        '../src/test/resources/semantics/generic_scopes.dart',
+      ).readAsStringSync(),
+    );
+    final unit = units(await export()).single;
+    expect(unit['status'], 'resolved');
+    final declarations = entries(unit, 'nodes')
+        .where((node) => node['kind'] == 'TypeParameter')
+        .map((node) => node['declaration'])
+        .toSet();
+    expect(declarations, hasLength(13));
+    expect(declarations, isNot(contains(null)));
+    final symbols = {
+      for (final symbol in entries(unit, 'symbols')) symbol['id']: symbol,
+    };
+    for (final id in declarations) {
+      final parameter = symbols[id]!;
+      expect(parameter['kind'], 'TYPE_PARAMETER');
+      expect(parameter['owner'], isNotNull);
+      expect(parameter['boundTypeId'], isNotNull);
+      if (parameter['boundType'] == 'T' || parameter['boundType'] == 'U') {
+        expect(declarations, contains(parameter['boundTypeId']));
+      }
+    }
+    expect(
+      declarations.map((id) => symbols[id]!['boundType']),
+      containsAll(['Data', 'num', 'Object?', 'Comparable<T>', 'T', 'U']),
+    );
+    final typed = symbols.values.where(
+      (symbol) => symbol['kind'] == 'PARAMETER' && symbol['type'] == 'T',
+    );
+    expect(typed, isNotEmpty);
+    expect(
+      typed.map((symbol) => symbol['typeId']),
+      everyElement(isIn(declarations)),
+    );
+    expect(
+      symbols.values.singleWhere(
+        (symbol) => symbol['name'] == 'optional',
+      )['genericSignature'],
+      contains('T?'),
+    );
+  });
+
   test(
     'distinguish extension arguments with identical display names',
     () async {

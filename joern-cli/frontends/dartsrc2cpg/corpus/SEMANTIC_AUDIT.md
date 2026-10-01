@@ -641,3 +641,27 @@ The graph deltas are independently predicted from source AST facts: each
 constant or relational pattern adds an initialization check, its negation and
 a cache assignment. Analyzer adds 147 calls, LocalSend 126, Saber 336, Sass
 3,363 and YAML 147. File, internal-method and UNKNOWN counts are unchanged.
+
+## Scoped generic parameters and bounds
+
+Exporter 0.3.16 retains declaration identities for type parameters instead of
+collapsing unrelated declarations to names such as `T`. Class, method and alias
+parameters are nested TYPE_DECLs with bound relationships and a
+`dart.typeParameter` annotation. Bounds on other parameters refer to their scoped
+identities. Recursive interface bounds retain their Dart signature and interface
+declaration; implicit bounds retain `Object?`.
+
+Methods, members, locals, types and aliases retain Dart generic signatures in the
+existing CPG property. These preserve nullable and parameterized source/display
+types alongside declaration-based type relations. Regressions cover unrelated
+and nested scopes, bounds on another parameter, recursive bounds, aliases,
+nullable locals, TYPE-to-TYPE_DECL links and calls selected from a generic bound.
+The runtime oracle checks generic identity functions, bound member calls, alias
+assignments and nullable values. Inline generic function-type scopes, runtime
+type-argument substitution and promoted-type feasibility remain unqualified.
+
+Validation passes: Dart analyze, all 87 native tests with VM/web and Flutter
+checks enabled, all 139 frontend/package tests, all three applications, both
+holdouts, staged packaging, four CLI integration tests and fourteen console tests.
+All twelve refreshed reports share one current source fingerprint and exporter
+0.3.16. Graph baselines, endpoint checks and limitations are unchanged.

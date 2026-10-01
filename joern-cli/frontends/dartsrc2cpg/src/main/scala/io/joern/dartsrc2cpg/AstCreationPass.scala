@@ -1550,7 +1550,10 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
       case "VariableDeclaration" | "DeclaredIdentifier" | "CatchClauseParameter" =>
         val name  = string(syntax, "name")
         val typ   = tpe(symbol(syntax))
-        val local = located(NewLocal().name(name).code(name).typeFullName(typ), syntax)
+        val local = located(
+          NewLocal().name(name).code(name).typeFullName(typ).genericSignature(string(symbol(syntax), "type", "ANY")),
+          syntax
+        )
         declarations(string(syntax, "declaration")) = local
         val id = string(syntax, "declaration")
         if (bool(symbol(syntax), "late")) {
@@ -2096,6 +2099,7 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
           .filename(filename)
           .isExternal(false)
           .signature(s"${string(target, "returnType", "ANY")}(${parameters.size})")
+          .genericSignature(string(target, "genericSignature"))
           .astParentType(ownerType)
           .astParentFullName(owner),
         syntax
@@ -2114,6 +2118,7 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
         else Nil
       val ast = Ast(out)
         .withChildren(receiver ++ parameters)
+        .withChildren(typeParameters(function, "METHOD", id))
         .withChild(block(body.getOrElse(syntax), prefix ++ initializers ++ superCalls ++ bodyAsts ++ result))
         .withChild(
           Ast(
@@ -2208,7 +2213,14 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
     }
     def member(syntax: Value): Ast = {
       val out =
-        located(NewMember().name(string(syntax, "name")).code(code(syntax)).typeFullName(tpe(symbol(syntax))), syntax)
+        located(
+          NewMember()
+            .name(string(syntax, "name"))
+            .code(code(syntax))
+            .typeFullName(tpe(symbol(syntax)))
+            .genericSignature(string(symbol(syntax), "type", "ANY")),
+          syntax
+        )
       declarations(string(syntax, "declaration")) = out
       Ast(out).withChildren(
         (Seq(
@@ -2465,6 +2477,32 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
       declarations.clear(); declarations ++= previous
       ast
     }
+    def typeParameters(syntax: Value, parentType: String, parent: String): Seq[Ast] =
+      children(syntax, "typeParameters").flatMap(list => children(list, "parameter")).map { parameter =>
+        val target = symbol(parameter)
+        val out    = located(
+          NewTypeDecl()
+            .name(string(parameter, "name"))
+            .fullName(
+              string(
+                parameter,
+                "declaration",
+                s"$filename#${parameter("offset").num.toInt}:TYPE_PARAMETER:${string(parameter, "name")}"
+              )
+            )
+            .code(code(parameter))
+            .filename(filename)
+            .isExternal(false)
+            .inheritsFromTypeFullName(Seq(string(target, "boundTypeId")).filter(_.nonEmpty))
+            .genericSignature(s"${string(parameter, "name")} extends ${string(target, "boundType", "Object?")}")
+            .astParentType(parentType)
+            .astParentFullName(parent),
+          parameter
+        )
+        Ast(out).withChild(
+          Ast(NewAnnotation().name("typeParameter").fullName("dart.typeParameter").code("typeParameter"))
+        )
+      }
     def declaration(syntax: Value): Seq[Ast] = string(syntax, "kind") match {
       case "GenericTypeAlias" | "FunctionTypeAlias" =>
         val out = located(
@@ -2478,6 +2516,7 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
               )
             )
             .aliasTypeFullName(string(syntax, "aliasedType", "ANY"))
+            .genericSignature(code(syntax))
             .code(code(syntax))
             .filename(filename)
             .isExternal(false)
@@ -2485,7 +2524,7 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
             .astParentFullName(owner),
           syntax
         )
-        Seq(Ast(out))
+        Seq(Ast(out).withChildren(typeParameters(syntax, "TYPE_DECL", out.fullName)))
       case "FunctionDeclaration"                              => Seq(method(syntax, child(syntax, "function")))
       case "MethodDeclaration" | "ConstructorDeclaration"     => Seq(method(syntax, syntax))
       case "TopLevelVariableDeclaration" | "FieldDeclaration" =>
@@ -2541,6 +2580,9 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
             .filename(filename)
             .isExternal(false)
             .inheritsFromTypeFullName(strings(symbol(syntax), "superDeclarations"))
+            .genericSignature(
+              s"${string(syntax, "name")}${children(syntax, "typeParameters").headOption.map(code).getOrElse("")}"
+            )
             .astParentType(previousType)
             .astParentFullName(previousOwner),
           syntax
@@ -2559,7 +2601,7 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
           modifiers.map(modifier => Ast(NewAnnotation().name(modifier).fullName(s"dart.$modifier").code(modifier)))
         Seq(
           Ast(out).withChildren(
-            fields ++ constants.map(
+            typeParameters(syntax, "TYPE_DECL", out.fullName) ++ fields ++ constants.map(
               member
             ) ++ generatedEnums ++ representationAsts ++ methods ++ initializers ++ forwardingConstructors ++ standard ++ annotations
           )

@@ -12,9 +12,20 @@ not a second name resolver in Scala.
 Classes are TYPE_DECLs, and fields and top-level variables are MEMBERs. Type and
 method full names use exported IDs, so identical names in separate libraries,
 accessors and constructors remain distinct. Interface types use their declaration
-identity for type relations; generic arguments and nullability remain in source
-and exporter display types. Type parameters retain their symbolic types. This is
-a graph of generic declarations, not separate copies for each instantiation.
+identity for type relations. Class, extension, mixin, method and alias type
+parameters are nested TYPE_DECLs marked by `dart.typeParameter` annotations.
+Their analyzer IDs distinguish separate declarations named `T`; bound relations
+refer to the bound's declaration, including bounds on other parameters.
+An omitted bound retains the Dart default `Object?` in its generic signature.
+
+The CPG `genericSignature` property retains Dart text: analyzer function types on
+methods, declared display types on members/locals, type parameter lists on type
+declarations, bounds on parameter declarations and source on aliases. Generic
+arguments and nullability are preserved there while interface/parameter
+`typeFullName` relations refer to declarations. Nullability and promoted-type
+feasibility remain conservative. Inline generic function-type parameter scopes,
+runtime type arguments and generic tear-off instantiation still need qualification.
+This is a graph of generic declarations, not separate copies for each instantiation.
 
 ## Calls, parameters and constructors
 

@@ -20,7 +20,7 @@ import 'package:analyzer/source/line_info.dart';
 import 'package:path/path.dart' as p;
 
 const protocolVersion = 1;
-const exporterVersion = '0.3.15';
+const exporterVersion = '0.3.16';
 const analyzerVersion = '8.4.1';
 const supportedSdkVersion = '3.9.2';
 
@@ -269,8 +269,11 @@ class _UnitEncoder {
         : constantKeys.putIfAbsent(value, () => constantKeys.length).toString();
   }
 
-  String? typeId(DartType? type) =>
-      type is InterfaceType ? symbol(type.element) : type?.getDisplayString();
+  String? typeId(DartType? type) => switch (type) {
+    InterfaceType() => symbol(type.element),
+    TypeParameterType() => symbol(type.element),
+    _ => type?.getDisplayString(),
+  };
 
   String? symbol(Element? element) {
     if (element == null) return null;
@@ -333,8 +336,10 @@ class _UnitEncoder {
           'late': element.isLate,
           'const': element.isConst,
         },
-        if (element is ExecutableElement)
+        if (element is ExecutableElement) ...{
           'returnType': element.returnType.getDisplayString(),
+          'genericSignature': element.type.getDisplayString(),
+        },
         if (element is FormalParameterElement) ...{
           'named': element.isNamed,
           'required': element.isRequired,
@@ -352,6 +357,14 @@ class _UnitEncoder {
       if (element is ExecutableElement) {
         symbols[id]!['returnTypeId'] = typeId(element.returnType);
       }
+      if (element is TypeParameterElement) {
+        symbols[id]!['boundType'] =
+            element.bound?.getDisplayString() ?? 'Object?';
+        symbols[id]!['boundTypeId'] = typeId(
+          element.bound ??
+              (element.library ?? analysisLibrary)?.typeProvider.objectType,
+        );
+      }
       if (element is ExtensionElement) {
         symbols[id]!['extendedType'] = typeId(element.extendedType);
       }
@@ -360,7 +373,8 @@ class _UnitEncoder {
             .map((t) => symbol(t.element))
             .toList();
       }
-      if (element.enclosingElement is InterfaceElement ||
+      if (element is TypeParameterElement ||
+          element.enclosingElement is InterfaceElement ||
           element.enclosingElement is ExtensionElement) {
         symbols[id]!['owner'] = symbol(element.enclosingElement);
       }
@@ -643,6 +657,7 @@ class _UnitEncoder {
       case TypeParameter():
         kind = 'TypeParameter';
         record['name'] = ast.name.lexeme;
+        record['declaration'] = symbol(ast.declaredFragment?.element);
         child('bound', ast.bound);
       case TopLevelVariableDeclaration():
         kind = 'TopLevelVariableDeclaration';

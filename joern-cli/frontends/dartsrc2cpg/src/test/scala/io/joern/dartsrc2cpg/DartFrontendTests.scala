@@ -77,6 +77,59 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
   }
 
   "Dart frontend" should {
+    "preserve generic parameter scopes and bound relationships" in {
+      fixture(
+        Files.readString(frontend.resolve("src/test/resources/semantics/generic_scopes.dart")),
+        "void main() {}",
+        dataflow = false
+      ) { (cpg, _) =>
+        val data    = cpg.typeDecl.nameExact("Data").head
+        val box     = cpg.typeDecl.nameExact("Box").head
+        val other   = cpg.typeDecl.nameExact("Other").head
+        val boxed   = box.astChildren.isTypeDecl.nameExact("T").head
+        val numeric = other.astChildren.isTypeDecl.nameExact("T").head
+        boxed.fullName should not be numeric.fullName
+        boxed.inheritsFromTypeFullName shouldBe Seq(data.fullName)
+        numeric.inheritsFromTypeFullName.head should endWith(":CLASS:num")
+        box.member.nameExact("value").typeFullName.l shouldBe List(boxed.fullName)
+        val echo = box.method.nameExact("echo").head
+        echo.parameter.nameExact("input").typeFullName.l shouldBe List(boxed.fullName)
+        echo.parameter.nameExact("input").typ.referencedTypeDecl.fullName.l shouldBe List(boxed.fullName)
+        echo.methodReturn.typeFullName shouldBe boxed.fullName
+        echo.ast.isIdentifier.nameExact("input").typeFullName.toSet shouldBe Set(boxed.fullName)
+        val narrower = box.method.nameExact("narrower").head
+        val narrow   = narrower.astChildren.isTypeDecl.nameExact("U").head
+        narrow.inheritsFromTypeFullName shouldBe Seq(boxed.fullName)
+        narrower.parameter.nameExact("input").typeFullName.l shouldBe List(narrow.fullName)
+        for (name <- Seq("first", "second", "nested", "helper")) {
+          val method    = cpg.method.nameExact(name).head
+          val parameter = method.astChildren.isTypeDecl.nameExact("T").head
+          method.parameter.index(1).typeFullName.l shouldBe List(parameter.fullName)
+        }
+        val genericNames = cpg.typeDecl.fullName.l.filter(_.contains(":TYPE_PARAMETER:"))
+        genericNames should have size 13
+        genericNames.distinct should have size 13
+        for (name <- Seq("Converter", "Legacy", "Pair")) {
+          val alias = cpg.typeDecl.nameExact(name).head
+          alias.astChildren.isTypeDecl.size shouldBe (if (name == "Pair") 2 else 1)
+        }
+        val pair = cpg.typeDecl.nameExact("Pair").head
+        pair.astChildren.isTypeDecl.nameExact("T").head.inheritsFromTypeFullName shouldBe
+          Seq(pair.astChildren.isTypeDecl.nameExact("U").head.fullName)
+        val unbounded = cpg.typeDecl.nameExact("Unbounded").head
+        val unbound   = unbounded.astChildren.isTypeDecl.nameExact("T").head
+        unbound.genericSignature shouldBe "T extends Object?"
+        unbound.inheritsFromTypeFullName.head should endWith(":CLASS:Object")
+        val optional = unbounded.method.nameExact("optional").head
+        optional.genericSignature should include("T?")
+        optional.local.nameExact("saved").genericSignature.l shouldBe List("T?")
+        val recursive = cpg.typeDecl.nameExact("Recursive").head.astChildren.isTypeDecl.head
+        recursive.genericSignature shouldBe "T extends Comparable<T>"
+        recursive.inheritsFromTypeFullName.head should endWith(":CLASS:Comparable")
+        val read = box.method.nameExact("read").head.ast.isCall.nameExact("read").head
+        read.callee.isExternal(false).fullName.l shouldBe data.method.nameExact("read").fullName.l
+      }
+    }
     "separate exception payloads from normal values across method calls" in {
       fixture(
         Files.readString(frontend.resolve("src/test/resources/semantics/exception_calls.dart")),
@@ -1344,7 +1397,9 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         "void main(List<String> args) { final input = args[0]; final box = Box<String>(input); sink(box.relay(input)); sink(Box.identity('constant')); }"
       ) { (cpg, _) =>
         cpg.typeDecl.nameExact("Box").inheritsFromTypeFullName.l.exists(_.endsWith(":CLASS:Base")) shouldBe true
-        cpg.member.nameExact("item").typeFullName.l shouldBe List("T?")
+        cpg.member.nameExact("item").typeFullName.l shouldBe
+          cpg.typeDecl.nameExact("Box").astChildren.isTypeDecl.nameExact("T").fullName.l
+        cpg.member.nameExact("item").genericSignature.l shouldBe List("T?")
         cpg.method.nameExact("relay").isExternal(false).parameter.index(0).name.toSet shouldBe Set("this")
         cpg.call.nameExact("relay").argument(0).code.l shouldBe List("box")
         cpg.call.nameExact("identity").argument.argumentIndex.l shouldBe List(1)
@@ -2535,7 +2590,7 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         val coverage = ujson.read(Files.readString(report))
         coverage("includedFiles").num shouldBe 0
         coverage("stringConversionOrder").str shouldBe "after-expression-evaluation"
-        coverage("exporter")("exporterVersion").str shouldBe "0.3.15"
+        coverage("exporter")("exporterVersion").str shouldBe "0.3.16"
         coverage("exporter")("sdkVersion").str shouldBe "3.9.2"
         coverage("exporter")("analyzerVersion").str shouldBe "8.4.1"
         Files.writeString(dir.resolve("excluded.dart"), "void excluded() {}")
@@ -2555,7 +2610,7 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         "offsetEncoding"  -> "utf-16",
         "analyzerVersion" -> "8.4.1",
         "sdkVersion"      -> "3.9.2",
-        "exporterVersion" -> "0.3.15"
+        "exporterVersion" -> "0.3.16"
       )
       intercept[IllegalArgumentException](ExportProtocol.units(Seq(valid)))
       intercept[IllegalArgumentException](

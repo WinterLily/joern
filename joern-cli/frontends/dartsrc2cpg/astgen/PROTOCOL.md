@@ -7,7 +7,7 @@ unsupported protocol versions, and unsupported analyzer/exporter versions before
 constructing a graph. The Scala consumer validates the protocol, analyzer, SDK and offset encoding
 before constructing a graph. Exporter 0.3 adds modern-language fields to protocol 1.
 
-The header declares `protocolVersion` (1), `exporterVersion` (0.3.15),
+The header declares `protocolVersion` (1), `exporterVersion` (0.3.16),
 `analyzerVersion` (8.4.1), `sdkVersion` (3.9.2), and `offsetEncoding` (`utf-16`).
 No timestamps or checkout root are emitted. The exporter builds records one file
 at a time; the analyzer may retain project state internally.
@@ -224,3 +224,12 @@ The consumer shares equality results between `==` and `!=`, applies negation aft
 the cache read, and keeps constant-receiver equality separate from relational
 matched-receiver equality. Extension keys include the declaration and all inferred
 argument identities. Protocol 1 remains unchanged; the frontend requires 0.3.15.
+
+## Scoped generic declarations (0.3.16)
+
+`TypeParameter.declaration` and type-parameter `typeId` values use analyzer
+declaration identities. Their symbols retain `owner`, `boundType` and
+`boundTypeId`; implicit bounds retain `Object?` and the Object declaration.
+Explicit bounds on other parameters preserve those parameter identities.
+Executable symbols retain `genericSignature` as the analyzer's displayed
+function type. This metadata does not represent separate generic instantiations.

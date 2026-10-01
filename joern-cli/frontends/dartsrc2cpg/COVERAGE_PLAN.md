@@ -51,8 +51,11 @@ keys, nested receivers, failed guards and generic nullable/nonnullable execution
 checks. Comparison invocations now share constant arguments and normalized equality
 results within a match, while retaining constant/relational receiver direction.
 Extension invocation keys include inferred argument identities, with same/different
-substitution execution checks. Broader dispatch and type-model qualification remain
-open. This is
+substitution execution checks. Generic class/method/alias parameter declarations
+now retain scoped identities, explicit/default bounds and Dart generic signatures,
+with nested scope, recursive bound and nullable-value regressions. Inline generic
+function types and runtime instantiation remain open. Broader dispatch and
+type-model qualification remain open. This is
 not complete language or runtime analysis support.
 Shared support is restricted to `DART` graphs; existing-language CFG/dataflow
 behavior and operator summaries retain their pre-Dart semantics. Added regression
