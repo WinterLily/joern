@@ -173,8 +173,9 @@ observations qualify this configuration; the historical interrupted searches
 remain inconclusive. The [holdout review](holdout-witness-review.json) covers
 all four Shelf/YAML queries. The [analyzer review](analyzer-alternative-review.json)
 covers four byte-write/callback/reset query families, preserving conservative
-caller, receiver and external-read detours. Other additional paths remain pending
-review.
+caller, receiver and external-read detours. The [Sass review](sass-alternative-review.json)
+covers all eleven compiler/utility queries, including direct parser forwarding
+and bounded negative dispositions. Other additional paths remain pending review.
 
 To check the isolated reports and reproduce the summary:
 

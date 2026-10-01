@@ -63,7 +63,7 @@ queries the reopened graph at maximum call depth four.
 
 `dataflow-probes.json` contains 33 source-grounded positive and negative checks:
 11 for each application. Stock semantics matches 32/33;
-all 33 match with the optional summaries, including two inconclusive negative
+all 33 match with the optional summaries, including three inconclusive negative
 searches recorded separately. They cover:
 
 - LocalSend: certificate decoding/hashing, output-file paths, cross-method save
@@ -124,3 +124,31 @@ source at the same depth. Stock semantics matches 32/33; optional summaries
 match 33/33. The [semantic audit](../SEMANTIC_AUDIT.md) records the complete
 certificate witness review and additional unresolved routes. These endpoint
 counts do not certify the routes or discharge the remaining review obligations.
+
+The [four-witness snapshot](../four-witness-results.json) preserves all 33
+application endpoint outcomes under four witnesses and two held rounds. Four
+modeled application negatives have query limitations in that configuration,
+including URI suffix isolation's additional pruning diagnostic.
+
+The [Sass review](../sass-alternative-review.json) covers all eleven compiler
+queries in both modes: 41 selected paths share 23 distinct routes and 330
+classified transitions. Direct argument forwarding is distinguished from readonly
+caller/output detours, external substring argument effects and callback/receiver
+approximations. Verbosity isolation remains inconclusive under its depth/pruning
+limits. The singular pluralization return has no recorded query limitation and
+separates explicit name payload from count-based branch selection.
+
+The native controls execute the actual pinned Sass public APIs, parser constructors
+and utilities. Run them after preparing the existing corpus:
+
+```sh
+cd joern-cli/frontends/dartsrc2cpg/astgen
+DART_APPLICATION_TESTS=1 dart test test/application_boundaries_test.dart
+```
+
+Three independent texts exercise CSS/SCSS parser forwarding and both verbosity
+settings, with matching public string/result APIs. Utility controls cover ASCII
+and non-ASCII whitespace, escape preservation, independent plural names/counts,
+indentation and multiline bullets. These executions qualify the exercised cases;
+they do not establish every compiler route, framework delivery or absence in
+limited graph searches.

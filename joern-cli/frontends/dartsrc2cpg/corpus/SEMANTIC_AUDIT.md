@@ -1461,3 +1461,63 @@ pass with runtime/Flutter/corpus/holdout enabled, as do final-file analysis and
 formatting and unchanged analysis provenance. The installed native BinaryWriter
 source matches the pinned graph source byte for byte. Other additional
 routes and negative searches remain open.
+
+## Complete bounded Sass query review
+
+The [Sass snapshot](sass-alternative-review.json) covers all eleven compiler
+queries in both modes at witness bound four and two held rounds. Forty-one
+selected paths share 23 distinct routes and 330 classified transitions. Seven
+represented source files retain pinned hashes, including synchronous/asynchronous
+compiler and evaluator callers. Full call slots, selected stacks, callback targets,
+visibility/output flags and empty demand sets are preserved. The summary verifies
+source/exporter/models/budgets and reconstructs each detailed path before linking
+its disposition.
+
+Public and internal string APIs forward the source directly to their selected
+formal parameters. CSS/SCSS factories have one direct route and two readonly
+contents-output detours through synchronous/asynchronous `readFile` callers.
+Those longer DART-FLOW-004 routes do not prove mutation of immutable Strings,
+actual file reads or runtime selection of either syntax branch.
+
+Trimming returns an empty string for all-whitespace input or a substring between
+computed bounds. The retained routes instead visit `_firstNonWhitespace`'s
+unchanged argument output and `_lastNonWhitespace`'s length/index/return values,
+then cross external `substring` arguments from end to start to receiver. Their
+local index visits and end-return branches differ. These cross-argument effects
+are conservative library approximations, not mutations of String or integer
+inputs; depth, held-round and pruning limitations remain explicit.
+
+Indentation's modeled route follows the line lambda's parameter/return through
+its METHOD_REF and join under the opt-in iterable contract. Stock instead leaves
+`indent` through a scalar return into `bulletedList`, traverses its callback result
+and collection receiver, and re-enters the callback and `indent` through a rest
+pattern. That route retains callback/receiver/caller approximations; it is not a
+runtime collection mutation or arbitrary delivery witness.
+
+The plural name reaches its singular return directly. Count influences branch
+selection but has no explicit payload path to that return, with no recorded
+negative-query limitation. Its comparison-input positive control uses the same
+source and budgets, while keeping its own extensive query limitations and
+readonly evaluator-caller detours. Verbosity isolation retains call-depth and
+pruning diagnostics and remains inconclusive even though source and execution
+controls keep the source and option separate.
+
+The pinned execution oracle in `application_boundaries_test.dart` exercises the
+actual Sass 1.89.2 public APIs, CSS/SCSS parser factories and utilities. Three colors
+produce distinct text, source spans and compiler output with both verbosity flags;
+public String/result APIs agree. Additional cases cover ASCII/non-ASCII whitespace,
+CSS escape preservation, independent names/counts/explicit plurals, indentation,
+empty/single/multiline bullets under explicit ASCII/Unicode glyph modes and
+separate inputs. An initial single-bullet expectation omitted its trailing
+newline and indentation: the source list pattern matches with an empty rest,
+which is then indented. The corrected oracle checks that boundary in both glyph
+modes. This is exercised compiler
+and utility evidence, not whole-pipeline or general branch-feasibility proof.
+
+All three application library hashes remain pinned. Validation passes final-file
+analysis/formatting, unchanged 403-file/all-twelve-graph analysis provenance,
+byte-identical report regeneration and eleven verifier rejection cases, including
+altered caller stacks, output flags and callback targets. Existing holdout/analyzer
+rejection checks also pass. The full native suite passes 109 tests with runtime,
+Flutter, corpus, holdout and application flags enabled. Other additional routes,
+eight modeled inconclusive negative searches and the remaining plan gates stay open.

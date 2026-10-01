@@ -11,7 +11,7 @@ LIMITS = (
     "maxStaticStorageNodes", "maxArgsToAllow", "maxOutputArgsExpansion",
 )
 REVIEW = "holdout-witness-review.json"
-REVIEW_FILES = (REVIEW, "analyzer-alternative-review.json")
+REVIEW_FILES = (REVIEW, "analyzer-alternative-review.json", "sass-alternative-review.json")
 
 
 def read(path):
@@ -71,8 +71,12 @@ def summarize(audit_root, resource_file):
                 require(proof["source"] == audit["source"] and proof["analysisSources"] == fingerprint
                         and proof["exporter"] == audit["exporter"] and proof["modelFilesSha256"] == models,
                         f"Stale transition review: {name}")
+                directory = (
+                    ROOT / "agents/application-corpus" / source["checkout"]
+                    if category == "applications" else scratch / name
+                )
                 for evidence in proof["sourceEvidence"]:
-                    file = scratch / name / evidence["file"]
+                    file = directory / evidence["file"]
                     require(hashlib.sha256(file.read_bytes()).hexdigest() == evidence["fileSha256"],
                             f"Changed reviewed source: {file}")
             checks = []
@@ -141,7 +145,7 @@ def summarize(audit_root, resource_file):
             "Intermediate pruning, depth and held-round budgets exclude routes; negative searches with limits remain inconclusive.",
             "New sequences may differ only in temporary/context details; larger bounds need not retain all smaller-bound sequences.",
             "Memory values are sampled process-family sums, not measured peak RSS or the heap of one process.",
-            "Only four holdout and four analyzer query families have full transition reviews in this snapshot; other additional routes remain pending.",
+            "Only four holdout, four analyzer and eleven Sass query families have full transition reviews in this snapshot; other additional routes remain pending.",
         ], projects=projects,
     )
 

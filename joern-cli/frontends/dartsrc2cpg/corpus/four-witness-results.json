@@ -65,7 +65,7 @@
     "Intermediate pruning, depth and held-round budgets exclude routes; negative searches with limits remain inconclusive.",
     "New sequences may differ only in temporary/context details; larger bounds need not retain all smaller-bound sequences.",
     "Memory values are sampled process-family sums, not measured peak RSS or the heap of one process.",
-    "Only four holdout and four analyzer query families have full transition reviews in this snapshot; other additional routes remain pending."
+    "Only four holdout, four analyzer and eleven Sass query families have full transition reviews in this snapshot; other additional routes remain pending."
   ],
   "projects": [
     {
@@ -5597,7 +5597,7 @@
               "detailedWitnessesSha256": "c4f2018390f6ca58761ef54dfb28bafe54ba7f0df19a808046d4bb961be9d907"
             }
           },
-          "semanticReview": "pending transition review; additional sequences are not necessarily distinct semantic route families"
+          "semanticReview": "see sass-alternative-review.json; compileString passes source slot one to Stylesheet.parse contents. The returned three-node path is explicit forwarding; depth/storage/pruning limits remain, and it does not qualify evaluator correctness."
         },
         {
           "id": "source-not-verbosity",
@@ -5668,7 +5668,7 @@
               "detailedWitnessesSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
             }
           },
-          "semanticReview": "pending transition review; additional sequences are not necessarily distinct semantic route families"
+          "semanticReview": "see sass-alternative-review.json; The logger repetition argument is !verbose, separate from source. Same-source/same-budget source-to-parser control returns forwarding, but this negative retains call-depth and witness-alternatives limits and remains inconclusive; source independence and native option controls do not remove those diagnostics."
         },
         {
           "id": "public-source-forwarding",
@@ -5743,7 +5743,7 @@
               "detailedWitnessesSha256": "b8bf6b5fb022601bf8da0d9257e0488640a358fa48b60b7d9f3e2222932773e4"
             }
           },
-          "semanticReview": "pending transition review; additional sequences are not necessarily distinct semantic route families"
+          "semanticReview": "see sass-alternative-review.json; Public compileString delegates source slot one to compileStringToResult source. Returned formal-root path is direct forwarding with empty caller stacks, not a selected external invocation; its query limits remain."
         },
         {
           "id": "scss-source-forwarding",
@@ -5830,7 +5830,7 @@
               "detailedWitnessesSha256": "27f257504ee43a1c2ebcd634618531cdbb591b3584138f2b4405b64e752f7c25"
             }
           },
-          "semanticReview": "pending transition review; additional sequences are not necessarily distinct semantic route families"
+          "semanticReview": "see sass-alternative-review.json; The Syntax.scss branch forwards contents to parseScss slot one. One direct path and two readonly contents-output detours through compile/compileAsync readFile callers are retained. These DART-FLOW-004 alternatives do not establish String mutation, actual file reads or the selected runtime syntax branch."
         },
         {
           "id": "css-source-forwarding",
@@ -5917,7 +5917,7 @@
               "detailedWitnessesSha256": "76b540077ddbcd6d26a94c4d09ed5cf25565af31b62c16a0fcb5fc9f8eb383cb"
             }
           },
-          "semanticReview": "pending transition review; additional sequences are not necessarily distinct semantic route families"
+          "semanticReview": "see sass-alternative-review.json; The Syntax.css branch forwards contents to parseCss slot one. One direct path and two readonly contents-output detours through compile/compileAsync readFile callers are retained. These DART-FLOW-004 alternatives do not establish String mutation, actual file reads or the selected runtime syntax branch."
         },
         {
           "id": "trim-source-result",
@@ -6001,7 +6001,7 @@
               "detailedWitnessesSha256": "cb6265bb7a24afd4b0b76cf3e4f658c967261f229ac80276cad7aa4c81bca2e9"
             }
           },
-          "semanticReview": "pending transition review; additional sequences are not necessarily distinct semantic route families"
+          "semanticReview": "see sass-alternative-review.json; The source returns empty text for all-whitespace input or a substring between independently computed first/last bounds. The four returned paths traverse a readonly _firstNonWhitespace argument-output slot, _lastNonWhitespace length/index/return evidence, then external substring cross-argument effects from end to start to receiver. Those effects do not establish mutation of immutable String or integer arguments; the runtime preserves content and exercised ASCII/escape boundaries. Alternatives differ in local index visits or end-return branch. Call-depth, held-round and pruning diagnostics remain; empty-result feasibility is not inferred from the witness."
         },
         {
           "id": "trim-scan-input",
@@ -6076,7 +6076,7 @@
               "detailedWitnessesSha256": "579b36a86caf23d0fbb44ebcea7e599c81cc3b3d58d14deedeb4c5d87fd66ffb"
             }
           },
-          "semanticReview": "pending transition review; additional sequences are not necessarily distinct semantic route families"
+          "semanticReview": "see sass-alternative-review.json; trimAscii passes string slot one to _firstNonWhitespace. Direct three-node formal-root forwarding retains depth/pruning limits; this is input delivery to the scanner, not complete index correctness."
         },
         {
           "id": "plural-count-not-name",
@@ -6139,7 +6139,7 @@
               "detailedWitnessesSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
             }
           },
-          "semanticReview": "pending transition review; additional sequences are not necessarily distinct semantic route families"
+          "semanticReview": "see sass-alternative-review.json; The singular return supplies name while number selects its branch. The negative has no path or recorded query limitation; its same-source/same-budget comparison-argument control returns routes with its own explicit limits. This is absence of explicit payload flow, not independence of the branch choice from count."
         },
         {
           "id": "plural-name-result",
@@ -6208,7 +6208,7 @@
               "detailedWitnessesSha256": "59fea99dc773fd3789a357b330ae86e5f72185ad3bd4d6ae18c258a975bfb09d"
             }
           },
-          "semanticReview": "pending transition review; additional sequences are not necessarily distinct semantic route families"
+          "semanticReview": "see sass-alternative-review.json; The singular branch returns its supplied name. The three-node parameter-read/return path has no recorded query limitation; source-grounded count==1 is required for runtime selection."
         },
         {
           "id": "indent-source-result",
@@ -6287,7 +6287,7 @@
               "detailedWitnessesSha256": "2d5d03516028fea459ad4da9c0ad2dc3b270243fb4e471d0a3f54401acb3e983"
             }
           },
-          "semanticReview": "pending transition review; additional sequences are not necessarily distinct semantic route families"
+          "semanticReview": "see sass-alternative-review.json; The implementation splits lines, maps prefix plus line, then joins. The modeled path carries mapped lambda parameter/return through its METHOD_REF and join, under the opt-in iterable contract. Stock instead exits through an indent scalar return into bulletedList, propagates through its callback METHOD_REF to the collection receiver, then re-enters the lambda and indent via a rest pattern. This is a conservative callback/receiver/caller detour, not a mutation or general delivery proof. The native controls exercise direct indent and bulletedList on bounded lines; query depth/pruning limits remain."
         },
         {
           "id": "plural-count-not-name-control",
@@ -6388,7 +6388,7 @@
               "detailedWitnessesSha256": "dac11495e116b1ed882cebe18c44cead76168fdac4c7634b3ce820da9c176ead"
             }
           },
-          "semanticReview": "pending transition review; additional sequences are not necessarily distinct semantic route families"
+          "semanticReview": "see sass-alternative-review.json; The sink is the input argument of number==1. Four retained routes leave pluralize readonly number output, select built-in evaluator named-key length callers, then re-enter pluralize and read number. They are conservative unchanged-integer/caller detours, not mutation or evaluator order; explicit query limitations remain."
         }
       ]
     },

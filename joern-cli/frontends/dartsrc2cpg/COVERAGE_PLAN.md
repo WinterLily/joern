@@ -95,9 +95,9 @@ Bounded witness ordering now skips ranking identical entries and unnecessary
 length groups, with task-context, field/output-flag, tie and pruning regressions.
 An isolated four-witness/two-held-round audit now passes baseline comparisons
 on all twelve graphs under explicit worker heap/CPU and wall-clock budgets.
-Its four initial holdout queries and four analyzer query families have complete
-transition reviews and pinned library execution controls; the remaining
-additional routes still require review.
+Its four initial holdout queries, four analyzer query families and all eleven
+Sass queries have complete transition reviews and pinned library execution
+controls; the remaining additional routes still require review.
 Held-task combination rounds now have an optional Dart-only budget with explicit
 inconclusive diagnostics; default and foreign-language searches retain their
 previous behavior. A four-witness package audit exceeded its seven-minute worker
@@ -195,6 +195,11 @@ The [analyzer review](corpus/analyzer-alternative-review.json) classifies 529
 transitions across 15 distinct paths, retaining readonly argument-output,
 receiver/field, external-read and caller detours as approximations rather than
 exact runtime provenance.
+The [Sass review](corpus/sass-alternative-review.json) classifies all 330
+transitions across 23 distinct paths for its eleven queries. Direct parser
+forwarding, readonly output detours, substring argument effects and callback
+approximations have separate dispositions; limited negative searches remain
+inconclusive.
 
 Bounded alternative reporting is now available through `DartWitnessAuditTests`
 on saved corpus graphs. It preserves intermediate call contexts and reports

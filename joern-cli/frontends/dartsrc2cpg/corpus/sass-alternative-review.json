@@ -1,0 +1,6240 @@
+{
+  "schemaVersion": 2,
+  "scope": "All eleven Sass bounded alternative queries; transition mechanisms and approximations, not exhaustive execution traces.",
+  "transitionClasses": {
+    "parameter-read": {
+      "kind": "parameter binding",
+      "meaning": "Reading the formal value within its method; this does not establish which invocation supplied it."
+    },
+    "local-read": {
+      "kind": "assignment",
+      "meaning": "Reaching-definition propagation between reads of the same local or receiver. Branch/path feasibility is not established."
+    },
+    "assignment": {
+      "kind": "assignment",
+      "meaning": "Assignment, temporary binding, constructor field-formal storage, or an indexed/member write represented by assignment."
+    },
+    "parameter-binding": {
+      "kind": "parameter binding",
+      "meaning": "Actual argument to formal parameter. The saved call context, argument index and resolved callee were checked."
+    },
+    "parameter-output": {
+      "kind": "alias",
+      "meaning": "Read/formal to METHOD_PARAMETER_OUT under shared output-parameter analysis. This is not evidence of a runtime write to immutable arguments."
+    },
+    "caller-output": {
+      "kind": "alias",
+      "meaning": "Output formal to an actual in a calling context. Re-entry and unrelated-caller detours are conservative; not an execution trace."
+    },
+    "alias": {
+      "kind": "alias",
+      "meaning": "Aggregate/element or local alias propagation without an explicit copied-value assignment in the displayed path. Conservative, not a runtime mutation claim."
+    },
+    "operator-value": {
+      "kind": "value transformation",
+      "meaning": "Explicit scalar/string/operator result dependency. Boolean predicates, sizes and positions are values but are not necessarily copied element contents."
+    },
+    "selection": {
+      "kind": "control/selection",
+      "meaning": "Conditional expression selects its result. This classification does not turn a guard or selected position into an explicit element value."
+    },
+    "return-value": {
+      "kind": "return",
+      "meaning": "Displayed value to the method return expression; no claim about feasibility of all preceding transitions."
+    },
+    "method-return": {
+      "kind": "return",
+      "meaning": "Return expression to the method return node."
+    },
+    "call-return": {
+      "kind": "return",
+      "meaning": "Method return to its call result. The recorded call has the returning method among its resolved callees."
+    },
+    "block-result": {
+      "kind": "alias",
+      "meaning": "Value of a generated expression block, including saved allocation and interpolation results."
+    },
+    "callback-parameter": {
+      "kind": "callback invocation approximation",
+      "meaning": "External receiver/input to a callback formal through shared unresolved-call expansion. Invocation timing, index-versus-element mapping and lifecycle are not established."
+    },
+    "callback-result": {
+      "kind": "callback invocation approximation",
+      "meaning": "Callback method return to METHOD_REF. The engine abstracts callable identity and its possible result; this is not runtime invocation proof."
+    },
+    "callback-effect": {
+      "kind": "external summary",
+      "meaning": "METHOD_REF result abstraction to an external-call receiver/result under stock or explicitly selected summary semantics. Callback side effects and delivery remain outside the path proof."
+    },
+    "external-return": {
+      "kind": "external summary",
+      "meaning": "External call/getter/constructor result dependency under the selected semantics. Bodies are outside this graph; selected library contracts must be reviewed separately."
+    },
+    "external-write": {
+      "kind": "external summary",
+      "meaning": "Cross-argument or argument/receiver effect at one external call. Saved call identities and positions identify the effect; stock all-argument propagation is conservative. Optional modeled writes apply only within their documented contract."
+    }
+  },
+  "projects": [
+    {
+      "project": "dart-sass-1.89.2",
+      "source": {
+        "name": "dart-sass",
+        "version": "1.89.2",
+        "repository": "https://github.com/sass/dart-sass",
+        "commit": "1250380bc56d1feecc5fead0752731a313b97e2e",
+        "checkout": "dart-sass",
+        "package": "sass",
+        "probe": "compileString",
+        "librarySha256": "2a6fb63888b0a94b86020c2321f8237c2867f53c8ddefbc28b9c08a842f8744e",
+        "protocol": {
+          "repository": "https://github.com/sass/sass",
+          "commit": "dae75bd941e507f0e88f53b2616fbebe0b4a6572",
+          "protoc": "36.1"
+        }
+      },
+      "exporter": {
+        "record": "header",
+        "protocolVersion": 1,
+        "exporterVersion": "0.3.19",
+        "analyzerVersion": "8.4.1",
+        "sdkVersion": "3.9.2",
+        "offsetEncoding": "utf-16",
+        "conditionalEnvironment": "analyzer-default"
+      },
+      "analysisSources": {
+        "algorithm": "sha256-path-nul-content-nul",
+        "sha256": "067ae48b90f8f891485eedfc142d904ce8069cd5fd5b82a3dff90ca521385e7c",
+        "files": 403,
+        "roots": [
+          "joern-cli/frontends/dartsrc2cpg/src",
+          "joern-cli/frontends/dartsrc2cpg/astgen/lib",
+          "joern-cli/frontends/dartsrc2cpg/astgen/bin",
+          "joern-cli/frontends/x2cpg/src/main",
+          "dataflowengineoss/src/main",
+          "semanticcpg/src/main",
+          "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.lock",
+          "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.yaml",
+          "joern-cli/frontends/dartsrc2cpg/build.sbt",
+          "joern-cli/frontends/x2cpg/build.sbt",
+          "joern-cli/build.sbt",
+          "dataflowengineoss/build.sbt",
+          "semanticcpg/build.sbt",
+          "build.sbt",
+          "project/Versions.scala",
+          "project/Projects.scala"
+        ]
+      },
+      "modelFilesSha256": {
+        "async": "c482e7bc9300c13523e5a921d43d67952fffa69290b0cf7ca6ba48e55cb2f48c",
+        "worker_manager": "972688de95dc40d77a055b86cb3c3422ac6242bcb18379cacb1d6fe4fde82c13",
+        "iterable": "f557cbefb4e70574ec692d069c90d1d3fb812e3e09511816c6af62fe82f6b4d3",
+        "bytes": "868e7d0918ddb0761370255754488290d5c6d9a175951a3b76cc88ad2bc95ad4"
+      },
+      "queries": [
+        {
+          "id": "source-to-parser",
+          "expectedFlow": true,
+          "disposition": "compileString passes source slot one to Stylesheet.parse contents. The returned three-node path is explicit forwarding; depth/storage/pruning limits remain, and it does not qualify evaluator correctness.",
+          "modes": {
+            "stock": {
+              "outcome": "flow-observed",
+              "passed": true,
+              "limitations": [
+                "call-depth",
+                "static-storage-exception-state",
+                "static-storage-external-effects",
+                "witness-alternatives"
+              ],
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "source": {
+                "file": "src/compile.dart",
+                "method": "compileString",
+                "kind": "parameter",
+                "name": "source"
+              },
+              "sink": {
+                "file": "src/ast/sass/statement/stylesheet.dart",
+                "method": "parse",
+                "kind": "parameter",
+                "name": "contents"
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "pathIndices": [
+                0
+              ]
+            },
+            "modeled": {
+              "outcome": "flow-observed",
+              "passed": true,
+              "limitations": [
+                "call-depth",
+                "static-storage-exception-state",
+                "static-storage-external-effects",
+                "witness-alternatives"
+              ],
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "source": {
+                "file": "src/compile.dart",
+                "method": "compileString",
+                "kind": "parameter",
+                "name": "source"
+              },
+              "sink": {
+                "file": "src/ast/sass/statement/stylesheet.dart",
+                "method": "parse",
+                "kind": "parameter",
+                "name": "contents"
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "pathIndices": [
+                0
+              ]
+            }
+          },
+          "sourceEvidence": [
+            {
+              "role": "source",
+              "file": "lib/src/compile.dart",
+              "fileSha256": "0666b69c39ef96dd714997e09caad49982a608d4508d741f3947b155090fa3eb",
+              "declarationLines": [
+                107
+              ]
+            },
+            {
+              "role": "sink",
+              "file": "lib/src/ast/sass/statement/stylesheet.dart",
+              "fileSha256": "2a26a641692d7f0006eb05c3fbfbe8daa41d4e1c4bd7afa85d46b35476fba82a",
+              "declarationLines": [
+                99
+              ]
+            }
+          ],
+          "sourceExpectation": {
+            "disposition": "reviewed-endpoint",
+            "reason": "Compilation passes the source text into the stylesheet parser.",
+            "branchConditions": "Stylesheet syntax selects Sass/SCSS/CSS parser. trimAscii returns empty if no non-whitespace exists. pluralize returns name for count one, supplied plural when nonnull, otherwise appends s. Compilation forwarding does not prove evaluation."
+          }
+        },
+        {
+          "id": "source-not-verbosity",
+          "expectedFlow": false,
+          "disposition": "The logger repetition argument is !verbose, separate from source. Same-source/same-budget source-to-parser control returns forwarding, but this negative retains call-depth and witness-alternatives limits and remains inconclusive; source independence and native option controls do not remove those diagnostics.",
+          "modes": {
+            "stock": {
+              "outcome": "inconclusive-query-limits",
+              "passed": true,
+              "limitations": [
+                "call-depth",
+                "witness-alternatives"
+              ],
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "source": {
+                "file": "src/compile.dart",
+                "method": "compileString",
+                "kind": "parameter",
+                "name": "source"
+              },
+              "sink": {
+                "file": "src/compile.dart",
+                "method": "compileString",
+                "kind": "call",
+                "name": "<init>",
+                "code": "DeprecationProcessingLogger(\n    logger ?? Logger.stderr(),\n    silenceDeprecations: {...?silenceDeprecations},\n    fatalDeprecations: {...?fatalDeprecations},\n    futureDeprecations: {...?futureDeprecations},\n    limitRepetition: !verbose,\n  )",
+                "argumentName": "limitRepetition"
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "positiveControl": "source-to-parser",
+              "positiveControlSatisfied": true,
+              "pathIndices": []
+            },
+            "modeled": {
+              "outcome": "inconclusive-query-limits",
+              "passed": true,
+              "limitations": [
+                "call-depth",
+                "witness-alternatives"
+              ],
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "source": {
+                "file": "src/compile.dart",
+                "method": "compileString",
+                "kind": "parameter",
+                "name": "source"
+              },
+              "sink": {
+                "file": "src/compile.dart",
+                "method": "compileString",
+                "kind": "call",
+                "name": "<init>",
+                "code": "DeprecationProcessingLogger(\n    logger ?? Logger.stderr(),\n    silenceDeprecations: {...?silenceDeprecations},\n    fatalDeprecations: {...?fatalDeprecations},\n    futureDeprecations: {...?futureDeprecations},\n    limitRepetition: !verbose,\n  )",
+                "argumentName": "limitRepetition"
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "positiveControl": "source-to-parser",
+              "positiveControlSatisfied": true,
+              "pathIndices": []
+            }
+          },
+          "sourceEvidence": [
+            {
+              "role": "source",
+              "file": "lib/src/compile.dart",
+              "fileSha256": "0666b69c39ef96dd714997e09caad49982a608d4508d741f3947b155090fa3eb",
+              "declarationLines": [
+                107
+              ]
+            },
+            {
+              "role": "sink",
+              "file": "lib/src/compile.dart",
+              "fileSha256": "0666b69c39ef96dd714997e09caad49982a608d4508d741f3947b155090fa3eb",
+              "declarationLines": [
+                107
+              ]
+            }
+          ],
+          "sourceExpectation": {
+            "disposition": "bounded-negative",
+            "reason": "Deprecation repetition policy depends on verbose, not source text.",
+            "branchConditions": "Stylesheet syntax selects Sass/SCSS/CSS parser. trimAscii returns empty if no non-whitespace exists. pluralize returns name for count one, supplied plural when nonnull, otherwise appends s. Compilation forwarding does not prove evaluation.",
+            "positiveControl": "source-to-parser",
+            "negativeProof": "Inconclusive beyond configured search; nearby positive control proves source connectivity only."
+          }
+        },
+        {
+          "id": "public-source-forwarding",
+          "expectedFlow": true,
+          "disposition": "Public compileString delegates source slot one to compileStringToResult source. Returned formal-root path is direct forwarding with empty caller stacks, not a selected external invocation; its query limits remain.",
+          "modes": {
+            "stock": {
+              "outcome": "flow-observed",
+              "passed": true,
+              "limitations": [
+                "call-depth",
+                "witness-alternatives"
+              ],
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "source": {
+                "file": "sass.dart",
+                "method": "compileString",
+                "kind": "parameter",
+                "name": "source"
+              },
+              "sink": {
+                "file": "sass.dart",
+                "method": "compileStringToResult",
+                "kind": "parameter",
+                "name": "source"
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "pathIndices": [
+                1
+              ]
+            },
+            "modeled": {
+              "outcome": "flow-observed",
+              "passed": true,
+              "limitations": [
+                "call-depth",
+                "witness-alternatives"
+              ],
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "source": {
+                "file": "sass.dart",
+                "method": "compileString",
+                "kind": "parameter",
+                "name": "source"
+              },
+              "sink": {
+                "file": "sass.dart",
+                "method": "compileStringToResult",
+                "kind": "parameter",
+                "name": "source"
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "pathIndices": [
+                1
+              ]
+            }
+          },
+          "sourceEvidence": [
+            {
+              "role": "source",
+              "file": "lib/sass.dart",
+              "fileSha256": "f6545240c887350ecc95f64215d47e8e6664a596597805521c040922fb279cbf",
+              "declarationLines": [
+                398
+              ]
+            },
+            {
+              "role": "sink",
+              "file": "lib/sass.dart",
+              "fileSha256": "f6545240c887350ecc95f64215d47e8e6664a596597805521c040922fb279cbf",
+              "declarationLines": [
+                139
+              ]
+            }
+          ],
+          "sourceExpectation": {
+            "disposition": "reviewed-endpoint",
+            "reason": "The public string API delegates to the result API.",
+            "branchConditions": "Stylesheet syntax selects Sass/SCSS/CSS parser. trimAscii returns empty if no non-whitespace exists. pluralize returns name for count one, supplied plural when nonnull, otherwise appends s. Compilation forwarding does not prove evaluation."
+          }
+        },
+        {
+          "id": "scss-source-forwarding",
+          "expectedFlow": true,
+          "disposition": "The Syntax.scss branch forwards contents to parseScss slot one. One direct path and two readonly contents-output detours through compile/compileAsync readFile callers are retained. These DART-FLOW-004 alternatives do not establish String mutation, actual file reads or the selected runtime syntax branch.",
+          "modes": {
+            "stock": {
+              "outcome": "flow-observed",
+              "passed": true,
+              "limitations": [
+                "call-depth",
+                "static-storage-exception-state",
+                "static-storage-external-effects",
+                "witness-alternatives"
+              ],
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "source": {
+                "file": "src/ast/sass/statement/stylesheet.dart",
+                "method": "parse",
+                "kind": "parameter",
+                "name": "contents"
+              },
+              "sink": {
+                "file": "src/ast/sass/statement/stylesheet.dart",
+                "method": "parseScss",
+                "kind": "parameter",
+                "name": "contents"
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "pathIndices": [
+                2,
+                3,
+                4
+              ]
+            },
+            "modeled": {
+              "outcome": "flow-observed",
+              "passed": true,
+              "limitations": [
+                "call-depth",
+                "static-storage-exception-state",
+                "static-storage-external-effects",
+                "witness-alternatives"
+              ],
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "source": {
+                "file": "src/ast/sass/statement/stylesheet.dart",
+                "method": "parse",
+                "kind": "parameter",
+                "name": "contents"
+              },
+              "sink": {
+                "file": "src/ast/sass/statement/stylesheet.dart",
+                "method": "parseScss",
+                "kind": "parameter",
+                "name": "contents"
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "pathIndices": [
+                2,
+                3,
+                4
+              ]
+            }
+          },
+          "sourceEvidence": [
+            {
+              "role": "source",
+              "file": "lib/src/ast/sass/statement/stylesheet.dart",
+              "fileSha256": "2a26a641692d7f0006eb05c3fbfbe8daa41d4e1c4bd7afa85d46b35476fba82a",
+              "declarationLines": [
+                99
+              ]
+            },
+            {
+              "role": "sink",
+              "file": "lib/src/ast/sass/statement/stylesheet.dart",
+              "fileSha256": "2a26a641692d7f0006eb05c3fbfbe8daa41d4e1c4bd7afa85d46b35476fba82a",
+              "declarationLines": [
+                134
+              ]
+            }
+          ],
+          "sourceExpectation": {
+            "disposition": "known-approximation",
+            "reason": "The SCSS branch forwards source text to its parser factory.",
+            "branchConditions": "Stylesheet syntax selects Sass/SCSS/CSS parser. trimAscii returns empty if no non-whitespace exists. pluralize returns name for count one, supplied plural when nonnull, otherwise appends s. Compilation forwarding does not prove evaluation.",
+            "issue": "DART-FLOW-004",
+            "owner": "shared dataflow query engine / Dart library models"
+          }
+        },
+        {
+          "id": "css-source-forwarding",
+          "expectedFlow": true,
+          "disposition": "The Syntax.css branch forwards contents to parseCss slot one. One direct path and two readonly contents-output detours through compile/compileAsync readFile callers are retained. These DART-FLOW-004 alternatives do not establish String mutation, actual file reads or the selected runtime syntax branch.",
+          "modes": {
+            "stock": {
+              "outcome": "flow-observed",
+              "passed": true,
+              "limitations": [
+                "call-depth",
+                "static-storage-exception-state",
+                "static-storage-external-effects",
+                "witness-alternatives"
+              ],
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "source": {
+                "file": "src/ast/sass/statement/stylesheet.dart",
+                "method": "parse",
+                "kind": "parameter",
+                "name": "contents"
+              },
+              "sink": {
+                "file": "src/ast/sass/statement/stylesheet.dart",
+                "method": "parseCss",
+                "kind": "parameter",
+                "name": "contents"
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "pathIndices": [
+                5,
+                6,
+                7
+              ]
+            },
+            "modeled": {
+              "outcome": "flow-observed",
+              "passed": true,
+              "limitations": [
+                "call-depth",
+                "static-storage-exception-state",
+                "static-storage-external-effects",
+                "witness-alternatives"
+              ],
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "source": {
+                "file": "src/ast/sass/statement/stylesheet.dart",
+                "method": "parse",
+                "kind": "parameter",
+                "name": "contents"
+              },
+              "sink": {
+                "file": "src/ast/sass/statement/stylesheet.dart",
+                "method": "parseCss",
+                "kind": "parameter",
+                "name": "contents"
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "pathIndices": [
+                5,
+                6,
+                7
+              ]
+            }
+          },
+          "sourceEvidence": [
+            {
+              "role": "source",
+              "file": "lib/src/ast/sass/statement/stylesheet.dart",
+              "fileSha256": "2a26a641692d7f0006eb05c3fbfbe8daa41d4e1c4bd7afa85d46b35476fba82a",
+              "declarationLines": [
+                99
+              ]
+            },
+            {
+              "role": "sink",
+              "file": "lib/src/ast/sass/statement/stylesheet.dart",
+              "fileSha256": "2a26a641692d7f0006eb05c3fbfbe8daa41d4e1c4bd7afa85d46b35476fba82a",
+              "declarationLines": [
+                142
+              ]
+            }
+          ],
+          "sourceExpectation": {
+            "disposition": "known-approximation",
+            "reason": "The CSS branch forwards source text to its parser factory.",
+            "branchConditions": "Stylesheet syntax selects Sass/SCSS/CSS parser. trimAscii returns empty if no non-whitespace exists. pluralize returns name for count one, supplied plural when nonnull, otherwise appends s. Compilation forwarding does not prove evaluation.",
+            "issue": "DART-FLOW-004",
+            "owner": "shared dataflow query engine / Dart library models"
+          }
+        },
+        {
+          "id": "trim-source-result",
+          "expectedFlow": true,
+          "disposition": "The source returns empty text for all-whitespace input or a substring between independently computed first/last bounds. The four returned paths traverse a readonly _firstNonWhitespace argument-output slot, _lastNonWhitespace length/index/return evidence, then external substring cross-argument effects from end to start to receiver. Those effects do not establish mutation of immutable String or integer arguments; the runtime preserves content and exercised ASCII/escape boundaries. Alternatives differ in local index visits or end-return branch. Call-depth, held-round and pruning diagnostics remain; empty-result feasibility is not inferred from the witness.",
+          "modes": {
+            "stock": {
+              "outcome": "flow-observed",
+              "passed": true,
+              "limitations": [
+                "call-depth",
+                "held-task-iterations",
+                "witness-alternatives"
+              ],
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "source": {
+                "file": "src/utils.dart",
+                "method": "trimAscii",
+                "kind": "parameter",
+                "name": "string"
+              },
+              "sink": {
+                "file": "src/utils.dart",
+                "method": "trimAscii",
+                "kind": "return"
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "pathIndices": [
+                8,
+                9,
+                10,
+                11
+              ]
+            },
+            "modeled": {
+              "outcome": "flow-observed",
+              "passed": true,
+              "limitations": [
+                "call-depth",
+                "held-task-iterations",
+                "witness-alternatives"
+              ],
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "source": {
+                "file": "src/utils.dart",
+                "method": "trimAscii",
+                "kind": "parameter",
+                "name": "string"
+              },
+              "sink": {
+                "file": "src/utils.dart",
+                "method": "trimAscii",
+                "kind": "return"
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "pathIndices": [
+                8,
+                9,
+                10,
+                11
+              ]
+            }
+          },
+          "sourceEvidence": [
+            {
+              "role": "source",
+              "file": "lib/src/utils.dart",
+              "fileSha256": "00b72f1d8befe8bd8567a9b53e733de79b030e9891509900376767480567c7f9",
+              "declarationLines": [
+                72
+              ]
+            },
+            {
+              "role": "sink",
+              "file": "lib/src/utils.dart",
+              "fileSha256": "00b72f1d8befe8bd8567a9b53e733de79b030e9891509900376767480567c7f9",
+              "declarationLines": [
+                72
+              ]
+            }
+          ],
+          "sourceExpectation": {
+            "disposition": "external-summary",
+            "reason": "The compiler trims the source string using computed bounds.",
+            "branchConditions": "Stylesheet syntax selects Sass/SCSS/CSS parser. trimAscii returns empty if no non-whitespace exists. pluralize returns name for count one, supplied plural when nonnull, otherwise appends s. Compilation forwarding does not prove evaluation."
+          }
+        },
+        {
+          "id": "trim-scan-input",
+          "expectedFlow": true,
+          "disposition": "trimAscii passes string slot one to _firstNonWhitespace. Direct three-node formal-root forwarding retains depth/pruning limits; this is input delivery to the scanner, not complete index correctness.",
+          "modes": {
+            "stock": {
+              "outcome": "flow-observed",
+              "passed": true,
+              "limitations": [
+                "call-depth",
+                "witness-alternatives"
+              ],
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "source": {
+                "file": "src/utils.dart",
+                "method": "trimAscii",
+                "kind": "parameter",
+                "name": "string"
+              },
+              "sink": {
+                "file": "src/utils.dart",
+                "method": "_firstNonWhitespace",
+                "kind": "parameter",
+                "name": "string"
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "pathIndices": [
+                12
+              ]
+            },
+            "modeled": {
+              "outcome": "flow-observed",
+              "passed": true,
+              "limitations": [
+                "call-depth",
+                "witness-alternatives"
+              ],
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "source": {
+                "file": "src/utils.dart",
+                "method": "trimAscii",
+                "kind": "parameter",
+                "name": "string"
+              },
+              "sink": {
+                "file": "src/utils.dart",
+                "method": "_firstNonWhitespace",
+                "kind": "parameter",
+                "name": "string"
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "pathIndices": [
+                12
+              ]
+            }
+          },
+          "sourceEvidence": [
+            {
+              "role": "source",
+              "file": "lib/src/utils.dart",
+              "fileSha256": "00b72f1d8befe8bd8567a9b53e733de79b030e9891509900376767480567c7f9",
+              "declarationLines": [
+                72
+              ]
+            },
+            {
+              "role": "sink",
+              "file": "lib/src/utils.dart",
+              "fileSha256": "00b72f1d8befe8bd8567a9b53e733de79b030e9891509900376767480567c7f9",
+              "declarationLines": [
+                101
+              ]
+            }
+          ],
+          "sourceExpectation": {
+            "disposition": "reviewed-endpoint",
+            "reason": "Trimming passes source text into the whitespace scanner.",
+            "branchConditions": "Stylesheet syntax selects Sass/SCSS/CSS parser. trimAscii returns empty if no non-whitespace exists. pluralize returns name for count one, supplied plural when nonnull, otherwise appends s. Compilation forwarding does not prove evaluation."
+          }
+        },
+        {
+          "id": "plural-count-not-name",
+          "expectedFlow": false,
+          "disposition": "The singular return supplies name while number selects its branch. The negative has no path or recorded query limitation; its same-source/same-budget comparison-argument control returns routes with its own explicit limits. This is absence of explicit payload flow, not independence of the branch choice from count.",
+          "modes": {
+            "stock": {
+              "outcome": "no-flow-observed-within-limits",
+              "passed": true,
+              "limitations": [],
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "source": {
+                "file": "src/utils.dart",
+                "method": "pluralize",
+                "kind": "parameter",
+                "name": "number"
+              },
+              "sink": {
+                "file": "src/utils.dart",
+                "method": "pluralize",
+                "kind": "return",
+                "code": "return name;"
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "positiveControl": "plural-count-not-name-control",
+              "positiveControlSatisfied": true,
+              "pathIndices": []
+            },
+            "modeled": {
+              "outcome": "no-flow-observed-within-limits",
+              "passed": true,
+              "limitations": [],
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "source": {
+                "file": "src/utils.dart",
+                "method": "pluralize",
+                "kind": "parameter",
+                "name": "number"
+              },
+              "sink": {
+                "file": "src/utils.dart",
+                "method": "pluralize",
+                "kind": "return",
+                "code": "return name;"
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "positiveControl": "plural-count-not-name-control",
+              "positiveControlSatisfied": true,
+              "pathIndices": []
+            }
+          },
+          "sourceEvidence": [
+            {
+              "role": "source",
+              "file": "lib/src/utils.dart",
+              "fileSha256": "00b72f1d8befe8bd8567a9b53e733de79b030e9891509900376767480567c7f9",
+              "declarationLines": [
+                38
+              ]
+            },
+            {
+              "role": "sink",
+              "file": "lib/src/utils.dart",
+              "fileSha256": "00b72f1d8befe8bd8567a9b53e733de79b030e9891509900376767480567c7f9",
+              "declarationLines": [
+                38
+              ]
+            }
+          ],
+          "sourceExpectation": {
+            "disposition": "bounded-negative",
+            "reason": "The count controls a branch but does not taint the singular name.",
+            "branchConditions": "Stylesheet syntax selects Sass/SCSS/CSS parser. trimAscii returns empty if no non-whitespace exists. pluralize returns name for count one, supplied plural when nonnull, otherwise appends s. Compilation forwarding does not prove evaluation.",
+            "positiveControl": "plural-count-not-name-control",
+            "negativeProof": "Inconclusive beyond configured search; nearby positive control proves source connectivity only."
+          }
+        },
+        {
+          "id": "plural-name-result",
+          "expectedFlow": true,
+          "disposition": "The singular branch returns its supplied name. The three-node parameter-read/return path has no recorded query limitation; source-grounded count==1 is required for runtime selection.",
+          "modes": {
+            "stock": {
+              "outcome": "flow-observed",
+              "passed": true,
+              "limitations": [],
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "source": {
+                "file": "src/utils.dart",
+                "method": "pluralize",
+                "kind": "parameter",
+                "name": "name"
+              },
+              "sink": {
+                "file": "src/utils.dart",
+                "method": "pluralize",
+                "kind": "return",
+                "code": "return name;"
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "pathIndices": [
+                13
+              ]
+            },
+            "modeled": {
+              "outcome": "flow-observed",
+              "passed": true,
+              "limitations": [],
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "source": {
+                "file": "src/utils.dart",
+                "method": "pluralize",
+                "kind": "parameter",
+                "name": "name"
+              },
+              "sink": {
+                "file": "src/utils.dart",
+                "method": "pluralize",
+                "kind": "return",
+                "code": "return name;"
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "pathIndices": [
+                13
+              ]
+            }
+          },
+          "sourceEvidence": [
+            {
+              "role": "source",
+              "file": "lib/src/utils.dart",
+              "fileSha256": "00b72f1d8befe8bd8567a9b53e733de79b030e9891509900376767480567c7f9",
+              "declarationLines": [
+                38
+              ]
+            },
+            {
+              "role": "sink",
+              "file": "lib/src/utils.dart",
+              "fileSha256": "00b72f1d8befe8bd8567a9b53e733de79b030e9891509900376767480567c7f9",
+              "declarationLines": [
+                38
+              ]
+            }
+          ],
+          "sourceExpectation": {
+            "disposition": "reviewed-endpoint",
+            "reason": "The singular branch preserves its supplied name.",
+            "branchConditions": "Stylesheet syntax selects Sass/SCSS/CSS parser. trimAscii returns empty if no non-whitespace exists. pluralize returns name for count one, supplied plural when nonnull, otherwise appends s. Compilation forwarding does not prove evaluation."
+          }
+        },
+        {
+          "id": "indent-source-result",
+          "expectedFlow": true,
+          "disposition": "The implementation splits lines, maps prefix plus line, then joins. The modeled path carries mapped lambda parameter/return through its METHOD_REF and join, under the opt-in iterable contract. Stock instead exits through an indent scalar return into bulletedList, propagates through its callback METHOD_REF to the collection receiver, then re-enters the lambda and indent via a rest pattern. This is a conservative callback/receiver/caller detour, not a mutation or general delivery proof. The native controls exercise direct indent and bulletedList on bounded lines; query depth/pruning limits remain.",
+          "modes": {
+            "stock": {
+              "outcome": "flow-observed",
+              "passed": true,
+              "limitations": [
+                "call-depth",
+                "witness-alternatives"
+              ],
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "source": {
+                "file": "src/utils.dart",
+                "method": "indent",
+                "kind": "parameter",
+                "name": "string"
+              },
+              "sink": {
+                "file": "src/utils.dart",
+                "method": "indent",
+                "kind": "return"
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "pathIndices": [
+                14,
+                15,
+                16,
+                17
+              ]
+            },
+            "modeled": {
+              "outcome": "flow-observed",
+              "passed": true,
+              "limitations": [
+                "call-depth",
+                "witness-alternatives"
+              ],
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "source": {
+                "file": "src/utils.dart",
+                "method": "indent",
+                "kind": "parameter",
+                "name": "string"
+              },
+              "sink": {
+                "file": "src/utils.dart",
+                "method": "indent",
+                "kind": "return"
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "pathIndices": [
+                18
+              ]
+            }
+          },
+          "sourceEvidence": [
+            {
+              "role": "source",
+              "file": "lib/src/utils.dart",
+              "fileSha256": "00b72f1d8befe8bd8567a9b53e733de79b030e9891509900376767480567c7f9",
+              "declarationLines": [
+                34
+              ]
+            },
+            {
+              "role": "sink",
+              "file": "lib/src/utils.dart",
+              "fileSha256": "00b72f1d8befe8bd8567a9b53e733de79b030e9891509900376767480567c7f9",
+              "declarationLines": [
+                34
+              ]
+            }
+          ],
+          "sourceExpectation": {
+            "disposition": "known-approximation",
+            "reason": "Indentation maps lines from the input string through a closure.",
+            "branchConditions": "Stylesheet syntax selects Sass/SCSS/CSS parser. trimAscii returns empty if no non-whitespace exists. pluralize returns name for count one, supplied plural when nonnull, otherwise appends s. Compilation forwarding does not prove evaluation.",
+            "issue": "DART-FLOW-001",
+            "owner": "shared dataflow query engine / Dart library models"
+          }
+        },
+        {
+          "id": "plural-count-not-name-control",
+          "expectedFlow": true,
+          "disposition": "The sink is the input argument of number==1. Four retained routes leave pluralize readonly number output, select built-in evaluator named-key length callers, then re-enter pluralize and read number. They are conservative unchanged-integer/caller detours, not mutation or evaluator order; explicit query limitations remain.",
+          "modes": {
+            "stock": {
+              "outcome": "flow-observed",
+              "passed": true,
+              "limitations": [
+                "call-depth",
+                "field-depth-widening",
+                "static-storage-exception-state",
+                "static-storage-external-effects",
+                "static-storage-initialization-state",
+                "static-storage-joined-exits",
+                "static-storage-search",
+                "witness-alternatives"
+              ],
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "source": {
+                "file": "src/utils.dart",
+                "method": "pluralize",
+                "kind": "parameter",
+                "name": "number"
+              },
+              "sink": {
+                "file": "src/utils.dart",
+                "method": "pluralize",
+                "kind": "call",
+                "code": "number == 1",
+                "name": "<operator>.equals",
+                "argument": 1
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "pathIndices": [
+                19,
+                20,
+                21,
+                22
+              ]
+            },
+            "modeled": {
+              "outcome": "flow-observed",
+              "passed": true,
+              "limitations": [
+                "call-depth",
+                "field-depth-widening",
+                "static-storage-exception-state",
+                "static-storage-external-effects",
+                "static-storage-initialization-state",
+                "static-storage-joined-exits",
+                "static-storage-search",
+                "witness-alternatives"
+              ],
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "source": {
+                "file": "src/utils.dart",
+                "method": "pluralize",
+                "kind": "parameter",
+                "name": "number"
+              },
+              "sink": {
+                "file": "src/utils.dart",
+                "method": "pluralize",
+                "kind": "call",
+                "code": "number == 1",
+                "name": "<operator>.equals",
+                "argument": 1
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "pathIndices": [
+                19,
+                20,
+                21,
+                22
+              ]
+            }
+          },
+          "sourceEvidence": [
+            {
+              "role": "source",
+              "file": "lib/src/utils.dart",
+              "fileSha256": "00b72f1d8befe8bd8567a9b53e733de79b030e9891509900376767480567c7f9",
+              "declarationLines": [
+                38
+              ]
+            },
+            {
+              "role": "sink",
+              "file": "lib/src/utils.dart",
+              "fileSha256": "00b72f1d8befe8bd8567a9b53e733de79b030e9891509900376767480567c7f9",
+              "declarationLines": [
+                38
+              ]
+            }
+          ],
+          "sourceExpectation": {
+            "disposition": "reviewed-endpoint",
+            "reason": "Positive control for plural-count-not-name: the same source reaches its own field, forwarded argument or use.",
+            "branchConditions": "Stylesheet syntax selects Sass/SCSS/CSS parser. trimAscii returns empty if no non-whitespace exists. pluralize returns name for count one, supplied plural when nonnull, otherwise appends s. Compilation forwarding does not prove evaluation."
+          }
+        }
+      ],
+      "nodes": {
+        "111669151569": {
+          "label": "METHOD_PARAMETER_IN",
+          "method": "package:sass/src/compile.dart#3149:FUNCTION:compileString",
+          "code": "String source",
+          "line": 112,
+          "parameterIndex": 1
+        },
+        "68719485047": {
+          "label": "IDENTIFIER",
+          "method": "package:sass/src/compile.dart#3149:FUNCTION:compileString",
+          "code": "source",
+          "line": 143,
+          "argumentsOf": [
+            [
+              "30064780282",
+              1
+            ]
+          ]
+        },
+        "111669150689": {
+          "label": "METHOD_PARAMETER_IN",
+          "method": "package:sass/src/ast/sass/statement/stylesheet.dart#3167:CONSTRUCTOR:parse",
+          "code": "String contents",
+          "line": 104,
+          "parameterIndex": 1
+        },
+        "111669149774": {
+          "label": "METHOD_PARAMETER_IN",
+          "method": "package:sass/sass.dart#15126:FUNCTION:compileString",
+          "code": "String source",
+          "line": 421,
+          "parameterIndex": 1
+        },
+        "68719476826": {
+          "label": "IDENTIFIER",
+          "method": "package:sass/sass.dart#15126:FUNCTION:compileString",
+          "code": "source",
+          "line": 442,
+          "argumentsOf": [
+            [
+              "30064771095",
+              1
+            ]
+          ]
+        },
+        "111669149711": {
+          "label": "METHOD_PARAMETER_IN",
+          "method": "package:sass/sass.dart#8596:FUNCTION:compileStringToResult",
+          "code": "String source",
+          "line": 213,
+          "parameterIndex": 1
+        },
+        "115964117985": {
+          "label": "METHOD_PARAMETER_OUT",
+          "method": "package:sass/src/ast/sass/statement/stylesheet.dart#3167:CONSTRUCTOR:parse",
+          "code": "String contents",
+          "line": 104,
+          "parameterIndex": 1
+        },
+        "30064777207": {
+          "label": "CALL",
+          "method": "package:sass/src/async_compile.dart#999:FUNCTION:compileAsync",
+          "code": "readFile(path)",
+          "line": 72,
+          "call": "30064777207",
+          "argumentsOf": [
+            [
+              "30064777206",
+              1
+            ]
+          ]
+        },
+        "68719480135": {
+          "label": "IDENTIFIER",
+          "method": "package:sass/src/ast/sass/statement/stylesheet.dart#3167:CONSTRUCTOR:parse",
+          "code": "contents",
+          "line": 110,
+          "argumentsOf": [
+            [
+              "30064774806",
+              1
+            ]
+          ]
+        },
+        "111669150694": {
+          "label": "METHOD_PARAMETER_IN",
+          "method": "package:sass/src/ast/sass/statement/stylesheet.dart#4335:CONSTRUCTOR:parseScss",
+          "code": "String contents",
+          "line": 139,
+          "parameterIndex": 1
+        },
+        "30064780235": {
+          "label": "CALL",
+          "method": "package:sass/src/compile.dart#1212:FUNCTION:compile",
+          "code": "readFile(path)",
+          "line": 81,
+          "call": "30064780235",
+          "argumentsOf": [
+            [
+              "30064780234",
+              1
+            ]
+          ]
+        },
+        "68719480140": {
+          "label": "IDENTIFIER",
+          "method": "package:sass/src/ast/sass/statement/stylesheet.dart#3167:CONSTRUCTOR:parse",
+          "code": "contents",
+          "line": 112,
+          "argumentsOf": [
+            [
+              "30064774809",
+              1
+            ]
+          ]
+        },
+        "111669150696": {
+          "label": "METHOD_PARAMETER_IN",
+          "method": "package:sass/src/ast/sass/statement/stylesheet.dart#4644:CONSTRUCTOR:parseCss",
+          "code": "String contents",
+          "line": 147,
+          "parameterIndex": 1
+        },
+        "111669157158": {
+          "label": "METHOD_PARAMETER_IN",
+          "method": "package:sass/src/utils.dart#2681:FUNCTION:trimAscii",
+          "code": "String string",
+          "line": 76,
+          "parameterIndex": 1
+        },
+        "68719525516": {
+          "label": "IDENTIFIER",
+          "method": "package:sass/src/utils.dart#2681:FUNCTION:trimAscii",
+          "code": "string",
+          "line": 77,
+          "argumentsOf": [
+            [
+              "30064826608",
+              1
+            ]
+          ]
+        },
+        "111669157163": {
+          "label": "METHOD_PARAMETER_IN",
+          "method": "package:sass/src/utils.dart#3641:FUNCTION:_firstNonWhitespace",
+          "code": "String string",
+          "line": 103,
+          "parameterIndex": 1
+        },
+        "68719525535": {
+          "label": "IDENTIFIER",
+          "method": "package:sass/src/utils.dart#3641:FUNCTION:_firstNonWhitespace",
+          "code": "string",
+          "line": 104,
+          "argumentsOf": [
+            [
+              "30064826628",
+              0
+            ]
+          ]
+        },
+        "68719525537": {
+          "label": "IDENTIFIER",
+          "method": "package:sass/src/utils.dart#3641:FUNCTION:_firstNonWhitespace",
+          "code": "string",
+          "line": 105,
+          "argumentsOf": [
+            [
+              "30064826632",
+              0
+            ]
+          ]
+        },
+        "115964124459": {
+          "label": "METHOD_PARAMETER_OUT",
+          "method": "package:sass/src/utils.dart#3641:FUNCTION:_firstNonWhitespace",
+          "code": "String string",
+          "line": 103,
+          "parameterIndex": 1
+        },
+        "68719525520": {
+          "label": "IDENTIFIER",
+          "method": "package:sass/src/utils.dart#2681:FUNCTION:trimAscii",
+          "code": "string",
+          "line": 82,
+          "argumentsOf": [
+            [
+              "30064826614",
+              1
+            ]
+          ]
+        },
+        "111669157164": {
+          "label": "METHOD_PARAMETER_IN",
+          "method": "package:sass/src/utils.dart#4043:FUNCTION:_lastNonWhitespace",
+          "code": "String string",
+          "line": 115,
+          "parameterIndex": 1
+        },
+        "68719525541": {
+          "label": "IDENTIFIER",
+          "method": "package:sass/src/utils.dart#4043:FUNCTION:_lastNonWhitespace",
+          "code": "string",
+          "line": 116,
+          "argumentsOf": [
+            [
+              "30064826635",
+              0
+            ]
+          ]
+        },
+        "30064826635": {
+          "label": "CALL",
+          "method": "package:sass/src/utils.dart#4043:FUNCTION:_lastNonWhitespace",
+          "code": "string.length",
+          "line": 116,
+          "call": "30064826635",
+          "argumentsOf": [
+            [
+              "30064826634",
+              1
+            ]
+          ]
+        },
+        "30064826634": {
+          "label": "CALL",
+          "method": "package:sass/src/utils.dart#4043:FUNCTION:_lastNonWhitespace",
+          "code": "string.length - 1",
+          "line": 116,
+          "call": "30064826634",
+          "argumentsOf": [
+            [
+              "30064826633",
+              2
+            ]
+          ]
+        },
+        "68719525540": {
+          "label": "IDENTIFIER",
+          "method": "package:sass/src/utils.dart#4043:FUNCTION:_lastNonWhitespace",
+          "code": "i",
+          "line": 116,
+          "argumentsOf": [
+            [
+              "30064826633",
+              1
+            ]
+          ]
+        },
+        "68719525542": {
+          "label": "IDENTIFIER",
+          "method": "package:sass/src/utils.dart#4043:FUNCTION:_lastNonWhitespace",
+          "code": "i",
+          "line": 116,
+          "argumentsOf": [
+            [
+              "30064826636",
+              1
+            ]
+          ]
+        },
+        "68719525546": {
+          "label": "IDENTIFIER",
+          "method": "package:sass/src/utils.dart#4043:FUNCTION:_lastNonWhitespace",
+          "code": "i",
+          "line": 117,
+          "argumentsOf": [
+            [
+              "30064826639",
+              1
+            ]
+          ]
+        },
+        "68719525549": {
+          "label": "IDENTIFIER",
+          "method": "package:sass/src/utils.dart#4043:FUNCTION:_lastNonWhitespace",
+          "code": "i",
+          "line": 120,
+          "argumentsOf": [
+            [
+              "30064826645",
+              1
+            ]
+          ]
+        },
+        "68719525550": {
+          "label": "IDENTIFIER",
+          "method": "package:sass/src/utils.dart#4043:FUNCTION:_lastNonWhitespace",
+          "code": "i",
+          "line": 121,
+          "argumentsOf": [
+            [
+              "30064826646",
+              1
+            ]
+          ]
+        },
+        "68719525554": {
+          "label": "IDENTIFIER",
+          "method": "package:sass/src/utils.dart#4043:FUNCTION:_lastNonWhitespace",
+          "code": "i",
+          "line": 123,
+          "argumentsOf": [
+            [
+              "30064826651",
+              1
+            ]
+          ]
+        },
+        "30064826651": {
+          "label": "CALL",
+          "method": "package:sass/src/utils.dart#4043:FUNCTION:_lastNonWhitespace",
+          "code": "i + 1",
+          "line": 123,
+          "call": "30064826651"
+        },
+        "141733925858": {
+          "label": "RETURN",
+          "method": "package:sass/src/utils.dart#4043:FUNCTION:_lastNonWhitespace",
+          "code": "return i + 1;",
+          "line": 123
+        },
+        "124554056731": {
+          "label": "METHOD_RETURN",
+          "method": "package:sass/src/utils.dart#4043:FUNCTION:_lastNonWhitespace",
+          "code": "RET",
+          "line": -1
+        },
+        "30064826614": {
+          "label": "CALL",
+          "method": "package:sass/src/utils.dart#2681:FUNCTION:trimAscii",
+          "code": "_lastNonWhitespace(string, excludeEscape: excludeEscape)",
+          "line": 82,
+          "call": "30064826614",
+          "argumentsOf": [
+            [
+              "30064826613",
+              1
+            ]
+          ]
+        },
+        "30064826613": {
+          "label": "CALL",
+          "method": "package:sass/src/utils.dart#2681:FUNCTION:trimAscii",
+          "code": "_lastNonWhitespace(string, excludeEscape: excludeEscape)!",
+          "line": 82,
+          "call": "30064826613",
+          "argumentsOf": [
+            [
+              "30064826612",
+              1
+            ]
+          ]
+        },
+        "30064826612": {
+          "label": "CALL",
+          "method": "package:sass/src/utils.dart#2681:FUNCTION:trimAscii",
+          "code": "_lastNonWhitespace(string, excludeEscape: excludeEscape)! + 1",
+          "line": 82,
+          "call": "30064826612",
+          "argumentsOf": [
+            [
+              "30064826611",
+              2
+            ]
+          ]
+        },
+        "68719525519": {
+          "label": "IDENTIFIER",
+          "method": "package:sass/src/utils.dart#2681:FUNCTION:trimAscii",
+          "code": "start",
+          "line": 81,
+          "argumentsOf": [
+            [
+              "30064826611",
+              1
+            ]
+          ]
+        },
+        "68719525518": {
+          "label": "IDENTIFIER",
+          "method": "package:sass/src/utils.dart#2681:FUNCTION:trimAscii",
+          "code": "string",
+          "line": 80,
+          "argumentsOf": [
+            [
+              "30064826611",
+              0
+            ]
+          ]
+        },
+        "30064826611": {
+          "label": "CALL",
+          "method": "package:sass/src/utils.dart#2681:FUNCTION:trimAscii",
+          "code": "string.substring(\n          start,\n          _lastNonWhitespace(string, excludeEscape: excludeEscape)! + 1,\n        )",
+          "line": 80,
+          "call": "30064826611",
+          "argumentsOf": [
+            [
+              "30064826609",
+              3
+            ]
+          ]
+        },
+        "30064826609": {
+          "label": "CALL",
+          "method": "package:sass/src/utils.dart#2681:FUNCTION:trimAscii",
+          "code": "start == null\n      ? \"\"\n      : string.substring(\n          start,\n          _lastNonWhitespace(string, excludeEscape: excludeEscape)! + 1,\n        )",
+          "line": 78,
+          "call": "30064826609"
+        },
+        "141733925853": {
+          "label": "RETURN",
+          "method": "package:sass/src/utils.dart#2681:FUNCTION:trimAscii",
+          "code": "return start == null\n      ? \"\"\n      : string.substring(\n          start,\n          _lastNonWhitespace(string, excludeEscape: excludeEscape)! + 1,\n        );",
+          "line": 78
+        },
+        "68719525555": {
+          "label": "IDENTIFIER",
+          "method": "package:sass/src/utils.dart#4043:FUNCTION:_lastNonWhitespace",
+          "code": "i",
+          "line": 125
+        },
+        "141733925859": {
+          "label": "RETURN",
+          "method": "package:sass/src/utils.dart#4043:FUNCTION:_lastNonWhitespace",
+          "code": "return i;",
+          "line": 125
+        },
+        "111669157151": {
+          "label": "METHOD_PARAMETER_IN",
+          "method": "package:sass/src/utils.dart#1567:FUNCTION:pluralize",
+          "code": "String name",
+          "line": 42,
+          "parameterIndex": 1
+        },
+        "68719525486": {
+          "label": "IDENTIFIER",
+          "method": "package:sass/src/utils.dart#1567:FUNCTION:pluralize",
+          "code": "name",
+          "line": 43
+        },
+        "141733925847": {
+          "label": "RETURN",
+          "method": "package:sass/src/utils.dart#1567:FUNCTION:pluralize",
+          "code": "return name;",
+          "line": 43
+        },
+        "111669157149": {
+          "label": "METHOD_PARAMETER_IN",
+          "method": "package:sass/src/utils.dart#1241:FUNCTION:indent",
+          "code": "String string",
+          "line": 35,
+          "parameterIndex": 1
+        },
+        "68719525484": {
+          "label": "IDENTIFIER",
+          "method": "package:sass/src/utils.dart#1241:FUNCTION:indent",
+          "code": "string",
+          "line": 36,
+          "argumentsOf": [
+            [
+              "30064826579",
+              0
+            ]
+          ]
+        },
+        "30064826579": {
+          "label": "CALL",
+          "method": "package:sass/src/utils.dart#1241:FUNCTION:indent",
+          "code": "string.split(\"\\n\")",
+          "line": 36,
+          "call": "30064826579",
+          "argumentsOf": [
+            [
+              "30064826578",
+              0
+            ]
+          ]
+        },
+        "30064826578": {
+          "label": "CALL",
+          "method": "package:sass/src/utils.dart#1241:FUNCTION:indent",
+          "code": "string.split(\"\\n\").map((line) => (\" \" * indentation) + line)",
+          "line": 36,
+          "call": "30064826578",
+          "argumentsOf": [
+            [
+              "30064826577",
+              0
+            ]
+          ]
+        },
+        "30064826577": {
+          "label": "CALL",
+          "method": "package:sass/src/utils.dart#1241:FUNCTION:indent",
+          "code": "string.split(\"\\n\").map((line) => (\" \" * indentation) + line).join(\"\\n\")",
+          "line": 36,
+          "call": "30064826577"
+        },
+        "141733925846": {
+          "label": "RETURN",
+          "method": "package:sass/src/utils.dart#1241:FUNCTION:indent",
+          "code": "=>\n    string.split(\"\\n\").map((line) => (\" \" * indentation) + line).join(\"\\n\");",
+          "line": 35
+        },
+        "124554056722": {
+          "label": "METHOD_RETURN",
+          "method": "package:sass/src/utils.dart#1241:FUNCTION:indent",
+          "code": "RET",
+          "line": -1
+        },
+        "30064827113": {
+          "label": "CALL",
+          "method": "package:sass/src/utils.dart#2022:FUNCTION:null",
+          "code": "indent(rest.join(\"\\n\"), 2)",
+          "line": 58,
+          "call": "30064827113",
+          "argumentsOf": [
+            [
+              "30064827112",
+              2
+            ]
+          ]
+        },
+        "30064827112": {
+          "label": "CALL",
+          "method": "package:sass/src/utils.dart#2022:FUNCTION:null",
+          "code": "\"\\n\" + indent(rest.join(\"\\n\"), 2)",
+          "line": 58,
+          "call": "30064827112",
+          "argumentsOf": [
+            [
+              "30064827111",
+              2
+            ]
+          ]
+        },
+        "68719526012": {
+          "label": "IDENTIFIER",
+          "method": "package:sass/src/utils.dart#2022:FUNCTION:null",
+          "code": "<tmp>12",
+          "line": 57,
+          "argumentsOf": [
+            [
+              "30064827111",
+              1
+            ]
+          ]
+        },
+        "25769823057": {
+          "label": "BLOCK",
+          "method": "package:sass/src/utils.dart#2022:FUNCTION:null",
+          "code": "switch (lines) {\n            [_, ...var rest] => \"\\n\" + indent(rest.join(\"\\n\"), 2),\n            _ => \"\",\n          }",
+          "line": 57
+        },
+        "25769823056": {
+          "label": "BLOCK",
+          "method": "package:sass/src/utils.dart#2022:FUNCTION:null",
+          "code": "switch (lines) {\n            [_, ...var rest] => \"\\n\" + indent(rest.join(\"\\n\"), 2),\n            _ => \"\",\n          }",
+          "line": 57,
+          "argumentsOf": [
+            [
+              "30064827088",
+              2
+            ]
+          ]
+        },
+        "30064827088": {
+          "label": "CALL",
+          "method": "package:sass/src/utils.dart#2022:FUNCTION:null",
+          "code": "\"${glyph.bullet} ${lines.first}\" +\n          switch (lines) {\n            [_, ...var rest] => \"\\n\" + indent(rest.join(\"\\n\"), 2),\n            _ => \"\",\n          }",
+          "line": 56,
+          "call": "30064827088"
+        },
+        "141733925903": {
+          "label": "RETURN",
+          "method": "package:sass/src/utils.dart#2022:FUNCTION:null",
+          "code": "return \"${glyph.bullet} ${lines.first}\" +\n          switch (lines) {\n            [_, ...var rest] => \"\\n\" + indent(rest.join(\"\\n\"), 2),\n            _ => \"\",\n          };",
+          "line": 56
+        },
+        "124554056765": {
+          "label": "METHOD_RETURN",
+          "method": "package:sass/src/utils.dart#2022:FUNCTION:null",
+          "code": "RET",
+          "line": -1
+        },
+        "120259085299": {
+          "label": "METHOD_REF",
+          "method": "package:sass/src/utils.dart#1968:FUNCTION:bulletedList",
+          "code": "(element) {\n      var lines = element.split(\"\\n\");\n      return \"${glyph.bullet} ${lines.first}\" +\n          switch (lines) {\n            [_, ...var rest] => \"\\n\" + indent(rest.join(\"\\n\"), 2),\n            _ => \"\",\n          };\n    }",
+          "line": 54,
+          "referencedMethod": "package:sass/src/utils.dart#2022:FUNCTION:null",
+          "argumentsOf": [
+            [
+              "30064826598",
+              1
+            ]
+          ]
+        },
+        "68719525504": {
+          "label": "IDENTIFIER",
+          "method": "package:sass/src/utils.dart#1968:FUNCTION:bulletedList",
+          "code": "bullets",
+          "line": 54,
+          "argumentsOf": [
+            [
+              "30064826598",
+              0
+            ]
+          ]
+        },
+        "111669157224": {
+          "label": "METHOD_PARAMETER_IN",
+          "method": "package:sass/src/utils.dart#2022:FUNCTION:null",
+          "code": "element",
+          "line": 54,
+          "parameterIndex": 1
+        },
+        "68719525991": {
+          "label": "IDENTIFIER",
+          "method": "package:sass/src/utils.dart#2022:FUNCTION:null",
+          "code": "element",
+          "line": 55,
+          "argumentsOf": [
+            [
+              "30064827087",
+              0
+            ]
+          ]
+        },
+        "30064827087": {
+          "label": "CALL",
+          "method": "package:sass/src/utils.dart#2022:FUNCTION:null",
+          "code": "element.split(\"\\n\")",
+          "line": 55,
+          "call": "30064827087",
+          "argumentsOf": [
+            [
+              "30064827086",
+              2
+            ]
+          ]
+        },
+        "68719525990": {
+          "label": "IDENTIFIER",
+          "method": "package:sass/src/utils.dart#2022:FUNCTION:null",
+          "code": "lines",
+          "line": 55,
+          "argumentsOf": [
+            [
+              "30064827086",
+              1
+            ]
+          ]
+        },
+        "68719525994": {
+          "label": "IDENTIFIER",
+          "method": "package:sass/src/utils.dart#2022:FUNCTION:null",
+          "code": "lines",
+          "line": 56,
+          "argumentsOf": [
+            [
+              "30064827092",
+              0
+            ]
+          ]
+        },
+        "68719525999": {
+          "label": "IDENTIFIER",
+          "method": "package:sass/src/utils.dart#2022:FUNCTION:null",
+          "code": "lines",
+          "line": 57,
+          "argumentsOf": [
+            [
+              "30064827096",
+              2
+            ]
+          ]
+        },
+        "68719525998": {
+          "label": "IDENTIFIER",
+          "method": "package:sass/src/utils.dart#2022:FUNCTION:null",
+          "code": "<tmp>13",
+          "line": 57,
+          "argumentsOf": [
+            [
+              "30064827096",
+              1
+            ]
+          ]
+        },
+        "68719526000": {
+          "label": "IDENTIFIER",
+          "method": "package:sass/src/utils.dart#2022:FUNCTION:null",
+          "code": "<tmp>13",
+          "line": 57,
+          "argumentsOf": [
+            [
+              "30064827099",
+              1
+            ]
+          ]
+        },
+        "68719526003": {
+          "label": "IDENTIFIER",
+          "method": "package:sass/src/utils.dart#2022:FUNCTION:null",
+          "code": "<tmp>13",
+          "line": 57,
+          "argumentsOf": [
+            [
+              "30064827104",
+              0
+            ]
+          ]
+        },
+        "68719526008": {
+          "label": "IDENTIFIER",
+          "method": "package:sass/src/utils.dart#2022:FUNCTION:null",
+          "code": "<tmp>13",
+          "line": 57,
+          "argumentsOf": [
+            [
+              "30064827109",
+              0
+            ]
+          ]
+        },
+        "30064827109": {
+          "label": "CALL",
+          "method": "package:sass/src/utils.dart#2022:FUNCTION:null",
+          "code": "...var rest",
+          "line": 58,
+          "call": "30064827109",
+          "argumentsOf": [
+            [
+              "30064827108",
+              2
+            ]
+          ]
+        },
+        "68719526007": {
+          "label": "IDENTIFIER",
+          "method": "package:sass/src/utils.dart#2022:FUNCTION:null",
+          "code": "<pattern>15",
+          "line": 58,
+          "argumentsOf": [
+            [
+              "30064827108",
+              1
+            ]
+          ]
+        },
+        "25769823062": {
+          "label": "BLOCK",
+          "method": "package:sass/src/utils.dart#2022:FUNCTION:null",
+          "code": "...var rest",
+          "line": 58,
+          "argumentsOf": [
+            [
+              "30064827105",
+              2
+            ]
+          ]
+        },
+        "68719526005": {
+          "label": "IDENTIFIER",
+          "method": "package:sass/src/utils.dart#2022:FUNCTION:null",
+          "code": "<tmp>16",
+          "line": 58,
+          "argumentsOf": [
+            [
+              "30064827105",
+              1
+            ]
+          ]
+        },
+        "68719526011": {
+          "label": "IDENTIFIER",
+          "method": "package:sass/src/utils.dart#2022:FUNCTION:null",
+          "code": "<tmp>16",
+          "line": 58,
+          "argumentsOf": [
+            [
+              "30064827110",
+              2
+            ]
+          ]
+        },
+        "68719526010": {
+          "label": "IDENTIFIER",
+          "method": "package:sass/src/utils.dart#2022:FUNCTION:null",
+          "code": "rest",
+          "line": 58,
+          "argumentsOf": [
+            [
+              "30064827110",
+              1
+            ]
+          ]
+        },
+        "68719526013": {
+          "label": "IDENTIFIER",
+          "method": "package:sass/src/utils.dart#2022:FUNCTION:null",
+          "code": "rest",
+          "line": 58,
+          "argumentsOf": [
+            [
+              "30064827114",
+              0
+            ]
+          ]
+        },
+        "30064827114": {
+          "label": "CALL",
+          "method": "package:sass/src/utils.dart#2022:FUNCTION:null",
+          "code": "rest.join(\"\\n\")",
+          "line": 58,
+          "call": "30064827114",
+          "argumentsOf": [
+            [
+              "30064827113",
+              1
+            ]
+          ]
+        },
+        "111669157223": {
+          "label": "METHOD_PARAMETER_IN",
+          "method": "package:sass/src/utils.dart#1310:FUNCTION:null",
+          "code": "line",
+          "line": 36,
+          "parameterIndex": 1
+        },
+        "68719525989": {
+          "label": "IDENTIFIER",
+          "method": "package:sass/src/utils.dart#1310:FUNCTION:null",
+          "code": "line",
+          "line": 36,
+          "argumentsOf": [
+            [
+              "30064827084",
+              2
+            ]
+          ]
+        },
+        "30064827084": {
+          "label": "CALL",
+          "method": "package:sass/src/utils.dart#1310:FUNCTION:null",
+          "code": "(\" \" * indentation) + line",
+          "line": 36,
+          "call": "30064827084"
+        },
+        "141733925902": {
+          "label": "RETURN",
+          "method": "package:sass/src/utils.dart#1310:FUNCTION:null",
+          "code": "=> (\" \" * indentation) + line",
+          "line": 36
+        },
+        "124554056764": {
+          "label": "METHOD_RETURN",
+          "method": "package:sass/src/utils.dart#1310:FUNCTION:null",
+          "code": "RET",
+          "line": -1
+        },
+        "120259085298": {
+          "label": "METHOD_REF",
+          "method": "package:sass/src/utils.dart#1241:FUNCTION:indent",
+          "code": "(line) => (\" \" * indentation) + line",
+          "line": 36,
+          "referencedMethod": "package:sass/src/utils.dart#1310:FUNCTION:null",
+          "argumentsOf": [
+            [
+              "30064826578",
+              1
+            ]
+          ]
+        },
+        "111669157152": {
+          "label": "METHOD_PARAMETER_IN",
+          "method": "package:sass/src/utils.dart#1567:FUNCTION:pluralize",
+          "code": "int number",
+          "line": 42,
+          "parameterIndex": 2
+        },
+        "68719525485": {
+          "label": "IDENTIFIER",
+          "method": "package:sass/src/utils.dart#1567:FUNCTION:pluralize",
+          "code": "number",
+          "line": 43,
+          "argumentsOf": [
+            [
+              "30064826580",
+              1
+            ]
+          ]
+        },
+        "115964124448": {
+          "label": "METHOD_PARAMETER_OUT",
+          "method": "package:sass/src/utils.dart#1567:FUNCTION:pluralize",
+          "code": "int number",
+          "line": 42,
+          "parameterIndex": 2
+        },
+        "30064841984": {
+          "label": "CALL",
+          "method": "package:sass/src/visitor/async_evaluate.dart#120604:METHOD:_runBuiltInCallable",
+          "code": "evaluated.named.keys.length",
+          "line": 3636,
+          "call": "30064841984",
+          "argumentsOf": [
+            [
+              "30064841983",
+              2
+            ]
+          ]
+        },
+        "30064844980": {
+          "label": "CALL",
+          "method": "package:sass/src/visitor/async_evaluate.dart#115401:FUNCTION:null",
+          "code": "evaluated.named.keys.length",
+          "line": 3466,
+          "call": "30064844980",
+          "argumentsOf": [
+            [
+              "30064844979",
+              2
+            ]
+          ]
+        },
+        "30064849255": {
+          "label": "CALL",
+          "method": "package:sass/src/visitor/evaluate.dart#118537:METHOD:_runBuiltInCallable",
+          "code": "evaluated.named.keys.length",
+          "line": 3637,
+          "call": "30064849255",
+          "argumentsOf": [
+            [
+              "30064849254",
+              2
+            ]
+          ]
+        },
+        "30064852142": {
+          "label": "CALL",
+          "method": "package:sass/src/visitor/evaluate.dart#113433:FUNCTION:null",
+          "code": "evaluated.named.keys.length",
+          "line": 3467,
+          "call": "30064852142",
+          "argumentsOf": [
+            [
+              "30064852141",
+              2
+            ]
+          ]
+        }
+      },
+      "calls": {
+        "30064780282": {
+          "nodeId": "30064780282",
+          "name": "parse",
+          "target": "package:sass/src/ast/sass/statement/stylesheet.dart#3167:CONSTRUCTOR:parse",
+          "code": "Stylesheet.parse(source, syntax ?? Syntax.scss, url: url)",
+          "callees": [
+            {
+              "fullName": "package:sass/src/ast/sass/statement/stylesheet.dart#3167:CONSTRUCTOR:parse",
+              "external": false
+            }
+          ]
+        },
+        "30064771095": {
+          "nodeId": "30064771095",
+          "name": "compileStringToResult",
+          "target": "package:sass/sass.dart#8596:FUNCTION:compileStringToResult",
+          "code": "compileStringToResult(\n    source,\n    syntax: syntax ?? (indented ? Syntax.sass : Syntax.scss),\n    logger: logger,\n    importers: importers,\n    packageConfig: packageConfig,\n    loadPaths: loadPaths,\n    functions: functions,\n    style: style,\n    importer: importer,\n    url: url,\n    quietDeps: quietDeps,\n    verbose: verbose,\n    sourceMap: sourceMap != null,\n    charset: charset,\n  )",
+          "callees": [
+            {
+              "fullName": "package:sass/sass.dart#8596:FUNCTION:compileStringToResult",
+              "external": false
+            }
+          ]
+        },
+        "30064777206": {
+          "nodeId": "30064777206",
+          "name": "parse",
+          "target": "package:sass/src/ast/sass/statement/stylesheet.dart#3167:CONSTRUCTOR:parse",
+          "code": "Stylesheet.parse(\n      readFile(path),\n      syntax ?? Syntax.forPath(path),\n      url: p.toUri(path),\n    )",
+          "callees": [
+            {
+              "fullName": "package:sass/src/ast/sass/statement/stylesheet.dart#3167:CONSTRUCTOR:parse",
+              "external": false
+            }
+          ]
+        },
+        "30064777207": {
+          "nodeId": "30064777207",
+          "name": "readFile",
+          "target": "package:sass/src/io/interface.dart#1284:FUNCTION:readFile",
+          "code": "readFile(path)",
+          "callees": [
+            {
+              "fullName": "package:sass/src/io/interface.dart#1284:FUNCTION:readFile",
+              "external": false
+            }
+          ]
+        },
+        "30064774806": {
+          "nodeId": "30064774806",
+          "name": "parseScss",
+          "target": "package:sass/src/ast/sass/statement/stylesheet.dart#4335:CONSTRUCTOR:parseScss",
+          "code": "Stylesheet.parseScss(contents, url: url)",
+          "callees": [
+            {
+              "fullName": "package:sass/src/ast/sass/statement/stylesheet.dart#4335:CONSTRUCTOR:parseScss",
+              "external": false
+            }
+          ]
+        },
+        "30064780234": {
+          "nodeId": "30064780234",
+          "name": "parse",
+          "target": "package:sass/src/ast/sass/statement/stylesheet.dart#3167:CONSTRUCTOR:parse",
+          "code": "Stylesheet.parse(\n      readFile(path),\n      syntax ?? Syntax.forPath(path),\n      url: p.toUri(path),\n    )",
+          "callees": [
+            {
+              "fullName": "package:sass/src/ast/sass/statement/stylesheet.dart#3167:CONSTRUCTOR:parse",
+              "external": false
+            }
+          ]
+        },
+        "30064780235": {
+          "nodeId": "30064780235",
+          "name": "readFile",
+          "target": "package:sass/src/io/interface.dart#1284:FUNCTION:readFile",
+          "code": "readFile(path)",
+          "callees": [
+            {
+              "fullName": "package:sass/src/io/interface.dart#1284:FUNCTION:readFile",
+              "external": false
+            }
+          ]
+        },
+        "30064774809": {
+          "nodeId": "30064774809",
+          "name": "parseCss",
+          "target": "package:sass/src/ast/sass/statement/stylesheet.dart#4644:CONSTRUCTOR:parseCss",
+          "code": "Stylesheet.parseCss(contents, url: url)",
+          "callees": [
+            {
+              "fullName": "package:sass/src/ast/sass/statement/stylesheet.dart#4644:CONSTRUCTOR:parseCss",
+              "external": false
+            }
+          ]
+        },
+        "30064826608": {
+          "nodeId": "30064826608",
+          "name": "_firstNonWhitespace",
+          "target": "package:sass/src/utils.dart#3641:FUNCTION:_firstNonWhitespace",
+          "code": "_firstNonWhitespace(string)",
+          "callees": [
+            {
+              "fullName": "package:sass/src/utils.dart#3641:FUNCTION:_firstNonWhitespace",
+              "external": false
+            }
+          ]
+        },
+        "30064826628": {
+          "nodeId": "30064826628",
+          "name": "length",
+          "target": "dart:core/string.dart#9096:GETTER:length",
+          "code": "string.length",
+          "callees": [
+            {
+              "fullName": "dart:core/string.dart#9096:GETTER:length",
+              "external": true
+            }
+          ]
+        },
+        "30064826632": {
+          "nodeId": "30064826632",
+          "name": "codeUnitAt",
+          "target": "dart:core/string.dart#8631:METHOD:codeUnitAt",
+          "code": "string.codeUnitAt(i)",
+          "callees": [
+            {
+              "fullName": "dart:core/string.dart#8631:METHOD:codeUnitAt",
+              "external": true
+            }
+          ]
+        },
+        "30064826614": {
+          "nodeId": "30064826614",
+          "name": "_lastNonWhitespace",
+          "target": "package:sass/src/utils.dart#4043:FUNCTION:_lastNonWhitespace",
+          "code": "_lastNonWhitespace(string, excludeEscape: excludeEscape)",
+          "callees": [
+            {
+              "fullName": "package:sass/src/utils.dart#4043:FUNCTION:_lastNonWhitespace",
+              "external": false
+            }
+          ]
+        },
+        "30064826635": {
+          "nodeId": "30064826635",
+          "name": "length",
+          "target": "dart:core/string.dart#9096:GETTER:length",
+          "code": "string.length",
+          "callees": [
+            {
+              "fullName": "dart:core/string.dart#9096:GETTER:length",
+              "external": true
+            }
+          ]
+        },
+        "30064826634": {
+          "nodeId": "30064826634",
+          "name": "<operator>.subtraction",
+          "target": "<operator>.dart.subtraction",
+          "code": "string.length - 1",
+          "callees": [
+            {
+              "fullName": "<operator>.dart.subtraction",
+              "external": true
+            }
+          ]
+        },
+        "30064826633": {
+          "nodeId": "30064826633",
+          "name": "<operator>.assignment",
+          "target": "<operator>.assignment",
+          "code": "i = string.length - 1",
+          "callees": [
+            {
+              "fullName": "<operator>.assignment",
+              "external": true
+            }
+          ]
+        },
+        "30064826636": {
+          "nodeId": "30064826636",
+          "name": "<operator>.greaterEqualsThan",
+          "target": "<operator>.dart.greaterEqualsThan",
+          "code": "i >= 0",
+          "callees": [
+            {
+              "fullName": "<operator>.dart.greaterEqualsThan",
+              "external": true
+            }
+          ]
+        },
+        "30064826639": {
+          "nodeId": "30064826639",
+          "name": "codeUnitAt",
+          "target": "dart:core/string.dart#8631:METHOD:codeUnitAt",
+          "code": "string.codeUnitAt(i)",
+          "callees": [
+            {
+              "fullName": "dart:core/string.dart#8631:METHOD:codeUnitAt",
+              "external": true
+            }
+          ]
+        },
+        "30064826645": {
+          "nodeId": "30064826645",
+          "name": "<operator>.notEquals",
+          "target": "<operator>.dart.notEquals",
+          "code": "i != 0",
+          "callees": [
+            {
+              "fullName": "<operator>.dart.notEquals",
+              "external": true
+            }
+          ]
+        },
+        "30064826646": {
+          "nodeId": "30064826646",
+          "name": "<operator>.notEquals",
+          "target": "<operator>.dart.notEquals",
+          "code": "i != string.length - 1",
+          "callees": [
+            {
+              "fullName": "<operator>.dart.notEquals",
+              "external": true
+            }
+          ]
+        },
+        "30064826651": {
+          "nodeId": "30064826651",
+          "name": "<operator>.addition",
+          "target": "<operator>.addition",
+          "code": "i + 1",
+          "callees": [
+            {
+              "fullName": "<operator>.addition",
+              "external": true
+            }
+          ]
+        },
+        "30064826613": {
+          "nodeId": "30064826613",
+          "name": "<operator>.notNullAssert",
+          "target": "<operator>.notNullAssert",
+          "code": "_lastNonWhitespace(string, excludeEscape: excludeEscape)!",
+          "callees": [
+            {
+              "fullName": "<operator>.notNullAssert",
+              "external": true
+            }
+          ]
+        },
+        "30064826612": {
+          "nodeId": "30064826612",
+          "name": "<operator>.addition",
+          "target": "<operator>.addition",
+          "code": "_lastNonWhitespace(string, excludeEscape: excludeEscape)! + 1",
+          "callees": [
+            {
+              "fullName": "<operator>.addition",
+              "external": true
+            }
+          ]
+        },
+        "30064826611": {
+          "nodeId": "30064826611",
+          "name": "substring",
+          "target": "dart:core/string.dart#14194:METHOD:substring",
+          "code": "string.substring(\n          start,\n          _lastNonWhitespace(string, excludeEscape: excludeEscape)! + 1,\n        )",
+          "callees": [
+            {
+              "fullName": "dart:core/string.dart#14194:METHOD:substring",
+              "external": true
+            }
+          ]
+        },
+        "30064826609": {
+          "nodeId": "30064826609",
+          "name": "<operator>.conditional",
+          "target": "<operator>.conditional",
+          "code": "start == null\n      ? \"\"\n      : string.substring(\n          start,\n          _lastNonWhitespace(string, excludeEscape: excludeEscape)! + 1,\n        )",
+          "callees": [
+            {
+              "fullName": "<operator>.conditional",
+              "external": true
+            }
+          ]
+        },
+        "30064827113": {
+          "nodeId": "30064827113",
+          "name": "indent",
+          "target": "package:sass/src/utils.dart#1241:FUNCTION:indent",
+          "code": "indent(rest.join(\"\\n\"), 2)",
+          "callees": [
+            {
+              "fullName": "package:sass/src/utils.dart#1241:FUNCTION:indent",
+              "external": false
+            }
+          ]
+        },
+        "30064826579": {
+          "nodeId": "30064826579",
+          "name": "split",
+          "target": "dart:core/string.dart#26577:METHOD:split",
+          "code": "string.split(\"\\n\")",
+          "callees": [
+            {
+              "fullName": "dart:core/string.dart#26577:METHOD:split",
+              "external": true
+            }
+          ]
+        },
+        "30064826578": {
+          "nodeId": "30064826578",
+          "name": "map",
+          "target": "dart:core/iterable.dart#11471:METHOD:map",
+          "code": "string.split(\"\\n\").map((line) => (\" \" * indentation) + line)",
+          "callees": [
+            {
+              "fullName": "dart:core/iterable.dart#11471:METHOD:map",
+              "external": true
+            }
+          ]
+        },
+        "30064826577": {
+          "nodeId": "30064826577",
+          "name": "join",
+          "target": "dart:core/iterable.dart#18872:METHOD:join",
+          "code": "string.split(\"\\n\").map((line) => (\" \" * indentation) + line).join(\"\\n\")",
+          "callees": [
+            {
+              "fullName": "dart:core/iterable.dart#18872:METHOD:join",
+              "external": true
+            }
+          ]
+        },
+        "30064827112": {
+          "nodeId": "30064827112",
+          "name": "<operator>.addition",
+          "target": "<operator>.addition",
+          "code": "\"\\n\" + indent(rest.join(\"\\n\"), 2)",
+          "callees": [
+            {
+              "fullName": "<operator>.addition",
+              "external": true
+            }
+          ]
+        },
+        "30064827111": {
+          "nodeId": "30064827111",
+          "name": "<operator>.assignment",
+          "target": "<operator>.assignment",
+          "code": "[_, ...var rest] => \"\\n\" + indent(rest.join(\"\\n\"), 2)",
+          "callees": [
+            {
+              "fullName": "<operator>.assignment",
+              "external": true
+            }
+          ]
+        },
+        "30064827088": {
+          "nodeId": "30064827088",
+          "name": "<operator>.addition",
+          "target": "<operator>.addition",
+          "code": "\"${glyph.bullet} ${lines.first}\" +\n          switch (lines) {\n            [_, ...var rest] => \"\\n\" + indent(rest.join(\"\\n\"), 2),\n            _ => \"\",\n          }",
+          "callees": [
+            {
+              "fullName": "<operator>.addition",
+              "external": true
+            }
+          ]
+        },
+        "30064826598": {
+          "nodeId": "30064826598",
+          "name": "map",
+          "target": "dart:core/iterable.dart#11471:METHOD:map",
+          "code": "bullets.map((element) {\n      var lines = element.split(\"\\n\");\n      return \"${glyph.bullet} ${lines.first}\" +\n          switch (lines) {\n            [_, ...var rest] => \"\\n\" + indent(rest.join(\"\\n\"), 2),\n            _ => \"\",\n          };\n    })",
+          "callees": [
+            {
+              "fullName": "dart:core/iterable.dart#11471:METHOD:map",
+              "external": true
+            }
+          ]
+        },
+        "30064827087": {
+          "nodeId": "30064827087",
+          "name": "split",
+          "target": "dart:core/string.dart#26577:METHOD:split",
+          "code": "element.split(\"\\n\")",
+          "callees": [
+            {
+              "fullName": "dart:core/string.dart#26577:METHOD:split",
+              "external": true
+            }
+          ]
+        },
+        "30064827086": {
+          "nodeId": "30064827086",
+          "name": "<operator>.assignment",
+          "target": "<operator>.assignment",
+          "code": "lines = element.split(\"\\n\")",
+          "callees": [
+            {
+              "fullName": "<operator>.assignment",
+              "external": true
+            }
+          ]
+        },
+        "30064827092": {
+          "nodeId": "30064827092",
+          "name": "first",
+          "target": "dart:core/iterable.dart#26154:GETTER:first",
+          "code": "lines.first",
+          "callees": [
+            {
+              "fullName": "dart:core/iterable.dart#26154:GETTER:first",
+              "external": true
+            }
+          ]
+        },
+        "30064827096": {
+          "nodeId": "30064827096",
+          "name": "<operator>.assignment",
+          "target": "<operator>.assignment",
+          "code": "<tmp>13 = switch (lines) {\n            [_, ...var rest] => \"\\n\" + indent(rest.join(\"\\n\"), 2),\n            _ => \"\",\n          }",
+          "callees": [
+            {
+              "fullName": "<operator>.assignment",
+              "external": true
+            }
+          ]
+        },
+        "30064827099": {
+          "nodeId": "30064827099",
+          "name": "<operator>.instanceOf",
+          "target": "<operator>.instanceOf",
+          "code": "[_, ...var rest]",
+          "callees": [
+            {
+              "fullName": "<operator>.instanceOf",
+              "external": true
+            }
+          ]
+        },
+        "30064827104": {
+          "nodeId": "30064827104",
+          "name": "length",
+          "target": "dart:core/list.dart#15331:GETTER:length",
+          "code": "[_, ...var rest]",
+          "callees": [
+            {
+              "fullName": "dart:core/list.dart#15331:GETTER:length",
+              "external": true
+            }
+          ]
+        },
+        "30064827109": {
+          "nodeId": "30064827109",
+          "name": "sublist",
+          "target": "dart:core/list.dart#27126:METHOD:sublist",
+          "code": "...var rest",
+          "callees": [
+            {
+              "fullName": "dart:core/list.dart#27126:METHOD:sublist",
+              "external": true
+            }
+          ]
+        },
+        "30064827108": {
+          "nodeId": "30064827108",
+          "name": "<operator>.assignment",
+          "target": "<operator>.assignment",
+          "code": "<pattern>15 = ...var rest",
+          "callees": [
+            {
+              "fullName": "<operator>.assignment",
+              "external": true
+            }
+          ]
+        },
+        "30064827105": {
+          "nodeId": "30064827105",
+          "name": "<operator>.assignment",
+          "target": "<operator>.assignment",
+          "code": "<tmp>16 = ...var rest",
+          "callees": [
+            {
+              "fullName": "<operator>.assignment",
+              "external": true
+            }
+          ]
+        },
+        "30064827110": {
+          "nodeId": "30064827110",
+          "name": "<operator>.assignment",
+          "target": "<operator>.assignment",
+          "code": "var rest",
+          "callees": [
+            {
+              "fullName": "<operator>.assignment",
+              "external": true
+            }
+          ]
+        },
+        "30064827114": {
+          "nodeId": "30064827114",
+          "name": "join",
+          "target": "dart:core/iterable.dart#18872:METHOD:join",
+          "code": "rest.join(\"\\n\")",
+          "callees": [
+            {
+              "fullName": "dart:core/iterable.dart#18872:METHOD:join",
+              "external": true
+            }
+          ]
+        },
+        "30064827084": {
+          "nodeId": "30064827084",
+          "name": "<operator>.addition",
+          "target": "<operator>.addition",
+          "code": "(\" \" * indentation) + line",
+          "callees": [
+            {
+              "fullName": "<operator>.addition",
+              "external": true
+            }
+          ]
+        },
+        "30064841983": {
+          "nodeId": "30064841983",
+          "name": "pluralize",
+          "target": "package:sass/src/utils.dart#1567:FUNCTION:pluralize",
+          "code": "pluralize('parameter', evaluated.named.keys.length)",
+          "callees": [
+            {
+              "fullName": "package:sass/src/utils.dart#1567:FUNCTION:pluralize",
+              "external": false
+            }
+          ]
+        },
+        "30064826580": {
+          "nodeId": "30064826580",
+          "name": "<operator>.equals",
+          "target": "<operator>.dart.equals",
+          "code": "number == 1",
+          "callees": [
+            {
+              "fullName": "<operator>.dart.equals",
+              "external": true
+            }
+          ]
+        },
+        "30064841984": {
+          "nodeId": "30064841984",
+          "name": "length",
+          "target": "dart:core/iterable.dart#21600:GETTER:length",
+          "code": "evaluated.named.keys.length",
+          "callees": [
+            {
+              "fullName": "dart:core/iterable.dart#21600:GETTER:length",
+              "external": true
+            },
+            {
+              "fullName": "package:sass/src/util/prefixed_map_view.dart#1239:GETTER:length",
+              "external": false
+            }
+          ]
+        },
+        "30064844979": {
+          "nodeId": "30064844979",
+          "name": "pluralize",
+          "target": "package:sass/src/utils.dart#1567:FUNCTION:pluralize",
+          "code": "pluralize(\n            'parameter',\n            evaluated.named.keys.length,\n          )",
+          "callees": [
+            {
+              "fullName": "package:sass/src/utils.dart#1567:FUNCTION:pluralize",
+              "external": false
+            }
+          ]
+        },
+        "30064844980": {
+          "nodeId": "30064844980",
+          "name": "length",
+          "target": "dart:core/iterable.dart#21600:GETTER:length",
+          "code": "evaluated.named.keys.length",
+          "callees": [
+            {
+              "fullName": "dart:core/iterable.dart#21600:GETTER:length",
+              "external": true
+            },
+            {
+              "fullName": "package:sass/src/util/prefixed_map_view.dart#1239:GETTER:length",
+              "external": false
+            }
+          ]
+        },
+        "30064849254": {
+          "nodeId": "30064849254",
+          "name": "pluralize",
+          "target": "package:sass/src/utils.dart#1567:FUNCTION:pluralize",
+          "code": "pluralize('parameter', evaluated.named.keys.length)",
+          "callees": [
+            {
+              "fullName": "package:sass/src/utils.dart#1567:FUNCTION:pluralize",
+              "external": false
+            }
+          ]
+        },
+        "30064849255": {
+          "nodeId": "30064849255",
+          "name": "length",
+          "target": "dart:core/iterable.dart#21600:GETTER:length",
+          "code": "evaluated.named.keys.length",
+          "callees": [
+            {
+              "fullName": "dart:core/iterable.dart#21600:GETTER:length",
+              "external": true
+            },
+            {
+              "fullName": "package:sass/src/util/prefixed_map_view.dart#1239:GETTER:length",
+              "external": false
+            }
+          ]
+        },
+        "30064852141": {
+          "nodeId": "30064852141",
+          "name": "pluralize",
+          "target": "package:sass/src/utils.dart#1567:FUNCTION:pluralize",
+          "code": "pluralize(\n            'parameter',\n            evaluated.named.keys.length,\n          )",
+          "callees": [
+            {
+              "fullName": "package:sass/src/utils.dart#1567:FUNCTION:pluralize",
+              "external": false
+            }
+          ]
+        },
+        "30064852142": {
+          "nodeId": "30064852142",
+          "name": "length",
+          "target": "dart:core/iterable.dart#21600:GETTER:length",
+          "code": "evaluated.named.keys.length",
+          "callees": [
+            {
+              "fullName": "dart:core/iterable.dart#21600:GETTER:length",
+              "external": true
+            },
+            {
+              "fullName": "package:sass/src/util/prefixed_map_view.dart#1239:GETTER:length",
+              "external": false
+            }
+          ]
+        }
+      },
+      "contexts": [
+        [],
+        [
+          "30064777206"
+        ],
+        [
+          "30064780234"
+        ],
+        [
+          "30064826608"
+        ],
+        [
+          "30064826614"
+        ],
+        [
+          "30064827113"
+        ],
+        [
+          "30064841983"
+        ],
+        [
+          "30064844979"
+        ],
+        [
+          "30064849254"
+        ],
+        [
+          "30064852141"
+        ]
+      ],
+      "paths": [
+        {
+          "transitions": [
+            "parameter-read",
+            "parameter-binding"
+          ],
+          "elements": [
+            [
+              "111669151569",
+              0,
+              true,
+              false,
+              "source",
+              []
+            ],
+            [
+              "68719485047",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "111669150689",
+              0,
+              true,
+              false,
+              "",
+              []
+            ]
+          ]
+        },
+        {
+          "transitions": [
+            "parameter-read",
+            "parameter-binding"
+          ],
+          "elements": [
+            [
+              "111669149774",
+              0,
+              true,
+              false,
+              "source",
+              []
+            ],
+            [
+              "68719476826",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "111669149711",
+              0,
+              true,
+              false,
+              "",
+              []
+            ]
+          ]
+        },
+        {
+          "transitions": [
+            "parameter-output",
+            "caller-output",
+            "parameter-binding",
+            "parameter-read",
+            "parameter-binding"
+          ],
+          "elements": [
+            [
+              "111669150689",
+              1,
+              true,
+              false,
+              "contents",
+              []
+            ],
+            [
+              "115964117985",
+              1,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "30064777207",
+              0,
+              true,
+              true,
+              "",
+              []
+            ],
+            [
+              "111669150689",
+              0,
+              true,
+              false,
+              "contents",
+              []
+            ],
+            [
+              "68719480135",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "111669150694",
+              0,
+              true,
+              false,
+              "",
+              []
+            ]
+          ]
+        },
+        {
+          "transitions": [
+            "parameter-output",
+            "caller-output",
+            "parameter-binding",
+            "parameter-read",
+            "parameter-binding"
+          ],
+          "elements": [
+            [
+              "111669150689",
+              2,
+              true,
+              false,
+              "contents",
+              []
+            ],
+            [
+              "115964117985",
+              2,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "30064780235",
+              0,
+              true,
+              true,
+              "",
+              []
+            ],
+            [
+              "111669150689",
+              0,
+              true,
+              false,
+              "contents",
+              []
+            ],
+            [
+              "68719480135",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "111669150694",
+              0,
+              true,
+              false,
+              "",
+              []
+            ]
+          ]
+        },
+        {
+          "transitions": [
+            "parameter-read",
+            "parameter-binding"
+          ],
+          "elements": [
+            [
+              "111669150689",
+              0,
+              true,
+              false,
+              "contents",
+              []
+            ],
+            [
+              "68719480135",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "111669150694",
+              0,
+              true,
+              false,
+              "",
+              []
+            ]
+          ]
+        },
+        {
+          "transitions": [
+            "parameter-output",
+            "caller-output",
+            "parameter-binding",
+            "parameter-read",
+            "parameter-binding"
+          ],
+          "elements": [
+            [
+              "111669150689",
+              1,
+              true,
+              false,
+              "contents",
+              []
+            ],
+            [
+              "115964117985",
+              1,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "30064777207",
+              0,
+              true,
+              true,
+              "",
+              []
+            ],
+            [
+              "111669150689",
+              0,
+              true,
+              false,
+              "contents",
+              []
+            ],
+            [
+              "68719480140",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "111669150696",
+              0,
+              true,
+              false,
+              "",
+              []
+            ]
+          ]
+        },
+        {
+          "transitions": [
+            "parameter-output",
+            "caller-output",
+            "parameter-binding",
+            "parameter-read",
+            "parameter-binding"
+          ],
+          "elements": [
+            [
+              "111669150689",
+              2,
+              true,
+              false,
+              "contents",
+              []
+            ],
+            [
+              "115964117985",
+              2,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "30064780235",
+              0,
+              true,
+              true,
+              "",
+              []
+            ],
+            [
+              "111669150689",
+              0,
+              true,
+              false,
+              "contents",
+              []
+            ],
+            [
+              "68719480140",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "111669150696",
+              0,
+              true,
+              false,
+              "",
+              []
+            ]
+          ]
+        },
+        {
+          "transitions": [
+            "parameter-read",
+            "parameter-binding"
+          ],
+          "elements": [
+            [
+              "111669150689",
+              0,
+              true,
+              false,
+              "contents",
+              []
+            ],
+            [
+              "68719480140",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "111669150696",
+              0,
+              true,
+              false,
+              "",
+              []
+            ]
+          ]
+        },
+        {
+          "transitions": [
+            "parameter-read",
+            "parameter-binding",
+            "parameter-read",
+            "local-read",
+            "parameter-output",
+            "caller-output",
+            "local-read",
+            "parameter-binding",
+            "parameter-read",
+            "external-return",
+            "operator-value",
+            "assignment",
+            "local-read",
+            "local-read",
+            "local-read",
+            "local-read",
+            "local-read",
+            "operator-value",
+            "return-value",
+            "method-return",
+            "call-return",
+            "operator-value",
+            "operator-value",
+            "external-write",
+            "external-write",
+            "external-return",
+            "selection",
+            "return-value"
+          ],
+          "elements": [
+            [
+              "111669157158",
+              0,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "68719525516",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "111669157163",
+              3,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "68719525535",
+              3,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "68719525537",
+              3,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "115964124459",
+              3,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "68719525516",
+              0,
+              true,
+              true,
+              "string",
+              []
+            ],
+            [
+              "68719525520",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "111669157164",
+              4,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "68719525541",
+              4,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "30064826635",
+              4,
+              false,
+              false,
+              "string.length",
+              []
+            ],
+            [
+              "30064826634",
+              4,
+              true,
+              false,
+              "string.length - 1",
+              []
+            ],
+            [
+              "68719525540",
+              4,
+              true,
+              false,
+              "i",
+              []
+            ],
+            [
+              "68719525542",
+              4,
+              false,
+              false,
+              "i",
+              []
+            ],
+            [
+              "68719525546",
+              4,
+              true,
+              false,
+              "i",
+              []
+            ],
+            [
+              "68719525549",
+              4,
+              false,
+              false,
+              "i",
+              []
+            ],
+            [
+              "68719525550",
+              4,
+              false,
+              false,
+              "i",
+              []
+            ],
+            [
+              "68719525554",
+              4,
+              false,
+              false,
+              "i",
+              []
+            ],
+            [
+              "30064826651",
+              4,
+              true,
+              false,
+              "i + 1",
+              []
+            ],
+            [
+              "141733925858",
+              4,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "124554056731",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "30064826614",
+              0,
+              false,
+              true,
+              "_lastNonWhitespace(string, excludeEscape: excludeEscape)",
+              []
+            ],
+            [
+              "30064826613",
+              0,
+              false,
+              false,
+              "_lastNonWhitespace(string, excludeEscape: excludeEscape)!",
+              []
+            ],
+            [
+              "30064826612",
+              0,
+              true,
+              false,
+              "_lastNonWhitespace(string, excludeEscape: excludeEscape)! + 1",
+              []
+            ],
+            [
+              "68719525519",
+              0,
+              true,
+              false,
+              "start",
+              []
+            ],
+            [
+              "68719525518",
+              0,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "30064826611",
+              0,
+              false,
+              false,
+              "string.substring(\n          start,\n          _lastNonWhitespace(string, excludeEscape: excludeEscape)! + 1,\n        )",
+              []
+            ],
+            [
+              "30064826609",
+              0,
+              true,
+              false,
+              "start == null\n      ? \"\"\n      : string.substring(\n          start,\n          _lastNonWhitespace(string, excludeEscape: excludeEscape)! + 1,\n        )",
+              []
+            ],
+            [
+              "141733925853",
+              0,
+              true,
+              false,
+              "",
+              []
+            ]
+          ]
+        },
+        {
+          "transitions": [
+            "parameter-read",
+            "parameter-binding",
+            "parameter-read",
+            "local-read",
+            "parameter-output",
+            "caller-output",
+            "local-read",
+            "parameter-binding",
+            "parameter-read",
+            "external-return",
+            "operator-value",
+            "assignment",
+            "local-read",
+            "local-read",
+            "local-read",
+            "local-read",
+            "local-read",
+            "return-value",
+            "method-return",
+            "call-return",
+            "operator-value",
+            "operator-value",
+            "external-write",
+            "external-write",
+            "external-return",
+            "selection",
+            "return-value"
+          ],
+          "elements": [
+            [
+              "111669157158",
+              0,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "68719525516",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "111669157163",
+              3,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "68719525535",
+              3,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "68719525537",
+              3,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "115964124459",
+              3,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "68719525516",
+              0,
+              true,
+              true,
+              "string",
+              []
+            ],
+            [
+              "68719525520",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "111669157164",
+              4,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "68719525541",
+              4,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "30064826635",
+              4,
+              false,
+              false,
+              "string.length",
+              []
+            ],
+            [
+              "30064826634",
+              4,
+              true,
+              false,
+              "string.length - 1",
+              []
+            ],
+            [
+              "68719525540",
+              4,
+              true,
+              false,
+              "i",
+              []
+            ],
+            [
+              "68719525542",
+              4,
+              false,
+              false,
+              "i",
+              []
+            ],
+            [
+              "68719525546",
+              4,
+              true,
+              false,
+              "i",
+              []
+            ],
+            [
+              "68719525549",
+              4,
+              false,
+              false,
+              "i",
+              []
+            ],
+            [
+              "68719525550",
+              4,
+              false,
+              false,
+              "i",
+              []
+            ],
+            [
+              "68719525555",
+              4,
+              true,
+              false,
+              "i",
+              []
+            ],
+            [
+              "141733925859",
+              4,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "124554056731",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "30064826614",
+              0,
+              false,
+              true,
+              "_lastNonWhitespace(string, excludeEscape: excludeEscape)",
+              []
+            ],
+            [
+              "30064826613",
+              0,
+              false,
+              false,
+              "_lastNonWhitespace(string, excludeEscape: excludeEscape)!",
+              []
+            ],
+            [
+              "30064826612",
+              0,
+              true,
+              false,
+              "_lastNonWhitespace(string, excludeEscape: excludeEscape)! + 1",
+              []
+            ],
+            [
+              "68719525519",
+              0,
+              true,
+              false,
+              "start",
+              []
+            ],
+            [
+              "68719525518",
+              0,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "30064826611",
+              0,
+              false,
+              false,
+              "string.substring(\n          start,\n          _lastNonWhitespace(string, excludeEscape: excludeEscape)! + 1,\n        )",
+              []
+            ],
+            [
+              "30064826609",
+              0,
+              true,
+              false,
+              "start == null\n      ? \"\"\n      : string.substring(\n          start,\n          _lastNonWhitespace(string, excludeEscape: excludeEscape)! + 1,\n        )",
+              []
+            ],
+            [
+              "141733925853",
+              0,
+              true,
+              false,
+              "",
+              []
+            ]
+          ]
+        },
+        {
+          "transitions": [
+            "parameter-read",
+            "parameter-binding",
+            "parameter-read",
+            "local-read",
+            "parameter-output",
+            "caller-output",
+            "local-read",
+            "parameter-binding",
+            "parameter-read",
+            "external-return",
+            "operator-value",
+            "assignment",
+            "local-read",
+            "local-read",
+            "local-read",
+            "local-read",
+            "operator-value",
+            "return-value",
+            "method-return",
+            "call-return",
+            "operator-value",
+            "operator-value",
+            "external-write",
+            "external-write",
+            "external-return",
+            "selection",
+            "return-value"
+          ],
+          "elements": [
+            [
+              "111669157158",
+              0,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "68719525516",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "111669157163",
+              3,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "68719525535",
+              3,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "68719525537",
+              3,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "115964124459",
+              3,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "68719525516",
+              0,
+              true,
+              true,
+              "string",
+              []
+            ],
+            [
+              "68719525520",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "111669157164",
+              4,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "68719525541",
+              4,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "30064826635",
+              4,
+              false,
+              false,
+              "string.length",
+              []
+            ],
+            [
+              "30064826634",
+              4,
+              true,
+              false,
+              "string.length - 1",
+              []
+            ],
+            [
+              "68719525540",
+              4,
+              true,
+              false,
+              "i",
+              []
+            ],
+            [
+              "68719525542",
+              4,
+              false,
+              false,
+              "i",
+              []
+            ],
+            [
+              "68719525546",
+              4,
+              true,
+              false,
+              "i",
+              []
+            ],
+            [
+              "68719525549",
+              4,
+              false,
+              false,
+              "i",
+              []
+            ],
+            [
+              "68719525554",
+              4,
+              false,
+              false,
+              "i",
+              []
+            ],
+            [
+              "30064826651",
+              4,
+              true,
+              false,
+              "i + 1",
+              []
+            ],
+            [
+              "141733925858",
+              4,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "124554056731",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "30064826614",
+              0,
+              false,
+              true,
+              "_lastNonWhitespace(string, excludeEscape: excludeEscape)",
+              []
+            ],
+            [
+              "30064826613",
+              0,
+              false,
+              false,
+              "_lastNonWhitespace(string, excludeEscape: excludeEscape)!",
+              []
+            ],
+            [
+              "30064826612",
+              0,
+              true,
+              false,
+              "_lastNonWhitespace(string, excludeEscape: excludeEscape)! + 1",
+              []
+            ],
+            [
+              "68719525519",
+              0,
+              true,
+              false,
+              "start",
+              []
+            ],
+            [
+              "68719525518",
+              0,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "30064826611",
+              0,
+              false,
+              false,
+              "string.substring(\n          start,\n          _lastNonWhitespace(string, excludeEscape: excludeEscape)! + 1,\n        )",
+              []
+            ],
+            [
+              "30064826609",
+              0,
+              true,
+              false,
+              "start == null\n      ? \"\"\n      : string.substring(\n          start,\n          _lastNonWhitespace(string, excludeEscape: excludeEscape)! + 1,\n        )",
+              []
+            ],
+            [
+              "141733925853",
+              0,
+              true,
+              false,
+              "",
+              []
+            ]
+          ]
+        },
+        {
+          "transitions": [
+            "parameter-read",
+            "parameter-binding",
+            "parameter-read",
+            "local-read",
+            "parameter-output",
+            "caller-output",
+            "local-read",
+            "parameter-binding",
+            "parameter-read",
+            "external-return",
+            "operator-value",
+            "assignment",
+            "local-read",
+            "local-read",
+            "local-read",
+            "local-read",
+            "operator-value",
+            "return-value",
+            "method-return",
+            "call-return",
+            "operator-value",
+            "operator-value",
+            "external-write",
+            "external-write",
+            "external-return",
+            "selection",
+            "return-value"
+          ],
+          "elements": [
+            [
+              "111669157158",
+              0,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "68719525516",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "111669157163",
+              3,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "68719525535",
+              3,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "68719525537",
+              3,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "115964124459",
+              3,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "68719525516",
+              0,
+              true,
+              true,
+              "string",
+              []
+            ],
+            [
+              "68719525520",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "111669157164",
+              4,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "68719525541",
+              4,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "30064826635",
+              4,
+              false,
+              false,
+              "string.length",
+              []
+            ],
+            [
+              "30064826634",
+              4,
+              true,
+              false,
+              "string.length - 1",
+              []
+            ],
+            [
+              "68719525540",
+              4,
+              true,
+              false,
+              "i",
+              []
+            ],
+            [
+              "68719525542",
+              4,
+              false,
+              false,
+              "i",
+              []
+            ],
+            [
+              "68719525546",
+              4,
+              true,
+              false,
+              "i",
+              []
+            ],
+            [
+              "68719525550",
+              4,
+              false,
+              false,
+              "i",
+              []
+            ],
+            [
+              "68719525554",
+              4,
+              false,
+              false,
+              "i",
+              []
+            ],
+            [
+              "30064826651",
+              4,
+              true,
+              false,
+              "i + 1",
+              []
+            ],
+            [
+              "141733925858",
+              4,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "124554056731",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "30064826614",
+              0,
+              false,
+              true,
+              "_lastNonWhitespace(string, excludeEscape: excludeEscape)",
+              []
+            ],
+            [
+              "30064826613",
+              0,
+              false,
+              false,
+              "_lastNonWhitespace(string, excludeEscape: excludeEscape)!",
+              []
+            ],
+            [
+              "30064826612",
+              0,
+              true,
+              false,
+              "_lastNonWhitespace(string, excludeEscape: excludeEscape)! + 1",
+              []
+            ],
+            [
+              "68719525519",
+              0,
+              true,
+              false,
+              "start",
+              []
+            ],
+            [
+              "68719525518",
+              0,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "30064826611",
+              0,
+              false,
+              false,
+              "string.substring(\n          start,\n          _lastNonWhitespace(string, excludeEscape: excludeEscape)! + 1,\n        )",
+              []
+            ],
+            [
+              "30064826609",
+              0,
+              true,
+              false,
+              "start == null\n      ? \"\"\n      : string.substring(\n          start,\n          _lastNonWhitespace(string, excludeEscape: excludeEscape)! + 1,\n        )",
+              []
+            ],
+            [
+              "141733925853",
+              0,
+              true,
+              false,
+              "",
+              []
+            ]
+          ]
+        },
+        {
+          "transitions": [
+            "parameter-read",
+            "parameter-binding"
+          ],
+          "elements": [
+            [
+              "111669157158",
+              0,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "68719525516",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "111669157163",
+              0,
+              true,
+              false,
+              "",
+              []
+            ]
+          ]
+        },
+        {
+          "transitions": [
+            "parameter-read",
+            "return-value"
+          ],
+          "elements": [
+            [
+              "111669157151",
+              0,
+              true,
+              false,
+              "name",
+              []
+            ],
+            [
+              "68719525486",
+              0,
+              true,
+              false,
+              "name",
+              []
+            ],
+            [
+              "141733925847",
+              0,
+              true,
+              false,
+              "",
+              []
+            ]
+          ]
+        },
+        {
+          "transitions": [
+            "parameter-read",
+            "external-return",
+            "external-return",
+            "external-return",
+            "return-value",
+            "method-return",
+            "call-return",
+            "operator-value",
+            "assignment",
+            "block-result",
+            "block-result",
+            "operator-value",
+            "return-value",
+            "method-return",
+            "callback-result",
+            "callback-effect",
+            "callback-parameter",
+            "parameter-read",
+            "external-return",
+            "assignment",
+            "local-read",
+            "local-read",
+            "assignment",
+            "local-read",
+            "local-read",
+            "local-read",
+            "external-return",
+            "assignment",
+            "block-result",
+            "assignment",
+            "local-read",
+            "assignment",
+            "local-read",
+            "external-return",
+            "parameter-binding",
+            "parameter-read",
+            "external-return",
+            "external-return",
+            "external-return",
+            "return-value"
+          ],
+          "elements": [
+            [
+              "111669157149",
+              5,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "68719525484",
+              5,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "30064826579",
+              5,
+              true,
+              false,
+              "string.split(\"\\n\")",
+              []
+            ],
+            [
+              "30064826578",
+              5,
+              true,
+              false,
+              "string.split(\"\\n\").map((line) => (\" \" * indentation) + line)",
+              []
+            ],
+            [
+              "30064826577",
+              5,
+              true,
+              false,
+              "string.split(\"\\n\").map((line) => (\" \" * indentation) + line).join(\"\\n\")",
+              []
+            ],
+            [
+              "141733925846",
+              5,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "124554056722",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "30064827113",
+              0,
+              false,
+              true,
+              "indent(rest.join(\"\\n\"), 2)",
+              []
+            ],
+            [
+              "30064827112",
+              0,
+              true,
+              false,
+              "\"\\n\" + indent(rest.join(\"\\n\"), 2)",
+              []
+            ],
+            [
+              "68719526012",
+              0,
+              true,
+              false,
+              "<tmp>12",
+              []
+            ],
+            [
+              "25769823057",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "25769823056",
+              0,
+              false,
+              false,
+              "",
+              []
+            ],
+            [
+              "30064827088",
+              0,
+              true,
+              false,
+              "\"${glyph.bullet} ${lines.first}\" +\n          switch (lines) {\n            [_, ...var rest] => \"\\n\" + indent(rest.join(\"\\n\"), 2),\n            _ => \"\",\n          }",
+              []
+            ],
+            [
+              "141733925903",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "124554056765",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "120259085299",
+              0,
+              true,
+              true,
+              "(element) {\n      var lines = element.split(\"\\n\");\n      return \"${glyph.bullet} ${lines.first}\" +\n          switch (lines) {\n            [_, ...var rest] => \"\\n\" + indent(rest.join(\"\\n\"), 2),\n            _ => \"\",\n          };\n    }",
+              []
+            ],
+            [
+              "68719525504",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "111669157224",
+              0,
+              true,
+              false,
+              "element",
+              []
+            ],
+            [
+              "68719525991",
+              0,
+              true,
+              false,
+              "element",
+              []
+            ],
+            [
+              "30064827087",
+              0,
+              true,
+              false,
+              "element.split(\"\\n\")",
+              []
+            ],
+            [
+              "68719525990",
+              0,
+              true,
+              false,
+              "lines",
+              []
+            ],
+            [
+              "68719525994",
+              0,
+              true,
+              false,
+              "lines",
+              []
+            ],
+            [
+              "68719525999",
+              0,
+              true,
+              false,
+              "lines",
+              []
+            ],
+            [
+              "68719525998",
+              0,
+              true,
+              false,
+              "<tmp>13",
+              []
+            ],
+            [
+              "68719526000",
+              0,
+              true,
+              false,
+              "<tmp>13",
+              []
+            ],
+            [
+              "68719526003",
+              0,
+              true,
+              false,
+              "<tmp>13",
+              []
+            ],
+            [
+              "68719526008",
+              0,
+              true,
+              false,
+              "<tmp>13",
+              []
+            ],
+            [
+              "30064827109",
+              0,
+              true,
+              false,
+              "...var rest",
+              []
+            ],
+            [
+              "68719526007",
+              0,
+              true,
+              false,
+              "<pattern>15",
+              []
+            ],
+            [
+              "25769823062",
+              0,
+              true,
+              false,
+              "...var rest",
+              []
+            ],
+            [
+              "68719526005",
+              0,
+              true,
+              false,
+              "<tmp>16",
+              []
+            ],
+            [
+              "68719526011",
+              0,
+              true,
+              false,
+              "<tmp>16",
+              []
+            ],
+            [
+              "68719526010",
+              0,
+              true,
+              false,
+              "rest",
+              []
+            ],
+            [
+              "68719526013",
+              0,
+              true,
+              false,
+              "rest",
+              []
+            ],
+            [
+              "30064827114",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "111669157149",
+              0,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "68719525484",
+              0,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "30064826579",
+              0,
+              true,
+              false,
+              "string.split(\"\\n\")",
+              []
+            ],
+            [
+              "30064826578",
+              0,
+              true,
+              false,
+              "string.split(\"\\n\").map((line) => (\" \" * indentation) + line)",
+              []
+            ],
+            [
+              "30064826577",
+              0,
+              true,
+              false,
+              "string.split(\"\\n\").map((line) => (\" \" * indentation) + line).join(\"\\n\")",
+              []
+            ],
+            [
+              "141733925846",
+              0,
+              true,
+              false,
+              "",
+              []
+            ]
+          ]
+        },
+        {
+          "transitions": [
+            "parameter-read",
+            "external-return",
+            "external-return",
+            "external-return",
+            "return-value",
+            "method-return",
+            "call-return",
+            "operator-value",
+            "assignment",
+            "block-result",
+            "block-result",
+            "operator-value",
+            "return-value",
+            "method-return",
+            "callback-result",
+            "callback-effect",
+            "callback-parameter",
+            "parameter-read",
+            "external-return",
+            "assignment",
+            "local-read",
+            "local-read",
+            "assignment",
+            "local-read",
+            "local-read",
+            "local-read",
+            "external-return",
+            "assignment",
+            "block-result",
+            "assignment",
+            "local-read",
+            "assignment",
+            "local-read",
+            "external-return",
+            "parameter-binding",
+            "parameter-read",
+            "external-return",
+            "external-return",
+            "external-return",
+            "return-value"
+          ],
+          "elements": [
+            [
+              "111669157149",
+              5,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "68719525484",
+              5,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "30064826579",
+              5,
+              true,
+              false,
+              "string.split(\"\\n\")",
+              []
+            ],
+            [
+              "30064826578",
+              5,
+              true,
+              false,
+              "string.split(\"\\n\").map((line) => (\" \" * indentation) + line)",
+              []
+            ],
+            [
+              "30064826577",
+              5,
+              true,
+              false,
+              "string.split(\"\\n\").map((line) => (\" \" * indentation) + line).join(\"\\n\")",
+              []
+            ],
+            [
+              "141733925846",
+              5,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "124554056722",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "30064827113",
+              0,
+              false,
+              true,
+              "indent(rest.join(\"\\n\"), 2)",
+              []
+            ],
+            [
+              "30064827112",
+              0,
+              true,
+              false,
+              "\"\\n\" + indent(rest.join(\"\\n\"), 2)",
+              []
+            ],
+            [
+              "68719526012",
+              0,
+              true,
+              false,
+              "<tmp>12",
+              []
+            ],
+            [
+              "25769823057",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "25769823056",
+              0,
+              false,
+              false,
+              "switch (lines) {\n            [_, ...var rest] => \"\\n\" + indent(rest.join(\"\\n\"), 2),\n            _ => \"\",\n          }",
+              []
+            ],
+            [
+              "30064827088",
+              0,
+              true,
+              false,
+              "\"${glyph.bullet} ${lines.first}\" +\n          switch (lines) {\n            [_, ...var rest] => \"\\n\" + indent(rest.join(\"\\n\"), 2),\n            _ => \"\",\n          }",
+              []
+            ],
+            [
+              "141733925903",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "124554056765",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "120259085299",
+              0,
+              true,
+              true,
+              "(element) {\n      var lines = element.split(\"\\n\");\n      return \"${glyph.bullet} ${lines.first}\" +\n          switch (lines) {\n            [_, ...var rest] => \"\\n\" + indent(rest.join(\"\\n\"), 2),\n            _ => \"\",\n          };\n    }",
+              []
+            ],
+            [
+              "68719525504",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "111669157224",
+              0,
+              true,
+              false,
+              "element",
+              []
+            ],
+            [
+              "68719525991",
+              0,
+              true,
+              false,
+              "element",
+              []
+            ],
+            [
+              "30064827087",
+              0,
+              true,
+              false,
+              "element.split(\"\\n\")",
+              []
+            ],
+            [
+              "68719525990",
+              0,
+              true,
+              false,
+              "lines",
+              []
+            ],
+            [
+              "68719525994",
+              0,
+              true,
+              false,
+              "lines",
+              []
+            ],
+            [
+              "68719525999",
+              0,
+              true,
+              false,
+              "lines",
+              []
+            ],
+            [
+              "68719525998",
+              0,
+              true,
+              false,
+              "<tmp>13",
+              []
+            ],
+            [
+              "68719526000",
+              0,
+              true,
+              false,
+              "<tmp>13",
+              []
+            ],
+            [
+              "68719526003",
+              0,
+              true,
+              false,
+              "<tmp>13",
+              []
+            ],
+            [
+              "68719526008",
+              0,
+              true,
+              false,
+              "<tmp>13",
+              []
+            ],
+            [
+              "30064827109",
+              0,
+              true,
+              false,
+              "...var rest",
+              []
+            ],
+            [
+              "68719526007",
+              0,
+              true,
+              false,
+              "<pattern>15",
+              []
+            ],
+            [
+              "25769823062",
+              0,
+              true,
+              false,
+              "...var rest",
+              []
+            ],
+            [
+              "68719526005",
+              0,
+              true,
+              false,
+              "<tmp>16",
+              []
+            ],
+            [
+              "68719526011",
+              0,
+              true,
+              false,
+              "<tmp>16",
+              []
+            ],
+            [
+              "68719526010",
+              0,
+              true,
+              false,
+              "rest",
+              []
+            ],
+            [
+              "68719526013",
+              0,
+              true,
+              false,
+              "rest",
+              []
+            ],
+            [
+              "30064827114",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "111669157149",
+              0,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "68719525484",
+              0,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "30064826579",
+              0,
+              true,
+              false,
+              "string.split(\"\\n\")",
+              []
+            ],
+            [
+              "30064826578",
+              0,
+              true,
+              false,
+              "string.split(\"\\n\").map((line) => (\" \" * indentation) + line)",
+              []
+            ],
+            [
+              "30064826577",
+              0,
+              true,
+              false,
+              "string.split(\"\\n\").map((line) => (\" \" * indentation) + line).join(\"\\n\")",
+              []
+            ],
+            [
+              "141733925846",
+              0,
+              true,
+              false,
+              "",
+              []
+            ]
+          ]
+        },
+        {
+          "transitions": [
+            "parameter-read",
+            "external-return",
+            "external-return",
+            "external-return",
+            "return-value",
+            "method-return",
+            "call-return",
+            "operator-value",
+            "assignment",
+            "block-result",
+            "block-result",
+            "operator-value",
+            "return-value",
+            "method-return",
+            "callback-result",
+            "callback-effect",
+            "callback-parameter",
+            "parameter-read",
+            "external-return",
+            "assignment",
+            "local-read",
+            "local-read",
+            "alias",
+            "local-read",
+            "local-read",
+            "external-return",
+            "assignment",
+            "block-result",
+            "assignment",
+            "local-read",
+            "assignment",
+            "local-read",
+            "external-return",
+            "parameter-binding",
+            "parameter-read",
+            "external-return",
+            "external-return",
+            "external-return",
+            "return-value"
+          ],
+          "elements": [
+            [
+              "111669157149",
+              5,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "68719525484",
+              5,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "30064826579",
+              5,
+              true,
+              false,
+              "string.split(\"\\n\")",
+              []
+            ],
+            [
+              "30064826578",
+              5,
+              true,
+              false,
+              "string.split(\"\\n\").map((line) => (\" \" * indentation) + line)",
+              []
+            ],
+            [
+              "30064826577",
+              5,
+              true,
+              false,
+              "string.split(\"\\n\").map((line) => (\" \" * indentation) + line).join(\"\\n\")",
+              []
+            ],
+            [
+              "141733925846",
+              5,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "124554056722",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "30064827113",
+              0,
+              false,
+              true,
+              "indent(rest.join(\"\\n\"), 2)",
+              []
+            ],
+            [
+              "30064827112",
+              0,
+              true,
+              false,
+              "\"\\n\" + indent(rest.join(\"\\n\"), 2)",
+              []
+            ],
+            [
+              "68719526012",
+              0,
+              true,
+              false,
+              "<tmp>12",
+              []
+            ],
+            [
+              "25769823057",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "25769823056",
+              0,
+              false,
+              false,
+              "",
+              []
+            ],
+            [
+              "30064827088",
+              0,
+              true,
+              false,
+              "\"${glyph.bullet} ${lines.first}\" +\n          switch (lines) {\n            [_, ...var rest] => \"\\n\" + indent(rest.join(\"\\n\"), 2),\n            _ => \"\",\n          }",
+              []
+            ],
+            [
+              "141733925903",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "124554056765",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "120259085299",
+              0,
+              true,
+              true,
+              "(element) {\n      var lines = element.split(\"\\n\");\n      return \"${glyph.bullet} ${lines.first}\" +\n          switch (lines) {\n            [_, ...var rest] => \"\\n\" + indent(rest.join(\"\\n\"), 2),\n            _ => \"\",\n          };\n    }",
+              []
+            ],
+            [
+              "68719525504",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "111669157224",
+              0,
+              true,
+              false,
+              "element",
+              []
+            ],
+            [
+              "68719525991",
+              0,
+              true,
+              false,
+              "element",
+              []
+            ],
+            [
+              "30064827087",
+              0,
+              true,
+              false,
+              "element.split(\"\\n\")",
+              []
+            ],
+            [
+              "68719525990",
+              0,
+              true,
+              false,
+              "lines",
+              []
+            ],
+            [
+              "68719525994",
+              0,
+              true,
+              false,
+              "lines",
+              []
+            ],
+            [
+              "68719525999",
+              0,
+              false,
+              false,
+              "lines",
+              []
+            ],
+            [
+              "68719526000",
+              0,
+              true,
+              false,
+              "<tmp>13",
+              []
+            ],
+            [
+              "68719526003",
+              0,
+              true,
+              false,
+              "<tmp>13",
+              []
+            ],
+            [
+              "68719526008",
+              0,
+              true,
+              false,
+              "<tmp>13",
+              []
+            ],
+            [
+              "30064827109",
+              0,
+              true,
+              false,
+              "...var rest",
+              []
+            ],
+            [
+              "68719526007",
+              0,
+              true,
+              false,
+              "<pattern>15",
+              []
+            ],
+            [
+              "25769823062",
+              0,
+              true,
+              false,
+              "...var rest",
+              []
+            ],
+            [
+              "68719526005",
+              0,
+              true,
+              false,
+              "<tmp>16",
+              []
+            ],
+            [
+              "68719526011",
+              0,
+              true,
+              false,
+              "<tmp>16",
+              []
+            ],
+            [
+              "68719526010",
+              0,
+              true,
+              false,
+              "rest",
+              []
+            ],
+            [
+              "68719526013",
+              0,
+              true,
+              false,
+              "rest",
+              []
+            ],
+            [
+              "30064827114",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "111669157149",
+              0,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "68719525484",
+              0,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "30064826579",
+              0,
+              true,
+              false,
+              "string.split(\"\\n\")",
+              []
+            ],
+            [
+              "30064826578",
+              0,
+              true,
+              false,
+              "string.split(\"\\n\").map((line) => (\" \" * indentation) + line)",
+              []
+            ],
+            [
+              "30064826577",
+              0,
+              true,
+              false,
+              "string.split(\"\\n\").map((line) => (\" \" * indentation) + line).join(\"\\n\")",
+              []
+            ],
+            [
+              "141733925846",
+              0,
+              true,
+              false,
+              "",
+              []
+            ]
+          ]
+        },
+        {
+          "transitions": [
+            "parameter-read",
+            "external-return",
+            "external-return",
+            "external-return",
+            "return-value",
+            "method-return",
+            "call-return",
+            "operator-value",
+            "assignment",
+            "block-result",
+            "block-result",
+            "operator-value",
+            "return-value",
+            "method-return",
+            "callback-result",
+            "callback-effect",
+            "callback-parameter",
+            "parameter-read",
+            "external-return",
+            "assignment",
+            "local-read",
+            "local-read",
+            "assignment",
+            "local-read",
+            "local-read",
+            "local-read",
+            "external-return",
+            "block-result",
+            "assignment",
+            "local-read",
+            "assignment",
+            "local-read",
+            "external-return",
+            "parameter-binding",
+            "parameter-read",
+            "external-return",
+            "external-return",
+            "external-return",
+            "return-value"
+          ],
+          "elements": [
+            [
+              "111669157149",
+              5,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "68719525484",
+              5,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "30064826579",
+              5,
+              true,
+              false,
+              "string.split(\"\\n\")",
+              []
+            ],
+            [
+              "30064826578",
+              5,
+              true,
+              false,
+              "string.split(\"\\n\").map((line) => (\" \" * indentation) + line)",
+              []
+            ],
+            [
+              "30064826577",
+              5,
+              true,
+              false,
+              "string.split(\"\\n\").map((line) => (\" \" * indentation) + line).join(\"\\n\")",
+              []
+            ],
+            [
+              "141733925846",
+              5,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "124554056722",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "30064827113",
+              0,
+              false,
+              true,
+              "indent(rest.join(\"\\n\"), 2)",
+              []
+            ],
+            [
+              "30064827112",
+              0,
+              true,
+              false,
+              "\"\\n\" + indent(rest.join(\"\\n\"), 2)",
+              []
+            ],
+            [
+              "68719526012",
+              0,
+              true,
+              false,
+              "<tmp>12",
+              []
+            ],
+            [
+              "25769823057",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "25769823056",
+              0,
+              false,
+              false,
+              "",
+              []
+            ],
+            [
+              "30064827088",
+              0,
+              true,
+              false,
+              "\"${glyph.bullet} ${lines.first}\" +\n          switch (lines) {\n            [_, ...var rest] => \"\\n\" + indent(rest.join(\"\\n\"), 2),\n            _ => \"\",\n          }",
+              []
+            ],
+            [
+              "141733925903",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "124554056765",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "120259085299",
+              0,
+              true,
+              true,
+              "(element) {\n      var lines = element.split(\"\\n\");\n      return \"${glyph.bullet} ${lines.first}\" +\n          switch (lines) {\n            [_, ...var rest] => \"\\n\" + indent(rest.join(\"\\n\"), 2),\n            _ => \"\",\n          };\n    }",
+              []
+            ],
+            [
+              "68719525504",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "111669157224",
+              0,
+              true,
+              false,
+              "element",
+              []
+            ],
+            [
+              "68719525991",
+              0,
+              true,
+              false,
+              "element",
+              []
+            ],
+            [
+              "30064827087",
+              0,
+              true,
+              false,
+              "element.split(\"\\n\")",
+              []
+            ],
+            [
+              "68719525990",
+              0,
+              true,
+              false,
+              "lines",
+              []
+            ],
+            [
+              "68719525994",
+              0,
+              true,
+              false,
+              "lines",
+              []
+            ],
+            [
+              "68719525999",
+              0,
+              true,
+              false,
+              "lines",
+              []
+            ],
+            [
+              "68719525998",
+              0,
+              true,
+              false,
+              "<tmp>13",
+              []
+            ],
+            [
+              "68719526000",
+              0,
+              true,
+              false,
+              "<tmp>13",
+              []
+            ],
+            [
+              "68719526003",
+              0,
+              true,
+              false,
+              "<tmp>13",
+              []
+            ],
+            [
+              "68719526008",
+              0,
+              true,
+              false,
+              "<tmp>13",
+              []
+            ],
+            [
+              "30064827109",
+              0,
+              false,
+              false,
+              "...var rest",
+              []
+            ],
+            [
+              "25769823062",
+              0,
+              true,
+              false,
+              "...var rest",
+              []
+            ],
+            [
+              "68719526005",
+              0,
+              true,
+              false,
+              "<tmp>16",
+              []
+            ],
+            [
+              "68719526011",
+              0,
+              true,
+              false,
+              "<tmp>16",
+              []
+            ],
+            [
+              "68719526010",
+              0,
+              true,
+              false,
+              "rest",
+              []
+            ],
+            [
+              "68719526013",
+              0,
+              true,
+              false,
+              "rest",
+              []
+            ],
+            [
+              "30064827114",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "111669157149",
+              0,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "68719525484",
+              0,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "30064826579",
+              0,
+              true,
+              false,
+              "string.split(\"\\n\")",
+              []
+            ],
+            [
+              "30064826578",
+              0,
+              true,
+              false,
+              "string.split(\"\\n\").map((line) => (\" \" * indentation) + line)",
+              []
+            ],
+            [
+              "30064826577",
+              0,
+              true,
+              false,
+              "string.split(\"\\n\").map((line) => (\" \" * indentation) + line).join(\"\\n\")",
+              []
+            ],
+            [
+              "141733925846",
+              0,
+              true,
+              false,
+              "",
+              []
+            ]
+          ]
+        },
+        {
+          "transitions": [
+            "parameter-read",
+            "external-return",
+            "callback-parameter",
+            "parameter-read",
+            "operator-value",
+            "return-value",
+            "method-return",
+            "callback-result",
+            "callback-effect",
+            "external-return",
+            "return-value"
+          ],
+          "elements": [
+            [
+              "111669157149",
+              0,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "68719525484",
+              0,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "30064826579",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "111669157223",
+              0,
+              true,
+              false,
+              "line",
+              []
+            ],
+            [
+              "68719525989",
+              0,
+              false,
+              false,
+              "line",
+              []
+            ],
+            [
+              "30064827084",
+              0,
+              true,
+              false,
+              "(\" \" * indentation) + line",
+              []
+            ],
+            [
+              "141733925902",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "124554056764",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "120259085298",
+              0,
+              true,
+              true,
+              "(line) => (\" \" * indentation) + line",
+              []
+            ],
+            [
+              "30064826578",
+              0,
+              true,
+              false,
+              "string.split(\"\\n\").map((line) => (\" \" * indentation) + line)",
+              []
+            ],
+            [
+              "30064826577",
+              0,
+              true,
+              false,
+              "string.split(\"\\n\").map((line) => (\" \" * indentation) + line).join(\"\\n\")",
+              []
+            ],
+            [
+              "141733925846",
+              0,
+              true,
+              false,
+              "",
+              []
+            ]
+          ]
+        },
+        {
+          "transitions": [
+            "parameter-read",
+            "parameter-output",
+            "caller-output",
+            "parameter-binding",
+            "parameter-read"
+          ],
+          "elements": [
+            [
+              "111669157152",
+              6,
+              true,
+              false,
+              "number",
+              []
+            ],
+            [
+              "68719525485",
+              6,
+              true,
+              false,
+              "number",
+              []
+            ],
+            [
+              "115964124448",
+              6,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "30064841984",
+              0,
+              true,
+              true,
+              "",
+              []
+            ],
+            [
+              "111669157152",
+              0,
+              true,
+              false,
+              "number",
+              []
+            ],
+            [
+              "68719525485",
+              0,
+              true,
+              false,
+              "",
+              []
+            ]
+          ]
+        },
+        {
+          "transitions": [
+            "parameter-read",
+            "parameter-output",
+            "caller-output",
+            "parameter-binding",
+            "parameter-read"
+          ],
+          "elements": [
+            [
+              "111669157152",
+              7,
+              true,
+              false,
+              "number",
+              []
+            ],
+            [
+              "68719525485",
+              7,
+              true,
+              false,
+              "number",
+              []
+            ],
+            [
+              "115964124448",
+              7,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "30064844980",
+              0,
+              true,
+              true,
+              "",
+              []
+            ],
+            [
+              "111669157152",
+              0,
+              true,
+              false,
+              "number",
+              []
+            ],
+            [
+              "68719525485",
+              0,
+              true,
+              false,
+              "",
+              []
+            ]
+          ]
+        },
+        {
+          "transitions": [
+            "parameter-read",
+            "parameter-output",
+            "caller-output",
+            "parameter-binding",
+            "parameter-read"
+          ],
+          "elements": [
+            [
+              "111669157152",
+              8,
+              true,
+              false,
+              "number",
+              []
+            ],
+            [
+              "68719525485",
+              8,
+              true,
+              false,
+              "number",
+              []
+            ],
+            [
+              "115964124448",
+              8,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "30064849255",
+              0,
+              true,
+              true,
+              "",
+              []
+            ],
+            [
+              "111669157152",
+              0,
+              true,
+              false,
+              "number",
+              []
+            ],
+            [
+              "68719525485",
+              0,
+              true,
+              false,
+              "",
+              []
+            ]
+          ]
+        },
+        {
+          "transitions": [
+            "parameter-read",
+            "parameter-output",
+            "caller-output",
+            "parameter-binding",
+            "parameter-read"
+          ],
+          "elements": [
+            [
+              "111669157152",
+              9,
+              true,
+              false,
+              "number",
+              []
+            ],
+            [
+              "68719525485",
+              9,
+              true,
+              false,
+              "number",
+              []
+            ],
+            [
+              "115964124448",
+              9,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "30064852142",
+              0,
+              true,
+              true,
+              "",
+              []
+            ],
+            [
+              "111669157152",
+              0,
+              true,
+              false,
+              "number",
+              []
+            ],
+            [
+              "68719525485",
+              0,
+              true,
+              false,
+              "",
+              []
+            ]
+          ]
+        }
+      ],
+      "sourceEvidence": [
+        {
+          "file": "lib/sass.dart",
+          "fileSha256": "f6545240c887350ecc95f64215d47e8e6664a596597805521c040922fb279cbf"
+        },
+        {
+          "file": "lib/src/ast/sass/statement/stylesheet.dart",
+          "fileSha256": "2a26a641692d7f0006eb05c3fbfbe8daa41d4e1c4bd7afa85d46b35476fba82a"
+        },
+        {
+          "file": "lib/src/async_compile.dart",
+          "fileSha256": "fbc9b6eb146fbd872baa1252df1ee7d9a4de8377e4625fd326b72cd591ad6a8d"
+        },
+        {
+          "file": "lib/src/compile.dart",
+          "fileSha256": "0666b69c39ef96dd714997e09caad49982a608d4508d741f3947b155090fa3eb"
+        },
+        {
+          "file": "lib/src/utils.dart",
+          "fileSha256": "00b72f1d8befe8bd8567a9b53e733de79b030e9891509900376767480567c7f9"
+        },
+        {
+          "file": "lib/src/visitor/async_evaluate.dart",
+          "fileSha256": "8cb247055ced430db6f5917f6063798ac97ddee7275dbc2a9479abdf203ff921"
+        },
+        {
+          "file": "lib/src/visitor/evaluate.dart",
+          "fileSha256": "822951329588ac0bd53ec87d87b8f356adf2a9d60a8fc1f6f15569b585aa7d41"
+        }
+      ]
+    }
+  ],
+  "modelFilesHashAlgorithm": "sha256-utf8",
+  "executionOracles": [
+    {
+      "file": "astgen/test/application_boundaries_test.dart",
+      "sha256": "745a8b7be2448165ce62981e7c59295f60a24f76587ff3c40670ba6b72dc3ca6",
+      "scope": "Dart Sass 1.89.2 actual public APIs/parser constructors/utilities: three independent CSS/SCSS texts under both verbose flags; ASCII/non-ASCII whitespace and escape preservation; independent names/counts/plurals; indentation and multiline bulletedList. Not a whole compiler qualification or proof of absent bounded graph paths. Multiline bullets are checked under both explicit ASCII and Unicode glyph modes. Single-element bullets retain the newline/indentation produced by their empty rest-pattern match."
+    }
+  ],
+  "elementColumns": [
+    "nodeId",
+    "contextIndex",
+    "visible",
+    "isOutputArg",
+    "outEdgeLabel",
+    "fieldDemand"
+  ],
+  "representation": "Node/call IDs and context/path indices are project-local. transitions[i] classifies elements[i] to elements[i+1]. All retained demand sets in this review are empty. Equivalent stock/modeled paths are shared; full path flags and selected caller contexts are preserved.",
+  "reviewMethod": "Each selected displayed route was read against its pinned source expectation. Formal argument positions, resolved return targets and available selected frames were checked. Argument-output return evidence already in a caller frame has a separate category. This is a mechanism/approximation review, not branch feasibility, general scheduling or heap qualification.",
+  "analysisBaseCommit": "a581b147b",
+  "limitations": [
+    "Only these eleven Sass query families and their returned bounded paths are reviewed; other corpus alternatives and larger searches remain pending.",
+    "An endpoint identity is recorded separately from independent forwarding; conservative argument outputs, aggregate projections and external effects do not prove mutation, allocation identity, callback delivery or branch feasibility.",
+    "Negative observations retain their same-budget positive controls and explicit query limitations; no absence proof follows from an unfinished search."
+  ],
+  "totals": {
+    "queries": 11,
+    "selectedPaths": 41,
+    "distinctPaths": 23,
+    "distinctTransitions": 330
+  }
+}
