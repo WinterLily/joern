@@ -76,8 +76,9 @@ class DdgGenerator(semantics: Semantics) {
             .flatMap(numberToNode.get)
             .filter(inDef => usageAnalyzer.isUsing(node, inDef))
             .collect {
-              case identifier: Identifier => identifier
-              case call: Call             => call
+              case identifier: Identifier       => identifier
+              case call: Call                   => call
+              case parameter: MethodParameterIn => parameter
             }
           edgesToAdd.foreach { inNode =>
             addEdge(inNode, block, nodeToEdgeLabel(inNode))
@@ -87,6 +88,9 @@ class DdgGenerator(semantics: Semantics) {
           }
         case Some(node: Call) =>
           addEdge(node, block, nodeToEdgeLabel(node))
+          addEdge(block, towards)
+        case Some(node: Block) =>
+          addEdgeForBlock(node, block)
           addEdge(block, towards)
         case _ => // Do nothing
       }
