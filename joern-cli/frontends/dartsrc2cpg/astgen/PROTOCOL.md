@@ -7,7 +7,7 @@ unsupported protocol versions, and unsupported analyzer/exporter versions before
 constructing a graph. The Scala consumer validates the protocol, analyzer, SDK and offset encoding
 before constructing a graph. Exporter 0.3 adds modern-language fields to protocol 1.
 
-The header declares `protocolVersion` (1), `exporterVersion` (0.3.16),
+The header declares `protocolVersion` (1), `exporterVersion` (0.3.17),
 `analyzerVersion` (8.4.1), `sdkVersion` (3.9.2), and `offsetEncoding` (`utf-16`).
 No timestamps or checkout root are emitted. The exporter builds records one file
 at a time; the analyzer may retain project state internally.
@@ -233,3 +233,13 @@ declaration identities. Their symbols retain `owner`, `boundType` and
 Explicit bounds on other parameters preserve those parameter identities.
 Executable symbols retain `genericSignature` as the analyzer's displayed
 function type. This metadata does not represent separate generic instantiations.
+
+## Anonymous generic function scopes (0.3.17)
+
+`GenericFunctionType.typeDeclaration` identifies its analyzer pseudo-declaration,
+anchored to the fragment's source offset. `FunctionTypedFormalParameter` retains
+its parameter declaration separately from a derived `typeDeclaration` ending in
+`:<functionType>`. Both retain displayed function types. Method return annotations
+are exported as syntax children, including generic function types. Fresh inference
+variables with no source fragment or enclosing element have `typeId` `ANY`; they
+do not acquire a shared declaration identity from a missing offset.

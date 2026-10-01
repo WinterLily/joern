@@ -665,3 +665,29 @@ checks enabled, all 139 frontend/package tests, all three applications, both
 holdouts, staged packaging, four CLI integration tests and fourteen console tests.
 All twelve refreshed reports share one current source fingerprint and exporter
 0.3.16. Graph baselines, endpoint checks and limitations are unchanged.
+
+## Anonymous generic function scopes
+
+Exporter 0.3.17 anchors generic function pseudo-declarations to their source
+offsets. Previously, unnamed fragments could share `#-1:GENERIC_FUNCTION_TYPE`
+identities even within one alias. Function-type annotations now retain their
+signature declarations and displayed types; method return annotations retain
+their syntax children. Old-style callback parameters keep a separate derived
+signature identity alongside the parameter's variable identity. Fresh inference
+variables with no declaration use `ANY` instead of a fabricated shared identity.
+
+Anonymous generic function signatures are TYPE_DECLs marked by
+`dart.functionType`. Their parameters retain scoped bounds, and signatures nest
+under the enclosing alias, method, type or bound parameter. Declarations whose
+enclosing source scope is absent from the graph retain namespace placement.
+Regressions distinguish two function types in one record alias, old/modern
+callback parameters, getter return types and function types inside bounds.
+The SDK oracle checks alias assignments and invocation results with independent
+Data/num bounds. Runtime type substitution, generic tear-off instantiation and
+general callback target selection remain unqualified.
+
+Validation passes: Dart analyze, all 89 native tests with VM/web and Flutter
+checks enabled, all 140 frontend/package tests, all three applications, both
+holdouts, staged packaging, four CLI integration tests and fourteen console tests.
+All twelve refreshed reports share one current source fingerprint and exporter
+0.3.17. Graph baselines, endpoint checks and limitations are unchanged.

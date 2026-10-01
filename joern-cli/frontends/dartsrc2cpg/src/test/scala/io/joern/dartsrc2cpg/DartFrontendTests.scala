@@ -77,6 +77,35 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
   }
 
   "Dart frontend" should {
+    "keep inline generic function scopes distinct within aliases and methods" in {
+      fixture(
+        Files.readString(frontend.resolve("src/test/resources/semantics/generic_function_scopes.dart")),
+        "void main() {}",
+        dataflow = false
+      ) { (cpg, _) =>
+        val signatures = cpg.typeDecl.nameExact("<functionType>").l
+        signatures should have size 7
+        signatures.map(_.fullName).distinct should have size 7
+        val parameters = signatures.flatMap(_.astChildren.isTypeDecl.nameExact("T").l)
+        parameters should have size 7
+        parameters.map(_.fullName).distinct should have size 7
+        parameters.map(_.inheritsFromTypeFullName.head).count(_.endsWith(":CLASS:Data")) shouldBe 5
+        parameters.map(_.inheritsFromTypeFullName.head).count(_.endsWith(":CLASS:num")) shouldBe 2
+        cpg.typeDecl.nameExact("Poly").astChildren.isTypeDecl.nameExact("<functionType>").size shouldBe 1
+        cpg.typeDecl.nameExact("Both").astChildren.isTypeDecl.nameExact("<functionType>").size shouldBe 2
+        cpg.method.nameExact("callbacks").astChildren.isTypeDecl.nameExact("<functionType>").size shouldBe 2
+        cpg.method.nameExact("callback").astChildren.isTypeDecl.nameExact("<functionType>").size shouldBe 1
+        cpg.typeDecl
+          .nameExact("Higher")
+          .astChildren
+          .isTypeDecl
+          .nameExact("F")
+          .astChildren
+          .isTypeDecl
+          .nameExact("<functionType>")
+          .size shouldBe 1
+      }
+    }
     "preserve generic parameter scopes and bound relationships" in {
       fixture(
         Files.readString(frontend.resolve("src/test/resources/semantics/generic_scopes.dart")),
@@ -2590,7 +2619,7 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         val coverage = ujson.read(Files.readString(report))
         coverage("includedFiles").num shouldBe 0
         coverage("stringConversionOrder").str shouldBe "after-expression-evaluation"
-        coverage("exporter")("exporterVersion").str shouldBe "0.3.16"
+        coverage("exporter")("exporterVersion").str shouldBe "0.3.17"
         coverage("exporter")("sdkVersion").str shouldBe "3.9.2"
         coverage("exporter")("analyzerVersion").str shouldBe "8.4.1"
         Files.writeString(dir.resolve("excluded.dart"), "void excluded() {}")
@@ -2610,7 +2639,7 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         "offsetEncoding"  -> "utf-16",
         "analyzerVersion" -> "8.4.1",
         "sdkVersion"      -> "3.9.2",
-        "exporterVersion" -> "0.3.16"
+        "exporterVersion" -> "0.3.17"
       )
       intercept[IllegalArgumentException](ExportProtocol.units(Seq(valid)))
       intercept[IllegalArgumentException](

@@ -1,6 +1,6 @@
 # Dart and Flutter feature matrix
 
-Tested with Dart 3.9.2, analyzer 8.4.1, exporter 0.3.16 and Flutter 3.35.3
+Tested with Dart 3.9.2, analyzer 8.4.1, exporter 0.3.17 and Flutter 3.35.3
 (framework revision `a402d9a437`). “Parsed” means explicit exporter nodes rather
 than UNKNOWN. Resolution uses existing package configuration and SDK resources.
 Dataflow claims below refer to the OSS engine with default semantics, not Dart
@@ -37,7 +37,8 @@ and fail if their prepared package configuration is missing; see the fixture's
 Generic and legacy function aliases are TYPE_DECLs with aliased types. Class,
 method and alias type parameters have scoped declaration IDs and bound relations;
 generic signatures preserve Dart display/source types, including nullable types.
-Inline generic function-type scopes, runtime instantiation and promoted-type
+Inline generic function types have distinct anonymous scopes, including nested
+bounds and method return types. Runtime instantiation and promoted-type
 feasibility remain unqualified. Type literals are TYPE_REFs.
 Named switch labels and continue-to-case retain their
 CFG targets, including jumps past a target pattern guard. Null-aware collection

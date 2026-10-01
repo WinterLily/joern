@@ -162,12 +162,12 @@
     },
     "generic-scopes": {
       "exporter": "exporter_test.dart: scoped declaration IDs, parameter references and bound identities",
-      "lowering": "DartFrontendTests: nested class/method/alias TYPE_DECL parameters and Dart generic signatures",
-      "resolution": "scoped symbolic parameter types, bound type relations and resolved bound-member calls; inline function-type scopes unqualified",
+      "lowering": "DartFrontendTests: nested class/method/alias TYPE_DECL parameters, anonymous generic function declarations and Dart generic signatures",
+      "resolution": "scoped symbolic parameter types, bound relations, anonymous function signature scopes and resolved bound-member calls; runtime instantiation unqualified",
       "cfg": "declarations have no execution; generic fixture methods retain ordinary CFG",
       "valueFlow": "generic identity and bound-member bodies use ordinary parameter/return lowering; instantiation-specific effects unqualified",
       "negative": "same-named parameters in unrelated and nested scopes; implicit nullable versus explicit bounds",
-      "interaction": "astgen/test/generic_scopes_test.dart: bounded calls, aliases and nullable values; runtime generic dispatch unqualified"
+      "interaction": "generic_scopes_test.dart and generic_function_scopes_test.dart: bounds, aliases, nullable values and callbacks; runtime generic dispatch unqualified"
     }
   },
   "constructs": [
@@ -761,23 +761,23 @@
       "exporterCase": "FunctionTypeAlias",
       "contract": "generic-scopes",
       "qualification": "unqualified",
-      "reason": "Class/method/alias parameter identities, bound relations and signatures tested; inline generic function types and runtime instantiation remain unqualified."
+      "reason": "Scoped declarations, bound relations, anonymous generic function identities and signatures tested; runtime type substitution and dispatch remain unqualified."
     },
     {
       "construct": "FunctionTypedFormalParameter",
       "scope": "dart-3.9",
       "exporterCase": "FunctionTypedFormalParameter",
-      "contract": "syntax",
+      "contract": "generic-scopes",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Scoped declarations, bound relations, anonymous generic function identities and signatures tested; runtime type substitution and dispatch remain unqualified."
     },
     {
       "construct": "GenericFunctionType",
       "scope": "dart-3.9",
       "exporterCase": "GenericFunctionType",
-      "contract": "syntax",
+      "contract": "generic-scopes",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Scoped declarations, bound relations, anonymous generic function identities and signatures tested; runtime type substitution and dispatch remain unqualified."
     },
     {
       "construct": "GenericTypeAlias",
@@ -785,7 +785,7 @@
       "exporterCase": "GenericTypeAlias",
       "contract": "generic-scopes",
       "qualification": "unqualified",
-      "reason": "Class/method/alias parameter identities, bound relations and signatures tested; inline generic function types and runtime instantiation remain unqualified."
+      "reason": "Scoped declarations, bound relations, anonymous generic function identities and signatures tested; runtime type substitution and dispatch remain unqualified."
     },
     {
       "construct": "GuardedPattern",
@@ -1497,7 +1497,7 @@
       "exporterCase": "TypeParameter",
       "contract": "generic-scopes",
       "qualification": "unqualified",
-      "reason": "Class/method/alias parameter identities, bound relations and signatures tested; inline generic function types and runtime instantiation remain unqualified."
+      "reason": "Scoped declarations, bound relations, anonymous generic function identities and signatures tested; runtime type substitution and dispatch remain unqualified."
     },
     {
       "construct": "TypeParameterList",
@@ -1505,7 +1505,7 @@
       "exporterCase": "TypeParameterList",
       "contract": "generic-scopes",
       "qualification": "unqualified",
-      "reason": "Class/method/alias parameter identities, bound relations and signatures tested; inline generic function types and runtime instantiation remain unqualified."
+      "reason": "Scoped declarations, bound relations, anonymous generic function identities and signatures tested; runtime type substitution and dispatch remain unqualified."
     },
     {
       "construct": "VariableDeclaration",

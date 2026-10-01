@@ -3,8 +3,8 @@
     "project": "localsend-1.17.0",
     "analysisSources": {
       "algorithm": "sha256-path-nul-content-nul",
-      "sha256": "8e5cca7a80ddefc41e9ef72184c03558917a8cab0e02383829ed311fe95b3465",
-      "files": 375,
+      "sha256": "25ae0d82a02e65270ce0dd2700728bc27871bd852ed9950ffb228482317bb112",
+      "files": 376,
       "roots": [
         "joern-cli/frontends/dartsrc2cpg/src",
         "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -43,7 +43,7 @@
     "exporter": {
       "record": "header",
       "protocolVersion": 1,
-      "exporterVersion": "0.3.16",
+      "exporterVersion": "0.3.17",
       "analyzerVersion": "8.4.1",
       "sdkVersion": "3.9.2",
       "offsetEncoding": "utf-16",
@@ -360,8 +360,8 @@
     "project": "saber-0.26.0",
     "analysisSources": {
       "algorithm": "sha256-path-nul-content-nul",
-      "sha256": "8e5cca7a80ddefc41e9ef72184c03558917a8cab0e02383829ed311fe95b3465",
-      "files": 375,
+      "sha256": "25ae0d82a02e65270ce0dd2700728bc27871bd852ed9950ffb228482317bb112",
+      "files": 376,
       "roots": [
         "joern-cli/frontends/dartsrc2cpg/src",
         "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -400,7 +400,7 @@
     "exporter": {
       "record": "header",
       "protocolVersion": 1,
-      "exporterVersion": "0.3.16",
+      "exporterVersion": "0.3.17",
       "analyzerVersion": "8.4.1",
       "sdkVersion": "3.9.2",
       "offsetEncoding": "utf-16",
@@ -712,8 +712,8 @@
     "project": "dart-sass-1.89.2",
     "analysisSources": {
       "algorithm": "sha256-path-nul-content-nul",
-      "sha256": "8e5cca7a80ddefc41e9ef72184c03558917a8cab0e02383829ed311fe95b3465",
-      "files": 375,
+      "sha256": "25ae0d82a02e65270ce0dd2700728bc27871bd852ed9950ffb228482317bb112",
+      "files": 376,
       "roots": [
         "joern-cli/frontends/dartsrc2cpg/src",
         "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -751,7 +751,7 @@
     "exporter": {
       "record": "header",
       "protocolVersion": 1,
-      "exporterVersion": "0.3.16",
+      "exporterVersion": "0.3.17",
       "analyzerVersion": "8.4.1",
       "sdkVersion": "3.9.2",
       "offsetEncoding": "utf-16",

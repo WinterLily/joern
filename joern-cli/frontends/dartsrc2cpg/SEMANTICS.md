@@ -23,8 +23,13 @@ methods, declared display types on members/locals, type parameter lists on type
 declarations, bounds on parameter declarations and source on aliases. Generic
 arguments and nullability are preserved there while interface/parameter
 `typeFullName` relations refer to declarations. Nullability and promoted-type
-feasibility remain conservative. Inline generic function-type parameter scopes,
-runtime type arguments and generic tear-off instantiation still need qualification.
+feasibility remain conservative. Inline generic function-type scopes are
+`<functionType>` TYPE_DECLs marked by `dart.functionType`, nested in their enclosing
+alias, method, type or bound parameter. Anonymous analyzer identities use source
+offsets; old-style function parameters retain a derived signature identity.
+Unavailable enclosing declarations retain namespace placement. Fresh inference
+variables without declarations use `ANY`. Runtime type arguments and generic
+tear-off instantiation still need qualification.
 This is a graph of generic declarations, not separate copies for each instantiation.
 
 ## Calls, parameters and constructors

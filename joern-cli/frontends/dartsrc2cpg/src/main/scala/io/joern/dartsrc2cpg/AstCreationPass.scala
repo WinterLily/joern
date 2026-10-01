@@ -87,7 +87,40 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
     def child(syntax: Value, role: String): Value = children(syntax, role).head
     def code(syntax: Value): String               =
       source.substring(syntax("offset").num.toInt, (syntax("offset").num + syntax("length").num).toInt)
-    def tpe(syntax: Value): String                         = string(syntax, "typeId", string(syntax, "type", "ANY"))
+    def tpe(syntax: Value): String = string(syntax, "typeId", string(syntax, "type", "ANY"))
+    val parents = nodes.flatMap(parent => parent("children").arr.map(entry => entry("node").num.toInt -> parent)).toMap
+    val functionTypeKinds = Set("GenericFunctionType", "FunctionTypedFormalParameter")
+    val typeScopes        = Set(
+      "ClassDeclaration",
+      "ClassTypeAlias",
+      "EnumDeclaration",
+      "MixinDeclaration",
+      "ExtensionDeclaration",
+      "ExtensionTypeDeclaration",
+      "GenericTypeAlias",
+      "FunctionTypeAlias",
+      "FunctionDeclaration",
+      "FunctionExpression",
+      "MethodDeclaration",
+      "ConstructorDeclaration",
+      "TypeParameter"
+    )
+    def functionTypeId(syntax: Value): String =
+      string(syntax, "typeDeclaration", s"$filename#${syntax("offset").num.toInt}:FUNCTION_TYPE")
+    def signatureScope(syntax: Value): String = parents
+      .get(syntax("id").num.toInt)
+      .map { parent =>
+        val kind = string(parent, "kind")
+        if (functionTypeKinds(kind) && children(parent, "typeParameters").nonEmpty) functionTypeId(parent)
+        else if (typeScopes(kind)) string(parent, "declaration", signatureScope(parent))
+        else signatureScope(parent)
+      }
+      .getOrElse(s"$library:<global>")
+    val signatureTypes = mutable.Map.from(
+      nodes
+        .filter(syntax => functionTypeKinds(string(syntax, "kind")) && children(syntax, "typeParameters").nonEmpty)
+        .groupBy(signatureScope)
+    )
     def located[T <: AstNodeNew](out: T, syntax: Value): T = {
       out.lineNumber = Some(syntax("line").num.toInt)
       out.columnNumber = Some(syntax("column").num.toInt)
@@ -2119,6 +2152,7 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
       val ast = Ast(out)
         .withChildren(receiver ++ parameters)
         .withChildren(typeParameters(function, "METHOD", id))
+        .withChildren(signatureDeclarations(string(syntax, "declaration", id), "METHOD", id))
         .withChild(block(body.getOrElse(syntax), prefix ++ initializers ++ superCalls ++ bodyAsts ++ result))
         .withChild(
           Ast(
@@ -2499,9 +2533,30 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
             .astParentFullName(parent),
           parameter
         )
-        Ast(out).withChild(
-          Ast(NewAnnotation().name("typeParameter").fullName("dart.typeParameter").code("typeParameter"))
+        Ast(out)
+          .withChild(Ast(NewAnnotation().name("typeParameter").fullName("dart.typeParameter").code("typeParameter")))
+          .withChildren(signatureDeclarations(string(parameter, "declaration"), "TYPE_DECL", out.fullName))
+      }
+    def signatureDeclarations(scope: String, parentType: String, parent: String): Seq[Ast] =
+      signatureTypes.remove(scope).toSeq.flatten.map { syntax =>
+        val id  = functionTypeId(syntax)
+        val out = located(
+          NewTypeDecl()
+            .name("<functionType>")
+            .fullName(id)
+            .code(code(syntax))
+            .filename(filename)
+            .isExternal(false)
+            .aliasTypeFullName(tpe(syntax))
+            .genericSignature(tpe(syntax))
+            .astParentType(parentType)
+            .astParentFullName(parent),
+          syntax
         )
+        Ast(out)
+          .withChildren(typeParameters(syntax, "TYPE_DECL", id))
+          .withChildren(signatureDeclarations(id, "TYPE_DECL", id))
+          .withChild(Ast(NewAnnotation().name("functionType").fullName("dart.functionType").code("functionType")))
       }
     def declaration(syntax: Value): Seq[Ast] = string(syntax, "kind") match {
       case "GenericTypeAlias" | "FunctionTypeAlias" =>
@@ -2524,7 +2579,11 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
             .astParentFullName(owner),
           syntax
         )
-        Seq(Ast(out).withChildren(typeParameters(syntax, "TYPE_DECL", out.fullName)))
+        Seq(
+          Ast(out)
+            .withChildren(typeParameters(syntax, "TYPE_DECL", out.fullName))
+            .withChildren(signatureDeclarations(string(syntax, "declaration"), "TYPE_DECL", out.fullName))
+        )
       case "FunctionDeclaration"                              => Seq(method(syntax, child(syntax, "function")))
       case "MethodDeclaration" | "ConstructorDeclaration"     => Seq(method(syntax, syntax))
       case "TopLevelVariableDeclaration" | "FieldDeclaration" =>
@@ -2601,9 +2660,10 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
           modifiers.map(modifier => Ast(NewAnnotation().name(modifier).fullName(s"dart.$modifier").code(modifier)))
         Seq(
           Ast(out).withChildren(
-            typeParameters(syntax, "TYPE_DECL", out.fullName) ++ fields ++ constants.map(
-              member
-            ) ++ generatedEnums ++ representationAsts ++ methods ++ initializers ++ forwardingConstructors ++ standard ++ annotations
+            typeParameters(syntax, "TYPE_DECL", out.fullName) ++
+              signatureDeclarations(string(syntax, "declaration"), "TYPE_DECL", out.fullName) ++ fields ++ constants.map(
+                member
+              ) ++ generatedEnums ++ representationAsts ++ methods ++ initializers ++ forwardingConstructors ++ standard ++ annotations
           )
         )
       case _ => Seq(unknown(syntax))
@@ -2641,8 +2701,13 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
       else Nil
     val file = NewFile().name(filename)
     if (!config.disableFileContent) file.content(source)
+    val globalSignatures = signatureTypes.keys.toSeq.sorted.flatMap(scope =>
+      signatureDeclarations(scope, "NAMESPACE_BLOCK", namespace.fullName)
+    )
     Ast.storeInDiffGraph(
-      Ast(file).withChild(Ast(namespace).withChildren(imports ++ fields ++ asts ++ initializers ++ extraMethods)),
+      Ast(file).withChild(
+        Ast(namespace).withChildren(imports ++ fields ++ asts ++ initializers ++ extraMethods ++ globalSignatures)
+      ),
       diffGraph
     )
   }

@@ -20,7 +20,7 @@ import 'package:analyzer/source/line_info.dart';
 import 'package:path/path.dart' as p;
 
 const protocolVersion = 1;
-const exporterVersion = '0.3.16';
+const exporterVersion = '0.3.17';
 const analyzerVersion = '8.4.1';
 const supportedSdkVersion = '3.9.2';
 
@@ -271,6 +271,11 @@ class _UnitEncoder {
 
   String? typeId(DartType? type) => switch (type) {
     InterfaceType() => symbol(type.element),
+    // Fresh inference variables have no declaration to identify.
+    TypeParameterType()
+        when type.element.firstFragment.libraryFragment == null &&
+            type.element.enclosingElement == null =>
+      'ANY',
     TypeParameterType() => symbol(type.element),
     _ => type?.getDisplayString(),
   };
@@ -298,6 +303,7 @@ class _UnitEncoder {
         (fragment is ConstructorFragment ||
                 fragment is LocalFunctionFragment ||
                 fragment is JoinPatternVariableFragment ||
+                fragment is GenericFunctionTypeFragment ||
                 fragment is ExtensionFragment
             ? fragment.offset
             : element.enclosingElement?.firstFragment.nameOffset ?? -1);
@@ -675,6 +681,7 @@ class _UnitEncoder {
         record['setter'] = ast.isSetter;
         child('typeParameters', ast.typeParameters);
         child('parameters', ast.parameters);
+        child('returnType', ast.returnType);
         child('body', ast.body);
       case ConstructorDeclaration():
         kind = 'ConstructorDeclaration';
@@ -741,11 +748,18 @@ class _UnitEncoder {
         kind = 'FunctionTypedFormalParameter';
         record['name'] = ast.name.lexeme;
         record['declaration'] = symbol(ast.declaredFragment?.element);
+        final parameter = symbol(ast.declaredFragment?.element);
+        record['typeDeclaration'] = parameter == null
+            ? null
+            : '$parameter:<functionType>';
+        record['type'] = ast.declaredFragment?.element.type.getDisplayString();
         child('parameters', ast.parameters);
         child('returnType', ast.returnType);
         child('typeParameters', ast.typeParameters);
       case GenericFunctionType():
         kind = 'GenericFunctionType';
+        record['typeDeclaration'] = symbol(ast.declaredFragment?.element);
+        record['type'] = ast.type?.getDisplayString();
         child('parameters', ast.parameters);
         child('returnType', ast.returnType);
         child('typeParameters', ast.typeParameters);

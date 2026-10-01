@@ -243,6 +243,43 @@ void main() { late int local = 1; print(local); }
     },
   );
 
+  test('export distinct anonymous generic function identities', () async {
+    write(
+      'main.dart',
+      File(
+        '../src/test/resources/semantics/generic_function_scopes.dart',
+      ).readAsStringSync(),
+    );
+    final unit = units(await export()).single;
+    expect(unit['status'], 'resolved');
+    final signatures = entries(unit, 'nodes').where(
+      (node) =>
+          [
+            'GenericFunctionType',
+            'FunctionTypedFormalParameter',
+          ].contains(node['kind']) &&
+          (node['children'] as List).any(
+            (child) => (child as Map)['role'] == 'typeParameters',
+          ),
+    );
+    expect(signatures, hasLength(7));
+    final identities = signatures
+        .map((node) => node['typeDeclaration'])
+        .toSet();
+    expect(identities, hasLength(7));
+    expect(identities, isNot(contains(null)));
+    expect(identities.every((id) => !(id as String).contains('#-1:')), isTrue);
+    final owners = entries(unit, 'symbols')
+        .where((symbol) => symbol['kind'] == 'TYPE_PARAMETER')
+        .map((symbol) => symbol['owner'])
+        .toSet();
+    expect(owners, hasLength(10));
+    expect(
+      owners.every((owner) => !(owner as String).contains('#-1:')),
+      isTrue,
+    );
+  });
+
   test('export scoped generic declarations and bounds', () async {
     write(
       'main.dart',
