@@ -152,6 +152,10 @@ classifies 18 distinct routes across seven selected path, async and parser queri
 including conservative detours and an endpoint identity. The summary verifies
 their exact nodes, caller contexts, flags, model/provenance and query limits before
 linking them. Other new paths remain pending review.
+The [ordering review](witness-ordering-review.json) records the Dart bounded
+selection optimization, focused contracts and measured analyzer workload. Default
+and foreign-language selection retain their previous behavior. Current smaller
+audits do not qualify the larger historical searches.
 The separate [budget report](alternative-witness-budget.json) records an
 inconclusive four-witness package run: the analyzer callback query was still
 pending when the audit worker exceeded a seven-minute wall budget. A completed

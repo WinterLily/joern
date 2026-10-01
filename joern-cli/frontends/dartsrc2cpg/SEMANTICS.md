@@ -16,6 +16,12 @@ orders longer paths first and uses the existing deterministic tie breaker.
 Distinct paths retain call contexts, output channels and field demands. Other
 languages keep their previous selection behavior.
 
+Bounded selection ranks only the path-length groups needed to fill the bound.
+Identical entries and groups containing a single candidate require no ranking
+key. Equal paths with differing task metadata still use the full tie breaker
+before deduplication. Unvisited shorter groups retain the pruning diagnostic,
+since different lengths cannot represent duplicate paths.
+
 This is a bounded audit mode. Intermediate pruning can exclude a route before
 final selection, and loops, call depth and other engine limits still apply.
 `QueryDiagnostics` records `witness-alternatives` whenever the bound drops a

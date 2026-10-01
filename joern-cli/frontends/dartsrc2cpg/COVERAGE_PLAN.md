@@ -91,6 +91,9 @@ SDK execution controls; C/Java/JavaScript/Kotlin keep longest-witness selection.
 The current HTTP capture review and seven additional path/async/parser query
 families classify selected bounded alternatives, including conservative detours
 and endpoint identity. Other alternatives still require review; Gate 1 stays open.
+Bounded witness ordering now skips ranking identical entries and unnecessary
+length groups, with task-context, field/output-flag, tie and pruning regressions.
+Larger searches still require independent resource and route qualification.
 Held-task combination rounds now have an optional Dart-only budget with explicit
 inconclusive diagnostics; default and foreign-language searches retain their
 previous behavior. A four-witness package audit exceeded its seven-minute worker

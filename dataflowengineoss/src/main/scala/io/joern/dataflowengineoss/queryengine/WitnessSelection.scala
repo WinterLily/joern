@@ -17,13 +17,25 @@ private[queryengine] object WitnessSelection {
       val selected = candidates.filter(candidate => path(candidate).size == longest)
       if (selected.size == 1) selected else List(selected.minBy(tieBreaker))
     } else {
-      val ordered = candidates
-        .map(candidate => ((-path(candidate).size, tieBreaker(candidate)), candidate))
-        .sortBy(_._1)
-        .map(_._2)
-      val distinct = ordered.distinctBy(path)
-      if (distinct.size > bound) config.diagnostics.foreach(_.record("witness-alternatives"))
-      distinct.take(bound)
+      if (candidates.tail.forall(_ == candidates.head)) return candidates.take(1)
+      val groups   = candidates.groupBy(candidate => path(candidate).size).toList.sortBy(-_._1).iterator
+      val selected = List.newBuilder[A]
+      var size     = 0
+      var omitted  = false
+      while (groups.hasNext && size < bound) {
+        val group    = groups.next()._2
+        val distinct = group match {
+          case List(only) => List(only)
+          case _ => group.map(candidate => (tieBreaker(candidate), candidate)).sortBy(_._1).map(_._2).distinctBy(path)
+        }
+        val available = bound - size
+        selected ++= distinct.take(available)
+        size += math.min(available, distinct.size)
+        omitted ||= distinct.size > available
+      }
+      // Different lengths cannot be duplicate paths, so unvisited groups imply pruning.
+      if (omitted || groups.hasNext) config.diagnostics.foreach(_.record("witness-alternatives"))
+      selected.result()
     }
   }
 }

@@ -32,6 +32,10 @@ truncation and saved call contexts. `WitnessSelectionTests` covers intermediate
 task selection, held-task reuse, deterministic bounds and the C/Java/JavaScript/
 Kotlin boundary. This qualifies the selected route families and auditing controls;
 bounded enumeration is not exhaustive path analysis.
+`BoundedWitnessOrderingTests` checks skipped ranking work, identical rows,
+isolated lengths, differing task contexts, stable ties, field/output flags and
+pruning diagnostics. The [ordering review](../corpus/witness-ordering-review.json)
+records the measured workload and same-input sampled comparisons.
 The opt-in `corpus_capture_test.dart` executes the prepared http_parser 4.1.2
 release against two valid inputs and two independent invalid inputs. Enable it
 with `DART_CORPUS_TESTS=1`; it fetches no dependencies. It exercises the source's

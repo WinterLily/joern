@@ -1303,3 +1303,57 @@ implementation and the recorded bounded results are unchanged.
 The HTTP capture review remains current. Other corpus alternatives, larger
 searches, inconclusive negatives and the remaining coverage-plan gates stay open.
 No checkbox closes on the basis of these selected routes.
+
+## Avoid unnecessary bounded witness ranking
+
+Dart's opt-in witness selection retains its longest-first ordering and full tie
+breaker while skipping work that cannot affect the chosen rows. Identical table
+entries and singleton length groups need no key. Length groups are processed in
+descending order until the witness bound fills; unvisited shorter groups still
+report omitted alternatives. Equal paths with differing task stacks rank before
+path deduplication. Default and foreign-language selection retain their prior
+implementation. The new frontend-owned `BoundedWitnessOrderingTests` covers these
+contracts, stable ties and field/output flags. Its unnecessary-work regression
+fails against the original implementation.
+
+The [ordering review](witness-ordering-review.json) retains single observations
+of the saved analyzer `list-element-callback` stock query: original 280,380 ms,
+prototype 118,987 ms and final 109,570 ms, including graph loading and query work
+but excluding sbt startup/compilation. Temporary prototype instrumentation sampled
+4,325 of 21,627,390 selection invocations, including trivial single-candidate calls;
+old/new choices and fresh pruning diagnostics matched for every sampled input.
+Instrumentation is removed. These are measured workload observations and selection
+checks, rather than a general performance guarantee.
+
+Before optimization, the standalone baseline did not reproduce the saved
+package-audit detailed paths, although endpoints, route counts and diagnostics
+matched. That initial assertion failure is retained; exact whole-query replay
+remains unproven. The reviewed seven forwarding queries were therefore refreshed
+from their actual current returned paths and rechecked against pinned source and
+binding metadata. They retain 25 selected paths shared as 19 distinct routes and
+533 classified transitions. Several differ in temporary/caller details from the
+previous snapshot. The HTTP capture, six-path ordinary storage and eleven-path
+local-exit reviews also have current provenance. Historical copy/exception
+snapshots keep their original fingerprints.
+
+All twelve graphs share independently checked fingerprint
+`067ae48b90f8f891485eedfc142d904ce8069cd5fd5b82a3dff90ca521385e7c`
+(403 analysis files), with unchanged exporter 0.3.19 and representation counts.
+Validation passed 104 native runtime/Flutter/corpus tests, 172 frontend/package
+tests, three application graphs, both holdouts, staging, four CLI tests and
+fourteen console tests. Twelve focused storage/witness tests and formatting pass.
+Ordinary endpoint observations remain stock 74/76, modeled 76/76 and holdout 4/4;
+seven modeled negative searches remain inconclusive.
+
+The refreshed two-witness/two-held-round audit passes its baseline comparisons on
+all twelve graphs. Stock matches 78/80 expectations, including its two known false
+positives; modeled matches 80/80. It retains 86 visible/89 detailed stock paths and
+81/83 modeled paths, with limits affecting 43/42 queries, seven/eight inconclusive
+negative searches and five held-round limits per mode. The package test took
+5 minutes 11 seconds within the monitored ten-minute worker budget; applications
+and holdouts passed. Summary generation is byte-deterministic, and all seven
+review-verifier rejection mutations pass. The qualification worker's observed
+automatic maximum heap was 8,162,115,584 bytes; the sbt parent's 6 GiB setting is
+separate. Resident-memory samples do not qualify peak memory. Larger searches,
+other route families, negative-search qualification and all remaining plan gates
+stay open.

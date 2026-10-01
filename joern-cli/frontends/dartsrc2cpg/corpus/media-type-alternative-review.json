@@ -9,8 +9,8 @@
   },
   "analysisSources": {
     "algorithm": "sha256-path-nul-content-nul",
-    "sha256": "da1afc7d6dd7d24b92bb946dbc1422655fe666e5231d32887d2477d8f98ec028",
-    "files": 402,
+    "sha256": "067ae48b90f8f891485eedfc142d904ce8069cd5fd5b82a3dff90ca521385e7c",
+    "files": 403,
     "roots": [
       "joern-cli/frontends/dartsrc2cpg/src",
       "joern-cli/frontends/dartsrc2cpg/astgen/lib",
