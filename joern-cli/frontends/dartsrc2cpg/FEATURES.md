@@ -38,7 +38,10 @@ Generic and legacy function aliases are TYPE_DECLs with aliased types. Class,
 method and alias type parameters have scoped declaration IDs and bound relations;
 generic signatures preserve Dart display/source types, including nullable types.
 Inline generic function types have distinct anonymous scopes, including nested
-bounds and method return types. Runtime instantiation and promoted-type
+bounds and method return types. Explicit function instantiation retains its
+instantiated static type and source. Stable final function aliases retain targets,
+including named/default arguments and bound receiver captures. Runtime type
+environments, mutable/conditional/returned function targets and promoted-type
 feasibility remain unqualified. Type literals are TYPE_REFs.
 Named switch labels and continue-to-case retain their
 CFG targets, including jumps past a target pattern guard. Null-aware collection

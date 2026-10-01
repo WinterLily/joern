@@ -691,3 +691,31 @@ checks enabled, all 140 frontend/package tests, all three applications, both
 holdouts, staged packaging, four CLI integration tests and fourteen console tests.
 All twelve refreshed reports share one current source fingerprint and exporter
 0.3.17. Graph baselines, endpoint checks and limitations are unchanged.
+
+## Explicit generic tear-offs and stable function aliases
+
+Explicit generic function references previously discarded their instantiated
+type and complete source. They now retain the analyzer's static function type on
+the value expression and its enclosing evaluation block. Bound receiver
+evaluation and capture edges remain intact. This follows the
+[explicit instantiation specification](https://github.com/dart-lang/language/blob/main/accepted/2.15/constructor-tearoffs/feature-specification.md#explicitly-instantiated-classes-and-functions).
+
+Final local function copies now retain known targets through parentheses and
+explicit instantiation. Target discovery uses the actual initializer value.
+Previously, any last nested METHOD_REF could become the target, including a
+conditional branch or a callback passed to a factory that returned a different
+function. Such expressions now retain unresolved target selection. General
+mutable/conditional/returned function points-to analysis, runtime type
+environments and instantiation bound-check exceptions remain open.
+
+Graph regressions check String/int instantiated types, source and REF identities,
+bound captures, one receiver evaluation, target links, named/default binding and
+first-versus-ignored argument flow. Negative target controls cover mutable,
+conditional and returned values. The pinned SDK oracle checks runtime function
+types, bounded inputs and branches, returned values and receiver/type traces.
+
+Validation passes: Dart analyze, all 90 native tests with VM/web and Flutter
+checks enabled, all 142 frontend/package tests, all three applications, both
+holdouts, staged packaging, four CLI integration tests and fourteen console tests.
+All twelve refreshed reports share one current source fingerprint and exporter
+0.3.17. Graph baselines, endpoint checks and limitations are unchanged.

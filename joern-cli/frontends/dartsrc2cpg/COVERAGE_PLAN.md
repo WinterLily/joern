@@ -55,7 +55,11 @@ substitution execution checks. Generic class/method/alias parameter declarations
 now retain scoped identities, explicit/default bounds and Dart generic signatures,
 with nested scope, recursive bound and nullable-value regressions. Inline generic
 function types now retain distinct anonymous scopes under aliases, methods and
-bounds. Runtime instantiation remains open. Broader dispatch and
+bounds. Explicit generic function references now retain instantiated static types
+and source, with stable alias target, operand isolation and named/default binding
+regressions. Nested references no longer supply guessed targets for conditional
+or returned function values. Runtime type environments and bound checks remain
+open. Broader dispatch and
 type-model qualification remain open. This is
 not complete language or runtime analysis support.
 Shared support is restricted to `DART` graphs; existing-language CFG/dataflow

@@ -128,6 +128,18 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
     }
     def block(syntax: Value, values: Seq[Ast]): Ast =
       Ast(located(NewBlock().code(code(syntax)).typeFullName(tpe(syntax)), syntax)).withChildren(values)
+    def astValue(ast: Ast): Option[NewNode] = {
+      def last(node: NewNode): Option[NewNode] = node match {
+        case _: NewBlock => ast.edges.reverseIterator.find(edge => edge.src eq node).flatMap(edge => last(edge.dst))
+        case _           => Some(node)
+      }
+      ast.root.flatMap(last)
+    }
+    def stableFunction(syntax: Value): Option[String] = string(syntax, "kind") match {
+      case "ParenthesizedExpression" | "FunctionReference" => stableFunction(child(syntax, "expression"))
+      case "SimpleIdentifier"                              => functionValues.get(string(syntax, "reference"))
+      case _                                               => None
+    }
     def args(call: NewNode, values: Seq[Ast], indexes: Seq[Int] = Nil): Ast =
       values.zipWithIndex.foldLeft(Ast(call)) { case (result, (value, index)) =>
         value.root.foreach {
@@ -1220,8 +1232,21 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
         val ast = expression(child(syntax, "expression"))
         ast.root.collect { case entryNode: ExpressionNew => entryNode.argumentName = Some(string(syntax, "name")) }
         ast
-      case "ParenthesizedExpression" | "FunctionReference" =>
-        expression(child(syntax, "expression"))
+      case "ParenthesizedExpression" => expression(child(syntax, "expression"))
+      case "FunctionReference"       =>
+        val ast = expression(child(syntax, "expression"))
+        (ast.root.toSeq ++ astValue(ast).toSeq).distinct.collect { case value: ExpressionNew =>
+          value.code = code(syntax)
+          value match {
+            case node: NewMethodRef  => node.typeFullName = tpe(syntax)
+            case node: NewIdentifier => node.typeFullName = tpe(syntax)
+            case node: NewBlock      => node.typeFullName = tpe(syntax)
+            case node: NewCall       => node.typeFullName = tpe(syntax)
+            case _                   =>
+          }
+          located(value, syntax)
+        }
+        ast
       case "InterpolationExpression" => interpolatedValue(syntax, expression(child(syntax, "expression")))
       case "MethodInvocation"        =>
         val originalTarget = string(syntax, "target")
@@ -1596,10 +1621,10 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
           Seq(Ast(local)) ++ children(syntax, "initializer").map { init =>
             val rhs = expression(init)
             if (bool(symbol(syntax), "final"))
-              rhs.nodes
-                .collect { case ref: NewMethodRef => ref }
-                .lastOption
-                .foreach(ref => functionValues(string(syntax, "declaration")) = ref.methodFullName)
+              astValue(rhs)
+                .collect { case ref: NewMethodRef => ref.methodFullName }
+                .orElse(stableFunction(init))
+                .foreach(target => functionValues(string(syntax, "declaration")) = target)
             operator(
               syntax,
               Operators.assignment,

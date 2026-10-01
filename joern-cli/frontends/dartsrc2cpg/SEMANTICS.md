@@ -28,8 +28,9 @@ feasibility remain conservative. Inline generic function-type scopes are
 alias, method, type or bound parameter. Anonymous analyzer identities use source
 offsets; old-style function parameters retain a derived signature identity.
 Unavailable enclosing declarations retain namespace placement. Fresh inference
-variables without declarations use `ANY`. Runtime type arguments and generic
-tear-off instantiation still need qualification.
+variables without declarations use `ANY`. Explicit function instantiation retains
+the analyzer's instantiated function type and complete source text on the result.
+Runtime reified type arguments and bound-check exceptions still need qualification.
 This is a graph of generic declarations, not separate copies for each instantiation.
 
 ## Calls, parameters and constructors
@@ -61,8 +62,12 @@ ARGUMENT edge. Only actual arguments participate in argument/parameter flow;
 otherwise a callback target can incorrectly carry taint between invocations. Closures have captured locals
 and CLOSURE_BINDING edges with BY_REFERENCE semantics. Bound instance tear-offs
 use wrapper methods capturing a receiver evaluated once. Final local function
-values with a known initializer link to that target. Arbitrary mutable function
-values and higher-order callback targets remain dynamic; this frontend does not
+values with a known initializer link to that target, including stable copies and
+explicit generic instantiation through those copies. Targets come from the actual
+initializer value; a reference nested in a call argument or conditional branch
+does not identify that value. Named binding and omitted defaults use the known
+declaration's parameters. Mutable, conditional and returned function values and
+higher-order callback targets remain dynamic; this frontend does not
 perform a whole-program function-value points-to analysis.
 
 ## Expressions and control flow

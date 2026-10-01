@@ -3,8 +3,8 @@
     "project": "localsend-1.17.0",
     "analysisSources": {
       "algorithm": "sha256-path-nul-content-nul",
-      "sha256": "25ae0d82a02e65270ce0dd2700728bc27871bd852ed9950ffb228482317bb112",
-      "files": 376,
+      "sha256": "2c4616071c3800ec2b70e11b33ab039f7d4eeba6db3b489ae645e50396b993da",
+      "files": 377,
       "roots": [
         "joern-cli/frontends/dartsrc2cpg/src",
         "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -62,7 +62,7 @@
       "iterable": "# Dart SDK 3.9.2: lib/core/iterable.dart and lib/internal/iterable.dart.\n# Explicit element values with pure predicates/transforms and statically known callbacks.\n# Selection, lazy execution timing and callback side effects are outside this contract.\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:where\" 0 -> 0 1 -> 1 0 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:map\" 0 -> 0 1 -> 1 1 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:join\" 0 -> 0 1 -> 1 0 -> -1 1 -> -1\n",
       "bytes": "# Dart SDK 3.9.2 byte-content contract for Uint8List allocation and standard List.setRange.\n# Length/range inputs select size and positions; they are not copied element values.\n# Keep the constructor offset exact: other dart:typed_data unnamed constructors include SIMD values.\n\"dart:typed_data\\x2336552:CONSTRUCTOR:new\" 1 -> 1\n\"dart:core/list[.]dart\\x2329446:METHOD:setRange\" 0 -> 0 1 -> 1 2 -> 2 3 -> 3 4 -> 4 3 -> 0\n"
     },
-    "reachingDefEdges": 753328,
+    "reachingDefEdges": 753331,
     "maxCallDepth": 4,
     "maxFieldDepth": 4,
     "pathSelection": "longest-per-endpoint-pair",
@@ -360,8 +360,8 @@
     "project": "saber-0.26.0",
     "analysisSources": {
       "algorithm": "sha256-path-nul-content-nul",
-      "sha256": "25ae0d82a02e65270ce0dd2700728bc27871bd852ed9950ffb228482317bb112",
-      "files": 376,
+      "sha256": "2c4616071c3800ec2b70e11b33ab039f7d4eeba6db3b489ae645e50396b993da",
+      "files": 377,
       "roots": [
         "joern-cli/frontends/dartsrc2cpg/src",
         "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -712,8 +712,8 @@
     "project": "dart-sass-1.89.2",
     "analysisSources": {
       "algorithm": "sha256-path-nul-content-nul",
-      "sha256": "25ae0d82a02e65270ce0dd2700728bc27871bd852ed9950ffb228482317bb112",
-      "files": 376,
+      "sha256": "2c4616071c3800ec2b70e11b33ab039f7d4eeba6db3b489ae645e50396b993da",
+      "files": 377,
       "roots": [
         "joern-cli/frontends/dartsrc2cpg/src",
         "joern-cli/frontends/dartsrc2cpg/astgen/lib",

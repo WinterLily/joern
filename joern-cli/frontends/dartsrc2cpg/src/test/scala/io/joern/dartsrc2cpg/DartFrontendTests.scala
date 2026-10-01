@@ -77,6 +77,82 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
   }
 
   "Dart frontend" should {
+    "retain instantiated generic tear-off types, source and stable aliases" in {
+      fixture(
+        Files.readString(frontend.resolve("src/test/resources/semantics/generic_tearoffs.dart")),
+        "void main() {}"
+      ) { (cpg, _) =>
+        for (
+          (code, typ) <- Seq(
+            "forward<String>"              -> "String Function(String, String)",
+            "forward<int>"                 -> "int Function(int, int)",
+            "Receiver.select<String>"      -> "String Function(String, String)",
+            "obtain('bound').echo<String>" -> "String Function(String, String)"
+          )
+        ) {
+          val references = cpg.methodRef.codeExact(code).l
+          references should not be empty
+          references.map(_.typeFullName).toSet shouldBe Set(typ)
+        }
+        for (
+          name <- Seq(
+            "top",
+            "integers",
+            "staticMethod",
+            "aliases",
+            "namedAliases",
+            "defaultAliases",
+            "bound",
+            "boundAliases"
+          )
+        ) {
+          val method   = cpg.method.nameExact(name).head
+          val callback = method.ast.isCall.nameExact("callback").head
+          callback.callee.isExternal(false).size shouldBe 1
+          for (source <- Seq("input", "ignored")) {
+            withClue(s"$name $source") {
+              method.ast.isReturn
+                .reachableByFlows(method.parameter.nameExact(source))
+                .nonEmpty shouldBe (source == "input")
+            }
+          }
+        }
+        for (name <- Seq("aliases", "boundAliases")) {
+          val method       = cpg.method.nameExact(name).head
+          val instantiated = method.ast.isIdentifier.codeExact("generic<String>").head
+          instantiated.typeFullName shouldBe "String Function(String, String)"
+          instantiated.refsTo.collect { case local: io.shiftleft.codepropertygraph.generated.nodes.Local =>
+            local.name
+          }.toList shouldBe List("generic")
+        }
+        for (name <- Seq("bound", "boundAliases")) {
+          val method = cpg.method.nameExact(name).head
+          method.ast.isCall.nameExact("obtain").size shouldBe 1
+          method.ast.isMethodRef.flatMap(_._captureOut).size shouldBe 1
+          method.ast.isCall.nameExact("callback").callee.name.l shouldBe List("<bound>")
+        }
+        val named = cpg.method.nameExact("namedAliases").head.ast.isCall.nameExact("callback").head
+        named.argument(1).code shouldBe "input"
+        named.argument(1).order shouldBe 3
+        named.argument(2).code shouldBe "ignored"
+        named.argument(2).order shouldBe 2
+        named.receiver.order.l shouldBe List(1)
+        val defaulted = cpg.method.nameExact("defaultAliases").head.ast.isCall.nameExact("callback").head
+        defaulted.argument(2).code shouldBe "null"
+      }
+    }
+    "avoid choosing a nested tear-off as an unknown function value's target" in {
+      fixture(
+        Files.readString(frontend.resolve("src/test/resources/semantics/generic_tearoffs.dart")),
+        "void main() {}",
+        dataflow = false
+      ) { (cpg, _) =>
+        for (name <- Seq("mutable", "conditional", "returned")) {
+          val callback = cpg.method.nameExact(name).head.ast.isCall.nameExact("callback").head
+          withClue(name) { callback.callee.isExternal(false).size shouldBe 0 }
+        }
+      }
+    }
     "keep inline generic function scopes distinct within aliases and methods" in {
       fixture(
         Files.readString(frontend.resolve("src/test/resources/semantics/generic_function_scopes.dart")),
