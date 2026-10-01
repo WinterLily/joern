@@ -7,7 +7,7 @@ unsupported protocol versions, and unsupported analyzer/exporter versions before
 constructing a graph. The Scala consumer validates the protocol, analyzer, SDK and offset encoding
 before constructing a graph. Exporter 0.3 adds modern-language fields to protocol 1.
 
-The header declares `protocolVersion` (1), `exporterVersion` (0.3.11),
+The header declares `protocolVersion` (1), `exporterVersion` (0.3.12),
 `analyzerVersion` (8.4.1), `sdkVersion` (3.9.2), and `offsetEncoding` (`utf-16`).
 No timestamps or checkout root are emitted. The exporter builds records one file
 at a time; the analyzer may retain project state internally.
@@ -184,3 +184,10 @@ and resolve concrete enum SDK accessors without replacing user overrides.
 
 Exporter 0.3.11 adds the optional `type` child of `CatchClause`, preserving the
 resolved exception filter separately from its exception and stack parameters.
+
+Exporter 0.3.12 adds `operatorTarget` to constant and relational patterns.
+Constant equality resolves on the constant expression's type; relational equality
+resolves on the matched value's type, including nullable interface types. Other
+relational operators retain the analyzer's resolved target. The consumer evaluates
+both equality operands once, skips user dispatch when either is null, and negates
+the equality result for `!=`.

@@ -3,8 +3,8 @@
     "project": "shelf-1.4.2",
     "analysisSources": {
       "algorithm": "sha256-path-nul-content-nul",
-      "sha256": "5f26aa2e859076682ebfa525f69c6bec12356b700b8a82fcfff646e668bd54a1",
-      "files": 359,
+      "sha256": "643dd1ea748b9dc602fb5392f1de037c5c5d2af78be5e8febe9ee2f066bbae36",
+      "files": 360,
       "roots": [
         "joern-cli/frontends/dartsrc2cpg/src",
         "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -39,7 +39,7 @@
     "exporter": {
       "record": "header",
       "protocolVersion": 1,
-      "exporterVersion": "0.3.11",
+      "exporterVersion": "0.3.12",
       "analyzerVersion": "8.4.1",
       "sdkVersion": "3.9.2",
       "offsetEncoding": "utf-16",
@@ -47,7 +47,7 @@
     },
     "overlay": {
       "methods": 171,
-      "maxDefinitions": 241,
+      "maxDefinitions": 240,
       "definitionLimit": 20000,
       "aboveDefaultLimit": {}
     },
@@ -58,7 +58,7 @@
       "iterable": "# Dart SDK 3.9.2: lib/core/iterable.dart and lib/internal/iterable.dart.\n# Explicit element values with pure predicates/transforms and statically known callbacks.\n# Selection, lazy execution timing and callback side effects are outside this contract.\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:where\" 0 -> 0 1 -> 1 0 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:map\" 0 -> 0 1 -> 1 1 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:join\" 0 -> 0 1 -> 1 0 -> -1 1 -> -1\n",
       "bytes": "# Dart SDK 3.9.2 byte-content contract for Uint8List allocation and standard List.setRange.\n# Length/range inputs select size and positions; they are not copied element values.\n# Keep the constructor offset exact: other dart:typed_data unnamed constructors include SIMD values.\n\"dart:typed_data\\x2336552:CONSTRUCTOR:new\" 1 -> 1\n\"dart:core/list[.]dart\\x2329446:METHOD:setRange\" 0 -> 0 1 -> 1 2 -> 2 3 -> 3 4 -> 4 3 -> 0\n"
     },
-    "reachingDefEdges": 10906,
+    "reachingDefEdges": 10872,
     "maxCallDepth": 4,
     "maxFieldDepth": 4,
     "pathSelection": "longest-per-endpoint-pair",
@@ -120,8 +120,8 @@
     "project": "yaml-3.1.3",
     "analysisSources": {
       "algorithm": "sha256-path-nul-content-nul",
-      "sha256": "5f26aa2e859076682ebfa525f69c6bec12356b700b8a82fcfff646e668bd54a1",
-      "files": 359,
+      "sha256": "643dd1ea748b9dc602fb5392f1de037c5c5d2af78be5e8febe9ee2f066bbae36",
+      "files": 360,
       "roots": [
         "joern-cli/frontends/dartsrc2cpg/src",
         "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -155,7 +155,7 @@
     "exporter": {
       "record": "header",
       "protocolVersion": 1,
-      "exporterVersion": "0.3.11",
+      "exporterVersion": "0.3.12",
       "analyzerVersion": "8.4.1",
       "sdkVersion": "3.9.2",
       "offsetEncoding": "utf-16",
@@ -163,7 +163,7 @@
     },
     "overlay": {
       "methods": 274,
-      "maxDefinitions": 349,
+      "maxDefinitions": 393,
       "definitionLimit": 20000,
       "aboveDefaultLimit": {}
     },
@@ -174,7 +174,7 @@
       "iterable": "# Dart SDK 3.9.2: lib/core/iterable.dart and lib/internal/iterable.dart.\n# Explicit element values with pure predicates/transforms and statically known callbacks.\n# Selection, lazy execution timing and callback side effects are outside this contract.\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:where\" 0 -> 0 1 -> 1 0 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:map\" 0 -> 0 1 -> 1 1 -> -1\n\"dart:core/iterable[.]dart\\x23[0-9]+:METHOD:join\" 0 -> 0 1 -> 1 0 -> -1 1 -> -1\n",
       "bytes": "# Dart SDK 3.9.2 byte-content contract for Uint8List allocation and standard List.setRange.\n# Length/range inputs select size and positions; they are not copied element values.\n# Keep the constructor offset exact: other dart:typed_data unnamed constructors include SIMD values.\n\"dart:typed_data\\x2336552:CONSTRUCTOR:new\" 1 -> 1\n\"dart:core/list[.]dart\\x2329446:METHOD:setRange\" 0 -> 0 1 -> 1 2 -> 2 3 -> 3 4 -> 4 3 -> 0\n"
     },
-    "reachingDefEdges": 27383,
+    "reachingDefEdges": 30251,
     "maxCallDepth": 4,
     "maxFieldDepth": 4,
     "pathSelection": "longest-per-endpoint-pair",

@@ -14,7 +14,7 @@ import 'package:analyzer/source/line_info.dart';
 import 'package:path/path.dart' as p;
 
 const protocolVersion = 1;
-const exporterVersion = '0.3.11';
+const exporterVersion = '0.3.12';
 const analyzerVersion = '8.4.1';
 const supportedSdkVersion = '3.9.2';
 
@@ -970,6 +970,12 @@ class _UnitEncoder {
         child('type', ast.type);
       case ConstantPattern():
         kind = 'ConstantPattern';
+        final type = ast.expression.staticType?.extensionTypeErasure;
+        if (type is InterfaceType) {
+          record['operatorTarget'] = symbol(
+            type.lookUpMethod('==', type.element.library),
+          );
+        }
         child('expression', ast.expression);
       case RecordPattern():
         kind = 'RecordPattern';
@@ -1006,6 +1012,13 @@ class _UnitEncoder {
         child('right', ast.rightOperand);
       case RelationalPattern():
         kind = 'RelationalPattern';
+        final type = ast.matchedValueType?.extensionTypeErasure;
+        final equality = const ['==', '!='].contains(ast.operator.lexeme);
+        record['operatorTarget'] = symbol(
+          equality && type is InterfaceType
+              ? type.lookUpMethod('==', type.element.library)
+              : ast.element,
+        );
         record['operator'] = ast.operator.lexeme;
         child('expression', ast.operand);
       case ParenthesizedPattern():

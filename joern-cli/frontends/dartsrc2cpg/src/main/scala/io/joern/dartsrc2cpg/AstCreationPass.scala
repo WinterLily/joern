@@ -529,8 +529,12 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
     }
     def resolvedOperator(syntax: Value, name: String, values: Seq[Ast], targetId: String): Ast = {
       val intrinsic = Set(Operators.logicalAnd, Operators.logicalOr, Operators.logicalNot, "<operator>.notNullAssert")
-      if (intrinsic.contains(name) || !operatorDispatch(targetId, astType(values.head))) operator(syntax, name, values)
-      else {
+      val equality  = name == Operators.equals || name == Operators.notEquals
+      val hasNull   = values.exists(_.root.exists {
+        case literal: NewLiteral => literal.code == "null"
+        case _                   => false
+      })
+      def invoke(arguments: Seq[Ast]): Ast = {
         val token    = string(syntax, "operator").stripSuffix("=")
         val fallback = name match {
           case Operators.indexAccess => "[]"
@@ -546,7 +550,7 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
             .name(methodName)
             .methodFullName(if (targetId.nonEmpty) targetId else s"<unresolved>.$methodName")
             .code(code(syntax))
-            .typeFullName(tpe(syntax))
+            .typeFullName(if (booleanOperators(name)) "bool" else tpe(syntax))
             .dispatchType(
               if (string(sym(string(sym(targetId), "owner")), "kind") == "EXTENSION")
                 DispatchTypes.STATIC_DISPATCH
@@ -554,8 +558,37 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
             ),
           syntax
         )
-        args(out, values, values.indices).withReceiverEdge(out, values.head.root.get)
+        args(out, arguments, arguments.indices).withReceiverEdge(out, arguments.head.root.get)
       }
+      if (intrinsic.contains(name) || !operatorDispatch(targetId, astType(values.head)) || equality && hasNull)
+        operator(syntax, name, values)
+      else if (name == Operators.notEquals)
+        operator(syntax, Operators.logicalNot, Seq(resolvedOperator(syntax, Operators.equals, values, targetId)))
+      else if (name == Operators.equals) {
+        def booleanResult(ast: Ast): Ast = {
+          ast.root.foreach {
+            case block: NewBlock => block.typeFullName = "bool"
+            case call: NewCall   => call.typeFullName = "bool"
+            case _               =>
+          }
+          ast
+        }
+        booleanResult(saved(syntax, values.head) { left =>
+          booleanResult(saved(syntax, values(1)) { right =>
+            booleanResult(
+              operator(
+                syntax,
+                Operators.conditional,
+                Seq(
+                  operator(syntax, Operators.logicalAnd, Seq(nonNull(syntax, left()), nonNull(syntax, right()))),
+                  invoke(Seq(left(), right())),
+                  operator(syntax, Operators.equals, Seq(left(), right()))
+                )
+              )
+            )
+          })
+        })
+      } else invoke(values)
     }
     def update(syntax: Value, left: Value)(assign: (() => Ast, Ast => Ast) => Ast): Ast = {
       def access(receiver: () => Ast): Ast = {
@@ -812,12 +845,18 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
           )
         case "WildcardPattern" => and(typeCheck)
         case "ConstantPattern" =>
-          operator(syntax, Operators.equals, Seq(value(), expression(child(syntax, "expression"))))
+          resolvedOperator(
+            syntax,
+            Operators.equals,
+            Seq(expression(child(syntax, "expression")), value()),
+            string(syntax, "operatorTarget")
+          )
         case "RelationalPattern" =>
-          operator(
+          resolvedOperator(
             syntax,
             binaryOperators.getOrElse(string(syntax, "operator"), Operators.equals),
-            Seq(value(), expression(child(syntax, "expression")))
+            Seq(value(), expression(child(syntax, "expression"))),
+            string(syntax, "operatorTarget")
           )
         case "LogicalAndPattern" | "LogicalOrPattern" =>
           operator(
@@ -1157,20 +1196,12 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
           )
         else {
           val targetId = string(syntax, "operatorTarget")
-          val value    = resolvedOperator(
+          resolvedOperator(
             syntax,
             binaryOperators.getOrElse(string(syntax, "operator"), "<operator>.unknown"),
             Seq(expression(child(syntax, "left")), expression(child(syntax, "right"))),
             targetId
           )
-          if (
-            string(syntax, "operator") == "!=" && value.root.exists {
-              case call: NewCall => call.name == "=="
-              case _             => false
-            }
-          )
-            operator(syntax, Operators.logicalNot, Seq(value))
-          else value
         }
       case "ConditionalExpression" =>
         operator(

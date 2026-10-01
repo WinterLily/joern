@@ -1,6 +1,6 @@
 # Dart and Flutter feature matrix
 
-Tested with Dart 3.9.2, analyzer 8.4.1, exporter 0.3.11 and Flutter 3.35.3
+Tested with Dart 3.9.2, analyzer 8.4.1, exporter 0.3.12 and Flutter 3.35.3
 (framework revision `a402d9a437`). “Parsed” means explicit exporter nodes rather
 than UNKNOWN. Resolution uses existing package configuration and SDK resources.
 Dataflow claims below refer to the OSS engine with default semantics, not Dart
@@ -9,10 +9,10 @@ execution or exhaustive language conformance.
 | Feature | Parsed | Graph modeling | Resolution assertions | Tested dataflow |
 | --- | --- | --- | --- | --- |
 | Core language | Yes | See [core conventions](SEMANTICS.md) | Cross-file functions, types, constructors, accessors, closures | Positive/negative call, parameter, field and capture fixtures |
-| Records and record types | Yes | Record operator, named/positional fields, field access | Analyzer display types and local references | Whole-record dependency through destructuring; constant-record negative; no field-isolation claim |
+| Records and record types | Yes | Record operator, named/positional fields, field access | Analyzer display types and local references | Bounded positional/named field isolation through calls and destructuring; constant canonicalization unqualified |
 | Pattern declarations/assignments | Yes | Evaluate RHS once, bind locals/references, extraction and mismatch exit | Stable declaration IDs, including joined variables | Record fixture and scalar switch bindings |
 | List/map/object/rest patterns | Yes | Shape predicates, index/field/getter extraction, rest operator | Object getter targets and bound locals | Structural only; no complete shape, heap or rest-slice semantics |
-| Constant/relational/logical/typed/null/cast patterns | Yes | Short-circuit predicates, casts and null checks/assertions | Analyzer types and references | Scalar binding flow; no path-sensitive match feasibility claim |
+| Constant/relational/logical/typed/null/cast patterns | Yes | Short-circuit predicates, casts and null checks/assertions | Analyzer types and references | Scalar binding flow; constant/relational user operator targets and null guards; invocation caching and path-sensitive match feasibility unqualified |
 | If-case, guarded switch cases, switch expressions | Yes | Ordered tests, guard short-circuiting, result assignments, switch break boundary | Guard/body references | Positive scalar switch result and negative constant result |
 | Mixins | Yes | TYPE_DECLs, inherited type identities, methods | Mixed-in method targets and forwarding application constructors | Constructor argument to superclass field; mixin dispatch |
 | Extensions | Yes | TYPE_DECL owner, receiver at index 0, static target, explicit overrides | Implicit and explicit extension calls | Structural/resolution only |

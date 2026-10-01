@@ -123,6 +123,15 @@
       "valueFlow": "CaughtExceptionTests, CrossMethodExceptionTests, FinallyReturnTests and DartFrontendTests: separate exception/stack channels, internal calls, construction, rethrow and pending values across cleanup; unavailable runtime payloads reported",
       "negative": "replacement values, stack independence, independent handlers/calls, normal-return summary isolation, depth limits and outward versus cleanup-local break/continue",
       "interaction": "astgen/test/catch_dispatch_test.dart and exception_calls_test.dart: typed/fallback selection, overlap, unmatched propagation, wrapper/rethrow identity, handled cleanup and abrupt exit replacement"
+    },
+    "pattern-comparisons": {
+      "exporter": "astgen/test/exporter_test.dart: constant receiver and nullable matched-value operator targets",
+      "lowering": "DartFrontendTests: constant and relational receiver direction, user operators and negated equality",
+      "resolution": "resolved interface operators; dynamic equality remains unresolved",
+      "cfg": "DartFrontendTests: null branches bypass dispatch; operands evaluated once in source order",
+      "valueFlow": "receiver/argument binding to internal operators",
+      "negative": "independent operand isolation and null literals without user dispatch",
+      "interaction": "astgen/test/pattern_operators_test.dart: bounded null/value matrix and dispatch traces; invocation caching remains open"
     }
   },
   "constructs": [
@@ -346,9 +355,9 @@
       "construct": "ConstantPattern",
       "scope": "dart-3.9",
       "exporterCase": "ConstantPattern",
-      "contract": "syntax",
+      "contract": "pattern-comparisons",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Receiver direction, operator targets, null behavior and operand evaluation tested; cross-case invocation caching, generic dispatch and match feasibility remain open."
     },
     {
       "construct": "ConstructorDeclaration",
@@ -1210,9 +1219,9 @@
       "construct": "RelationalPattern",
       "scope": "dart-3.9",
       "exporterCase": "RelationalPattern",
-      "contract": "syntax",
+      "contract": "pattern-comparisons",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Receiver direction, operator targets, null behavior and operand evaluation tested; cross-case invocation caching, generic dispatch and match feasibility remain open."
     },
     {
       "construct": "RepresentationConstructorName",

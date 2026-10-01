@@ -6,7 +6,7 @@ import io.joern.dataflowengineoss.semanticsloader.FullNameSemanticsParser
 import io.joern.dataflowengineoss.queryengine.EngineContext
 import io.joern.dataflowengineoss.layers.dataflows.{OssDataFlow, OssDataFlowOptions}
 import io.joern.x2cpg.{ValidationMode, X2Cpg}
-import io.shiftleft.codepropertygraph.generated.Cpg
+import io.shiftleft.codepropertygraph.generated.{Cpg, Operators}
 import io.shiftleft.semanticcpg.language.*
 import io.shiftleft.semanticcpg.layers.LayerCreatorContext
 import io.shiftleft.semanticcpg.validation.{PostFrontendValidator, ValidationLevel}
@@ -914,7 +914,7 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         for (name <- Seq("[]", "[]=", "+", "-", "==")) {
           withClue(name) { cpg.call.nameExact(name).callee.isExternal.l shouldBe List(false) }
         }
-        cpg.call.nameExact("<operator>.logicalNot").argument.isCall.name.l shouldBe List("==")
+        cpg.call.nameExact("<operator>.logicalNot").argument.ast.isCall.nameExact("==").size shouldBe 1
       }
     }
     "guard null-aware index updates including their index and assigned value" in {
@@ -2064,6 +2064,71 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         ) { (cpg, _) => assertFlow(cpg, expected) }
       }
     }
+    "resolve pattern comparison operators with the correct receiver" in {
+      fixture(
+        Files.readString(frontend.resolve("src/test/resources/semantics/pattern_operators.dart")),
+        "void main() {}"
+      ) { (cpg, _) =>
+        for (
+          (name, operator, inputIndex) <- Seq(
+            ("constantPattern", "==", 1),
+            ("equalPattern", "==", 0),
+            ("unequalPattern", "==", 0),
+            ("greaterPattern", ">", 0),
+            ("binaryEqual", "==", 0),
+            ("binaryUnequal", "==", 0)
+          )
+        ) {
+          val method = cpg.method.nameExact(name).head
+          val calls  = method.call.nameExact(operator).l
+          withClue(name) {
+            calls.size shouldBe 1
+            method.call.nameExact(Operators.conditional).foreach(_.typeFullName shouldBe "bool")
+            val call = calls.head
+            call.callee.isExternal(false).size shouldBe 1
+            call.argument(inputIndex).start.reachableByFlows(method.parameter.nameExact("input")).nonEmpty shouldBe true
+            call
+              .argument(1 - inputIndex)
+              .start
+              .reachableByFlows(method.parameter.nameExact("input"))
+              .nonEmpty shouldBe false
+          }
+        }
+        for (name <- Seq("nullPattern", "equalNullPattern", "binaryNull")) {
+          withClue(name) { cpg.method.nameExact(name).call.nameExact("==").size shouldBe 0 }
+        }
+        for (name <- Seq("binaryEqual", "ordered", "dynamicEqual", "dynamicUnequal")) {
+          val method = cpg.method.nameExact(name).head
+          val guard  = method.call.nameExact(Operators.conditional).head
+          guard
+            .argument(1)
+            .asInstanceOf[io.shiftleft.codepropertygraph.generated.nodes.Call]
+            .name shouldBe Operators.logicalAnd
+          guard.argument(2).asInstanceOf[io.shiftleft.codepropertygraph.generated.nodes.Call].name shouldBe "=="
+          guard
+            .argument(3)
+            .asInstanceOf[io.shiftleft.codepropertygraph.generated.nodes.Call]
+            .name shouldBe Operators.equals
+          guard.argument(1).cfgNext.l should contain(guard.argument(3).astMinusRoot.isIdentifier.head)
+          method.call.nameExact("==").size shouldBe 1
+        }
+        val ordered = cpg.method.nameExact("ordered").head
+        ordered.call.nameExact("marked").size shouldBe 2
+        val visited = scala.collection.mutable.Set.empty[Long]
+        def marks(node: io.shiftleft.codepropertygraph.generated.nodes.CfgNode): List[String] = {
+          if (!visited.add(node.id)) Nil
+          else {
+            val current = node match {
+              case call: io.shiftleft.codepropertygraph.generated.nodes.Call if call.name == "marked" =>
+                List(call.argument(1).code)
+              case _ => Nil
+            }
+            current ++ node.cfgNext.l.flatMap(marks)
+          }
+        }
+        marks(ordered) shouldBe List("'left'", "'right'")
+      }
+    }
     "isolate record fields through calls, nested records and destructuring" in {
       fixture(Files.readString(frontend.resolve("src/test/resources/semantics/record_fields.dart")), "void main() {}") {
         (cpg, _) =>
@@ -2228,7 +2293,7 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         val coverage = ujson.read(Files.readString(report))
         coverage("includedFiles").num shouldBe 0
         coverage("stringConversionOrder").str shouldBe "after-expression-evaluation"
-        coverage("exporter")("exporterVersion").str shouldBe "0.3.11"
+        coverage("exporter")("exporterVersion").str shouldBe "0.3.12"
         coverage("exporter")("sdkVersion").str shouldBe "3.9.2"
         coverage("exporter")("analyzerVersion").str shouldBe "8.4.1"
         Files.writeString(dir.resolve("excluded.dart"), "void excluded() {}")
@@ -2248,7 +2313,7 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         "offsetEncoding"  -> "utf-16",
         "analyzerVersion" -> "8.4.1",
         "sdkVersion"      -> "3.9.2",
-        "exporterVersion" -> "0.3.11"
+        "exporterVersion" -> "0.3.12"
       )
       intercept[IllegalArgumentException](ExportProtocol.units(Seq(valid)))
       intercept[IllegalArgumentException](

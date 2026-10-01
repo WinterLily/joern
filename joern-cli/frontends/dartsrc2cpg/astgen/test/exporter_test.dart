@@ -172,6 +172,53 @@ void main() { late int local = 1; print(local); }
   });
 
   test(
+    'export comparison targets for constant and relational patterns',
+    () async {
+      write(
+        'main.dart',
+        File(
+          '../src/test/resources/semantics/pattern_operators.dart',
+        ).readAsStringSync(),
+      );
+      final unit = units(await export()).single;
+      expect(unit['status'], 'resolved');
+      final nodes = entries(unit, 'nodes');
+      final symbols = {
+        for (final symbol in entries(unit, 'symbols')) symbol['id']: symbol,
+      };
+      String code(Map<String, Object?> node) =>
+          (unit['source'] as String).substring(
+            node['offset'] as int,
+            (node['offset'] as int) + (node['length'] as int),
+          );
+      final constant = nodes.singleWhere(
+        (node) => node['kind'] == 'ConstantPattern' && code(node) == 'marker',
+      );
+      expect(constant['operatorTarget'], isNotNull);
+      final equality = symbols[constant['operatorTarget']]!;
+      expect(equality['name'], '==');
+      expect(symbols[equality['owner']]!['name'], 'Comparison');
+      final relational = nodes
+          .where(
+            (node) =>
+                node['kind'] == 'RelationalPattern' && code(node) != '== null',
+          )
+          .toList();
+      expect(relational.map((node) => node['operator']), ['==', '!=', '>']);
+      expect(
+        relational.map((node) => symbols[node['operatorTarget']]!['name']),
+        ['==', '==', '>'],
+      );
+      expect(
+        relational.map(
+          (node) => symbols[symbols[node['operatorTarget']]!['owner']]!['name'],
+        ),
+        everyElement('Comparison'),
+      );
+    },
+  );
+
+  test(
     'export operator dispatch separately from indexed read and write targets',
     () async {
       write('main.dart', """

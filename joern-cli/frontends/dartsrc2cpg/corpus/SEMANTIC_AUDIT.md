@@ -455,3 +455,32 @@ check both dependency isolation and exactly-once source-order evaluation.
 The zero-argument record operator represents construction; subsequent field
 initializations establish its contents. This does not qualify constant-record
 canonicalization, arbitrary equality or all refutable pattern-shape constraints.
+
+## Pattern comparisons and nullable equality
+
+The [Dart pattern specification](https://github.com/dart-lang/language/blob/main/accepted/3.0/patterns/feature-specification.md)
+defines the receiver direction and invocation reuse rules.
+
+Constant patterns previously used the matched value as the equality receiver and
+both constant and relational patterns omitted user operator targets. The reduced
+fixture now distinguishes `constant == input` from `input == constant`, including
+relational `!=` and `>`. Nullable relational equality needs lookup on the matched
+interface type: analyzer 8.4.1's pattern element can name `Object.==` even though
+the runtime invokes the concrete override.
+
+Equality lowering saves both operands in source order before testing either for
+null. User dispatch occurs only when both are non-null; `!=` negates that result.
+The execution oracle checks null/value combinations and dynamic dispatch; the
+graph regression checks internal targets, argument isolation, operand order and
+the null bypass branch. Literal-null equality has no user call. These checks do
+not qualify cross-case invocation caching, generic/interface target completeness,
+or path-sensitive match feasibility.
+
+Validation: all 76 native tests and 113 frontend/package tests pass. The seven
+library call-count changes were independently derived from exporter facts: seven
+additional calls per guarded equality, minus the former extra negation around
+literal-null inequality. No source-file, internal-method or UNKNOWN count changed.
+The same accounting matches all three applications and both holdouts, whose
+graph and endpoint checks pass. All twelve reports share the current source
+fingerprint and exporter 0.3.12. Staged packaging, four CLI integration tests and
+fourteen console tests pass; the existing inconclusive queries remain open.
