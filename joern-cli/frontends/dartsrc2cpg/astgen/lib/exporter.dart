@@ -11,11 +11,16 @@ import 'package:analyzer/dart/constant/value.dart';
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:analyzer/dart/element/nullability_suffix.dart';
+// Pattern elements omit inferred extension arguments; reuse the pinned analyzer's inference.
+// ignore: implementation_imports
+import 'package:analyzer/src/dart/element/type.dart';
+// ignore: implementation_imports
+import 'package:analyzer/src/dart/resolver/applicable_extensions.dart';
 import 'package:analyzer/source/line_info.dart';
 import 'package:path/path.dart' as p;
 
 const protocolVersion = 1;
-const exporterVersion = '0.3.14';
+const exporterVersion = '0.3.15';
 const analyzerVersion = '8.4.1';
 const supportedSdkVersion = '3.9.2';
 
@@ -192,6 +197,8 @@ class _UnitEncoder {
   final Set<String> unsupported = {};
   final Set<JoinPatternVariableElement> sharedCaseJoins = {};
   final Map<DartObject, int> constantKeys = {};
+  final Map<DartType, int> argumentTypes = {};
+  LibraryElement? analysisLibrary;
 
   Iterable<PatternVariableElement> patternVariables(AstNode ast) sync* {
     if (ast is DeclaredVariablePattern) {
@@ -254,6 +261,13 @@ class _UnitEncoder {
           path: p.posix.joinAll(p.split(p.relative(path, from: root))),
         ).toString()
       : Uri.file(path).toString();
+
+  String? constantIdentity(Expression expression) {
+    final value = expression.computeConstantValue()?.value;
+    return value == null
+        ? null
+        : constantKeys.putIfAbsent(value, () => constantKeys.length).toString();
+  }
 
   String? typeId(DartType? type) =>
       type is InterfaceType ? symbol(type.element) : type?.getDisplayString();
@@ -369,6 +383,7 @@ class _UnitEncoder {
     String? library,
     bool resolved = true,
   }) {
+    analysisLibrary = unit.declaredFragment?.element;
     prepareSharedCases(unit);
     node(unit);
     return {
@@ -411,6 +426,39 @@ class _UnitEncoder {
       for (final value in values) {
         child(role, value);
       }
+    }
+
+    void extensionInvocation(Element? element, DartType? receiverType) {
+      final owner = element?.baseElement.enclosingElement;
+      if (owner is! ExtensionElement) return;
+      record['extensionTarget'] = symbol(owner);
+      final arguments = <DartType>[];
+      if (owner.typeParameters.isNotEmpty) {
+        final library = analysisLibrary;
+        if (receiverType is! TypeImpl || library == null) return;
+        // The analyzer can discard substitutions that leave a member's signature unchanged.
+        final candidates = [owner].applicableTo(
+          targetLibrary: library,
+          targetType: receiverType,
+          strictCasts: false,
+        );
+        if (candidates.length != 1) return;
+        for (final parameter in owner.typeParameters) {
+          final argument = candidates.single.substitution.map[parameter];
+          if (argument == null) return;
+          arguments.add(argument);
+        }
+      }
+      record['extensionTypeArguments'] = arguments
+          .map((type) => type.getDisplayString())
+          .toList();
+      record['extensionArgumentIdentities'] = arguments
+          .map(
+            (type) => argumentTypes
+                .putIfAbsent(type, () => argumentTypes.length)
+                .toString(),
+          )
+          .toList();
     }
 
     void patternMembers(
@@ -993,6 +1041,7 @@ class _UnitEncoder {
         child('type', ast.type);
       case ConstantPattern():
         kind = 'ConstantPattern';
+        record['constantIdentity'] = constantIdentity(ast.expression);
         final type = ast.expression.staticType?.extensionTypeErasure;
         if (type is InterfaceType) {
           record['operatorTarget'] = symbol(
@@ -1011,6 +1060,12 @@ class _UnitEncoder {
         kind = 'PatternField';
         record['name'] = ast.name == null ? null : ast.effectiveName;
         record['reference'] = symbol(ast.element);
+        extensionInvocation(
+          ast.element,
+          ast.parent is ObjectPattern
+              ? (ast.parent as ObjectPattern).type.type
+              : null,
+        );
         child('pattern', ast.pattern);
       case ListPattern():
         kind = 'ListPattern';
@@ -1033,12 +1088,7 @@ class _UnitEncoder {
         many('element', ast.elements);
       case MapPatternEntry():
         kind = 'MapPatternEntry';
-        final key = ast.key.computeConstantValue()?.value;
-        if (key != null) {
-          record['keyIdentity'] = constantKeys
-              .putIfAbsent(key, () => constantKeys.length)
-              .toString();
-        }
+        record['keyIdentity'] = constantIdentity(ast.key);
         child('key', ast.key);
         child('pattern', ast.value);
       case RestPatternElement():
@@ -1054,6 +1104,8 @@ class _UnitEncoder {
         child('right', ast.rightOperand);
       case RelationalPattern():
         kind = 'RelationalPattern';
+        record['constantIdentity'] = constantIdentity(ast.operand);
+        extensionInvocation(ast.element, ast.matchedValueType);
         final type = ast.matchedValueType?.extensionTypeErasure;
         final equality = const ['==', '!='].contains(ast.operator.lexeme);
         record['operatorTarget'] = symbol(

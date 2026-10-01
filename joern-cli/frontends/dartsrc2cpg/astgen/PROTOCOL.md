@@ -7,7 +7,7 @@ unsupported protocol versions, and unsupported analyzer/exporter versions before
 constructing a graph. The Scala consumer validates the protocol, analyzer, SDK and offset encoding
 before constructing a graph. Exporter 0.3 adds modern-language fields to protocol 1.
 
-The header declares `protocolVersion` (1), `exporterVersion` (0.3.14),
+The header declares `protocolVersion` (1), `exporterVersion` (0.3.15),
 `analyzerVersion` (8.4.1), `sdkVersion` (3.9.2), and `offsetEncoding` (`utf-16`).
 No timestamps or checkout root are emitted. The exporter builds records one file
 at a time; the analyzer may retain project state internally.
@@ -210,3 +210,17 @@ keys omit this identity and keep separate source-local storage. The consumer
 uses these identities only within a single matching construct and receiver path;
 read and presence invocations have separate lazy storage. Protocol version 1
 remains unchanged; the frontend requires this exporter revision.
+
+Exporter 0.3.15 adds `constantIdentity` to constant and relational patterns.
+The identity uses the same unit-local constant-value table as map key identities.
+Pattern fields and relational operators resolved to an extension also record
+`extensionTarget`, `extensionTypeArguments` and `extensionArgumentIdentities`.
+Argument identities use analyzer type equality, preserving distinct declarations
+with the same display name. Generic arguments are recovered through the pinned
+analyzer's extension applicability inference for the already resolved extension;
+the public pattern elements can omit substitutions that leave signatures unchanged.
+If inference is unavailable, omitted argument identities prevent invocation reuse.
+The consumer shares equality results between `==` and `!=`, applies negation after
+the cache read, and keeps constant-receiver equality separate from relational
+matched-receiver equality. Extension keys include the declaration and all inferred
+argument identities. Protocol 1 remains unchanged; the frontend requires 0.3.15.

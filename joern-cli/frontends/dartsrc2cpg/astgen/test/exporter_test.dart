@@ -171,6 +171,120 @@ void main() { late int local = 1; print(local); }
     );
   });
 
+  test(
+    'export comparison constants and extension argument identities',
+    () async {
+      write(
+        'comparison.dart',
+        File(
+          '../src/test/resources/semantics/comparison_cache.dart',
+        ).readAsStringSync(),
+      );
+      write(
+        'extension.dart',
+        File(
+          '../src/test/resources/semantics/extension_cache.dart',
+        ).readAsStringSync(),
+      );
+      final exported = units(await export());
+      expect(exported.map((unit) => unit['status']), everyElement('resolved'));
+      final comparisons =
+          entries(
+            exported.singleWhere((unit) => unit['file'] == 'comparison.dart'),
+            'nodes',
+          ).where(
+            (node) =>
+                ['ConstantPattern', 'RelationalPattern'].contains(node['kind']),
+          );
+      expect(
+        comparisons.map((node) => node['constantIdentity']).toSet(),
+        hasLength(2),
+      );
+      expect(
+        comparisons.map((node) => node['constantIdentity']),
+        everyElement(isNotNull),
+      );
+      final invocations =
+          entries(
+                exported.singleWhere(
+                  (unit) => unit['file'] == 'extension.dart',
+                ),
+                'nodes',
+              )
+              .where(
+                (node) => [
+                  'PatternField',
+                  'RelationalPattern',
+                ].contains(node['kind']),
+              )
+              .toList();
+      expect(
+        invocations.map((node) => node['extensionTarget']).toSet(),
+        hasLength(1),
+      );
+      expect(
+        invocations.map((node) => node['extensionTarget']),
+        everyElement(isNotNull),
+      );
+      final types = <String, Set<Object?>>{};
+      for (final invocation in invocations) {
+        final arguments = invocation['extensionTypeArguments'] as List;
+        final identities = invocation['extensionArgumentIdentities'] as List;
+        expect(arguments, hasLength(1));
+        expect(identities, hasLength(1));
+        types
+            .putIfAbsent(arguments.single as String, () => {})
+            .add(identities.single);
+      }
+      expect(types.keys, unorderedEquals(['int', 'num']));
+      expect(types['int'], hasLength(1));
+      expect(types['num'], hasLength(1));
+      expect(types['int'], isNot(types['num']));
+    },
+  );
+
+  test(
+    'distinguish extension arguments with identical display names',
+    () async {
+      write('a.dart', 'class Token {}');
+      write('b.dart', 'class Token {}');
+      write('main.dart', '''
+import 'a.dart' as a;
+import 'b.dart' as b;
+class Both implements a.Token, b.Token {}
+class Box<T> {}
+extension View<T> on Box<T> { String get tag => '\$T'; }
+String classify(Box<Both> input) => switch (input) {
+  Box<a.Token>(tag: 'missing') => 'wrong',
+  Box<b.Token>(tag: var tag) => tag,
+};
+''');
+      final exported = units(await export());
+      expect(exported.map((unit) => unit['status']), everyElement('resolved'));
+      final fields = entries(
+        exported.singleWhere((unit) => unit['file'] == 'main.dart'),
+        'nodes',
+      ).where((node) => node['kind'] == 'PatternField');
+      expect(fields, hasLength(2));
+      expect(
+        fields.map((node) => node['extensionTarget']).toSet(),
+        hasLength(1),
+      );
+      expect(
+        fields
+            .map((node) => (node['extensionTypeArguments'] as List).single)
+            .toSet(),
+        hasLength(1),
+      );
+      expect(
+        fields
+            .map((node) => (node['extensionArgumentIdentities'] as List).single)
+            .toSet(),
+        hasLength(2),
+      );
+    },
+  );
+
   test('export map pattern targets and constant key identities', () async {
     write(
       'main.dart',

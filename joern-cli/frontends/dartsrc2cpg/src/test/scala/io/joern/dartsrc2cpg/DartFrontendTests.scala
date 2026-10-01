@@ -1927,8 +1927,8 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         cpg.unknown.size shouldBe 0
         cpg.call.nameExact("source").size shouldBe 1
         cpg.call.nameExact("<operator>.record").size shouldBe 3
-        cpg.controlStructure.controlStructureTypeExact("IF").size shouldBe 12
-        cpg.call.nameExact("<operator>.isInitialized").size shouldBe 6
+        cpg.controlStructure.controlStructureTypeExact("IF").size shouldBe 14
+        cpg.call.nameExact("<operator>.isInitialized").size shouldBe 8
         cpg.local.nameExact("value", "count", "left", "right", "text", "selected").size should be >= 7
         cpg.identifier.nameExact("text").refsTo.name.toSet shouldBe Set("text")
         cpg.call.nameExact("<operator>.fieldAccess").argument(2).code.toSet should contain allOf ("$1", "count")
@@ -2066,6 +2066,62 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
           }
         """
         ) { (cpg, _) => assertFlow(cpg, expected) }
+      }
+    }
+    "cache comparison invocations while preserving arguments and receiver direction" in {
+      fixture(
+        Files.readString(frontend.resolve("src/test/resources/semantics/comparison_cache.dart")),
+        "void main() {}"
+      ) { (cpg, _) =>
+        cpg.unknown.size shouldBe 0
+        for (
+          (name, count) <- Seq(
+            "constants"  -> 1,
+            "equal"      -> 1,
+            "negation"   -> 1,
+            "directions" -> 2,
+            "logical"    -> 1,
+            "distinct"   -> 2,
+            "separate"   -> 2,
+            "nested"     -> 4
+          )
+        ) {
+          withClue(name) {
+            val method = cpg.method.nameExact(name).head
+            method.local.name("<pattern>.*").size shouldBe count
+            method.call.nameExact("==", ">").callee.isExternal.toSet shouldBe Set(false)
+            val storage = method.local.name("<pattern>.*").id.toSet
+            method.call.nameExact("<operator>.isInitialized").argument.isIdentifier.refsTo.id.toSet shouldBe storage
+          }
+        }
+      }
+    }
+    "reuse extension pattern invocations only with equal substitutions" in {
+      fixture(
+        Files.readString(frontend.resolve("src/test/resources/semantics/extension_cache.dart")),
+        "void main() {}"
+      ) { (cpg, _) =>
+        cpg.unknown.size shouldBe 0
+        for ((name, expected) <- Seq("repeated" -> 1, "substituted" -> 2)) {
+          val calls = cpg.method.nameExact(name).call.nameExact("kind").l
+          calls.size shouldBe 2
+          calls.iterator.callee.isExternal.toSet shouldBe Set(false)
+          calls
+            .flatMap(
+              _.astParent
+                .asInstanceOf[io.shiftleft.codepropertygraph.generated.nodes.Call]
+                .argument(1)
+                .start
+                .isIdentifier
+                .refsTo
+                .id
+                .l
+            )
+            .toSet
+            .size shouldBe expected
+        }
+        cpg.method.nameExact("compared").local.name("<pattern>.*").size shouldBe 1
+        cpg.method.nameExact("compared").call.nameExact(">").dispatchType.toSet shouldBe Set("STATIC_DISPATCH")
       }
     }
     "resolve map pattern calls and share lazy storage by constant key" in {
@@ -2479,7 +2535,7 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         val coverage = ujson.read(Files.readString(report))
         coverage("includedFiles").num shouldBe 0
         coverage("stringConversionOrder").str shouldBe "after-expression-evaluation"
-        coverage("exporter")("exporterVersion").str shouldBe "0.3.14"
+        coverage("exporter")("exporterVersion").str shouldBe "0.3.15"
         coverage("exporter")("sdkVersion").str shouldBe "3.9.2"
         coverage("exporter")("analyzerVersion").str shouldBe "8.4.1"
         Files.writeString(dir.resolve("excluded.dart"), "void excluded() {}")
@@ -2499,7 +2555,7 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         "offsetEncoding"  -> "utf-16",
         "analyzerVersion" -> "8.4.1",
         "sdkVersion"      -> "3.9.2",
-        "exporterVersion" -> "0.3.14"
+        "exporterVersion" -> "0.3.15"
       )
       intercept[IllegalArgumentException](ExportProtocol.units(Seq(valid)))
       intercept[IllegalArgumentException](

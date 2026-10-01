@@ -607,3 +607,37 @@ selection. Its thirteen added calls consist of a saved key, lazy read storage,
 null/type/presence tests, lazy presence storage and conjunction with the value
 pattern. All file, internal-method and UNKNOWN counts are unchanged. Source
 changes are confined to this frontend.
+
+## Comparison and extension invocation reuse
+
+Exporter 0.3.15 retains comparison constant identities and the declaration and
+inferred type arguments of selected extension pattern members. The lowering
+caches comparison results per receiver path and constant within one match.
+Relational `==` and `!=` share an equality invocation; constant-pattern equality
+retains its separate receiver direction. Different constants, nested receivers
+and separate matching constructs retain separate storage.
+
+Extension cache keys distinguish declarations and inferred argument identities.
+The pinned analyzer can discard substitutions when a getter or operator signature
+does not mention its type parameter, despite the implementation using that
+parameter. The exporter recovers arguments using the analyzer's inference routine
+for the already selected extension. When recovery is unavailable, calls retain
+separate storage. A regression distinguishes arguments from different libraries
+even when their display names are identical.
+
+The runtime oracles cover null receivers, failed guards, logical alternatives,
+constant aliases, equality direction and generic extension bodies. Graph tests
+check storage identity, resolved internal operators/getters and static extension
+dispatch. These establish the exercised invocation contracts; complete virtual
+targets, generic match feasibility and the existing inconclusive corpus searches
+remain open.
+
+Validation passes: Dart analyze and all 85 native tests with VM/web and Flutter
+checks enabled; all 138 frontend/package tests, all three applications, both
+holdouts, staged packaging, four CLI integration tests and fourteen console tests.
+All twelve refreshed reports share one current source fingerprint and exporter
+0.3.15. Their endpoint checks and limitations retain their prior dispositions.
+The graph deltas are independently predicted from source AST facts: each
+constant or relational pattern adds an initialization check, its negation and
+a cache assignment. Analyzer adds 147 calls, LocalSend 126, Saber 336, Sass
+3,363 and YAML 147. File, internal-method and UNKNOWN counts are unchanged.

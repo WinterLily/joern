@@ -48,8 +48,11 @@ List patterns now resolve and cache length, index and slice reads, with bounded
 wildcard/rest execution traces. Map patterns now retain resolved index/presence
 calls, nullable-value guards and per-match constant-key storage, with alias/null
 keys, nested receivers, failed guards and generic nullable/nonnullable execution
-checks. Comparison/extension invocation caching and broader dispatch qualification
-remain open. This is
+checks. Comparison invocations now share constant arguments and normalized equality
+results within a match, while retaining constant/relational receiver direction.
+Extension invocation keys include inferred argument identities, with same/different
+substitution execution checks. Broader dispatch and type-model qualification remain
+open. This is
 not complete language or runtime analysis support.
 Shared support is restricted to `DART` graphs; existing-language CFG/dataflow
 behavior and operator summaries retain their pre-Dart semantics. Added regression

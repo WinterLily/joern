@@ -104,6 +104,19 @@ Unknown syntax remains UNKNOWN with its source text and a warning. Exporter
 unsupported-kind diagnostics are also logged, including unsupported descendants
 of otherwise supported declarations. Modern syntax uses the conventions below.
 
+## Frontend architecture
+
+The frontend follows Joern's exporter-to-CPG pipeline, also used by the C# and
+JavaScript frontends. It implements `X2CpgFrontend`, uses the common `Ast` and CPG
+schema, and runs shared metadata, type-node, linking, CFG and dataflow passes.
+Analyzer identities supply resolved declarations and direct targets. Dart-specific
+lowering uses ordinary CPG calls, temporaries, references and control structures;
+its custom operator summaries and shared-engine extensions apply only to DART graphs.
+The current AST creation is concentrated in one pass, whereas established frontends
+usually split an `AstCreator` into declaration/expression/statement traits with a
+scope abstraction. This organization is implementation debt; shared architecture
+and passing regressions do not establish equivalent semantic maturity.
+
 ## Modern Dart lowering
 
 Records initialize explicit field slots in source order. Positional keys are
@@ -127,8 +140,12 @@ and presence storage. Nested receiver paths and separate matches stay distinct.
 Exact mutable collection-slot dataflow and complete virtual dispatch remain open.
 Constant comparisons call equality on the constant receiver, while relational
 comparisons call the matched receiver. Equality preserves operand evaluation
-order and skips user dispatch for null operands. Comparison invocation reuse
-and substituted extension invocation identities remain open. Logical patterns
+order and skips user dispatch for null operands. Comparison results use per-match
+storage keyed by the constant argument and receiver path; `!=` negates the shared
+`==` result. Constant-pattern equality has a distinct key for its reversed receiver.
+Extension getter/operator keys include the declaration and inferred argument type
+identities, preserving reuse within a substitution and separation across substitutions.
+Unavailable extension inference keeps calls separate. Logical patterns
 and guards short-circuit. Cast/null-assert patterns retain their operators.
 Predicate paths and virtual targets remain conservative.
 

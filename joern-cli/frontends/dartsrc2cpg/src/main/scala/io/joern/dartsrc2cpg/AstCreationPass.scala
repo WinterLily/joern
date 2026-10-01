@@ -870,6 +870,15 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
       )
       args(out, values, values.indices).withReceiverEdge(out, values.head.root.get)
     }
+    def patternInvocation(syntax: Value, parent: Vector[String], name: String): Vector[String] = {
+      val extension = string(syntax, "extensionTarget")
+      val member    =
+        if (extension.isEmpty) name
+        else if (syntax.obj.contains("extensionArgumentIdentities"))
+          s"extension:$extension:${strings(syntax, "extensionArgumentIdentities").mkString(",")}:$name"
+        else s"extension:${syntax("id")}:$name"
+      parent :+ member
+    }
     def pattern(syntax: Value, value: () => Ast, parent: Vector[String] = Vector("this")): Ast = {
       def and(values: Seq[Ast]): Ast = values
         .reduceOption((left, right) => operator(syntax, Operators.logicalAnd, Seq(left, right)))
@@ -895,21 +904,18 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
               )
             )
           )
-        case "WildcardPattern" => and(typeCheck)
-        case "ConstantPattern" =>
-          resolvedOperator(
-            syntax,
-            Operators.equals,
-            Seq(expression(child(syntax, "expression")), value()),
-            string(syntax, "operatorTarget")
-          )
-        case "RelationalPattern" =>
-          resolvedOperator(
-            syntax,
-            binaryOperators.getOrElse(string(syntax, "operator"), Operators.equals),
-            Seq(value(), expression(child(syntax, "expression"))),
-            string(syntax, "operatorTarget")
-          )
+        case "WildcardPattern"                       => and(typeCheck)
+        case "ConstantPattern" | "RelationalPattern" =>
+          val constant   = string(syntax, "kind") == "ConstantPattern"
+          val token      = if (constant) "constant==" else string(syntax, "operator").replace("!=", "==")
+          val name       = if (constant) Operators.equals else binaryOperators.getOrElse(token, Operators.equals)
+          val argument   = expression(child(syntax, "expression"))
+          val values     = if (constant) Seq(argument, value()) else Seq(value(), argument)
+          val invocation = resolvedOperator(syntax, name, values, string(syntax, "operatorTarget"))
+          val identity   = string(syntax, "constantIdentity", s"source:${syntax("id")}")
+          val cached     =
+            patternAccess(syntax, patternInvocation(syntax, parent, s"comparison:$token:$identity"), invocation)
+          if (string(syntax, "operator") == "!=") operator(syntax, Operators.logicalNot, Seq(cached)) else cached
         case "LogicalAndPattern" | "LogicalOrPattern" =>
           operator(
             syntax,
@@ -940,9 +946,7 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
               if (string(syntax, "kind") == "ObjectPattern")
                 reference(entry, string(entry, "reference"), name, Some(value()))
               else field(entry, value(), name)
-            val extension = string(sym(string(sym(string(entry, "reference")), "owner")), "kind") == "EXTENSION"
-            // Generic extension substitutions are not yet part of the exported identity.
-            val key = parent :+ (if (extension) s"extension:${entry("id")}" else name)
+            val key = patternInvocation(entry, parent, name)
             saved(entry, patternAccess(entry, key, access))(ref => pattern(child(entry, "pattern"), ref, key))
           })
         case "ListPattern" =>
