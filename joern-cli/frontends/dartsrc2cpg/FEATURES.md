@@ -16,7 +16,7 @@ execution or exhaustive language conformance.
 | Constant/relational/logical/typed/null/cast patterns | Yes | Short-circuit predicates, casts and null checks/assertions | Analyzer types and references | Scalar binding flow; constant/relational user operator targets and null guards; per-match comparison reuse; path-sensitive match feasibility unqualified |
 | If-case, guarded switch cases, switch expressions | Yes | Ordered tests, guard short-circuiting, result assignments, switch break boundary | Guard/body references | Positive scalar switch result and negative constant result |
 | Mixins | Yes | TYPE_DECLs, inherited type identities, methods | Mixed-in method targets and forwarding application constructors | Constructor argument to superclass field; mixin dispatch |
-| Extensions | Yes | TYPE_DECL owner, receiver at index 0, static target, explicit overrides; per-match getter/operator reuse | Implicit/explicit calls and inferred pattern substitutions | Pattern invocation reuse/isolation; general generic dispatch and heap effects unqualified |
+| Extensions | Yes | TYPE_DECL owner, receiver at index 0, static calls/accessors/tear-offs, explicit overrides; per-match getter/operator reuse | Implicit/explicit calls, bound targets and inferred pattern substitutions | Pattern invocation reuse/isolation and tear-off operand isolation; general generic dispatch and heap effects unqualified |
 | Extension types | Yes | TYPE_DECL, representation MEMBER and primary constructor assignment | Primary constructor and member targets | Structural/resolution only; runtime erasure is not simulated |
 | Class modifiers | Yes | Source plus `dart.*` annotations; ABSTRACT/FINAL where applicable | Analyzer checks validity | Not a dataflow feature |
 | Collection spreads and if/for elements | Yes | Ordered operands, null guards, conditional/loop CFGs | Loop local/pattern references | Explicit accumulator updates and nested-loop value flow; exact slots, deduplication and key overwrites conservative |
@@ -43,6 +43,10 @@ instantiated static type and source. Stable final function aliases retain target
 including named/default arguments and bound receiver captures. Runtime type
 environments, mutable/conditional/returned function targets and promoted-type
 feasibility remain unqualified. Type literals are TYPE_REFs.
+`super` calls, accessors, operators and tear-offs retain their selected superclass
+targets. Static tear-offs cannot select subclass static shadows. Ordinary virtual
+calls still include tested overrides; covariant/generic signatures and synthetic
+field-accessor overrides remain unqualified.
 Named switch labels and continue-to-case retain their
 CFG targets, including jumps past a target pattern guard. Null-aware collection
 elements and map keys/values have explicit guards and evaluation-order tests.

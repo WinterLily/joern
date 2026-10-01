@@ -221,7 +221,13 @@ are still scanned independently, but references follow the selected library.
 
 Resolved calls carry analyzer declaration IDs. Joern's default call graph overlay
 links those targets and can add overrides using inheritance and compatible method
-signatures. Calls without a resolved target retain `<unresolved>.name`; the
+signatures. Static members, constructors, extensions and `super` operations retain
+static dispatch, including bound tear-offs and accessors/operators. Calls through
+a known function value select that value; an ordinary bound instance tear-off's
+wrapper still invokes its receiver virtually. `super` retains the lexical
+superclass view of the same `this` object. Covariant overrides, generic signature
+compatibility and synthetic field-accessor overrides remain unqualified.
+Calls without a resolved target retain `<unresolved>.name`; the
 frontend does not invent targets for arbitrary dynamic dispatch. External method
 stubs come from Joern's overlays. Their bodies and library-specific effects are
 not inferred.

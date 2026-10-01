@@ -140,6 +140,23 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
       case "SimpleIdentifier"                              => functionValues.get(string(syntax, "reference"))
       case _                                               => None
     }
+    def superReceiver(syntax: Value): Boolean = {
+      val role = string(syntax, "kind") match {
+        case "MethodInvocation" | "PropertyAccess" | "PrefixedIdentifier" => "receiver"
+        case "IndexExpression"                                            => "target"
+        case "BinaryExpression"                                           => "left"
+        case "PrefixExpression" | "PostfixExpression"                     => "operand"
+        case _                                                            => ""
+      }
+      children(syntax, role).exists(receiver => string(receiver, "kind") == "SuperExpression")
+    }
+    def fixedTarget(syntax: Value, id: String): Boolean = {
+      val target = sym(id)
+      bool(target, "static") || string(target, "kind") == "CONSTRUCTOR" ||
+      string(sym(string(target, "owner")), "kind") == "EXTENSION" || superReceiver(syntax)
+    }
+    def selectedMember(syntax: Value, id: String, receiverType: String): String =
+      enumTarget(id, if (superReceiver(syntax) && enumTypes(currentType)) currentType else receiverType)
     def args(call: NewNode, values: Seq[Ast], indexes: Seq[Int] = Nil): Ast =
       values.zipWithIndex.foldLeft(Ast(call)) { case (result, (value, index)) =>
         value.root.foreach {
@@ -236,7 +253,7 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
       receiver: Option[Ast] = None,
       callableReceiver: Boolean = false
     ): Ast = {
-      val selectedTarget = receiver.map(value => enumTarget(targetId, astType(value))).getOrElse(targetId)
+      val selectedTarget = receiver.map(value => selectedMember(syntax, targetId, astType(value))).getOrElse(targetId)
       val target         = sym(boundTargets.getOrElse(targetId, targetId))
       val params         = strings(target, "parameters")
       val actual         = argumentList.toSeq.flatMap(arguments => children(arguments, "argument"))
@@ -269,7 +286,7 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
           .code(code(syntax))
           .typeFullName(tpe(syntax))
           .dispatchType(
-            if (receiver.nonEmpty && string(sym(string(target, "owner")), "kind") != "EXTENSION")
+            if (receiver.nonEmpty && !fixedTarget(syntax, targetId) && !(callableReceiver && selectedTarget.nonEmpty))
               DispatchTypes.DYNAMIC_DISPATCH
             else DispatchTypes.STATIC_DISPATCH
           ),
@@ -346,10 +363,12 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
       val callNode = located(
         NewCall()
           .name(string(target, "name"))
-          .methodFullName(enumTarget(targetId, astType(receiver)))
+          .methodFullName(selectedMember(syntax, targetId, astType(receiver)))
           .code(code(syntax))
           .typeFullName(string(target, "returnTypeId", "ANY"))
-          .dispatchType(DispatchTypes.DYNAMIC_DISPATCH),
+          .dispatchType(
+            if (fixedTarget(syntax, targetId)) DispatchTypes.STATIC_DISPATCH else DispatchTypes.DYNAMIC_DISPATCH
+          ),
         syntax
       )
       val invocation = args(callNode, baseAst +: values, 0 to parameters.size).withReceiverEdge(callNode, base)
@@ -573,7 +592,13 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
       userOperator(id) || (id.isEmpty && Set("dynamic", "ANY").contains(receiverType)) ||
       (string(sym(id), "name") == "==" && !primitive)
     }
-    def resolvedOperator(syntax: Value, name: String, values: Seq[Ast], targetId: String): Ast = {
+    def resolvedOperator(
+      syntax: Value,
+      name: String,
+      values: Seq[Ast],
+      targetId: String,
+      staticReceiver: Boolean = false
+    ): Ast = {
       val intrinsic = Set(Operators.logicalAnd, Operators.logicalOr, Operators.logicalNot, "<operator>.notNullAssert")
       val equality  = name == Operators.equals || name == Operators.notEquals
       val hasNull   = values.exists(_.root.exists {
@@ -598,7 +623,7 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
             .code(code(syntax))
             .typeFullName(if (booleanOperators(name)) "bool" else tpe(syntax))
             .dispatchType(
-              if (string(sym(string(sym(targetId), "owner")), "kind") == "EXTENSION")
+              if (staticReceiver || fixedTarget(syntax, targetId))
                 DispatchTypes.STATIC_DISPATCH
               else DispatchTypes.DYNAMIC_DISPATCH
             ),
@@ -609,7 +634,11 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
       if (intrinsic.contains(name) || !operatorDispatch(targetId, astType(values.head)) || equality && hasNull)
         operator(syntax, name, values)
       else if (name == Operators.notEquals)
-        operator(syntax, Operators.logicalNot, Seq(resolvedOperator(syntax, Operators.equals, values, targetId)))
+        operator(
+          syntax,
+          Operators.logicalNot,
+          Seq(resolvedOperator(syntax, Operators.equals, values, targetId, staticReceiver))
+        )
       else if (name == Operators.equals) {
         def booleanResult(ast: Ast): Ast = {
           ast.root.foreach {
@@ -654,7 +683,7 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
                 .code(code(syntax))
                 .typeFullName(tpe(syntax))
                 .dispatchType(
-                  if (bool(sym(writeId), "static")) DispatchTypes.STATIC_DISPATCH else DispatchTypes.DYNAMIC_DISPATCH
+                  if (fixedTarget(left, writeId)) DispatchTypes.STATIC_DISPATCH else DispatchTypes.DYNAMIC_DISPATCH
                 ),
               syntax
             )
@@ -693,7 +722,13 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
                   if (operatorDispatch(writeId, astType(target)))
                     savedSequence(syntax, value)(assigned =>
                       Seq(
-                        resolvedOperator(syntax, Operators.assignment, Seq(base(), index(), assigned()), writeId),
+                        resolvedOperator(
+                          syntax,
+                          Operators.assignment,
+                          Seq(base(), index(), assigned()),
+                          writeId,
+                          staticReceiver = superReceiver(left)
+                        ),
                         assigned()
                       )
                     )
@@ -1225,7 +1260,11 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
           Seq(expression(child(syntax, "expression")))
         )
       case "SimpleIdentifier" => reference(syntax, string(syntax, "reference"), string(syntax, "name"), None)
-      case "ThisExpression" | "SuperExpression" => thisAst(syntax)
+      case "ThisExpression"   => thisAst(syntax)
+      case "SuperExpression"  =>
+        val ast = identifier(syntax, "this", "this", tpe(syntax))
+        ast.root.collect { case receiver: NewIdentifier => receiver.code = "super" }
+        ast
       case "StringLiteral" | "SymbolLiteral" | "IntegerLiteral" | "DoubleLiteral" | "BooleanLiteral" | "NullLiteral" =>
         literal(syntax, code(syntax), tpe(syntax))
       case "NamedExpression" =>
@@ -1323,9 +1362,9 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
       case "FunctionExpressionInvocation" =>
         val receiver = child(syntax, "receiver")
         val value    = expression(receiver)
-        val targetId = value.root
+        val targetId = astValue(value)
           .collect { case ref: NewMethodRef => ref.methodFullName }
-          .orElse(functionValues.get(string(receiver, "reference")))
+          .orElse(stableFunction(receiver))
           .getOrElse("")
         if (string(sym(targetId), "kind") == "CONSTRUCTOR")
           newInstance(syntax, targetId, string(receiver, "name", "<init>"), Some(child(syntax, "arguments")))

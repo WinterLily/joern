@@ -176,7 +176,16 @@
       "cfg": "receiver evaluated once; callback read precedes named arguments in source order",
       "valueFlow": "first/ignored operand isolation across top-level/static/bound generic calls and aliases; named/default binding",
       "negative": "nested references in conditional branches or call arguments cannot become the sole target",
-      "interaction": "astgen/test/generic_tearoffs_test.dart: String/int type tests, bounded values/branches and receiver traces; runtime bound checks unqualified"
+      "interaction": "astgen/test/generic_tearoffs_test.dart: String/int type tests, bounded values/branches and receiver traces; static_dispatch_test.dart: bound super/extension and static shadow controls; runtime bound checks unqualified"
+    },
+    "dispatch": {
+      "exporter": "analyzer member identities, owners, static flags and SuperExpression static type",
+      "lowering": "DartFrontendTests: static super calls/accessors/operators/tear-offs and extension calls/setters/tear-offs; ordinary virtual calls remain dynamic",
+      "resolution": "selected superclass/extension/static targets; known function-value invocation selects the value; covariant/generic signature and synthetic accessor overrides unqualified",
+      "cfg": "same this receiver with superclass static view; existing exactly-once bound receiver evaluation",
+      "valueFlow": "first/ignored operand isolation through super/extension/static calls and tear-offs; superclass getter/setter/operator return controls",
+      "negative": "super cannot select subclass overrides; static tear-offs cannot select subclass static shadows; superclass list callback flow retains positive control",
+      "interaction": "astgen/test/static_dispatch_test.dart: bounded super operations, extensions, static shadows and ordinary virtual override control"
     }
   },
   "constructs": [
@@ -1384,9 +1393,9 @@
       "construct": "SuperExpression",
       "scope": "dart-3.9",
       "exporterCase": "SuperExpression",
-      "contract": "syntax",
-      "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "contract": "dispatch",
+      "qualification": "conservative",
+      "reason": "Selected superclass calls/accessors/operators and tear-offs tested; same receiver identity retained; broader generic/interface and synthetic field-accessor dispatch unqualified."
     },
     {
       "construct": "SuperFormalParameter",

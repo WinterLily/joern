@@ -58,7 +58,11 @@ function types now retain distinct anonymous scopes under aliases, methods and
 bounds. Explicit generic function references now retain instantiated static types
 and source, with stable alias target, operand isolation and named/default binding
 regressions. Nested references no longer supply guessed targets for conditional
-or returned function values. Runtime type environments and bound checks remain
+or returned function values. Super calls/accessors/operators and bound tear-offs
+now retain static targets; extension tear-offs/setters and static member shadows
+have operand-isolation and bounded execution controls. Ordinary virtual calls
+retain overrides. Covariant/generic signature compatibility and synthetic field
+accessor overrides remain open. Runtime type environments and bound checks remain
 open. Broader dispatch and
 type-model qualification remain open. This is
 not complete language or runtime analysis support.

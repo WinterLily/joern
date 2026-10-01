@@ -77,6 +77,75 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
   }
 
   "Dart frontend" should {
+    "pin super and extension dispatch while retaining virtual calls" in {
+      fixture(
+        Files.readString(frontend.resolve("src/test/resources/semantics/static_dispatch.dart")),
+        "void main() {}"
+      ) { (cpg, _) =>
+        val base = cpg.typeDecl.nameExact("Base").head.fullName
+        for (
+          (name, member) <- Seq(
+            "directSuper"   -> "echo",
+            "getterSuper"   -> "read",
+            "setterSuper"   -> "write",
+            "operatorSuper" -> "+",
+            "indexSuper"    -> "[]",
+            "indexSetSuper" -> "[]="
+          )
+        ) {
+          val method = cpg.method.nameExact(name).head
+          val call   = method.ast.isCall.nameExact(member).head
+          withClue(name) {
+            call.dispatchType shouldBe io.shiftleft.codepropertygraph.generated.DispatchTypes.STATIC_DISPATCH
+            call.callee.astParentFullName.toSet shouldBe Set(base)
+            method.ast.isReturn.reachableByFlows(method.parameter.nameExact("input")).nonEmpty shouldBe true
+          }
+        }
+        for (name <- Seq("tearoffSuper", "invokeSuper", "extensionTearoff", "extensionInvoke")) {
+          val method     = cpg.method.nameExact(name).head
+          val invocation = method.ast.isCall.filter(call => call.name == "callback" || call.name == "<invoke>").head
+          val bound      = invocation.callee.nameExact("<bound>").head
+          val call       = bound.ast.isCall.nameExact("echo").head
+          call.dispatchType shouldBe io.shiftleft.codepropertygraph.generated.DispatchTypes.STATIC_DISPATCH
+          call.callee.astParentFullName.toSet shouldBe Set(
+            if (name.contains("Super")) base else cpg.typeDecl.nameExact("View").head.fullName
+          )
+        }
+        for (
+          name <- Seq(
+            "directSuper",
+            "tearoffSuper",
+            "invokeSuper",
+            "staticTearoff",
+            "extensionTearoff",
+            "extensionInvoke"
+          )
+        ) {
+          val method = cpg.method.nameExact(name).head
+          for (source <- Seq("input", "ignored")) {
+            withClue(s"$name $source") {
+              method.ast.isReturn
+                .reachableByFlows(method.parameter.nameExact(source))
+                .nonEmpty shouldBe (source == "input")
+            }
+          }
+        }
+        cpg.method
+          .nameExact("staticTearoff")
+          .head
+          .ast
+          .isCall
+          .nameExact("callback")
+          .callee
+          .astParentFullName
+          .toSet shouldBe Set(base)
+        cpg.method.nameExact("extensionSetter").head.ast.isCall.nameExact("write").dispatchType.l shouldBe
+          List(io.shiftleft.codepropertygraph.generated.DispatchTypes.STATIC_DISPATCH)
+        val virtual = cpg.method.nameExact("virtual").head.ast.isCall.nameExact("echo").head
+        virtual.dispatchType shouldBe io.shiftleft.codepropertygraph.generated.DispatchTypes.DYNAMIC_DISPATCH
+        virtual.callee.astParentFullName.toSet shouldBe Set(base, cpg.typeDecl.nameExact("Derived").head.fullName)
+      }
+    }
     "retain instantiated generic tear-off types, source and stable aliases" in {
       fixture(
         Files.readString(frontend.resolve("src/test/resources/semantics/generic_tearoffs.dart")),
@@ -523,19 +592,19 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         }) shouldBe true
       }
     }
-    "expose receiver-field detours in a list callback witness" in {
+    "retain list callback flow with statically selected superclass targets" in {
       fixture(Files.readString(frontend.resolve("src/test/resources/semantics/field_witness.dart")), "void main() {}") {
         (cpg, _) =>
           val method = cpg.method.nameExact("writeList").head
           val source = method.parameter.nameExact("items").head
           val paths  = method.call.nameExact("callback").argument(1).reachableByFlows(Iterator.single(source)).l
           paths.nonEmpty shouldBe true
-          paths.exists { path =>
-            val fields = path.elements.collect { case call: io.shiftleft.codepropertygraph.generated.nodes.Call =>
-              call.code
-            }.toSet
-            Set("first", "second", "third").subsetOf(fields) && path.elements.count(_ == source) > 1
-          } shouldBe true
+          for ((owner, target) <- Seq("Fields" -> "Base", "Derived" -> "Fields")) {
+            val call =
+              cpg.typeDecl.nameExact(owner).method.nameExact("write").call.codeExact("super.write(writer)").head
+            call.dispatchType shouldBe io.shiftleft.codepropertygraph.generated.DispatchTypes.STATIC_DISPATCH
+            call.callee.astParentFullName.toSet shouldBe Set(cpg.typeDecl.nameExact(target).head.fullName)
+          }
       }
     }
     "expose read-only parameter output detours without mixing separate calls" in {

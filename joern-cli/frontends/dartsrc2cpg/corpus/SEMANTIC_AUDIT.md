@@ -692,6 +692,41 @@ holdouts, staged packaging, four CLI integration tests and fourteen console test
 All twelve refreshed reports share one current source fingerprint and exporter
 0.3.17. Graph baselines, endpoint checks and limitations are unchanged.
 
+## Selected super and extension targets
+
+Superclass calls, accessors and operators previously used virtual dispatch,
+allowing subclass overrides to become targets of `super`. Bound superclass and
+extension tear-offs also invoked their selected members virtually. These now
+retain static targets. Known function-value calls select their function value;
+ordinary instance tear-off wrappers still invoke the captured receiver virtually.
+Static tear-offs cannot select subclass static shadows. `super` keeps a REF to
+the same `this` receiver with the analyzer's superclass static type. Generated
+enum superclass conversions retain their existing concrete helper identities.
+
+This uses the same static-versus-virtual distinction as Java's call lowering.
+The implementation changes are entirely within the Dart frontend; shared call
+graph behavior and other language frontends are unchanged. Graph regressions
+check selected target sets, ordinary virtual override controls, getter/setter and
+operator value flow, bound invocation and first-versus-ignored argument isolation.
+The SDK oracle exercises bounded inputs and independent implementation traces.
+Covariant/generic override signatures, synthetic field-accessor overrides and
+application-specific mixin superclass selection remain separate obligations.
+
+The earlier `field_witness.dart` regression required a longest witness through
+all three subclass fields. That route depended on virtual `super.write` links
+back into subclass implementations. The updated regression checks correct Base
+and Fields superclass links while retaining the legitimate list-element/callback
+dependency. Historical transition snapshots keep their original source/version
+provenance; they do not certify current routes. General receiver-field and
+parameter-output precision remain open.
+
+Validation passes: Dart analyze, all 91 native tests with VM/web and Flutter
+checks enabled, the refreshed inventory test, all 143 frontend/package tests,
+all three applications, both holdouts, staged packaging, four CLI integration
+tests and fourteen console tests. All twelve refreshed reports share one current
+source fingerprint and exporter 0.3.17. Graph baselines, reaching-definition
+counts, endpoint checks and limitations are unchanged.
+
 ## Explicit generic tear-offs and stable function aliases
 
 Explicit generic function references previously discarded their instantiated
