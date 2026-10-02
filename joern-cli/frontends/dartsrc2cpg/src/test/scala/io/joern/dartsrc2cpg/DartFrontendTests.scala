@@ -3450,8 +3450,58 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         dynamic.ast.isCall.nameExact("moveNext").methodFullName.l shouldBe List("<unresolved>.moveNext")
         dynamic.ast.isCall.nameExact("<operator>.iterator").size shouldBe 1
         val asynchronous = cpg.method.nameExact("asyncLoop").head
-        asynchronous.ast.isCall.nameExact("<operator>.streamIterator").size shouldBe 1
-        asynchronous.ast.isCall.nameExact("moveNext").methodFullName.l shouldBe List("<unresolved>.moveNext")
+        asynchronous.ast.isCall.nameExact("<operator>.streamIterator").size shouldBe 0
+        asynchronous.ast.isCall.nameExact("moveNext").methodFullName.head should startWith("dart:async/stream.dart#")
+      }
+    }
+    "resolve implicit async iteration through the SDK protocol and retain current types" in {
+      fixture(
+        Files.readString(frontend.resolve("src/test/resources/semantics/async_iteration_members.dart")),
+        "void main() {}",
+        dataflow = false
+      ) { (cpg, _) =>
+        cpg.unknown.size shouldBe 0
+        for (name <- Seq("typed", "symbolic", "bounded", "wrapped", "patterned", "dynamicSource")) {
+          val method      = cpg.method.nameExact(name).head
+          val calls       = method.ast.isCall.l
+          val constructor = calls.filter(_.methodFullName.contains(":CONSTRUCTOR:new"))
+          constructor.size shouldBe 1
+          constructor.head.methodFullName should startWith("dart:async/stream.dart#")
+          constructor.head.dispatchType shouldBe "STATIC_DISPATCH"
+          constructor.head.argument.l.map(_.argumentIndex) shouldBe List(1)
+          for (member <- Seq("moveNext", "current", "cancel")) {
+            val call = calls.filter(_.name == member)
+            call.size shouldBe 1
+            call.head.methodFullName should startWith("dart:async/stream.dart#")
+            call.head.callee.fullName.l shouldBe List(call.head.methodFullName)
+            call.head.argument.l.map(_.argumentIndex) shouldBe List(0)
+            call.head
+              .argument(0)
+              .asInstanceOf[io.shiftleft.codepropertygraph.generated.nodes.Identifier]
+              .refOut
+              .isLocal
+              .size shouldBe 1
+          }
+          calls.count(_.name == "<operator>.await") shouldBe 2
+          calls.count(_.name == "<operator>.streamIterator") shouldBe 0
+        }
+        val current = cpg.method.nameExact("symbolic").ast.isCall.nameExact("current").head
+        current.typeFullName should include(":TYPE_PARAMETER:T")
+        current.typeFullName shouldBe cpg.method.nameExact("symbolic").ast.isTypeDecl.nameExact("T").fullName.head
+        current.typeFullName should not be current.callee.methodReturn.typeFullName.head
+        cpg.method
+          .nameExact("typed", "bounded")
+          .ast
+          .isCall
+          .nameExact("current")
+          .typeFullName
+          .l
+          .distinct should have size 1
+        cpg.method.nameExact("wrapped").ast.isCall.nameExact("current").typeFullName.head should include(
+          ":EXTENSION_TYPE:Value"
+        )
+        cpg.method.nameExact("patterned").ast.isCall.nameExact("current").typeFullName.head shouldBe "(String, int)"
+        cpg.method.nameExact("dynamicSource").ast.isCall.nameExact("current").typeFullName.head shouldBe "dynamic"
       }
     }
     "cancel await-for iterators through abrupt exits and retain local continues" in {
@@ -3517,7 +3567,7 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         cpg.annotation.nameExact("generator").size shouldBe 2
         cpg.call.nameExact("<operator>.await").size shouldBe 3
         cpg.call.nameExact("<operator>.yield", "<operator>.yieldAll").size shouldBe 3
-        cpg.call.nameExact("<operator>.streamIterator").size shouldBe 1
+        cpg.call.methodFullName("dart:async/stream[.]dart.*:CONSTRUCTOR:new").size shouldBe 1
         cpg.controlStructure.controlStructureTypeExact("WHILE").size shouldBe 1
       }
     }
@@ -4003,7 +4053,7 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         val coverage = ujson.read(Files.readString(report))
         coverage("includedFiles").num shouldBe 0
         coverage("stringConversionOrder").str shouldBe "after-expression-evaluation"
-        coverage("exporter")("exporterVersion").str shouldBe "0.3.27"
+        coverage("exporter")("exporterVersion").str shouldBe "0.3.28"
         coverage("exporter")("sdkVersion").str shouldBe "3.9.2"
         coverage("exporter")("analyzerVersion").str shouldBe "8.4.1"
         Files.writeString(dir.resolve("excluded.dart"), "void excluded() {}")
@@ -4023,7 +4073,7 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         "offsetEncoding"  -> "utf-16",
         "analyzerVersion" -> "8.4.1",
         "sdkVersion"      -> "3.9.2",
-        "exporterVersion" -> "0.3.27"
+        "exporterVersion" -> "0.3.28"
       )
       intercept[IllegalArgumentException](ExportProtocol.units(Seq(valid)))
       intercept[IllegalArgumentException](

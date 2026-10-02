@@ -7,7 +7,7 @@ unsupported protocol versions, and unsupported analyzer/exporter versions before
 constructing a graph. The Scala consumer validates the protocol, analyzer, SDK and offset encoding
 before constructing a graph. Exporter 0.3 adds modern-language fields to protocol 1.
 
-The header declares `protocolVersion` (1), `exporterVersion` (0.3.27),
+The header declares `protocolVersion` (1), `exporterVersion` (0.3.28),
 `analyzerVersion` (8.4.1), `sdkVersion` (3.9.2), and `offsetEncoding` (`utf-16`).
 No timestamps or checkout root are emitted. The exporter builds records one file
 at a time; the analyzer may retain project state internally.
@@ -281,9 +281,8 @@ an interface reached through declared or promoted type-parameter bounds, records
 separately from the generic declaration symbol. `currentType` and `currentTypeId`
 retain the instantiated getter result independently of its generic declaration
 return type. Bound traversal detects repeated types; nullable, dynamic and
-unbounded non-iterable receivers omit these facts. Dynamic receivers and
-asynchronous iteration omit these facts; their synthetic SDK operations are
-unresolved. Runtime substitutions and iterator payload/heap effects are outside
+unbounded non-iterable receivers omit these facts. Dynamic synchronous receivers omit these facts; their synthetic SDK operations
+are unresolved. Asynchronous iteration has the separate SDK protocol contract below. Runtime substitutions and iterator payload/heap effects are outside
 this exported target contract.
 
 Iteration member lookup also follows a type-parameter iterator getter return
@@ -342,3 +341,23 @@ saved results and per-use cached getter extraction. Record/function result
 identities do not acquire guessed class erasures. This metadata does not
 establish runtime generic checks, implicit failure payloads or complete pattern
 CFG/value-flow behavior.
+
+
+## Async iteration protocol (0.3.28)
+
+Asynchronous `ForEachParts` with a known `Stream<E>` interface, including bounds
+and implemented extension-type interfaces, records `iteratorConstructor` for the
+SDK `StreamIterator` factory and `moveNextTarget`, `currentTarget`, `cancelTarget`
+for its protocol members. Dynamic sources retain the SDK protocol with dynamic
+payloads. Lookup uses the SDK library identity rather than source import names.
+Invalid non-stream types omit these facts and retain their analyzer diagnostics.
+`iteratorType`/`iteratorTypeId` and `currentType`/`currentTypeId` describe the
+instantiated static results; getter declarations retain their own generic scopes.
+Optional `currentErasedTypeId` remains a dispatch constraint, not a heap identity.
+
+The frontend uses a static factory call with the stream at argument one, saves
+its result once, reads `current` once per iteration and awaits `moveNext` and
+`cancel`. Existing awaited cleanup routing applies to abrupt body exits. This is
+a graph representation of the SDK iterator protocol, not a claim that compilers
+emit those literal calls. It does not model stream subscription delivery, scheduling,
+implicit dynamic type-check payloads or runtime instance/generic environments.

@@ -36,6 +36,59 @@ void main() {
   tearDown(() => project.deleteSync(recursive: true));
 
   test(
+    'async loops retain SDK protocol targets and instantiated current types',
+    () async {
+      write(
+        'async_iteration_members.dart',
+        File(
+          '../src/test/resources/semantics/async_iteration_members.dart',
+        ).readAsStringSync(),
+      );
+      final unit = units(await export()).single;
+      expect(unit['status'], 'resolved');
+      final symbols = {
+        for (final symbol in entries(unit, 'symbols')) symbol['id']: symbol,
+      };
+      final loops = entries(
+        unit,
+        'nodes',
+      ).where((node) => node['kind'] == 'ForEachParts').toList();
+      expect(loops, hasLength(6));
+      for (final loop in loops) {
+        for (final (key, name, kind) in [
+          ('iteratorConstructor', 'new', 'CONSTRUCTOR'),
+          ('moveNextTarget', 'moveNext', 'METHOD'),
+          ('currentTarget', 'current', 'GETTER'),
+          ('cancelTarget', 'cancel', 'METHOD'),
+        ]) {
+          final member = symbols[loop[key]];
+          expect(member?['name'], name, reason: '$key: $loop');
+          expect(member?['kind'], kind);
+          expect(member?['id'], startsWith('dart:async/stream.dart#'));
+          expect(symbols[member?['owner']]?['name'], 'StreamIterator');
+        }
+        expect(loop.containsKey('iteratorTarget'), isFalse);
+      }
+      expect(loops[0]['iteratorType'], 'StreamIterator<String>');
+      expect(loops[0]['currentType'], 'String');
+      final parameter = symbols[loops[1]['currentTypeId']]!;
+      expect(parameter['kind'], 'TYPE_PARAMETER');
+      expect(parameter['name'], 'T');
+      expect(symbols[parameter['owner']]!['name'], 'symbolic');
+      expect(
+        loops[1]['currentTypeId'],
+        isNot(symbols[loops[1]['currentTarget']]!['returnTypeId']),
+      );
+      expect(loops[2]['currentType'], 'String');
+      expect(loops[3]['currentType'], 'Value<String>');
+      expect(symbols[loops[3]['currentTypeId']]!['name'], 'Value');
+      expect(symbols[loops[3]['currentErasedTypeId']]!['name'], 'String');
+      expect(loops[4]['currentType'], '(String, int)');
+      expect(loops[5]['currentType'], 'dynamic');
+    },
+  );
+
+  test(
     'pattern refinements retain successful result types and erasures',
     () async {
       for (final name in [
@@ -149,11 +202,12 @@ void main() {
     expect(loops[0]['iteratorType'], 'Cursor<String>');
     expect(loops[3]['iteratorType'], 'Cursor<(String, String)>');
     expect(loops[4]['iteratorType'], 'Iterator<String>');
-    for (final loop in loops.skip(5)) {
-      expect(loop.containsKey('iteratorTarget'), isFalse);
-      expect(loop.containsKey('moveNextTarget'), isFalse);
-      expect(loop.containsKey('currentTarget'), isFalse);
-    }
+    expect(loops[5].containsKey('iteratorTarget'), isFalse);
+    expect(loops[5].containsKey('moveNextTarget'), isFalse);
+    expect(loops[5].containsKey('currentTarget'), isFalse);
+    expect(loops[6].containsKey('iteratorTarget'), isFalse);
+    expect(loops[6]['iteratorConstructor'], startsWith('dart:async/stream.dart#'));
+    expect(loops[6]['currentType'], 'String');
   });
 
   test('outer extension map results avoid static operator guesses', () async {
@@ -659,7 +713,12 @@ Future<void> asynchronous<T extends Stream<String>>(T values) async {
         'nodes',
       ).where((node) => node['kind'] == 'ForEachParts').toList();
       expect(loops, hasLength(9));
-      for (final loop in loops) {
+      expect(
+        loops.last['iteratorConstructor'],
+        startsWith('dart:async/stream.dart#'),
+      );
+      expect(loops.last['currentType'], 'String');
+      for (final loop in loops.take(8)) {
         for (final key in [
           'iteratorTarget',
           'moveNextTarget',

@@ -158,10 +158,10 @@ analyzer-selected iterator getter, moveNext method and current getter. The
 substituted iterator static type filters the observed implementation union;
 this does not identify the runtime receiver instance. Declared, assigned,
 collection and record-pattern loop forms have target and native member-order
-controls. Pattern loops save current once before destructuring. Dynamic receivers,
-type-parameter receivers without exported iteration targets and asynchronous SDK
-iteration retain explicit unresolved boundaries; generic runtime substitutions,
-iterator heap effects and element payload dataflow remain unqualified.
+controls. Pattern loops save current once before destructuring. Dynamic synchronous
+receivers and receivers without exported iteration targets retain unresolved
+boundaries. Async iteration uses the SDK protocol described below; generic runtime
+substitutions, iterator heap effects and element payload dataflow remain unqualified.
 Short-circuit boolean operators use Joern's standard logical operators.
 
 The added exception routing, lexical capture, nested block-value and constant-field
@@ -294,10 +294,18 @@ exact slots, duplicate set membership or map-key overwrites across iterations.
 
 Async/generator methods carry `dart.async`/`dart.generator` annotations. Await,
 yield and yield* become `<operator>.await`, `.yield` and `.yieldAll`. Await-for
-uses `<operator>.streamIterator` and a WHILE whose moveNext is awaited, followed
-by current extraction and the source body. These are source-order CFGs: no
-suspension/resumption graph, iterator cancellation/finalization, event scheduling,
-isolate or framework lifecycle analysis is inferred. See
+uses the SDK `StreamIterator` factory for known stream interfaces and dynamic
+sources, saves its result once and awaits the resolved moveNext before reading
+current and entering the body. Current results retain their instantiated scoped,
+wrapper or record identity independently of the generic getter declaration. The
+factory has the stream at argument one; protocol members use the same saved
+receiver at argument zero. Source import/name shadows cannot capture these SDK
+targets. Invalid non-stream interfaces keep diagnostics and unresolved operations.
+The loop sits inside awaited cancel cleanup, preserving existing abrupt-exit
+routing. This protocol representation does not claim literal compiler-generated
+calls, a suspension/resumption graph, subscription delivery, event scheduling,
+isolate or framework lifecycle analysis. Implicit dynamic checks and unavailable
+SDK exception payloads retain the existing limitations. See
 [runtime summary requirements](RUNTIME_SUMMARIES.md) for effects not provided by
 syntax lowering.
 

@@ -23,7 +23,7 @@ import 'package:analyzer/source/line_info.dart';
 import 'package:path/path.dart' as p;
 
 const protocolVersion = 1;
-const exporterVersion = '0.3.27';
+const exporterVersion = '0.3.28';
 const analyzerVersion = '8.4.1';
 const supportedSdkVersion = '3.9.2';
 
@@ -1557,38 +1557,69 @@ class _UnitEncoder {
         ForElement(:final awaitKeyword) => awaitKeyword != null,
       };
       final iterable = interfaceBound(ast.iterable.staticType);
-      if (!asynchronous && iterable != null) {
+      InterfaceType? iteratorInterface;
+      DartType? iteratorType;
+      if (asynchronous) {
+        final provider = analysisLibrary?.typeProvider;
+        final stream = provider == null
+            ? null
+            : iterable?.asInstanceOf(provider.streamElement);
+        final elementType =
+            stream?.typeArguments.single ??
+            (ast.iterable.staticType is DynamicType
+                ? provider?.dynamicType
+                : null);
+        final iteratorClass = provider?.streamElement.library.getClass(
+          'StreamIterator',
+        );
+        if (elementType != null && iteratorClass != null) {
+          // Use the SDK protocol, independent of source imports and name shadows.
+          iteratorInterface = iteratorClass.instantiate(
+            typeArguments: [elementType],
+            nullabilitySuffix: NullabilitySuffix.none,
+          );
+          iteratorType = iteratorInterface;
+          record['iteratorConstructor'] = symbol(
+            iteratorClass.unnamedConstructor,
+          );
+          record['cancelTarget'] = symbol(
+            iteratorInterface.lookUpMethod('cancel', iteratorClass.library),
+          );
+        }
+      } else if (iterable != null) {
         final iterator = iterable.lookUpGetter(
           'iterator',
           iterable.element.library,
         );
-        final iteratorType = iterator?.returnType;
-        final iteratorInterface = interfaceBound(iteratorType);
+        iteratorType = iterator?.returnType;
+        iteratorInterface = interfaceBound(iteratorType);
         if (iterator != null && iteratorInterface != null) {
           record['iteratorTarget'] = symbol(iterator);
-          record['iteratorType'] = iteratorType!.getDisplayString();
-          record['iteratorTypeId'] = typeId(iteratorType);
-          final iteratorErasure = erasedTypeId(iteratorType);
-          if (iteratorErasure != null) {
-            record['iteratorErasedTypeId'] = iteratorErasure;
-          }
-          record['moveNextTarget'] = symbol(
-            iteratorInterface.lookUpMethod(
-              'moveNext',
-              iteratorInterface.element.library,
-            ),
-          );
-          final current = iteratorInterface.lookUpGetter(
-            'current',
+        }
+      }
+      if (iteratorType != null && iteratorInterface != null) {
+        record['iteratorType'] = iteratorType.getDisplayString();
+        record['iteratorTypeId'] = typeId(iteratorType);
+        final iteratorErasure = erasedTypeId(iteratorType);
+        if (iteratorErasure != null) {
+          record['iteratorErasedTypeId'] = iteratorErasure;
+        }
+        record['moveNextTarget'] = symbol(
+          iteratorInterface.lookUpMethod(
+            'moveNext',
             iteratorInterface.element.library,
-          );
-          record['currentTarget'] = symbol(current);
-          record['currentType'] = current?.returnType.getDisplayString();
-          record['currentTypeId'] = typeId(current?.returnType);
-          final currentErasure = erasedTypeId(current?.returnType);
-          if (currentErasure != null) {
-            record['currentErasedTypeId'] = currentErasure;
-          }
+          ),
+        );
+        final current = iteratorInterface.lookUpGetter(
+          'current',
+          iteratorInterface.element.library,
+        );
+        record['currentTarget'] = symbol(current);
+        record['currentType'] = current?.returnType.getDisplayString();
+        record['currentTypeId'] = typeId(current?.returnType);
+        final currentErasure = erasedTypeId(current?.returnType);
+        if (currentErasure != null) {
+          record['currentErasedTypeId'] = currentErasure;
         }
       }
     }

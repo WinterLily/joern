@@ -26,7 +26,7 @@ complete language-rule matrix or executable-oracle obligations.
 
 [qualification-matrix.json](qualification-matrix.json) assigns seven stage cells
 to all 175 visitors, 195 base sections and thirty feature documents. Shared visitor
-profiles and partial case contracts link 120 named graph, exporter and native tests, with file hashes and
+profiles and partial case contracts link 124 named graph, exporter and native tests, with file hashes and
 explicit assertion scopes. `tested-conservative` describes those selected tests;
 it does not qualify every visitor using the profile. Generic declaration/bound
 checks remain `structural-only`, and untested CFG cells remain `unqualified`.
@@ -48,7 +48,7 @@ iterator, moveNext and current targets for statically known interface receivers,
 including generic iterator return types, existing loop variables and record
 collection patterns. Native traces cover getter/method order and empty iteration.
 Receiver filtering excludes unrelated iterator implementations from concrete
-receivers. Dynamic and asynchronous boundaries remain unresolved. Complete CFG,
+receivers. Dynamic synchronous boundaries remain unresolved; the async protocol contract below qualifies selected SDK targets. Complete CFG,
 payload, heap and runtime type qualification remain separate obligations.
 
 The upstream manifest now contains six adapted SDK cases. The two synchronous
@@ -259,3 +259,14 @@ states stop only when the remaining depth budget has not increased. Call stacks,
 fields, exception channels and pending storage exits remain distinct. These graph
 controls do not qualify source lowering, runtime recursion, cyclic witness
 enumeration or general heap/callback behavior.
+
+
+The `async-iteration-protocol` case checks the SDK `StreamIterator` factory,
+moveNext/current/cancel identities for typed, bounded, wrapped, record and dynamic
+stream sources. Scoped current-result identities remain separate from generic
+getter declarations. A local `StreamIterator` class does not capture implicit SDK
+operations. Native controls compare implicit loops and explicit protocol iteration
+for independent inputs, source/event order and error/stack identity, including empty
+streams and a dynamic non-stream failure. These bounded controls do not supply a
+subscription, scheduling or runtime heap model; full payload/CFG qualification
+remains open. Existing awaited cancellation controls retain their separate scope.

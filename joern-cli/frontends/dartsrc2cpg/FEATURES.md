@@ -1,6 +1,6 @@
 # Dart and Flutter feature matrix
 
-Tested with Dart 3.9.2, analyzer 8.4.1, exporter 0.3.27 and Flutter 3.35.3
+Tested with Dart 3.9.2, analyzer 8.4.1, exporter 0.3.28 and Flutter 3.35.3
 (framework revision `a402d9a437`). “Parsed” means explicit exporter nodes rather
 than UNKNOWN. Resolution uses existing package configuration and SDK resources.
 Dataflow claims below refer to the OSS engine with default semantics, not Dart
@@ -21,7 +21,7 @@ execution or exhaustive language conformance.
 | Class modifiers | Yes | Source plus `dart.*` annotations; ABSTRACT/FINAL where applicable | Analyzer checks validity | Not a dataflow feature |
 | Collection spreads and if/for elements | Yes | Ordered operands, null guards, conditional/loop CFGs | Loop local/pattern references | Explicit accumulator updates and nested-loop value flow; exact slots, deduplication and key overwrites conservative |
 | Async functions and await | Yes | `dart.async` annotation, await value operator | Direct callee identity | Direct async value return/await positive and constant negative |
-| Sync/async generators, yield/yield*, await-for | Yes | Generator annotation, yield operators, stream iterator with awaited moveNext | Source types and calls | Structural only; no producer-to-consumer stream flow claim |
+| Sync/async generators, yield/yield*, await-for | Yes | Generator annotation, yield operators, stream iterator with awaited moveNext | Source types; implicit SDK iterator factory/moveNext/current/cancel targets | Awaited cancellation CFG and bounded typed/generic/wrapped/record/dynamic execution controls; no producer-to-consumer stream flow claim |
 | Workspaces and multiple packages | Yes | Existing sources across package contexts | Package configuration, cross-package calls, single-file export context | Cross-package and generated-part forwarding |
 | Language versions | Yes | Effective version exported per unit; diagnostics retained | Package version and `// @dart` override; disabled-feature error | Not a dataflow feature |
 | Conditional imports/exports | Yes | Original code plus selected URI | Explicit VM/web SDK environments and analyzer default, selected target | Distinct selected implementation flows and constant alternatives |

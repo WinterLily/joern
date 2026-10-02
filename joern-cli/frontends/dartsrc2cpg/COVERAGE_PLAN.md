@@ -152,6 +152,15 @@ resolution, generic runtime
 substitutions and iterator element/heap flows remain
 open; this partial qualification does not close the loop rules or any gate.
 
+Async for-in now retains the SDK StreamIterator factory/moveNext/current/cancel
+protocol identities for known streams and dynamic sources. Factory input and saved
+receiver slots remain distinct; current types preserve scoped generics, wrappers
+and records before matching. Local name shadows, non-stream dynamic failures and
+independent source/error/stack controls exercise selected contracts. Existing
+awaited cancellation checks remain in force. Subscription delivery, scheduling,
+implicit check payloads, generic runtime environments and heap/value-flow
+qualification stay open.
+
 ## What completion means
 
 Define completion against a pinned Dart language version, supported SDK/analyzer
@@ -322,7 +331,7 @@ remain references; separately adapted manifest cases have explicit valid/diagnos
 classifications and bounded execution tests. Existing
 per-stage semantic qualifications are unchanged. The [qualification matrix](conformance/qualification-matrix.json)
 now assigns all visitor, base-section and feature-document rows seven explicit
-stage cells, with 120 named test links and stale-evidence checks. Shared profiles
+stage cells, with 124 named test links and stale-evidence checks. Shared profiles
 describe selected assertions; complete specification rules retain unqualified
 obligations. Rule-specific test mapping and broader executable traces remain unfinished.
 The asynchronous for-in rule now has a partial cancellation contract, with native

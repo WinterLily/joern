@@ -1813,7 +1813,18 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
           val name        = string(variable, "name")
           val iterable    = expression(child(parts, "iterable"))
           val iterator    =
-            if (string(parts, "iteratorTarget").nonEmpty) {
+            if (string(parts, "iteratorConstructor").nonEmpty) {
+              val out = located(
+                NewCall()
+                  .name("<init>")
+                  .methodFullName(string(parts, "iteratorConstructor"))
+                  .code(code(syntax))
+                  .typeFullName(string(parts, "iteratorTypeId"))
+                  .dispatchType(DispatchTypes.STATIC_DISPATCH),
+                syntax
+              )
+              args(out, Seq(iterable), Seq(1))
+            } else if (string(parts, "iteratorTarget").nonEmpty) {
               val invocation = patternMember(syntax, string(parts, "iteratorTarget"), "iterator", Seq(iterable))
               invocation.root.collect { case value: NewCall =>
                 value.typeFullName = string(parts, "iteratorTypeId")
@@ -1861,7 +1872,7 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
                   operator(
                     syntax,
                     "<operator>.await",
-                    Seq(call(syntax, "<unresolved>.moveNext", "moveNext", None, Some(ref())))
+                    Seq(patternMember(syntax, string(parts, "moveNextTarget"), "moveNext", Seq(ref())))
                   )
                 else patternMember(syntax, string(parts, "moveNextTarget"), "moveNext", Seq(ref())),
                 block(syntax, Seq(assign) ++ loopBody(syntax))
@@ -1878,7 +1889,7 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
                     operator(
                       syntax,
                       "<operator>.await",
-                      Seq(call(syntax, "<unresolved>.cancel", "cancel", None, Some(ref())))
+                      Seq(patternMember(syntax, string(parts, "cancelTarget"), "cancel", Seq(ref())))
                     )
                   )
                 )
