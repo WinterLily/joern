@@ -147,9 +147,8 @@ target, receiver-isolation and native member-order controls. Pattern loops save
 current once before destructuring. Static lookup now follows declared/promoted
 type-parameter bounds and retains instantiated current-result types separately
 from generic declarations. Iterator getter return bounds now supply member lookup
-without replacing symbolic iterator results or receivers. Dynamic and async SDK
-resolution, generic runtime
-substitutions and iterator element/heap flows remain
+without replacing symbolic iterator results or receivers. Dynamic synchronous
+lookup, generic runtime substitutions and iterator element/heap flows remain
 open; this partial qualification does not close the loop rules or any gate.
 
 Async for-in now retains the SDK StreamIterator factory/moveNext/current/cancel
@@ -159,7 +158,12 @@ and records before matching. Local name shadows, non-stream dynamic failures and
 independent source/error/stack controls exercise selected contracts. Existing
 awaited cancellation checks remain in force. Subscription delivery, scheduling,
 implicit check payloads, generic runtime environments and heap/value-flow
-qualification stay open.
+qualification stay open. The [saved protocol review](corpus/async-iteration-protocol-review.json)
+checks all seventeen historical async loops across twelve freshly generated graphs,
+with unchanged structural counts. SDK source evidence distinguishes LocalSend's
+Flutter 3.24.5 embedded library from Dart 3.9.2 and Saber's Flutter 3.35.3 library.
+Full native/frontend suites and both bounded audit configurations pass; all eighteen
+changed witness selections have complete dispositions. All completion gates remain open.
 
 ## What completion means
 
@@ -249,19 +253,19 @@ stock paths and 117 modeled paths with unchanged endpoint outcomes. The
 in the three distinct Shelf/YAML paths, with same-budget positive controls for
 both isolation queries. Eight modeled negative searches elsewhere remain
 inconclusive. Additional sequences are not necessarily new semantic route families.
-The [analyzer review](corpus/analyzer-alternative-review.json) classifies 478
-transitions across 16 distinct paths, retaining readonly argument-output,
+The [analyzer review](corpus/analyzer-alternative-review.json) classifies 360
+transitions across 14 distinct paths, retaining readonly argument-output,
 receiver/field, external-read and caller detours as approximations rather than
 exact runtime provenance. Direct uint32 high-byte binding and fork offset
 assignment now have mixed-byte/flush-boundary and shared-byte/independent-offset
 execution controls.
-The [Sass review](corpus/sass-alternative-review.json) classifies all 400
-transitions across 25 distinct paths for its eleven queries. Direct parser
+The [Sass review](corpus/sass-alternative-review.json) classifies all 346
+transitions across 23 distinct paths for its eleven queries. Direct parser
 forwarding, readonly output detours, substring argument effects and callback
 approximations have separate dispositions; limited negative searches remain
 inconclusive.
 The [LocalSend/Saber review](corpus/applications-alternative-review.json)
-classifies 621 transitions across 51 distinct paths for all twenty-two queries.
+classifies 662 transitions across 52 distinct paths for all twenty-two queries.
 Certificate/callback, readonly caller-output, MapEntry/collection and worker
 receiver detours retain their approximation status. Native controls exercise the
 pinned URI helper class, filename extension and Base64 codec; they do not execute
@@ -278,9 +282,9 @@ those exercised graph/model budgets, with runtime/heap absence and omitted
 cyclic witnesses still outside the claim.
 
 The [path/async/http_parser review](corpus/package-flows-alternative-review.json)
-classifies all 1,136 transitions in 40 distinct paths for its fifteen queries.
-The complete audit retains 248 selected paths sharing 149 distinct routes and
-2,694 classified transitions across all eighty queries. Endpoint identities,
+classifies all 1,104 transitions in 39 distinct paths for its fifteen queries.
+The complete audit retains 248 selected paths sharing 145 distinct routes and
+2,531 classified transitions across all eighty queries. Endpoint identities,
 caller re-entry, size/control detours and external effects retain their limitations;
 eight modeled negatives and omitted alternatives remain unqualified.
 The [Async depth follow-up](corpus/async-negative-depth-review.json) keeps the

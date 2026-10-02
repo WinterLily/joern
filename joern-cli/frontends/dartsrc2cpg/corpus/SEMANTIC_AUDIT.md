@@ -2765,3 +2765,81 @@ constructor input or default-trace case. General runtime heap, callback delivery
 omitted alternatives and all completion gates remain open. The scratch depth and
 cutoff runs each passed one test; the recorded observation contract and source/model
 hashes were checked before saving this review. No graph, model or search default changed.
+
+
+### Implicit async iteration SDK protocol qualification
+
+The [protocol review](async-iteration-protocol-review.json) checks all seventeen
+historical async-loop locations after graph reload across twelve fresh graphs.
+Each loop has one resolved StreamIterator factory, stream argument one and one
+saved iterator receiver. moveNext/current/cancel use receiver zero; moveNext and
+cancel retain awaited CFG successors. Instantiated current types are separate from
+generic declaration symbols. This is an SDK protocol representation contract;
+subscription delivery, scheduling, runtime generic environments, original payload
+provenance and heap identity remain unqualified.
+
+The analysis-source fingerprint is
+`6f52050025bd8a3d26a97ec9c086f4ce76e818dbf6a4dda679583d022a0f5193`
+over 417 files, with exporter 0.3.28. All twelve structural audits and default
+argument counts are unchanged. LocalSend resolves dart:async from Flutter 3.24.5's
+sky_engine embedder, whose source has different declaration offsets. Its source
+hash and embedder mapping are recorded separately. Saber Flutter 3.35.3's
+stream.dart matches the pinned Dart 3.9.2 source. Header sdkVersion identifies the
+requested SDK and does not certify the embedded library's source version.
+
+Native tests pass all 176 cases with every opt-in; the full frontend passes 183
+cases including Flutter, with eight opt-in audit cases canceled and exercised
+separately. All seven packages, three applications and two holdouts pass, as do
+four staged CLI and fourteen console checks. Four focused postchecks pass,
+including the seventeen-protocol census and an independently executed noSuchMethod
+diagnostic. That diagnostic exposes an unresolved forwarder and constant-handler
+false positive; its test success records the defect, not semantic correctness.
+Storage/local-exit evidence retains six paths/123 transitions and eleven/199.
+
+Two-witness package/application/holdout audits complete in
+186,136/52,307/35,201 ms, with sampled family peak RSS
+5,965,216/5,024,664/1,991,080 KiB. Four-witness audits complete in
+424,539/53,316/37,214 ms, with peaks 6,058,060/5,062,880/2,413,176 KiB.
+All category subprocesses complete inside 600,000 ms, including startup/loading;
+workers use 8 GiB heaps/four CPUs, parents 6 GiB/four CPUs, with family RSS sampled
+once per second. Other budgets and unbounded searches remain unqualified.
+
+Four-witness outcomes retain stock 78/80 and modeled 80/80. Stock retains
+120 visible/131 detailed paths and 42 limited queries; modeled retains 109/117
+and 41. All 248 selections are classified, sharing 145 distinct paths and 2,531
+transitions: Analyzer 14/360, Sass 23/346, LocalSend/Saber 52/662,
+args/collection/meta 14/40, Path/async/HTTP 39/1,104 and holdouts 3/19.
+Two-witness forwarding retains 25 selections/19 paths/607 transitions; the full
+summary retains stock 86 visible/89 detailed paths with 43 limited queries and
+modeled 81/83 with 42. Both summaries reproduce byte for byte. All eight default
+modeled negative searches remain inconclusive; historical Args/Async depth
+follow-ups keep their own frozen evidence and scope.
+
+Eighteen changed selections (fourteen four-witness/four two-witness) receive
+complete source-grounded dispositions. The filename-extension route includes a
+MapEntry value-two/key-one external detour, callback receiver/element value demand
+and readonly substring receiver output; original filename provenance and delivery
+remain unqualified. The normalize fast-return route retains selected helper callers,
+Posix/URL/Windows rootLength alternatives and a later empty caller context. It does
+not establish the executed style, branch or string mutation.
+
+HTTP stock copies retain range receiver zero -> computed end two -> skipCount
+four -> cursor/start one -> bytes three. Shorter alternatives omit allocation or
+CR/LF saved identifiers while preserving hidden receivers. Stock buffer copies
+retain bytes three -> receiver zero, readonly footer end two/start one/receiver
+zero and encoder caller re-entry first through bytes then end/header/allocation.
+Modeled buffers retain direct bytes three -> receiver zero and readonly footer
+receiver effects, with the same bytes-then-end re-entry order. Two-witness variants
+match the first two four-witness variants exactly. Every selected target, slot,
+context, output flag, edge label and field/storage demand remains in the reviewed
+facts. These external, readonly, range, dispatch and caller effects are conservative;
+they do not establish actual sink instances, feasible branches, repeated-call order,
+allocation identity or exact original byte provenance.
+
+All seven review validators pass their 87 rejection controls. Direct media capture
+retains two paths/six transitions. The matrix has 124 named test links and passes
+six tests/sixteen rejection controls; cached source verification/thirteen rejection
+controls and upstream cases/two tests/nine rejection controls also pass. Native
+analysis and formatting, Scala formatting and source-fingerprint checks pass.
+Omitted alternatives, limited negatives, noSuchMethod forwarding, full runtime/heap
+and release qualification remain open. All Gates 1–6 remain open.

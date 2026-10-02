@@ -92,7 +92,7 @@
       "exporter": {
         "record": "header",
         "protocolVersion": 1,
-        "exporterVersion": "0.3.27",
+        "exporterVersion": "0.3.28",
         "analyzerVersion": "8.4.1",
         "sdkVersion": "3.9.2",
         "offsetEncoding": "utf-16",
@@ -100,8 +100,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "1f040f4a93ab7bb9c69a7f145f56c16ec34cf13454d624ff6743689178a27839",
-        "files": 416,
+        "sha256": "6f52050025bd8a3d26a97ec9c086f4ce76e818dbf6a4dda679583d022a0f5193",
+        "files": 417,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -4341,7 +4341,7 @@
       "exporter": {
         "record": "header",
         "protocolVersion": 1,
-        "exporterVersion": "0.3.27",
+        "exporterVersion": "0.3.28",
         "analyzerVersion": "8.4.1",
         "sdkVersion": "3.9.2",
         "offsetEncoding": "utf-16",
@@ -4349,8 +4349,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "1f040f4a93ab7bb9c69a7f145f56c16ec34cf13454d624ff6743689178a27839",
-        "files": 416,
+        "sha256": "6f52050025bd8a3d26a97ec9c086f4ce76e818dbf6a4dda679583d022a0f5193",
+        "files": 417,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -5112,7 +5112,7 @@
       "exporter": {
         "record": "header",
         "protocolVersion": 1,
-        "exporterVersion": "0.3.27",
+        "exporterVersion": "0.3.28",
         "analyzerVersion": "8.4.1",
         "sdkVersion": "3.9.2",
         "offsetEncoding": "utf-16",
@@ -5120,8 +5120,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "1f040f4a93ab7bb9c69a7f145f56c16ec34cf13454d624ff6743689178a27839",
-        "files": 416,
+        "sha256": "6f52050025bd8a3d26a97ec9c086f4ce76e818dbf6a4dda679583d022a0f5193",
+        "files": 417,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -5254,7 +5254,7 @@
             "issue": "DART-FLOW-003",
             "owner": "shared dataflow query engine / Dart library models"
           },
-          "refreshDisposition": "Fresh stock two/four-witness 28/27-node paths carry input.length to _convert end slot 3, size/header arithmetic and Uint8List allocation, then saved CR/LF receiver aliases. Their range effects now select receiver 0 -> skipCount/start 4 -> bytes 3, omitting cursor/start 1 and computed end 2. Shorter variants omit the saved allocation, CR or LF identifier while preserving hidden receiver evidence; the two-witness paths exactly match the first two four-witness paths including metadata. Slots, targets, visibility/output flags, edge labels and empty stacks/field/storage demands are retained. Readonly length, allocation-size and cross-argument range effects are conservative; they do not establish original-byte copying, byte-element provenance, allocation identity or branch feasibility. Model-specific byte effects and bounded native content observations remain separate."
+          "refreshDisposition": "Fresh stock two/four-witness 30/29-node variants carry input.length into _convert end slot3, size/header arithmetic, Uint8List allocation and saved CR/LF receiver aliases. The final range effects select receiver0 -> computed end2 -> skipCount/start4 -> cursor/start1 -> bytes3 in that order. Three shorter four-witness variants omit the allocation, CR or LF saved identifier while preserving its hidden call/receiver evidence. The two-witness selections exactly match the first two four-witness paths, including all metadata. Field/storage demands and selected call stacks remain empty; targets, slots, edge labels and output/hidden flags are explicit. Size/header, readonly allocation and cross-argument range effects are conservative and do not establish original-byte copying, allocation identity or feasible execution. Existing model-specific byte effects and bounded native content observations remain separate."
         },
         {
           "id": "chunk-return-buffer",
@@ -5359,7 +5359,7 @@
             "issue": "DART-FLOW-003",
             "owner": "shared dataflow query engine / Dart library models"
           },
-          "refreshDisposition": "Fresh stock two/four-witness 74/73-node paths start in the addSlice _convert frame, retain byte slot 3 -> skipCount/start 4 -> setRange receiver 0, then readonly footer length/end 2 -> computed start 1 -> receiver 0. The output-marked return enters candidate _Sink.add: first re-entry selects chunk.length/end 3 with the _convert(chunk,0,chunk.length) frame through size/header/allocation; second selects chunk/bytes 1 and a final 3 -> 4 -> 0 copy. Cursor/start 1 and computed end 2 are omitted from byte copies. Shorter initial variants omit skipCount/start 4 or a saved CR/LF identifier while retaining hidden receivers. Modeled 61/60/59-node paths use direct byte 3 -> receiver 0, readonly footer receiver effects and header.codeUnits byte 3 -> receiver 0; first re-entry chooses end/header with its exact nested frame, second chooses bytes. Shorter modeled variants omit initial CR, LF or both identifiers with hidden receivers retained. Two-witness selections exactly match the first two four-witness paths including metadata. All core/decoder/encoder sink candidates, slots, targets, visibility/output flags, edge labels and empty field/storage demands remain explicit. These readonly, allocation, whole-buffer size/header, dispatch and caller effects do not establish actual sink instances, repeated-call order, feasible branches, allocation identity or original byte-element provenance. Independent native whole/slice/empty observations remain separately scoped."
+          "refreshDisposition": "Fresh stock two/four-witness 72/71-node routes start in the addSlice _convert frame and carry byte slot3 directly to setRange receiver0. Footer effects use readonly length/end2 -> computed start1 -> receiver0. The output-marked addSlice result enters the retained core/decoder/encoder sink union, selecting encoder _Sink.add: first re-entry uses bytes1 in the _convert(chunk,0,chunk.length) frame and repeats direct byte3 -> receiver0 plus footer effects; second re-entry uses chunk.length/end3 through size/header/allocation, CR/LF and footer returns. Three shorter stock four-witness variants omit the initial CR, LF or footer-length receiver/end2 evidence while preserving hidden receiver/arithmetic facts. Modeled 61/60/60/59-node variants use byte3 -> receiver0 and readonly footer receiver effects; first re-entry uses bytes1, second uses end3 followed by header.codeUnits byte3 -> receiver0. Shorter modeled variants omit initial CR, LF or both saved identifiers with hidden receivers retained. The two stock selections exactly match the first two four-witness paths including metadata. All selected frames, candidate unions, slots, edge labels, output/hidden flags and empty field/storage demands remain exact. Original byte-element provenance, actual sink/allocation/heap identity, feasible branches and repeated-call execution order remain unqualified; bounded native whole/slice/empty controls are separate."
         },
         {
           "id": "error-message-value",
@@ -5775,6 +5775,19 @@
             ]
           ]
         },
+        "30064771631": {
+          "label": "CALL",
+          "method": "package:http_parser/src/chunked_coding/encoder.dart#1792:FUNCTION:_convert",
+          "code": "cursor + end - start",
+          "line": 74,
+          "call": "30064771631",
+          "argumentsOf": [
+            [
+              "30064771630",
+              2
+            ]
+          ]
+        },
         "68719477252": {
           "label": "IDENTIFIER",
           "method": "package:http_parser/src/chunked_coding/encoder.dart#1792:FUNCTION:_convert",
@@ -5784,6 +5797,18 @@
             [
               "30064771630",
               4
+            ]
+          ]
+        },
+        "68719477247": {
+          "label": "IDENTIFIER",
+          "method": "package:http_parser/src/chunked_coding/encoder.dart#1792:FUNCTION:_convert",
+          "code": "cursor",
+          "line": 74,
+          "argumentsOf": [
+            [
+              "30064771630",
+              1
             ]
           ]
         },
@@ -5978,16 +6003,15 @@
             ]
           ]
         },
-        "30064771581": {
-          "label": "CALL",
+        "68719477197": {
+          "label": "IDENTIFIER",
           "method": "package:http_parser/src/chunked_coding/encoder.dart#1162:METHOD:add",
-          "code": "chunk.length",
+          "code": "chunk",
           "line": 38,
-          "call": "30064771581",
           "argumentsOf": [
             [
               "30064771580",
-              3
+              1
             ]
           ]
         },
@@ -6004,15 +6028,16 @@
             ]
           ]
         },
-        "68719477197": {
-          "label": "IDENTIFIER",
+        "30064771581": {
+          "label": "CALL",
           "method": "package:http_parser/src/chunked_coding/encoder.dart#1162:METHOD:add",
-          "code": "chunk",
+          "code": "chunk.length",
           "line": 38,
+          "call": "30064771581",
           "argumentsOf": [
             [
               "30064771580",
-              1
+              3
             ]
           ]
         },
@@ -6367,6 +6392,18 @@
           "callees": [
             {
               "fullName": "dart:core/list.dart#29446:METHOD:setRange",
+              "external": true
+            }
+          ]
+        },
+        "30064771631": {
+          "nodeId": "30064771631",
+          "name": "<operator>.subtraction",
+          "target": "<operator>.dart.subtraction",
+          "code": "cursor + end - start",
+          "callees": [
+            {
+              "fullName": "<operator>.dart.subtraction",
               "external": true
             }
           ]
@@ -6825,11 +6862,27 @@
               []
             ],
             [
+              "30064771631",
+              0,
+              true,
+              false,
+              "cursor + end - start",
+              []
+            ],
+            [
               "68719477252",
               0,
               true,
               false,
               "start",
+              []
+            ],
+            [
+              "68719477247",
+              0,
+              true,
+              false,
+              "cursor",
               []
             ],
             [
@@ -6867,6 +6920,8 @@
             "alias",
             "assignment",
             "alias",
+            "external-write",
+            "external-write",
             "external-write",
             "external-write"
           ]
@@ -7074,11 +7129,27 @@
               []
             ],
             [
+              "30064771631",
+              0,
+              true,
+              false,
+              "cursor + end - start",
+              []
+            ],
+            [
               "68719477252",
               0,
               true,
               false,
               "start",
+              []
+            ],
+            [
+              "68719477247",
+              0,
+              true,
+              false,
+              "cursor",
               []
             ],
             [
@@ -7115,6 +7186,8 @@
             "alias",
             "assignment",
             "alias",
+            "external-write",
+            "external-write",
             "external-write",
             "external-write"
           ]
@@ -7188,14 +7261,6 @@
               []
             ],
             [
-              "68719477252",
-              1,
-              true,
-              false,
-              "start",
-              []
-            ],
-            [
               "68719477246",
               1,
               true,
@@ -7324,7 +7389,7 @@
               []
             ],
             [
-              "30064771581",
+              "68719477197",
               0,
               true,
               false,
@@ -7332,179 +7397,19 @@
               []
             ],
             [
-              "111669149775",
+              "111669149773",
               2,
               true,
               false,
-              "end",
+              "bytes",
               []
             ],
             [
-              "68719477211",
-              2,
-              false,
-              false,
-              "end",
-              []
-            ],
-            [
-              "68719477215",
-              2,
-              false,
-              false,
-              "end",
-              []
-            ],
-            [
-              "30064771599",
+              "68719477251",
               2,
               true,
               false,
-              "end - start",
-              []
-            ],
-            [
-              "68719477214",
-              2,
-              true,
-              false,
-              "size",
-              []
-            ],
-            [
-              "68719477218",
-              2,
-              true,
-              false,
-              "size",
-              []
-            ],
-            [
-              "30064771601",
-              2,
-              true,
-              false,
-              "size.toRadixString(16)",
-              []
-            ],
-            [
-              "68719477217",
-              2,
-              true,
-              false,
-              "sizeInHex",
-              []
-            ],
-            [
-              "68719477223",
-              2,
-              true,
-              false,
-              "sizeInHex",
-              []
-            ],
-            [
-              "30064771612",
-              2,
-              false,
-              false,
-              "sizeInHex.length",
-              []
-            ],
-            [
-              "30064771611",
-              2,
-              false,
-              false,
-              "sizeInHex.length + 4",
-              []
-            ],
-            [
-              "30064771610",
-              2,
-              false,
-              false,
-              "sizeInHex.length + 4 + size",
-              []
-            ],
-            [
-              "30064771609",
-              2,
-              true,
-              false,
-              "sizeInHex.length + 4 + size + footerSize",
-              []
-            ],
-            [
-              "30064771608",
-              2,
-              true,
-              false,
-              "Uint8List(sizeInHex.length + 4 + size + footerSize)",
-              []
-            ],
-            [
-              "68719477222",
-              2,
-              true,
-              false,
-              "<tmp>4",
-              []
-            ],
-            [
-              "25769803906",
-              2,
-              true,
-              false,
-              "Uint8List(sizeInHex.length + 4 + size + footerSize)",
-              []
-            ],
-            [
-              "68719477221",
-              2,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477227",
-              2,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477233",
-              2,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477232",
-              2,
-              true,
-              false,
-              "<tmp>5",
-              []
-            ],
-            [
-              "68719477240",
-              2,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477239",
-              2,
-              true,
-              false,
-              "<tmp>7",
+              "bytes",
               []
             ],
             [
@@ -7636,7 +7541,7 @@
               []
             ],
             [
-              "68719477197",
+              "30064771581",
               0,
               true,
               false,
@@ -7644,27 +7549,179 @@
               []
             ],
             [
-              "111669149773",
+              "111669149775",
               0,
               true,
               false,
-              "bytes",
+              "end",
               []
             ],
             [
-              "68719477251",
+              "68719477211",
               0,
-              true,
               false,
-              "bytes",
+              false,
+              "end",
               []
             ],
             [
-              "68719477252",
+              "68719477215",
+              0,
+              false,
+              false,
+              "end",
+              []
+            ],
+            [
+              "30064771599",
               0,
               true,
               false,
-              "start",
+              "end - start",
+              []
+            ],
+            [
+              "68719477214",
+              0,
+              true,
+              false,
+              "size",
+              []
+            ],
+            [
+              "68719477218",
+              0,
+              true,
+              false,
+              "size",
+              []
+            ],
+            [
+              "30064771601",
+              0,
+              true,
+              false,
+              "size.toRadixString(16)",
+              []
+            ],
+            [
+              "68719477217",
+              0,
+              true,
+              false,
+              "sizeInHex",
+              []
+            ],
+            [
+              "68719477223",
+              0,
+              true,
+              false,
+              "sizeInHex",
+              []
+            ],
+            [
+              "30064771612",
+              0,
+              false,
+              false,
+              "sizeInHex.length",
+              []
+            ],
+            [
+              "30064771611",
+              0,
+              false,
+              false,
+              "sizeInHex.length + 4",
+              []
+            ],
+            [
+              "30064771610",
+              0,
+              false,
+              false,
+              "sizeInHex.length + 4 + size",
+              []
+            ],
+            [
+              "30064771609",
+              0,
+              true,
+              false,
+              "sizeInHex.length + 4 + size + footerSize",
+              []
+            ],
+            [
+              "30064771608",
+              0,
+              true,
+              false,
+              "Uint8List(sizeInHex.length + 4 + size + footerSize)",
+              []
+            ],
+            [
+              "68719477222",
+              0,
+              true,
+              false,
+              "<tmp>4",
+              []
+            ],
+            [
+              "25769803906",
+              0,
+              true,
+              false,
+              "Uint8List(sizeInHex.length + 4 + size + footerSize)",
+              []
+            ],
+            [
+              "68719477221",
+              0,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477227",
+              0,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477233",
+              0,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477232",
+              0,
+              true,
+              false,
+              "<tmp>5",
+              []
+            ],
+            [
+              "68719477240",
+              0,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477239",
+              0,
+              true,
+              false,
+              "<tmp>7",
               []
             ],
             [
@@ -7767,6 +7824,24 @@
           "transitions": [
             "parameter-read",
             "external-write",
+            "local-read",
+            "assignment",
+            "alias",
+            "assignment",
+            "alias",
+            "local-read",
+            "external-return",
+            "external-write",
+            "external-write",
+            "local-read",
+            "return-value",
+            "method-return",
+            "call-return",
+            "parameter-binding",
+            "parameter-read",
+            "local-read",
+            "parameter-binding",
+            "parameter-read",
             "external-write",
             "local-read",
             "assignment",
@@ -7807,26 +7882,6 @@
             "alias",
             "assignment",
             "alias",
-            "local-read",
-            "assignment",
-            "alias",
-            "assignment",
-            "alias",
-            "local-read",
-            "external-return",
-            "external-write",
-            "external-write",
-            "local-read",
-            "return-value",
-            "method-return",
-            "call-return",
-            "parameter-binding",
-            "parameter-read",
-            "local-read",
-            "parameter-binding",
-            "parameter-read",
-            "external-write",
-            "external-write",
             "local-read",
             "assignment",
             "alias",
@@ -7869,17 +7924,9 @@
             [
               "68719477258",
               1,
-              true,
+              false,
               false,
               "list",
-              []
-            ],
-            [
-              "68719477257",
-              1,
-              true,
-              false,
-              "<tmp>9",
               []
             ],
             [
@@ -7987,7 +8034,7 @@
               []
             ],
             [
-              "30064771581",
+              "68719477197",
               0,
               true,
               false,
@@ -7995,179 +8042,19 @@
               []
             ],
             [
-              "111669149775",
+              "111669149773",
               2,
               true,
               false,
-              "end",
+              "bytes",
               []
             ],
             [
-              "68719477211",
-              2,
-              false,
-              false,
-              "end",
-              []
-            ],
-            [
-              "68719477215",
-              2,
-              false,
-              false,
-              "end",
-              []
-            ],
-            [
-              "30064771599",
+              "68719477251",
               2,
               true,
               false,
-              "end - start",
-              []
-            ],
-            [
-              "68719477214",
-              2,
-              true,
-              false,
-              "size",
-              []
-            ],
-            [
-              "68719477218",
-              2,
-              true,
-              false,
-              "size",
-              []
-            ],
-            [
-              "30064771601",
-              2,
-              true,
-              false,
-              "size.toRadixString(16)",
-              []
-            ],
-            [
-              "68719477217",
-              2,
-              true,
-              false,
-              "sizeInHex",
-              []
-            ],
-            [
-              "68719477223",
-              2,
-              true,
-              false,
-              "sizeInHex",
-              []
-            ],
-            [
-              "30064771612",
-              2,
-              false,
-              false,
-              "sizeInHex.length",
-              []
-            ],
-            [
-              "30064771611",
-              2,
-              false,
-              false,
-              "sizeInHex.length + 4",
-              []
-            ],
-            [
-              "30064771610",
-              2,
-              false,
-              false,
-              "sizeInHex.length + 4 + size",
-              []
-            ],
-            [
-              "30064771609",
-              2,
-              true,
-              false,
-              "sizeInHex.length + 4 + size + footerSize",
-              []
-            ],
-            [
-              "30064771608",
-              2,
-              true,
-              false,
-              "Uint8List(sizeInHex.length + 4 + size + footerSize)",
-              []
-            ],
-            [
-              "68719477222",
-              2,
-              true,
-              false,
-              "<tmp>4",
-              []
-            ],
-            [
-              "25769803906",
-              2,
-              true,
-              false,
-              "Uint8List(sizeInHex.length + 4 + size + footerSize)",
-              []
-            ],
-            [
-              "68719477221",
-              2,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477227",
-              2,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477233",
-              2,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477232",
-              2,
-              true,
-              false,
-              "<tmp>5",
-              []
-            ],
-            [
-              "68719477240",
-              2,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477239",
-              2,
-              true,
-              false,
-              "<tmp>7",
+              "bytes",
               []
             ],
             [
@@ -8299,7 +8186,7 @@
               []
             ],
             [
-              "68719477197",
+              "30064771581",
               0,
               true,
               false,
@@ -8307,27 +8194,179 @@
               []
             ],
             [
-              "111669149773",
+              "111669149775",
               0,
               true,
               false,
-              "bytes",
+              "end",
               []
             ],
             [
-              "68719477251",
+              "68719477211",
               0,
-              true,
               false,
-              "bytes",
+              false,
+              "end",
               []
             ],
             [
-              "68719477252",
+              "68719477215",
+              0,
+              false,
+              false,
+              "end",
+              []
+            ],
+            [
+              "30064771599",
               0,
               true,
               false,
-              "start",
+              "end - start",
+              []
+            ],
+            [
+              "68719477214",
+              0,
+              true,
+              false,
+              "size",
+              []
+            ],
+            [
+              "68719477218",
+              0,
+              true,
+              false,
+              "size",
+              []
+            ],
+            [
+              "30064771601",
+              0,
+              true,
+              false,
+              "size.toRadixString(16)",
+              []
+            ],
+            [
+              "68719477217",
+              0,
+              true,
+              false,
+              "sizeInHex",
+              []
+            ],
+            [
+              "68719477223",
+              0,
+              true,
+              false,
+              "sizeInHex",
+              []
+            ],
+            [
+              "30064771612",
+              0,
+              false,
+              false,
+              "sizeInHex.length",
+              []
+            ],
+            [
+              "30064771611",
+              0,
+              false,
+              false,
+              "sizeInHex.length + 4",
+              []
+            ],
+            [
+              "30064771610",
+              0,
+              false,
+              false,
+              "sizeInHex.length + 4 + size",
+              []
+            ],
+            [
+              "30064771609",
+              0,
+              true,
+              false,
+              "sizeInHex.length + 4 + size + footerSize",
+              []
+            ],
+            [
+              "30064771608",
+              0,
+              true,
+              false,
+              "Uint8List(sizeInHex.length + 4 + size + footerSize)",
+              []
+            ],
+            [
+              "68719477222",
+              0,
+              true,
+              false,
+              "<tmp>4",
+              []
+            ],
+            [
+              "25769803906",
+              0,
+              true,
+              false,
+              "Uint8List(sizeInHex.length + 4 + size + footerSize)",
+              []
+            ],
+            [
+              "68719477221",
+              0,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477227",
+              0,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477233",
+              0,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477232",
+              0,
+              true,
+              false,
+              "<tmp>5",
+              []
+            ],
+            [
+              "68719477240",
+              0,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477239",
+              0,
+              true,
+              false,
+              "<tmp>7",
               []
             ],
             [
@@ -8431,6 +8470,24 @@
             "parameter-read",
             "external-write",
             "local-read",
+            "local-read",
+            "assignment",
+            "alias",
+            "local-read",
+            "external-return",
+            "external-write",
+            "external-write",
+            "local-read",
+            "return-value",
+            "method-return",
+            "call-return",
+            "parameter-binding",
+            "parameter-read",
+            "local-read",
+            "parameter-binding",
+            "parameter-read",
+            "external-write",
+            "local-read",
             "assignment",
             "alias",
             "assignment",
@@ -8469,26 +8526,6 @@
             "alias",
             "assignment",
             "alias",
-            "local-read",
-            "assignment",
-            "alias",
-            "assignment",
-            "alias",
-            "local-read",
-            "external-return",
-            "external-write",
-            "external-write",
-            "local-read",
-            "return-value",
-            "method-return",
-            "call-return",
-            "parameter-binding",
-            "parameter-read",
-            "local-read",
-            "parameter-binding",
-            "parameter-read",
-            "external-write",
-            "external-write",
             "local-read",
             "assignment",
             "alias",
@@ -9815,7 +9852,7 @@
   ],
   "representation": "Node/call IDs and context/path indices are project-local. transitions[i] classifies elements[i] to elements[i+1]. All retained demand sets in this review are empty. Equivalent stock/modeled paths are shared; full path flags and selected caller contexts are preserved.",
   "reviewMethod": "Each selected displayed route was read against its pinned source expectation. Formal argument positions, resolved return targets and available selected frames were checked. Argument-output return evidence already in a caller frame has a separate category. This is a mechanism/approximation review, not branch feasibility, general scheduling or heap qualification.",
-  "analysisBaseCommit": "26106d895",
+  "analysisBaseCommit": "fca1bca35",
   "limitations": [
     "Only these seven query families and their returned bounded paths are reviewed; other corpus alternatives and larger searches remain pending.",
     "An endpoint identity is recorded separately from independent forwarding; conservative argument outputs, aggregate projections and external effects do not prove mutation, allocation identity, callback delivery or branch feasibility.",
@@ -9828,11 +9865,11 @@
     "distinctTransitions": 607
   },
   "refresh": {
-    "previousBaseCommit": "ae35e62f7",
+    "previousBaseCommit": "15e98ad62",
     "previousAnalysisSources": {
       "algorithm": "sha256-path-nul-content-nul",
-      "sha256": "fd6a6a8215cf5d7d63c58415c5c25d246071ed89f0f3113d8aa0b9f80cc29eaa",
-      "files": 415,
+      "sha256": "1f040f4a93ab7bb9c69a7f145f56c16ec34cf13454d624ff6743689178a27839",
+      "files": 416,
       "roots": [
         "joern-cli/frontends/dartsrc2cpg/src",
         "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -9856,9 +9893,9 @@
       "queries": 7,
       "selectedPaths": 25,
       "distinctPaths": 19,
-      "distinctTransitions": 647
+      "distinctTransitions": 607
     },
-    "method": "Replayed after stopping equivalent Dart recursive task states when the preceding state had at least as much remaining depth. Sink, selected call stack, output channel, field demand and pending storage exits remain distinct; foreign behavior is unchanged. Previous two/four-witness routes match after removing graph node IDs only; all other node/call/context/flag/demand facts remain intact. Changed variants have separate pinned-source dispositions and checked argument/return/output bindings. Cyclic routes are not enumerated. Fresh graph IDs and exact query limitations are retained. Runtime recursion, heap identity, callback delivery, omitted alternatives and limited negatives remain unqualified"
+    "method": "Replayed after resolving the implicit SDK StreamIterator factory/moveNext/current/cancel protocol and preserving instantiated current-result identities. Source name shadows cannot capture SDK operations; dynamic streams use dynamic payloads. Previous two/four-witness routes match after removing graph node IDs only; all other node/call/context/flag/demand facts remain intact. Changed variants require separate pinned-source dispositions and checked argument/return/output bindings. Fresh graph IDs and exact query limitations are retained. Subscription delivery, scheduling, runtime generic/heap identity, omitted alternatives and limited negatives remain unqualified"
   },
   "nativeRefreshScope": "Existing native oracle contracts remain unchanged."
 }

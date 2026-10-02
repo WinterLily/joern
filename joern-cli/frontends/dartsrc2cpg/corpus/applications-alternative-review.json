@@ -113,7 +113,7 @@
       "exporter": {
         "record": "header",
         "protocolVersion": 1,
-        "exporterVersion": "0.3.27",
+        "exporterVersion": "0.3.28",
         "analyzerVersion": "8.4.1",
         "sdkVersion": "3.9.2",
         "offsetEncoding": "utf-16",
@@ -121,8 +121,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "1f040f4a93ab7bb9c69a7f145f56c16ec34cf13454d624ff6743689178a27839",
-        "files": 416,
+        "sha256": "6f52050025bd8a3d26a97ec9c086f4ce76e818dbf6a4dda679583d022a0f5193",
+        "files": 417,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -1151,7 +1151,7 @@
                 20,
                 21,
                 22,
-                23
+                24
               ]
             }
           },
@@ -1180,7 +1180,7 @@
             "issue": "DART-FLOW-005",
             "owner": "shared dataflow query engine / Dart library models"
           },
-          "refreshDisposition": "The changed four-witness modeled 42-node route retains the initial saved name interpolation, method return and caller-output into MapEntry value argument 2, then crosses to key argument 1 and returns the constructor result through the applyCounter callback METHOD_REF. Output-marked callback argument 1 feeds the mapIndexed receiver slot 0 with value demand; callback element then re-enters withFileNameKeepExtension via element.value receiver slot 0. The extension getter follows external lastIndexOf result, hidden comparison/index addition and substring bound slot 1 -> receiver slot 0, then toLowerCase and getter return, saved extension interpolation and return. Original caller and getter frames, hidden/output flags, edge labels and the value demand are retained; storage demands are empty. Source mapIndexed lazily calls convert(index, this[index]); this route is conservative constructor argument mixing and callback-result/collection feedback, not an executed MapEntry key dependency, String mutation, receiver identity, callback schedule or repeated-call ordering. The bounded filename oracle remains separate from Flutter state/callback execution. No causal relation to pattern refinements is asserted."
+          "refreshDisposition": "The fresh modeled 42-node route begins in the selected withFileNameKeepExtension name argument, retains interpolation temporaries/blocks and returns to MapEntry value slot2. It crosses to key slot1 under external constructor effects, returns the entry through the callback METHOD_REF to mapIndexed receiver0, and re-enters the callback element with a value field demand. Its element.value supplies the extension-method receiver, then lastIndexOf/substring-start/readonly substring receiver and toLowerCase returns supply the extension interpolation and final return. Exact selected frames, single value demand, output/hidden flags and edge labels are retained; storage demands are empty. Actual interpolation/helper returns are grounded. MapEntry key/value coupling, callback/collection receiver re-entry, substring argument effects and readonly/caller detours remain approximations. No original filename provenance through this route, callback timing, receiver/heap identity or branch feasibility is claimed; independently executed pure filename controls are separate."
         },
         {
           "id": "save-name-not-stream-control",
@@ -1223,8 +1223,8 @@
               "sinks": 1,
               "distinctEndpoints": true,
               "pathIndices": [
-                24,
-                25
+                25,
+                26
               ]
             },
             "modeled": {
@@ -1263,8 +1263,8 @@
               "sinks": 1,
               "distinctEndpoints": true,
               "pathIndices": [
-                24,
-                25
+                25,
+                26
               ]
             }
           },
@@ -6567,6 +6567,393 @@
         {
           "elements": [
             [
+              "111669182756",
+              3,
+              true,
+              false,
+              "fileNameWithoutExt",
+              []
+            ],
+            [
+              "68719556707",
+              3,
+              true,
+              false,
+              "fileNameWithoutExt",
+              []
+            ],
+            [
+              "68719556706",
+              3,
+              true,
+              false,
+              "<tmp>3",
+              []
+            ],
+            [
+              "68719556710",
+              3,
+              false,
+              false,
+              "<tmp>3",
+              []
+            ],
+            [
+              "30064865514",
+              3,
+              false,
+              false,
+              "'$fileNameWithoutExt.$extension'",
+              []
+            ],
+            [
+              "30064865513",
+              3,
+              true,
+              false,
+              "'$fileNameWithoutExt.$extension'",
+              []
+            ],
+            [
+              "25769850741",
+              3,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "25769850740",
+              3,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "141733948185",
+              3,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "124554079226",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "30064864378",
+              0,
+              true,
+              true,
+              "element.value.withFileNameKeepExtension('$prefix$number')",
+              []
+            ],
+            [
+              "30064864377",
+              0,
+              true,
+              false,
+              "element.key",
+              []
+            ],
+            [
+              "30064864376",
+              0,
+              true,
+              false,
+              "MapEntry(element.key, element.value.withFileNameKeepExtension('$prefix$number'))",
+              []
+            ],
+            [
+              "68719555739",
+              0,
+              true,
+              false,
+              "<tmp>20",
+              []
+            ],
+            [
+              "25769850430",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "141733948101",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "124554079114",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "120259085151",
+              0,
+              true,
+              true,
+              "(index, element) {\n      String number = (index + 1).toString();\n      if (padZero) {\n        number.padLeft(maxKeyStringLength, '0');\n      }\n      return MapEntry(element.key, element.value.withFileNameKeepExtension('$prefix$number'));\n    }",
+              []
+            ],
+            [
+              "68719555719",
+              0,
+              true,
+              false,
+              "",
+              [
+                "value"
+              ]
+            ],
+            [
+              "111669182601",
+              0,
+              true,
+              false,
+              "element",
+              [
+                "value"
+              ]
+            ],
+            [
+              "30064864379",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "111669182755",
+              0,
+              true,
+              false,
+              "this",
+              []
+            ],
+            [
+              "68719556709",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "111669182753",
+              4,
+              true,
+              false,
+              "this",
+              []
+            ],
+            [
+              "68719556701",
+              4,
+              true,
+              false,
+              "this",
+              []
+            ],
+            [
+              "30064865501",
+              4,
+              true,
+              false,
+              "lastIndexOf('.')",
+              []
+            ],
+            [
+              "68719556700",
+              4,
+              true,
+              false,
+              "index",
+              []
+            ],
+            [
+              "68719556702",
+              4,
+              false,
+              false,
+              "index",
+              []
+            ],
+            [
+              "68719556704",
+              4,
+              false,
+              false,
+              "index",
+              []
+            ],
+            [
+              "30064865506",
+              4,
+              true,
+              false,
+              "index + 1",
+              []
+            ],
+            [
+              "68719556703",
+              4,
+              true,
+              false,
+              "this",
+              []
+            ],
+            [
+              "30064865505",
+              4,
+              true,
+              false,
+              "substring(index + 1)",
+              []
+            ],
+            [
+              "30064865504",
+              4,
+              true,
+              false,
+              "substring(index + 1).toLowerCase()",
+              []
+            ],
+            [
+              "141733948182",
+              4,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "124554079224",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "30064865512",
+              0,
+              true,
+              true,
+              "extension",
+              []
+            ],
+            [
+              "68719556708",
+              0,
+              true,
+              false,
+              "<tmp>4",
+              []
+            ],
+            [
+              "68719556711",
+              0,
+              false,
+              false,
+              "<tmp>4",
+              []
+            ],
+            [
+              "30064865513",
+              0,
+              true,
+              false,
+              "'$fileNameWithoutExt.$extension'",
+              []
+            ],
+            [
+              "25769850741",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "25769850740",
+              0,
+              true,
+              false,
+              "'$fileNameWithoutExt.$extension'",
+              []
+            ],
+            [
+              "141733948185",
+              0,
+              true,
+              false,
+              "",
+              []
+            ]
+          ],
+          "transitions": [
+            "parameter-read",
+            "assignment",
+            "local-read",
+            "operator-value",
+            "operator-value",
+            "block-result",
+            "block-result",
+            "return-value",
+            "method-return",
+            "call-return",
+            "external-write",
+            "external-return",
+            "assignment",
+            "block-result",
+            "return-value",
+            "method-return",
+            "callback-result",
+            "callback-effect",
+            "callback-parameter",
+            "field-projection",
+            "receiver-binding",
+            "parameter-read",
+            "receiver-binding",
+            "parameter-read",
+            "external-return",
+            "assignment",
+            "local-read",
+            "local-read",
+            "operator-value",
+            "external-write",
+            "external-return",
+            "external-return",
+            "return-value",
+            "method-return",
+            "call-return",
+            "assignment",
+            "local-read",
+            "operator-value",
+            "block-result",
+            "block-result",
+            "return-value"
+          ]
+        },
+        {
+          "elements": [
+            [
               "111669182978",
               0,
               true,
@@ -6700,7 +7087,7 @@
       "exporter": {
         "record": "header",
         "protocolVersion": 1,
-        "exporterVersion": "0.3.27",
+        "exporterVersion": "0.3.28",
         "analyzerVersion": "8.4.1",
         "sdkVersion": "3.9.2",
         "offsetEncoding": "utf-16",
@@ -6708,8 +7095,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "1f040f4a93ab7bb9c69a7f145f56c16ec34cf13454d624ff6743689178a27839",
-        "files": 416,
+        "sha256": "6f52050025bd8a3d26a97ec9c086f4ce76e818dbf6a4dda679583d022a0f5193",
+        "files": 417,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -11531,7 +11918,7 @@
   ],
   "representation": "Node/call IDs and context/path indices are project-local. transitions[i] classifies elements[i] to elements[i+1]. Field demands are preserved; retained storage-demand sets are empty. Equivalent stock/modeled paths are shared; full path flags and selected caller contexts are preserved.",
   "reviewMethod": "Each selected displayed route was read against its pinned source expectation. Formal argument positions, resolved return targets and available selected frames were checked. Argument-output return evidence already in a caller frame has a separate category. This is a mechanism/approximation review, not branch feasibility, general scheduling or heap qualification.",
-  "analysisBaseCommit": "26106d895",
+  "analysisBaseCommit": "fca1bca35",
   "limitations": [
     "Only these twenty-two LocalSend/Saber query families and their returned bounded paths are reviewed; other corpus alternatives and larger searches remain pending.",
     "An endpoint identity is recorded separately from independent forwarding; conservative argument outputs, aggregate projections and external effects do not prove mutation, allocation identity, callback delivery or branch feasibility.",
@@ -11540,15 +11927,15 @@
   "totals": {
     "queries": 22,
     "selectedPaths": 84,
-    "distinctPaths": 51,
-    "distinctTransitions": 621
+    "distinctPaths": 52,
+    "distinctTransitions": 662
   },
   "refresh": {
-    "previousBaseCommit": "ae35e62f7",
+    "previousBaseCommit": "15e98ad62",
     "previousAnalysisSources": {
       "algorithm": "sha256-path-nul-content-nul",
-      "sha256": "fd6a6a8215cf5d7d63c58415c5c25d246071ed89f0f3113d8aa0b9f80cc29eaa",
-      "files": 415,
+      "sha256": "1f040f4a93ab7bb9c69a7f145f56c16ec34cf13454d624ff6743689178a27839",
+      "files": 416,
       "roots": [
         "joern-cli/frontends/dartsrc2cpg/src",
         "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -11572,9 +11959,9 @@
       "queries": 22,
       "selectedPaths": 84,
       "distinctPaths": 51,
-      "distinctTransitions": 634
+      "distinctTransitions": 621
     },
-    "method": "Replayed after stopping equivalent Dart recursive task states when the preceding state had at least as much remaining depth. Sink, selected call stack, output channel, field demand and pending storage exits remain distinct; foreign behavior is unchanged. Previous two/four-witness routes match after removing graph node IDs only; all other node/call/context/flag/demand facts remain intact. Changed variants have separate pinned-source dispositions and checked argument/return/output bindings. Cyclic routes are not enumerated. Fresh graph IDs and exact query limitations are retained. Runtime recursion, heap identity, callback delivery, omitted alternatives and limited negatives remain unqualified"
+    "method": "Replayed after resolving the implicit SDK StreamIterator factory/moveNext/current/cancel protocol and preserving instantiated current-result identities. Source name shadows cannot capture SDK operations; dynamic streams use dynamic payloads. Previous two/four-witness routes match after removing graph node IDs only; all other node/call/context/flag/demand facts remain intact. Changed variants require separate pinned-source dispositions and checked argument/return/output bindings. Fresh graph IDs and exact query limitations are retained. Subscription delivery, scheduling, runtime generic/heap identity, omitted alternatives and limited negatives remain unqualified"
   },
   "nativeRefreshScope": "Existing native oracle contracts remain unchanged."
 }

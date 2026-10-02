@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "analysisSources": {
     "algorithm": "sha256-path-nul-content-nul",
-    "sha256": "1f040f4a93ab7bb9c69a7f145f56c16ec34cf13454d624ff6743689178a27839",
-    "files": 416,
+    "sha256": "6f52050025bd8a3d26a97ec9c086f4ce76e818dbf6a4dda679583d022a0f5193",
+    "files": 417,
     "roots": [
       "joern-cli/frontends/dartsrc2cpg/src",
       "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -28,33 +28,33 @@
   "resources": [
     {
       "category": "packages",
-      "elapsedMillis": 426511,
+      "elapsedMillis": 424539,
       "exitCode": 0,
       "outcome": "completed",
       "budgetMillis": 600000,
-      "peakSampledFamilyRssKiB": 6440032,
+      "peakSampledFamilyRssKiB": 6058060,
       "workerHeapBytes": 8589934592,
       "workerProcessors": 4,
       "budgetScope": "Whole sbt subprocess including startup, graph loading and queries; process family sampled once per second."
     },
     {
       "category": "applications",
-      "elapsedMillis": 53315,
+      "elapsedMillis": 53316,
       "exitCode": 0,
       "outcome": "completed",
       "budgetMillis": 600000,
-      "peakSampledFamilyRssKiB": 5735804,
+      "peakSampledFamilyRssKiB": 5062880,
       "workerHeapBytes": 8589934592,
       "workerProcessors": 4,
       "budgetScope": "Whole sbt subprocess including startup, graph loading and queries; process family sampled once per second."
     },
     {
       "category": "holdout",
-      "elapsedMillis": 37208,
+      "elapsedMillis": 37214,
       "exitCode": 0,
       "outcome": "completed",
       "budgetMillis": 600000,
-      "peakSampledFamilyRssKiB": 2188068,
+      "peakSampledFamilyRssKiB": 2413176,
       "workerHeapBytes": 8589934592,
       "workerProcessors": 4,
       "budgetScope": "Whole sbt subprocess including startup, graph loading and queries; process family sampled once per second."
@@ -81,7 +81,7 @@
       "exporter": {
         "record": "header",
         "protocolVersion": 1,
-        "exporterVersion": "0.3.27",
+        "exporterVersion": "0.3.28",
         "analyzerVersion": "8.4.1",
         "sdkVersion": "3.9.2",
         "offsetEncoding": "utf-16",
@@ -89,8 +89,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "1f040f4a93ab7bb9c69a7f145f56c16ec34cf13454d624ff6743689178a27839",
-        "files": 416,
+        "sha256": "6f52050025bd8a3d26a97ec9c086f4ce76e818dbf6a4dda679583d022a0f5193",
+        "files": 417,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -187,21 +187,21 @@
                 "witness-alternatives"
               ],
               "visibleLengths": [
-                31,
-                31,
                 30,
+                30,
+                29,
                 28
               ],
               "detailedLengths": [
-                31,
-                31,
                 30,
+                30,
+                29,
                 28
               ],
               "twoWitnessDetailedPaths": 2,
-              "newDetailedSequences": 2,
-              "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "bc1fe3703e669832e2b40e750e9606b6d51ad07904d0a0cbffcd0a0fd6c6ad24"
+              "newDetailedSequences": 4,
+              "twoWitnessSequencesNotRetained": 2,
+              "detailedWitnessesSha256": "f240d05480a791dab69ffa12c86819361601017a612102dc555370e2ebec7dec"
             }
           },
           "semanticReview": "see package-flows-alternative-review.json; The source fast branch returns path unchanged. All four alternatives first leave readonly _needsNormalization outputs, select prettyUri normalize(fromUri(typedUri)), traverse relative/isRelative and re-enter normalize/rootLength. Alternatives change rootLength selected implementation, intermediate path reads or helper output visits. Full selected callers and output flags are retained. DART-FLOW-004 caller/output detours are not immutable String mutation or proven caller order; depth/held-round/pruning limits remain."
@@ -517,7 +517,7 @@
       "exporter": {
         "record": "header",
         "protocolVersion": 1,
-        "exporterVersion": "0.3.27",
+        "exporterVersion": "0.3.28",
         "analyzerVersion": "8.4.1",
         "sdkVersion": "3.9.2",
         "offsetEncoding": "utf-16",
@@ -525,8 +525,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "1f040f4a93ab7bb9c69a7f145f56c16ec34cf13454d624ff6743689178a27839",
-        "files": 416,
+        "sha256": "6f52050025bd8a3d26a97ec9c086f4ce76e818dbf6a4dda679583d022a0f5193",
+        "files": 417,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -1053,7 +1053,7 @@
       "exporter": {
         "record": "header",
         "protocolVersion": 1,
-        "exporterVersion": "0.3.27",
+        "exporterVersion": "0.3.28",
         "analyzerVersion": "8.4.1",
         "sdkVersion": "3.9.2",
         "offsetEncoding": "utf-16",
@@ -1061,8 +1061,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "1f040f4a93ab7bb9c69a7f145f56c16ec34cf13454d624ff6743689178a27839",
-        "files": 416,
+        "sha256": "6f52050025bd8a3d26a97ec9c086f4ce76e818dbf6a4dda679583d022a0f5193",
+        "files": 417,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -1719,7 +1719,7 @@
       "exporter": {
         "record": "header",
         "protocolVersion": 1,
-        "exporterVersion": "0.3.27",
+        "exporterVersion": "0.3.28",
         "analyzerVersion": "8.4.1",
         "sdkVersion": "3.9.2",
         "offsetEncoding": "utf-16",
@@ -1727,8 +1727,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "1f040f4a93ab7bb9c69a7f145f56c16ec34cf13454d624ff6743689178a27839",
-        "files": 416,
+        "sha256": "6f52050025bd8a3d26a97ec9c086f4ce76e818dbf6a4dda679583d022a0f5193",
+        "files": 417,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -2186,7 +2186,7 @@
       "exporter": {
         "record": "header",
         "protocolVersion": 1,
-        "exporterVersion": "0.3.27",
+        "exporterVersion": "0.3.28",
         "analyzerVersion": "8.4.1",
         "sdkVersion": "3.9.2",
         "offsetEncoding": "utf-16",
@@ -2194,8 +2194,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "1f040f4a93ab7bb9c69a7f145f56c16ec34cf13454d624ff6743689178a27839",
-        "files": 416,
+        "sha256": "6f52050025bd8a3d26a97ec9c086f4ce76e818dbf6a4dda679583d022a0f5193",
+        "files": 417,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -2627,7 +2627,7 @@
       "exporter": {
         "record": "header",
         "protocolVersion": 1,
-        "exporterVersion": "0.3.27",
+        "exporterVersion": "0.3.28",
         "analyzerVersion": "8.4.1",
         "sdkVersion": "3.9.2",
         "offsetEncoding": "utf-16",
@@ -2635,8 +2635,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "1f040f4a93ab7bb9c69a7f145f56c16ec34cf13454d624ff6743689178a27839",
-        "files": 416,
+        "sha256": "6f52050025bd8a3d26a97ec9c086f4ce76e818dbf6a4dda679583d022a0f5193",
+        "files": 417,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -2706,21 +2706,21 @@
                 "witness-alternatives"
               ],
               "visibleLengths": [
+                25,
                 23,
-                21,
-                21,
-                21
+                23,
+                23
               ],
               "detailedLengths": [
-                28,
-                27,
-                27,
-                27
+                30,
+                29,
+                29,
+                29
               ],
               "twoWitnessDetailedPaths": 2,
               "newDetailedSequences": 2,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "ce6432b8266c16715d0b44164636064fc496a19c1d247fa0b8cd3a9a7ec21573"
+              "detailedWitnessesSha256": "dff8d4f5fdc011a554acf5446c93719d16902ed7e992da41df57e247148eb372"
             },
             "modeled": {
               "paths": 1,
@@ -2791,21 +2791,21 @@
                 "witness-alternatives"
               ],
               "visibleLengths": [
-                69,
-                68,
                 67,
-                67
+                65,
+                65,
+                65
               ],
               "detailedLengths": [
-                74,
-                73,
-                73,
-                73
+                72,
+                71,
+                71,
+                71
               ],
               "twoWitnessDetailedPaths": 2,
               "newDetailedSequences": 2,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "71af38746c505840e9ce49084193b25d1a088b1d6ffe647ae3e469ddc54f3ca1"
+              "detailedWitnessesSha256": "8157f74b5a411403ae57c9f639619825048df561fed56bc68202217a5214126d"
             },
             "modeled": {
               "paths": 4,
@@ -2834,9 +2834,9 @@
                 59
               ],
               "twoWitnessDetailedPaths": 2,
-              "newDetailedSequences": 2,
-              "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "eaf6b4553f13a70d75fb9c865a4b09199f03faa7cb7946f0caa9d35844b26d5f"
+              "newDetailedSequences": 4,
+              "twoWitnessSequencesNotRetained": 2,
+              "detailedWitnessesSha256": "5a7ad96ed05695e687bc2a7be7e58b622138fda600486a0d054a9706d3e3b8d6"
             }
           },
           "semanticReview": "see package-flows-alternative-review.json; The source copies bytes into the returned list. Stock routes first use setRange byte-to-list effects, exit to selected add or addSlice caller and re-enter _convert through chunk length/header allocation or cursor/start effects. Modeled routes preserve bytes-to-list dependence but retain repeated _convert/add re-entry, add/addSlice choices and temporary variants. Full output flags and caller contexts are retained. None proves arbitrary caller order, allocation identity or exact destination slots; DART-FLOW-003/external/output approximations and depth/storage/pruning limits remain. Native whole/sliced/empty chunks check actual bytes, not these detours."
@@ -3091,7 +3091,7 @@
       "exporter": {
         "record": "header",
         "protocolVersion": 1,
-        "exporterVersion": "0.3.27",
+        "exporterVersion": "0.3.28",
         "analyzerVersion": "8.4.1",
         "sdkVersion": "3.9.2",
         "offsetEncoding": "utf-16",
@@ -3099,8 +3099,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "1f040f4a93ab7bb9c69a7f145f56c16ec34cf13454d624ff6743689178a27839",
-        "files": 416,
+        "sha256": "6f52050025bd8a3d26a97ec9c086f4ce76e818dbf6a4dda679583d022a0f5193",
+        "files": 417,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -3419,7 +3419,7 @@
               "twoWitnessDetailedPaths": 2,
               "newDetailedSequences": 2,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "04685a1d5fbadab78fa98cc7a4009e369ee31c890e9926a93147de994b037839"
+              "detailedWitnessesSha256": "ca557e51a195a611a4da629456365647d963bc8c3d9a2b74864227edd45c6050"
             },
             "modeled": {
               "paths": 4,
@@ -3648,7 +3648,7 @@
       "exporter": {
         "record": "header",
         "protocolVersion": 1,
-        "exporterVersion": "0.3.27",
+        "exporterVersion": "0.3.28",
         "analyzerVersion": "8.4.1",
         "sdkVersion": "3.9.2",
         "offsetEncoding": "utf-16",
@@ -3656,8 +3656,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "1f040f4a93ab7bb9c69a7f145f56c16ec34cf13454d624ff6743689178a27839",
-        "files": 416,
+        "sha256": "6f52050025bd8a3d26a97ec9c086f4ce76e818dbf6a4dda679583d022a0f5193",
+        "files": 417,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -4460,7 +4460,7 @@
               "twoWitnessDetailedPaths": 2,
               "newDetailedSequences": 2,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "25e39a31850ac82e2ed8cc6616851929a0f99f13fd7d85c72a7f722af2519f9b"
+              "detailedWitnessesSha256": "beb15db50ee10665771096d1caba44aa7152e4c8636984f6da18f34c47ccbeb9"
             }
           },
           "semanticReview": "see applications-alternative-review.json; The source interpolates the supplied name with the receiver extension. Four routes leave its scalar return to applyCounter, cross MapEntry value/key effects and callback METHOD_REF/collection feedback, then re-enter via element.value receiver and extension getter. External lastIndexOf/substring effects and callback/aggregate projections are conservative; different output-edge labels are retained. They do not prove MapEntry key independence, String mutation, exact map allocation or runtime caller order (DART-FLOW-004 / DART-FLOW-006 approximations)."
@@ -4577,7 +4577,7 @@
       "exporter": {
         "record": "header",
         "protocolVersion": 1,
-        "exporterVersion": "0.3.27",
+        "exporterVersion": "0.3.28",
         "analyzerVersion": "8.4.1",
         "sdkVersion": "3.9.2",
         "offsetEncoding": "utf-16",
@@ -4585,8 +4585,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "1f040f4a93ab7bb9c69a7f145f56c16ec34cf13454d624ff6743689178a27839",
-        "files": 416,
+        "sha256": "6f52050025bd8a3d26a97ec9c086f4ce76e818dbf6a4dda679583d022a0f5193",
+        "files": 417,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -5488,7 +5488,7 @@
       "exporter": {
         "record": "header",
         "protocolVersion": 1,
-        "exporterVersion": "0.3.27",
+        "exporterVersion": "0.3.28",
         "analyzerVersion": "8.4.1",
         "sdkVersion": "3.9.2",
         "offsetEncoding": "utf-16",
@@ -5496,8 +5496,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "1f040f4a93ab7bb9c69a7f145f56c16ec34cf13454d624ff6743689178a27839",
-        "files": 416,
+        "sha256": "6f52050025bd8a3d26a97ec9c086f4ce76e818dbf6a4dda679583d022a0f5193",
+        "files": 417,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -5972,12 +5972,12 @@
                 28
               ],
               "twoWitnessDetailedPaths": 2,
-              "newDetailedSequences": 3,
-              "twoWitnessSequencesNotRetained": 1,
+              "newDetailedSequences": 2,
+              "twoWitnessSequencesNotRetained": 0,
               "detailedWitnessesSha256": "562ad85650af9858a94b810567e1a02517e6bf01192ab03fe85f3ebdd0ecaef1"
             },
             "modeled": {
-              "paths": 4,
+              "paths": 2,
               "detailedPaths": 4,
               "outcome": "flow-observed",
               "passed": true,
@@ -5991,8 +5991,6 @@
               ],
               "visibleLengths": [
                 21,
-                20,
-                20,
                 21
               ],
               "detailedLengths": [
@@ -6004,7 +6002,7 @@
               "twoWitnessDetailedPaths": 2,
               "newDetailedSequences": 2,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "8850f3f1f895b68448f80a3c451dd59c72178a5b88f4b0159938d06f77f8b1ca"
+              "detailedWitnessesSha256": "562ad85650af9858a94b810567e1a02517e6bf01192ab03fe85f3ebdd0ecaef1"
             }
           },
           "semanticReview": "see sass-alternative-review.json; The source returns empty text for all-whitespace input or a substring between independently computed first/last bounds. The four returned paths traverse a readonly _firstNonWhitespace argument-output slot, _lastNonWhitespace length/index/return evidence, then external substring cross-argument effects from end to start to receiver. Those effects do not establish mutation of immutable String or integer arguments; the runtime preserves content and exercised ASCII/escape boundaries. Alternatives differ in local index visits or end-return branch. Call-depth, held-round and pruning diagnostics remain; empty-result feasibility is not inferred from the witness."
@@ -6267,7 +6265,7 @@
               "twoWitnessDetailedPaths": 2,
               "newDetailedSequences": 2,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "0976f4dbe31d0ae27d883b079cf4daef182067845d3d75db867e89e2b66c8007"
+              "detailedWitnessesSha256": "33b1a35c147b27c8edd9b3c8a81838f1065998081ff028efea22d4b2dd0516ea"
             },
             "modeled": {
               "paths": 1,
@@ -6416,7 +6414,7 @@
       "exporter": {
         "record": "header",
         "protocolVersion": 1,
-        "exporterVersion": "0.3.27",
+        "exporterVersion": "0.3.28",
         "analyzerVersion": "8.4.1",
         "sdkVersion": "3.9.2",
         "offsetEncoding": "utf-16",
@@ -6424,8 +6422,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "1f040f4a93ab7bb9c69a7f145f56c16ec34cf13454d624ff6743689178a27839",
-        "files": 416,
+        "sha256": "6f52050025bd8a3d26a97ec9c086f4ce76e818dbf6a4dda679583d022a0f5193",
+        "files": 417,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -6610,7 +6608,7 @@
       "exporter": {
         "record": "header",
         "protocolVersion": 1,
-        "exporterVersion": "0.3.27",
+        "exporterVersion": "0.3.28",
         "analyzerVersion": "8.4.1",
         "sdkVersion": "3.9.2",
         "offsetEncoding": "utf-16",
@@ -6618,8 +6616,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "1f040f4a93ab7bb9c69a7f145f56c16ec34cf13454d624ff6743689178a27839",
-        "files": 416,
+        "sha256": "6f52050025bd8a3d26a97ec9c086f4ce76e818dbf6a4dda679583d022a0f5193",
+        "files": 417,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",

@@ -206,7 +206,10 @@ void main() {
     expect(loops[5].containsKey('moveNextTarget'), isFalse);
     expect(loops[5].containsKey('currentTarget'), isFalse);
     expect(loops[6].containsKey('iteratorTarget'), isFalse);
-    expect(loops[6]['iteratorConstructor'], startsWith('dart:async/stream.dart#'));
+    expect(
+      loops[6]['iteratorConstructor'],
+      startsWith('dart:async/stream.dart#'),
+    );
     expect(loops[6]['currentType'], 'String');
   });
 

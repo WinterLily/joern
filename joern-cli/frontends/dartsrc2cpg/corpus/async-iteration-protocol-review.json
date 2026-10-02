@@ -1,0 +1,1362 @@
+{
+  "schemaVersion": 1,
+  "analysisBaseCommit": "fca1bca35",
+  "beforeAnalysisSources": {
+    "algorithm": "sha256-path-nul-content-nul",
+    "sha256": "1f040f4a93ab7bb9c69a7f145f56c16ec34cf13454d624ff6743689178a27839",
+    "files": 416,
+    "roots": [
+      "joern-cli/frontends/dartsrc2cpg/src",
+      "joern-cli/frontends/dartsrc2cpg/astgen/lib",
+      "joern-cli/frontends/dartsrc2cpg/astgen/bin",
+      "joern-cli/frontends/x2cpg/src/main",
+      "dataflowengineoss/src/main",
+      "semanticcpg/src/main",
+      "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.lock",
+      "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.yaml",
+      "joern-cli/frontends/dartsrc2cpg/build.sbt",
+      "joern-cli/frontends/x2cpg/build.sbt",
+      "joern-cli/build.sbt",
+      "dataflowengineoss/build.sbt",
+      "semanticcpg/build.sbt",
+      "build.sbt",
+      "project/Versions.scala",
+      "project/Projects.scala"
+    ]
+  },
+  "analysisSources": {
+    "algorithm": "sha256-path-nul-content-nul",
+    "sha256": "6f52050025bd8a3d26a97ec9c086f4ce76e818dbf6a4dda679583d022a0f5193",
+    "files": 417,
+    "roots": [
+      "joern-cli/frontends/dartsrc2cpg/src",
+      "joern-cli/frontends/dartsrc2cpg/astgen/lib",
+      "joern-cli/frontends/dartsrc2cpg/astgen/bin",
+      "joern-cli/frontends/x2cpg/src/main",
+      "dataflowengineoss/src/main",
+      "semanticcpg/src/main",
+      "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.lock",
+      "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.yaml",
+      "joern-cli/frontends/dartsrc2cpg/build.sbt",
+      "joern-cli/frontends/x2cpg/build.sbt",
+      "joern-cli/build.sbt",
+      "dataflowengineoss/build.sbt",
+      "semanticcpg/build.sbt",
+      "build.sbt",
+      "project/Versions.scala",
+      "project/Projects.scala"
+    ]
+  },
+  "sdk": "3.9.2",
+  "analyzer": "8.4.1",
+  "exporterVersion": "0.3.28",
+  "scope": "SDK protocol representation and instantiated current-result types, not literal compiler calls or producer-to-consumer payload/heap qualification.",
+  "implementation": "Use type-provider SDK library identities for StreamIterator factory and moveNext/current/cancel; derive E through the static Stream interface or use dynamic for a dynamic source. Save the factory result once, preserve slot1 versus receiver0, instantiate current results separately from generic declarations and retain current erasures for dispatch.",
+  "reducedEvidence": {
+    "files": [
+      {
+        "file": "astgen/test/exporter_test.dart",
+        "sha256": "8a02ab88b7832d4c292d107c971bd431c52fdddb58446d6e817f3a5ce1b020a2"
+      },
+      {
+        "file": "astgen/test/async_iteration_members_test.dart",
+        "sha256": "1397194147e2ccb5091964c9dce6bf94f5d30cb73b1929762cba172c6873b011"
+      },
+      {
+        "file": "src/test/resources/semantics/async_iteration_members.dart",
+        "sha256": "a9493634b3d15bd43a619ac68f156efd104d3b327c45f5b8fb2b331d8798acad"
+      },
+      {
+        "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
+        "sha256": "767e5e7615c4febdeee7eb7a121a4cd23b3fd60a3ec0184a513ea394817741e3"
+      }
+    ],
+    "baseline": "Exporter and Scala regressions fail on missing implicit factory/SDK targets before the fix; native controls pass independently.",
+    "tested": "Typed, caller-scoped generic, bounded, wrapped, record-pattern and dynamic sources with a local StreamIterator name shadow. Empty/one/two values, dynamic non-stream TypeError, independent source/event traces and exact error/stack identity compared with explicit SDK protocol execution. Existing delayed cancellation and abrupt-exit controls remain separate.",
+    "validation": "Native full suite 176 passed with all opt-ins; full frontend 183 passed including Flutter, with eight opt-in corpus/audit cases canceled and exercised separately in fresh corpus qualification. Matrix 124 named links with stale evidence/role checks."
+  },
+  "sdkEvidence": [
+    {
+      "id": "dart-3.9.2",
+      "file": "lib/async/stream.dart",
+      "sha256": "943b3e15fc52a542be066b810855479924a8e1f5c4db4d44d938d240e7cdb114",
+      "lines": [
+        [
+          2689,
+          2694
+        ],
+        [
+          2697,
+          2708
+        ],
+        [
+          2710,
+          2722
+        ],
+        [
+          2724,
+          2740
+        ]
+      ],
+      "reason": "Pinned Dart SDK declarations; Saber Flutter 3.35.3 sky_engine stream.dart has the same bytes. Factory source offset agrees with every non-LocalSend resolved protocol."
+    },
+    {
+      "id": "flutter-3.24.5-embedded",
+      "file": "bin/cache/pkg/sky_engine/lib/async/stream.dart",
+      "sha256": "9ccfcad334f78bf8e8efc83414e1df65c66b088c16f39a607b539548208880b5",
+      "lines": [
+        [
+          2588,
+          2593
+        ],
+        [
+          2596,
+          2607
+        ],
+        [
+          2609,
+          2621
+        ],
+        [
+          2623,
+          2639
+        ]
+      ],
+      "embedder": {
+        "file": "bin/cache/pkg/sky_engine/lib/_embedder.yaml",
+        "sha256": "7e5595e20e7aab9a186231323a5311c45c2c4df2a29baa0bb1dbc406821be9a0",
+        "mapping": "dart:async -> async/async.dart"
+      },
+      "reason": "LocalSend package configuration selects pinned Flutter 3.24.5 sky_engine embedded libraries. Its factory source offset agrees with all eight LocalSend protocols. Header sdkVersion records the requested SDK, not the embedded library source version; this API is reviewed separately."
+    }
+  ],
+  "comparison": "All twelve structural audits and default-argument counts are unchanged; all seventeen historical async-loop locations now carry resolved SDK protocol identities.",
+  "projects": [
+    {
+      "project": "path-1.9.1",
+      "category": "packages",
+      "source": {
+        "name": "path",
+        "version": "1.9.1",
+        "sha256": "75cca69d1490965be98c73ceaea117e8a04dd21217b37b292c9ddbec0d955bc5",
+        "librarySha256": "cede2d192680cbb05890ba6c26fed9a73b6fa9bc67365a1b7d79d13326c8f54f",
+        "probe": "normalize"
+      },
+      "exporter": {
+        "record": "header",
+        "protocolVersion": 1,
+        "exporterVersion": "0.3.28",
+        "analyzerVersion": "8.4.1",
+        "sdkVersion": "3.9.2",
+        "offsetEncoding": "utf-16",
+        "conditionalEnvironment": "analyzer-default"
+      },
+      "analysisSources": {
+        "algorithm": "sha256-path-nul-content-nul",
+        "sha256": "6f52050025bd8a3d26a97ec9c086f4ce76e818dbf6a4dda679583d022a0f5193",
+        "files": 417,
+        "roots": [
+          "joern-cli/frontends/dartsrc2cpg/src",
+          "joern-cli/frontends/dartsrc2cpg/astgen/lib",
+          "joern-cli/frontends/dartsrc2cpg/astgen/bin",
+          "joern-cli/frontends/x2cpg/src/main",
+          "dataflowengineoss/src/main",
+          "semanticcpg/src/main",
+          "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.lock",
+          "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.yaml",
+          "joern-cli/frontends/dartsrc2cpg/build.sbt",
+          "joern-cli/frontends/x2cpg/build.sbt",
+          "joern-cli/build.sbt",
+          "dataflowengineoss/build.sbt",
+          "semanticcpg/build.sbt",
+          "build.sbt",
+          "project/Versions.scala",
+          "project/Projects.scala"
+        ]
+      },
+      "beforeMethods": 236,
+      "afterMethods": 236,
+      "beforeCalls": 2026,
+      "afterCalls": 2026,
+      "protocols": [],
+      "sourceEvidence": [],
+      "disposition": "Every historical implicit async-loop location is retained. One SDK factory and the saved receiver protocol are checked after graph reload, including awaited moveNext/cancel. Source/event delivery, field values, scheduling and runtime heap identity are outside this structural contract.",
+      "sdkEvidence": "dart-3.9.2"
+    },
+    {
+      "project": "collection-1.19.1",
+      "category": "packages",
+      "source": {
+        "name": "collection",
+        "version": "1.19.1",
+        "sha256": "2f5709ae4d3d59dd8f7cd309b4e023046b57d8a6c82130785d2b0e5868084e76",
+        "librarySha256": "4f47fc544751d177fe92fc8382873875aadbde550802b093d0654062cb1285f2",
+        "probe": "binarySearch"
+      },
+      "exporter": {
+        "record": "header",
+        "protocolVersion": 1,
+        "exporterVersion": "0.3.28",
+        "analyzerVersion": "8.4.1",
+        "sdkVersion": "3.9.2",
+        "offsetEncoding": "utf-16",
+        "conditionalEnvironment": "analyzer-default"
+      },
+      "analysisSources": {
+        "algorithm": "sha256-path-nul-content-nul",
+        "sha256": "6f52050025bd8a3d26a97ec9c086f4ce76e818dbf6a4dda679583d022a0f5193",
+        "files": 417,
+        "roots": [
+          "joern-cli/frontends/dartsrc2cpg/src",
+          "joern-cli/frontends/dartsrc2cpg/astgen/lib",
+          "joern-cli/frontends/dartsrc2cpg/astgen/bin",
+          "joern-cli/frontends/x2cpg/src/main",
+          "dataflowengineoss/src/main",
+          "semanticcpg/src/main",
+          "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.lock",
+          "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.yaml",
+          "joern-cli/frontends/dartsrc2cpg/build.sbt",
+          "joern-cli/frontends/x2cpg/build.sbt",
+          "joern-cli/build.sbt",
+          "dataflowengineoss/build.sbt",
+          "semanticcpg/build.sbt",
+          "build.sbt",
+          "project/Versions.scala",
+          "project/Projects.scala"
+        ]
+      },
+      "beforeMethods": 760,
+      "afterMethods": 760,
+      "beforeCalls": 4610,
+      "afterCalls": 4610,
+      "protocols": [],
+      "sourceEvidence": [],
+      "disposition": "Every historical implicit async-loop location is retained. One SDK factory and the saved receiver protocol are checked after graph reload, including awaited moveNext/cancel. Source/event delivery, field values, scheduling and runtime heap identity are outside this structural contract.",
+      "sdkEvidence": "dart-3.9.2"
+    },
+    {
+      "project": "meta-1.17.0",
+      "category": "packages",
+      "source": {
+        "name": "meta",
+        "version": "1.17.0",
+        "sha256": "23f08335362185a5ea2ad3a4e597f1375e78bce8a040df5c600c8d3552ef2394",
+        "librarySha256": "bc8ca749c62fd67c8c79348f272a9a7e723333b42bd8411280b7f0ed4f1c6fba",
+        "probe": "index"
+      },
+      "exporter": {
+        "record": "header",
+        "protocolVersion": 1,
+        "exporterVersion": "0.3.28",
+        "analyzerVersion": "8.4.1",
+        "sdkVersion": "3.9.2",
+        "offsetEncoding": "utf-16",
+        "conditionalEnvironment": "analyzer-default"
+      },
+      "analysisSources": {
+        "algorithm": "sha256-path-nul-content-nul",
+        "sha256": "6f52050025bd8a3d26a97ec9c086f4ce76e818dbf6a4dda679583d022a0f5193",
+        "files": 417,
+        "roots": [
+          "joern-cli/frontends/dartsrc2cpg/src",
+          "joern-cli/frontends/dartsrc2cpg/astgen/lib",
+          "joern-cli/frontends/dartsrc2cpg/astgen/bin",
+          "joern-cli/frontends/x2cpg/src/main",
+          "dataflowengineoss/src/main",
+          "semanticcpg/src/main",
+          "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.lock",
+          "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.yaml",
+          "joern-cli/frontends/dartsrc2cpg/build.sbt",
+          "joern-cli/frontends/x2cpg/build.sbt",
+          "joern-cli/build.sbt",
+          "dataflowengineoss/build.sbt",
+          "semanticcpg/build.sbt",
+          "build.sbt",
+          "project/Versions.scala",
+          "project/Projects.scala"
+        ]
+      },
+      "beforeMethods": 42,
+      "afterMethods": 42,
+      "beforeCalls": 327,
+      "afterCalls": 327,
+      "protocols": [],
+      "sourceEvidence": [],
+      "disposition": "Every historical implicit async-loop location is retained. One SDK factory and the saved receiver protocol are checked after graph reload, including awaited moveNext/cancel. Source/event delivery, field values, scheduling and runtime heap identity are outside this structural contract.",
+      "sdkEvidence": "dart-3.9.2"
+    },
+    {
+      "project": "args-2.7.0",
+      "category": "packages",
+      "source": {
+        "name": "args",
+        "version": "2.7.0",
+        "sha256": "d0481093c50b1da8910eb0bb301626d4d8eb7284aa739614d2b394ee09e3ea04",
+        "librarySha256": "0943c9c27ee7c773b0736c480e6db08b752b7ca7148f580786905f55d360c432",
+        "probe": "parse"
+      },
+      "exporter": {
+        "record": "header",
+        "protocolVersion": 1,
+        "exporterVersion": "0.3.28",
+        "analyzerVersion": "8.4.1",
+        "sdkVersion": "3.9.2",
+        "offsetEncoding": "utf-16",
+        "conditionalEnvironment": "analyzer-default"
+      },
+      "analysisSources": {
+        "algorithm": "sha256-path-nul-content-nul",
+        "sha256": "6f52050025bd8a3d26a97ec9c086f4ce76e818dbf6a4dda679583d022a0f5193",
+        "files": 417,
+        "roots": [
+          "joern-cli/frontends/dartsrc2cpg/src",
+          "joern-cli/frontends/dartsrc2cpg/astgen/lib",
+          "joern-cli/frontends/dartsrc2cpg/astgen/bin",
+          "joern-cli/frontends/x2cpg/src/main",
+          "dataflowengineoss/src/main",
+          "semanticcpg/src/main",
+          "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.lock",
+          "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.yaml",
+          "joern-cli/frontends/dartsrc2cpg/build.sbt",
+          "joern-cli/frontends/x2cpg/build.sbt",
+          "joern-cli/build.sbt",
+          "dataflowengineoss/build.sbt",
+          "semanticcpg/build.sbt",
+          "build.sbt",
+          "project/Versions.scala",
+          "project/Projects.scala"
+        ]
+      },
+      "beforeMethods": 219,
+      "afterMethods": 219,
+      "beforeCalls": 2290,
+      "afterCalls": 2290,
+      "protocols": [],
+      "sourceEvidence": [],
+      "disposition": "Every historical implicit async-loop location is retained. One SDK factory and the saved receiver protocol are checked after graph reload, including awaited moveNext/cancel. Source/event delivery, field values, scheduling and runtime heap identity are outside this structural contract.",
+      "sdkEvidence": "dart-3.9.2"
+    },
+    {
+      "project": "async-2.13.0",
+      "category": "packages",
+      "source": {
+        "name": "async",
+        "version": "2.13.0",
+        "sha256": "758e6d74e971c3e5aceb4110bfd6698efc7f501675bcfe0c775459a8140750eb",
+        "librarySha256": "66ec6547216be12ef9b4b4d79ca9c09724c9d12148e29f9ea2ef52cf53e7686c",
+        "probe": "addStream"
+      },
+      "exporter": {
+        "record": "header",
+        "protocolVersion": 1,
+        "exporterVersion": "0.3.28",
+        "analyzerVersion": "8.4.1",
+        "sdkVersion": "3.9.2",
+        "offsetEncoding": "utf-16",
+        "conditionalEnvironment": "analyzer-default"
+      },
+      "analysisSources": {
+        "algorithm": "sha256-path-nul-content-nul",
+        "sha256": "6f52050025bd8a3d26a97ec9c086f4ce76e818dbf6a4dda679583d022a0f5193",
+        "files": 417,
+        "roots": [
+          "joern-cli/frontends/dartsrc2cpg/src",
+          "joern-cli/frontends/dartsrc2cpg/astgen/lib",
+          "joern-cli/frontends/dartsrc2cpg/astgen/bin",
+          "joern-cli/frontends/x2cpg/src/main",
+          "dataflowengineoss/src/main",
+          "semanticcpg/src/main",
+          "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.lock",
+          "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.yaml",
+          "joern-cli/frontends/dartsrc2cpg/build.sbt",
+          "joern-cli/frontends/x2cpg/build.sbt",
+          "joern-cli/build.sbt",
+          "dataflowengineoss/build.sbt",
+          "semanticcpg/build.sbt",
+          "build.sbt",
+          "project/Versions.scala",
+          "project/Projects.scala"
+        ]
+      },
+      "beforeMethods": 700,
+      "afterMethods": 700,
+      "beforeCalls": 3422,
+      "afterCalls": 3422,
+      "protocols": [
+        {
+          "location": {
+            "method": "package:async/src/chunked_stream_reader.dart#3429:METHOD:readChunk",
+            "line": 92,
+            "column": 5
+          },
+          "factory": "dart:async/stream.dart#101015:CONSTRUCTOR:new",
+          "stream": "readStream(size)",
+          "iteratorType": "dart:async/stream.dart#100940:CLASS:StreamIterator",
+          "savedLocal": "<tmp>3",
+          "members": [
+            {
+              "name": "moveNext",
+              "target": "dart:async/stream.dart#101791:METHOD:moveNext",
+              "resultType": "dart:async/future.dart#9829:CLASS:Future"
+            },
+            {
+              "name": "current",
+              "target": "dart:async/stream.dart#102555:GETTER:current",
+              "resultType": "dart:core/list.dart#4866:CLASS:List"
+            },
+            {
+              "name": "cancel",
+              "target": "dart:async/stream.dart#103332:METHOD:cancel",
+              "resultType": "dart:async/future.dart#9829:CLASS:Future"
+            }
+          ]
+        }
+      ],
+      "sourceEvidence": [
+        {
+          "file": "lib/src/chunked_stream_reader.dart",
+          "sha256": "ce108fbe6ad2a56762219a316a25fbe8518a9507bac53e4b4890de676067b135",
+          "lines": [
+            92
+          ]
+        }
+      ],
+      "disposition": "Every historical implicit async-loop location is retained. One SDK factory and the saved receiver protocol are checked after graph reload, including awaited moveNext/cancel. Source/event delivery, field values, scheduling and runtime heap identity are outside this structural contract.",
+      "sdkEvidence": "dart-3.9.2"
+    },
+    {
+      "project": "http_parser-4.1.2",
+      "category": "packages",
+      "source": {
+        "name": "http_parser",
+        "version": "4.1.2",
+        "sha256": "178d74305e7866013777bab2c3d8726205dc5a4dd935297175b19a23a2e66571",
+        "librarySha256": "739aeba9feb50dc075b2038553b24ba716ec92a3f57e164902a275b403e21d0b",
+        "probe": "convert"
+      },
+      "exporter": {
+        "record": "header",
+        "protocolVersion": 1,
+        "exporterVersion": "0.3.28",
+        "analyzerVersion": "8.4.1",
+        "sdkVersion": "3.9.2",
+        "offsetEncoding": "utf-16",
+        "conditionalEnvironment": "analyzer-default"
+      },
+      "analysisSources": {
+        "algorithm": "sha256-path-nul-content-nul",
+        "sha256": "6f52050025bd8a3d26a97ec9c086f4ce76e818dbf6a4dda679583d022a0f5193",
+        "files": 417,
+        "roots": [
+          "joern-cli/frontends/dartsrc2cpg/src",
+          "joern-cli/frontends/dartsrc2cpg/astgen/lib",
+          "joern-cli/frontends/dartsrc2cpg/astgen/bin",
+          "joern-cli/frontends/x2cpg/src/main",
+          "dataflowengineoss/src/main",
+          "semanticcpg/src/main",
+          "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.lock",
+          "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.yaml",
+          "joern-cli/frontends/dartsrc2cpg/build.sbt",
+          "joern-cli/frontends/x2cpg/build.sbt",
+          "joern-cli/build.sbt",
+          "dataflowengineoss/build.sbt",
+          "semanticcpg/build.sbt",
+          "build.sbt",
+          "project/Versions.scala",
+          "project/Projects.scala"
+        ]
+      },
+      "beforeMethods": 91,
+      "afterMethods": 91,
+      "beforeCalls": 1135,
+      "afterCalls": 1135,
+      "protocols": [],
+      "sourceEvidence": [],
+      "disposition": "Every historical implicit async-loop location is retained. One SDK factory and the saved receiver protocol are checked after graph reload, including awaited moveNext/cancel. Source/event delivery, field values, scheduling and runtime heap identity are outside this structural contract.",
+      "sdkEvidence": "dart-3.9.2"
+    },
+    {
+      "project": "analyzer-8.4.1",
+      "category": "packages",
+      "source": {
+        "name": "analyzer",
+        "version": "8.4.1",
+        "sha256": "f51c8499b35f9b26820cfe914828a6a98a94efd5cc78b37bb7d03debae3a1d08",
+        "librarySha256": "36b58042491a33863cc54ad09f305719ed70f72c725b58cc17074124ef462827",
+        "probe": "parseString"
+      },
+      "exporter": {
+        "record": "header",
+        "protocolVersion": 1,
+        "exporterVersion": "0.3.28",
+        "analyzerVersion": "8.4.1",
+        "sdkVersion": "3.9.2",
+        "offsetEncoding": "utf-16",
+        "conditionalEnvironment": "analyzer-default"
+      },
+      "analysisSources": {
+        "algorithm": "sha256-path-nul-content-nul",
+        "sha256": "6f52050025bd8a3d26a97ec9c086f4ce76e818dbf6a4dda679583d022a0f5193",
+        "files": 417,
+        "roots": [
+          "joern-cli/frontends/dartsrc2cpg/src",
+          "joern-cli/frontends/dartsrc2cpg/astgen/lib",
+          "joern-cli/frontends/dartsrc2cpg/astgen/bin",
+          "joern-cli/frontends/x2cpg/src/main",
+          "dataflowengineoss/src/main",
+          "semanticcpg/src/main",
+          "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.lock",
+          "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.yaml",
+          "joern-cli/frontends/dartsrc2cpg/build.sbt",
+          "joern-cli/frontends/x2cpg/build.sbt",
+          "joern-cli/build.sbt",
+          "dataflowengineoss/build.sbt",
+          "semanticcpg/build.sbt",
+          "build.sbt",
+          "project/Versions.scala",
+          "project/Projects.scala"
+        ]
+      },
+      "beforeMethods": 30363,
+      "afterMethods": 30363,
+      "beforeCalls": 227637,
+      "afterCalls": 227637,
+      "protocols": [],
+      "sourceEvidence": [],
+      "disposition": "Every historical implicit async-loop location is retained. One SDK factory and the saved receiver protocol are checked after graph reload, including awaited moveNext/cancel. Source/event delivery, field values, scheduling and runtime heap identity are outside this structural contract.",
+      "sdkEvidence": "dart-3.9.2"
+    },
+    {
+      "project": "localsend-1.17.0",
+      "category": "applications",
+      "source": {
+        "name": "localsend",
+        "version": "1.17.0",
+        "repository": "https://github.com/localsend/localsend",
+        "commit": "7f21d1f9082a43803e05c37f021912e012145aa5",
+        "checkout": "localsend/app",
+        "package": "localsend_app",
+        "probe": "withCount",
+        "librarySha256": "1993189465fb077d90d45d3e89217c82a22762ce278c1961b5084dbd5be6e095",
+        "flutter": {
+          "version": "3.24.5",
+          "commit": "dec2ee5c1f98f8e84a7d5380c05eb8a3d0a81668",
+          "engine": "a18df97ca57a249df5d8d68cd0820600223ce262",
+          "skyEngineSha256": "0ee0af6df98d7218c787c57087b36d57cb162d789c656b54a4c0f40a2fc4d4f1"
+        }
+      },
+      "exporter": {
+        "record": "header",
+        "protocolVersion": 1,
+        "exporterVersion": "0.3.28",
+        "analyzerVersion": "8.4.1",
+        "sdkVersion": "3.9.2",
+        "offsetEncoding": "utf-16",
+        "conditionalEnvironment": "analyzer-default"
+      },
+      "analysisSources": {
+        "algorithm": "sha256-path-nul-content-nul",
+        "sha256": "6f52050025bd8a3d26a97ec9c086f4ce76e818dbf6a4dda679583d022a0f5193",
+        "files": 417,
+        "roots": [
+          "joern-cli/frontends/dartsrc2cpg/src",
+          "joern-cli/frontends/dartsrc2cpg/astgen/lib",
+          "joern-cli/frontends/dartsrc2cpg/astgen/bin",
+          "joern-cli/frontends/x2cpg/src/main",
+          "dataflowengineoss/src/main",
+          "semanticcpg/src/main",
+          "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.lock",
+          "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.yaml",
+          "joern-cli/frontends/dartsrc2cpg/build.sbt",
+          "joern-cli/frontends/x2cpg/build.sbt",
+          "joern-cli/build.sbt",
+          "dataflowengineoss/build.sbt",
+          "semanticcpg/build.sbt",
+          "build.sbt",
+          "project/Versions.scala",
+          "project/Projects.scala"
+        ]
+      },
+      "beforeMethods": 31358,
+      "afterMethods": 31358,
+      "beforeCalls": 106237,
+      "afterCalls": 106237,
+      "protocols": [
+        {
+          "location": {
+            "method": "package:localsend_app/provider/network/nearby_devices_provider.dart#1971:METHOD:reduce",
+            "line": 51,
+            "column": 5
+          },
+          "factory": "dart:async/stream.dart#99961:CONSTRUCTOR:new",
+          "stream": "notifier._isolateController.state.multicastDiscovery!.receiveFromIsolate",
+          "iteratorType": "dart:async/stream.dart#99886:CLASS:StreamIterator",
+          "savedLocal": "<tmp>5",
+          "members": [
+            {
+              "name": "moveNext",
+              "target": "dart:async/stream.dart#100741:METHOD:moveNext",
+              "resultType": "dart:async/future.dart#9833:CLASS:Future"
+            },
+            {
+              "name": "current",
+              "target": "dart:async/stream.dart#101505:GETTER:current",
+              "resultType": "package:common/model/device.dart#277:CLASS:Device"
+            },
+            {
+              "name": "cancel",
+              "target": "dart:async/stream.dart#102282:METHOD:cancel",
+              "resultType": "dart:async/future.dart#9833:CLASS:Future"
+            }
+          ]
+        },
+        {
+          "location": {
+            "method": "package:localsend_app/provider/network/nearby_devices_provider.dart#4271:METHOD:reduce",
+            "line": 133,
+            "column": 5
+          },
+          "factory": "dart:async/stream.dart#99961:CONSTRUCTOR:new",
+          "stream": "stream",
+          "iteratorType": "dart:async/stream.dart#99886:CLASS:StreamIterator",
+          "savedLocal": "<tmp>20",
+          "members": [
+            {
+              "name": "moveNext",
+              "target": "dart:async/stream.dart#100741:METHOD:moveNext",
+              "resultType": "dart:async/future.dart#9833:CLASS:Future"
+            },
+            {
+              "name": "current",
+              "target": "dart:async/stream.dart#101505:GETTER:current",
+              "resultType": "package:common/model/device.dart#277:CLASS:Device"
+            },
+            {
+              "name": "cancel",
+              "target": "dart:async/stream.dart#102282:METHOD:cancel",
+              "resultType": "dart:async/future.dart#9833:CLASS:Future"
+            }
+          ]
+        },
+        {
+          "location": {
+            "method": "package:localsend_app/provider/network/nearby_devices_provider.dart#5318:METHOD:reduce",
+            "line": 165,
+            "column": 5
+          },
+          "factory": "dart:async/stream.dart#99961:CONSTRUCTOR:new",
+          "stream": "stream",
+          "iteratorType": "dart:async/stream.dart#99886:CLASS:StreamIterator",
+          "savedLocal": "<tmp>29",
+          "members": [
+            {
+              "name": "moveNext",
+              "target": "dart:async/stream.dart#100741:METHOD:moveNext",
+              "resultType": "dart:async/future.dart#9833:CLASS:Future"
+            },
+            {
+              "name": "current",
+              "target": "dart:async/stream.dart#101505:GETTER:current",
+              "resultType": "package:common/model/device.dart#277:CLASS:Device"
+            },
+            {
+              "name": "cancel",
+              "target": "dart:async/stream.dart#102282:METHOD:cancel",
+              "resultType": "dart:async/future.dart#9833:CLASS:Future"
+            }
+          ]
+        },
+        {
+          "location": {
+            "method": "package:localsend_app/provider/network/send_provider.dart#12740:METHOD:sendFile",
+            "line": 458,
+            "column": 7
+          },
+          "factory": "dart:async/stream.dart#99961:CONSTRUCTOR:new",
+          "stream": "taskResult.progress",
+          "iteratorType": "dart:async/stream.dart#99886:CLASS:StreamIterator",
+          "savedLocal": "<tmp>90",
+          "members": [
+            {
+              "name": "moveNext",
+              "target": "dart:async/stream.dart#100741:METHOD:moveNext",
+              "resultType": "dart:async/future.dart#9833:CLASS:Future"
+            },
+            {
+              "name": "current",
+              "target": "dart:async/stream.dart#101505:GETTER:current",
+              "resultType": "dart:core/double.dart#944:CLASS:double"
+            },
+            {
+              "name": "cancel",
+              "target": "dart:async/stream.dart#102282:METHOD:cancel",
+              "resultType": "dart:async/future.dart#9833:CLASS:Future"
+            }
+          ]
+        },
+        {
+          "location": {
+            "method": "package:localsend_app/provider/purchase_provider.dart#775:METHOD:reduce",
+            "line": 28,
+            "column": 5
+          },
+          "factory": "dart:async/stream.dart#99961:CONSTRUCTOR:new",
+          "stream": "InAppPurchase.instance.purchaseStream",
+          "iteratorType": "dart:async/stream.dart#99886:CLASS:StreamIterator",
+          "savedLocal": "<tmp>6",
+          "members": [
+            {
+              "name": "moveNext",
+              "target": "dart:async/stream.dart#100741:METHOD:moveNext",
+              "resultType": "dart:async/future.dart#9833:CLASS:Future"
+            },
+            {
+              "name": "current",
+              "target": "dart:async/stream.dart#101505:GETTER:current",
+              "resultType": "dart:core/list.dart#4866:CLASS:List"
+            },
+            {
+              "name": "cancel",
+              "target": "dart:async/stream.dart#102282:METHOD:cancel",
+              "resultType": "dart:async/future.dart#9833:CLASS:Future"
+            }
+          ]
+        },
+        {
+          "location": {
+            "method": "package:localsend_app/provider/selection/selected_sending_files_provider.dart#4221:METHOD:reduce",
+            "line": 157,
+            "column": 5
+          },
+          "factory": "dart:async/stream.dart#99961:CONSTRUCTOR:new",
+          "stream": "Directory(directoryPath).list(recursive: true)",
+          "iteratorType": "dart:async/stream.dart#99886:CLASS:StreamIterator",
+          "savedLocal": "<tmp>25",
+          "members": [
+            {
+              "name": "moveNext",
+              "target": "dart:async/stream.dart#100741:METHOD:moveNext",
+              "resultType": "dart:async/future.dart#9833:CLASS:Future"
+            },
+            {
+              "name": "current",
+              "target": "dart:async/stream.dart#101505:GETTER:current",
+              "resultType": "dart:io/file_system_entity.dart#8276:CLASS:FileSystemEntity"
+            },
+            {
+              "name": "cancel",
+              "target": "dart:async/stream.dart#102282:METHOD:cancel",
+              "resultType": "dart:async/future.dart#9833:CLASS:Future"
+            }
+          ]
+        },
+        {
+          "location": {
+            "method": "package:localsend_app/util/native/cache_helper.dart#1928:FUNCTION:null",
+            "line": 62,
+            "column": 13
+          },
+          "factory": "dart:async/stream.dart#99961:CONSTRUCTOR:new",
+          "stream": "directory.list(recursive: false, followLinks: false)",
+          "iteratorType": "dart:async/stream.dart#99886:CLASS:StreamIterator",
+          "savedLocal": "<tmp>9",
+          "members": [
+            {
+              "name": "moveNext",
+              "target": "dart:async/stream.dart#100741:METHOD:moveNext",
+              "resultType": "dart:async/future.dart#9833:CLASS:Future"
+            },
+            {
+              "name": "current",
+              "target": "dart:async/stream.dart#101505:GETTER:current",
+              "resultType": "dart:io/file_system_entity.dart#8276:CLASS:FileSystemEntity"
+            },
+            {
+              "name": "cancel",
+              "target": "dart:async/stream.dart#102282:METHOD:cancel",
+              "resultType": "dart:async/future.dart#9833:CLASS:Future"
+            }
+          ]
+        },
+        {
+          "location": {
+            "method": "package:localsend_app/util/native/file_saver.dart#3379:FUNCTION:_saveFile",
+            "line": 122,
+            "column": 5
+          },
+          "factory": "dart:async/stream.dart#99961:CONSTRUCTOR:new",
+          "stream": "stream",
+          "iteratorType": "dart:async/stream.dart#99886:CLASS:StreamIterator",
+          "savedLocal": "<tmp>25",
+          "members": [
+            {
+              "name": "moveNext",
+              "target": "dart:async/stream.dart#100741:METHOD:moveNext",
+              "resultType": "dart:async/future.dart#9833:CLASS:Future"
+            },
+            {
+              "name": "current",
+              "target": "dart:async/stream.dart#101505:GETTER:current",
+              "resultType": "dart:typed_data#36294:CLASS:Uint8List"
+            },
+            {
+              "name": "cancel",
+              "target": "dart:async/stream.dart#102282:METHOD:cancel",
+              "resultType": "dart:async/future.dart#9833:CLASS:Future"
+            }
+          ]
+        }
+      ],
+      "sourceEvidence": [
+        {
+          "file": "lib/provider/network/nearby_devices_provider.dart",
+          "sha256": "f17678f3379cb2863e97b90b3d6872384948452aecaa3d5e4e933f1346f963f5",
+          "lines": [
+            51,
+            133,
+            165
+          ]
+        },
+        {
+          "file": "lib/provider/network/send_provider.dart",
+          "sha256": "7d1d385ab8a27250dffd2332757360acab6a36b2c09257399029ea8ffb61aaef",
+          "lines": [
+            458
+          ]
+        },
+        {
+          "file": "lib/provider/purchase_provider.dart",
+          "sha256": "e181f5d1287b5ef2a294ca1e99aede1646ce7fd5f4bf63a6f10bb88ec815163f",
+          "lines": [
+            28
+          ]
+        },
+        {
+          "file": "lib/provider/selection/selected_sending_files_provider.dart",
+          "sha256": "138a7118387e74e33b814fdeeeeb6a2441efbdd16bbbd67411ef167eb1dfb8af",
+          "lines": [
+            157
+          ]
+        },
+        {
+          "file": "lib/util/native/cache_helper.dart",
+          "sha256": "76e0101fd18c241a681f94cfc03b51faf72c4a117aef82bdd6ca4355dfeabeaa",
+          "lines": [
+            62
+          ]
+        },
+        {
+          "file": "lib/util/native/file_saver.dart",
+          "sha256": "a8ac3b2face2c889d9738c2093f8288e39547bdfb47cf4aa8491df1c7a059dcd",
+          "lines": [
+            122
+          ]
+        }
+      ],
+      "disposition": "Every historical implicit async-loop location is retained. One SDK factory and the saved receiver protocol are checked after graph reload, including awaited moveNext/cancel. Source/event delivery, field values, scheduling and runtime heap identity are outside this structural contract.",
+      "sdkEvidence": "flutter-3.24.5-embedded"
+    },
+    {
+      "project": "saber-0.26.0",
+      "category": "applications",
+      "source": {
+        "name": "saber",
+        "version": "0.26.0",
+        "repository": "https://github.com/saber-notes/saber",
+        "commit": "8c7ea9e6a19a6690285ddb6b137a936609af9f8d",
+        "checkout": "saber",
+        "package": "saber",
+        "probe": "main",
+        "defaultFailures": [
+          "path-not-work-priority"
+        ],
+        "librarySha256": "c8bffc931b553a147a72ebb949212752ef42ff2b8430ca6144372d78f4fb60a3",
+        "flutter": {
+          "version": "3.35.3"
+        }
+      },
+      "exporter": {
+        "record": "header",
+        "protocolVersion": 1,
+        "exporterVersion": "0.3.28",
+        "analyzerVersion": "8.4.1",
+        "sdkVersion": "3.9.2",
+        "offsetEncoding": "utf-16",
+        "conditionalEnvironment": "analyzer-default"
+      },
+      "analysisSources": {
+        "algorithm": "sha256-path-nul-content-nul",
+        "sha256": "6f52050025bd8a3d26a97ec9c086f4ce76e818dbf6a4dda679583d022a0f5193",
+        "files": 417,
+        "roots": [
+          "joern-cli/frontends/dartsrc2cpg/src",
+          "joern-cli/frontends/dartsrc2cpg/astgen/lib",
+          "joern-cli/frontends/dartsrc2cpg/astgen/bin",
+          "joern-cli/frontends/x2cpg/src/main",
+          "dataflowengineoss/src/main",
+          "semanticcpg/src/main",
+          "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.lock",
+          "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.yaml",
+          "joern-cli/frontends/dartsrc2cpg/build.sbt",
+          "joern-cli/frontends/x2cpg/build.sbt",
+          "joern-cli/build.sbt",
+          "dataflowengineoss/build.sbt",
+          "semanticcpg/build.sbt",
+          "build.sbt",
+          "project/Versions.scala",
+          "project/Projects.scala"
+        ]
+      },
+      "beforeMethods": 10428,
+      "afterMethods": 10428,
+      "beforeCalls": 53890,
+      "afterCalls": 53890,
+      "protocols": [
+        {
+          "location": {
+            "method": "package:saber/data/file_manager/file_manager.dart#14354:METHOD:renameDirectory",
+            "line": 439,
+            "column": 5
+          },
+          "factory": "dart:async/stream.dart#101015:CONSTRUCTOR:new",
+          "stream": "directory.list(recursive: true)",
+          "iteratorType": "dart:async/stream.dart#100940:CLASS:StreamIterator",
+          "savedLocal": "<tmp>80",
+          "members": [
+            {
+              "name": "moveNext",
+              "target": "dart:async/stream.dart#101791:METHOD:moveNext",
+              "resultType": "dart:async/future.dart#9829:CLASS:Future"
+            },
+            {
+              "name": "current",
+              "target": "dart:async/stream.dart#102555:GETTER:current",
+              "resultType": "dart:io/file_system_entity.dart#8322:CLASS:FileSystemEntity"
+            },
+            {
+              "name": "cancel",
+              "target": "dart:async/stream.dart#103332:METHOD:cancel",
+              "resultType": "dart:async/future.dart#9829:CLASS:Future"
+            }
+          ]
+        },
+        {
+          "location": {
+            "method": "package:saber/data/file_manager/file_manager.dart#15327:METHOD:deleteDirectory",
+            "line": 466,
+            "column": 7
+          },
+          "factory": "dart:async/stream.dart#101015:CONSTRUCTOR:new",
+          "stream": "directory.list(recursive: true)",
+          "iteratorType": "dart:async/stream.dart#100940:CLASS:StreamIterator",
+          "savedLocal": "<tmp>83",
+          "members": [
+            {
+              "name": "moveNext",
+              "target": "dart:async/stream.dart#101791:METHOD:moveNext",
+              "resultType": "dart:async/future.dart#9829:CLASS:Future"
+            },
+            {
+              "name": "current",
+              "target": "dart:async/stream.dart#102555:GETTER:current",
+              "resultType": "dart:io/file_system_entity.dart#8322:CLASS:FileSystemEntity"
+            },
+            {
+              "name": "cancel",
+              "target": "dart:async/stream.dart#103332:METHOD:cancel",
+              "resultType": "dart:async/future.dart#9829:CLASS:Future"
+            }
+          ]
+        },
+        {
+          "location": {
+            "method": "package:saber/data/file_manager/file_manager.dart#2973:METHOD:moveDirContents",
+            "line": 88,
+            "column": 5
+          },
+          "factory": "dart:async/stream.dart#101015:CONSTRUCTOR:new",
+          "stream": "oldDir.list()",
+          "iteratorType": "dart:async/stream.dart#100940:CLASS:StreamIterator",
+          "savedLocal": "<tmp>23",
+          "members": [
+            {
+              "name": "moveNext",
+              "target": "dart:async/stream.dart#101791:METHOD:moveNext",
+              "resultType": "dart:async/future.dart#9829:CLASS:Future"
+            },
+            {
+              "name": "current",
+              "target": "dart:async/stream.dart#102555:GETTER:current",
+              "resultType": "dart:io/file_system_entity.dart#8322:CLASS:FileSystemEntity"
+            },
+            {
+              "name": "cancel",
+              "target": "dart:async/stream.dart#103332:METHOD:cancel",
+              "resultType": "dart:async/future.dart#9829:CLASS:Future"
+            }
+          ]
+        },
+        {
+          "location": {
+            "method": "package:saber/data/nextcloud/saber_syncer.dart#1115:METHOD:findLocalChanges",
+            "line": 41,
+            "column": 5
+          },
+          "factory": "dart:async/stream.dart#101015:CONSTRUCTOR:new",
+          "stream": "FileManager.getRootDirectory().list(recursive: true)",
+          "iteratorType": "dart:async/stream.dart#100940:CLASS:StreamIterator",
+          "savedLocal": "<tmp>13",
+          "members": [
+            {
+              "name": "moveNext",
+              "target": "dart:async/stream.dart#101791:METHOD:moveNext",
+              "resultType": "dart:async/future.dart#9829:CLASS:Future"
+            },
+            {
+              "name": "current",
+              "target": "dart:async/stream.dart#102555:GETTER:current",
+              "resultType": "dart:io/file_system_entity.dart#8322:CLASS:FileSystemEntity"
+            },
+            {
+              "name": "cancel",
+              "target": "dart:async/stream.dart#103332:METHOD:cancel",
+              "resultType": "dart:async/future.dart#9829:CLASS:Future"
+            }
+          ]
+        },
+        {
+          "location": {
+            "method": "package:saber/pages/editor/editor.dart#38332:METHOD:importPdfFromFilePath",
+            "line": 1194,
+            "column": 5
+          },
+          "factory": "dart:async/stream.dart#101015:CONSTRUCTOR:new",
+          "stream": "raster",
+          "iteratorType": "dart:async/stream.dart#100940:CLASS:StreamIterator",
+          "savedLocal": "<tmp>244",
+          "members": [
+            {
+              "name": "moveNext",
+              "target": "dart:async/stream.dart#101791:METHOD:moveNext",
+              "resultType": "dart:async/future.dart#9829:CLASS:Future"
+            },
+            {
+              "name": "current",
+              "target": "dart:async/stream.dart#102555:GETTER:current",
+              "resultType": "package:printing/src/raster.dart#809:CLASS:PdfRaster"
+            },
+            {
+              "name": "cancel",
+              "target": "dart:async/stream.dart#103332:METHOD:cancel",
+              "resultType": "dart:async/future.dart#9829:CLASS:Future"
+            }
+          ]
+        },
+        {
+          "location": {
+            "method": "package:saber/pages/editor/editor.dart#40993:FUNCTION:null",
+            "line": 1272,
+            "column": 11
+          },
+          "factory": "dart:async/stream.dart#101015:CONSTRUCTOR:new",
+          "stream": "stream",
+          "iteratorType": "dart:async/stream.dart#100940:CLASS:StreamIterator",
+          "savedLocal": "<tmp>256",
+          "members": [
+            {
+              "name": "moveNext",
+              "target": "dart:async/stream.dart#101791:METHOD:moveNext",
+              "resultType": "dart:async/future.dart#9829:CLASS:Future"
+            },
+            {
+              "name": "current",
+              "target": "dart:async/stream.dart#102555:GETTER:current",
+              "resultType": "dart:typed_data#36295:CLASS:Uint8List"
+            },
+            {
+              "name": "cancel",
+              "target": "dart:async/stream.dart#103332:METHOD:cancel",
+              "resultType": "dart:async/future.dart#9829:CLASS:Future"
+            }
+          ]
+        }
+      ],
+      "sourceEvidence": [
+        {
+          "file": "lib/data/file_manager/file_manager.dart",
+          "sha256": "6a93c03e10038b1862471ba4752be2b67767c589bc741df3f39557b84234b49f",
+          "lines": [
+            439,
+            466,
+            88
+          ]
+        },
+        {
+          "file": "lib/data/nextcloud/saber_syncer.dart",
+          "sha256": "4989b8c88cabd08c4aeb01199b7e8a2bcd0ff0962df353c1e6d32f5d5d2d544d",
+          "lines": [
+            41
+          ]
+        },
+        {
+          "file": "lib/pages/editor/editor.dart",
+          "sha256": "1fba2b525dd35cacabffd725f65399fedb208fbe99ab025d112c26edd13eed8a",
+          "lines": [
+            1194,
+            1272
+          ]
+        }
+      ],
+      "disposition": "Every historical implicit async-loop location is retained. One SDK factory and the saved receiver protocol are checked after graph reload, including awaited moveNext/cancel. Source/event delivery, field values, scheduling and runtime heap identity are outside this structural contract.",
+      "sdkEvidence": "dart-3.9.2"
+    },
+    {
+      "project": "dart-sass-1.89.2",
+      "category": "applications",
+      "source": {
+        "name": "dart-sass",
+        "version": "1.89.2",
+        "repository": "https://github.com/sass/dart-sass",
+        "commit": "1250380bc56d1feecc5fead0752731a313b97e2e",
+        "checkout": "dart-sass",
+        "package": "sass",
+        "probe": "compileString",
+        "librarySha256": "2a6fb63888b0a94b86020c2321f8237c2867f53c8ddefbc28b9c08a842f8744e",
+        "protocol": {
+          "repository": "https://github.com/sass/sass",
+          "commit": "dae75bd941e507f0e88f53b2616fbebe0b4a6572",
+          "protoc": "36.1"
+        }
+      },
+      "exporter": {
+        "record": "header",
+        "protocolVersion": 1,
+        "exporterVersion": "0.3.28",
+        "analyzerVersion": "8.4.1",
+        "sdkVersion": "3.9.2",
+        "offsetEncoding": "utf-16",
+        "conditionalEnvironment": "analyzer-default"
+      },
+      "analysisSources": {
+        "algorithm": "sha256-path-nul-content-nul",
+        "sha256": "6f52050025bd8a3d26a97ec9c086f4ce76e818dbf6a4dda679583d022a0f5193",
+        "files": 417,
+        "roots": [
+          "joern-cli/frontends/dartsrc2cpg/src",
+          "joern-cli/frontends/dartsrc2cpg/astgen/lib",
+          "joern-cli/frontends/dartsrc2cpg/astgen/bin",
+          "joern-cli/frontends/x2cpg/src/main",
+          "dataflowengineoss/src/main",
+          "semanticcpg/src/main",
+          "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.lock",
+          "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.yaml",
+          "joern-cli/frontends/dartsrc2cpg/build.sbt",
+          "joern-cli/frontends/x2cpg/build.sbt",
+          "joern-cli/build.sbt",
+          "dataflowengineoss/build.sbt",
+          "semanticcpg/build.sbt",
+          "build.sbt",
+          "project/Versions.scala",
+          "project/Projects.scala"
+        ]
+      },
+      "beforeMethods": 9590,
+      "afterMethods": 9590,
+      "beforeCalls": 87942,
+      "afterCalls": 87942,
+      "protocols": [
+        {
+          "location": {
+            "method": "package:sass/src/executable/repl.dart#762:FUNCTION:repl",
+            "line": 52,
+            "column": 3
+          },
+          "factory": "dart:async/stream.dart#101015:CONSTRUCTOR:new",
+          "stream": "repl.runAsync()",
+          "iteratorType": "dart:async/stream.dart#100940:CLASS:StreamIterator",
+          "savedLocal": "<tmp>18",
+          "members": [
+            {
+              "name": "moveNext",
+              "target": "dart:async/stream.dart#101791:METHOD:moveNext",
+              "resultType": "dart:async/future.dart#9829:CLASS:Future"
+            },
+            {
+              "name": "current",
+              "target": "dart:async/stream.dart#102555:GETTER:current",
+              "resultType": "dart:core/string.dart#4237:CLASS:String"
+            },
+            {
+              "name": "cancel",
+              "target": "dart:async/stream.dart#103332:METHOD:cancel",
+              "resultType": "dart:async/future.dart#9829:CLASS:Future"
+            }
+          ]
+        },
+        {
+          "location": {
+            "method": "package:sass/src/executable/watch.dart#3132:METHOD:watch",
+            "line": 98,
+            "column": 5
+          },
+          "factory": "dart:async/stream.dart#101015:CONSTRUCTOR:new",
+          "stream": "_debounceEvents(watcher.events)",
+          "iteratorType": "dart:async/stream.dart#100940:CLASS:StreamIterator",
+          "savedLocal": "<tmp>10",
+          "members": [
+            {
+              "name": "moveNext",
+              "target": "dart:async/stream.dart#101791:METHOD:moveNext",
+              "resultType": "dart:async/future.dart#9829:CLASS:Future"
+            },
+            {
+              "name": "current",
+              "target": "dart:async/stream.dart#102555:GETTER:current",
+              "resultType": "dart:core/list.dart#4866:CLASS:List"
+            },
+            {
+              "name": "cancel",
+              "target": "dart:async/stream.dart#103332:METHOD:cancel",
+              "resultType": "dart:async/future.dart#9829:CLASS:Future"
+            }
+          ]
+        }
+      ],
+      "sourceEvidence": [
+        {
+          "file": "lib/src/executable/repl.dart",
+          "sha256": "7077510e8b2a678cbf5c4e04b59a6d4548a6760a815e2c4ac0874ea045db4e0a",
+          "lines": [
+            52
+          ]
+        },
+        {
+          "file": "lib/src/executable/watch.dart",
+          "sha256": "837e962a7fa326be39448ca979f72167d60db84efeb06161d8bc0342613e75bf",
+          "lines": [
+            98
+          ]
+        }
+      ],
+      "disposition": "Every historical implicit async-loop location is retained. One SDK factory and the saved receiver protocol are checked after graph reload, including awaited moveNext/cancel. Source/event delivery, field values, scheduling and runtime heap identity are outside this structural contract.",
+      "sdkEvidence": "dart-3.9.2"
+    },
+    {
+      "project": "shelf-1.4.2",
+      "category": "holdout",
+      "source": {
+        "name": "shelf",
+        "version": "1.4.2",
+        "sha256": "e7dd780a7ffb623c57850b33f43309312fc863fb6aa3d276a754bb299839ef12",
+        "roots": [
+          "lib",
+          "example"
+        ],
+        "sourceSha256": "483a582828572c6b081baed74146268f6c2aed19bd260fc3cd1408c37330f2df",
+        "probe": "_echoRequest",
+        "input": "."
+      },
+      "exporter": {
+        "record": "header",
+        "protocolVersion": 1,
+        "exporterVersion": "0.3.28",
+        "analyzerVersion": "8.4.1",
+        "sdkVersion": "3.9.2",
+        "offsetEncoding": "utf-16",
+        "conditionalEnvironment": "analyzer-default"
+      },
+      "analysisSources": {
+        "algorithm": "sha256-path-nul-content-nul",
+        "sha256": "6f52050025bd8a3d26a97ec9c086f4ce76e818dbf6a4dda679583d022a0f5193",
+        "files": 417,
+        "roots": [
+          "joern-cli/frontends/dartsrc2cpg/src",
+          "joern-cli/frontends/dartsrc2cpg/astgen/lib",
+          "joern-cli/frontends/dartsrc2cpg/astgen/bin",
+          "joern-cli/frontends/x2cpg/src/main",
+          "dataflowengineoss/src/main",
+          "semanticcpg/src/main",
+          "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.lock",
+          "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.yaml",
+          "joern-cli/frontends/dartsrc2cpg/build.sbt",
+          "joern-cli/frontends/x2cpg/build.sbt",
+          "joern-cli/build.sbt",
+          "dataflowengineoss/build.sbt",
+          "semanticcpg/build.sbt",
+          "build.sbt",
+          "project/Versions.scala",
+          "project/Projects.scala"
+        ]
+      },
+      "beforeMethods": 214,
+      "afterMethods": 214,
+      "beforeCalls": 1682,
+      "afterCalls": 1682,
+      "protocols": [],
+      "sourceEvidence": [],
+      "disposition": "Every historical implicit async-loop location is retained. One SDK factory and the saved receiver protocol are checked after graph reload, including awaited moveNext/cancel. Source/event delivery, field values, scheduling and runtime heap identity are outside this structural contract.",
+      "sdkEvidence": "dart-3.9.2"
+    },
+    {
+      "project": "yaml-3.1.3",
+      "category": "holdout",
+      "source": {
+        "name": "yaml",
+        "version": "3.1.3",
+        "sha256": "b9da305ac7c39faa3f030eccd175340f968459dae4af175130b3fc47e40d76ce",
+        "roots": [
+          "lib"
+        ],
+        "sourceSha256": "9c159d8330afe1c57be30ac3b4cf3ad916022a313dfe4cd0bbfba04bceaac1bf",
+        "probe": "loadYaml",
+        "input": "."
+      },
+      "exporter": {
+        "record": "header",
+        "protocolVersion": 1,
+        "exporterVersion": "0.3.28",
+        "analyzerVersion": "8.4.1",
+        "sdkVersion": "3.9.2",
+        "offsetEncoding": "utf-16",
+        "conditionalEnvironment": "analyzer-default"
+      },
+      "analysisSources": {
+        "algorithm": "sha256-path-nul-content-nul",
+        "sha256": "6f52050025bd8a3d26a97ec9c086f4ce76e818dbf6a4dda679583d022a0f5193",
+        "files": 417,
+        "roots": [
+          "joern-cli/frontends/dartsrc2cpg/src",
+          "joern-cli/frontends/dartsrc2cpg/astgen/lib",
+          "joern-cli/frontends/dartsrc2cpg/astgen/bin",
+          "joern-cli/frontends/x2cpg/src/main",
+          "dataflowengineoss/src/main",
+          "semanticcpg/src/main",
+          "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.lock",
+          "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.yaml",
+          "joern-cli/frontends/dartsrc2cpg/build.sbt",
+          "joern-cli/frontends/x2cpg/build.sbt",
+          "joern-cli/build.sbt",
+          "dataflowengineoss/build.sbt",
+          "semanticcpg/build.sbt",
+          "build.sbt",
+          "project/Versions.scala",
+          "project/Projects.scala"
+        ]
+      },
+      "beforeMethods": 411,
+      "afterMethods": 411,
+      "beforeCalls": 5346,
+      "afterCalls": 5346,
+      "protocols": [],
+      "sourceEvidence": [],
+      "disposition": "Every historical implicit async-loop location is retained. One SDK factory and the saved receiver protocol are checked after graph reload, including awaited moveNext/cancel. Source/event delivery, field values, scheduling and runtime heap identity are outside this structural contract.",
+      "sdkEvidence": "dart-3.9.2"
+    }
+  ],
+  "limitations": [
+    "No runtime instance/subscription or generic environment model.",
+    "No scheduling, stream delivery, original byte/file provenance or application lifecycle qualification.",
+    "Implicit dynamic checks and unavailable SDK exception payloads retain existing diagnostics/limitations.",
+    "Default and bounded corpus negative searches and omitted alternatives retain their own qualification records."
+  ]
+}

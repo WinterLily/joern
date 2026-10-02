@@ -383,7 +383,7 @@
     "records-exporter": {
       "file": "astgen/test/exporter_test.dart",
       "selector": "modern syntax has explicit nodes and stable pattern identities",
-      "sha256": "08996f8b0fc90c62d6abf73bda3660c06d2ba7dc99a59c817d59b4ca0d4d452d",
+      "sha256": "8a02ab88b7832d4c292d107c971bd431c52fdddb58446d6e817f3a5ce1b020a2",
       "stages": [
         "exporter"
       ],
@@ -392,7 +392,7 @@
     "operators-exporter": {
       "file": "astgen/test/exporter_test.dart",
       "selector": "export operator dispatch separately from indexed read and write targets",
-      "sha256": "08996f8b0fc90c62d6abf73bda3660c06d2ba7dc99a59c817d59b4ca0d4d452d",
+      "sha256": "8a02ab88b7832d4c292d107c971bd431c52fdddb58446d6e817f3a5ce1b020a2",
       "stages": [
         "exporter"
       ],
@@ -401,7 +401,7 @@
     "collections-exporter": {
       "file": "astgen/test/exporter_test.dart",
       "selector": "distinguish list, set and map collection literals after resolution",
-      "sha256": "08996f8b0fc90c62d6abf73bda3660c06d2ba7dc99a59c817d59b4ca0d4d452d",
+      "sha256": "8a02ab88b7832d4c292d107c971bd431c52fdddb58446d6e817f3a5ce1b020a2",
       "stages": [
         "exporter"
       ],
@@ -410,7 +410,7 @@
     "pattern-joins-exporter": {
       "file": "astgen/test/exporter_test.dart",
       "selector": "keep separate logical-or joins distinct within one function",
-      "sha256": "08996f8b0fc90c62d6abf73bda3660c06d2ba7dc99a59c817d59b4ca0d4d452d",
+      "sha256": "8a02ab88b7832d4c292d107c971bd431c52fdddb58446d6e817f3a5ce1b020a2",
       "stages": [
         "exporter"
       ],
@@ -419,7 +419,7 @@
     "initialization-exporter": {
       "file": "astgen/test/exporter_test.dart",
       "selector": "export static lazy accessors separately from constant storage",
-      "sha256": "08996f8b0fc90c62d6abf73bda3660c06d2ba7dc99a59c817d59b4ca0d4d452d",
+      "sha256": "8a02ab88b7832d4c292d107c971bd431c52fdddb58446d6e817f3a5ce1b020a2",
       "stages": [
         "exporter"
       ],
@@ -428,7 +428,7 @@
     "exceptions-exporter": {
       "file": "astgen/test/exporter_test.dart",
       "selector": "export catch filters separately from exception and stack bindings",
-      "sha256": "08996f8b0fc90c62d6abf73bda3660c06d2ba7dc99a59c817d59b4ca0d4d452d",
+      "sha256": "8a02ab88b7832d4c292d107c971bd431c52fdddb58446d6e817f3a5ce1b020a2",
       "stages": [
         "exporter"
       ],
@@ -437,7 +437,7 @@
     "pattern-comparisons-exporter": {
       "file": "astgen/test/exporter_test.dart",
       "selector": "export comparison targets for constant and relational patterns",
-      "sha256": "08996f8b0fc90c62d6abf73bda3660c06d2ba7dc99a59c817d59b4ca0d4d452d",
+      "sha256": "8a02ab88b7832d4c292d107c971bd431c52fdddb58446d6e817f3a5ce1b020a2",
       "stages": [
         "exporter"
       ],
@@ -446,7 +446,7 @@
     "list-patterns-exporter": {
       "file": "astgen/test/exporter_test.dart",
       "selector": "export list pattern type and member targets",
-      "sha256": "08996f8b0fc90c62d6abf73bda3660c06d2ba7dc99a59c817d59b4ca0d4d452d",
+      "sha256": "8a02ab88b7832d4c292d107c971bd431c52fdddb58446d6e817f3a5ce1b020a2",
       "stages": [
         "exporter"
       ],
@@ -455,7 +455,7 @@
     "map-patterns-exporter": {
       "file": "astgen/test/exporter_test.dart",
       "selector": "export map pattern targets and constant key identities",
-      "sha256": "08996f8b0fc90c62d6abf73bda3660c06d2ba7dc99a59c817d59b4ca0d4d452d",
+      "sha256": "8a02ab88b7832d4c292d107c971bd431c52fdddb58446d6e817f3a5ce1b020a2",
       "stages": [
         "exporter"
       ],
@@ -464,7 +464,7 @@
     "generic-scopes-exporter": {
       "file": "astgen/test/exporter_test.dart",
       "selector": "export scoped generic declarations and bounds",
-      "sha256": "08996f8b0fc90c62d6abf73bda3660c06d2ba7dc99a59c817d59b4ca0d4d452d",
+      "sha256": "8a02ab88b7832d4c292d107c971bd431c52fdddb58446d6e817f3a5ce1b020a2",
       "stages": [
         "exporter"
       ],
@@ -473,7 +473,7 @@
     "function-values-exporter": {
       "file": "astgen/test/exporter_test.dart",
       "selector": "export aliases, type literals, implicit call tear-offs and null-aware elements",
-      "sha256": "08996f8b0fc90c62d6abf73bda3660c06d2ba7dc99a59c817d59b4ca0d4d452d",
+      "sha256": "8a02ab88b7832d4c292d107c971bd431c52fdddb58446d6e817f3a5ce1b020a2",
       "stages": [
         "exporter"
       ],
@@ -482,7 +482,7 @@
     "dispatch-exporter": {
       "file": "astgen/test/exporter_test.dart",
       "selector": "virtual implementation facts preserve covariant and generic declarations",
-      "sha256": "08996f8b0fc90c62d6abf73bda3660c06d2ba7dc99a59c817d59b4ca0d4d452d",
+      "sha256": "8a02ab88b7832d4c292d107c971bd431c52fdddb58446d6e817f3a5ce1b020a2",
       "stages": [
         "exporter"
       ],
@@ -556,7 +556,7 @@
     "sync-iteration-exporter": {
       "file": "astgen/test/exporter_test.dart",
       "selector": "synchronous iteration exports substituted member targets",
-      "sha256": "08996f8b0fc90c62d6abf73bda3660c06d2ba7dc99a59c817d59b4ca0d4d452d",
+      "sha256": "8a02ab88b7832d4c292d107c971bd431c52fdddb58446d6e817f3a5ce1b020a2",
       "stages": [
         "exporter"
       ],
@@ -611,7 +611,7 @@
     "generic-iteration-exporter": {
       "file": "astgen/test/exporter_test.dart",
       "selector": "generic iteration resolves bounds and instantiated current types",
-      "sha256": "08996f8b0fc90c62d6abf73bda3660c06d2ba7dc99a59c817d59b4ca0d4d452d",
+      "sha256": "8a02ab88b7832d4c292d107c971bd431c52fdddb58446d6e817f3a5ce1b020a2",
       "stages": [
         "exporter"
       ],
@@ -620,7 +620,7 @@
     "generic-iteration-negative": {
       "file": "astgen/test/exporter_test.dart",
       "selector": "generic iteration preserves invalid and unresolved boundaries",
-      "sha256": "08996f8b0fc90c62d6abf73bda3660c06d2ba7dc99a59c817d59b4ca0d4d452d",
+      "sha256": "8a02ab88b7832d4c292d107c971bd431c52fdddb58446d6e817f3a5ce1b020a2",
       "stages": [
         "exporter",
         "negative"
@@ -676,7 +676,7 @@
     "extension-erasure-exporter": {
       "file": "astgen/test/exporter_test.dart",
       "selector": "extension type dispatch retains instantiated representation constraints",
-      "sha256": "08996f8b0fc90c62d6abf73bda3660c06d2ba7dc99a59c817d59b4ca0d4d452d",
+      "sha256": "8a02ab88b7832d4c292d107c971bd431c52fdddb58446d6e817f3a5ce1b020a2",
       "stages": [
         "exporter"
       ],
@@ -723,7 +723,7 @@
     "pattern-receiver-exporter": {
       "file": "astgen/test/exporter_test.dart",
       "selector": "object patterns retain required receivers and instantiated field types",
-      "sha256": "08996f8b0fc90c62d6abf73bda3660c06d2ba7dc99a59c817d59b4ca0d4d452d",
+      "sha256": "8a02ab88b7832d4c292d107c971bd431c52fdddb58446d6e817f3a5ce1b020a2",
       "stages": [
         "exporter",
         "negative"
@@ -780,7 +780,7 @@
     "list-result-exporter": {
       "file": "astgen/test/exporter_test.dart",
       "selector": "list patterns retain instantiated element types and erasures",
-      "sha256": "08996f8b0fc90c62d6abf73bda3660c06d2ba7dc99a59c817d59b4ca0d4d452d",
+      "sha256": "8a02ab88b7832d4c292d107c971bd431c52fdddb58446d6e817f3a5ce1b020a2",
       "stages": [
         "exporter"
       ],
@@ -892,7 +892,7 @@
     "map-result-exporter": {
       "file": "astgen/test/exporter_test.dart",
       "selector": "map patterns retain index return types before child narrowing",
-      "sha256": "08996f8b0fc90c62d6abf73bda3660c06d2ba7dc99a59c817d59b4ca0d4d452d",
+      "sha256": "8a02ab88b7832d4c292d107c971bd431c52fdddb58446d6e817f3a5ce1b020a2",
       "stages": [
         "exporter",
         "negative"
@@ -1005,7 +1005,7 @@
     "map-extension-disagreement-exporter": {
       "file": "astgen/test/exporter_test.dart",
       "selector": "outer extension map results avoid static operator guesses",
-      "sha256": "08996f8b0fc90c62d6abf73bda3660c06d2ba7dc99a59c817d59b4ca0d4d452d",
+      "sha256": "8a02ab88b7832d4c292d107c971bd431c52fdddb58446d6e817f3a5ce1b020a2",
       "stages": [
         "exporter",
         "negative"
@@ -1024,7 +1024,7 @@
     "pattern-refinement-exporter": {
       "file": "astgen/test/exporter_test.dart",
       "selector": "pattern refinements retain successful result types and erasures",
-      "sha256": "08996f8b0fc90c62d6abf73bda3660c06d2ba7dc99a59c817d59b4ca0d4d452d",
+      "sha256": "8a02ab88b7832d4c292d107c971bd431c52fdddb58446d6e817f3a5ce1b020a2",
       "stages": [
         "exporter",
         "negative"
@@ -1185,7 +1185,7 @@
     "async-protocol-exporter": {
       "file": "astgen/test/exporter_test.dart",
       "selector": "async loops retain SDK protocol targets and instantiated current types",
-      "sha256": "08996f8b0fc90c62d6abf73bda3660c06d2ba7dc99a59c817d59b4ca0d4d452d",
+      "sha256": "8a02ab88b7832d4c292d107c971bd431c52fdddb58446d6e817f3a5ce1b020a2",
       "stages": [
         "exporter",
         "resolution",
