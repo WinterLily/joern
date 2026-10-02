@@ -726,6 +726,129 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         virtual.callee.astParentFullName.toSet shouldBe Set(base, cpg.typeDecl.nameExact("Derived").head.fullName)
       }
     }
+    "retain known callable targets through casts and final pattern bindings" in {
+      fixture(
+        Files.readString(frontend.resolve("src/test/resources/semantics/callable_refinement_targets.dart")),
+        "void main() {}"
+      ) { (cpg, _) =>
+        for (
+          name <- Seq(
+            "castAlias",
+            "assertedAlias",
+            "aliasChain",
+            "directCast",
+            "directAssert",
+            "directPattern",
+            "castPattern",
+            "assertedPattern",
+            "declaredPattern",
+            "joinedSame",
+            "genericAlias",
+            "genericPattern",
+            "namedAlias",
+            "defaultPattern",
+            "boundAlias",
+            "boundPattern"
+          )
+        ) {
+          val method = cpg.method.nameExact(name).head
+          val calls  = method.ast.isCall.nameExact("invoke", "<invoke>").l
+          calls.size shouldBe 1
+          withClue(name) {
+            calls.head.callee.isExternal(false).size shouldBe 1
+            calls.head.receiver.argumentIndex.l shouldBe List(-1)
+            calls.head.argument.argumentIndex.l should not contain 0
+            for (source <- Seq("input", "ignored")) {
+              method.ast.isReturn
+                .reachableByFlows(method.parameter.nameExact(source))
+                .nonEmpty shouldBe (source == "input")
+            }
+          }
+        }
+        val named = cpg.method.nameExact("namedAlias").head.ast.isCall.nameExact("invoke").head
+        named.argument(1).code shouldBe "input"
+        named.argument(2).code shouldBe "ignored"
+        named.argument(1).order shouldBe 3
+        named.argument(2).order shouldBe 2
+        val bound = cpg.method.nameExact("boundAlias").head.ast.isCall.nameExact("invoke").head
+        bound.argument(1).code shouldBe "argument('input', input)"
+        bound.argument(2).code shouldBe "argument('ignored', ignored)"
+        bound.argument(1).order shouldBe 3
+        bound.argument(2).order shouldBe 2
+        for (name <- Seq("defaultPattern", "boundPattern")) {
+          cpg.method.nameExact(name).head.ast.isCall.nameExact("invoke").head.argument(2).code shouldBe "null"
+        }
+      }
+    }
+    "preserve captured receivers through refined and repeated bound calls" in {
+      fixture(
+        Files.readString(frontend.resolve("src/test/resources/semantics/callable_refinement_targets.dart")),
+        "void main() {}"
+      ) { (cpg, _) =>
+        for (name <- Seq("boundAlias", "boundPattern", "repeatedBound")) {
+          val method = cpg.method.nameExact(name).head
+          method.ast.isCall.nameExact("obtain").size shouldBe 1
+          method.ast.isMethodRef.flatMap(_._captureOut).map(_.id).toList.distinct.size shouldBe 1
+          method.ast.isCall.nameExact("invoke").l.foreach { call =>
+            call.callee.isExternal(false).size shouldBe 1
+          }
+          method.ast.isReturn.reachableByFlows(method.parameter.nameExact("input")).nonEmpty shouldBe true
+          method.ast.isReturn.reachableByFlows(method.parameter.nameExact("ignored")).nonEmpty shouldBe false
+        }
+        val captured = cpg.method.nameExact("capturedPattern").head
+        captured.ast.isCall.nameExact("obtain").size shouldBe 2
+        captured.ast.isCall.nameExact("invoke").callee.name.l shouldBe List("<bound>")
+        captured.ast.isReturn.reachableByFlows(captured.parameter.nameExact("input")).nonEmpty shouldBe true
+        captured.ast.isReturn.reachableByFlows(captured.parameter.nameExact("ignored")).nonEmpty shouldBe false
+      }
+    }
+    "evaluate refined constructor values before their invocation" in {
+      fixture(
+        Files.readString(frontend.resolve("src/test/resources/semantics/callable_refinement_targets.dart")),
+        "void main() {}",
+        dataflow = false
+      ) { (cpg, _) =>
+        for (name <- Seq("constructorCast", "constructorAssert", "constructorAlias", "constructorFailure")) {
+          val method      = cpg.method.nameExact(name).head
+          val refinements = method.ast.isCall.nameExact("<operator>.cast", "<operator>.notNullAssert").l
+          withClue(name) {
+            refinements.size shouldBe 1
+            method.ast.isMethodRef.codeExact("Created.new").size shouldBe 1
+            method.ast.isCall.callee.nameExact("<init>").astParentFullName.l should contain(
+              cpg.typeDecl.nameExact("Created").fullName.head
+            )
+          }
+        }
+        val alias = cpg.method.nameExact("constructorAlias").head
+        alias.ast.isIdentifier.nameExact("invoke").size shouldBe 2
+      }
+    }
+    "leave changing and unknown refined callable values unresolved" in {
+      fixture(
+        Files.readString(frontend.resolve("src/test/resources/semantics/callable_refinement_targets.dart")),
+        "void main() {}",
+        dataflow = false
+      ) { (cpg, _) =>
+        for (
+          name <- Seq(
+            "conditionalAlias",
+            "returnedAlias",
+            "nestedReturnedAlias",
+            "parameterAlias",
+            "mutableAlias",
+            "mutablePattern",
+            "joinedPattern",
+            "joinedMixed"
+          )
+        ) {
+          val invoke = cpg.method.nameExact(name).head.ast.isCall.nameExact("invoke").head
+          withClue(name) {
+            invoke.callee.isExternal(false).size shouldBe 0
+            invoke.receiver.argumentIndex.l shouldBe List(-1)
+          }
+        }
+      }
+    }
     "retain instantiated generic tear-off types, source and stable aliases" in {
       fixture(
         Files.readString(frontend.resolve("src/test/resources/semantics/generic_tearoffs.dart")),

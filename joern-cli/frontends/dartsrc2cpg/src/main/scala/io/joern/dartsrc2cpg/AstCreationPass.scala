@@ -89,6 +89,8 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
     var initializerContext                   = ""
     val lateLocals                           = mutable.Map.empty[String, Option[String]]
     val functionValues                       = mutable.Map.empty[String, String]
+    val callableLocals                       = new java.util.IdentityHashMap[NewNode, String]()
+    val patternFunctions                     = mutable.Map.empty[String, Option[String]]
     val boundTargets                         = mutable.Map.empty[String, String]
     var cascadeReceiver: Option[() => Ast]   = None
     var caughtValues: Option[() => Seq[Ast]] = None
@@ -154,6 +156,20 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
         case _           => Some(node)
       }
       ast.root.flatMap(last)
+    }
+    def callableTarget(ast: Ast): Option[String] = {
+      def target(node: NewNode): Option[String] = node match {
+        case ref: NewMethodRef => Some(ref.methodFullName)
+        case _: NewIdentifier  =>
+          ast.refEdges.find(edge => edge.src eq node).flatMap(edge => Option(callableLocals.get(edge.dst)))
+        case _: NewBlock => ast.edges.reverseIterator.find(edge => edge.src eq node).flatMap(edge => target(edge.dst))
+        case call: NewCall if Set(Operators.cast, "<operator>.notNullAssert")(call.name) =>
+          ast.argEdges
+            .find(edge => (edge.src eq node) && edge.dst.asInstanceOf[ExpressionNew].argumentIndex == 1)
+            .flatMap(edge => target(edge.dst))
+        case _ => None
+      }
+      ast.root.flatMap(target)
     }
     def stableFunction(syntax: Value): Option[String] = string(syntax, "kind") match {
       case "ParenthesizedExpression" | "FunctionReference" => stableFunction(child(syntax, "expression"))
@@ -259,6 +275,7 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
       val local = located(NewLocal().name(name).code(name).typeFullName(typ), syntax)
       value.root.foreach(copyErasure(_, local))
       declarations(name) = local
+      callableTarget(value).foreach(callableLocals.put(local, _))
       def ref(): Ast = identifier(syntax, name, name, typ)
       val assignment = operator(syntax, Operators.assignment, Seq(ref(), value))
       // Distinct synthetic code prevents code-based reaching definitions from aliasing the enclosing expression.
@@ -295,8 +312,14 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
           else
             actual
               .lift(i)
-              .filter(arg => string(arg, "kind") == "NamedExpression")
-              .map(arg => params.indexWhere(id => string(sym(id), "name") == string(arg, "name")))
+              .map { arg =>
+                if (string(arg, "kind") == "NamedExpression")
+                  params.indexWhere(id => string(sym(id), "name") == string(arg, "name"))
+                else {
+                  val position = actual.take(i).count(arg => string(arg, "kind") != "NamedExpression")
+                  params.indices.filter(index => !bool(sym(params(index)), "named")).lift(position).getOrElse(-1)
+                }
+              }
               .getOrElse(-1)
         if (index >= 0) index + 1 else i + 1
       }
@@ -1022,11 +1045,24 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
             declarations(id) = local
             Seq(Ast(local))
           } else Nil
+          val assigned = value()
+          if (string(syntax, "kind") == "DeclaredVariablePattern" && bool(sym(id), "final")) {
+            val target = callableTarget(assigned)
+            // A joined binding is stable only when every alternative supplies the same target.
+            val joined = patternFunctions.get(id).map(_.filter(target.contains)).getOrElse(target)
+            patternFunctions(id) = joined
+            functionValues.remove(id)
+            declarations.get(id).foreach(callableLocals.remove)
+            joined.foreach { target =>
+              functionValues(id) = target
+              declarations.get(id).foreach(callableLocals.put(_, target))
+            }
+          }
           and(
             typeCheck :+ block(
               syntax,
               locals ++ Seq(
-                operator(syntax, Operators.assignment, Seq(identifier(syntax, name, id, tpe(sym(id))), value())),
+                operator(syntax, Operators.assignment, Seq(identifier(syntax, name, id, tpe(sym(id))), assigned)),
                 literal(syntax, "true", "bool")
               )
             )
@@ -1366,7 +1402,7 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
             .orElse(cascadeBase(syntax))
             .orElse(if (string(target, "kind") == "METHOD" && !bool(target, "static")) Some(thisAst(syntax)) else None)
         if (functionValue && string(target, "kind") == "CONSTRUCTOR")
-          newInstance(syntax, targetId, name, Some(child(syntax, "arguments")))
+          saved(syntax, receiver.get)(_ => newInstance(syntax, targetId, name, Some(child(syntax, "arguments"))))
         else if (nullAware(syntax) && receiver.nonEmpty)
           guarded(syntax, receiver.get)(ref =>
             call(
@@ -1429,12 +1465,13 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
       case "FunctionExpressionInvocation" =>
         val receiver = child(syntax, "receiver")
         val value    = expression(receiver)
-        val targetId = astValue(value)
-          .collect { case ref: NewMethodRef => ref.methodFullName }
+        val targetId = callableTarget(value)
           .orElse(stableFunction(receiver))
           .getOrElse("")
         if (string(sym(targetId), "kind") == "CONSTRUCTOR")
-          newInstance(syntax, targetId, string(receiver, "name", "<init>"), Some(child(syntax, "arguments")))
+          saved(syntax, value)(_ =>
+            newInstance(syntax, targetId, string(receiver, "name", "<init>"), Some(child(syntax, "arguments")))
+          )
         else
           call(
             syntax,
@@ -1728,10 +1765,12 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
           Seq(Ast(local)) ++ children(syntax, "initializer").map { init =>
             val rhs = expression(init)
             if (bool(symbol(syntax), "final"))
-              astValue(rhs)
-                .collect { case ref: NewMethodRef => ref.methodFullName }
+              callableTarget(rhs)
                 .orElse(stableFunction(init))
-                .foreach(target => functionValues(string(syntax, "declaration")) = target)
+                .foreach { target =>
+                  functionValues(id) = target
+                  callableLocals.put(local, target)
+                }
             operator(
               syntax,
               Operators.assignment,

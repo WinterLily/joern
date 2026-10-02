@@ -26,7 +26,7 @@
     "records-graph": {
       "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
       "selector": "\"isolate record fields through calls, nested records and destructuring\" in {",
-      "sha256": "2834372e811857cb527edd1f24058fa8e6dcd08c262e7241f66b7dc011699524",
+      "sha256": "89fc142d253be47c5ef57eb7dbd0d31b99168e51da64a412eada9985cd9e9f58",
       "stages": [
         "lowering",
         "resolution",
@@ -48,7 +48,7 @@
     "captures-graph": {
       "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
       "selector": "\"preserve captured binding identity and exclude replaced capture values\" in {",
-      "sha256": "2834372e811857cb527edd1f24058fa8e6dcd08c262e7241f66b7dc011699524",
+      "sha256": "89fc142d253be47c5ef57eb7dbd0d31b99168e51da64a412eada9985cd9e9f58",
       "stages": [
         "lowering",
         "valueFlow",
@@ -68,7 +68,7 @@
     "operators-graph": {
       "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
       "selector": "\"yield the assigned value independently of setter and index-setter returns\" in {",
-      "sha256": "2834372e811857cb527edd1f24058fa8e6dcd08c262e7241f66b7dc011699524",
+      "sha256": "89fc142d253be47c5ef57eb7dbd0d31b99168e51da64a412eada9985cd9e9f58",
       "stages": [
         "lowering",
         "resolution",
@@ -89,7 +89,7 @@
     "collections-graph": {
       "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
       "selector": "\"accumulate values across nested collection loops without treating conditions as elements\" in {",
-      "sha256": "2834372e811857cb527edd1f24058fa8e6dcd08c262e7241f66b7dc011699524",
+      "sha256": "89fc142d253be47c5ef57eb7dbd0d31b99168e51da64a412eada9985cd9e9f58",
       "stages": [
         "lowering",
         "valueFlow",
@@ -109,7 +109,7 @@
     "pattern-joins-graph": {
       "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
       "selector": "\"preserve SDK shared-case guard captures separately from the body variable\" in {",
-      "sha256": "2834372e811857cb527edd1f24058fa8e6dcd08c262e7241f66b7dc011699524",
+      "sha256": "89fc142d253be47c5ef57eb7dbd0d31b99168e51da64a412eada9985cd9e9f58",
       "stages": [
         "lowering",
         "resolution",
@@ -129,7 +129,7 @@
     "initialization-graph": {
       "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
       "selector": "\"defer ordinary static and top-level initialization until a getter is read\" in {",
-      "sha256": "2834372e811857cb527edd1f24058fa8e6dcd08c262e7241f66b7dc011699524",
+      "sha256": "89fc142d253be47c5ef57eb7dbd0d31b99168e51da64a412eada9985cd9e9f58",
       "stages": [
         "lowering",
         "resolution",
@@ -150,7 +150,7 @@
     "strings-graph": {
       "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
       "selector": "\"preserve interpolation results without writing independent fragments\" in {",
-      "sha256": "2834372e811857cb527edd1f24058fa8e6dcd08c262e7241f66b7dc011699524",
+      "sha256": "89fc142d253be47c5ef57eb7dbd0d31b99168e51da64a412eada9985cd9e9f58",
       "stages": [
         "lowering",
         "valueFlow",
@@ -170,7 +170,7 @@
     "enum-graph": {
       "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
       "selector": "\"represent generated enum storage and concrete enum accessors\" in {",
-      "sha256": "2834372e811857cb527edd1f24058fa8e6dcd08c262e7241f66b7dc011699524",
+      "sha256": "89fc142d253be47c5ef57eb7dbd0d31b99168e51da64a412eada9985cd9e9f58",
       "stages": [
         "lowering",
         "resolution",
@@ -190,7 +190,7 @@
     "heap-graph": {
       "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
       "selector": "\"retain selected fields through wrappers, read aliases and exceptions\" in {",
-      "sha256": "2834372e811857cb527edd1f24058fa8e6dcd08c262e7241f66b7dc011699524",
+      "sha256": "89fc142d253be47c5ef57eb7dbd0d31b99168e51da64a412eada9985cd9e9f58",
       "stages": [
         "lowering",
         "valueFlow",
@@ -210,7 +210,7 @@
     "exceptions-graph": {
       "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
       "selector": "\"separate exception payloads from normal values across method calls\" in {",
-      "sha256": "2834372e811857cb527edd1f24058fa8e6dcd08c262e7241f66b7dc011699524",
+      "sha256": "89fc142d253be47c5ef57eb7dbd0d31b99168e51da64a412eada9985cd9e9f58",
       "stages": [
         "lowering",
         "valueFlow",
@@ -230,7 +230,7 @@
     "pattern-comparisons-graph": {
       "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
       "selector": "\"resolve pattern comparison operators with the correct receiver\" in {",
-      "sha256": "2834372e811857cb527edd1f24058fa8e6dcd08c262e7241f66b7dc011699524",
+      "sha256": "89fc142d253be47c5ef57eb7dbd0d31b99168e51da64a412eada9985cd9e9f58",
       "stages": [
         "lowering",
         "resolution",
@@ -251,7 +251,7 @@
     "pattern-fields-graph": {
       "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
       "selector": "\"share lazy pattern getter storage across cases and separate nested paths\" in {",
-      "sha256": "2834372e811857cb527edd1f24058fa8e6dcd08c262e7241f66b7dc011699524",
+      "sha256": "89fc142d253be47c5ef57eb7dbd0d31b99168e51da64a412eada9985cd9e9f58",
       "stages": [
         "lowering",
         "resolution",
@@ -271,7 +271,7 @@
     "list-patterns-graph": {
       "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
       "selector": "\"resolve and cache list pattern members while skipping untyped wildcards\" in {",
-      "sha256": "2834372e811857cb527edd1f24058fa8e6dcd08c262e7241f66b7dc011699524",
+      "sha256": "89fc142d253be47c5ef57eb7dbd0d31b99168e51da64a412eada9985cd9e9f58",
       "stages": [
         "lowering",
         "resolution",
@@ -291,7 +291,7 @@
     "map-patterns-graph": {
       "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
       "selector": "\"resolve map pattern calls and share lazy storage by constant key\" in {",
-      "sha256": "2834372e811857cb527edd1f24058fa8e6dcd08c262e7241f66b7dc011699524",
+      "sha256": "89fc142d253be47c5ef57eb7dbd0d31b99168e51da64a412eada9985cd9e9f58",
       "stages": [
         "lowering",
         "resolution",
@@ -312,7 +312,7 @@
     "generic-scopes-graph": {
       "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
       "selector": "\"preserve generic parameter scopes and bound relationships\" in {",
-      "sha256": "2834372e811857cb527edd1f24058fa8e6dcd08c262e7241f66b7dc011699524",
+      "sha256": "89fc142d253be47c5ef57eb7dbd0d31b99168e51da64a412eada9985cd9e9f58",
       "stages": [
         "lowering",
         "resolution",
@@ -332,7 +332,7 @@
     "function-values-graph": {
       "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
       "selector": "\"retain instantiated generic tear-off types, source and stable aliases\" in {",
-      "sha256": "2834372e811857cb527edd1f24058fa8e6dcd08c262e7241f66b7dc011699524",
+      "sha256": "89fc142d253be47c5ef57eb7dbd0d31b99168e51da64a412eada9985cd9e9f58",
       "stages": [
         "lowering",
         "resolution",
@@ -353,7 +353,7 @@
     "dispatch-graph": {
       "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
       "selector": "\"bind reordered override arguments and preserve independent output receivers\" in {",
-      "sha256": "2834372e811857cb527edd1f24058fa8e6dcd08c262e7241f66b7dc011699524",
+      "sha256": "89fc142d253be47c5ef57eb7dbd0d31b99168e51da64a412eada9985cd9e9f58",
       "stages": [
         "lowering",
         "resolution",
@@ -491,7 +491,7 @@
     "async-iteration-graph": {
       "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
       "selector": "\"cancel await-for iterators through abrupt exits and retain local continues\" in {",
-      "sha256": "2834372e811857cb527edd1f24058fa8e6dcd08c262e7241f66b7dc011699524",
+      "sha256": "89fc142d253be47c5ef57eb7dbd0d31b99168e51da64a412eada9985cd9e9f58",
       "stages": [
         "lowering",
         "cfg"
@@ -546,7 +546,7 @@
     "sync-iteration-graph": {
       "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
       "selector": "\"resolve synchronous iteration members and retain dynamic boundaries\" in {",
-      "sha256": "2834372e811857cb527edd1f24058fa8e6dcd08c262e7241f66b7dc011699524",
+      "sha256": "89fc142d253be47c5ef57eb7dbd0d31b99168e51da64a412eada9985cd9e9f58",
       "stages": [
         "lowering",
         "resolution"
@@ -630,7 +630,7 @@
     "generic-iteration-graph": {
       "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
       "selector": "\"resolve generic iteration bounds without replacing declaration types\" in {",
-      "sha256": "2834372e811857cb527edd1f24058fa8e6dcd08c262e7241f66b7dc011699524",
+      "sha256": "89fc142d253be47c5ef57eb7dbd0d31b99168e51da64a412eada9985cd9e9f58",
       "stages": [
         "lowering",
         "resolution"
@@ -685,7 +685,7 @@
     "extension-erasure-graph": {
       "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
       "selector": "\"dispatch inherited class members through extension type representations\" in {",
-      "sha256": "2834372e811857cb527edd1f24058fa8e6dcd08c262e7241f66b7dc011699524",
+      "sha256": "89fc142d253be47c5ef57eb7dbd0d31b99168e51da64a412eada9985cd9e9f58",
       "stages": [
         "lowering",
         "resolution",
@@ -733,7 +733,7 @@
     "pattern-receiver-graph": {
       "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
       "selector": "\"constrain object-pattern receivers and preserve instantiated field results\" in {",
-      "sha256": "2834372e811857cb527edd1f24058fa8e6dcd08c262e7241f66b7dc011699524",
+      "sha256": "89fc142d253be47c5ef57eb7dbd0d31b99168e51da64a412eada9985cd9e9f58",
       "stages": [
         "lowering",
         "resolution",
@@ -789,7 +789,7 @@
     "list-result-graph": {
       "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
       "selector": "\"preserve list-pattern instantiated results without changing generic declarations\" in {",
-      "sha256": "2834372e811857cb527edd1f24058fa8e6dcd08c262e7241f66b7dc011699524",
+      "sha256": "89fc142d253be47c5ef57eb7dbd0d31b99168e51da64a412eada9985cd9e9f58",
       "stages": [
         "lowering",
         "resolution",
@@ -836,7 +836,7 @@
     "rest-default-graph": {
       "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
       "selector": "\"omit list rest end arguments and adapt each target default\" in {",
-      "sha256": "2834372e811857cb527edd1f24058fa8e6dcd08c262e7241f66b7dc011699524",
+      "sha256": "89fc142d253be47c5ef57eb7dbd0d31b99168e51da64a412eada9985cd9e9f58",
       "stages": [
         "lowering",
         "resolution",
@@ -902,7 +902,7 @@
     "map-result-graph": {
       "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
       "selector": "\"retain map index instantiations separately from matched child types\" in {",
-      "sha256": "2834372e811857cb527edd1f24058fa8e6dcd08c262e7241f66b7dc011699524",
+      "sha256": "89fc142d253be47c5ef57eb7dbd0d31b99168e51da64a412eada9985cd9e9f58",
       "stages": [
         "lowering",
         "resolution",
@@ -958,7 +958,7 @@
     "pattern-intersection-graph": {
       "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
       "selector": "\"intersect object-pattern requirements with known receiver constraints\" in {",
-      "sha256": "2834372e811857cb527edd1f24058fa8e6dcd08c262e7241f66b7dc011699524",
+      "sha256": "89fc142d253be47c5ef57eb7dbd0d31b99168e51da64a412eada9985cd9e9f58",
       "stages": [
         "lowering",
         "resolution",
@@ -1034,7 +1034,7 @@
     "pattern-refinement-types-graph": {
       "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
       "selector": "\"retain pattern cast and null-assertion result identities\" in {",
-      "sha256": "2834372e811857cb527edd1f24058fa8e6dcd08c262e7241f66b7dc011699524",
+      "sha256": "89fc142d253be47c5ef57eb7dbd0d31b99168e51da64a412eada9985cd9e9f58",
       "stages": [
         "lowering",
         "negative"
@@ -1044,7 +1044,7 @@
     "pattern-refinement-receivers-graph": {
       "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
       "selector": "\"preserve refined wrapper constraints through cached pattern getters\" in {",
-      "sha256": "2834372e811857cb527edd1f24058fa8e6dcd08c262e7241f66b7dc011699524",
+      "sha256": "89fc142d253be47c5ef57eb7dbd0d31b99168e51da64a412eada9985cd9e9f58",
       "stages": [
         "lowering",
         "resolution",
@@ -1087,6 +1087,78 @@
         "interaction"
       ],
       "scope": "Pinned bounded VM independent values, checked casts/null failures before getters, generic String/String? controls, guard-alternative getter-once traces and record/function identity observations. No arbitrary checked type environment, payload/heap, callable resolution or static absence qualification."
+    },
+    "callable-refinements-known": {
+      "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
+      "selector": "\"retain known callable targets through casts and final pattern bindings\" in {",
+      "sha256": "89fc142d253be47c5ef57eb7dbd0d31b99168e51da64a412eada9985cd9e9f58",
+      "stages": [
+        "lowering",
+        "resolution",
+        "valueFlow",
+        "negative"
+      ],
+      "scope": "Known immutable function targets survive casts/assertions, alias chains and final pattern binding; generic and named/default slots and input/ignored isolation are checked. No runtime generic-environment or complete-search claim."
+    },
+    "callable-refinements-bound": {
+      "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
+      "selector": "\"preserve captured receivers through refined and repeated bound calls\" in {",
+      "sha256": "89fc142d253be47c5ef57eb7dbd0d31b99168e51da64a412eada9985cd9e9f58",
+      "stages": [
+        "lowering",
+        "resolution",
+        "valueFlow",
+        "negative"
+      ],
+      "scope": "Bound adapters retain receiver capture identity through refinement, defaults, repeated calls and source receiver rebinding. Bounded input/ignored flow checks do not qualify arbitrary heap aliases or callback timing."
+    },
+    "callable-refinements-unknown": {
+      "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
+      "selector": "\"leave changing and unknown refined callable values unresolved\" in {",
+      "sha256": "89fc142d253be47c5ef57eb7dbd0d31b99168e51da64a412eada9985cd9e9f58",
+      "stages": [
+        "resolution",
+        "negative"
+      ],
+      "scope": "Conditional, returned, nested-call, parameter, mutable and extracted joined-pattern values retain unresolved targets instead of choosing a descendant method reference. Structural target exclusions only."
+    },
+    "callable-refinements-values": {
+      "file": "astgen/test/callable_refinement_targets_test.dart",
+      "selector": "refined callables preserve inputs and selected function identity",
+      "sha256": "fbb6549a6e7802e52022a8394a2b6929d7deac8c711a765b31c4179d7bbf6689",
+      "stages": [
+        "interaction"
+      ],
+      "scope": "Two independent input values with direct, cast/assert, generic, final pattern, named/default and unknown/mutable branch controls in the pinned VM. No general callback delivery or static absence guarantee."
+    },
+    "callable-refinements-receivers": {
+      "file": "astgen/test/callable_refinement_targets_test.dart",
+      "selector": "refined bound callables retain one captured receiver and defaults",
+      "sha256": "fbb6549a6e7802e52022a8394a2b6929d7deac8c711a765b31c4179d7bbf6689",
+      "stages": [
+        "interaction"
+      ],
+      "scope": "Pinned VM receiver-once and named-before-positional evaluation traces, repeated calls, omitted defaults and source receiver rebinding. No arbitrary receiver/heap environment guarantee."
+    },
+    "callable-refinements-constructors": {
+      "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
+      "selector": "\"evaluate refined constructor values before their invocation\" in {",
+      "sha256": "89fc142d253be47c5ef57eb7dbd0d31b99168e51da64a412eada9985cd9e9f58",
+      "stages": [
+        "lowering",
+        "resolution",
+        "negative"
+      ],
+      "scope": "Retain cast/assert and METHOD_REF values before constructor invocation; read immutable constructor aliases before allocation. Constructor defaults and type-check presence only; implicit failure payload/CFG feasibility remain unqualified."
+    },
+    "callable-refinements-constructor-values": {
+      "file": "astgen/test/callable_refinement_targets_test.dart",
+      "selector": "refined constructor values check types before arguments and creation",
+      "sha256": "fbb6549a6e7802e52022a8394a2b6929d7deac8c711a765b31c4179d7bbf6689",
+      "stages": [
+        "interaction"
+      ],
+      "scope": "Two independent inputs, successful cast/assert/alias constructors and omitted nonnull defaults. An incompatible function cast throws TypeError before argument evaluation or constructor events in the pinned VM."
     }
   },
   "profiles": {
@@ -6623,6 +6695,85 @@
             "pattern-refinement-structured"
           ],
           "obligation": "Execute bounded independent inputs and interacting forms; preserve order, failures and unrelated instances."
+        }
+      }
+    },
+    {
+      "id": "callable-refinement-targets",
+      "constructs": [
+        "AsExpression",
+        "PostfixExpression",
+        "FunctionReference",
+        "FunctionExpressionInvocation",
+        "MethodInvocation",
+        "DeclaredVariablePattern",
+        "CastPattern",
+        "NullAssertPattern",
+        "ConstructorReference"
+      ],
+      "sections": [
+        "typeCast",
+        "functionInvocation",
+        "switch",
+        "functionClosurization"
+      ],
+      "scope": "Known immutable callable identity through successful casts/assertions, saved values and final pattern bindings, preserving bound captures and named/positional/default binding. Changing or unknown callables, general delivery, heap environments and complete CFG/search remain unqualified. Constructor invocation preserves callable evaluation and successful/failed cast ordering; implicit runtime failure payloads remain unqualified.",
+      "stages": {
+        "exporter": {
+          "status": "unqualified",
+          "evidence": [],
+          "obligation": "analyzer FunctionReference static type, declaration identities and source spans"
+        },
+        "lowering": {
+          "status": "tested-conservative",
+          "evidence": [
+            "callable-refinements-known",
+            "callable-refinements-bound",
+            "callable-refinements-constructors"
+          ],
+          "obligation": "DartFrontendTests: instantiated expression/value types, complete source, bound captures and stable final aliases"
+        },
+        "resolution": {
+          "status": "tested-conservative",
+          "evidence": [
+            "callable-refinements-known",
+            "callable-refinements-bound",
+            "callable-refinements-unknown",
+            "callable-refinements-constructors"
+          ],
+          "obligation": "single known initializer values and stable copies; mutable/conditional/returned targets and general points-to unqualified"
+        },
+        "cfg": {
+          "status": "unqualified",
+          "evidence": [],
+          "obligation": "receiver evaluated once; callback read precedes named arguments in source order"
+        },
+        "valueFlow": {
+          "status": "tested-conservative",
+          "evidence": [
+            "callable-refinements-known",
+            "callable-refinements-bound"
+          ],
+          "obligation": "first/ignored operand isolation across top-level/static/bound generic calls and aliases; named/default binding"
+        },
+        "negative": {
+          "status": "tested-conservative",
+          "evidence": [
+            "callable-refinements-known",
+            "callable-refinements-bound",
+            "callable-refinements-unknown",
+            "callable-refinements-constructors"
+          ],
+          "obligation": "Known input/ignored isolation and refusal to guess changing/unknown function targets only. Complete search, mutable/returned callable flow, heap/capture environments and general callback effects remain open."
+        },
+        "interaction": {
+          "status": "tested-conservative",
+          "evidence": [
+            "callable-refinements-values",
+            "callable-refinements-receivers",
+            "callable-refinements-constructor-values"
+          ],
+          "obligation": "astgen/test/generic_tearoffs_test.dart: String/int type tests, bounded values/branches and receiver traces; static_dispatch_test.dart: bound super/extension and static shadow controls; runtime bound checks unqualified"
         }
       }
     }

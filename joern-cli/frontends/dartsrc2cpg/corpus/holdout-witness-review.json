@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "analysisBaseCommit": "b3a9b4f72",
+  "analysisBaseCommit": "928c52844",
   "scope": "All four initial holdout queries at witness bound four/two held rounds, both model sets; complete review of returned paths and source-grounded bounded absence controls.",
   "elementColumns": [
     "nodeId",
@@ -72,8 +72,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "22d474c7d4ac73cf90fcce403c1cc72bce73dd0720c1336f9be99d4158f29692",
-        "files": 414,
+        "sha256": "fd6a6a8215cf5d7d63c58415c5c25d246071ed89f0f3113d8aa0b9f80cc29eaa",
+        "files": 415,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -610,8 +610,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "22d474c7d4ac73cf90fcce403c1cc72bce73dd0720c1336f9be99d4158f29692",
-        "files": 414,
+        "sha256": "fd6a6a8215cf5d7d63c58415c5c25d246071ed89f0f3113d8aa0b9f80cc29eaa",
+        "files": 415,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -996,11 +996,11 @@
     }
   ],
   "refresh": {
-    "previousBaseCommit": "b3a9b4f72",
+    "previousBaseCommit": "928c52844",
     "previousAnalysisSources": {
       "algorithm": "sha256-path-nul-content-nul",
-      "sha256": "d6e307a96b67cfc6d04d4067e6d3878a120983cc5cae648819677f956ede2d3b",
-      "files": 413,
+      "sha256": "22d474c7d4ac73cf90fcce403c1cc72bce73dd0720c1336f9be99d4158f29692",
+      "files": 414,
       "roots": [
         "joern-cli/frontends/dartsrc2cpg/src",
         "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -1026,7 +1026,7 @@
       "distinctPaths": 3,
       "distinctTransitions": 19
     },
-    "method": "Replayed after retaining successful cast and null-assertion pattern result identities, including instantiated wrapper erasures through saved results and cached getter uses. Unchanged routes are matched against previous two/four-witness reviewed paths after removing node IDs only; all other node/call/context/flag/demand facts are retained. Changed variants have separate source-grounded refresh dispositions and checked argument/return/output bindings. All new graph IDs are reconstructed from fresh raw audits. Native observations do not certify caller re-entry, allocation, heap/dispatch precision or route feasibility."
+    "method": "Replayed after preserving known immutable callable targets through casts/assertions, saved values and final pattern bindings, with bound receiver captures and corrected positional fallback binding after named arguments. Unknown and changing callables remain unresolved. Unchanged routes are matched against previous two/four-witness reviewed paths after removing node IDs only; all other node/call/context/flag/demand facts are retained. Changed variants have separate source-grounded refresh dispositions and checked argument/return/output bindings. All new graph IDs are reconstructed from fresh raw audits. Native observations do not certify caller re-entry, allocation, heap/dispatch precision or route feasibility."
   },
   "nativeRefreshScope": "Existing native oracle contracts remain unchanged."
 }

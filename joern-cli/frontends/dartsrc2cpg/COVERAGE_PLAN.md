@@ -69,7 +69,12 @@ function types now retain distinct anonymous scopes under aliases, methods and
 bounds. Explicit generic function references now retain instantiated static types
 and source, with stable alias target, operand isolation and named/default binding
 regressions. Nested references no longer supply guessed targets for conditional
-or returned function values. Super calls/accessors/operators and bound tear-offs
+or returned function values. Known immutable callable targets now survive
+casts/assertions, saved values and final pattern bindings, retaining generic
+identities, bound receiver capture and omitted defaults. Positional fallback
+binding after named arguments preserves target slots and source evaluation order.
+Constructor-value calls retain checks and reference reads before argument evaluation
+and allocation. Changing and unknown callables remain unresolved. Super calls/accessors/operators and bound tear-offs
 now retain static targets; extension tear-offs/setters and static member shadows
 have operand-isolation and bounded execution controls. Ordinary virtual calls
 retain analyzer-selected hierarchy implementations, including covariant/generic
@@ -227,19 +232,19 @@ stock paths and 117 modeled paths with unchanged endpoint outcomes. The
 in the three distinct Shelf/YAML paths, with same-budget positive controls for
 both isolation queries. Eight modeled negative searches elsewhere remain
 inconclusive. Additional sequences are not necessarily new semantic route families.
-The [analyzer review](corpus/analyzer-alternative-review.json) classifies 535
-transitions across 17 distinct paths, retaining readonly argument-output,
+The [analyzer review](corpus/analyzer-alternative-review.json) classifies 360
+transitions across 14 distinct paths, retaining readonly argument-output,
 receiver/field, external-read and caller detours as approximations rather than
 exact runtime provenance. Direct uint32 high-byte binding and fork offset
 assignment now have mixed-byte/flush-boundary and shared-byte/independent-offset
 execution controls.
-The [Sass review](corpus/sass-alternative-review.json) classifies all 346
-transitions across 23 distinct paths for its eleven queries. Direct parser
+The [Sass review](corpus/sass-alternative-review.json) classifies all 400
+transitions across 25 distinct paths for its eleven queries. Direct parser
 forwarding, readonly output detours, substring argument effects and callback
 approximations have separate dispositions; limited negative searches remain
 inconclusive.
 The [LocalSend/Saber review](corpus/applications-alternative-review.json)
-classifies 675 transitions across 52 distinct paths for all twenty-two queries.
+classifies 634 transitions across 51 distinct paths for all twenty-two queries.
 Certificate/callback, readonly caller-output, MapEntry/collection and worker
 receiver detours retain their approximation status. Native controls exercise the
 pinned URI helper class, filename extension and Base64 codec; they do not execute
@@ -252,9 +257,9 @@ have pinned execution controls. Both args negative searches retain call-depth
 limits; no exhaustive absence claim follows from passing endpoint controls.
 
 The [path/async/http_parser review](corpus/package-flows-alternative-review.json)
-classifies all 1,012 transitions in 40 distinct paths for its fifteen queries.
-The complete audit retains 248 selected paths sharing 149 distinct routes and
-2,627 classified transitions across all eighty queries. Endpoint identities,
+classifies all 1,087 transitions in 40 distinct paths for its fifteen queries.
+The complete audit retains 248 selected paths sharing 147 distinct routes and
+2,540 classified transitions across all eighty queries. Endpoint identities,
 caller re-entry, size/control detours and external effects retain their limitations;
 eight modeled negatives and omitted alternatives remain unqualified.
 
@@ -300,7 +305,7 @@ remain references; separately adapted manifest cases have explicit valid/diagnos
 classifications and bounded execution tests. Existing
 per-stage semantic qualifications are unchanged. The [qualification matrix](conformance/qualification-matrix.json)
 now assigns all visitor, base-section and feature-document rows seven explicit
-stage cells, with 111 named test links and stale-evidence checks. Shared profiles
+stage cells, with 118 named test links and stale-evidence checks. Shared profiles
 describe selected assertions; complete specification rules retain unqualified
 obligations. Rule-specific test mapping and broader executable traces remain unfinished.
 The asynchronous for-in rule now has a partial cancellation contract, with native

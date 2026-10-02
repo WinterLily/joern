@@ -126,10 +126,16 @@ otherwise a callback target can incorrectly carry taint between invocations. Clo
 and CLOSURE_BINDING edges with BY_REFERENCE semantics. Bound instance tear-offs
 use wrapper methods capturing a receiver evaluated once. Final local function
 values with a known initializer link to that target, including stable copies and
-explicit generic instantiation through those copies. Targets come from the actual
-initializer value; a reference nested in a call argument or conditional branch
-does not identify that value. Named binding and omitted defaults use the known
-declaration's parameters, with the same per-target default adaptation for known bound calls. Mutable, conditional and returned function values and
+explicit generic instantiation through those copies. Successful casts and null
+assertions preserve that same callable identity, including saved values and final
+pattern bindings. Joined bindings retain a target only when all alternatives
+supply that target. Targets come from the actual initializer value; a reference
+nested in a call argument or conditional branch does not identify that value.
+Named binding and omitted defaults use the known declaration's parameters, with
+the same per-target default adaptation for known bound calls. Positional fallback
+binding counts positional arguments separately from named ones while retaining
+source evaluation order. Constructor-value calls evaluate the callable before
+allocation and arguments, retaining cast/assert operations and reference reads. Mutable, conditional and returned function values and
 higher-order callback targets remain dynamic; this frontend does not
 perform a whole-program function-value points-to analysis.
 

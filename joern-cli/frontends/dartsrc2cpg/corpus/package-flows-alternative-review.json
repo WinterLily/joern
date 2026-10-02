@@ -104,8 +104,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "22d474c7d4ac73cf90fcce403c1cc72bce73dd0720c1336f9be99d4158f29692",
-        "files": 414,
+        "sha256": "fd6a6a8215cf5d7d63c58415c5c25d246071ed89f0f3113d8aa0b9f80cc29eaa",
+        "files": 415,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -237,7 +237,7 @@
             "issue": "DART-FLOW-004",
             "owner": "shared dataflow query engine / Dart library models"
           },
-          "refreshDisposition": "Fresh two-witness stock 30-node variants retain unchanged _needsNormalization parameter output and normalize return, then output-marked normalize entering prettyUri and relative. One variant selects isRelative and the other isAbsolute argument/output binding before re-entering normalize. Both then follow path.codeUnits and the URL-style rootLength path.isEmpty body, retaining the POSIX/URL/Windows callee union in every style.rootLength frame. Exact flags, slots and frames remain recorded; field and storage demands are empty. These readonly-output, external-read, dispatch and caller detours do not establish String mutation, branch feasibility, runtime style identity or actual caller order. The POSIX native helper does not execute the URL body or prettyUri route. No causal connection between these selection changes and map result metadata or pattern receiver intersections is asserted. Fresh four-witness modeled variants select those same two 30-node readonly/caller routes and URL body; the modes and bounds remain separate records."
+          "refreshDisposition": "The fresh two-witness modeled 31/31-node paths retain normalize readonly _needsNormalization parameter-output, its fast return and output-marked prettyUri caller re-entry through relative. Variants select isRelative or isAbsolute readonly output, then normalize/_needsNormalization and the POSIX rootLength isNotEmpty/codeUnitAt body while retaining POSIX/URL/Windows candidates. Exact root/path slots 1, string receiver slots 0, flags, edge labels and initial normalize(fromUri(typedUri))/nested rootLength frames are retained; field/storage demands are empty. Source fast-return forwarding is justified, but caller re-entry, readonly output and observed style unions do not identify an executed context/style, string mutation, feasible branch sequence or exact invocation order. No causal relation to callable refinement changes is asserted. Four-witness stock/modeled 30-node variants instead enter POSIX rootLength inside isAbsolute, then retain readonly _needsNormalization output on the later normalization. The two 31-node modeled variants match the separately reviewed two-witness paths exactly, including all metadata."
         },
         {
           "id": "set-extension-path",
@@ -782,28 +782,28 @@
             ]
           ]
         },
-        "111669150087": {
+        "111669150060": {
           "label": "METHOD_PARAMETER_IN",
-          "method": "package:path/src/style/windows.dart#1324:METHOD:rootLength",
+          "method": "package:path/src/style/url.dart#1348:METHOD:rootLength",
           "code": "String path",
           "line": 47,
           "parameterIndex": 1
         },
-        "68719478428": {
+        "68719478351": {
           "label": "IDENTIFIER",
-          "method": "package:path/src/style/windows.dart#1324:METHOD:rootLength",
+          "method": "package:path/src/style/url.dart#1348:METHOD:rootLength",
           "code": "path",
           "line": 48,
           "argumentsOf": [
             [
-              "30064772876",
+              "30064772791",
               0
             ]
           ]
         },
-        "115964117383": {
+        "115964117356": {
           "label": "METHOD_PARAMETER_OUT",
-          "method": "package:path/src/style/windows.dart#1324:METHOD:rootLength",
+          "method": "package:path/src/style/url.dart#1348:METHOD:rootLength",
           "code": "String path",
           "line": 47,
           "parameterIndex": 1
@@ -858,30 +858,42 @@
             ]
           ]
         },
-        "111669150060": {
+        "111669150035": {
           "label": "METHOD_PARAMETER_IN",
-          "method": "package:path/src/style/url.dart#1348:METHOD:rootLength",
+          "method": "package:path/src/style/posix.dart#1039:METHOD:rootLength",
           "code": "String path",
-          "line": 47,
+          "line": 39,
           "parameterIndex": 1
         },
-        "68719478351": {
+        "68719478295": {
           "label": "IDENTIFIER",
-          "method": "package:path/src/style/url.dart#1348:METHOD:rootLength",
+          "method": "package:path/src/style/posix.dart#1039:METHOD:rootLength",
           "code": "path",
-          "line": 48,
+          "line": 40,
           "argumentsOf": [
             [
-              "30064772791",
+              "30064772719",
               0
             ]
           ]
         },
-        "115964117356": {
+        "68719478297": {
+          "label": "IDENTIFIER",
+          "method": "package:path/src/style/posix.dart#1039:METHOD:rootLength",
+          "code": "path",
+          "line": 40,
+          "argumentsOf": [
+            [
+              "30064772721",
+              0
+            ]
+          ]
+        },
+        "115964117331": {
           "label": "METHOD_PARAMETER_OUT",
-          "method": "package:path/src/style/url.dart#1348:METHOD:rootLength",
+          "method": "package:path/src/style/posix.dart#1039:METHOD:rootLength",
           "code": "String path",
-          "line": 47,
+          "line": 39,
           "parameterIndex": 1
         },
         "111669149848": {
@@ -1700,8 +1712,8 @@
             }
           ]
         },
-        "30064772876": {
-          "nodeId": "30064772876",
+        "30064772791": {
+          "nodeId": "30064772791",
           "name": "isEmpty",
           "target": "dart:core/string.dart#13494:GETTER:isEmpty",
           "code": "path.isEmpty",
@@ -1756,14 +1768,26 @@
             }
           ]
         },
-        "30064772791": {
-          "nodeId": "30064772791",
-          "name": "isEmpty",
-          "target": "dart:core/string.dart#13494:GETTER:isEmpty",
-          "code": "path.isEmpty",
+        "30064772719": {
+          "nodeId": "30064772719",
+          "name": "isNotEmpty",
+          "target": "dart:core/string.dart#13555:GETTER:isNotEmpty",
+          "code": "path.isNotEmpty",
           "callees": [
             {
-              "fullName": "dart:core/string.dart#13494:GETTER:isEmpty",
+              "fullName": "dart:core/string.dart#13555:GETTER:isNotEmpty",
+              "external": true
+            }
+          ]
+        },
+        "30064772721": {
+          "nodeId": "30064772721",
+          "name": "codeUnitAt",
+          "target": "dart:core/string.dart#8631:METHOD:codeUnitAt",
+          "code": "path.codeUnitAt(0)",
+          "callees": [
+            {
+              "fullName": "dart:core/string.dart#8631:METHOD:codeUnitAt",
               "external": true
             }
           ]
@@ -2447,7 +2471,7 @@
               []
             ],
             [
-              "111669150087",
+              "111669150060",
               5,
               true,
               false,
@@ -2455,7 +2479,7 @@
               []
             ],
             [
-              "68719478428",
+              "68719478351",
               5,
               true,
               false,
@@ -2463,7 +2487,7 @@
               []
             ],
             [
-              "115964117383",
+              "115964117356",
               5,
               true,
               false,
@@ -2722,7 +2746,7 @@
               []
             ],
             [
-              "111669150087",
+              "111669150060",
               5,
               true,
               false,
@@ -2730,7 +2754,7 @@
               []
             ],
             [
-              "68719478428",
+              "68719478351",
               5,
               true,
               false,
@@ -2738,7 +2762,7 @@
               []
             ],
             [
-              "115964117383",
+              "115964117356",
               5,
               true,
               false,
@@ -2941,7 +2965,7 @@
               []
             ],
             [
-              "111669150060",
+              "111669150035",
               7,
               true,
               false,
@@ -2949,7 +2973,7 @@
               []
             ],
             [
-              "68719478351",
+              "68719478295",
               7,
               true,
               false,
@@ -2957,7 +2981,15 @@
               []
             ],
             [
-              "115964117356",
+              "68719478297",
+              7,
+              true,
+              false,
+              "path",
+              []
+            ],
+            [
+              "115964117331",
               7,
               true,
               false,
@@ -3070,6 +3102,7 @@
             "parameter-read",
             "parameter-binding",
             "parameter-read",
+            "local-read",
             "parameter-output",
             "caller-output",
             "parameter-output",
@@ -3520,7 +3553,7 @@
               []
             ],
             [
-              "111669150060",
+              "111669150035",
               5,
               true,
               false,
@@ -3528,7 +3561,7 @@
               []
             ],
             [
-              "68719478351",
+              "68719478295",
               5,
               true,
               false,
@@ -3536,7 +3569,15 @@
               []
             ],
             [
-              "115964117356",
+              "68719478297",
+              5,
+              true,
+              false,
+              "path",
+              []
+            ],
+            [
+              "115964117331",
               5,
               true,
               false,
@@ -3608,6 +3649,7 @@
             "local-read",
             "parameter-binding",
             "parameter-read",
+            "local-read",
             "parameter-output",
             "caller-output",
             "parameter-output",
@@ -3795,7 +3837,7 @@
               []
             ],
             [
-              "111669150060",
+              "111669150035",
               5,
               true,
               false,
@@ -3803,7 +3845,7 @@
               []
             ],
             [
-              "68719478351",
+              "68719478295",
               5,
               true,
               false,
@@ -3811,7 +3853,15 @@
               []
             ],
             [
-              "115964117356",
+              "68719478297",
+              5,
+              true,
+              false,
+              "path",
+              []
+            ],
+            [
+              "115964117331",
               5,
               true,
               false,
@@ -3883,6 +3933,7 @@
             "local-read",
             "parameter-binding",
             "parameter-read",
+            "local-read",
             "parameter-output",
             "caller-output",
             "parameter-output",
@@ -6631,8 +6682,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "22d474c7d4ac73cf90fcce403c1cc72bce73dd0720c1336f9be99d4158f29692",
-        "files": 414,
+        "sha256": "fd6a6a8215cf5d7d63c58415c5c25d246071ed89f0f3113d8aa0b9f80cc29eaa",
+        "files": 415,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -7975,8 +8026,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "22d474c7d4ac73cf90fcce403c1cc72bce73dd0720c1336f9be99d4158f29692",
-        "files": 414,
+        "sha256": "fd6a6a8215cf5d7d63c58415c5c25d246071ed89f0f3113d8aa0b9f80cc29eaa",
+        "files": 415,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -8111,7 +8162,7 @@
             "issue": "DART-FLOW-003",
             "owner": "shared dataflow query engine / Dart library models"
           },
-          "refreshDisposition": "Fresh two-witness stock 29/28-node routes follow input.length into _convert end slot 3, size/header arithmetic and Uint8List allocation, then saved CR/LF receivers. The selected setRange chain is receiver slot 0 -> skipCount/start slot 4 -> computed end slot 2 -> bytes slot 3; the shorter variant omits the saved allocation identifier while retaining hidden allocation evidence. All slots, output/visibility flags, empty field/storage demands and frames are explicit. These readonly size/header, external allocation and cross-argument range effects are conservative approximations, not direct original-byte copying or an executed allocation identity. Modeled byte-content effects and bounded native whole/slice/empty observations remain separate. No causal link to cast/null-assert result metadata is asserted. Fresh four-witness stock variants keep the same 0 -> 4 -> 2 -> 3 range order; additional shorter variants omit a CR or LF saved alias while preserving its hidden receiver evidence."
+          "refreshDisposition": "The fresh two-witness stock 29/28-node paths follow input.length into _convert end slot 3, size/header arithmetic and Uint8List allocation, then saved CR/LF receiver aliases. The range chain now selects receiver slot 0 -> skipCount/start slot 4 -> cursor/start slot 1 -> bytes slot 3, omitting computed end slot 2. The shorter variant omits the saved allocation identifier but retains hidden allocation evidence. Slots, flags, frames and empty field/storage demands are retained. These readonly length, size/header, external allocation and cross-argument range effects do not establish direct original-byte copying, byte-element provenance, allocation identity or feasible branches. Model-specific byte effects and bounded native executions remain separately scoped. No causal relation to callable refinement changes is asserted. Four-witness stock variants retain the same 0 -> 4 -> 1 -> 3 range order. Their 28-node variants separately omit the saved allocation, CR alias or LF alias while retaining hidden receiver evidence."
         },
         {
           "id": "chunk-return-buffer",
@@ -8220,7 +8271,7 @@
             "issue": "DART-FLOW-003",
             "owner": "shared dataflow query engine / Dart library models"
           },
-          "refreshDisposition": "Fresh two-witness stock 74-node variants retain bytes slot 3 -> computed end slot 2 -> setRange receiver slot 0, omitting the skipCount detour in both initial and final copy phases. Saved CR/LF aliases and footer setRange start slot 1 -> end slot 2 -> receiver slot 0 reach _convert return. Output-marked _convert enters candidate _Sink.add: first re-entry selects chunk.length/end slot 3 through size/header/allocation and the later re-entry selects chunk/bytes slot 1. Initial add/addSlice frames are distinct and each sink call retains core/decoder/encoder candidates. All slots, flags and frames remain recorded; field/storage demands are empty. Whole-buffer, range, size/header, readonly/external and dispatch/caller detours do not establish a runtime sink instance, invocation order, branch feasibility, allocation identity or exact byte-element provenance. Model-specific byte effects and bounded native library executions retain their separate scope. Fresh four-witness stock 55/54-node variants retain 3 -> 2 -> 0 copy order and 1 -> 2 -> 0 footer bounds, with bytes selected at both output-marked add re-entries. Shorter stock variants omit one initial CR or LF saved alias but keep its hidden receiver evidence. Fresh modeled 46/45-node variants use direct modeled byte slot 3 -> receiver slot 0 in all three copy phases, readonly length/footer receiver effects and bytes at both add re-entries; their shorter variants also omit an initial CR or LF saved alias with hidden evidence preserved. Every initial add/addSlice invocation and later add frame is retained. Larger witness bounds do not imply inclusion of smaller-bound routes, and these conservative selections do not certify actual repeated calls, allocation identity or exact byte provenance."
+          "refreshDisposition": "The fresh two-witness stock 76/76-node variants retain bytes slot 3 -> skipCount/start slot 4 -> cursor/start slot 1 -> setRange receiver slot 0 in the initial and final copies; footer bounds select slot 1 -> slot 2 -> receiver slot 0. Saved CR/LF aliases, readonly length effects and _convert return enter candidate _Sink.add: the first output-marked re-entry selects chunk.length/end slot 3 through size/header/allocation; the second selects chunk/bytes slot 1. Initial add/addSlice frames are distinct. Modeled 76/76-node variants instead use direct modeled byte slot 3 -> receiver slot 0 and readonly footer receiver effects, then select end/header.codeUnits at both output-marked add re-entries. Their header code-unit copies are modeled byte slot 3 -> receiver slot 0, and allocation-size propagation is omitted. All sink calls retain core/decoder/encoder candidates; slots, hidden/output flags, edge labels, frames and empty field/storage demands remain explicit. Whole-buffer size/header, readonly/external, dispatch and caller effects do not establish actual sink instances, repeated-call order, branch feasibility, allocation identity or original byte-element provenance. Independent native whole/slice/empty observations remain separate; no causal relation to callable refinement changes is asserted. Four-witness stock 58/58/57/57-node paths choose bytes slot 1 at both output-marked add re-entries, retaining 3 -> 4 -> 1 -> 0 copies and footer 1 -> 2 -> 0. The shorter variants omit the initial copy skipCount/start slot 4 or cursor/start slot 1 independently. Four-witness modeled 61/61/60/60-node paths retain direct byte slot 3 -> receiver 0, choose bytes on first re-entry and end/header.codeUnits on second, and omit allocation-size propagation. Shorter modeled variants omit the initial saved CR or LF identifier while retaining hidden receiver evidence. Initial add/addSlice contexts and later add contexts remain distinct; all core/decoder/encoder candidates and exact output/visibility/edge/demand metadata are retained."
         },
         {
           "id": "chunk-empty-return",
@@ -8848,16 +8899,15 @@
             ]
           ]
         },
-        "30064771631": {
-          "label": "CALL",
+        "68719477247": {
+          "label": "IDENTIFIER",
           "method": "package:http_parser/src/chunked_coding/encoder.dart#1792:FUNCTION:_convert",
-          "code": "cursor + end - start",
+          "code": "cursor",
           "line": 74,
-          "call": "30064771631",
           "argumentsOf": [
             [
               "30064771630",
-              2
+              1
             ]
           ]
         },
@@ -9087,6 +9137,56 @@
             [
               "30064771651",
               0
+            ]
+          ]
+        },
+        "30064771581": {
+          "label": "CALL",
+          "method": "package:http_parser/src/chunked_coding/encoder.dart#1162:METHOD:add",
+          "code": "chunk.length",
+          "line": 38,
+          "call": "30064771581",
+          "argumentsOf": [
+            [
+              "30064771580",
+              3
+            ]
+          ]
+        },
+        "68719477228": {
+          "label": "IDENTIFIER",
+          "method": "package:http_parser/src/chunked_coding/encoder.dart#1792:FUNCTION:_convert",
+          "code": "sizeInHex",
+          "line": 69,
+          "argumentsOf": [
+            [
+              "30064771614",
+              0
+            ]
+          ]
+        },
+        "68719477229": {
+          "label": "IDENTIFIER",
+          "method": "package:http_parser/src/chunked_coding/encoder.dart#1792:FUNCTION:_convert",
+          "code": "sizeInHex",
+          "line": 69,
+          "argumentsOf": [
+            [
+              "30064771615",
+              0
+            ]
+          ]
+        },
+        "30064771615": {
+          "label": "CALL",
+          "method": "package:http_parser/src/chunked_coding/encoder.dart#1792:FUNCTION:_convert",
+          "code": "sizeInHex.codeUnits",
+          "line": 69,
+          "call": "30064771615",
+          "argumentsOf": [
+            [
+              "30064771613",
+              3
             ]
           ]
         },
@@ -9446,18 +9546,6 @@
             }
           ]
         },
-        "30064771631": {
-          "nodeId": "30064771631",
-          "name": "<operator>.subtraction",
-          "target": "<operator>.dart.subtraction",
-          "code": "cursor + end - start",
-          "callees": [
-            {
-              "fullName": "<operator>.dart.subtraction",
-              "external": true
-            }
-          ]
-        },
         "30064771580": {
           "nodeId": "30064771580",
           "name": "_convert",
@@ -9603,6 +9691,30 @@
             {
               "fullName": "package:http_parser/src/chunked_coding/encoder.dart#1162:METHOD:add",
               "external": false
+            }
+          ]
+        },
+        "30064771614": {
+          "nodeId": "30064771614",
+          "name": "length",
+          "target": "dart:core/string.dart#9096:GETTER:length",
+          "code": "sizeInHex.length",
+          "callees": [
+            {
+              "fullName": "dart:core/string.dart#9096:GETTER:length",
+              "external": true
+            }
+          ]
+        },
+        "30064771615": {
+          "nodeId": "30064771615",
+          "name": "codeUnits",
+          "target": "dart:core/string.dart#28023:GETTER:codeUnits",
+          "code": "sizeInHex.codeUnits",
+          "callees": [
+            {
+              "fullName": "dart:core/string.dart#28023:GETTER:codeUnits",
+              "external": true
             }
           ]
         },
@@ -9923,11 +10035,11 @@
               []
             ],
             [
-              "30064771631",
+              "68719477247",
               0,
               true,
               false,
-              "cursor + end - start",
+              "cursor",
               []
             ],
             [
@@ -10181,11 +10293,11 @@
               []
             ],
             [
-              "30064771631",
+              "68719477247",
               0,
               true,
               false,
-              "cursor + end - start",
+              "cursor",
               []
             ],
             [
@@ -10438,11 +10550,11 @@
               []
             ],
             [
-              "30064771631",
+              "68719477247",
               0,
               true,
               false,
-              "cursor + end - start",
+              "cursor",
               []
             ],
             [
@@ -10695,11 +10807,11 @@
               []
             ],
             [
-              "30064771631",
+              "68719477247",
               0,
               true,
               false,
-              "cursor + end - start",
+              "cursor",
               []
             ],
             [
@@ -10810,11 +10922,19 @@
               []
             ],
             [
-              "30064771631",
+              "68719477252",
               1,
               true,
               false,
-              "cursor + end - start",
+              "start",
+              []
+            ],
+            [
+              "68719477247",
+              1,
+              true,
+              false,
+              "cursor",
               []
             ],
             [
@@ -10970,11 +11090,19 @@
               []
             ],
             [
-              "30064771631",
+              "68719477252",
               1,
               true,
               false,
-              "cursor + end - start",
+              "start",
+              []
+            ],
+            [
+              "68719477247",
+              1,
+              true,
+              false,
+              "cursor",
               []
             ],
             [
@@ -11130,11 +11258,19 @@
               []
             ],
             [
-              "30064771631",
+              "68719477252",
               0,
               true,
               false,
-              "cursor + end - start",
+              "start",
+              []
+            ],
+            [
+              "68719477247",
+              0,
+              true,
+              false,
+              "cursor",
               []
             ],
             [
@@ -11238,25 +11374,6 @@
             "parameter-read",
             "external-write",
             "external-write",
-            "local-read",
-            "assignment",
-            "alias",
-            "assignment",
-            "alias",
-            "external-return",
-            "operator-value",
-            "external-write",
-            "external-write",
-            "local-read",
-            "return-value",
-            "method-return",
-            "call-return",
-            "parameter-binding",
-            "parameter-read",
-            "local-read",
-            "parameter-binding",
-            "parameter-read",
-            "external-write",
             "external-write",
             "local-read",
             "assignment",
@@ -11276,6 +11393,28 @@
             "local-read",
             "parameter-binding",
             "parameter-read",
+            "external-write",
+            "external-write",
+            "external-write",
+            "local-read",
+            "assignment",
+            "alias",
+            "assignment",
+            "alias",
+            "external-return",
+            "operator-value",
+            "external-write",
+            "external-write",
+            "local-read",
+            "return-value",
+            "method-return",
+            "call-return",
+            "parameter-binding",
+            "parameter-read",
+            "local-read",
+            "parameter-binding",
+            "parameter-read",
+            "external-write",
             "external-write",
             "external-write",
             "local-read",
@@ -11310,11 +11449,19 @@
               []
             ],
             [
-              "30064771631",
+              "68719477252",
               2,
               true,
               false,
-              "cursor + end - start",
+              "start",
+              []
+            ],
+            [
+              "68719477247",
+              2,
+              true,
+              false,
+              "cursor",
               []
             ],
             [
@@ -11470,11 +11617,19 @@
               []
             ],
             [
-              "30064771631",
+              "68719477252",
               1,
               true,
               false,
-              "cursor + end - start",
+              "start",
+              []
+            ],
+            [
+              "68719477247",
+              1,
+              true,
+              false,
+              "cursor",
               []
             ],
             [
@@ -11630,11 +11785,19 @@
               []
             ],
             [
-              "30064771631",
+              "68719477252",
               0,
               true,
               false,
-              "cursor + end - start",
+              "start",
+              []
+            ],
+            [
+              "68719477247",
+              0,
+              true,
+              false,
+              "cursor",
               []
             ],
             [
@@ -11738,25 +11901,6 @@
             "parameter-read",
             "external-write",
             "external-write",
-            "local-read",
-            "assignment",
-            "alias",
-            "assignment",
-            "alias",
-            "external-return",
-            "operator-value",
-            "external-write",
-            "external-write",
-            "local-read",
-            "return-value",
-            "method-return",
-            "call-return",
-            "parameter-binding",
-            "parameter-read",
-            "local-read",
-            "parameter-binding",
-            "parameter-read",
-            "external-write",
             "external-write",
             "local-read",
             "assignment",
@@ -11776,6 +11920,28 @@
             "local-read",
             "parameter-binding",
             "parameter-read",
+            "external-write",
+            "external-write",
+            "external-write",
+            "local-read",
+            "assignment",
+            "alias",
+            "assignment",
+            "alias",
+            "external-return",
+            "operator-value",
+            "external-write",
+            "external-write",
+            "local-read",
+            "return-value",
+            "method-return",
+            "call-return",
+            "parameter-binding",
+            "parameter-read",
+            "local-read",
+            "parameter-binding",
+            "parameter-read",
+            "external-write",
             "external-write",
             "external-write",
             "local-read",
@@ -11810,11 +11976,11 @@
               []
             ],
             [
-              "30064771631",
+              "68719477247",
               1,
               true,
               false,
-              "cursor + end - start",
+              "cursor",
               []
             ],
             [
@@ -11828,9 +11994,17 @@
             [
               "68719477258",
               1,
-              false,
+              true,
               false,
               "list",
+              []
+            ],
+            [
+              "68719477257",
+              1,
+              true,
+              false,
+              "<tmp>9",
               []
             ],
             [
@@ -11962,11 +12136,19 @@
               []
             ],
             [
-              "30064771631",
+              "68719477252",
               1,
               true,
               false,
-              "cursor + end - start",
+              "start",
+              []
+            ],
+            [
+              "68719477247",
+              1,
+              true,
+              false,
+              "cursor",
               []
             ],
             [
@@ -12122,11 +12304,19 @@
               []
             ],
             [
-              "30064771631",
+              "68719477252",
               0,
               true,
               false,
-              "cursor + end - start",
+              "start",
+              []
+            ],
+            [
+              "68719477247",
+              0,
+              true,
+              false,
+              "cursor",
               []
             ],
             [
@@ -12231,25 +12421,6 @@
             "external-write",
             "external-write",
             "local-read",
-            "local-read",
-            "assignment",
-            "alias",
-            "external-return",
-            "operator-value",
-            "external-write",
-            "external-write",
-            "local-read",
-            "return-value",
-            "method-return",
-            "call-return",
-            "parameter-binding",
-            "parameter-read",
-            "local-read",
-            "parameter-binding",
-            "parameter-read",
-            "external-write",
-            "external-write",
-            "local-read",
             "assignment",
             "alias",
             "assignment",
@@ -12267,6 +12438,28 @@
             "local-read",
             "parameter-binding",
             "parameter-read",
+            "external-write",
+            "external-write",
+            "external-write",
+            "local-read",
+            "assignment",
+            "alias",
+            "assignment",
+            "alias",
+            "external-return",
+            "operator-value",
+            "external-write",
+            "external-write",
+            "local-read",
+            "return-value",
+            "method-return",
+            "call-return",
+            "parameter-binding",
+            "parameter-read",
+            "local-read",
+            "parameter-binding",
+            "parameter-read",
+            "external-write",
             "external-write",
             "external-write",
             "local-read",
@@ -12301,11 +12494,11 @@
               []
             ],
             [
-              "30064771631",
+              "68719477252",
               1,
               true,
               false,
-              "cursor + end - start",
+              "start",
               []
             ],
             [
@@ -12335,9 +12528,17 @@
             [
               "68719477265",
               1,
-              false,
+              true,
               false,
               "list",
+              []
+            ],
+            [
+              "68719477264",
+              1,
+              true,
+              false,
+              "<tmp>11",
               []
             ],
             [
@@ -12453,11 +12654,19 @@
               []
             ],
             [
-              "30064771631",
+              "68719477252",
               1,
               true,
               false,
-              "cursor + end - start",
+              "start",
+              []
+            ],
+            [
+              "68719477247",
+              1,
+              true,
+              false,
+              "cursor",
               []
             ],
             [
@@ -12613,11 +12822,19 @@
               []
             ],
             [
-              "30064771631",
+              "68719477252",
               0,
               true,
               false,
-              "cursor + end - start",
+              "start",
+              []
+            ],
+            [
+              "68719477247",
+              0,
+              true,
+              false,
+              "cursor",
               []
             ],
             [
@@ -12724,7 +12941,8 @@
             "local-read",
             "assignment",
             "alias",
-            "local-read",
+            "assignment",
+            "alias",
             "external-return",
             "operator-value",
             "external-write",
@@ -12738,6 +12956,7 @@
             "local-read",
             "parameter-binding",
             "parameter-read",
+            "external-write",
             "external-write",
             "external-write",
             "local-read",
@@ -12758,6 +12977,7 @@
             "local-read",
             "parameter-binding",
             "parameter-read",
+            "external-write",
             "external-write",
             "external-write",
             "local-read",
@@ -13040,7 +13260,7 @@
               []
             ],
             [
-              "68719477197",
+              "30064771581",
               0,
               true,
               false,
@@ -13048,19 +13268,139 @@
               []
             ],
             [
-              "111669149773",
+              "111669149775",
               0,
               true,
               false,
-              "bytes",
+              "end",
               []
             ],
             [
-              "68719477251",
+              "68719477211",
+              0,
+              false,
+              false,
+              "end",
+              []
+            ],
+            [
+              "68719477215",
+              0,
+              false,
+              false,
+              "end",
+              []
+            ],
+            [
+              "30064771599",
               0,
               true,
               false,
-              "bytes",
+              "end - start",
+              []
+            ],
+            [
+              "68719477214",
+              0,
+              true,
+              false,
+              "size",
+              []
+            ],
+            [
+              "68719477218",
+              0,
+              true,
+              false,
+              "size",
+              []
+            ],
+            [
+              "30064771601",
+              0,
+              true,
+              false,
+              "size.toRadixString(16)",
+              []
+            ],
+            [
+              "68719477217",
+              0,
+              true,
+              false,
+              "sizeInHex",
+              []
+            ],
+            [
+              "68719477223",
+              0,
+              true,
+              false,
+              "sizeInHex",
+              []
+            ],
+            [
+              "68719477228",
+              0,
+              true,
+              false,
+              "sizeInHex",
+              []
+            ],
+            [
+              "68719477229",
+              0,
+              true,
+              false,
+              "sizeInHex",
+              []
+            ],
+            [
+              "30064771615",
+              0,
+              true,
+              false,
+              "sizeInHex.codeUnits",
+              []
+            ],
+            [
+              "68719477227",
+              0,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477233",
+              0,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477232",
+              0,
+              true,
+              false,
+              "<tmp>5",
+              []
+            ],
+            [
+              "68719477240",
+              0,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477239",
+              0,
+              true,
+              false,
+              "<tmp>7",
               []
             ],
             [
@@ -13177,10 +13517,25 @@
             "call-return",
             "parameter-binding",
             "parameter-read",
-            "local-read",
+            "external-return",
             "parameter-binding",
             "parameter-read",
+            "local-read",
+            "operator-value",
+            "assignment",
+            "local-read",
+            "external-return",
+            "assignment",
+            "local-read",
+            "local-read",
+            "local-read",
+            "external-return",
             "external-write",
+            "local-read",
+            "assignment",
+            "alias",
+            "assignment",
+            "alias",
             "local-read",
             "assignment",
             "alias",
@@ -13459,7 +13814,7 @@
               []
             ],
             [
-              "68719477197",
+              "30064771581",
               0,
               true,
               false,
@@ -13467,19 +13822,139 @@
               []
             ],
             [
-              "111669149773",
+              "111669149775",
               0,
               true,
               false,
-              "bytes",
+              "end",
               []
             ],
             [
-              "68719477251",
+              "68719477211",
+              0,
+              false,
+              false,
+              "end",
+              []
+            ],
+            [
+              "68719477215",
+              0,
+              false,
+              false,
+              "end",
+              []
+            ],
+            [
+              "30064771599",
               0,
               true,
               false,
-              "bytes",
+              "end - start",
+              []
+            ],
+            [
+              "68719477214",
+              0,
+              true,
+              false,
+              "size",
+              []
+            ],
+            [
+              "68719477218",
+              0,
+              true,
+              false,
+              "size",
+              []
+            ],
+            [
+              "30064771601",
+              0,
+              true,
+              false,
+              "size.toRadixString(16)",
+              []
+            ],
+            [
+              "68719477217",
+              0,
+              true,
+              false,
+              "sizeInHex",
+              []
+            ],
+            [
+              "68719477223",
+              0,
+              true,
+              false,
+              "sizeInHex",
+              []
+            ],
+            [
+              "68719477228",
+              0,
+              true,
+              false,
+              "sizeInHex",
+              []
+            ],
+            [
+              "68719477229",
+              0,
+              true,
+              false,
+              "sizeInHex",
+              []
+            ],
+            [
+              "30064771615",
+              0,
+              true,
+              false,
+              "sizeInHex.codeUnits",
+              []
+            ],
+            [
+              "68719477227",
+              0,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477233",
+              0,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477232",
+              0,
+              true,
+              false,
+              "<tmp>5",
+              []
+            ],
+            [
+              "68719477240",
+              0,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477239",
+              0,
+              true,
+              false,
+              "<tmp>7",
               []
             ],
             [
@@ -13596,10 +14071,25 @@
             "call-return",
             "parameter-binding",
             "parameter-read",
-            "local-read",
+            "external-return",
             "parameter-binding",
             "parameter-read",
+            "local-read",
+            "operator-value",
+            "assignment",
+            "local-read",
+            "external-return",
+            "assignment",
+            "local-read",
+            "local-read",
+            "local-read",
+            "external-return",
             "external-write",
+            "local-read",
+            "assignment",
+            "alias",
+            "assignment",
+            "alias",
             "local-read",
             "assignment",
             "alias",
@@ -13870,7 +14360,7 @@
               []
             ],
             [
-              "68719477197",
+              "30064771581",
               0,
               true,
               false,
@@ -13878,19 +14368,139 @@
               []
             ],
             [
-              "111669149773",
+              "111669149775",
               0,
               true,
               false,
-              "bytes",
+              "end",
               []
             ],
             [
-              "68719477251",
+              "68719477211",
+              0,
+              false,
+              false,
+              "end",
+              []
+            ],
+            [
+              "68719477215",
+              0,
+              false,
+              false,
+              "end",
+              []
+            ],
+            [
+              "30064771599",
               0,
               true,
               false,
-              "bytes",
+              "end - start",
+              []
+            ],
+            [
+              "68719477214",
+              0,
+              true,
+              false,
+              "size",
+              []
+            ],
+            [
+              "68719477218",
+              0,
+              true,
+              false,
+              "size",
+              []
+            ],
+            [
+              "30064771601",
+              0,
+              true,
+              false,
+              "size.toRadixString(16)",
+              []
+            ],
+            [
+              "68719477217",
+              0,
+              true,
+              false,
+              "sizeInHex",
+              []
+            ],
+            [
+              "68719477223",
+              0,
+              true,
+              false,
+              "sizeInHex",
+              []
+            ],
+            [
+              "68719477228",
+              0,
+              true,
+              false,
+              "sizeInHex",
+              []
+            ],
+            [
+              "68719477229",
+              0,
+              true,
+              false,
+              "sizeInHex",
+              []
+            ],
+            [
+              "30064771615",
+              0,
+              true,
+              false,
+              "sizeInHex.codeUnits",
+              []
+            ],
+            [
+              "68719477227",
+              0,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477233",
+              0,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477232",
+              0,
+              true,
+              false,
+              "<tmp>5",
+              []
+            ],
+            [
+              "68719477240",
+              0,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477239",
+              0,
+              true,
+              false,
+              "<tmp>7",
               []
             ],
             [
@@ -14006,10 +14616,25 @@
             "call-return",
             "parameter-binding",
             "parameter-read",
-            "local-read",
+            "external-return",
             "parameter-binding",
             "parameter-read",
+            "local-read",
+            "operator-value",
+            "assignment",
+            "local-read",
+            "external-return",
+            "assignment",
+            "local-read",
+            "local-read",
+            "local-read",
+            "external-return",
             "external-write",
+            "local-read",
+            "assignment",
+            "alias",
+            "assignment",
+            "alias",
             "local-read",
             "assignment",
             "alias",
@@ -14280,7 +14905,7 @@
               []
             ],
             [
-              "68719477197",
+              "30064771581",
               0,
               true,
               false,
@@ -14288,19 +14913,139 @@
               []
             ],
             [
-              "111669149773",
+              "111669149775",
               0,
               true,
               false,
-              "bytes",
+              "end",
               []
             ],
             [
-              "68719477251",
+              "68719477211",
+              0,
+              false,
+              false,
+              "end",
+              []
+            ],
+            [
+              "68719477215",
+              0,
+              false,
+              false,
+              "end",
+              []
+            ],
+            [
+              "30064771599",
               0,
               true,
               false,
-              "bytes",
+              "end - start",
+              []
+            ],
+            [
+              "68719477214",
+              0,
+              true,
+              false,
+              "size",
+              []
+            ],
+            [
+              "68719477218",
+              0,
+              true,
+              false,
+              "size",
+              []
+            ],
+            [
+              "30064771601",
+              0,
+              true,
+              false,
+              "size.toRadixString(16)",
+              []
+            ],
+            [
+              "68719477217",
+              0,
+              true,
+              false,
+              "sizeInHex",
+              []
+            ],
+            [
+              "68719477223",
+              0,
+              true,
+              false,
+              "sizeInHex",
+              []
+            ],
+            [
+              "68719477228",
+              0,
+              true,
+              false,
+              "sizeInHex",
+              []
+            ],
+            [
+              "68719477229",
+              0,
+              true,
+              false,
+              "sizeInHex",
+              []
+            ],
+            [
+              "30064771615",
+              0,
+              true,
+              false,
+              "sizeInHex.codeUnits",
+              []
+            ],
+            [
+              "68719477227",
+              0,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477233",
+              0,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477232",
+              0,
+              true,
+              false,
+              "<tmp>5",
+              []
+            ],
+            [
+              "68719477240",
+              0,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477239",
+              0,
+              true,
+              false,
+              "<tmp>7",
               []
             ],
             [
@@ -14416,10 +15161,25 @@
             "call-return",
             "parameter-binding",
             "parameter-read",
-            "local-read",
+            "external-return",
             "parameter-binding",
             "parameter-read",
+            "local-read",
+            "operator-value",
+            "assignment",
+            "local-read",
+            "external-return",
+            "assignment",
+            "local-read",
+            "local-read",
+            "local-read",
+            "external-return",
             "external-write",
+            "local-read",
+            "assignment",
+            "alias",
+            "assignment",
+            "alias",
             "local-read",
             "assignment",
             "alias",
@@ -14882,7 +15642,7 @@
   ],
   "representation": "Node/call IDs and context/path indices are project-local. transitions[i] classifies elements[i] to elements[i+1]. Field demands, including repeated value and separators projections, are preserved. Retained storage-demand sets are empty. Equivalent stock/modeled paths are shared; full path flags and selected caller contexts are preserved.",
   "reviewMethod": "Each selected displayed route was read against its pinned source expectation. Formal argument positions, resolved return targets and available selected frames were checked. Argument-output return evidence already in a caller frame has a separate category. This is a mechanism/approximation review, not branch feasibility, general scheduling or heap qualification.",
-  "analysisBaseCommit": "b3a9b4f72",
+  "analysisBaseCommit": "928c52844",
   "limitations": [
     "Only these fifteen path/async/http_parser query families and their returned bounded paths are reviewed; other corpus alternatives and larger searches remain pending.",
     "An endpoint identity is recorded separately from independent forwarding; conservative argument outputs, aggregate projections and external effects do not prove mutation, allocation identity, callback delivery or branch feasibility.",
@@ -14892,14 +15652,14 @@
     "queries": 15,
     "selectedPaths": 61,
     "distinctPaths": 40,
-    "distinctTransitions": 1012
+    "distinctTransitions": 1087
   },
   "refresh": {
-    "previousBaseCommit": "b3a9b4f72",
+    "previousBaseCommit": "928c52844",
     "previousAnalysisSources": {
       "algorithm": "sha256-path-nul-content-nul",
-      "sha256": "d6e307a96b67cfc6d04d4067e6d3878a120983cc5cae648819677f956ede2d3b",
-      "files": 413,
+      "sha256": "22d474c7d4ac73cf90fcce403c1cc72bce73dd0720c1336f9be99d4158f29692",
+      "files": 414,
       "roots": [
         "joern-cli/frontends/dartsrc2cpg/src",
         "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -14922,10 +15682,10 @@
     "previousTotals": {
       "queries": 15,
       "selectedPaths": 61,
-      "distinctPaths": 41,
-      "distinctTransitions": 1113
+      "distinctPaths": 40,
+      "distinctTransitions": 1012
     },
-    "method": "Replayed after retaining successful cast and null-assertion pattern result identities, including instantiated wrapper erasures through saved results and cached getter uses. Unchanged routes are matched against previous two/four-witness reviewed paths after removing node IDs only; all other node/call/context/flag/demand facts are retained. Changed variants have separate source-grounded refresh dispositions and checked argument/return/output bindings. All new graph IDs are reconstructed from fresh raw audits. Native observations do not certify caller re-entry, allocation, heap/dispatch precision or route feasibility."
+    "method": "Replayed after preserving known immutable callable targets through casts/assertions, saved values and final pattern bindings, with bound receiver captures and corrected positional fallback binding after named arguments. Unknown and changing callables remain unresolved. Unchanged routes are matched against previous two/four-witness reviewed paths after removing node IDs only; all other node/call/context/flag/demand facts are retained. Changed variants have separate source-grounded refresh dispositions and checked argument/return/output bindings. All new graph IDs are reconstructed from fresh raw audits. Native observations do not certify caller re-entry, allocation, heap/dispatch precision or route feasibility."
   },
   "nativeRefreshScope": "Existing native oracle contracts remain unchanged."
 }

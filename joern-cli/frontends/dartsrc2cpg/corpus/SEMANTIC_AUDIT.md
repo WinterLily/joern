@@ -2528,3 +2528,99 @@ verification and two upstream-case tests/nine rejection controls pass. Complete
 pattern CFG/implicit payloads, checked generic/receiver environments, callable
 target propagation, representation storage aliasing, omitted alternatives and
 limited negative searches remain unqualified. All Gates 1–6 remain open.
+
+## Known callable refinement targets
+
+Known immutable callable identity now survives cast/assert operands, saved values
+and final pattern bindings. Joined final bindings retain a target only when every
+alternative supplies the same target. Bound adapter and capture identities remain
+intact through refinement, generic references, omitted defaults, repeated calls
+and source receiver rebinding. Conditional, returned, nested-call, parameter,
+mutable and extracted unknown pattern values stay unresolved; a descendant
+METHOD_REF does not establish their selected value.
+
+The new regressions exposed positional fallback binding after a named argument:
+it previously counted that argument toward the positional slot. Fallback now
+counts positional arguments separately while preserving source evaluation order.
+Constructor-value invocation also retains the callable expression and checks
+before allocation and arguments. The intermediate lowering discarded a direct
+constructor cast; its separate regression fails before the evaluation fix.
+The two original target/flow regressions fail against the previous implementation;
+nine focused graph checks pass after all fixes.
+
+Three native tests exercise independent inputs, true/false selected and mutable
+callback branches, generic and named/default forms, receiver-once argument traces,
+repeated invocation and receiver rebinding. An incompatible constructor-function
+cast throws TypeError before argument evaluation or constructor events; successful
+casts/assertions/aliases retain supplied and omitted nonnull defaults. These
+bounded VM observations do not qualify general callback delivery, runtime generic
+checks, implicit failure payloads or arbitrary heap identity.
+
+The full opt-in native suite passes 173 tests, including the existing VM/dart2js
+controls; Dart analysis reports no issues. The forced frontend suite passes 180
+tests across twenty suites with eight opt-in cancellations. All seven packages,
+three applications and two holdouts pass, alongside four staged CLI and fourteen
+console checks. Their twelve graphs share analysis-source SHA-256
+`fd6a6a8215cf5d7d63c58415c5c25d246071ed89f0f3113d8aa0b9f80cc29eaa`
+over 415 files. Exporter protocol/metadata remain at 0.3.27. Method/call counts and
+default-adapter observations are unchanged. The
+[callable refinement review](callable-refinement-review.json) pins the before/after
+graph provenance, reduced tests and narrow source census. It finds zero direct
+refined-reference initializer candidates, excluding call results; it does not
+census all stable alias chains, nested extraction or every if/switch input.
+The reduced fixtures supply the new interaction evidence. Source counts do not
+identify runtime callbacks, receivers or allocations.
+
+The static-storage and local-exit witnesses also replay against this source:
+six paths/123 transitions and eleven paths/199 transitions. The two focused
+static tests pass. Fresh two/four-witness audits complete for all twelve graphs
+under the ten-minute category budget, 8 GiB worker heap and four worker CPUs.
+Two-witness package/application/holdout elapsed times are 225,338/50,288/35,195 ms,
+with sampled process-family peak RSS 5,495,452/5,087,852/1,961,876 KiB.
+Four-witness times are 399,332/53,308/35,198 ms and peaks
+6,328,824/4,685,464/2,263,748 KiB. Startup and graph loading are included;
+these observations do not qualify other budgets or unbounded searches.
+
+Fresh four-witness endpoint outcomes remain stock 78/80 and modeled 80/80.
+Stock retains 122 visible/131 detailed paths and 42 limited queries; modeled
+retains 109/117 and 41. Eight modeled negative searches remain inconclusive.
+All 248 selected paths have dispositions, sharing 147 distinct routes and
+2,540 classified transitions. Analyzer retains 14 routes/360 transitions,
+Sass 25/400, LocalSend/Saber 51/634, args/collection/meta 14/40,
+Path/async/HTTP 40/1,087 and the holdouts 3/19. Two-witness forwarding retains
+25 selections sharing 19 routes/647 transitions. Its complete summary retains
+stock 86 visible/89 detailed paths with 43 limited queries and modeled 81/83
+with 42. Both summaries reproduce byte for byte from the saved audits.
+
+Twenty-eight changed selections (twenty four-witness and eight two-witness)
+have separate pinned-source review. The remaining routes replay only after
+removing graph node IDs; slots, targets, contexts, flags and demands are retained.
+Analyzer's selected callback route now traverses cached element/bound/namedFields
+and NodeList/_FbBoolList receiver-output detours before unresolved writeItem.
+Sass's changed trim routes carry escape-index bounds into substring receiver or
+start arguments. These remain conservative iterator, field, dispatch, readonly
+output and external-call effects, with no concrete callback or character claim.
+
+Path's selected POSIX rootLength body occurs inside either isAbsolute or the
+later _needsNormalization, retaining the style candidate union. HTTP stock
+copies select receiver 0 -> skipCount 4 -> cursor/start 1 -> bytes 3; buffer
+copies select 3 -> 4 -> 1 -> 0 and footer 1 -> 2 -> 0. Two-witness stock buffer
+re-entry selects end then bytes; four-witness stock selects bytes twice.
+Four-witness modeled buffer re-entry selects bytes then end/header.codeUnits;
+two-witness modeled selects end/header.codeUnits twice. Modeled byte effects
+remain 3 -> 0. Shorter variants omit saved allocation/CR/LF aliases or initial
+range operands while retaining hidden evidence. Initial and later call contexts
+remain explicit. These paths do not establish feasible branch sequences,
+actual sink/style/list instances, repeated-call order, allocation identity or
+precise original-element provenance. No causal relationship between route
+selection and the callable fix is claimed. Existing bounded helper executions
+remain separate evidence; omitted routes and limited negatives remain open.
+
+All seven review validators pass their 87 rejection controls. The direct media
+capture review retains two paths/six transitions. The qualification matrix links
+118 named tests; six matrix tests/sixteen rejection controls, thirteen source-index
+controls, cached source verification and two upstream-case tests/nine rejection
+controls pass. Complete pattern CFG, implicit payloads, runtime type/receiver
+checks, arbitrary callable values, representation storage aliasing, callback
+delivery, omitted alternatives and negative search completeness remain
+unqualified. All Gates 1–6 remain open.
