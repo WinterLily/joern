@@ -2044,3 +2044,87 @@ changes; larger bounds do not imply inclusion of smaller-bound sequences.
 Runtime substitutions and checked bounds, initialization-state correlation,
 precise heap/element flows, complete loop CFG, erased extension receiver contexts,
 omitted alternatives, limited negatives and Gates 1–6 remain open.
+
+
+### Extension-type representation dispatch qualification
+
+Exporter 0.3.23 retains declaration representation erasures and instantiated
+expression constraints separately from original static type identities. Inherited
+class members now use those constraints when filtering the analyzer hierarchy
+union; own extension-type members retain static dispatch. Nested wrappers,
+GenericView<Store>/GenericView<OtherStore>, bounded and nullable receivers,
+accessors, indexed reads/writes, cascades and bound tear-offs have source-target
+and unrelated-representation controls. Wrapped iterator/current results preserve
+their original static extension types while saved receivers retain the known
+class constraint. Tags are stored only for retained AST nodes; a graph-validation
+failure exposed discarded provisional capture references during development.
+
+The original valid extension Iterable control omitted its source Values.iterator
+callee despite native execution and a resolved analyzer unit. The permanent
+regression now requires that callee and rejects unrelated concrete implementations.
+Three new native tests observe member/value/order behavior and independent object
+values. These observations do not establish static heap aliasing, exact element
+provenance, runtime generic environments or complete extension-type semantics.
+Known interface/type-parameter representation constraints are exported;
+record/function/dynamic representations do not acquire guessed class identities.
+
+All 138 native tests pass with runtime, Flutter and all corpus opt-ins. Native
+analysis and formatting of the four changed Dart files pass. All 169 frontend
+tests pass across twenty suites, with eight separate opt-in cancellations. All
+twelve project checks pass, as do four CLI integration checks, fourteen console
+checks and normal Scala formatting. The source fingerprint is
+`e93d7f16ba74f0ed500a0e2dfb6b80a06f917cb1ae2b49a97201fb8ee195c526`
+over 407 files, shared by all twelve graphs. Their method/call counts and saved
+iteration facts are unchanged. Independent exports observe 21 extension-type
+symbol declarations and 1,148 expression erasures in analyzer, and nine/16 in
+Sass. External declarations are included in those counts. Analyzer's JS EnumSet
+record representation remains an explicit class-identity boundary; Sass interop
+metadata does not qualify native JS execution or callback delivery. The
+[representation review](extension-erasure-review.json) records source hashes and
+exact comparison scope.
+
+The stage matrix now links 72 named tests. Its six tests/sixteen rejection
+controls pass, as do thirteen source-inventory rejection controls, full cached
+source verification and two upstream-case tests/nine rejection controls. Full
+rule cells and all Gates 1–6 remain open.
+
+Two-witness/two-round audits complete in 183045/46257/30164 ms for packages,
+applications and holdout, with sampled family RSS 5798016/4898400/1418176 KiB.
+Four-witness/two-round audits complete in 395255/47265/32177 ms, with RSS
+6215048/5457732/2164164 KiB. Each category stays within its 600000 ms budget;
+workers explicitly use 8 GiB/four processors. Memory is a once-per-second
+process-family sample, not exact peak RSS or one heap.
+
+All returned four-witness dispositions cover 248 selected paths, 150 distinct
+routes and 2,757 transitions across eighty queries. Stock/model endpoint outcomes
+remain 78/80 and 80/80, with 120/131 and 109/117 visible/detailed paths and 42/41
+limited queries. Seven stock and eight modeled negatives remain inconclusive.
+The two-witness summaries retain stock 86/89 and modeled 81/83 paths with 43/42
+limited queries; forwarding's seven queries retain 19 distinct paths and 637
+transitions. MediaType retains two paths/six transitions. Fresh static-storage and
+local-exit checks retain six paths/123 transitions and eleven paths/199 transitions.
+Both bounded summaries reproduce byte-for-byte, and all 87 review rejection
+controls pass against current proofs and resource records.
+
+Twenty-one changed selections received separate source-grounded dispositions.
+Four modeled analyzer variants retain metadata.annotations.offset or
+_element -> bound.namedFields/positionalFields/typeArguments.offset demands,
+then BoolList Uint32/Uint8 reads and readonly length outputs before items[i].
+Exact demands, output/visibility flags, slots and frames remain explicit. Path
+variants select the POSIX rootLength body beneath readonly normalization or
+isAbsolute re-entry, retaining all style candidates. HTTP stock copy variants
+retain conservative setRange receiver 0 -> start/skipCount 4 -> bytes 3 effects;
+shorter variants omit saved aliases while preserving invisible evidence.
+Two-witness stock buffer routes re-enter end before bytes; four-witness stock
+routes re-enter bytes before end. Two-witness modeled routes select end/header
+re-entry twice. These are readonly, field, external, dispatch, size/range and
+caller approximations, not actual receiver instances, callback delivery,
+repeated-call order, allocation identity or precise byte/element provenance.
+No causal claim connects selected route changes to extension-type dispatch.
+
+A separate reduced native control identifies the next pattern-specific boundary:
+View<Store>(value: var text) over Object accepts Store and rejects OtherStore,
+but the graph retains Object as the accessor receiver and links both source
+value getters. Instantiated pattern receiver constraints remain to be implemented.
+Representation storage aliasing, structured/function effects, runtime generic
+qualification, omitted alternatives and limited negative searches remain open.

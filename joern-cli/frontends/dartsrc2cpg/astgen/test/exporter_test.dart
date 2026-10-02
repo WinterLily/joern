@@ -74,6 +74,99 @@ void main() {
   });
 
   test(
+    'extension type dispatch retains instantiated representation constraints',
+    () async {
+      for (final name in [
+        'extension_type_dispatch.dart',
+        'synchronous_iteration.dart',
+      ]) {
+        write(
+          name,
+          File('../src/test/resources/semantics/$name').readAsStringSync(),
+        );
+      }
+      final unit = units(
+        await export(
+          input: p.join(project.path, 'extension_type_dispatch.dart'),
+        ),
+      ).single;
+      expect(unit['status'], 'resolved');
+      final symbols = {
+        for (final value in entries(unit, 'symbols')) value['id']: value,
+      };
+      for (final name in ['View', 'NestedView']) {
+        final type = symbols.values.singleWhere(
+          (s) => s['kind'] == 'EXTENSION_TYPE' && s['name'] == name,
+        );
+        expect(symbols[type['erasedTypeId']]!['name'], 'Store');
+      }
+      final generic = symbols.values.singleWhere(
+        (s) => s['kind'] == 'EXTENSION_TYPE' && s['name'] == 'GenericView',
+      );
+      final parameter = symbols[generic['erasedTypeId']]!;
+      expect(parameter['kind'], 'TYPE_PARAMETER');
+      expect(parameter['name'], 'S');
+      expect(parameter['owner'], generic['id']);
+      final nodes = entries(unit, 'nodes');
+      for (final name in [
+        'direct',
+        'nested',
+        'concrete',
+        'bounded',
+        'nullable',
+        'other',
+        'own',
+      ]) {
+        final function = nodes.singleWhere(
+          (n) => n['kind'] == 'FunctionDeclaration' && n['name'] == name,
+        );
+        final pending = <Map<String, Object?>>[function];
+        final receivers = <Map<String, Object?>>[];
+        while (pending.isNotEmpty) {
+          final node = pending.removeLast();
+          final children = (node['children'] as List)
+              .cast<Map<String, Object?>>();
+          if (node['kind'] == 'MethodInvocation') {
+            receivers.add(
+              nodes[children.singleWhere((c) => c['role'] == 'receiver')['node']
+                  as int],
+            );
+          }
+          pending.addAll(children.map((c) => nodes[c['node'] as int]));
+        }
+        expect(receivers, hasLength(1));
+        final receiver = receivers.single;
+        expect(
+          symbols[receiver['erasedTypeId']]!['name'],
+          name == 'other' ? 'OtherStore' : 'Store',
+        );
+        expect(
+          symbols[receiver['typeId']]!['kind'],
+          name == 'bounded' ? 'TYPE_PARAMETER' : 'EXTENSION_TYPE',
+        );
+        expect(receiver['erasedTypeId'], isNot(receiver['typeId']));
+      }
+      final wrappedLoops = nodes
+          .where(
+            (n) =>
+                n['kind'] == 'ForEachParts' &&
+                symbols[n['iteratorTypeId']]?['name'] == 'CursorView',
+          )
+          .toList();
+      expect(wrappedLoops, hasLength(2));
+      for (final loop in wrappedLoops) {
+        expect(symbols[loop['iteratorErasedTypeId']]!['name'], 'Cursor');
+        expect(loop['iteratorTypeId'], isNot(loop['iteratorErasedTypeId']));
+      }
+      final current = wrappedLoops.singleWhere(
+        (n) => symbols[n['currentTypeId']]?['name'] == 'GenericView',
+      );
+      expect(symbols[current['currentErasedTypeId']]!['name'], 'Store');
+      expect(current['currentTypeId'], isNot(current['currentErasedTypeId']));
+    },
+  );
+
+  test(
     'generic iteration resolves bounds and instantiated current types',
     () async {
       for (final name in [

@@ -23,7 +23,7 @@ import 'package:analyzer/source/line_info.dart';
 import 'package:path/path.dart' as p;
 
 const protocolVersion = 1;
-const exporterVersion = '0.3.22';
+const exporterVersion = '0.3.23';
 const analyzerVersion = '8.4.1';
 const supportedSdkVersion = '3.9.2';
 
@@ -288,16 +288,25 @@ class _UnitEncoder {
         : constantKeys.putIfAbsent(value, () => constantKeys.length).toString();
   }
 
-  InterfaceType? interfaceBound(DartType? type) {
+  InterfaceType? interfaceBound(DartType? type, {bool allowNullable = false}) {
     final seen = <DartType>{};
     while (type is TypeParameterType &&
-        type.nullabilitySuffix == NullabilitySuffix.none &&
+        (allowNullable || type.nullabilitySuffix == NullabilitySuffix.none) &&
         seen.add(type)) {
       type = type.bound;
     }
     return type is InterfaceType &&
-            type.nullabilitySuffix == NullabilitySuffix.none
+            (allowNullable || type.nullabilitySuffix == NullabilitySuffix.none)
         ? type
+        : null;
+  }
+
+  String? erasedTypeId(DartType? type) {
+    final bounded = interfaceBound(type, allowNullable: true);
+    if (bounded?.element is! ExtensionTypeElement) return null;
+    final erased = bounded!.extensionTypeErasure;
+    return erased is InterfaceType || erased is TypeParameterType
+        ? typeId(erased)
         : null;
   }
 
@@ -411,6 +420,10 @@ class _UnitEncoder {
           element.bound ??
               (element.library ?? analysisLibrary)?.typeProvider.objectType,
         );
+      }
+      if (element is ExtensionTypeElement) {
+        symbols[id]!['erasedType'] = element.typeErasure.getDisplayString();
+        symbols[id]!['erasedTypeId'] = erasedTypeId(element.thisType);
       }
       if (element is ExtensionElement) {
         symbols[id]!['extendedType'] = typeId(element.extendedType);
@@ -1491,6 +1504,10 @@ class _UnitEncoder {
           record['iteratorTarget'] = symbol(iterator);
           record['iteratorType'] = iteratorType!.getDisplayString();
           record['iteratorTypeId'] = typeId(iteratorType);
+          final iteratorErasure = erasedTypeId(iteratorType);
+          if (iteratorErasure != null) {
+            record['iteratorErasedTypeId'] = iteratorErasure;
+          }
           record['moveNextTarget'] = symbol(
             iteratorInterface.lookUpMethod(
               'moveNext',
@@ -1504,6 +1521,10 @@ class _UnitEncoder {
           record['currentTarget'] = symbol(current);
           record['currentType'] = current?.returnType.getDisplayString();
           record['currentTypeId'] = typeId(current?.returnType);
+          final currentErasure = erasedTypeId(current?.returnType);
+          if (currentErasure != null) {
+            record['currentErasedTypeId'] = currentErasure;
+          }
         }
       }
     }
@@ -1515,6 +1536,8 @@ class _UnitEncoder {
     if (ast is Expression) {
       record['type'] = ast.staticType?.getDisplayString();
       record['typeId'] = typeId(ast.staticType);
+      final erased = erasedTypeId(ast.staticType);
+      if (erased != null) record['erasedTypeId'] = erased;
       if (superOperation(ast)) {
         final mixin = ast.thisOrAncestorOfType<MixinDeclaration>();
         if (mixin != null) {

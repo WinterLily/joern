@@ -96,7 +96,7 @@
       "exporter": {
         "record": "header",
         "protocolVersion": 1,
-        "exporterVersion": "0.3.22",
+        "exporterVersion": "0.3.23",
         "analyzerVersion": "8.4.1",
         "sdkVersion": "3.9.2",
         "offsetEncoding": "utf-16",
@@ -104,8 +104,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "5381126986a8bc6c2fa819f56be744fee0f7c656a0de4539d90fb1e1d3c026c4",
-        "files": 406,
+        "sha256": "e93d7f16ba74f0ed500a0e2dfb6b80a06f917cb1ae2b49a97201fb8ee195c526",
+        "files": 407,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -714,9 +714,9 @@
               "distinctEndpoints": true,
               "pathIndices": [
                 8,
-                12,
-                13,
-                9
+                9,
+                10,
+                11
               ]
             }
           },
@@ -780,7 +780,7 @@
               "sinks": 1,
               "distinctEndpoints": true,
               "pathIndices": [
-                14
+                12
               ]
             },
             "modeled": {
@@ -813,7 +813,7 @@
               "sinks": 1,
               "distinctEndpoints": true,
               "pathIndices": [
-                14
+                12
               ]
             }
           },
@@ -965,7 +965,7 @@
               "sinks": 1,
               "distinctEndpoints": true,
               "pathIndices": [
-                15
+                13
               ]
             },
             "modeled": {
@@ -995,7 +995,7 @@
               "sinks": 1,
               "distinctEndpoints": true,
               "pathIndices": [
-                15
+                13
               ]
             }
           },
@@ -1057,10 +1057,10 @@
               "sinks": 1,
               "distinctEndpoints": true,
               "pathIndices": [
+                14,
+                15,
                 16,
-                17,
-                18,
-                19
+                17
               ]
             },
             "modeled": {
@@ -1092,7 +1092,7 @@
               "sinks": 1,
               "distinctEndpoints": true,
               "pathIndices": [
-                20
+                18
               ]
             }
           },
@@ -1165,10 +1165,10 @@
               "sinks": 1,
               "distinctEndpoints": true,
               "pathIndices": [
+                19,
+                20,
                 21,
-                22,
-                23,
-                24
+                22
               ]
             },
             "modeled": {
@@ -1209,10 +1209,10 @@
               "sinks": 1,
               "distinctEndpoints": true,
               "pathIndices": [
+                19,
+                20,
                 21,
-                22,
-                23,
-                24
+                22
               ]
             }
           },
@@ -4304,520 +4304,6 @@
             ],
             [
               "111669157163",
-              3,
-              true,
-              false,
-              "string",
-              []
-            ],
-            [
-              "68719525617",
-              3,
-              true,
-              false,
-              "string",
-              []
-            ],
-            [
-              "68719525619",
-              3,
-              true,
-              false,
-              "string",
-              []
-            ],
-            [
-              "115964124459",
-              3,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "68719525598",
-              0,
-              true,
-              true,
-              "string",
-              []
-            ],
-            [
-              "68719525602",
-              0,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "111669157164",
-              4,
-              true,
-              false,
-              "string",
-              []
-            ],
-            [
-              "68719525623",
-              4,
-              true,
-              false,
-              "string",
-              []
-            ],
-            [
-              "30064826598",
-              4,
-              false,
-              false,
-              "string.length",
-              []
-            ],
-            [
-              "30064826597",
-              4,
-              true,
-              false,
-              "string.length - 1",
-              []
-            ],
-            [
-              "68719525622",
-              4,
-              true,
-              false,
-              "i",
-              []
-            ],
-            [
-              "68719525624",
-              4,
-              false,
-              false,
-              "i",
-              []
-            ],
-            [
-              "68719525628",
-              4,
-              true,
-              false,
-              "i",
-              []
-            ],
-            [
-              "68719525631",
-              4,
-              false,
-              false,
-              "i",
-              []
-            ],
-            [
-              "68719525632",
-              4,
-              false,
-              false,
-              "i",
-              []
-            ],
-            [
-              "68719525636",
-              4,
-              false,
-              false,
-              "i",
-              []
-            ],
-            [
-              "30064826614",
-              4,
-              true,
-              false,
-              "i + 1",
-              []
-            ],
-            [
-              "141733925858",
-              4,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "124554056731",
-              0,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "30064826577",
-              0,
-              false,
-              true,
-              "_lastNonWhitespace(string, excludeEscape: excludeEscape)",
-              []
-            ],
-            [
-              "30064826576",
-              0,
-              false,
-              false,
-              "_lastNonWhitespace(string, excludeEscape: excludeEscape)!",
-              []
-            ],
-            [
-              "30064826575",
-              0,
-              true,
-              false,
-              "_lastNonWhitespace(string, excludeEscape: excludeEscape)! + 1",
-              []
-            ],
-            [
-              "68719525600",
-              0,
-              true,
-              false,
-              "string",
-              []
-            ],
-            [
-              "30064826574",
-              0,
-              false,
-              false,
-              "string.substring(\n          start,\n          _lastNonWhitespace(string, excludeEscape: excludeEscape)! + 1,\n        )",
-              []
-            ],
-            [
-              "30064826572",
-              0,
-              true,
-              false,
-              "start == null\n      ? \"\"\n      : string.substring(\n          start,\n          _lastNonWhitespace(string, excludeEscape: excludeEscape)! + 1,\n        )",
-              []
-            ],
-            [
-              "141733925853",
-              0,
-              true,
-              false,
-              "",
-              []
-            ]
-          ],
-          "transitions": [
-            "parameter-read",
-            "parameter-binding",
-            "parameter-read",
-            "local-read",
-            "parameter-output",
-            "caller-output",
-            "local-read",
-            "parameter-binding",
-            "parameter-read",
-            "external-return",
-            "operator-value",
-            "assignment",
-            "local-read",
-            "local-read",
-            "local-read",
-            "local-read",
-            "local-read",
-            "operator-value",
-            "return-value",
-            "method-return",
-            "call-return",
-            "operator-value",
-            "operator-value",
-            "external-write",
-            "external-return",
-            "selection",
-            "return-value"
-          ]
-        },
-        {
-          "elements": [
-            [
-              "111669157158",
-              0,
-              true,
-              false,
-              "string",
-              []
-            ],
-            [
-              "68719525598",
-              0,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "111669157163",
-              3,
-              true,
-              false,
-              "string",
-              []
-            ],
-            [
-              "68719525617",
-              3,
-              true,
-              false,
-              "string",
-              []
-            ],
-            [
-              "68719525619",
-              3,
-              true,
-              false,
-              "string",
-              []
-            ],
-            [
-              "115964124459",
-              3,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "68719525598",
-              0,
-              true,
-              true,
-              "string",
-              []
-            ],
-            [
-              "68719525602",
-              0,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "111669157164",
-              4,
-              true,
-              false,
-              "string",
-              []
-            ],
-            [
-              "68719525623",
-              4,
-              true,
-              false,
-              "string",
-              []
-            ],
-            [
-              "30064826598",
-              4,
-              false,
-              false,
-              "string.length",
-              []
-            ],
-            [
-              "30064826597",
-              4,
-              true,
-              false,
-              "string.length - 1",
-              []
-            ],
-            [
-              "68719525622",
-              4,
-              true,
-              false,
-              "i",
-              []
-            ],
-            [
-              "68719525624",
-              4,
-              false,
-              false,
-              "i",
-              []
-            ],
-            [
-              "68719525628",
-              4,
-              true,
-              false,
-              "i",
-              []
-            ],
-            [
-              "68719525631",
-              4,
-              false,
-              false,
-              "i",
-              []
-            ],
-            [
-              "68719525632",
-              4,
-              false,
-              false,
-              "i",
-              []
-            ],
-            [
-              "68719525636",
-              4,
-              false,
-              false,
-              "i",
-              []
-            ],
-            [
-              "30064826614",
-              4,
-              true,
-              false,
-              "i + 1",
-              []
-            ],
-            [
-              "141733925858",
-              4,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "124554056731",
-              0,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "30064826577",
-              0,
-              false,
-              true,
-              "_lastNonWhitespace(string, excludeEscape: excludeEscape)",
-              []
-            ],
-            [
-              "30064826576",
-              0,
-              false,
-              false,
-              "_lastNonWhitespace(string, excludeEscape: excludeEscape)!",
-              []
-            ],
-            [
-              "30064826575",
-              0,
-              true,
-              false,
-              "_lastNonWhitespace(string, excludeEscape: excludeEscape)! + 1",
-              []
-            ],
-            [
-              "68719525601",
-              0,
-              true,
-              false,
-              "start",
-              []
-            ],
-            [
-              "30064826574",
-              0,
-              false,
-              false,
-              "string.substring(\n          start,\n          _lastNonWhitespace(string, excludeEscape: excludeEscape)! + 1,\n        )",
-              []
-            ],
-            [
-              "30064826572",
-              0,
-              true,
-              false,
-              "start == null\n      ? \"\"\n      : string.substring(\n          start,\n          _lastNonWhitespace(string, excludeEscape: excludeEscape)! + 1,\n        )",
-              []
-            ],
-            [
-              "141733925853",
-              0,
-              true,
-              false,
-              "",
-              []
-            ]
-          ],
-          "transitions": [
-            "parameter-read",
-            "parameter-binding",
-            "parameter-read",
-            "local-read",
-            "parameter-output",
-            "caller-output",
-            "local-read",
-            "parameter-binding",
-            "parameter-read",
-            "external-return",
-            "operator-value",
-            "assignment",
-            "local-read",
-            "local-read",
-            "local-read",
-            "local-read",
-            "local-read",
-            "operator-value",
-            "return-value",
-            "method-return",
-            "call-return",
-            "operator-value",
-            "operator-value",
-            "external-write",
-            "external-return",
-            "selection",
-            "return-value"
-          ]
-        },
-        {
-          "elements": [
-            [
-              "111669157158",
-              0,
-              true,
-              false,
-              "string",
-              []
-            ],
-            [
-              "68719525598",
-              0,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "111669157163",
               0,
               true,
               false,
@@ -6740,7 +6226,7 @@
   ],
   "representation": "Node/call IDs and context/path indices are project-local. transitions[i] classifies elements[i] to elements[i+1]. All retained demand sets in this review are empty. Equivalent stock/modeled paths are shared; full path flags and selected caller contexts are preserved.",
   "reviewMethod": "Each selected displayed route was read against its pinned source expectation. Formal argument positions, resolved return targets and available selected frames were checked. Argument-output return evidence already in a caller frame has a separate category. This is a mechanism/approximation review, not branch feasibility, general scheduling or heap qualification.",
-  "analysisBaseCommit": "de4f4b0ab",
+  "analysisBaseCommit": "f0e383ca5",
   "limitations": [
     "Only these eleven Sass query families and their returned bounded paths are reviewed; other corpus alternatives and larger searches remain pending.",
     "An endpoint identity is recorded separately from independent forwarding; conservative argument outputs, aggregate projections and external effects do not prove mutation, allocation identity, callback delivery or branch feasibility.",
@@ -6749,14 +6235,14 @@
   "totals": {
     "queries": 11,
     "selectedPaths": 41,
-    "distinctPaths": 25,
-    "distinctTransitions": 384
+    "distinctPaths": 23,
+    "distinctTransitions": 330
   },
   "refresh": {
-    "previousBaseCommit": "de4f4b0ab",
+    "previousBaseCommit": "f0e383ca5",
     "previousAnalysisSources": {
       "algorithm": "sha256-path-nul-content-nul",
-      "sha256": "8d38cb5a00e2e084f0ca2aafa3ac34c7806d06b38764782aa0704abafa7adb17",
+      "sha256": "5381126986a8bc6c2fa819f56be744fee0f7c656a0de4539d90fb1e1d3c026c4",
       "files": 406,
       "roots": [
         "joern-cli/frontends/dartsrc2cpg/src",
@@ -6783,7 +6269,7 @@
       "distinctPaths": 25,
       "distinctTransitions": 384
     },
-    "method": "Replayed after resolving iterator getter return bounds while retaining symbolic iterator results, with nullable type-parameter lookup boundaries corrected. Unchanged routes are matched against previous two/four-witness reviewed paths after removing node IDs only; all other node/call/context/flag/demand facts are retained. Changed variants have separate source-grounded refresh dispositions and checked argument/return/output bindings. All new graph IDs are reconstructed from fresh raw audits. Native observations do not certify caller re-entry, allocation, heap/dispatch precision or route feasibility."
+    "method": "Replayed after adding instantiated extension-type representation constraints for inherited class dispatch, while retaining original static types and static own-member dispatch. Unchanged routes are matched against previous two/four-witness reviewed paths after removing node IDs only; all other node/call/context/flag/demand facts are retained. Changed variants have separate source-grounded refresh dispositions and checked argument/return/output bindings. All new graph IDs are reconstructed from fresh raw audits. Native observations do not certify caller re-entry, allocation, heap/dispatch precision or route feasibility."
   },
   "nativeRefreshScope": "Existing native oracle contracts remain unchanged."
 }

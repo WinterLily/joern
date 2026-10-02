@@ -2,8 +2,8 @@
   "schemaVersion": 2,
   "analysisSources": {
     "algorithm": "sha256-path-nul-content-nul",
-    "sha256": "5381126986a8bc6c2fa819f56be744fee0f7c656a0de4539d90fb1e1d3c026c4",
-    "files": 406,
+    "sha256": "e93d7f16ba74f0ed500a0e2dfb6b80a06f917cb1ae2b49a97201fb8ee195c526",
+    "files": 407,
     "roots": [
       "joern-cli/frontends/dartsrc2cpg/src",
       "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -29,7 +29,7 @@
     "executionOracle": "astgen/test/static_exception_storage_test.dart",
     "sdk": "3.9.2",
     "analyzer": "8.4.1",
-    "exporter": "0.3.22",
+    "exporter": "0.3.23",
     "inputs": [
       "",
       "input",

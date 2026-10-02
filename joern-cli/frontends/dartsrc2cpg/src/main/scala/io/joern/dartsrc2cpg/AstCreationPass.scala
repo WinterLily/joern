@@ -93,6 +93,7 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
     var cascadeReceiver: Option[() => Ast]   = None
     var caughtValues: Option[() => Seq[Ast]] = None
     var temporary                            = 0
+    val receiverErasures                     = new java.util.IdentityHashMap[NewNode, String]()
     val receiverOverrides                    = mutable.Map.empty[Int, () => Ast]
     val labelTargets                         = mutable.Map.empty[String, (String, String)]
     val continueTargets                      = mutable.Map.empty[Int, String]
@@ -171,7 +172,7 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
     def fixedTarget(syntax: Value, id: String): Boolean = {
       val target = sym(id)
       bool(target, "static") || string(target, "kind") == "CONSTRUCTOR" ||
-      string(sym(string(target, "owner")), "kind") == "EXTENSION" || superReceiver(syntax)
+      Set("EXTENSION", "EXTENSION_TYPE")(string(sym(string(target, "owner")), "kind")) || superReceiver(syntax)
     }
     def accessorCall(syntax: Value, id: String): Boolean = {
       val variable = string(sym(id), "variable", id)
@@ -226,9 +227,15 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
     }
     def literal(syntax: Value, value: String, typ: String = "ANY"): Ast =
       Ast(located(NewLiteral().code(value).typeFullName(typ), syntax))
+    def erasedReceiver(node: NewNode, id: String): Unit     = if (id.nonEmpty) receiverErasures.put(node, id)
+    def copyErasure(source: NewNode, target: NewNode): Unit =
+      Option(receiverErasures.get(source)).foreach(erasedReceiver(target, _))
     def identifier(syntax: Value, name: String, id: String, typ: String): Ast = {
       val out = located(NewIdentifier().name(name).code(name).typeFullName(typ), syntax)
-      declarations.get(id).fold(Ast(out))(target => Ast(out).withRefEdge(out, target))
+      declarations.get(id).fold(Ast(out)) { target =>
+        copyErasure(target, out)
+        Ast(out).withRefEdge(out, target)
+      }
     }
     def thisAst(syntax: Value): Ast =
       identifier(syntax, "this", "this", string(sym(currentType), "extendedType", currentType))
@@ -249,6 +256,7 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
         case _                                => tpe(syntax)
       }
       val local = located(NewLocal().name(name).code(name).typeFullName(typ), syntax)
+      value.root.foreach(copyErasure(_, local))
       declarations(name) = local
       def ref(): Ast = identifier(syntax, name, name, typ)
       val assignment = operator(syntax, Operators.assignment, Seq(ref(), value))
@@ -381,7 +389,8 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
           .evaluationStrategy(EvaluationStrategies.BY_VALUE)
           .isVariadic(false)
       }
-      val base    = NewIdentifier().name("this").code("this").typeFullName(local.typeFullName)
+      val base = NewIdentifier().name("this").code("this").typeFullName(local.typeFullName)
+      outer.root.foreach(copyErasure(_, base))
       val baseAst = Ast(base).withRefEdge(base, local)
       val values  = parameters.zip(strings(target, "parameters")).map { case (paramNode, symbolId) =>
         val value = NewIdentifier().name(paramNode.name).code(paramNode.name).typeFullName(paramNode.typeFullName)
@@ -908,24 +917,28 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
         }
       }
     }
-    def expression(syntax: Value): Ast = receiverOverrides.get(syntax("id").num.toInt) match {
-      case Some(ref) => ref()
-      case None      =>
-        firstNullAware(syntax) match {
-          case Some(access) =>
-            val receiver = chainReceiver(access).get
-            guarded(syntax, expression(receiver)) { ref =>
-              val receiverId = receiver("id").num.toInt
-              val accessId   = access("id").num.toInt
-              receiverOverrides(receiverId) = ref
-              guardedAccesses += accessId
-              val result = expressionBody(syntax)
-              receiverOverrides.remove(receiverId)
-              guardedAccesses -= accessId
-              result
-            }
-          case None => expressionBody(syntax)
-        }
+    def expression(syntax: Value): Ast = {
+      val result = receiverOverrides.get(syntax("id").num.toInt) match {
+        case Some(ref) => ref()
+        case None      =>
+          firstNullAware(syntax) match {
+            case Some(access) =>
+              val receiver = chainReceiver(access).get
+              guarded(syntax, expression(receiver)) { ref =>
+                val receiverId = receiver("id").num.toInt
+                val accessId   = access("id").num.toInt
+                receiverOverrides(receiverId) = ref
+                guardedAccesses += accessId
+                val result = expressionBody(syntax)
+                receiverOverrides.remove(receiverId)
+                guardedAccesses -= accessId
+                result
+              }
+            case None => expressionBody(syntax)
+          }
+      }
+      result.root.foreach(erasedReceiver(_, string(syntax, "erasedTypeId")))
+      result
     }
     def patternScope(syntax: Value)(body: => Ast): Ast = {
       val previous = patternCache
@@ -973,7 +986,9 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
           .methodFullName(if (targetId.nonEmpty) targetId else s"<unresolved>.$name")
           .code(code(syntax))
           .typeFullName(string(target, "returnTypeId", string(target, "returnType", "ANY")))
-          .dispatchType(DispatchTypes.DYNAMIC_DISPATCH),
+          .dispatchType(
+            if (fixedTarget(syntax, targetId)) DispatchTypes.STATIC_DISPATCH else DispatchTypes.DYNAMIC_DISPATCH
+          ),
         syntax
       )
       args(out, values, values.indices).withReceiverEdge(out, values.head.root.get)
@@ -1737,7 +1752,10 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
           val iterator    =
             if (string(parts, "iteratorTarget").nonEmpty) {
               val invocation = patternMember(syntax, string(parts, "iteratorTarget"), "iterator", Seq(iterable))
-              invocation.root.collect { case value: NewCall => value.typeFullName = string(parts, "iteratorTypeId") }
+              invocation.root.collect { case value: NewCall =>
+                value.typeFullName = string(parts, "iteratorTypeId")
+                erasedReceiver(value, string(parts, "iteratorErasedTypeId"))
+              }
               invocation
             } else
               operator(
@@ -1752,6 +1770,7 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
                   val invocation = patternMember(syntax, string(parts, "currentTarget"), "current", Seq(ref()))
                   invocation.root.collect { case value: NewCall =>
                     value.typeFullName = string(parts, "currentTypeId", value.typeFullName)
+                    erasedReceiver(value, string(parts, "currentErasedTypeId"))
                   }
                   invocation
                 } else field(syntax, ref(), "current")
@@ -2845,11 +2864,17 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
     val globalSignatures = signatureTypes.keys.toSeq.sorted.flatMap(scope =>
       signatureDeclarations(scope, "NAMESPACE_BLOCK", namespace.fullName)
     )
-    Ast.storeInDiffGraph(
-      Ast(file).withChild(
-        Ast(namespace).withChildren(imports ++ fields ++ asts ++ initializers ++ extraMethods ++ globalSignatures)
-      ),
-      diffGraph
+    val ast = Ast(file).withChild(
+      Ast(namespace).withChildren(imports ++ fields ++ asts ++ initializers ++ extraMethods ++ globalSignatures)
     )
+    Ast.storeInDiffGraph(ast, diffGraph)
+    // Lowering also creates provisional capture references that are not retained in the AST.
+    ast.nodes.foreach { node =>
+      Option(receiverErasures.remove(node)).foreach { id =>
+        val tag = NewTag().name(VirtualCallPass.ReceiverErasureTag).value(id)
+        diffGraph.addNode(tag)
+        diffGraph.addEdge(node, tag, io.shiftleft.codepropertygraph.generated.EdgeTypes.TAGGED_BY)
+      }
+    }
   }
 }

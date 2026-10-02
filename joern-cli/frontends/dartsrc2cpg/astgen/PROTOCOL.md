@@ -7,7 +7,7 @@ unsupported protocol versions, and unsupported analyzer/exporter versions before
 constructing a graph. The Scala consumer validates the protocol, analyzer, SDK and offset encoding
 before constructing a graph. Exporter 0.3 adds modern-language fields to protocol 1.
 
-The header declares `protocolVersion` (1), `exporterVersion` (0.3.22),
+The header declares `protocolVersion` (1), `exporterVersion` (0.3.23),
 `analyzerVersion` (8.4.1), `sdkVersion` (3.9.2), and `offsetEncoding` (`utf-16`).
 No timestamps or checkout root are emitted. The exporter builds records one file
 at a time; the analyzer may retain project state internally.
@@ -292,3 +292,16 @@ type, including scoped `I` or `J`; lookup through `Cursor<E>` does not replace
 that call result or its member receivers with the bound. `currentTypeId` retains
 the bound-instantiated element identity separately from the getter declaration.
 Nullable, unbounded and dynamic getter return boundaries omit iteration facts.
+
+Extension-type symbols expose `erasedType`, the analyzer display type of their
+representation erasure, and optional `erasedTypeId` for interface/type-parameter
+representations. Expressions expose an optional instantiated `erasedTypeId`,
+including extension types reached through parameter bounds; their original
+`type` and `typeId` remain unchanged. Nullable expressions may retain this
+dispatch constraint without changing iteration's nonnullable lookup requirement.
+Record/function/dynamic representations do not acquire guessed class identities.
+`ForEachParts` additionally exposes optional `iteratorErasedTypeId` and
+`currentErasedTypeId` for those instantiated synthetic results. Declaration
+erasures can retain scoped parameters, while expression erasures retain the
+actual static substitution. These are class dispatch constraints, not runtime
+receiver or storage identities.

@@ -9,6 +9,10 @@ import io.shiftleft.semanticcpg.language.*
 import scala.collection.mutable
 import ujson.Value
 
+private[dartsrc2cpg] object VirtualCallPass {
+  val ReceiverErasureTag = "dart.receiver.erasure"
+}
+
 class VirtualCallPass(cpg: Cpg, units: Seq[Value]) extends CpgPass(cpg) {
   private def text(value: Value, key: String, fallback: String = ""): String =
     value.obj.get(key).flatMap(_.strOpt).getOrElse(fallback)
@@ -45,8 +49,12 @@ class VirtualCallPass(cpg: Cpg, units: Seq[Value]) extends CpgPass(cpg) {
 
     def bound(id: String, visited: Set[String] = Set.empty): String = {
       val symbol = symbols.getOrElse(id, ujson.Obj())
-      if (text(symbol, "kind") == "TYPE_PARAMETER" && !visited(id)) bound(text(symbol, "boundTypeId"), visited + id)
-      else id
+      val next   = text(symbol, "kind") match {
+        case "TYPE_PARAMETER" => text(symbol, "boundTypeId")
+        case "EXTENSION_TYPE" => text(symbol, "erasedTypeId")
+        case _                => ""
+      }
+      if (next.nonEmpty && !visited(id)) bound(next, visited + id) else id
     }
     def target(id: String): Option[MethodBase] = {
       methods.get(id).filter(_.isExternal).foreach(_ => externalTargets += id)
@@ -87,7 +95,17 @@ class VirtualCallPass(cpg: Cpg, units: Seq[Value]) extends CpgPass(cpg) {
         }
         .foreach { _ =>
           val receiver =
-            call.receiver.flatMap(_.propertyOption(Properties.TypeFullName)).headOption.map(bound(_)).getOrElse("")
+            call.receiver
+              .flatMap { value =>
+                value.tag
+                  .nameExact(VirtualCallPass.ReceiverErasureTag)
+                  .value
+                  .headOption
+                  .orElse(value.propertyOption(Properties.TypeFullName))
+              }
+              .headOption
+              .map(bound(_))
+              .getOrElse("")
           val candidates = implementations
             .getOrElse(call.methodFullName, Nil)
             .filter { case (id, _) =>

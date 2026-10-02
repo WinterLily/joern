@@ -35,7 +35,7 @@ class QualificationMatrixTests(unittest.TestCase):
             return qualification.verify()
 
     def test_current_declared_evidence(self):
-        self.assertEqual(self.verify(self.original), (175, 195, 30, 67))
+        self.assertEqual(self.verify(self.original), (175, 195, 30, 72))
 
     def test_rejects_stale_or_missing_test_evidence(self):
         for field, value in [("sha256", "0" * 64), ("selector", "missing test title"),

@@ -2844,6 +2844,80 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         cpg.call.nameExact("<operator>.isInitialized").size shouldBe 2
       }
     }
+    "dispatch inherited class members through extension type representations" in {
+      fixture(
+        Files.readString(frontend.resolve("src/test/resources/semantics/extension_type_dispatch.dart")),
+        "void main() {}",
+        dataflow = false,
+        extraFiles = Map(
+          "lib/synchronous_iteration.dart" -> Files
+            .readString(frontend.resolve("src/test/resources/semantics/synchronous_iteration.dart"))
+        )
+      ) { (cpg, _) =>
+        cpg.unknown.size shouldBe 0
+        for (name <- Seq("wrappedValues", "nestedValues")) {
+          val iterator = cpg.method.nameExact(name).ast.isCall.nameExact("iterator").head
+          val targets  = iterator.callee.isExternal(false).astParentFullName.l
+          targets.size shouldBe 1
+          targets.head should endWith(":CLASS:Values")
+          iterator
+            .argument(0)
+            .propertyOption(io.shiftleft.codepropertygraph.generated.Properties.TypeFullName)
+            .get should include(":EXTENSION_TYPE:")
+        }
+        for (name <- Seq("wrappedCursor", "wrappedCurrent")) {
+          for (member <- Seq("moveNext", "current")) {
+            val call = cpg.method.nameExact(name).ast.isCall.nameExact(member).head
+            call.argument(0).start.isIdentifier.typeFullName.head should include(":EXTENSION_TYPE:CursorView")
+            val targets = call.callee.isExternal(false).astParentFullName.l
+            targets.size shouldBe 1
+            targets.head should endWith(":CLASS:Cursor")
+          }
+        }
+        val current = cpg.method.nameExact("wrappedCurrent").ast.isCall.nameExact("current").head
+        current.typeFullName should include(":EXTENSION_TYPE:GenericView")
+        current.tag.nameExact(VirtualCallPass.ReceiverErasureTag).value.l should have size 1
+        current.tag.nameExact(VirtualCallPass.ReceiverErasureTag).value.head should endWith(":CLASS:Store")
+        for (
+          (name, member) <- Seq(
+            "wrappedCurrent" -> "read",
+            "direct"         -> "read",
+            "nested"         -> "read",
+            "concrete"       -> "read",
+            "bounded"        -> "read",
+            "nullable"       -> "read",
+            "getter"         -> "value",
+            "setter"         -> "value",
+            "index"          -> "[]",
+            "indexedSetter"  -> "[]=",
+            "cascade"        -> "read",
+            "cascade"        -> "value"
+          )
+        ) {
+          val calls = cpg.method.nameExact(name).ast.isCall.nameExact(member).l
+          calls.size shouldBe 1
+          val targets = calls.head.callee.isExternal(false).astParentFullName.l
+          targets.size shouldBe 1
+          targets.head should endWith(":CLASS:Store")
+        }
+        cpg.method
+          .nameExact("other")
+          .ast
+          .isCall
+          .nameExact("read")
+          .callee
+          .isExternal(false)
+          .astParentFullName
+          .head should endWith(":CLASS:OtherStore")
+        val own = cpg.method.nameExact("own").ast.isCall.nameExact("read").head
+        own.dispatchType shouldBe "STATIC_DISPATCH"
+        own.callee.isExternal(false).astParentFullName.l should have size 1
+        own.callee.isExternal(false).astParentFullName.head should endWith(":EXTENSION_TYPE:Shadow")
+        val bound = cpg.method.nameExact("<bound>").ast.isCall.nameExact("read").head
+        bound.callee.isExternal(false).astParentFullName.l should have size 1
+        bound.callee.isExternal(false).astParentFullName.head should endWith(":CLASS:Store")
+      }
+    }
     "resolve generic iteration bounds without replacing declaration types" in {
       fixture(
         Files.readString(frontend.resolve("src/test/resources/semantics/generic_iteration.dart")),
@@ -3517,7 +3591,7 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         val coverage = ujson.read(Files.readString(report))
         coverage("includedFiles").num shouldBe 0
         coverage("stringConversionOrder").str shouldBe "after-expression-evaluation"
-        coverage("exporter")("exporterVersion").str shouldBe "0.3.22"
+        coverage("exporter")("exporterVersion").str shouldBe "0.3.23"
         coverage("exporter")("sdkVersion").str shouldBe "3.9.2"
         coverage("exporter")("analyzerVersion").str shouldBe "8.4.1"
         Files.writeString(dir.resolve("excluded.dart"), "void excluded() {}")
@@ -3537,7 +3611,7 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         "offsetEncoding"  -> "utf-16",
         "analyzerVersion" -> "8.4.1",
         "sdkVersion"      -> "3.9.2",
-        "exporterVersion" -> "0.3.22"
+        "exporterVersion" -> "0.3.23"
       )
       intercept[IllegalArgumentException](ExportProtocol.units(Seq(valid)))
       intercept[IllegalArgumentException](

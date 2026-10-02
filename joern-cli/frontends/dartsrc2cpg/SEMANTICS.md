@@ -255,8 +255,15 @@ Mixins, extensions and extension types have TYPE_DECL owners. Analyzer supertype
 include applied mixins. Extension methods keep an explicit receiver at index 0,
 typed as the extended type, with statically selected targets; explicit extension
 overrides evaluate their receiver once. Extension types have a representation
-MEMBER and a primary constructor that assigns it. Runtime representation erasure
-is not simulated. Dart class modifiers are retained as `dart.*` annotations;
+MEMBER and a primary constructor that assigns it. Own extension-type members use
+static dispatch. Inherited class members use representation erasure to constrain
+the analyzer hierarchy union, including nested, instantiated and bounded wrappers.
+Expression and synthetic iterator/current results retain their original static
+types; `dart.receiver.erasure` tags carry known class/type-parameter constraints
+through saved receivers and bound captures. Declaration erasure remains a fallback
+when no instantiated constraint is available. Record/function representations,
+runtime generic environments and representation storage aliasing remain
+unqualified. Runtime representation erasure is not simulated. Dart class modifiers are retained as `dart.*` annotations;
 `abstract`/`sealed` also emit ABSTRACT and `final` emits FINAL. Dart `interface`
 is retained as an annotation, since it does not forbid method implementations.
 

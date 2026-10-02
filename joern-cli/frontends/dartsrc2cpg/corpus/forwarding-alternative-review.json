@@ -92,7 +92,7 @@
       "exporter": {
         "record": "header",
         "protocolVersion": 1,
-        "exporterVersion": "0.3.22",
+        "exporterVersion": "0.3.23",
         "analyzerVersion": "8.4.1",
         "sdkVersion": "3.9.2",
         "offsetEncoding": "utf-16",
@@ -100,8 +100,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "5381126986a8bc6c2fa819f56be744fee0f7c656a0de4539d90fb1e1d3c026c4",
-        "files": 406,
+        "sha256": "e93d7f16ba74f0ed500a0e2dfb6b80a06f917cb1ae2b49a97201fb8ee195c526",
+        "files": 407,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -229,7 +229,7 @@
             "issue": "DART-FLOW-004",
             "owner": "shared dataflow query engine / Dart library models"
           },
-          "refreshDisposition": "Fresh two-witness modeled 30-node routes retain readonly _needsNormalization output, normalize return -> output-marked prettyUri call -> relative isRelative/isAbsolute re-entry, then select Windows rootLength path.isEmpty. Exact method owner and the POSIX/URL/Windows dispatch union are retained; field/storage demands are empty. Stock URL and other previously reviewed variants retain their existing dispositions. The POSIX native oracle does not execute the selected Windows body or prettyUri/caller route. No String mutation, actual style instance, repeated-call order or branch feasibility is established. Fresh four-witness stock/modeled 29-node variants instead select URL rootLength under relative.isAbsolute, before a later _needsNormalization output-only route. The same dispatch union remains explicit. Four-witness modeled 30-node variants exactly match the reviewed two-witness Windows routes; neither selection supplies a runtime style instance."
+          "refreshDisposition": "Fresh two-witness modeled 31-node routes retain readonly normalization outputs and prettyUri -> relative caller re-entry, selecting isRelative or isAbsolute before a second normalize call. The selected POSIX rootLength body uses path.isNotEmpty/codeUnitAt; the observed POSIX/URL/Windows callee union remains explicit. Exact call frames, slots and output flags are preserved, with empty field/storage demands. These readonly/external/dispatch/caller effects do not establish String mutation, branch feasibility, runtime style identity or caller order. Native POSIX controls do not execute the prettyUri re-entry. No causal claim ties selected route differences to extension-type dispatch. Fresh four-witness modeled 30-node selection reaches the POSIX rootLength body under isAbsolute before the subsequent normalization output; all style candidates remain in its call metadata."
         },
         {
           "id": "set-extension-path",
@@ -554,30 +554,42 @@
             ]
           ]
         },
-        "111669150087": {
+        "111669150035": {
           "label": "METHOD_PARAMETER_IN",
-          "method": "package:path/src/style/windows.dart#1324:METHOD:rootLength",
+          "method": "package:path/src/style/posix.dart#1039:METHOD:rootLength",
           "code": "String path",
-          "line": 47,
+          "line": 39,
           "parameterIndex": 1
         },
-        "68719478428": {
+        "68719478295": {
           "label": "IDENTIFIER",
-          "method": "package:path/src/style/windows.dart#1324:METHOD:rootLength",
+          "method": "package:path/src/style/posix.dart#1039:METHOD:rootLength",
           "code": "path",
-          "line": 48,
+          "line": 40,
           "argumentsOf": [
             [
-              "30064772876",
+              "30064772719",
               0
             ]
           ]
         },
-        "115964117383": {
+        "68719478297": {
+          "label": "IDENTIFIER",
+          "method": "package:path/src/style/posix.dart#1039:METHOD:rootLength",
+          "code": "path",
+          "line": 40,
+          "argumentsOf": [
+            [
+              "30064772721",
+              0
+            ]
+          ]
+        },
+        "115964117331": {
           "label": "METHOD_PARAMETER_OUT",
-          "method": "package:path/src/style/windows.dart#1324:METHOD:rootLength",
+          "method": "package:path/src/style/posix.dart#1039:METHOD:rootLength",
           "code": "String path",
-          "line": 47,
+          "line": 39,
           "parameterIndex": 1
         },
         "111669149848": {
@@ -1375,14 +1387,26 @@
             }
           ]
         },
-        "30064772876": {
-          "nodeId": "30064772876",
-          "name": "isEmpty",
-          "target": "dart:core/string.dart#13494:GETTER:isEmpty",
-          "code": "path.isEmpty",
+        "30064772719": {
+          "nodeId": "30064772719",
+          "name": "isNotEmpty",
+          "target": "dart:core/string.dart#13555:GETTER:isNotEmpty",
+          "code": "path.isNotEmpty",
           "callees": [
             {
-              "fullName": "dart:core/string.dart#13494:GETTER:isEmpty",
+              "fullName": "dart:core/string.dart#13555:GETTER:isNotEmpty",
+              "external": true
+            }
+          ]
+        },
+        "30064772721": {
+          "nodeId": "30064772721",
+          "name": "codeUnitAt",
+          "target": "dart:core/string.dart#8631:METHOD:codeUnitAt",
+          "code": "path.codeUnitAt(0)",
+          "callees": [
+            {
+              "fullName": "dart:core/string.dart#8631:METHOD:codeUnitAt",
               "external": true
             }
           ]
@@ -2588,7 +2612,7 @@
               []
             ],
             [
-              "111669150087",
+              "111669150035",
               5,
               true,
               false,
@@ -2596,7 +2620,7 @@
               []
             ],
             [
-              "68719478428",
+              "68719478295",
               5,
               true,
               false,
@@ -2604,7 +2628,15 @@
               []
             ],
             [
-              "115964117383",
+              "68719478297",
+              5,
+              true,
+              false,
+              "path",
+              []
+            ],
+            [
+              "115964117331",
               5,
               true,
               false,
@@ -2676,6 +2708,7 @@
             "local-read",
             "parameter-binding",
             "parameter-read",
+            "local-read",
             "parameter-output",
             "caller-output",
             "parameter-output",
@@ -2863,7 +2896,7 @@
               []
             ],
             [
-              "111669150087",
+              "111669150035",
               5,
               true,
               false,
@@ -2871,7 +2904,7 @@
               []
             ],
             [
-              "68719478428",
+              "68719478295",
               5,
               true,
               false,
@@ -2879,7 +2912,15 @@
               []
             ],
             [
-              "115964117383",
+              "68719478297",
+              5,
+              true,
+              false,
+              "path",
+              []
+            ],
+            [
+              "115964117331",
               5,
               true,
               false,
@@ -2951,6 +2992,7 @@
             "local-read",
             "parameter-binding",
             "parameter-read",
+            "local-read",
             "parameter-output",
             "caller-output",
             "parameter-output",
@@ -4299,7 +4341,7 @@
       "exporter": {
         "record": "header",
         "protocolVersion": 1,
-        "exporterVersion": "0.3.22",
+        "exporterVersion": "0.3.23",
         "analyzerVersion": "8.4.1",
         "sdkVersion": "3.9.2",
         "offsetEncoding": "utf-16",
@@ -4307,8 +4349,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "5381126986a8bc6c2fa819f56be744fee0f7c656a0de4539d90fb1e1d3c026c4",
-        "files": 406,
+        "sha256": "e93d7f16ba74f0ed500a0e2dfb6b80a06f917cb1ae2b49a97201fb8ee195c526",
+        "files": 407,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -5092,7 +5134,7 @@
       "exporter": {
         "record": "header",
         "protocolVersion": 1,
-        "exporterVersion": "0.3.22",
+        "exporterVersion": "0.3.23",
         "analyzerVersion": "8.4.1",
         "sdkVersion": "3.9.2",
         "offsetEncoding": "utf-16",
@@ -5100,8 +5142,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "5381126986a8bc6c2fa819f56be744fee0f7c656a0de4539d90fb1e1d3c026c4",
-        "files": 406,
+        "sha256": "e93d7f16ba74f0ed500a0e2dfb6b80a06f917cb1ae2b49a97201fb8ee195c526",
+        "files": 407,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -5234,7 +5276,7 @@
             "issue": "DART-FLOW-003",
             "owner": "shared dataflow query engine / Dart library models"
           },
-          "refreshDisposition": "Fresh two-witness stock 28/27-node variants retain input.length -> _convert end slot 3 -> size/header/allocation and saved Uint8List receiver effects. The selected setRange cross-argument route is receiver slot 0 -> cursor slot 1 -> bytes slot 3, omitting the previously selected start/skipCount slot 4. The 27-node variant omits the saved allocation identifier and retains its constructor as detail-only invisible evidence. These readonly/constructor/header/range effects are conservative and do not establish exact byte-copy provenance or runtime allocation identity. Native copy/slice/empty controls retain their separate execution scope. Fresh four-witness 28/27-node variants retain the same 0 -> 1 -> 3 range order; additional shorter variants omit either CR/LF saved result alias and preserve its corresponding detail-only receiver visibility."
+          "refreshDisposition": "Fresh two-witness stock 28/27-node routes select input.length -> end slot 3 -> size/header/allocation and saved Uint8List receivers, then setRange receiver 0 -> skipCount/start slot 4 -> bytes slot 3. The shorter variant omits the allocation result alias and preserves invisible constructor evidence. Exact slots, flags and contexts are retained; field/storage demands are empty. These receiver/range, readonly and allocation effects are conservative approximations, not direct original-byte copying or allocation identity. Native whole/slice/empty controls retain separate execution scope. Fresh four-witness 28/27-node routes retain the same 0 -> 4 -> 3 range order; shorter variants omit the allocation result or one CR/LF saved alias while preserving its corresponding invisible evidence."
         },
         {
           "id": "chunk-return-buffer",
@@ -5339,7 +5381,7 @@
             "issue": "DART-FLOW-003",
             "owner": "shared dataflow query engine / Dart library models"
           },
-          "refreshDisposition": "Fresh two-witness stock 72-node routes select setRange bytes slot 3 -> receiver slot 0, then saved CR/LF aliases and footer range receiver/length effects into the returned whole buffer. Output-marked _convert results enter candidate _Sink.add; the first re-entry selects chunk.length -> end slot 3 -> size/header/allocation and receiver effects, while the later re-entry selects bytes slot 1. Initial add/addSlice frames remain distinct; later add frames and exact output/visibility flags are retained. Field/storage demands are empty. Stock direct byte-to-receiver selection remains a conservative summary effect, not proof of element provenance. These paths do not certify runtime sink instances, actual repeated-call order, allocation identity or a causal effect of generic iteration changes. Fresh four-witness stock 72/71-node routes retain direct conservative bytes 3 -> receiver 0 at the initial visit and first byte-parameter re-entry, then a later end slot 3 re-entry through size/header/allocation to the returned buffer. Both intermediate results are output-marked and retain distinct initial add/addSlice and subsequent add frames. Unlike the two-witness routes, the selected first re-entry is bytes and the later one is end. Shorter 71-node variants omit one initial CR/LF saved alias and preserve its detail-only receiver visibility. Existing modeled routes retain their reviewed dispositions; larger witness bounds do not imply inclusion of the two-witness sequences."
+          "refreshDisposition": "Fresh two-witness stock 72-node routes retain conservative setRange bytes slot 3 -> receiver 0, saved CR/LF aliases, footer range/length effects and output-marked _convert results entering candidate _Sink.add. The first re-entry selects chunk.length -> end slot 3 -> size/header/allocation; the later re-entry selects bytes slot 1. Modeled 76-node routes instead select end slot 3 in both re-entries, each using sizeInHex.codeUnits -> modeled header setRange bytes 3 -> receiver 0 effects. Initial add/addSlice and subsequent add frames are distinct; exact output/visibility flags are retained, with empty field/storage demands. Whole-buffer, size/header, external/read, dispatch and caller effects do not establish repeated-call order, actual sink/allocation identity or precise byte-element provenance. Native byte-copy controls do not certify those re-entry routes. Larger bounds need not retain smaller-bound selections; no causal claim ties these differences to extension-type dispatch. Fresh four-witness stock 72/71-node selections instead re-enter bytes first, then end/size/header/allocation; the shorter variants omit one initial CR/LF saved alias and retain its invisible receiver evidence. Existing four-witness modeled dispositions remain separate."
         },
         {
           "id": "error-message-value",
@@ -5755,15 +5797,15 @@
             ]
           ]
         },
-        "68719477247": {
+        "68719477252": {
           "label": "IDENTIFIER",
           "method": "package:http_parser/src/chunked_coding/encoder.dart#1792:FUNCTION:_convert",
-          "code": "cursor",
+          "code": "start",
           "line": 74,
           "argumentsOf": [
             [
               "30064771630",
-              1
+              4
             ]
           ]
         },
@@ -5858,28 +5900,16 @@
             ]
           ]
         },
-        "68719477275": {
-          "label": "IDENTIFIER",
-          "method": "package:http_parser/src/chunked_coding/encoder.dart#1792:FUNCTION:_convert",
-          "code": "list",
-          "line": 80,
-          "argumentsOf": [
-            [
-              "30064771651",
-              0
-            ]
-          ]
-        },
-        "30064771651": {
+        "30064771650": {
           "label": "CALL",
           "method": "package:http_parser/src/chunked_coding/encoder.dart#1792:FUNCTION:_convert",
           "code": "list.length",
           "line": 80,
-          "call": "30064771651",
+          "call": "30064771650",
           "argumentsOf": [
             [
-              "30064771648",
-              2
+              "30064771649",
+              1
             ]
           ]
         },
@@ -5893,6 +5923,19 @@
             [
               "30064771648",
               1
+            ]
+          ]
+        },
+        "30064771651": {
+          "label": "CALL",
+          "method": "package:http_parser/src/chunked_coding/encoder.dart#1792:FUNCTION:_convert",
+          "code": "list.length",
+          "line": 80,
+          "call": "30064771651",
+          "argumentsOf": [
+            [
+              "30064771648",
+              2
             ]
           ]
         },
@@ -5993,6 +6036,18 @@
             [
               "30064771584",
               1
+            ]
+          ]
+        },
+        "68719477275": {
+          "label": "IDENTIFIER",
+          "method": "package:http_parser/src/chunked_coding/encoder.dart#1792:FUNCTION:_convert",
+          "code": "list",
+          "line": 80,
+          "argumentsOf": [
+            [
+              "30064771651",
+              0
             ]
           ]
         },
@@ -6399,14 +6454,14 @@
             }
           ]
         },
-        "30064771651": {
-          "nodeId": "30064771651",
-          "name": "length",
-          "target": "dart:core/list.dart#15331:GETTER:length",
-          "code": "list.length",
+        "30064771649": {
+          "nodeId": "30064771649",
+          "name": "<operator>.subtraction",
+          "target": "<operator>.dart.subtraction",
+          "code": "list.length - footerSize",
           "callees": [
             {
-              "fullName": "dart:core/list.dart#15331:GETTER:length",
+              "fullName": "<operator>.dart.subtraction",
               "external": true
             }
           ]
@@ -6423,14 +6478,14 @@
             }
           ]
         },
-        "30064771649": {
-          "nodeId": "30064771649",
-          "name": "<operator>.subtraction",
-          "target": "<operator>.dart.subtraction",
-          "code": "list.length - footerSize",
+        "30064771651": {
+          "nodeId": "30064771651",
+          "name": "length",
+          "target": "dart:core/list.dart#15331:GETTER:length",
+          "code": "list.length",
           "callees": [
             {
-              "fullName": "<operator>.dart.subtraction",
+              "fullName": "dart:core/list.dart#15331:GETTER:length",
               "external": true
             }
           ]
@@ -6805,11 +6860,11 @@
               []
             ],
             [
-              "68719477247",
+              "68719477252",
               0,
               true,
               false,
-              "cursor",
+              "start",
               []
             ],
             [
@@ -7054,11 +7109,11 @@
               []
             ],
             [
-              "68719477247",
+              "68719477252",
               0,
               true,
               false,
-              "cursor",
+              "start",
               []
             ],
             [
@@ -7216,17 +7271,9 @@
               []
             ],
             [
-              "68719477275",
+              "30064771650",
               1,
-              true,
               false,
-              "list",
-              []
-            ],
-            [
-              "30064771651",
-              1,
-              true,
               false,
               "list.length",
               []
@@ -7237,6 +7284,14 @@
               true,
               false,
               "list.length - footerSize",
+              []
+            ],
+            [
+              "30064771651",
+              1,
+              true,
+              false,
+              "list.length",
               []
             ],
             [
@@ -7528,17 +7583,9 @@
               []
             ],
             [
-              "68719477275",
+              "30064771650",
               1,
-              true,
               false,
-              "list",
-              []
-            ],
-            [
-              "30064771651",
-              1,
-              true,
               false,
               "list.length",
               []
@@ -7549,6 +7596,14 @@
               true,
               false,
               "list.length - footerSize",
+              []
+            ],
+            [
+              "30064771651",
+              1,
+              true,
+              false,
+              "list.length",
               []
             ],
             [
@@ -7680,17 +7735,9 @@
               []
             ],
             [
-              "68719477275",
+              "30064771650",
               0,
-              true,
               false,
-              "list",
-              []
-            ],
-            [
-              "30064771651",
-              0,
-              true,
               false,
               "list.length",
               []
@@ -7701,6 +7748,14 @@
               true,
               false,
               "list.length - footerSize",
+              []
+            ],
+            [
+              "30064771651",
+              0,
+              true,
+              false,
+              "list.length",
               []
             ],
             [
@@ -7736,8 +7791,8 @@
             "alias",
             "assignment",
             "alias",
-            "local-read",
             "external-return",
+            "operator-value",
             "external-write",
             "external-write",
             "local-read",
@@ -7775,8 +7830,8 @@
             "alias",
             "assignment",
             "alias",
-            "local-read",
             "external-return",
+            "operator-value",
             "external-write",
             "external-write",
             "local-read",
@@ -7794,8 +7849,8 @@
             "alias",
             "assignment",
             "alias",
-            "local-read",
             "external-return",
+            "operator-value",
             "external-write",
             "external-write",
             "local-read",
@@ -7869,17 +7924,9 @@
               []
             ],
             [
-              "68719477275",
+              "30064771650",
               2,
-              true,
               false,
-              "list",
-              []
-            ],
-            [
-              "30064771651",
-              2,
-              true,
               false,
               "list.length",
               []
@@ -7890,6 +7937,14 @@
               true,
               false,
               "list.length - footerSize",
+              []
+            ],
+            [
+              "30064771651",
+              2,
+              true,
+              false,
+              "list.length",
               []
             ],
             [
@@ -8181,17 +8236,9 @@
               []
             ],
             [
-              "68719477275",
+              "30064771650",
               1,
-              true,
               false,
-              "list",
-              []
-            ],
-            [
-              "30064771651",
-              1,
-              true,
               false,
               "list.length",
               []
@@ -8202,6 +8249,14 @@
               true,
               false,
               "list.length - footerSize",
+              []
+            ],
+            [
+              "30064771651",
+              1,
+              true,
+              false,
+              "list.length",
               []
             ],
             [
@@ -8333,17 +8388,9 @@
               []
             ],
             [
-              "68719477275",
+              "30064771650",
               0,
-              true,
               false,
-              "list",
-              []
-            ],
-            [
-              "30064771651",
-              0,
-              true,
               false,
               "list.length",
               []
@@ -8354,6 +8401,14 @@
               true,
               false,
               "list.length - footerSize",
+              []
+            ],
+            [
+              "30064771651",
+              0,
+              true,
+              false,
+              "list.length",
               []
             ],
             [
@@ -8389,8 +8444,8 @@
             "alias",
             "assignment",
             "alias",
-            "local-read",
             "external-return",
+            "operator-value",
             "external-write",
             "external-write",
             "local-read",
@@ -8428,8 +8483,8 @@
             "alias",
             "assignment",
             "alias",
-            "local-read",
             "external-return",
+            "operator-value",
             "external-write",
             "external-write",
             "local-read",
@@ -8447,8 +8502,8 @@
             "alias",
             "assignment",
             "alias",
-            "local-read",
             "external-return",
+            "operator-value",
             "external-write",
             "external-write",
             "local-read",
@@ -8842,7 +8897,7 @@
               []
             ],
             [
-              "68719477197",
+              "30064771581",
               0,
               true,
               false,
@@ -8850,19 +8905,139 @@
               []
             ],
             [
-              "111669149773",
+              "111669149775",
               0,
               true,
               false,
-              "bytes",
+              "end",
               []
             ],
             [
-              "68719477251",
+              "68719477211",
+              0,
+              false,
+              false,
+              "end",
+              []
+            ],
+            [
+              "68719477215",
+              0,
+              false,
+              false,
+              "end",
+              []
+            ],
+            [
+              "30064771599",
               0,
               true,
               false,
-              "bytes",
+              "end - start",
+              []
+            ],
+            [
+              "68719477214",
+              0,
+              true,
+              false,
+              "size",
+              []
+            ],
+            [
+              "68719477218",
+              0,
+              true,
+              false,
+              "size",
+              []
+            ],
+            [
+              "30064771601",
+              0,
+              true,
+              false,
+              "size.toRadixString(16)",
+              []
+            ],
+            [
+              "68719477217",
+              0,
+              true,
+              false,
+              "sizeInHex",
+              []
+            ],
+            [
+              "68719477223",
+              0,
+              true,
+              false,
+              "sizeInHex",
+              []
+            ],
+            [
+              "68719477228",
+              0,
+              true,
+              false,
+              "sizeInHex",
+              []
+            ],
+            [
+              "68719477229",
+              0,
+              true,
+              false,
+              "sizeInHex",
+              []
+            ],
+            [
+              "30064771615",
+              0,
+              true,
+              false,
+              "sizeInHex.codeUnits",
+              []
+            ],
+            [
+              "68719477227",
+              0,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477233",
+              0,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477232",
+              0,
+              true,
+              false,
+              "<tmp>5",
+              []
+            ],
+            [
+              "68719477240",
+              0,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477239",
+              0,
+              true,
+              false,
+              "<tmp>7",
               []
             ],
             [
@@ -8994,10 +9169,25 @@
             "call-return",
             "parameter-binding",
             "parameter-read",
-            "local-read",
+            "external-return",
             "parameter-binding",
             "parameter-read",
+            "local-read",
+            "operator-value",
+            "assignment",
+            "local-read",
+            "external-return",
+            "assignment",
+            "local-read",
+            "local-read",
+            "local-read",
+            "external-return",
             "external-write",
+            "local-read",
+            "assignment",
+            "alias",
+            "assignment",
+            "alias",
             "local-read",
             "assignment",
             "alias",
@@ -9396,7 +9586,7 @@
               []
             ],
             [
-              "68719477197",
+              "30064771581",
               0,
               true,
               false,
@@ -9404,19 +9594,139 @@
               []
             ],
             [
-              "111669149773",
+              "111669149775",
               0,
               true,
               false,
-              "bytes",
+              "end",
               []
             ],
             [
-              "68719477251",
+              "68719477211",
+              0,
+              false,
+              false,
+              "end",
+              []
+            ],
+            [
+              "68719477215",
+              0,
+              false,
+              false,
+              "end",
+              []
+            ],
+            [
+              "30064771599",
               0,
               true,
               false,
-              "bytes",
+              "end - start",
+              []
+            ],
+            [
+              "68719477214",
+              0,
+              true,
+              false,
+              "size",
+              []
+            ],
+            [
+              "68719477218",
+              0,
+              true,
+              false,
+              "size",
+              []
+            ],
+            [
+              "30064771601",
+              0,
+              true,
+              false,
+              "size.toRadixString(16)",
+              []
+            ],
+            [
+              "68719477217",
+              0,
+              true,
+              false,
+              "sizeInHex",
+              []
+            ],
+            [
+              "68719477223",
+              0,
+              true,
+              false,
+              "sizeInHex",
+              []
+            ],
+            [
+              "68719477228",
+              0,
+              true,
+              false,
+              "sizeInHex",
+              []
+            ],
+            [
+              "68719477229",
+              0,
+              true,
+              false,
+              "sizeInHex",
+              []
+            ],
+            [
+              "30064771615",
+              0,
+              true,
+              false,
+              "sizeInHex.codeUnits",
+              []
+            ],
+            [
+              "68719477227",
+              0,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477233",
+              0,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477232",
+              0,
+              true,
+              false,
+              "<tmp>5",
+              []
+            ],
+            [
+              "68719477240",
+              0,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477239",
+              0,
+              true,
+              false,
+              "<tmp>7",
               []
             ],
             [
@@ -9548,10 +9858,25 @@
             "call-return",
             "parameter-binding",
             "parameter-read",
-            "local-read",
+            "external-return",
             "parameter-binding",
             "parameter-read",
+            "local-read",
+            "operator-value",
+            "assignment",
+            "local-read",
+            "external-return",
+            "assignment",
+            "local-read",
+            "local-read",
+            "local-read",
+            "external-return",
             "external-write",
+            "local-read",
+            "assignment",
+            "alias",
+            "assignment",
+            "alias",
             "local-read",
             "assignment",
             "alias",
@@ -9777,7 +10102,7 @@
   ],
   "representation": "Node/call IDs and context/path indices are project-local. transitions[i] classifies elements[i] to elements[i+1]. All retained demand sets in this review are empty. Equivalent stock/modeled paths are shared; full path flags and selected caller contexts are preserved.",
   "reviewMethod": "Each selected displayed route was read against its pinned source expectation. Formal argument positions, resolved return targets and available selected frames were checked. Argument-output return evidence already in a caller frame has a separate category. This is a mechanism/approximation review, not branch feasibility, general scheduling or heap qualification.",
-  "analysisBaseCommit": "de4f4b0ab",
+  "analysisBaseCommit": "f0e383ca5",
   "limitations": [
     "Only these seven query families and their returned bounded paths are reviewed; other corpus alternatives and larger searches remain pending.",
     "An endpoint identity is recorded separately from independent forwarding; conservative argument outputs, aggregate projections and external effects do not prove mutation, allocation identity, callback delivery or branch feasibility.",
@@ -9787,13 +10112,13 @@
     "queries": 7,
     "selectedPaths": 25,
     "distinctPaths": 19,
-    "distinctTransitions": 605
+    "distinctTransitions": 637
   },
   "refresh": {
-    "previousBaseCommit": "de4f4b0ab",
+    "previousBaseCommit": "f0e383ca5",
     "previousAnalysisSources": {
       "algorithm": "sha256-path-nul-content-nul",
-      "sha256": "8d38cb5a00e2e084f0ca2aafa3ac34c7806d06b38764782aa0704abafa7adb17",
+      "sha256": "5381126986a8bc6c2fa819f56be744fee0f7c656a0de4539d90fb1e1d3c026c4",
       "files": 406,
       "roots": [
         "joern-cli/frontends/dartsrc2cpg/src",
@@ -9818,9 +10143,9 @@
       "queries": 7,
       "selectedPaths": 25,
       "distinctPaths": 19,
-      "distinctTransitions": 617
+      "distinctTransitions": 605
     },
-    "method": "Replayed after resolving iterator getter return bounds while retaining symbolic iterator results, with nullable type-parameter lookup boundaries corrected. Unchanged routes are matched against previous two/four-witness reviewed paths after removing node IDs only; all other node/call/context/flag/demand facts are retained. Changed variants have separate source-grounded refresh dispositions and checked argument/return/output bindings. All new graph IDs are reconstructed from fresh raw audits. Native observations do not certify caller re-entry, allocation, heap/dispatch precision or route feasibility."
+    "method": "Replayed after adding instantiated extension-type representation constraints for inherited class dispatch, while retaining original static types and static own-member dispatch. Unchanged routes are matched against previous two/four-witness reviewed paths after removing node IDs only; all other node/call/context/flag/demand facts are retained. Changed variants have separate source-grounded refresh dispositions and checked argument/return/output bindings. All new graph IDs are reconstructed from fresh raw audits. Native observations do not certify caller re-entry, allocation, heap/dispatch precision or route feasibility."
   },
   "nativeRefreshScope": "Existing native oracle contracts remain unchanged."
 }
