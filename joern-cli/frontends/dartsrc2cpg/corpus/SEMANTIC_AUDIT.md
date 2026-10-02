@@ -1521,3 +1521,44 @@ altered caller stacks, output flags and callback targets. Existing holdout/analy
 rejection checks also pass. The full native suite passes 109 tests with runtime,
 Flutter, corpus, holdout and application flags enabled. Other additional routes,
 eight modeled inconclusive negative searches and the remaining plan gates stay open.
+
+
+## Complete bounded LocalSend and Saber query review
+
+The [LocalSend/Saber snapshot](applications-alternative-review.json) covers all
+22 queries in both modes: 84 selected paths share 51 distinct routes and 634
+classified transitions. Nine represented source files retain pinned hashes.
+Full call bindings, caller stacks, callback targets, output/visibility flags and
+empty demand sets are reconstructed against the saved four-witness reports.
+Together with Sass, all 33 application queries have transition dispositions.
+
+Certificate paths retain the known stock callback-selection approximation.
+Save-path and URI-suffix alternatives visit readonly parameter outputs and
+unrelated callers before re-entry; they do not establish immutable String
+mutation or platform file execution. Tree decoding retains external index and
+substring argument effects. Filename routes include MapEntry value/key feedback,
+callback references, collection fields and extension receivers. Their differing
+edge flags are preserved, while exact collection slots and caller ordering remain
+unqualified. Native URI and extension controls establish only exercised helper
+behavior. URI-suffix and save-name negative searches with limits remain inconclusive.
+
+Saber Base64 routes distinguish encoding, decoding and the input-preserving
+Uint8List branch. Native controls cover empty/distinct arrays, round trips, null,
+invalid decoder input and alias identity with an independent array. Configuration
+JSON routes distinguish constructor temporaries but do not execute a network
+upload; codeUnits followed by Uint8List construction is not an arbitrary Unicode
+encoding qualification. Captured path parameters bind to lexical lambda reads
+without qualifying delivery, cache state, encryption keys or scheduling. The
+stock priority false positive retains worker receiver feedback; modeled isolation
+uses the existing versioned summary and a same-source positive control. Quota
+projections and encryption results retain external/aggregate/callback effects.
+Configuration-directory isolation remains inconclusive under its recorded limits.
+
+Validation passes the full 111-test native suite with runtime, Flutter, corpus,
+holdout and application controls enabled, final-file analysis and formatting,
+all three pinned application hashes and unchanged 403-file/all-twelve-graph
+provenance. Thirteen new verifier rejection checks and the previous 37 checks
+reject altered evidence, and summary regeneration is byte-identical. The LocalSend
+oracle extracts its pure URI class verbatim rather than executing the Flutter
+library. Other package alternatives, eight modeled inconclusive negatives and
+remaining coverage-plan gates stay open.

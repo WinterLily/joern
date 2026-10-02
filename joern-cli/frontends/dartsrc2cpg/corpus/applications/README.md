@@ -139,7 +139,7 @@ limits. The singular pluralization return has no recorded query limitation and
 separates explicit name payload from count-based branch selection.
 
 The native controls execute the actual pinned Sass public APIs, parser constructors
-and utilities. Run them after preparing the existing corpus:
+and utilities, LocalSend pure helpers and Saber Base64 codec. Run them after preparing the existing corpus:
 
 ```sh
 cd joern-cli/frontends/dartsrc2cpg/astgen
@@ -152,3 +152,24 @@ and non-ASCII whitespace, escape preservation, independent plural names/counts,
 indentation and multiline bullets. These executions qualify the exercised cases;
 they do not establish every compiler route, framework delivery or absence in
 limited graph searches.
+
+
+The [LocalSend/Saber review](../applications-alternative-review.json) covers all
+remaining twenty-two application queries: 84 selected paths share 51 distinct
+routes and 634 classified transitions. Exact call slots, caller stacks, callback
+identities, visibility/output flags and demand sets are retained. Certificate
+selection, readonly argument-output, filename MapEntry/collection feedback and
+worker receiver paths remain conservative approximations. All 33 application
+queries now have bounded transition dispositions, with four modeled negative
+searches still inconclusive.
+
+LocalSend execution uses the verbatim pure `ContentUriHelper` class extracted
+from its pinned Flutter source and imports the actual filename extension. Controls
+cover missing/empty/encoded suffixes, independent tree prefixes, valid/missing tree
+markers and uppercase/missing/hidden/trailing-dot extensions. Saber execution
+imports the actual Base64 codec and checks empty/distinct byte arrays, round trips,
+null and invalid inputs, decoder identity and separate mutable byte arrays.
+These checks do not execute the Flutter library, platform file saving, network
+configuration upload, encryption or worker scheduling. Configuration JSON's
+`codeUnits`/`Uint8List` path represents the application's UTF-16 code units and
+byte truncation; it does not qualify arbitrary Unicode encoding.

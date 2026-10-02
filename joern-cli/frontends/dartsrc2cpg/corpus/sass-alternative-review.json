@@ -6211,7 +6211,7 @@
   "executionOracles": [
     {
       "file": "astgen/test/application_boundaries_test.dart",
-      "sha256": "745a8b7be2448165ce62981e7c59295f60a24f76587ff3c40670ba6b72dc3ca6",
+      "sha256": "47110bb398334d96ffd93c3d5638f9588f470d29629ea00e87aa623da07c9f13",
       "scope": "Dart Sass 1.89.2 actual public APIs/parser constructors/utilities: three independent CSS/SCSS texts under both verbose flags; ASCII/non-ASCII whitespace and escape preservation; independent names/counts/plurals; indentation and multiline bulletedList. Not a whole compiler qualification or proof of absent bounded graph paths. Multiline bullets are checked under both explicit ASCII and Unicode glyph modes. Single-element bullets retain the newline/indentation produced by their empty rest-pattern match."
     }
   ],

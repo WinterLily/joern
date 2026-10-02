@@ -90,4 +90,87 @@ void main() {
 '''),
     skip: skip,
   );
+  test(
+    'pinned LocalSend URI class and filename extension keep independent inputs',
+    () async {
+      final source = File(
+        '../../../../agents/application-corpus/localsend/app/lib/util/native/content_uri_helper.dart',
+      ).readAsStringSync();
+      final start = source.indexOf('class ContentUriHelper {');
+      final end = source.indexOf('class AndroidUriContentStreamResolver');
+      expect(start, greaterThanOrEqualTo(0));
+      expect(end, greaterThan(start));
+      await runApplication(
+        'localsend/app',
+        "import 'package:localsend_app/util/file_path_helper.dart';\n${source.substring(start, end)}"
+            r'''
+void main() {
+  for (final (suffix, encoded) in <(String?, String)>[
+    (null, ''), ('', '%2F'), ('first/second', '%2Ffirst%2Fsecond'),
+    ('a b', '%2Fa%20b'), ('é', '%2F%C3%A9'),
+  ]) {
+    const tree = 'content://host/tree/primary%3ADocuments';
+    final value = ContentUriHelper.convertTreeUriToDocumentUri(treeUri: tree, suffix: suffix);
+    if (value != '$tree/document/primary%3ADocuments$encoded') {
+      throw StateError('Lost suffix or mixed tree prefix');
+    }
+  }
+  for (final (uri, path) in <(String, String?)>[
+    ('content://host/tree/primary%3ADocuments', 'primary:Documents'),
+    ('content://host/tree/primary%3ADocuments%2Fsub', 'primary:Documents/sub'),
+    ('content://host/document/primary%3ADocuments', null),
+    ('', null),
+  ]) {
+    if (ContentUriHelper.getPathFromTreeUri(uri) != path) {
+      throw StateError('Lost decoding or null branch');
+    }
+  }
+  for (final (path, extension) in [
+    ('photo.JPG', 'jpg'), ('plain', ''), ('.hidden', 'hidden'), ('trailing.', ''),
+  ]) {
+    for (final name in ['first', 'second']) {
+      if (path.extension != extension || path.withFileNameKeepExtension(name) != '$name.$extension') {
+        throw StateError('Mixed name, receiver or extension');
+      }
+    }
+  }
+}
+''',
+      );
+    },
+    skip: skip,
+  );
+  test(
+    'pinned Saber stored-byte codec keeps content, null and alias branches',
+    () => runApplication('saber', r'''
+import 'dart:convert';
+import 'dart:typed_data';
+import 'package:saber/data/codecs/base64_codec.dart';
+void main() {
+  final codec = Base64StowCodec();
+  for (final values in <List<int>>[[], [0], [255, 1, 0]]) {
+    final input = Uint8List.fromList(values);
+    final encoded = codec.encoder.convert(input)!;
+    if (encoded != base64Encode(values)) throw StateError('Lost encoded bytes');
+    final decoded = codec.decoder.convert(encoded)!;
+    if (decoded.length != input.length) throw StateError('Lost decoded length');
+    for (var i=0;i<input.length;i++) {
+      if (decoded[i] != input[i]) throw StateError('Lost decoded bytes');
+    }
+    if (!identical(codec.decoder.convert(input),input)) throw StateError('Lost byte identity');
+  }
+  if (codec.encoder.convert(null)!=null || codec.decoder.convert(null)!=null) {
+    throw StateError('Lost null branch');
+  }
+  var rejected = false;
+  try { codec.decoder.convert(1); } on ArgumentError { rejected = true; }
+  if (!rejected) throw StateError('Unsupported decoder type accepted');
+  final first=Uint8List.fromList([1,2]);
+  final second=Uint8List.fromList([3,4]);
+  codec.decoder.convert(first)![0]=255;
+  if (first[0]!=255 || second[0]!=3) throw StateError('Mixed independent byte aliases');
+}
+'''),
+    skip: skip,
+  );
 }

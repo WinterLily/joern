@@ -11,7 +11,9 @@ LIMITS = (
     "maxStaticStorageNodes", "maxArgsToAllow", "maxOutputArgsExpansion",
 )
 REVIEW = "holdout-witness-review.json"
-REVIEW_FILES = (REVIEW, "analyzer-alternative-review.json", "sass-alternative-review.json")
+REVIEW_FILES = (
+    REVIEW, "analyzer-alternative-review.json", "sass-alternative-review.json", "applications-alternative-review.json",
+)
 
 
 def read(path):
@@ -86,9 +88,9 @@ def summarize(audit_root, resource_file):
             for key in ["defaultSemantics", "dartSummaries"]:
                 require([q["id"] for q in audit[key]] == [q["id"] for q in two[key]]
                         == [q["id"] for q in ordinary[key]], f"Incomplete query set: {name}")
-                if proof and category == "holdout":
+                if proof and category in ["holdout", "applications"]:
                     require({q["id"] for q in proof["queries"]} == {q["id"] for q in audit[key]},
-                            f"Incomplete holdout review: {name}")
+                            f"Incomplete project review: {name}")
             for stock, modeled in zip(audit["defaultSemantics"], audit["dartSummaries"], strict=True):
                 require(stock["id"] == modeled["id"], f"Unpaired queries: {name}")
                 require(all(stock[k] == modeled[k] for k in LIMITS), f"Unpaired query limits: {name}")
@@ -145,7 +147,7 @@ def summarize(audit_root, resource_file):
             "Intermediate pruning, depth and held-round budgets exclude routes; negative searches with limits remain inconclusive.",
             "New sequences may differ only in temporary/context details; larger bounds need not retain all smaller-bound sequences.",
             "Memory values are sampled process-family sums, not measured peak RSS or the heap of one process.",
-            "Only four holdout, four analyzer and eleven Sass query families have full transition reviews in this snapshot; other additional routes remain pending.",
+            "All four holdout and thirty-three application queries, plus four analyzer query families, have full transition reviews; other package routes remain pending.",
         ], projects=projects,
     )
 

@@ -65,7 +65,7 @@
     "Intermediate pruning, depth and held-round budgets exclude routes; negative searches with limits remain inconclusive.",
     "New sequences may differ only in temporary/context details; larger bounds need not retain all smaller-bound sequences.",
     "Memory values are sampled process-family sums, not measured peak RSS or the heap of one process.",
-    "Only four holdout, four analyzer and eleven Sass query families have full transition reviews in this snapshot; other additional routes remain pending."
+    "All four holdout and thirty-three application queries, plus four analyzer query families, have full transition reviews; other package routes remain pending."
   ],
   "projects": [
     {
@@ -3763,7 +3763,7 @@
               "detailedWitnessesSha256": "0928700ca43a0a43c26124f0ba5cdd2bf0ff29c75d5ce03515ea37142f31b6b5"
             }
           },
-          "semanticReview": "pending transition review; additional sequences are not necessarily distinct semantic route families"
+          "semanticReview": "see applications-alternative-review.json; Pinned source decodes PEM lines to DER and passes copied bytes to getHash. Stock routes traverse predicate boolean/return/METHOD_REF and receiver feedback, including repeated predicate visits; these DART-FLOW-002 selection/callback approximations are not byte-value paths. The iterable model retains direct transformed-element flow. Both modes retain external string/base64/copy effects; saved temporary alternatives are classified, not certified hash implementations."
         },
         {
           "id": "certificate-not-algorithm",
@@ -3827,7 +3827,7 @@
               "detailedWitnessesSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
             }
           },
-          "semanticReview": "pending transition review; additional sequences are not necessarily distinct semantic route families"
+          "semanticReview": "see applications-alternative-review.json; getHash algorithmName is literal SHA-256, independent of certificate contents. The negative records no path or limitation; its same-source/same-budget certificate-to-hash control returns paths. Source isolation supports this bounded explicit-payload absence, not arbitrary algorithm behavior."
         },
         {
           "id": "save-path-to-file",
@@ -3924,7 +3924,7 @@
               "detailedWitnessesSha256": "23c4ce85a2ae35004899af1c1ff6cecfe32d841dfc35a60b76b731365184fe0b"
             }
           },
-          "semanticReview": "pending transition review; additional sequences are not necessarily distinct semantic route families"
+          "semanticReview": "see applications-alternative-review.json; The selected File constructor receives destinationPath directly. All four returned routes first enter readonly getSdCardPath and return its unchanged path output, then read destinationPath at File construction. They differ in local path visits. The DART-FLOW-004 output detour is not String mutation; static-storage/depth/pruning/exception limitations remain and no file delivery is executed by this query."
         },
         {
           "id": "save-path-forwarding",
@@ -4019,7 +4019,7 @@
               "detailedWitnessesSha256": "7a0fd5c034f5a60dd9b88afec61e5a274316df608e1d7a58e72e58b0e86fc59c"
             }
           },
-          "semanticReview": "pending transition review; additional sequences are not necessarily distinct semantic route families"
+          "semanticReview": "see applications-alternative-review.json; Both relevant source branches bind destinationPath by name to _saveFile. All returned routes include readonly getSdCardPath output detours before the selected forwarding argument. Formal slots and targets are checked; data binding does not prove platform choice, stream delivery, gallery effects or callback timing. Recorded query limitations remain."
         },
         {
           "id": "save-name-not-stream",
@@ -4086,7 +4086,7 @@
               "detailedWitnessesSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
             }
           },
-          "semanticReview": "pending transition review; additional sequences are not necessarily distinct semantic route families"
+          "semanticReview": "see applications-alternative-review.json; name and stream are separate named parameters through both _saveFile branches. The same-source/same-budget lookupMimeType(name) control returns saved-temporary paths, but the negative retains call-depth and remains inconclusive. No execution absence follows from that limited search."
         },
         {
           "id": "uri-suffix-encoding",
@@ -4168,7 +4168,7 @@
               "detailedWitnessesSha256": "cb94ae22c732c4b70c9d56dcdd2d931adf1598bfb2fdedb67c7b9ea8f0813de4"
             }
           },
-          "semanticReview": "pending transition review; additional sequences are not necessarily distinct semantic route families"
+          "semanticReview": "see applications-alternative-review.json; The nonnull branch passes suffix to Uri.encodeComponent. One route is direct; two readonly suffix-output detours leave convertTreeUriToDocumentUri, select digestFilePathAndPrepareDirectory fileName.parentPath(), and re-enter. These caller paths do not establish String mutation, directory operations or tree-prefix dependence. Witness pruning remains explicit."
         },
         {
           "id": "uri-suffix-not-tree",
@@ -4236,7 +4236,7 @@
               "detailedWitnessesSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
             }
           },
-          "semanticReview": "pending transition review; additional sequences are not necessarily distinct semantic route families"
+          "semanticReview": "see applications-alternative-review.json; treePath is computed from treeUri before the suffix branch; suffix does not supply its substring receiver. The same-source/same-budget encodeComponent control succeeds, but this negative records witness-alternatives and remains inconclusive. Pinned execution validates selected independent prefixes, not absence in the unfinished graph search."
         },
         {
           "id": "tree-uri-decoding",
@@ -4313,7 +4313,7 @@
               "detailedWitnessesSha256": "61dc5cc32061d234b7bc52f5fcad9c009d85fd06e9a63c2bbde4c66575fee3c5"
             }
           },
-          "semanticReview": "pending transition review; additional sequences are not necessarily distinct semantic route families"
+          "semanticReview": "see applications-alternative-review.json; The valid tree branch slices uri after /tree/ and decodes it. One route carries the URI receiver directly; two use indexOf/index arithmetic and external substring return effects, including an index-to-receiver effect in one. These are position/selection and conservative external effects, not exact character provenance or runtime String writes. No query limitation is recorded; native inputs cover valid and missing markers."
         },
         {
           "id": "tree-uri-null-result",
@@ -4376,7 +4376,7 @@
               "detailedWitnessesSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
             }
           },
-          "semanticReview": "pending transition review; additional sequences are not necessarily distinct semantic route families"
+          "semanticReview": "see applications-alternative-review.json; Missing /tree/ returns literal null. The negative records no path or limitation, with the same-source/same-budget decode-return control. Source and pinned execution support this constant-return payload absence, not arbitrary URI validity."
         },
         {
           "id": "filename-extension",
@@ -4462,7 +4462,7 @@
               "detailedWitnessesSha256": "8a0dae57b958a39a8b796806740af167b215a0192fcdff5210d365a1444a9569"
             }
           },
-          "semanticReview": "pending transition review; additional sequences are not necessarily distinct semantic route families"
+          "semanticReview": "see applications-alternative-review.json; The source interpolates the supplied name with the receiver extension. Four routes leave its scalar return to applyCounter, cross MapEntry value/key effects and callback METHOD_REF/collection feedback, then re-enter via element.value receiver and extension getter. External lastIndexOf/substring effects and callback/aggregate projections are conservative; different output-edge labels are retained. They do not prove MapEntry key independence, String mutation, exact map allocation or runtime caller order (DART-FLOW-004 / DART-FLOW-006 approximations)."
         },
         {
           "id": "save-name-not-stream-control",
@@ -4550,7 +4550,7 @@
               "detailedWitnessesSha256": "24fa006bf70c6e55f596cb0d79a611a1bd3369d5a3231fac913f11d4056f9647"
             }
           },
-          "semanticReview": "pending transition review; additional sequences are not necessarily distinct semantic route families"
+          "semanticReview": "see applications-alternative-review.json; The name source reaches the selected lookupMimeType argument through the saved conditional/logging interpolation temporary. Two routes differ by one saved-name read. This is a positive endpoint control, with its own storage/exception/pruning limits retained; it does not prove MIME implementation correctness."
         }
       ]
     },
@@ -4685,7 +4685,7 @@
               "detailedWitnessesSha256": "68522f6fe64b75882a55fece0b388d4f84bda145da8aa78ce05e7447f09cf9f3"
             }
           },
-          "semanticReview": "pending transition review; additional sequences are not necessarily distinct semantic route families"
+          "semanticReview": "see applications-alternative-review.json; The nonnull branch passes input bytes to base64.encode and returns its text. One route also crosses input to the base64 singleton receiver under external-call effects; the other is direct. The receiver route is a conservative write approximation, not mutation of the shared codec. Native actual-codec controls check selected byte content and independent inputs."
         },
         {
           "id": "stored-bytes-null",
@@ -4750,7 +4750,7 @@
               "detailedWitnessesSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
             }
           },
-          "semanticReview": "pending transition review; additional sequences are not necessarily distinct semantic route families"
+          "semanticReview": "see applications-alternative-review.json; The encoder null branch returns literal null. No path or query limitation is recorded; its same-source/same-budget encoding control returns both external routes. Source and actual codec null controls support bounded explicit-payload absence."
         },
         {
           "id": "stored-bytes-decoding",
@@ -4822,7 +4822,7 @@
               "detailedWitnessesSha256": "350f103474bc3e1e599150b61ab7bd1ac78f7a239639fbef458c4bf500c6178b"
             }
           },
-          "semanticReview": "pending transition review; additional sequences are not necessarily distinct semantic route families"
+          "semanticReview": "see applications-alternative-review.json; The String branch passes input to base64.decode slot one. The returned path consists of repeated input reads ending at that argument; it does not include the decoder body. No query limitation is recorded, and native actual-codec controls separately check decoded byte content."
         },
         {
           "id": "stored-bytes-identity",
@@ -4893,7 +4893,7 @@
               "detailedWitnessesSha256": "eef8b55bc5842df257b31dc469b72a16ff04f98af2da0fc3f16c43d140c5982f"
             }
           },
-          "semanticReview": "pending transition review; additional sequences are not necessarily distinct semantic route families"
+          "semanticReview": "see applications-alternative-review.json; The Uint8List branch returns the same input object directly. The graph path preserves the supplied value; no query limitation is recorded. Native actual codec tests check identical identity and mutation of the returned alias without changing an independent buffer."
         },
         {
           "id": "config-json-upload",
@@ -4981,7 +4981,7 @@
               "detailedWitnessesSha256": "e762855744b273b8845b8ffb9633b08e0994065bf803a34d2ebbc9012352739b"
             }
           },
-          "semanticReview": "pending transition review; additional sequences are not necessarily distinct semantic route families"
+          "semanticReview": "see applications-alternative-review.json; setConfig JSON-encodes config, reads string codeUnits, copies them to Uint8List and forwards file to webdav.put. The two routes differ by a constructor temporary. JSON/string/byte-copy effects are external approximations; codeUnits are UTF-16 values, so this does not certify arbitrary Unicode serialization bytes or HTTP delivery. Query storage/depth/pruning/exception limitations remain."
         },
         {
           "id": "config-not-directory",
@@ -5055,7 +5055,7 @@
               "detailedWitnessesSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
             }
           },
-          "semanticReview": "pending transition review; additional sequences are not necessarily distinct semantic route families"
+          "semanticReview": "see applications-alternative-review.json; mkcol uses fixed appRootDirectoryPrefix independently of config. The same-source/same-budget put-file control returns both serialization paths, but the negative retains depth/storage/external/implicit-exception limits and remains inconclusive. Source independence is not a completed search proof."
         },
         {
           "id": "path-encryption-capture",
@@ -5146,7 +5146,7 @@
               "detailedWitnessesSha256": "5e0de1ddfedd35904b68a56c6dcf6d0fa6b51a2f49fad19707f19fb73c7f7662"
             }
           },
-          "semanticReview": "pending transition review; additional sequences are not necessarily distinct semantic route families"
+          "semanticReview": "see applications-alternative-review.json; The worker closure reads captured path as encrypt argument one. Four paths differ in enclosing same-parameter reads; lexical capture is checked, not scheduling, cache feasibility, IV/key independence or encryption implementation. Recorded storage/depth/pruning limitations remain."
         },
         {
           "id": "path-not-work-priority",
@@ -5223,7 +5223,7 @@
               "detailedWitnessesSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
             }
           },
-          "semanticReview": "pending transition review; additional sequences are not necessarily distinct semantic route families"
+          "semanticReview": "see applications-alternative-review.json; Source priority is WorkPriority.veryHigh, separate from captured path. All four stock routes cross encrypt/callback results into workerManager receiver and priority under default external effects: this is the known DART-FLOW-001 false positive. The versioned worker_manager summary removes that mixing and retains the same-source/same-budget capture control. The modeled negative has no query limitation, without a scheduling claim."
         },
         {
           "id": "quota-decoder-input",
@@ -5296,7 +5296,7 @@
               "detailedWitnessesSha256": "32df9692c9476f5f5229bedf27a40456f76c4709f618bd13456f4cee27d7fef4"
             }
           },
-          "semanticReview": "pending transition review; additional sequences are not necessarily distinct semantic route families"
+          "semanticReview": "see applications-alternative-review.json; The decoder validates a two-element list and passes input[0] to int.tryParse. The three-node path selects the first element; it does not include parse or Quota construction. No query limitation is recorded, and the declared list-length branch condition remains part of the source expectation."
         },
         {
           "id": "quota-encoder-values",
@@ -5370,7 +5370,7 @@
               "detailedWitnessesSha256": "f84e757f2cc71b086df0cf68eadbb1f26913bbfb49c4511dc1b4cef3787e1094"
             }
           },
-          "semanticReview": "pending transition review; additional sequences are not necessarily distinct semantic route families"
+          "semanticReview": "see applications-alternative-review.json; The encoder projects used and total, converts each to text and returns a list. Both retained routes select separate used/total projections then share list aggregation. They establish whole-result dependence, not independent destination list slots or complete external field/number-conversion behavior. No query limitation is recorded."
         },
         {
           "id": "path-encryption-result",
@@ -5459,7 +5459,7 @@
               "detailedWitnessesSha256": "061ccd8c8206dbe5d94aeae172a241ced3d132a49731a8fa48d50606009202a0"
             }
           },
-          "semanticReview": "pending transition review; additional sequences are not necessarily distinct semantic route families"
+          "semanticReview": "see applications-alternative-review.json; Captured path enters external encrypt and base16, closure return/METHOD_REF, execute summary, await and saved encrypted result. Stock also traverses workerManager receiver feedback; modeled paths keep task-to-result. Alternatives differ in encrypter receiver effects and cache-assignment temporary/read choices. Those are conservative external/aggregate effects, not mutation of the encrypter, proven worker delivery, cache-state correlation or cryptographic correctness. Explicit storage/depth/pruning limits remain."
         }
       ]
     },

@@ -175,7 +175,11 @@ all four Shelf/YAML queries. The [analyzer review](analyzer-alternative-review.j
 covers four byte-write/callback/reset query families, preserving conservative
 caller, receiver and external-read detours. The [Sass review](sass-alternative-review.json)
 covers all eleven compiler/utility queries, including direct parser forwarding
-and bounded negative dispositions. Other additional paths remain pending review.
+and bounded negative dispositions. The [LocalSend/Saber review](applications-alternative-review.json)
+covers the remaining twenty-two application queries, retaining caller/output,
+callback, aggregate and worker receiver approximations. All thirty-three application
+queries now have complete bounded transition dispositions; other package paths
+remain pending review.
 
 To check the isolated reports and reproduce the summary:
 
