@@ -1,0 +1,5290 @@
+{
+  "schemaVersion": 1,
+  "sdk": "3.9.2",
+  "sdkRevision": "a29e08c72e2ce21813c1edf50cbcdfcac7a7acdd",
+  "analyzer": "8.4.1",
+  "inventorySha256": "f004a6583484b2f958bb7fcfb512409b2a1762ef199fb0ceaece8f41627dd665",
+  "sourceIndexSha256": "15f1eef77dd2791eee383c3952c97d7c5e16e1da893bfc200d0e313474211afe",
+  "scope": "Per-stage declared test evidence and remaining obligations. This is not a test execution report, whole-rule conformance proof or release readiness claim. Shared profiles qualify only their named assertions and bounded oracle cases.",
+  "stages": [
+    "exporter",
+    "lowering",
+    "resolution",
+    "cfg",
+    "valueFlow",
+    "negative",
+    "interaction"
+  ],
+  "statuses": [
+    "unqualified",
+    "unsupported",
+    "structural-only",
+    "tested-conservative",
+    "not-applicable"
+  ],
+  "evidence": {
+    "records-graph": {
+      "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
+      "selector": "\"isolate record fields through calls, nested records and destructuring\" in {",
+      "sha256": "2bffcb9144ad53061beb7c41954f33fac4f06b54e6bb1425c856ced1c3769a56",
+      "stages": [
+        "lowering",
+        "resolution",
+        "cfg",
+        "valueFlow",
+        "negative"
+      ],
+      "scope": "Selected assertions in this named graph regression; not the complete language rule or every syntax form assigned to this family."
+    },
+    "records-runtime": {
+      "file": "astgen/test/record_fields_test.dart",
+      "selector": "record fields retain their identities across calls and destructuring",
+      "sha256": "c6de77f1cef9b37537200c33116071f9e2e54661f938cc469d64e6def100140b",
+      "stages": [
+        "interaction"
+      ],
+      "scope": "Bounded cases in the named native oracle; observed paths, not proof of static absence or arbitrary runtime delivery."
+    },
+    "captures-graph": {
+      "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
+      "selector": "\"preserve captured binding identity and exclude replaced capture values\" in {",
+      "sha256": "2bffcb9144ad53061beb7c41954f33fac4f06b54e6bb1425c856ced1c3769a56",
+      "stages": [
+        "lowering",
+        "valueFlow",
+        "negative"
+      ],
+      "scope": "Selected assertions in this named graph regression; not the complete language rule or every syntax form assigned to this family."
+    },
+    "captures-runtime": {
+      "file": "astgen/test/capture_isolation_test.dart",
+      "selector": "captures preserve binding identity and replacement values",
+      "sha256": "ed4ee65e788f025356d0988a7a38778537ad2274688c12830994e604ffa9b2b1",
+      "stages": [
+        "interaction"
+      ],
+      "scope": "Bounded cases in the named native oracle; observed paths, not proof of static absence or arbitrary runtime delivery."
+    },
+    "operators-graph": {
+      "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
+      "selector": "\"yield the assigned value independently of setter and index-setter returns\" in {",
+      "sha256": "2bffcb9144ad53061beb7c41954f33fac4f06b54e6bb1425c856ced1c3769a56",
+      "stages": [
+        "lowering",
+        "resolution",
+        "valueFlow",
+        "negative"
+      ],
+      "scope": "Selected assertions in this named graph regression; not the complete language rule or every syntax form assigned to this family."
+    },
+    "operators-runtime": {
+      "file": "astgen/test/operator_evaluation_test.dart",
+      "selector": "overloaded indexed updates evaluate their location once in order",
+      "sha256": "c6b1cba767df6c0c3cc0251a1fb54130c564edde5abbae70a32b81466f7bd0d2",
+      "stages": [
+        "interaction"
+      ],
+      "scope": "Bounded cases in the named native oracle; observed paths, not proof of static absence or arbitrary runtime delivery."
+    },
+    "collections-graph": {
+      "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
+      "selector": "\"accumulate values across nested collection loops without treating conditions as elements\" in {",
+      "sha256": "2bffcb9144ad53061beb7c41954f33fac4f06b54e6bb1425c856ced1c3769a56",
+      "stages": [
+        "lowering",
+        "valueFlow",
+        "negative"
+      ],
+      "scope": "Selected assertions in this named graph regression; not the complete language rule or every syntax form assigned to this family."
+    },
+    "collections-runtime": {
+      "file": "astgen/test/collection_evaluation_test.dart",
+      "selector": "nested loops accumulate in order and set/map insertion retains Dart behavior",
+      "sha256": "7a8aa7b6b4b614eee88cd7fa8951f31fd67c11bd7036ef9f20d0d555a1796f60",
+      "stages": [
+        "interaction"
+      ],
+      "scope": "Bounded cases in the named native oracle; observed paths, not proof of static absence or arbitrary runtime delivery."
+    },
+    "pattern-joins-graph": {
+      "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
+      "selector": "\"preserve SDK shared-case guard captures separately from the body variable\" in {",
+      "sha256": "2bffcb9144ad53061beb7c41954f33fac4f06b54e6bb1425c856ced1c3769a56",
+      "stages": [
+        "lowering",
+        "resolution",
+        "negative"
+      ],
+      "scope": "Selected assertions in this named graph regression; not the complete language rule or every syntax form assigned to this family."
+    },
+    "pattern-joins-runtime": {
+      "file": "astgen/test/upstream_conformance_test.dart",
+      "selector": "SDK pattern guard capture oracle",
+      "sha256": "b59aaae5e32edf1447d0f17aec9d2e8c624194b2593e3e8d03b800a2cd60911d",
+      "stages": [
+        "interaction"
+      ],
+      "scope": "Bounded cases in the named native oracle; observed paths, not proof of static absence or arbitrary runtime delivery."
+    },
+    "initialization-graph": {
+      "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
+      "selector": "\"defer ordinary static and top-level initialization until a getter is read\" in {",
+      "sha256": "2bffcb9144ad53061beb7c41954f33fac4f06b54e6bb1425c856ced1c3769a56",
+      "stages": [
+        "lowering",
+        "resolution",
+        "valueFlow",
+        "negative"
+      ],
+      "scope": "Selected assertions in this named graph regression; not the complete language rule or every syntax form assigned to this family."
+    },
+    "initialization-runtime": {
+      "file": "astgen/test/lazy_static_evaluation_test.dart",
+      "selector": "ordinary globals and statics initialize on first read and retry failures",
+      "sha256": "2647885efea467a01ab8f32440ed0193cb748db67ed804b2c6286edb85d002a7",
+      "stages": [
+        "interaction"
+      ],
+      "scope": "Bounded cases in the named native oracle; observed paths, not proof of static absence or arbitrary runtime delivery."
+    },
+    "strings-graph": {
+      "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
+      "selector": "\"preserve interpolation results without writing independent fragments\" in {",
+      "sha256": "2bffcb9144ad53061beb7c41954f33fac4f06b54e6bb1425c856ced1c3769a56",
+      "stages": [
+        "lowering",
+        "valueFlow",
+        "negative"
+      ],
+      "scope": "Selected assertions in this named graph regression; not the complete language rule or every syntax form assigned to this family."
+    },
+    "strings-runtime": {
+      "file": "astgen/test/interpolation_evaluation_test.dart",
+      "selector": "interpolation evaluates values before conversions",
+      "sha256": "52267f7b05450aa64b80c630dbca7ea205dae416fcf6b42916ae4c6c54e54358",
+      "stages": [
+        "interaction"
+      ],
+      "scope": "Bounded cases in the named native oracle; observed paths, not proof of static absence or arbitrary runtime delivery."
+    },
+    "enum-graph": {
+      "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
+      "selector": "\"represent generated enum storage and concrete enum accessors\" in {",
+      "sha256": "2bffcb9144ad53061beb7c41954f33fac4f06b54e6bb1425c856ced1c3769a56",
+      "stages": [
+        "lowering",
+        "resolution",
+        "negative"
+      ],
+      "scope": "Selected assertions in this named graph regression; not the complete language rule or every syntax form assigned to this family."
+    },
+    "enum-runtime": {
+      "file": "astgen/test/enum_members_test.dart",
+      "selector": "enum values preserve declaration order, identity and immutable storage",
+      "sha256": "807b36251bf51bff21eec9ed887d2a0e132eaf448d2f8d94fd76b9bdc66fbe0a",
+      "stages": [
+        "interaction"
+      ],
+      "scope": "Bounded cases in the named native oracle; observed paths, not proof of static absence or arbitrary runtime delivery."
+    },
+    "heap-graph": {
+      "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
+      "selector": "\"retain selected fields through wrappers, read aliases and exceptions\" in {",
+      "sha256": "2bffcb9144ad53061beb7c41954f33fac4f06b54e6bb1425c856ced1c3769a56",
+      "stages": [
+        "lowering",
+        "valueFlow",
+        "negative"
+      ],
+      "scope": "Selected assertions in this named graph regression; not the complete language rule or every syntax form assigned to this family."
+    },
+    "heap-runtime": {
+      "file": "astgen/test/returned_fields_test.dart",
+      "selector": "returned fields retain their own values through calls and aliases",
+      "sha256": "a6a0717a8f949d54ccf95ab35f7d5d904e10c4551cd5f1700a9d08b71d725766",
+      "stages": [
+        "interaction"
+      ],
+      "scope": "Bounded cases in the named native oracle; observed paths, not proof of static absence or arbitrary runtime delivery."
+    },
+    "exceptions-graph": {
+      "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
+      "selector": "\"separate exception payloads from normal values across method calls\" in {",
+      "sha256": "2bffcb9144ad53061beb7c41954f33fac4f06b54e6bb1425c856ced1c3769a56",
+      "stages": [
+        "lowering",
+        "valueFlow",
+        "negative"
+      ],
+      "scope": "Selected assertions in this named graph regression; not the complete language rule or every syntax form assigned to this family."
+    },
+    "exceptions-runtime": {
+      "file": "astgen/test/exception_calls_test.dart",
+      "selector": "wrappers and rethrow preserve distinct return and exception values",
+      "sha256": "d79ae82bd15bd27f11df8f91625f7c0835936ac2646951cd51cb4bcf0f5ee71f",
+      "stages": [
+        "interaction"
+      ],
+      "scope": "Bounded cases in the named native oracle; observed paths, not proof of static absence or arbitrary runtime delivery."
+    },
+    "pattern-comparisons-graph": {
+      "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
+      "selector": "\"resolve pattern comparison operators with the correct receiver\" in {",
+      "sha256": "2bffcb9144ad53061beb7c41954f33fac4f06b54e6bb1425c856ced1c3769a56",
+      "stages": [
+        "lowering",
+        "resolution",
+        "valueFlow",
+        "negative"
+      ],
+      "scope": "Selected assertions in this named graph regression; not the complete language rule or every syntax form assigned to this family."
+    },
+    "pattern-comparisons-runtime": {
+      "file": "astgen/test/pattern_operators_test.dart",
+      "selector": "pattern operators use their specified receiver and skip null equality calls",
+      "sha256": "c2c915e94ac7385a59f44767ad2281cf5cc69ab9213f81f053c0c67f0d2d351a",
+      "stages": [
+        "interaction"
+      ],
+      "scope": "Bounded cases in the named native oracle; observed paths, not proof of static absence or arbitrary runtime delivery."
+    },
+    "pattern-fields-graph": {
+      "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
+      "selector": "\"share lazy pattern getter storage across cases and separate nested paths\" in {",
+      "sha256": "2bffcb9144ad53061beb7c41954f33fac4f06b54e6bb1425c856ced1c3769a56",
+      "stages": [
+        "lowering",
+        "resolution",
+        "negative"
+      ],
+      "scope": "Selected assertions in this named graph regression; not the complete language rule or every syntax form assigned to this family."
+    },
+    "pattern-fields-runtime": {
+      "file": "astgen/test/pattern_cache_test.dart",
+      "selector": "pattern getter results are lazy and shared within one match",
+      "sha256": "f11b3b7f1479bcdf300b18cacefebe860a7f4928f2a7f963bc765e9b45c6ef4f",
+      "stages": [
+        "interaction"
+      ],
+      "scope": "Bounded cases in the named native oracle; observed paths, not proof of static absence or arbitrary runtime delivery."
+    },
+    "list-patterns-graph": {
+      "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
+      "selector": "\"resolve and cache list pattern members while skipping untyped wildcards\" in {",
+      "sha256": "2bffcb9144ad53061beb7c41954f33fac4f06b54e6bb1425c856ced1c3769a56",
+      "stages": [
+        "lowering",
+        "resolution",
+        "negative"
+      ],
+      "scope": "Selected assertions in this named graph regression; not the complete language rule or every syntax form assigned to this family."
+    },
+    "list-patterns-runtime": {
+      "file": "astgen/test/list_patterns_test.dart",
+      "selector": "list patterns skip untyped wildcards and cache member invocations",
+      "sha256": "2122e2890e541b532750de0ed1a3f63a801b0e59e9edd449c893f5d98b210df9",
+      "stages": [
+        "interaction"
+      ],
+      "scope": "Bounded cases in the named native oracle; observed paths, not proof of static absence or arbitrary runtime delivery."
+    },
+    "map-patterns-graph": {
+      "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
+      "selector": "\"resolve map pattern calls and share lazy storage by constant key\" in {",
+      "sha256": "2bffcb9144ad53061beb7c41954f33fac4f06b54e6bb1425c856ced1c3769a56",
+      "stages": [
+        "lowering",
+        "resolution",
+        "valueFlow",
+        "negative"
+      ],
+      "scope": "Selected assertions in this named graph regression; not the complete language rule or every syntax form assigned to this family."
+    },
+    "map-patterns-runtime": {
+      "file": "astgen/test/map_patterns_test.dart",
+      "selector": "map patterns distinguish absent keys and cache nullable reads",
+      "sha256": "6c6a69a169eaca9696b8533044d0d3bb34915ede555adbe45bd70924febf9cc5",
+      "stages": [
+        "interaction"
+      ],
+      "scope": "Bounded cases in the named native oracle; observed paths, not proof of static absence or arbitrary runtime delivery."
+    },
+    "generic-scopes-graph": {
+      "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
+      "selector": "\"preserve generic parameter scopes and bound relationships\" in {",
+      "sha256": "2bffcb9144ad53061beb7c41954f33fac4f06b54e6bb1425c856ced1c3769a56",
+      "stages": [
+        "lowering",
+        "resolution",
+        "negative"
+      ],
+      "scope": "Selected assertions in this named graph regression; not the complete language rule or every syntax form assigned to this family."
+    },
+    "generic-scopes-runtime": {
+      "file": "astgen/test/generic_scopes_test.dart",
+      "selector": "generic scopes preserve bounded calls and nullable values",
+      "sha256": "ef98308324bf59b78f9d4cf7f312120226f850a0d2cd0db94887c6ffe70c4943",
+      "stages": [
+        "interaction"
+      ],
+      "scope": "Bounded cases in the named native oracle; observed paths, not proof of static absence or arbitrary runtime delivery."
+    },
+    "function-values-graph": {
+      "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
+      "selector": "\"retain instantiated generic tear-off types, source and stable aliases\" in {",
+      "sha256": "2bffcb9144ad53061beb7c41954f33fac4f06b54e6bb1425c856ced1c3769a56",
+      "stages": [
+        "lowering",
+        "resolution",
+        "valueFlow",
+        "negative"
+      ],
+      "scope": "Selected assertions in this named graph regression; not the complete language rule or every syntax form assigned to this family."
+    },
+    "function-values-runtime": {
+      "file": "astgen/test/generic_tearoffs_test.dart",
+      "selector": "generic instantiations preserve values and evaluate receivers once",
+      "sha256": "5f777f48f6fafeb301afed361a167f12d053707754edb27f1652f0db73011c1d",
+      "stages": [
+        "interaction"
+      ],
+      "scope": "Bounded cases in the named native oracle; observed paths, not proof of static absence or arbitrary runtime delivery."
+    },
+    "dispatch-graph": {
+      "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
+      "selector": "\"bind reordered override arguments and preserve independent output receivers\" in {",
+      "sha256": "2bffcb9144ad53061beb7c41954f33fac4f06b54e6bb1425c856ced1c3769a56",
+      "stages": [
+        "lowering",
+        "resolution",
+        "valueFlow",
+        "negative"
+      ],
+      "scope": "Selected assertions in this named graph regression; not the complete language rule or every syntax form assigned to this family."
+    },
+    "dispatch-runtime": {
+      "file": "astgen/test/override_arguments_test.dart",
+      "selector": "overrides bind named arguments and supply their own defaults",
+      "sha256": "b7e24a796217fae90df18f77239c03adbaae45513a85eabfb1351488689e43f4",
+      "stages": [
+        "interaction"
+      ],
+      "scope": "Bounded cases in the named native oracle; observed paths, not proof of static absence or arbitrary runtime delivery."
+    },
+    "visitor-inventory": {
+      "file": "astgen/test/inventory_test.dart",
+      "selector": "pinned analyzer visitor surface has a complete classified inventory",
+      "sha256": "b74e83ede1bbc695516b3a9b2b6221b5687428801ec9ab7ed0acaa9114d72e10",
+      "stages": [
+        "exporter"
+      ],
+      "scope": "Visitor set, classification and declared exporter-case presence only; not correct exported semantics."
+    },
+    "records-exporter": {
+      "file": "astgen/test/exporter_test.dart",
+      "selector": "modern syntax has explicit nodes and stable pattern identities",
+      "sha256": "b77b9853ecf1ba2f5d1a0b7d97d71547584b2bc54593bd5ebc449e303eb0a350",
+      "stages": [
+        "exporter"
+      ],
+      "scope": "Selected resolved exporter facts in this named test; executable/value-flow behavior is assessed separately."
+    },
+    "operators-exporter": {
+      "file": "astgen/test/exporter_test.dart",
+      "selector": "export operator dispatch separately from indexed read and write targets",
+      "sha256": "b77b9853ecf1ba2f5d1a0b7d97d71547584b2bc54593bd5ebc449e303eb0a350",
+      "stages": [
+        "exporter"
+      ],
+      "scope": "Selected resolved exporter facts in this named test; executable/value-flow behavior is assessed separately."
+    },
+    "collections-exporter": {
+      "file": "astgen/test/exporter_test.dart",
+      "selector": "distinguish list, set and map collection literals after resolution",
+      "sha256": "b77b9853ecf1ba2f5d1a0b7d97d71547584b2bc54593bd5ebc449e303eb0a350",
+      "stages": [
+        "exporter"
+      ],
+      "scope": "Selected resolved exporter facts in this named test; executable/value-flow behavior is assessed separately."
+    },
+    "pattern-joins-exporter": {
+      "file": "astgen/test/exporter_test.dart",
+      "selector": "keep separate logical-or joins distinct within one function",
+      "sha256": "b77b9853ecf1ba2f5d1a0b7d97d71547584b2bc54593bd5ebc449e303eb0a350",
+      "stages": [
+        "exporter"
+      ],
+      "scope": "Selected resolved exporter facts in this named test; executable/value-flow behavior is assessed separately."
+    },
+    "initialization-exporter": {
+      "file": "astgen/test/exporter_test.dart",
+      "selector": "export static lazy accessors separately from constant storage",
+      "sha256": "b77b9853ecf1ba2f5d1a0b7d97d71547584b2bc54593bd5ebc449e303eb0a350",
+      "stages": [
+        "exporter"
+      ],
+      "scope": "Selected resolved exporter facts in this named test; executable/value-flow behavior is assessed separately."
+    },
+    "exceptions-exporter": {
+      "file": "astgen/test/exporter_test.dart",
+      "selector": "export catch filters separately from exception and stack bindings",
+      "sha256": "b77b9853ecf1ba2f5d1a0b7d97d71547584b2bc54593bd5ebc449e303eb0a350",
+      "stages": [
+        "exporter"
+      ],
+      "scope": "Selected resolved exporter facts in this named test; executable/value-flow behavior is assessed separately."
+    },
+    "pattern-comparisons-exporter": {
+      "file": "astgen/test/exporter_test.dart",
+      "selector": "export comparison targets for constant and relational patterns",
+      "sha256": "b77b9853ecf1ba2f5d1a0b7d97d71547584b2bc54593bd5ebc449e303eb0a350",
+      "stages": [
+        "exporter"
+      ],
+      "scope": "Selected resolved exporter facts in this named test; executable/value-flow behavior is assessed separately."
+    },
+    "list-patterns-exporter": {
+      "file": "astgen/test/exporter_test.dart",
+      "selector": "export list pattern type and member targets",
+      "sha256": "b77b9853ecf1ba2f5d1a0b7d97d71547584b2bc54593bd5ebc449e303eb0a350",
+      "stages": [
+        "exporter"
+      ],
+      "scope": "Selected resolved exporter facts in this named test; executable/value-flow behavior is assessed separately."
+    },
+    "map-patterns-exporter": {
+      "file": "astgen/test/exporter_test.dart",
+      "selector": "export map pattern targets and constant key identities",
+      "sha256": "b77b9853ecf1ba2f5d1a0b7d97d71547584b2bc54593bd5ebc449e303eb0a350",
+      "stages": [
+        "exporter"
+      ],
+      "scope": "Selected resolved exporter facts in this named test; executable/value-flow behavior is assessed separately."
+    },
+    "generic-scopes-exporter": {
+      "file": "astgen/test/exporter_test.dart",
+      "selector": "export scoped generic declarations and bounds",
+      "sha256": "b77b9853ecf1ba2f5d1a0b7d97d71547584b2bc54593bd5ebc449e303eb0a350",
+      "stages": [
+        "exporter"
+      ],
+      "scope": "Selected resolved exporter facts in this named test; executable/value-flow behavior is assessed separately."
+    },
+    "function-values-exporter": {
+      "file": "astgen/test/exporter_test.dart",
+      "selector": "export aliases, type literals, implicit call tear-offs and null-aware elements",
+      "sha256": "b77b9853ecf1ba2f5d1a0b7d97d71547584b2bc54593bd5ebc449e303eb0a350",
+      "stages": [
+        "exporter"
+      ],
+      "scope": "Selected resolved exporter facts in this named test; executable/value-flow behavior is assessed separately."
+    },
+    "dispatch-exporter": {
+      "file": "astgen/test/exporter_test.dart",
+      "selector": "virtual implementation facts preserve covariant and generic declarations",
+      "sha256": "b77b9853ecf1ba2f5d1a0b7d97d71547584b2bc54593bd5ebc449e303eb0a350",
+      "stages": [
+        "exporter"
+      ],
+      "scope": "Selected resolved exporter facts in this named test; executable/value-flow behavior is assessed separately."
+    }
+  },
+  "profiles": {
+    "syntax": {
+      "exporter": {
+        "status": "structural-only",
+        "evidence": [
+          "visitor-inventory"
+        ],
+        "obligation": "astgen/test/exporter_test.dart"
+      },
+      "lowering": {
+        "status": "unqualified",
+        "evidence": [],
+        "obligation": "src/main/scala/io/joern/dartsrc2cpg/AstCreationPass.scala"
+      },
+      "resolution": {
+        "status": "unqualified",
+        "evidence": [],
+        "obligation": "analyzer 8.4.1 declaration identities"
+      },
+      "cfg": {
+        "status": "unqualified",
+        "evidence": [],
+        "obligation": "shared CFG; finally exits tested, catch filters and path feasibility conservative"
+      },
+      "valueFlow": {
+        "status": "unqualified",
+        "evidence": [],
+        "obligation": "shared OSS engine; reviewed corpus limits apply"
+      },
+      "negative": {
+        "status": "unqualified",
+        "evidence": [],
+        "obligation": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala"
+      },
+      "interaction": {
+        "status": "unqualified",
+        "evidence": [],
+        "obligation": "unqualified"
+      }
+    },
+    "source": {
+      "exporter": {
+        "status": "structural-only",
+        "evidence": [
+          "visitor-inventory"
+        ],
+        "obligation": "enclosing source/identity"
+      },
+      "lowering": {
+        "status": "structural-only",
+        "evidence": [],
+        "obligation": "structural-only"
+      },
+      "resolution": {
+        "status": "structural-only",
+        "evidence": [],
+        "obligation": "structural-only"
+      },
+      "cfg": {
+        "status": "not-applicable",
+        "evidence": [],
+        "obligation": "not-applicable"
+      },
+      "valueFlow": {
+        "status": "not-applicable",
+        "evidence": [],
+        "obligation": "not-applicable"
+      },
+      "negative": {
+        "status": "not-applicable",
+        "evidence": [],
+        "obligation": "not-applicable"
+      },
+      "interaction": {
+        "status": "not-applicable",
+        "evidence": [],
+        "obligation": "not-applicable"
+      }
+    },
+    "outside": {
+      "exporter": {
+        "status": "unsupported",
+        "evidence": [],
+        "obligation": "diagnostic/unsupported"
+      },
+      "lowering": {
+        "status": "unsupported",
+        "evidence": [],
+        "obligation": "unsupported"
+      },
+      "resolution": {
+        "status": "unsupported",
+        "evidence": [],
+        "obligation": "unsupported"
+      },
+      "cfg": {
+        "status": "unsupported",
+        "evidence": [],
+        "obligation": "unsupported"
+      },
+      "valueFlow": {
+        "status": "unsupported",
+        "evidence": [],
+        "obligation": "unsupported"
+      },
+      "negative": {
+        "status": "unsupported",
+        "evidence": [],
+        "obligation": "language version diagnostics"
+      },
+      "interaction": {
+        "status": "not-applicable",
+        "evidence": [],
+        "obligation": "not-applicable"
+      }
+    },
+    "records": {
+      "exporter": {
+        "status": "tested-conservative",
+        "evidence": [
+          "records-exporter"
+        ],
+        "obligation": "RecordLiteral/RecordPattern source fields and analyzer structural types"
+      },
+      "lowering": {
+        "status": "tested-conservative",
+        "evidence": [
+          "records-graph"
+        ],
+        "obligation": "DartFrontendTests: explicit record slots; positional numbering excludes interleaved named fields"
+      },
+      "resolution": {
+        "status": "tested-conservative",
+        "evidence": [
+          "records-graph"
+        ],
+        "obligation": "positional $1/$2 and named field identities through direct projections and destructuring"
+      },
+      "cfg": {
+        "status": "tested-conservative",
+        "evidence": [
+          "records-graph"
+        ],
+        "obligation": "DartFrontendTests: named field expressions evaluated once in source order"
+      },
+      "valueFlow": {
+        "status": "tested-conservative",
+        "evidence": [
+          "records-graph"
+        ],
+        "obligation": "DartFrontendTests: selected fields across wrappers, nested records and pattern bindings"
+      },
+      "negative": {
+        "status": "tested-conservative",
+        "evidence": [
+          "records-graph"
+        ],
+        "obligation": "unrelated slots, independent records and replaced record values"
+      },
+      "interaction": {
+        "status": "tested-conservative",
+        "evidence": [
+          "records-runtime"
+        ],
+        "obligation": "astgen/test/record_fields_test.dart: positional/named mixtures, calls, nested projections, patterns and evaluation traces"
+      }
+    },
+    "captures": {
+      "exporter": {
+        "status": "unqualified",
+        "evidence": [],
+        "obligation": "analyzer declaration identities for lexical references"
+      },
+      "lowering": {
+        "status": "tested-conservative",
+        "evidence": [
+          "captures-graph"
+        ],
+        "obligation": "DartFrontendTests: closure proxy locals and closure-binding REF identities"
+      },
+      "resolution": {
+        "status": "unqualified",
+        "evidence": [],
+        "obligation": "direct local callback calls and nested captures; mutable callback points-to remains unqualified"
+      },
+      "cfg": {
+        "status": "unqualified",
+        "evidence": [],
+        "obligation": "CapturedBindingTests: reads reachable from closure entry before replacement, including bypass branches"
+      },
+      "valueFlow": {
+        "status": "tested-conservative",
+        "evidence": [
+          "captures-graph"
+        ],
+        "obligation": "DartFrontendTests: captured parameter/local values and nested proxy bindings"
+      },
+      "negative": {
+        "status": "tested-conservative",
+        "evidence": [
+          "captures-graph"
+        ],
+        "obligation": "unrelated and shadowed locals, replaced capture values; no name-only binding inference"
+      },
+      "interaction": {
+        "status": "tested-conservative",
+        "evidence": [
+          "captures-runtime"
+        ],
+        "obligation": "astgen/test/capture_isolation_test.dart: two input values and both conditional replacement outcomes"
+      }
+    },
+    "operators": {
+      "exporter": {
+        "status": "tested-conservative",
+        "evidence": [
+          "operators-exporter"
+        ],
+        "obligation": "astgen/test/exporter_test.dart: export operator dispatch separately from indexed read and write targets"
+      },
+      "lowering": {
+        "status": "tested-conservative",
+        "evidence": [
+          "operators-graph"
+        ],
+        "obligation": "DartFrontendTests: resolve indexed updates and overloaded increments without repeating receiver or index"
+      },
+      "resolution": {
+        "status": "tested-conservative",
+        "evidence": [
+          "operators-graph"
+        ],
+        "obligation": "DartFrontendTests: user operators, dynamic indexed updates, Object equality dispatch and primitive receiver distinction"
+      },
+      "cfg": {
+        "status": "unqualified",
+        "evidence": [],
+        "obligation": "DartFrontendTests: guard null-aware index updates including their index and assigned value"
+      },
+      "valueFlow": {
+        "status": "tested-conservative",
+        "evidence": [
+          "operators-graph"
+        ],
+        "obligation": "DartFrontendTests: yield the assigned value independently of setter and index-setter returns"
+      },
+      "negative": {
+        "status": "tested-conservative",
+        "evidence": [
+          "operators-graph"
+        ],
+        "obligation": "DartFrontendTests: primitive comparison/arithmetic operand isolation; unresolved operator calls retain conservative effects"
+      },
+      "interaction": {
+        "status": "tested-conservative",
+        "evidence": [
+          "operators-runtime"
+        ],
+        "obligation": "astgen/test/operator_evaluation_test.dart: bounded -1..1 prefix/postfix and compound update traces"
+      }
+    },
+    "collections": {
+      "exporter": {
+        "status": "tested-conservative",
+        "evidence": [
+          "collections-exporter"
+        ],
+        "obligation": "astgen/test/exporter_test.dart: resolved collection kinds"
+      },
+      "lowering": {
+        "status": "tested-conservative",
+        "evidence": [
+          "collections-graph"
+        ],
+        "obligation": "DartFrontendTests: retain set and map element updates with spread dependencies"
+      },
+      "resolution": {
+        "status": "unqualified",
+        "evidence": [],
+        "obligation": "analyzer collectionKind and loop-local REF identities"
+      },
+      "cfg": {
+        "status": "unqualified",
+        "evidence": [],
+        "obligation": "DartFrontendTests: null-aware collection entry guards; nested collection loops"
+      },
+      "valueFlow": {
+        "status": "tested-conservative",
+        "evidence": [
+          "collections-graph"
+        ],
+        "obligation": "DartFrontendTests: accumulate values across nested collection loops without treating conditions as elements"
+      },
+      "negative": {
+        "status": "tested-conservative",
+        "evidence": [
+          "collections-graph"
+        ],
+        "obligation": "same regression: loop bound and selection-only inputs are not element-value flow"
+      },
+      "interaction": {
+        "status": "tested-conservative",
+        "evidence": [
+          "collections-runtime"
+        ],
+        "obligation": "astgen/test/collection_evaluation_test.dart: bounded 0..2 nested iterations, null-aware evaluation, set deduplication and map overwrite execution oracle"
+      }
+    },
+    "pattern-joins": {
+      "exporter": {
+        "status": "tested-conservative",
+        "evidence": [
+          "pattern-joins-exporter"
+        ],
+        "obligation": "astgen/test/exporter_test.dart: keep separate logical-or joins distinct within one function; upstream_conformance_test.dart: shared-case source/target identities"
+      },
+      "lowering": {
+        "status": "tested-conservative",
+        "evidence": [
+          "pattern-joins-graph"
+        ],
+        "obligation": "DartFrontendTests: preserve SDK shared-case guard captures separately from the body variable"
+      },
+      "resolution": {
+        "status": "tested-conservative",
+        "evidence": [
+          "pattern-joins-graph"
+        ],
+        "obligation": "analyzer pattern bindings, logical-or joins and explicit shared-case body joins"
+      },
+      "cfg": {
+        "status": "unqualified",
+        "evidence": [],
+        "obligation": "DartFrontendTests: shared-case short-circuit OR conditions and guarded body copies"
+      },
+      "valueFlow": {
+        "status": "unqualified",
+        "evidence": [],
+        "obligation": "DartFrontendTests: preserve positive and negative flow through switch expression bindings"
+      },
+      "negative": {
+        "status": "tested-conservative",
+        "evidence": [
+          "pattern-joins-graph"
+        ],
+        "obligation": "separate captured guard locals and body storage; pattern mismatch/path feasibility remain conservative"
+      },
+      "interaction": {
+        "status": "tested-conservative",
+        "evidence": [
+          "pattern-joins-runtime"
+        ],
+        "obligation": "astgen/test/upstream_conformance_test.dart: pinned SDK guard_capture runtime oracle"
+      }
+    },
+    "initialization": {
+      "exporter": {
+        "status": "tested-conservative",
+        "evidence": [
+          "initialization-exporter"
+        ],
+        "obligation": "astgen/test/exporter_test.dart: retain late storage and synthetic accessor identities; export static lazy accessors separately from constant storage"
+      },
+      "lowering": {
+        "status": "tested-conservative",
+        "evidence": [
+          "initialization-graph"
+        ],
+        "obligation": "DartFrontendTests: defer ordinary static and top-level initialization until a getter is read; late-local and late-field regressions"
+      },
+      "resolution": {
+        "status": "tested-conservative",
+        "evidence": [
+          "initialization-graph"
+        ],
+        "obligation": "analyzer getter/setter identities and separate const/final/late flags"
+      },
+      "cfg": {
+        "status": "unqualified",
+        "evidence": [],
+        "obligation": "guarded first reads; writes skip initial reads; final reentrant error branches"
+      },
+      "valueFlow": {
+        "status": "tested-conservative",
+        "evidence": [
+          "initialization-graph"
+        ],
+        "obligation": "DartFrontendTests: initializer return through guarded getter; late local capture flow; static_storage.dart: bounded static stores across resolved calls and original lazyIncrement return"
+      },
+      "negative": {
+        "status": "tested-conservative",
+        "evidence": [
+          "initialization-graph"
+        ],
+        "obligation": "DartFrontendTests: setters contain no initializer calls or initialization reads; static-storage owner/field, overwrite and repeated-call controls; initialization-state absence remains inconclusive; static_exception_storage.dart: normal/caught exit isolation and cleanup kills, DART-FLOW-007 field-copy normal/caught isolation; DART-FLOW-008 local-join normal/caught isolation and bounded CFG availability"
+      },
+      "interaction": {
+        "status": "tested-conservative",
+        "evidence": [
+          "initialization-runtime"
+        ],
+        "obligation": "astgen/test/lazy_static_evaluation_test.dart; late_evaluation_test.dart; upstream late-field oracle; astgen/test/static_storage_test.dart: three inputs, both branch booleans, loop writes, saved reads and throwing-helper/catch oracle; astgen/test/static_exception_storage_test.dart: three inputs, both booleans, cleanup overwrites and return/throw replacement; saved helper copies, intervening other-slot write and same-call normal/caught sinks"
+      }
+    },
+    "strings": {
+      "exporter": {
+        "status": "unqualified",
+        "evidence": [],
+        "obligation": "astgen/lib/exporter.dart: interpolation conversion targets, nullability, bounds and extension erasure"
+      },
+      "lowering": {
+        "status": "tested-conservative",
+        "evidence": [
+          "strings-graph"
+        ],
+        "obligation": "DartFrontendTests: implicit conversions, captured expressions and binary fragment concatenation"
+      },
+      "resolution": {
+        "status": "unqualified",
+        "evidence": [],
+        "obligation": "DartFrontendTests: concrete, generic-bound and erased conversion targets; dynamic calls remain unresolved"
+      },
+      "cfg": {
+        "status": "unqualified",
+        "evidence": [],
+        "obligation": "DartFrontendTests: VM/default versus web conversion order, adjacent/nested strings, call boundaries and nullable branches"
+      },
+      "valueFlow": {
+        "status": "tested-conservative",
+        "evidence": [
+          "strings-graph"
+        ],
+        "obligation": "DartFrontendTests: both input fragments contribute to assembly; user conversion body effects remain reachable"
+      },
+      "negative": {
+        "status": "tested-conservative",
+        "evidence": [
+          "strings-graph"
+        ],
+        "obligation": "DartFrontendTests: interpolation does not write independent String fragments"
+      },
+      "interaction": {
+        "status": "tested-conservative",
+        "evidence": [
+          "strings-runtime"
+        ],
+        "obligation": "astgen/test/interpolation_evaluation_test.dart; interpolation_backends_test.dart (opt-in JIT/AOT/dart2js with Node)"
+      }
+    },
+    "enum": {
+      "exporter": {
+        "status": "unqualified",
+        "evidence": [],
+        "obligation": "astgen/lib/exporter.dart: EnumDeclaration values identity; EnumConstantDeclaration ordinal/type/constructor"
+      },
+      "lowering": {
+        "status": "tested-conservative",
+        "evidence": [
+          "enum-graph"
+        ],
+        "obligation": "src/main/scala/io/joern/dartsrc2cpg/AstCreationPass.scala: enum storage, values initialization and distinct helper identities"
+      },
+      "resolution": {
+        "status": "tested-conservative",
+        "evidence": [
+          "enum-graph"
+        ],
+        "obligation": "DartFrontendTests: represent generated enum storage and concrete enum accessors; interface receivers conservative"
+      },
+      "cfg": {
+        "status": "unqualified",
+        "evidence": [],
+        "obligation": "constant storage precedes constructor; source-order values construction; global initializer activation unqualified"
+      },
+      "valueFlow": {
+        "status": "unqualified",
+        "evidence": [],
+        "obligation": "final storage represented; allocation-sensitive heap and values-slot propagation unqualified"
+      },
+      "negative": {
+        "status": "tested-conservative",
+        "evidence": [
+          "enum-graph"
+        ],
+        "obligation": "DartFrontendTests: user name/toString overrides and private name storage; enum_members_test.dart: values mutation rejection"
+      },
+      "interaction": {
+        "status": "tested-conservative",
+        "evidence": [
+          "enum-runtime"
+        ],
+        "obligation": "astgen/test/enum_members_test.dart: enhanced named constructors, explicit EnumName dispatch, super and bound default conversions"
+      }
+    },
+    "heap": {
+      "exporter": {
+        "status": "unqualified",
+        "evidence": [],
+        "obligation": "analyzer constructor, field and accessor identities"
+      },
+      "lowering": {
+        "status": "tested-conservative",
+        "evidence": [
+          "heap-graph"
+        ],
+        "obligation": "DartFrontendTests: returned instances and bare returns; receiver evaluation retained once"
+      },
+      "resolution": {
+        "status": "unqualified",
+        "evidence": [],
+        "obligation": "resolved constructor and accessor targets; general virtual dispatch unqualified"
+      },
+      "cfg": {
+        "status": "unqualified",
+        "evidence": [],
+        "obligation": "replacement stores on every route to field reads and stable parameter outputs, including potentially escaping calls"
+      },
+      "valueFlow": {
+        "status": "tested-conservative",
+        "evidence": [
+          "heap-graph"
+        ],
+        "obligation": "ReturnedFieldTests and DartFrontendTests: bounded field demands across calls, nested fields, stable aliases, called field writes and caught objects; StaticStorageTests and DartFrontendTests: ordered static storage through normal/exceptional calls and cleanup, with invocation-specific pending-exit demands retained through RHS tasks, internal returns, parameters, caches and held combinations"
+      },
+      "negative": {
+        "status": "tested-conservative",
+        "evidence": [
+          "heap-graph"
+        ],
+        "obligation": "unrelated fields and inputs, same-code independent storage, constant-field overwrites; opaque summaries remain conservative; static RHS cleanup copies retain pending-exit demands (DART-FLOW-007); ordinary local joins use bounded CFG availability under pending exits (DART-FLOW-008); initialization-state correlation remains conservative"
+      },
+      "interaction": {
+        "status": "tested-conservative",
+        "evidence": [
+          "heap-runtime"
+        ],
+        "obligation": "astgen/test/returned_fields_test.dart: calls, aliases, copies, local/called overwrites, independent objects, parameter rebinding and exceptions before/after writes"
+      }
+    },
+    "exceptions": {
+      "exporter": {
+        "status": "tested-conservative",
+        "evidence": [
+          "exceptions-exporter"
+        ],
+        "obligation": "astgen/test/exporter_test.dart: export catch filters separately from exception and stack bindings"
+      },
+      "lowering": {
+        "status": "tested-conservative",
+        "evidence": [
+          "exceptions-graph"
+        ],
+        "obligation": "DartFrontendTests: retain ordered catch filters and bind caught values explicitly"
+      },
+      "resolution": {
+        "status": "unqualified",
+        "evidence": [],
+        "obligation": "analyzer filter type identities and clause-local REF edges; explicit active exception/stack for rethrow"
+      },
+      "cfg": {
+        "status": "unqualified",
+        "evidence": [],
+        "obligation": "source-ordered filters with unmatched rethrow; explicit total dispatcher; shared FinallyExitTests; StaticStorageTests: Dart-only complete:2, normal.after, throw.before and throw.after metadata, with foreign-language boundary controls"
+      },
+      "valueFlow": {
+        "status": "tested-conservative",
+        "evidence": [
+          "exceptions-graph"
+        ],
+        "obligation": "CaughtExceptionTests, CrossMethodExceptionTests, FinallyReturnTests and DartFrontendTests: separate exception/stack channels, internal calls, construction, rethrow and pending values across cleanup; unavailable runtime payloads reported; DartFrontendTests: caught static-memory effects, cleanup overwrite kills and direct joined-exit isolation"
+      },
+      "negative": {
+        "status": "tested-conservative",
+        "evidence": [
+          "exceptions-graph"
+        ],
+        "obligation": "replacement values, stack independence, independent handlers/calls, normal-return summary isolation, depth limits and outward versus cleanup-local break/continue; copied field values isolate normal/caught exits at depths four/eight and one/two witnesses; DART-FLOW-008 local cleanup assignments isolate normal/caught exits; value-search budgets remain explicit"
+      },
+      "interaction": {
+        "status": "tested-conservative",
+        "evidence": [
+          "exceptions-runtime"
+        ],
+        "obligation": "astgen/test/catch_dispatch_test.dart and exception_calls_test.dart: typed/fallback selection, overlap, unmatched propagation, wrapper/rethrow identity, handled cleanup and abrupt exit replacement; astgen/test/static_exception_storage_test.dart: independent native memory-state oracle and copiedNormal counterexample; prior handled cleanup, return replacement, loop local copies, simultaneous sinks and value-search truncation; astgen/test/corpus_capture_test.dart: pinned http_parser 4.1.2/source_span 1.10.2 wrapper message, source/offset and span branches with repeated inputs and exactly-once invocation controls"
+      }
+    },
+    "pattern-comparisons": {
+      "exporter": {
+        "status": "tested-conservative",
+        "evidence": [
+          "pattern-comparisons-exporter"
+        ],
+        "obligation": "astgen/test/exporter_test.dart: constant receiver, nullable operator targets and unit-local constant identities"
+      },
+      "lowering": {
+        "status": "tested-conservative",
+        "evidence": [
+          "pattern-comparisons-graph"
+        ],
+        "obligation": "DartFrontendTests: receiver direction, normalized equality result storage and negation after cache reads"
+      },
+      "resolution": {
+        "status": "tested-conservative",
+        "evidence": [
+          "pattern-comparisons-graph"
+        ],
+        "obligation": "resolved interface operators; dynamic equality remains unresolved"
+      },
+      "cfg": {
+        "status": "unqualified",
+        "evidence": [],
+        "obligation": "null branches bypass dispatch; lazy comparison storage shared across failed guards and logical alternatives"
+      },
+      "valueFlow": {
+        "status": "tested-conservative",
+        "evidence": [
+          "pattern-comparisons-graph"
+        ],
+        "obligation": "receiver/argument binding to internal operators"
+      },
+      "negative": {
+        "status": "tested-conservative",
+        "evidence": [
+          "pattern-comparisons-graph"
+        ],
+        "obligation": "independent operand isolation and null literals without user dispatch"
+      },
+      "interaction": {
+        "status": "tested-conservative",
+        "evidence": [
+          "pattern-comparisons-runtime"
+        ],
+        "obligation": "astgen/test/pattern_operators_test.dart and comparison_cache_test.dart: bounded null/value matrix, alias constants, distinct arguments, receiver directions, nested paths and separate matches"
+      }
+    },
+    "pattern-fields": {
+      "exporter": {
+        "status": "unqualified",
+        "evidence": [],
+        "obligation": "analyzer field/getter identities and structural pattern fields"
+      },
+      "lowering": {
+        "status": "tested-conservative",
+        "evidence": [
+          "pattern-fields-graph"
+        ],
+        "obligation": "DartFrontendTests: lazy shared field storage per matching construct"
+      },
+      "resolution": {
+        "status": "tested-conservative",
+        "evidence": [
+          "pattern-fields-graph"
+        ],
+        "obligation": "ordinary object/record members and extension declaration/argument identities with distinct parent paths"
+      },
+      "cfg": {
+        "status": "unqualified",
+        "evidence": [],
+        "obligation": "DartFrontendTests: initialization guards; pattern_cache_test.dart: failed cases/guards, logical patterns and separate matches"
+      },
+      "valueFlow": {
+        "status": "unqualified",
+        "evidence": [],
+        "obligation": "existing record projection and object getter regressions"
+      },
+      "negative": {
+        "status": "tested-conservative",
+        "evidence": [
+          "pattern-fields-graph"
+        ],
+        "obligation": "separate nested receivers and matching constructs; null input bypasses getter execution"
+      },
+      "interaction": {
+        "status": "tested-conservative",
+        "evidence": [
+          "pattern-fields-runtime"
+        ],
+        "obligation": "astgen/test/pattern_cache_test.dart and extension_cache_test.dart: getter side effects, failed cases, repeated generic extension calls and distinct substitutions; general dispatch unqualified"
+      }
+    },
+    "list-patterns": {
+      "exporter": {
+        "status": "tested-conservative",
+        "evidence": [
+          "list-patterns-exporter"
+        ],
+        "obligation": "astgen/test/exporter_test.dart: required list type and resolved length/index/sublist members"
+      },
+      "lowering": {
+        "status": "tested-conservative",
+        "evidence": [
+          "list-patterns-graph"
+        ],
+        "obligation": "DartFrontendTests: explicit size tests, wildcard skipping, indexed extraction and rest bounds"
+      },
+      "resolution": {
+        "status": "tested-conservative",
+        "evidence": [
+          "list-patterns-graph"
+        ],
+        "obligation": "concrete matched-interface members with required-list fallback; general virtual target completeness unqualified"
+      },
+      "cfg": {
+        "status": "unqualified",
+        "evidence": [],
+        "obligation": "lazy per-match length/index/slice storage; prefix and tail invocation identities remain distinct"
+      },
+      "valueFlow": {
+        "status": "unqualified",
+        "evidence": [],
+        "obligation": "existing scalar pattern bindings; exact collection slots unqualified"
+      },
+      "negative": {
+        "status": "tested-conservative",
+        "evidence": [
+          "list-patterns-graph"
+        ],
+        "obligation": "untyped wildcard indices/slices absent; rest-only slice has no length read; typed wildcard still reads an element"
+      },
+      "interaction": {
+        "status": "tested-conservative",
+        "evidence": [
+          "list-patterns-runtime"
+        ],
+        "obligation": "astgen/test/list_patterns_test.dart: lengths zero through four, null/string/int elements, repeated cases and rest slicing"
+      }
+    },
+    "map-patterns": {
+      "exporter": {
+        "status": "tested-conservative",
+        "evidence": [
+          "map-patterns-exporter"
+        ],
+        "obligation": "astgen/test/exporter_test.dart: required map/value type, index/containsKey targets and constant-key identities"
+      },
+      "lowering": {
+        "status": "tested-conservative",
+        "evidence": [
+          "map-patterns-graph"
+        ],
+        "obligation": "DartFrontendTests: resolved extraction, key evaluation once and separate lazy read/presence storage"
+      },
+      "resolution": {
+        "status": "tested-conservative",
+        "evidence": [
+          "map-patterns-graph"
+        ],
+        "obligation": "concrete matched-interface lookup with required-map fallback; complete virtual targets unqualified"
+      },
+      "cfg": {
+        "status": "unqualified",
+        "evidence": [],
+        "obligation": "DartFrontendTests: short-circuit presence checks guarded by null is V and nullable read, entry order and per-match initialization"
+      },
+      "valueFlow": {
+        "status": "tested-conservative",
+        "evidence": [
+          "map-patterns-graph"
+        ],
+        "obligation": "DartFrontendTests: internal map index return flows and independent receiver/constant-result controls; exact mutable slots unqualified"
+      },
+      "negative": {
+        "status": "tested-conservative",
+        "evidence": [
+          "map-patterns-graph"
+        ],
+        "obligation": "missing keys differ from present null; wildcard entries retain reads; distinct keys, nested receiver paths and separate matches have separate storage"
+      },
+      "interaction": {
+        "status": "tested-conservative",
+        "evidence": [
+          "map-patterns-runtime"
+        ],
+        "obligation": "astgen/test/map_patterns_test.dart: bounded absent/null/string/int matrix, alias/null keys, failed cases/guards, nested maps/member names and generic nullable/nonnullable types"
+      }
+    },
+    "generic-scopes": {
+      "exporter": {
+        "status": "tested-conservative",
+        "evidence": [
+          "generic-scopes-exporter"
+        ],
+        "obligation": "exporter_test.dart: scoped declaration IDs, parameter references and bound identities"
+      },
+      "lowering": {
+        "status": "structural-only",
+        "evidence": [
+          "generic-scopes-graph"
+        ],
+        "obligation": "DartFrontendTests: nested class/method/alias TYPE_DECL parameters, anonymous generic function declarations and Dart generic signatures"
+      },
+      "resolution": {
+        "status": "structural-only",
+        "evidence": [
+          "generic-scopes-graph"
+        ],
+        "obligation": "scoped symbolic parameter types, bound relations, anonymous function signature scopes and resolved bound-member calls; runtime instantiation unqualified"
+      },
+      "cfg": {
+        "status": "unqualified",
+        "evidence": [],
+        "obligation": "declarations have no execution; generic fixture methods retain ordinary CFG"
+      },
+      "valueFlow": {
+        "status": "unqualified",
+        "evidence": [],
+        "obligation": "generic identity and bound-member bodies use ordinary parameter/return lowering; instantiation-specific effects unqualified"
+      },
+      "negative": {
+        "status": "structural-only",
+        "evidence": [
+          "generic-scopes-graph"
+        ],
+        "obligation": "same-named parameters in unrelated and nested scopes; implicit nullable versus explicit bounds"
+      },
+      "interaction": {
+        "status": "tested-conservative",
+        "evidence": [
+          "generic-scopes-runtime"
+        ],
+        "obligation": "generic_scopes_test.dart and generic_function_scopes_test.dart: bounds, aliases, nullable values and callbacks; runtime generic dispatch unqualified"
+      }
+    },
+    "function-values": {
+      "exporter": {
+        "status": "tested-conservative",
+        "evidence": [
+          "function-values-exporter"
+        ],
+        "obligation": "analyzer FunctionReference static type, declaration identities and source spans"
+      },
+      "lowering": {
+        "status": "tested-conservative",
+        "evidence": [
+          "function-values-graph"
+        ],
+        "obligation": "DartFrontendTests: instantiated expression/value types, complete source, bound captures and stable final aliases"
+      },
+      "resolution": {
+        "status": "tested-conservative",
+        "evidence": [
+          "function-values-graph"
+        ],
+        "obligation": "single known initializer values and stable copies; mutable/conditional/returned targets and general points-to unqualified"
+      },
+      "cfg": {
+        "status": "unqualified",
+        "evidence": [],
+        "obligation": "receiver evaluated once; callback read precedes named arguments in source order"
+      },
+      "valueFlow": {
+        "status": "tested-conservative",
+        "evidence": [
+          "function-values-graph"
+        ],
+        "obligation": "first/ignored operand isolation across top-level/static/bound generic calls and aliases; named/default binding"
+      },
+      "negative": {
+        "status": "tested-conservative",
+        "evidence": [
+          "function-values-graph"
+        ],
+        "obligation": "nested references in conditional branches or call arguments cannot become the sole target"
+      },
+      "interaction": {
+        "status": "tested-conservative",
+        "evidence": [
+          "function-values-runtime"
+        ],
+        "obligation": "astgen/test/generic_tearoffs_test.dart: String/int type tests, bounded values/branches and receiver traces; static_dispatch_test.dart: bound super/extension and static shadow controls; runtime bound checks unqualified"
+      }
+    },
+    "dispatch": {
+      "exporter": {
+        "status": "tested-conservative",
+        "evidence": [
+          "dispatch-exporter"
+        ],
+        "obligation": "analyzer member identities, abstract/external flags, library-aware hierarchy implementations and SuperExpression static type"
+      },
+      "lowering": {
+        "status": "tested-conservative",
+        "evidence": [
+          "dispatch-graph"
+        ],
+        "obligation": "DartFrontendTests: static super/extension calls and tear-offs; dynamic virtual calls with Dart-owned target linking; implicit field accessor bodies; constructor storage stays direct; DefaultArgumentPass per-target default adapters; shared adapter bodies and bound entry-point METHOD_REF/CAPTURE edges"
+      },
+      "resolution": {
+        "status": "tested-conservative",
+        "evidence": [
+          "dispatch-graph"
+        ],
+        "obligation": "covariant and renamed generic overrides, receiver static-type filtering, private library lookup and source implicit accessors; mixin super target union; unscanned implementations, runtime points-to unqualified"
+      },
+      "cfg": {
+        "status": "unqualified",
+        "evidence": [],
+        "obligation": "same this receiver with superclass static view; existing exactly-once bound receiver evaluation; direct/bound receiver evaluated once, reordered named values evaluated in source order"
+      },
+      "valueFlow": {
+        "status": "tested-conservative",
+        "evidence": [
+          "dispatch-graph"
+        ],
+        "obligation": "first/ignored operand isolation across virtual/interface/super/extension calls and bound tear-offs; ordinary and overridden field getter returns; static lazy field increment reads/writes; reordered named input/output binding and per-target omitted defaults; repeated invocation context and bound receiver state; constructor scalar values through captured enclosing parameters preserve selected caller and field demands; saved receivers survive source variable rebinding; depth 4/8 without search limits; static storage DART-FLOW-006 remains unqualified"
+      },
+      "negative": {
+        "status": "tested-conservative",
+        "evidence": [
+          "dispatch-graph"
+        ],
+        "obligation": "super excludes later overrides; unrelated siblings and cross-library private methods excluded; abstract source declarations are not executable targets; explicit setters are not duplicated; unused extra defaults, explicit literals equal to declaration defaults and independent output receivers; discarded earlier input, different omission masks and separate bound captures; CapturedContextTests: ordinary contexts, absent CAPTURE, wrong owner and C/JAVA/JAVASCRIPT/KOTLIN controls"
+      },
+      "interaction": {
+        "status": "tested-conservative",
+        "evidence": [
+          "dispatch-runtime"
+        ],
+        "obligation": "astgen/test/virtual_overrides_test.dart, override_privacy_test.dart and implicit_accessors_test.dart: bounded implementation traces, covariant runtime rejection, final fields with explicit setters, super storage and lazy increments; prior static_dispatch_test.dart and mixin_super_test.dart remain; astgen/test/override_arguments_test.dart: direct/bound/mixin defaults and named writer overrides; astgen/test/default_argument_interactions_test.dart: cross-file named/positional defaults, receiver/value traces and repeated/captured receiver controls; default_argument_interactions_test.dart: primitive constructor values, saved receiver rebinding and nested aliases/default argument forwarding"
+      }
+    },
+    "rule-obligations": {
+      "exporter": {
+        "status": "unqualified",
+        "evidence": [],
+        "obligation": "Identify and retain analyzer facts for this rule, including diagnostics and explicit unsupported cases."
+      },
+      "lowering": {
+        "status": "unqualified",
+        "evidence": [],
+        "obligation": "Preserve the rule's values, identities and exactly-once evaluation; test its operations and generated bodies."
+      },
+      "resolution": {
+        "status": "unqualified",
+        "evidence": [],
+        "obligation": "Check declarations and targets against pinned analyzer facts; distinguish symbolic types from runtime instances."
+      },
+      "cfg": {
+        "status": "unqualified",
+        "evidence": [],
+        "obligation": "Compare successor/order/abrupt-exit behavior with executable traces and retain uncertainty explicitly."
+      },
+      "valueFlow": {
+        "status": "unqualified",
+        "evidence": [],
+        "obligation": "Verify payload and state dependencies across the relevant calls/locations with visible search budgets."
+      },
+      "negative": {
+        "status": "unqualified",
+        "evidence": [],
+        "obligation": "Use nearby positive controls and demonstrate that absence is not missing code, targets or exhausted search."
+      },
+      "interaction": {
+        "status": "unqualified",
+        "evidence": [],
+        "obligation": "Execute bounded independent inputs and interacting forms; preserve order, failures and unrelated instances."
+      }
+    },
+    "document-context": {
+      "exporter": {
+        "status": "not-applicable",
+        "evidence": [],
+        "obligation": "Specification organization or notation, not a standalone executable language construct."
+      },
+      "lowering": {
+        "status": "not-applicable",
+        "evidence": [],
+        "obligation": "Specification organization or notation, not a standalone executable language construct."
+      },
+      "resolution": {
+        "status": "not-applicable",
+        "evidence": [],
+        "obligation": "Specification organization or notation, not a standalone executable language construct."
+      },
+      "cfg": {
+        "status": "not-applicable",
+        "evidence": [],
+        "obligation": "Specification organization or notation, not a standalone executable language construct."
+      },
+      "valueFlow": {
+        "status": "not-applicable",
+        "evidence": [],
+        "obligation": "Specification organization or notation, not a standalone executable language construct."
+      },
+      "negative": {
+        "status": "not-applicable",
+        "evidence": [],
+        "obligation": "Specification organization or notation, not a standalone executable language construct."
+      },
+      "interaction": {
+        "status": "not-applicable",
+        "evidence": [],
+        "obligation": "Specification organization or notation, not a standalone executable language construct."
+      }
+    }
+  },
+  "visitors": [
+    {
+      "construct": "AdjacentStrings",
+      "scope": "dart-3.9",
+      "profile": "strings",
+      "qualification": "conservative",
+      "exporterCase": "AdjacentStrings"
+    },
+    {
+      "construct": "Annotation",
+      "scope": "dart-3.9",
+      "profile": "source",
+      "qualification": "structural-only",
+      "exporterCase": null
+    },
+    {
+      "construct": "ArgumentList",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "ArgumentList"
+    },
+    {
+      "construct": "AsExpression",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "AsExpression"
+    },
+    {
+      "construct": "AssertInitializer",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "AssertInitializer"
+    },
+    {
+      "construct": "AssertStatement",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "AssertStatement"
+    },
+    {
+      "construct": "AssignedVariablePattern",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "AssignedVariablePattern"
+    },
+    {
+      "construct": "AssignmentExpression",
+      "scope": "dart-3.9",
+      "profile": "operators",
+      "qualification": "tested-conservative",
+      "exporterCase": "AssignmentExpression"
+    },
+    {
+      "construct": "AwaitExpression",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "AwaitExpression"
+    },
+    {
+      "construct": "BinaryExpression",
+      "scope": "dart-3.9",
+      "profile": "operators",
+      "qualification": "tested-conservative",
+      "exporterCase": "BinaryExpression"
+    },
+    {
+      "construct": "Block",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "Block"
+    },
+    {
+      "construct": "BlockClassBody",
+      "scope": "dart-3.9",
+      "profile": "source",
+      "qualification": "structural-only",
+      "exporterCase": null
+    },
+    {
+      "construct": "BlockFunctionBody",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "BlockFunctionBody"
+    },
+    {
+      "construct": "BooleanLiteral",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "BooleanLiteral"
+    },
+    {
+      "construct": "BreakStatement",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "BreakStatement"
+    },
+    {
+      "construct": "CascadeExpression",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "CascadeExpression"
+    },
+    {
+      "construct": "CaseClause",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "CaseClause"
+    },
+    {
+      "construct": "CastPattern",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "CastPattern"
+    },
+    {
+      "construct": "CatchClause",
+      "scope": "dart-3.9",
+      "profile": "exceptions",
+      "qualification": "conservative",
+      "exporterCase": "CatchClause"
+    },
+    {
+      "construct": "CatchClauseParameter",
+      "scope": "dart-3.9",
+      "profile": "exceptions",
+      "qualification": "conservative",
+      "exporterCase": "CatchClauseParameter"
+    },
+    {
+      "construct": "ClassDeclaration",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "ClassDeclaration"
+    },
+    {
+      "construct": "ClassTypeAlias",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "ClassTypeAlias"
+    },
+    {
+      "construct": "Comment",
+      "scope": "dart-3.9",
+      "profile": "source",
+      "qualification": "structural-only",
+      "exporterCase": null
+    },
+    {
+      "construct": "CommentReference",
+      "scope": "dart-3.9",
+      "profile": "source",
+      "qualification": "structural-only",
+      "exporterCase": null
+    },
+    {
+      "construct": "CompilationUnit",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "CompilationUnit"
+    },
+    {
+      "construct": "ConditionalExpression",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "ConditionalExpression"
+    },
+    {
+      "construct": "Configuration",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "Configuration"
+    },
+    {
+      "construct": "ConstantPattern",
+      "scope": "dart-3.9",
+      "profile": "pattern-comparisons",
+      "qualification": "unqualified",
+      "exporterCase": "ConstantPattern"
+    },
+    {
+      "construct": "ConstructorDeclaration",
+      "scope": "dart-3.9",
+      "profile": "heap",
+      "qualification": "unqualified",
+      "exporterCase": "ConstructorDeclaration"
+    },
+    {
+      "construct": "ConstructorFieldInitializer",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "ConstructorFieldInitializer"
+    },
+    {
+      "construct": "ConstructorName",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "ConstructorName"
+    },
+    {
+      "construct": "ConstructorReference",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "ConstructorReference"
+    },
+    {
+      "construct": "ConstructorSelector",
+      "scope": "dart-3.9",
+      "profile": "source",
+      "qualification": "structural-only",
+      "exporterCase": null
+    },
+    {
+      "construct": "ContinueStatement",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "ContinueStatement"
+    },
+    {
+      "construct": "DeclaredIdentifier",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "DeclaredIdentifier"
+    },
+    {
+      "construct": "DeclaredVariablePattern",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "DeclaredVariablePattern"
+    },
+    {
+      "construct": "DefaultFormalParameter",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "DefaultFormalParameter"
+    },
+    {
+      "construct": "DoStatement",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "DoStatement"
+    },
+    {
+      "construct": "DotShorthandInvocation",
+      "scope": "future-language",
+      "profile": "outside",
+      "qualification": "unsupported",
+      "exporterCase": null
+    },
+    {
+      "construct": "DotShorthandPropertyAccess",
+      "scope": "future-language",
+      "profile": "outside",
+      "qualification": "unsupported",
+      "exporterCase": null
+    },
+    {
+      "construct": "DottedName",
+      "scope": "dart-3.9",
+      "profile": "source",
+      "qualification": "structural-only",
+      "exporterCase": null
+    },
+    {
+      "construct": "DoubleLiteral",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "DoubleLiteral"
+    },
+    {
+      "construct": "EmptyClassBody",
+      "scope": "dart-3.9",
+      "profile": "source",
+      "qualification": "structural-only",
+      "exporterCase": null
+    },
+    {
+      "construct": "EmptyFunctionBody",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "EmptyFunctionBody"
+    },
+    {
+      "construct": "EmptyStatement",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "EmptyStatement"
+    },
+    {
+      "construct": "EnumBody",
+      "scope": "dart-3.9",
+      "profile": "source",
+      "qualification": "structural-only",
+      "exporterCase": null
+    },
+    {
+      "construct": "EnumConstantArguments",
+      "scope": "dart-3.9",
+      "profile": "source",
+      "qualification": "structural-only",
+      "exporterCase": null
+    },
+    {
+      "construct": "EnumConstantDeclaration",
+      "scope": "dart-3.9",
+      "profile": "enum",
+      "qualification": "conservative",
+      "exporterCase": "EnumConstantDeclaration"
+    },
+    {
+      "construct": "EnumDeclaration",
+      "scope": "dart-3.9",
+      "profile": "enum",
+      "qualification": "conservative",
+      "exporterCase": "EnumDeclaration"
+    },
+    {
+      "construct": "ExportDirective",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "ExportDirective"
+    },
+    {
+      "construct": "ExpressionFunctionBody",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "ExpressionFunctionBody"
+    },
+    {
+      "construct": "ExpressionStatement",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "ExpressionStatement"
+    },
+    {
+      "construct": "ExtendsClause",
+      "scope": "dart-3.9",
+      "profile": "source",
+      "qualification": "structural-only",
+      "exporterCase": null
+    },
+    {
+      "construct": "ExtensionDeclaration",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "ExtensionDeclaration"
+    },
+    {
+      "construct": "ExtensionOnClause",
+      "scope": "dart-3.9",
+      "profile": "source",
+      "qualification": "structural-only",
+      "exporterCase": null
+    },
+    {
+      "construct": "ExtensionOverride",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "ExtensionOverride"
+    },
+    {
+      "construct": "ExtensionTypeDeclaration",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "ExtensionTypeDeclaration"
+    },
+    {
+      "construct": "FieldDeclaration",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "FieldDeclaration"
+    },
+    {
+      "construct": "FieldFormalParameter",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "FieldFormalParameter"
+    },
+    {
+      "construct": "ForEachPartsWithDeclaration",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "ForEachPartsWithDeclaration"
+    },
+    {
+      "construct": "ForEachPartsWithIdentifier",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "ForEachPartsWithIdentifier"
+    },
+    {
+      "construct": "ForEachPartsWithPattern",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "ForEachPartsWithPattern"
+    },
+    {
+      "construct": "ForElement",
+      "scope": "dart-3.9",
+      "profile": "collections",
+      "qualification": "conservative",
+      "exporterCase": "ForElement"
+    },
+    {
+      "construct": "FormalParameterList",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "FormalParameterList"
+    },
+    {
+      "construct": "ForPartsWithDeclarations",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "ForPartsWithDeclarations"
+    },
+    {
+      "construct": "ForPartsWithExpression",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "ForPartsWithExpression"
+    },
+    {
+      "construct": "ForPartsWithPattern",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "ForPartsWithPattern"
+    },
+    {
+      "construct": "ForStatement",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "ForStatement"
+    },
+    {
+      "construct": "FunctionDeclaration",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "FunctionDeclaration"
+    },
+    {
+      "construct": "FunctionDeclarationStatement",
+      "scope": "dart-3.9",
+      "profile": "captures",
+      "qualification": "unqualified",
+      "exporterCase": "FunctionDeclarationStatement"
+    },
+    {
+      "construct": "FunctionExpression",
+      "scope": "dart-3.9",
+      "profile": "captures",
+      "qualification": "unqualified",
+      "exporterCase": "FunctionExpression"
+    },
+    {
+      "construct": "FunctionExpressionInvocation",
+      "scope": "dart-3.9",
+      "profile": "captures",
+      "qualification": "unqualified",
+      "exporterCase": "FunctionExpressionInvocation"
+    },
+    {
+      "construct": "FunctionReference",
+      "scope": "dart-3.9",
+      "profile": "function-values",
+      "qualification": "unqualified",
+      "exporterCase": "FunctionReference"
+    },
+    {
+      "construct": "FunctionTypeAlias",
+      "scope": "dart-3.9",
+      "profile": "generic-scopes",
+      "qualification": "unqualified",
+      "exporterCase": "FunctionTypeAlias"
+    },
+    {
+      "construct": "FunctionTypedFormalParameter",
+      "scope": "dart-3.9",
+      "profile": "generic-scopes",
+      "qualification": "unqualified",
+      "exporterCase": "FunctionTypedFormalParameter"
+    },
+    {
+      "construct": "GenericFunctionType",
+      "scope": "dart-3.9",
+      "profile": "generic-scopes",
+      "qualification": "unqualified",
+      "exporterCase": "GenericFunctionType"
+    },
+    {
+      "construct": "GenericTypeAlias",
+      "scope": "dart-3.9",
+      "profile": "generic-scopes",
+      "qualification": "unqualified",
+      "exporterCase": "GenericTypeAlias"
+    },
+    {
+      "construct": "GuardedPattern",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "GuardedPattern"
+    },
+    {
+      "construct": "HideCombinator",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "HideCombinator"
+    },
+    {
+      "construct": "IfElement",
+      "scope": "dart-3.9",
+      "profile": "collections",
+      "qualification": "conservative",
+      "exporterCase": "IfElement"
+    },
+    {
+      "construct": "IfStatement",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "IfStatement"
+    },
+    {
+      "construct": "ImplementsClause",
+      "scope": "dart-3.9",
+      "profile": "source",
+      "qualification": "structural-only",
+      "exporterCase": null
+    },
+    {
+      "construct": "ImplicitCallReference",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "ImplicitCallReference"
+    },
+    {
+      "construct": "ImportDirective",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "ImportDirective"
+    },
+    {
+      "construct": "ImportPrefixReference",
+      "scope": "dart-3.9",
+      "profile": "source",
+      "qualification": "structural-only",
+      "exporterCase": null
+    },
+    {
+      "construct": "IndexExpression",
+      "scope": "dart-3.9",
+      "profile": "operators",
+      "qualification": "tested-conservative",
+      "exporterCase": "IndexExpression"
+    },
+    {
+      "construct": "InstanceCreationExpression",
+      "scope": "dart-3.9",
+      "profile": "heap",
+      "qualification": "unqualified",
+      "exporterCase": "InstanceCreationExpression"
+    },
+    {
+      "construct": "IntegerLiteral",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "IntegerLiteral"
+    },
+    {
+      "construct": "InterpolationExpression",
+      "scope": "dart-3.9",
+      "profile": "strings",
+      "qualification": "conservative",
+      "exporterCase": "InterpolationExpression"
+    },
+    {
+      "construct": "InterpolationString",
+      "scope": "dart-3.9",
+      "profile": "strings",
+      "qualification": "conservative",
+      "exporterCase": "InterpolationString"
+    },
+    {
+      "construct": "IsExpression",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "IsExpression"
+    },
+    {
+      "construct": "Label",
+      "scope": "dart-3.9",
+      "profile": "source",
+      "qualification": "structural-only",
+      "exporterCase": null
+    },
+    {
+      "construct": "LabeledStatement",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "LabeledStatement"
+    },
+    {
+      "construct": "LibraryDirective",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "LibraryDirective"
+    },
+    {
+      "construct": "LibraryIdentifier",
+      "scope": "dart-3.9",
+      "profile": "source",
+      "qualification": "structural-only",
+      "exporterCase": null
+    },
+    {
+      "construct": "ListLiteral",
+      "scope": "dart-3.9",
+      "profile": "collections",
+      "qualification": "conservative",
+      "exporterCase": "ListLiteral"
+    },
+    {
+      "construct": "ListPattern",
+      "scope": "dart-3.9",
+      "profile": "list-patterns",
+      "qualification": "unqualified",
+      "exporterCase": "ListPattern"
+    },
+    {
+      "construct": "LogicalAndPattern",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "LogicalAndPattern"
+    },
+    {
+      "construct": "LogicalOrPattern",
+      "scope": "dart-3.9",
+      "profile": "pattern-joins",
+      "qualification": "conservative",
+      "exporterCase": "LogicalOrPattern"
+    },
+    {
+      "construct": "MapLiteralEntry",
+      "scope": "dart-3.9",
+      "profile": "collections",
+      "qualification": "conservative",
+      "exporterCase": "MapLiteralEntry"
+    },
+    {
+      "construct": "MapPattern",
+      "scope": "dart-3.9",
+      "profile": "map-patterns",
+      "qualification": "conservative",
+      "exporterCase": "MapPattern"
+    },
+    {
+      "construct": "MapPatternEntry",
+      "scope": "dart-3.9",
+      "profile": "map-patterns",
+      "qualification": "conservative",
+      "exporterCase": "MapPatternEntry"
+    },
+    {
+      "construct": "MethodDeclaration",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "MethodDeclaration"
+    },
+    {
+      "construct": "MethodInvocation",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "MethodInvocation"
+    },
+    {
+      "construct": "MixinDeclaration",
+      "scope": "dart-3.9",
+      "profile": "dispatch",
+      "qualification": "conservative",
+      "exporterCase": "MixinDeclaration"
+    },
+    {
+      "construct": "MixinOnClause",
+      "scope": "dart-3.9",
+      "profile": "source",
+      "qualification": "structural-only",
+      "exporterCase": null
+    },
+    {
+      "construct": "NamedExpression",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "NamedExpression"
+    },
+    {
+      "construct": "NamedType",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "NamedType"
+    },
+    {
+      "construct": "NameWithTypeParameters",
+      "scope": "dart-3.9",
+      "profile": "source",
+      "qualification": "structural-only",
+      "exporterCase": null
+    },
+    {
+      "construct": "NativeClause",
+      "scope": "sdk-internal",
+      "profile": "outside",
+      "qualification": "unsupported",
+      "exporterCase": null
+    },
+    {
+      "construct": "NativeFunctionBody",
+      "scope": "sdk-internal",
+      "profile": "outside",
+      "qualification": "unsupported",
+      "exporterCase": null
+    },
+    {
+      "construct": "NullAssertPattern",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "NullAssertPattern"
+    },
+    {
+      "construct": "NullAwareElement",
+      "scope": "dart-3.9",
+      "profile": "collections",
+      "qualification": "conservative",
+      "exporterCase": "NullAwareElement"
+    },
+    {
+      "construct": "NullCheckPattern",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "NullCheckPattern"
+    },
+    {
+      "construct": "NullLiteral",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "NullLiteral"
+    },
+    {
+      "construct": "ObjectPattern",
+      "scope": "dart-3.9",
+      "profile": "pattern-fields",
+      "qualification": "unqualified",
+      "exporterCase": "ObjectPattern"
+    },
+    {
+      "construct": "ParenthesizedExpression",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "ParenthesizedExpression"
+    },
+    {
+      "construct": "ParenthesizedPattern",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "ParenthesizedPattern"
+    },
+    {
+      "construct": "PartDirective",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "PartDirective"
+    },
+    {
+      "construct": "PartOfDirective",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "PartOfDirective"
+    },
+    {
+      "construct": "PatternAssignment",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "PatternAssignment"
+    },
+    {
+      "construct": "PatternField",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "PatternField"
+    },
+    {
+      "construct": "PatternFieldName",
+      "scope": "dart-3.9",
+      "profile": "source",
+      "qualification": "structural-only",
+      "exporterCase": null
+    },
+    {
+      "construct": "PatternVariableDeclaration",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "PatternVariableDeclaration"
+    },
+    {
+      "construct": "PostfixExpression",
+      "scope": "dart-3.9",
+      "profile": "operators",
+      "qualification": "tested-conservative",
+      "exporterCase": "PostfixExpression"
+    },
+    {
+      "construct": "PrefixedIdentifier",
+      "scope": "dart-3.9",
+      "profile": "heap",
+      "qualification": "unqualified",
+      "exporterCase": "PrefixedIdentifier"
+    },
+    {
+      "construct": "PrefixExpression",
+      "scope": "dart-3.9",
+      "profile": "operators",
+      "qualification": "tested-conservative",
+      "exporterCase": "PrefixExpression"
+    },
+    {
+      "construct": "PrimaryConstructorDeclaration",
+      "scope": "future-language",
+      "profile": "outside",
+      "qualification": "unsupported",
+      "exporterCase": null
+    },
+    {
+      "construct": "PrimaryConstructorName",
+      "scope": "future-language",
+      "profile": "outside",
+      "qualification": "unsupported",
+      "exporterCase": null
+    },
+    {
+      "construct": "PropertyAccess",
+      "scope": "dart-3.9",
+      "profile": "heap",
+      "qualification": "unqualified",
+      "exporterCase": "PropertyAccess"
+    },
+    {
+      "construct": "RecordLiteral",
+      "scope": "dart-3.9",
+      "profile": "records",
+      "qualification": "unqualified",
+      "exporterCase": "RecordLiteral"
+    },
+    {
+      "construct": "RecordPattern",
+      "scope": "dart-3.9",
+      "profile": "records",
+      "qualification": "unqualified",
+      "exporterCase": "RecordPattern"
+    },
+    {
+      "construct": "RecordTypeAnnotation",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "RecordTypeAnnotation"
+    },
+    {
+      "construct": "RecordTypeAnnotationNamedField",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "RecordTypeAnnotationField"
+    },
+    {
+      "construct": "RecordTypeAnnotationNamedFields",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "RecordTypeAnnotationNamedFields"
+    },
+    {
+      "construct": "RelationalPattern",
+      "scope": "dart-3.9",
+      "profile": "pattern-comparisons",
+      "qualification": "unqualified",
+      "exporterCase": "RelationalPattern"
+    },
+    {
+      "construct": "RepresentationConstructorName",
+      "scope": "dart-3.9",
+      "profile": "source",
+      "qualification": "structural-only",
+      "exporterCase": null
+    },
+    {
+      "construct": "RepresentationDeclaration",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "RepresentationDeclaration"
+    },
+    {
+      "construct": "RestPatternElement",
+      "scope": "dart-3.9",
+      "profile": "list-patterns",
+      "qualification": "unqualified",
+      "exporterCase": "RestPatternElement"
+    },
+    {
+      "construct": "RethrowExpression",
+      "scope": "dart-3.9",
+      "profile": "exceptions",
+      "qualification": "conservative",
+      "exporterCase": "RethrowExpression"
+    },
+    {
+      "construct": "ReturnStatement",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "ReturnStatement"
+    },
+    {
+      "construct": "ScriptTag",
+      "scope": "dart-3.9",
+      "profile": "source",
+      "qualification": "structural-only",
+      "exporterCase": null
+    },
+    {
+      "construct": "SetOrMapLiteral",
+      "scope": "dart-3.9",
+      "profile": "collections",
+      "qualification": "conservative",
+      "exporterCase": "SetOrMapLiteral"
+    },
+    {
+      "construct": "ShowCombinator",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "ShowCombinator"
+    },
+    {
+      "construct": "SimpleFormalParameter",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "SimpleFormalParameter"
+    },
+    {
+      "construct": "SimpleIdentifier",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "SimpleIdentifier"
+    },
+    {
+      "construct": "SimpleStringLiteral",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "SimpleStringLiteral"
+    },
+    {
+      "construct": "SpreadElement",
+      "scope": "dart-3.9",
+      "profile": "collections",
+      "qualification": "conservative",
+      "exporterCase": "SpreadElement"
+    },
+    {
+      "construct": "StringInterpolation",
+      "scope": "dart-3.9",
+      "profile": "strings",
+      "qualification": "conservative",
+      "exporterCase": "StringInterpolation"
+    },
+    {
+      "construct": "SuperConstructorInvocation",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "SuperConstructorInvocation"
+    },
+    {
+      "construct": "SuperExpression",
+      "scope": "dart-3.9",
+      "profile": "dispatch",
+      "qualification": "conservative",
+      "exporterCase": "SuperExpression"
+    },
+    {
+      "construct": "SuperFormalParameter",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "SuperFormalParameter"
+    },
+    {
+      "construct": "SwitchCase",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "SwitchCase"
+    },
+    {
+      "construct": "SwitchDefault",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "SwitchDefault"
+    },
+    {
+      "construct": "SwitchExpression",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "SwitchExpression"
+    },
+    {
+      "construct": "SwitchExpressionCase",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "SwitchExpressionCase"
+    },
+    {
+      "construct": "SwitchPatternCase",
+      "scope": "dart-3.9",
+      "profile": "pattern-joins",
+      "qualification": "conservative",
+      "exporterCase": "SwitchPatternCase"
+    },
+    {
+      "construct": "SwitchStatement",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "SwitchStatement"
+    },
+    {
+      "construct": "SymbolLiteral",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "SymbolLiteral"
+    },
+    {
+      "construct": "ThisExpression",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "ThisExpression"
+    },
+    {
+      "construct": "ThrowExpression",
+      "scope": "dart-3.9",
+      "profile": "exceptions",
+      "qualification": "conservative",
+      "exporterCase": "ThrowExpression"
+    },
+    {
+      "construct": "TopLevelVariableDeclaration",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "TopLevelVariableDeclaration"
+    },
+    {
+      "construct": "TryStatement",
+      "scope": "dart-3.9",
+      "profile": "exceptions",
+      "qualification": "conservative",
+      "exporterCase": "TryStatement"
+    },
+    {
+      "construct": "TypeArgumentList",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "TypeArgumentList"
+    },
+    {
+      "construct": "TypeLiteral",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "TypeLiteral"
+    },
+    {
+      "construct": "TypeParameter",
+      "scope": "dart-3.9",
+      "profile": "generic-scopes",
+      "qualification": "unqualified",
+      "exporterCase": "TypeParameter"
+    },
+    {
+      "construct": "TypeParameterList",
+      "scope": "dart-3.9",
+      "profile": "generic-scopes",
+      "qualification": "unqualified",
+      "exporterCase": "TypeParameterList"
+    },
+    {
+      "construct": "VariableDeclaration",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "VariableDeclaration"
+    },
+    {
+      "construct": "VariableDeclarationList",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "VariableDeclarationList"
+    },
+    {
+      "construct": "VariableDeclarationStatement",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "VariableDeclarationStatement"
+    },
+    {
+      "construct": "WhenClause",
+      "scope": "dart-3.9",
+      "profile": "source",
+      "qualification": "structural-only",
+      "exporterCase": null
+    },
+    {
+      "construct": "WhileStatement",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "WhileStatement"
+    },
+    {
+      "construct": "WildcardPattern",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "WildcardPattern"
+    },
+    {
+      "construct": "WithClause",
+      "scope": "dart-3.9",
+      "profile": "source",
+      "qualification": "structural-only",
+      "exporterCase": null
+    },
+    {
+      "construct": "YieldStatement",
+      "scope": "dart-3.9",
+      "profile": "syntax",
+      "qualification": "unqualified",
+      "exporterCase": "YieldStatement"
+    }
+  ],
+  "rules": [
+    {
+      "section": "ecmaScope",
+      "profile": "document-context",
+      "relatedConstructs": [],
+      "relatedProfiles": [],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "ecmaConformance",
+      "profile": "document-context",
+      "relatedConstructs": [],
+      "relatedProfiles": [],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "ecmaNormativeReferences",
+      "profile": "document-context",
+      "relatedConstructs": [],
+      "relatedProfiles": [],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "ecmaTermsAndDefinitions",
+      "profile": "document-context",
+      "relatedConstructs": [],
+      "relatedProfiles": [],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "notation",
+      "profile": "document-context",
+      "relatedConstructs": [],
+      "relatedProfiles": [],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "overview",
+      "profile": "document-context",
+      "relatedConstructs": [],
+      "relatedProfiles": [],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "scoping",
+      "profile": "rule-obligations",
+      "relatedConstructs": [],
+      "relatedProfiles": [],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "privacy",
+      "profile": "rule-obligations",
+      "relatedConstructs": [],
+      "relatedProfiles": [],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "concurrency",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "AwaitExpression"
+      ],
+      "relatedProfiles": [
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "errorsAndWarnings",
+      "profile": "rule-obligations",
+      "relatedConstructs": [],
+      "relatedProfiles": [],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "variables",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "DeclaredIdentifier",
+        "TopLevelVariableDeclaration",
+        "VariableDeclaration",
+        "VariableDeclarationList",
+        "VariableDeclarationStatement"
+      ],
+      "relatedProfiles": [
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "implicitlyInducedGettersAndSetters",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "FieldDeclaration"
+      ],
+      "relatedProfiles": [
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "evaluationOfImplicitVariableGetters",
+      "profile": "rule-obligations",
+      "relatedConstructs": [],
+      "relatedProfiles": [],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "functions",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "BlockFunctionBody",
+        "EmptyFunctionBody",
+        "ExpressionFunctionBody",
+        "FunctionDeclaration",
+        "FunctionDeclarationStatement",
+        "FunctionExpression"
+      ],
+      "relatedProfiles": [
+        "captures",
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "functionDeclarations",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "BlockFunctionBody",
+        "EmptyFunctionBody",
+        "ExpressionFunctionBody",
+        "FunctionDeclaration",
+        "FunctionDeclarationStatement",
+        "FunctionExpression"
+      ],
+      "relatedProfiles": [
+        "captures",
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "formalParameters",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "DefaultFormalParameter",
+        "FieldFormalParameter",
+        "FormalParameterList",
+        "SimpleFormalParameter",
+        "SuperFormalParameter"
+      ],
+      "relatedProfiles": [
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "requiredFormals",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "DefaultFormalParameter",
+        "FieldFormalParameter",
+        "FormalParameterList",
+        "SimpleFormalParameter"
+      ],
+      "relatedProfiles": [
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "optionalFormals",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "DefaultFormalParameter",
+        "FieldFormalParameter",
+        "FormalParameterList",
+        "SimpleFormalParameter"
+      ],
+      "relatedProfiles": [
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "covariantParameters",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "MethodDeclaration"
+      ],
+      "relatedProfiles": [
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "typeOfAFunction",
+      "profile": "rule-obligations",
+      "relatedConstructs": [],
+      "relatedProfiles": [],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "externalFunctions",
+      "profile": "rule-obligations",
+      "relatedConstructs": [],
+      "relatedProfiles": [],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "classes",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "BlockClassBody",
+        "ClassDeclaration",
+        "EmptyClassBody",
+        "ExtendsClause",
+        "ImplementsClause"
+      ],
+      "relatedProfiles": [
+        "source",
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "fullyImplementingAnInterface",
+      "profile": "rule-obligations",
+      "relatedConstructs": [],
+      "relatedProfiles": [],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "instanceMethods",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "MethodDeclaration"
+      ],
+      "relatedProfiles": [
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "operators",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "IndexExpression",
+        "MethodDeclaration"
+      ],
+      "relatedProfiles": [
+        "operators",
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "theMethodNoSuchMethod",
+      "profile": "rule-obligations",
+      "relatedConstructs": [],
+      "relatedProfiles": [],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "theOperatorEqualsEquals",
+      "profile": "rule-obligations",
+      "relatedConstructs": [],
+      "relatedProfiles": [],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "getters",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "MethodDeclaration"
+      ],
+      "relatedProfiles": [
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "setters",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "MethodDeclaration"
+      ],
+      "relatedProfiles": [
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "abstractInstanceMembers",
+      "profile": "rule-obligations",
+      "relatedConstructs": [],
+      "relatedProfiles": [],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "instanceVariables",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "FieldDeclaration"
+      ],
+      "relatedProfiles": [
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "constructors",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "ConstructorDeclaration",
+        "ConstructorFieldInitializer",
+        "ConstructorName",
+        "ConstructorSelector",
+        "InstanceCreationExpression"
+      ],
+      "relatedProfiles": [
+        "heap",
+        "source",
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "generativeConstructors",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "AssertInitializer",
+        "AssertStatement",
+        "ConstructorDeclaration",
+        "ConstructorFieldInitializer",
+        "ConstructorName",
+        "ConstructorSelector",
+        "InstanceCreationExpression",
+        "SuperFormalParameter"
+      ],
+      "relatedProfiles": [
+        "heap",
+        "source",
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "factories",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "ConstructorDeclaration",
+        "ConstructorFieldInitializer",
+        "ConstructorName",
+        "ConstructorSelector",
+        "InstanceCreationExpression"
+      ],
+      "relatedProfiles": [
+        "heap",
+        "source",
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "constantConstructors",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "ConstructorDeclaration",
+        "ConstructorFieldInitializer",
+        "ConstructorName",
+        "ConstructorSelector",
+        "InstanceCreationExpression"
+      ],
+      "relatedProfiles": [
+        "heap",
+        "source",
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "staticMethods",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "MethodDeclaration"
+      ],
+      "relatedProfiles": [
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "superclasses",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "BlockClassBody",
+        "ClassDeclaration",
+        "EmptyClassBody",
+        "ExtendsClause",
+        "ImplementsClause"
+      ],
+      "relatedProfiles": [
+        "source",
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "inheritanceAndOverriding",
+      "profile": "rule-obligations",
+      "relatedConstructs": [],
+      "relatedProfiles": [],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "superinterfaces",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "BlockClassBody",
+        "ClassDeclaration",
+        "EmptyClassBody",
+        "ExtendsClause",
+        "ImplementsClause"
+      ],
+      "relatedProfiles": [
+        "source",
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "classMemberConflicts",
+      "profile": "rule-obligations",
+      "relatedConstructs": [],
+      "relatedProfiles": [],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "interfaces",
+      "profile": "rule-obligations",
+      "relatedConstructs": [],
+      "relatedProfiles": [],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "combinedMemberSignatures",
+      "profile": "rule-obligations",
+      "relatedConstructs": [],
+      "relatedProfiles": [],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "interfaceSuperinterfaces",
+      "profile": "rule-obligations",
+      "relatedConstructs": [],
+      "relatedProfiles": [],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "interfaceInheritanceAndOverriding",
+      "profile": "rule-obligations",
+      "relatedConstructs": [],
+      "relatedProfiles": [],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "correctMemberOverrides",
+      "profile": "rule-obligations",
+      "relatedConstructs": [],
+      "relatedProfiles": [],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "mixins",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "MixinDeclaration",
+        "MixinOnClause",
+        "WithClause"
+      ],
+      "relatedProfiles": [
+        "dispatch",
+        "source"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "mixinClasses",
+      "profile": "rule-obligations",
+      "relatedConstructs": [],
+      "relatedProfiles": [],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "mixinDeclaration",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "MixinDeclaration",
+        "MixinOnClause",
+        "WithClause"
+      ],
+      "relatedProfiles": [
+        "dispatch",
+        "source"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "mixinApplication",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "ClassTypeAlias"
+      ],
+      "relatedProfiles": [
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "extensions",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "ExtensionDeclaration",
+        "ExtensionOnClause",
+        "ExtensionOverride"
+      ],
+      "relatedProfiles": [
+        "source",
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "explicitExtensionInvocations",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "ExtensionDeclaration",
+        "ExtensionOnClause",
+        "ExtensionOverride"
+      ],
+      "relatedProfiles": [
+        "source",
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "implicitExtensionInvocations",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "ExtensionDeclaration",
+        "ExtensionOnClause",
+        "ExtensionOverride"
+      ],
+      "relatedProfiles": [
+        "source",
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "extensionAccessibility",
+      "profile": "rule-obligations",
+      "relatedConstructs": [],
+      "relatedProfiles": [],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "extensionApplicability",
+      "profile": "rule-obligations",
+      "relatedConstructs": [],
+      "relatedProfiles": [],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "extensionSpecificity",
+      "profile": "rule-obligations",
+      "relatedConstructs": [],
+      "relatedProfiles": [],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "staticAnalysisOfMembersOfAnExtension",
+      "profile": "rule-obligations",
+      "relatedConstructs": [],
+      "relatedProfiles": [],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "extensionMethodClosurization",
+      "profile": "rule-obligations",
+      "relatedConstructs": [],
+      "relatedProfiles": [],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "theCallMemberOfAnExtension",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "ImplicitCallReference"
+      ],
+      "relatedProfiles": [
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "enums",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "EnumBody",
+        "EnumConstantArguments",
+        "EnumConstantDeclaration",
+        "EnumDeclaration"
+      ],
+      "relatedProfiles": [
+        "enum",
+        "source"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "generics",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "NamedType",
+        "TypeParameter",
+        "TypeParameterList"
+      ],
+      "relatedProfiles": [
+        "generic-scopes",
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "variance",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "NamedType",
+        "TypeParameter",
+        "TypeParameterList"
+      ],
+      "relatedProfiles": [
+        "generic-scopes",
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "superBoundedTypes",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "NamedType"
+      ],
+      "relatedProfiles": [
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "instantiationToBound",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "NamedType",
+        "TypeParameter",
+        "TypeParameterList"
+      ],
+      "relatedProfiles": [
+        "generic-scopes",
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "auxiliaryConceptsForInstantiationToBound",
+      "profile": "rule-obligations",
+      "relatedConstructs": [],
+      "relatedProfiles": [],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "theInstantiationToBoundAlgorithm",
+      "profile": "rule-obligations",
+      "relatedConstructs": [],
+      "relatedProfiles": [],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "metadata",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "Annotation"
+      ],
+      "relatedProfiles": [
+        "source"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "expressions",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "ParenthesizedExpression",
+        "RecordLiteral",
+        "RecordTypeAnnotation",
+        "RecordTypeAnnotationNamedField",
+        "RecordTypeAnnotationNamedFields"
+      ],
+      "relatedProfiles": [
+        "records",
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "expressionEvaluation",
+      "profile": "rule-obligations",
+      "relatedConstructs": [],
+      "relatedProfiles": [],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "objectIdentity",
+      "profile": "rule-obligations",
+      "relatedConstructs": [],
+      "relatedProfiles": [],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "constants",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "IntegerLiteral"
+      ],
+      "relatedProfiles": [
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "furtherCommentsOnConstantsAndPotentiallyConstants",
+      "profile": "rule-obligations",
+      "relatedConstructs": [],
+      "relatedProfiles": [],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "constantContexts",
+      "profile": "rule-obligations",
+      "relatedConstructs": [],
+      "relatedProfiles": [],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "null",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "NullLiteral"
+      ],
+      "relatedProfiles": [
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "numbers",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "DoubleLiteral",
+        "IntegerLiteral"
+      ],
+      "relatedProfiles": [
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "booleans",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "BooleanLiteral"
+      ],
+      "relatedProfiles": [
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "strings",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "AdjacentStrings",
+        "InterpolationExpression",
+        "InterpolationString",
+        "SimpleStringLiteral",
+        "StringInterpolation"
+      ],
+      "relatedProfiles": [
+        "strings",
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "stringInterpolation",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "AdjacentStrings",
+        "InterpolationExpression",
+        "InterpolationString",
+        "SimpleStringLiteral",
+        "StringInterpolation"
+      ],
+      "relatedProfiles": [
+        "strings",
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "symbols",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "SymbolLiteral"
+      ],
+      "relatedProfiles": [
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "collectionLiterals",
+      "profile": "rule-obligations",
+      "relatedConstructs": [],
+      "relatedProfiles": [],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "collectionLiteralTypePromotion",
+      "profile": "rule-obligations",
+      "relatedConstructs": [],
+      "relatedProfiles": [],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "collectionLiteralElementEvaluation",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "ForElement",
+        "IfElement",
+        "NullAwareElement",
+        "SpreadElement"
+      ],
+      "relatedProfiles": [
+        "collections"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "listLiteralInference",
+      "profile": "rule-obligations",
+      "relatedConstructs": [],
+      "relatedProfiles": [],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "lists",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "ListLiteral"
+      ],
+      "relatedProfiles": [
+        "collections"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "setAndMapLiteralDisambiguation",
+      "profile": "rule-obligations",
+      "relatedConstructs": [],
+      "relatedProfiles": [],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "setAndMapLiteralInference",
+      "profile": "rule-obligations",
+      "relatedConstructs": [],
+      "relatedProfiles": [],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "sets",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "MapLiteralEntry",
+        "SetOrMapLiteral"
+      ],
+      "relatedProfiles": [
+        "collections"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "maps",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "MapLiteralEntry",
+        "SetOrMapLiteral"
+      ],
+      "relatedProfiles": [
+        "collections"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "throw",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "ThrowExpression"
+      ],
+      "relatedProfiles": [
+        "exceptions"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "functionExpressions",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "FunctionDeclaration",
+        "FunctionDeclarationStatement",
+        "FunctionExpression"
+      ],
+      "relatedProfiles": [
+        "captures",
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "this",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "ThisExpression"
+      ],
+      "relatedProfiles": [
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "instanceCreation",
+      "profile": "rule-obligations",
+      "relatedConstructs": [],
+      "relatedProfiles": [],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "new",
+      "profile": "rule-obligations",
+      "relatedConstructs": [],
+      "relatedProfiles": [],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "const",
+      "profile": "rule-obligations",
+      "relatedConstructs": [],
+      "relatedProfiles": [],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "spawningAnIsolate",
+      "profile": "rule-obligations",
+      "relatedConstructs": [],
+      "relatedProfiles": [],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "functionInvocation",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "FunctionExpressionInvocation"
+      ],
+      "relatedProfiles": [
+        "captures"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "actualArgumentLists",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "ArgumentList",
+        "NamedExpression"
+      ],
+      "relatedProfiles": [
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "actualArguments",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "ArgumentList",
+        "NamedExpression"
+      ],
+      "relatedProfiles": [
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "bindingActualsToFormals",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "ArgumentList",
+        "NamedExpression"
+      ],
+      "relatedProfiles": [
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "unqualifiedInvocation",
+      "profile": "rule-obligations",
+      "relatedConstructs": [],
+      "relatedProfiles": [],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "functionExpressionInvocation",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "FunctionExpressionInvocation"
+      ],
+      "relatedProfiles": [
+        "captures"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "functionClosurization",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "ConstructorReference",
+        "FunctionReference"
+      ],
+      "relatedProfiles": [
+        "function-values",
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "genericFunctionInstantiation",
+      "profile": "rule-obligations",
+      "relatedConstructs": [],
+      "relatedProfiles": [],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "lookup",
+      "profile": "rule-obligations",
+      "relatedConstructs": [],
+      "relatedProfiles": [],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "topLevelGetterInvocation",
+      "profile": "rule-obligations",
+      "relatedConstructs": [],
+      "relatedProfiles": [],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "memberInvocations",
+      "profile": "rule-obligations",
+      "relatedConstructs": [],
+      "relatedProfiles": [],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "methodInvocation",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "MethodInvocation"
+      ],
+      "relatedProfiles": [
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "ordinaryInvocation",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "MethodInvocation"
+      ],
+      "relatedProfiles": [
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "cascades",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "CascadeExpression"
+      ],
+      "relatedProfiles": [
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "superInvocations",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "SuperConstructorInvocation",
+        "SuperExpression"
+      ],
+      "relatedProfiles": [
+        "dispatch",
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "sendingMessages",
+      "profile": "rule-obligations",
+      "relatedConstructs": [],
+      "relatedProfiles": [],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "propertyExtraction",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "PrefixedIdentifier",
+        "PropertyAccess",
+        "SimpleIdentifier"
+      ],
+      "relatedProfiles": [
+        "heap",
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "getterAccessAndMethodExtraction",
+      "profile": "rule-obligations",
+      "relatedConstructs": [],
+      "relatedProfiles": [],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "superGetterAccessAndMethodClosurization",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "SuperConstructorInvocation",
+        "SuperExpression"
+      ],
+      "relatedProfiles": [
+        "dispatch",
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "instanceMethodClosurization",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "ImplicitCallReference"
+      ],
+      "relatedProfiles": [
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "superClosurization",
+      "profile": "rule-obligations",
+      "relatedConstructs": [],
+      "relatedProfiles": [],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "genericMethodInstantiation",
+      "profile": "rule-obligations",
+      "relatedConstructs": [],
+      "relatedProfiles": [],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "assignment",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "AssignmentExpression",
+        "PostfixExpression",
+        "PrefixExpression"
+      ],
+      "relatedProfiles": [
+        "operators"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "compoundAssignment",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "AssignmentExpression",
+        "PostfixExpression",
+        "PrefixExpression"
+      ],
+      "relatedProfiles": [
+        "operators"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "conditional",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "ConditionalExpression",
+        "IfStatement"
+      ],
+      "relatedProfiles": [
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "ifNull",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "BinaryExpression"
+      ],
+      "relatedProfiles": [
+        "operators"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "logicalBooleanExpressions",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "BinaryExpression"
+      ],
+      "relatedProfiles": [
+        "operators"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "equality",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "BinaryExpression"
+      ],
+      "relatedProfiles": [
+        "operators"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "relationalExpressions",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "BinaryExpression"
+      ],
+      "relatedProfiles": [
+        "operators"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "bitwiseExpressions",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "BinaryExpression"
+      ],
+      "relatedProfiles": [
+        "operators"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "shift",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "BinaryExpression"
+      ],
+      "relatedProfiles": [
+        "operators"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "additiveExpressions",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "BinaryExpression"
+      ],
+      "relatedProfiles": [
+        "operators"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "multiplicativeExpressions",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "BinaryExpression"
+      ],
+      "relatedProfiles": [
+        "operators"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "unaryExpressions",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "AssignmentExpression",
+        "PostfixExpression",
+        "PrefixExpression"
+      ],
+      "relatedProfiles": [
+        "operators"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "awaitExpressions",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "AwaitExpression"
+      ],
+      "relatedProfiles": [
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "postfixExpressions",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "AssignmentExpression",
+        "PostfixExpression",
+        "PrefixExpression"
+      ],
+      "relatedProfiles": [
+        "operators"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "assignableExpressions",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "IndexExpression"
+      ],
+      "relatedProfiles": [
+        "operators"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "lexicalLookup",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "PrefixedIdentifier",
+        "PropertyAccess",
+        "SimpleIdentifier"
+      ],
+      "relatedProfiles": [
+        "heap",
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "identifierReference",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "PrefixedIdentifier",
+        "PropertyAccess",
+        "SimpleIdentifier"
+      ],
+      "relatedProfiles": [
+        "heap",
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "typeTest",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "IsExpression"
+      ],
+      "relatedProfiles": [
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "typeCast",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "AsExpression"
+      ],
+      "relatedProfiles": [
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "statements",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "Block",
+        "EmptyStatement"
+      ],
+      "relatedProfiles": [
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "statementCompletion",
+      "profile": "rule-obligations",
+      "relatedConstructs": [],
+      "relatedProfiles": [],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "blocks",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "Block",
+        "EmptyStatement"
+      ],
+      "relatedProfiles": [
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "expressionStatements",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "ExpressionStatement"
+      ],
+      "relatedProfiles": [
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "localVariableDeclaration",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "DeclaredIdentifier",
+        "TopLevelVariableDeclaration",
+        "VariableDeclaration",
+        "VariableDeclarationList",
+        "VariableDeclarationStatement"
+      ],
+      "relatedProfiles": [
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "localFunctionDeclaration",
+      "profile": "rule-obligations",
+      "relatedConstructs": [],
+      "relatedProfiles": [],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "if",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "ConditionalExpression",
+        "IfStatement"
+      ],
+      "relatedProfiles": [
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "for",
+      "profile": "rule-obligations",
+      "relatedConstructs": [],
+      "relatedProfiles": [],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "forLoop",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "ForPartsWithDeclarations",
+        "ForPartsWithExpression",
+        "ForStatement"
+      ],
+      "relatedProfiles": [
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "for-in",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "ForEachPartsWithDeclaration",
+        "ForEachPartsWithIdentifier"
+      ],
+      "relatedProfiles": [
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "asynchronousFor-in",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "ForEachPartsWithDeclaration",
+        "ForEachPartsWithIdentifier"
+      ],
+      "relatedProfiles": [
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "while",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "WhileStatement"
+      ],
+      "relatedProfiles": [
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "do",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "DoStatement"
+      ],
+      "relatedProfiles": [
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "switch",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "AssignedVariablePattern",
+        "CaseClause",
+        "CastPattern",
+        "ConstantPattern",
+        "DeclaredVariablePattern",
+        "ForEachPartsWithPattern",
+        "ForPartsWithPattern",
+        "GuardedPattern",
+        "ListPattern",
+        "LogicalAndPattern",
+        "LogicalOrPattern",
+        "MapPattern",
+        "MapPatternEntry",
+        "NullAssertPattern",
+        "NullCheckPattern",
+        "ObjectPattern",
+        "ParenthesizedPattern",
+        "PatternAssignment",
+        "PatternField",
+        "PatternFieldName",
+        "PatternVariableDeclaration",
+        "RecordPattern",
+        "RelationalPattern",
+        "RestPatternElement",
+        "SwitchCase",
+        "SwitchDefault",
+        "SwitchExpression",
+        "SwitchExpressionCase",
+        "SwitchPatternCase",
+        "SwitchStatement",
+        "WhenClause",
+        "WildcardPattern"
+      ],
+      "relatedProfiles": [
+        "list-patterns",
+        "map-patterns",
+        "pattern-comparisons",
+        "pattern-fields",
+        "pattern-joins",
+        "records",
+        "source",
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "case-execute",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "SwitchCase",
+        "SwitchDefault",
+        "SwitchExpression",
+        "SwitchExpressionCase",
+        "SwitchPatternCase",
+        "SwitchStatement"
+      ],
+      "relatedProfiles": [
+        "pattern-joins",
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "rethrow",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "RethrowExpression"
+      ],
+      "relatedProfiles": [
+        "exceptions"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "try",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "CatchClause",
+        "CatchClauseParameter",
+        "TryStatement"
+      ],
+      "relatedProfiles": [
+        "exceptions"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "on-catch",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "CatchClause",
+        "CatchClauseParameter",
+        "TryStatement"
+      ],
+      "relatedProfiles": [
+        "exceptions"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "return",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "BlockFunctionBody",
+        "EmptyFunctionBody",
+        "ExpressionFunctionBody",
+        "ReturnStatement"
+      ],
+      "relatedProfiles": [
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "labels",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "BreakStatement",
+        "ContinueStatement",
+        "Label",
+        "LabeledStatement"
+      ],
+      "relatedProfiles": [
+        "source",
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "break",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "BreakStatement",
+        "ContinueStatement",
+        "Label",
+        "LabeledStatement"
+      ],
+      "relatedProfiles": [
+        "source",
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "continue",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "BreakStatement",
+        "ContinueStatement",
+        "Label",
+        "LabeledStatement"
+      ],
+      "relatedProfiles": [
+        "source",
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "yield",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "YieldStatement"
+      ],
+      "relatedProfiles": [
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "yieldEach",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "YieldStatement"
+      ],
+      "relatedProfiles": [
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "assert",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "AssertInitializer",
+        "AssertStatement"
+      ],
+      "relatedProfiles": [
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "librariesAndScripts",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "CompilationUnit",
+        "LibraryDirective",
+        "LibraryIdentifier"
+      ],
+      "relatedProfiles": [
+        "source",
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "imports",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "Configuration",
+        "DottedName",
+        "ImportDirective",
+        "ImportPrefixReference"
+      ],
+      "relatedProfiles": [
+        "source",
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "theImportedNamespace",
+      "profile": "rule-obligations",
+      "relatedConstructs": [],
+      "relatedProfiles": [],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "semanticsOfImports",
+      "profile": "rule-obligations",
+      "relatedConstructs": [],
+      "relatedProfiles": [],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "exports",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "ExportDirective",
+        "HideCombinator",
+        "ShowCombinator"
+      ],
+      "relatedProfiles": [
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "namespaceCombinators",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "ExportDirective",
+        "HideCombinator",
+        "ShowCombinator"
+      ],
+      "relatedProfiles": [
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "conflictMergingOfNamespaces",
+      "profile": "rule-obligations",
+      "relatedConstructs": [],
+      "relatedProfiles": [],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "parts",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "PartDirective",
+        "PartOfDirective"
+      ],
+      "relatedProfiles": [
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "scripts",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "ScriptTag"
+      ],
+      "relatedProfiles": [
+        "source"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "uris",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "Configuration",
+        "DottedName",
+        "ImportDirective",
+        "ImportPrefixReference"
+      ],
+      "relatedProfiles": [
+        "source",
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "types",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "ExtensionTypeDeclaration",
+        "NamedType",
+        "NameWithTypeParameters",
+        "RecordLiteral",
+        "RecordTypeAnnotation",
+        "RecordTypeAnnotationNamedField",
+        "RecordTypeAnnotationNamedFields",
+        "RepresentationConstructorName",
+        "RepresentationDeclaration",
+        "TypeArgumentList",
+        "TypeLiteral",
+        "TypeParameter",
+        "TypeParameterList"
+      ],
+      "relatedProfiles": [
+        "generic-scopes",
+        "records",
+        "source",
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "staticTypes",
+      "profile": "rule-obligations",
+      "relatedConstructs": [],
+      "relatedProfiles": [],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "typePromotion",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "IsExpression"
+      ],
+      "relatedProfiles": [
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "dynamicTypeSystem",
+      "profile": "rule-obligations",
+      "relatedConstructs": [],
+      "relatedProfiles": [],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "typedef",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "GenericTypeAlias"
+      ],
+      "relatedProfiles": [
+        "generic-scopes"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "subtypes",
+      "profile": "rule-obligations",
+      "relatedConstructs": [],
+      "relatedProfiles": [],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "metaVariables",
+      "profile": "document-context",
+      "relatedConstructs": [],
+      "relatedProfiles": [],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "subtypeRules",
+      "profile": "rule-obligations",
+      "relatedConstructs": [],
+      "relatedProfiles": [],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "beingASubtype",
+      "profile": "rule-obligations",
+      "relatedConstructs": [],
+      "relatedProfiles": [],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "informalSubtypeRuleDescriptions",
+      "profile": "rule-obligations",
+      "relatedConstructs": [],
+      "relatedProfiles": [],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "additionalSubtypingConcepts",
+      "profile": "rule-obligations",
+      "relatedConstructs": [],
+      "relatedProfiles": [],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "functionTypes",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "FunctionTypeAlias",
+        "FunctionTypedFormalParameter",
+        "GenericFunctionType"
+      ],
+      "relatedProfiles": [
+        "generic-scopes"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "functionType",
+      "profile": "rule-obligations",
+      "relatedConstructs": [],
+      "relatedProfiles": [],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "typeDynamic",
+      "profile": "rule-obligations",
+      "relatedConstructs": [],
+      "relatedProfiles": [],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "typeFutureOr",
+      "profile": "rule-obligations",
+      "relatedConstructs": [],
+      "relatedProfiles": [],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "typeVoid",
+      "profile": "rule-obligations",
+      "relatedConstructs": [],
+      "relatedProfiles": [],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "voidSoundness",
+      "profile": "rule-obligations",
+      "relatedConstructs": [],
+      "relatedProfiles": [],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "parameterizedTypes",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "NamedType",
+        "NameWithTypeParameters",
+        "TypeArgumentList",
+        "TypeLiteral",
+        "TypeParameter",
+        "TypeParameterList"
+      ],
+      "relatedProfiles": [
+        "generic-scopes",
+        "source",
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "actualTypes",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "NamedType",
+        "NameWithTypeParameters",
+        "TypeArgumentList",
+        "TypeLiteral",
+        "TypeParameter",
+        "TypeParameterList"
+      ],
+      "relatedProfiles": [
+        "generic-scopes",
+        "source",
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "leastUpperBounds",
+      "profile": "rule-obligations",
+      "relatedConstructs": [],
+      "relatedProfiles": [],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "reference",
+      "profile": "document-context",
+      "relatedConstructs": [],
+      "relatedProfiles": [],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "lexicalRules",
+      "profile": "rule-obligations",
+      "relatedConstructs": [],
+      "relatedProfiles": [],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "reservedWords",
+      "profile": "rule-obligations",
+      "relatedConstructs": [],
+      "relatedProfiles": [],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "comments",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "Comment",
+        "CommentReference"
+      ],
+      "relatedProfiles": [
+        "source"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    },
+    {
+      "section": "operatorPrecedence",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "BinaryExpression"
+      ],
+      "relatedProfiles": [
+        "operators"
+      ],
+      "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
+    }
+  ],
+  "features": [
+    {
+      "file": "accepted/2.1/int-literal-as-double-value/feature-specification.md",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "DoubleLiteral"
+      ],
+      "relatedProfiles": [
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify the full accepted feature specification."
+    },
+    {
+      "file": "accepted/2.1/super-mixins/feature-specification.md",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "MixinDeclaration",
+        "MixinOnClause",
+        "WithClause"
+      ],
+      "relatedProfiles": [
+        "dispatch",
+        "source"
+      ],
+      "scope": "Related visitor tests do not qualify the full accepted feature specification."
+    },
+    {
+      "file": "accepted/2.12/abstract-external-fields/feature-specification.md",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "FieldDeclaration",
+        "MethodDeclaration"
+      ],
+      "relatedProfiles": [
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify the full accepted feature specification."
+    },
+    {
+      "file": "accepted/2.12/nnbd/feature-specification.md",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "AsExpression",
+        "DeclaredIdentifier",
+        "IsExpression",
+        "MethodInvocation",
+        "NamedType",
+        "NameWithTypeParameters",
+        "NullLiteral",
+        "PropertyAccess",
+        "TopLevelVariableDeclaration",
+        "TypeArgumentList",
+        "TypeLiteral",
+        "TypeParameter",
+        "TypeParameterList",
+        "VariableDeclaration",
+        "VariableDeclarationList",
+        "VariableDeclarationStatement"
+      ],
+      "relatedProfiles": [
+        "generic-scopes",
+        "heap",
+        "source",
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify the full accepted feature specification."
+    },
+    {
+      "file": "accepted/2.13/nonfunction-type-aliases/feature-specification.md",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "FunctionTypeAlias",
+        "FunctionTypedFormalParameter",
+        "GenericFunctionType",
+        "GenericTypeAlias"
+      ],
+      "relatedProfiles": [
+        "generic-scopes"
+      ],
+      "scope": "Related visitor tests do not qualify the full accepted feature specification."
+    },
+    {
+      "file": "accepted/2.14/small-features-21Q1/feature-specification.md",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "IndexExpression"
+      ],
+      "relatedProfiles": [
+        "operators"
+      ],
+      "scope": "Related visitor tests do not qualify the full accepted feature specification."
+    },
+    {
+      "file": "accepted/2.14/triple-shift-operator/feature-specification.md",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "BinaryExpression"
+      ],
+      "relatedProfiles": [
+        "operators"
+      ],
+      "scope": "Related visitor tests do not qualify the full accepted feature specification."
+    },
+    {
+      "file": "accepted/2.15/constructor-tearoffs/feature-specification.md",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "ConstructorReference",
+        "FunctionReference"
+      ],
+      "relatedProfiles": [
+        "function-values",
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify the full accepted feature specification."
+    },
+    {
+      "file": "accepted/2.17/enhanced-enums/feature-specification.md",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "EnumBody",
+        "EnumConstantArguments",
+        "EnumConstantDeclaration",
+        "EnumDeclaration"
+      ],
+      "relatedProfiles": [
+        "enum",
+        "source"
+      ],
+      "scope": "Related visitor tests do not qualify the full accepted feature specification."
+    },
+    {
+      "file": "accepted/2.17/named-arguments-anywhere/feature-specification.md",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "ArgumentList",
+        "NamedExpression"
+      ],
+      "relatedProfiles": [
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify the full accepted feature specification."
+    },
+    {
+      "file": "accepted/2.17/super-parameters/feature-specification.md",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "SuperFormalParameter"
+      ],
+      "relatedProfiles": [
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify the full accepted feature specification."
+    },
+    {
+      "file": "accepted/2.18/horizontal-inference/feature-specification.md",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "NamedType"
+      ],
+      "relatedProfiles": [
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify the full accepted feature specification."
+    },
+    {
+      "file": "accepted/2.19/unnamed-libraries/feature-specification.md",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "LibraryDirective"
+      ],
+      "relatedProfiles": [
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify the full accepted feature specification."
+    },
+    {
+      "file": "accepted/2.2/set-literals/feature-specification.md",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "MapLiteralEntry",
+        "SetOrMapLiteral"
+      ],
+      "relatedProfiles": [
+        "collections"
+      ],
+      "scope": "Related visitor tests do not qualify the full accepted feature specification."
+    },
+    {
+      "file": "accepted/2.3/control-flow-collections/feature-specification.md",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "ForElement",
+        "IfElement"
+      ],
+      "relatedProfiles": [
+        "collections"
+      ],
+      "scope": "Related visitor tests do not qualify the full accepted feature specification."
+    },
+    {
+      "file": "accepted/2.3/spread-collections/feature-specification.md",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "SpreadElement"
+      ],
+      "relatedProfiles": [
+        "collections"
+      ],
+      "scope": "Related visitor tests do not qualify the full accepted feature specification."
+    },
+    {
+      "file": "accepted/2.3/unified-collections/feature-specification.md",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "ListLiteral",
+        "MapLiteralEntry",
+        "SetOrMapLiteral"
+      ],
+      "relatedProfiles": [
+        "collections"
+      ],
+      "scope": "Related visitor tests do not qualify the full accepted feature specification."
+    },
+    {
+      "file": "accepted/2.5/constant-update-2018/feature-specification.md",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "IntegerLiteral"
+      ],
+      "relatedProfiles": [
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify the full accepted feature specification."
+    },
+    {
+      "file": "accepted/2.5/contravariant-superinterface-2018/feature-specification.md",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "NamedType"
+      ],
+      "relatedProfiles": [
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify the full accepted feature specification."
+    },
+    {
+      "file": "accepted/2.7/static-extension-methods/feature-specification.md",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "ExtensionDeclaration",
+        "ExtensionOnClause",
+        "ExtensionOverride"
+      ],
+      "relatedProfiles": [
+        "source",
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify the full accepted feature specification."
+    },
+    {
+      "file": "accepted/2.8/language-versioning/feature-specification.md",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "Configuration",
+        "DottedName",
+        "ImportDirective",
+        "ImportPrefixReference"
+      ],
+      "relatedProfiles": [
+        "source",
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify the full accepted feature specification."
+    },
+    {
+      "file": "accepted/3.0/class-modifiers/feature-specification.md",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "BlockClassBody",
+        "ClassDeclaration",
+        "EmptyClassBody",
+        "ExtendsClause",
+        "ImplementsClause"
+      ],
+      "relatedProfiles": [
+        "source",
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify the full accepted feature specification."
+    },
+    {
+      "file": "accepted/3.0/patterns/exhaustiveness.md",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "AssignedVariablePattern",
+        "CaseClause",
+        "CastPattern",
+        "ConstantPattern",
+        "DeclaredVariablePattern",
+        "ForEachPartsWithPattern",
+        "ForPartsWithPattern",
+        "GuardedPattern",
+        "ListPattern",
+        "LogicalAndPattern",
+        "LogicalOrPattern",
+        "MapPattern",
+        "MapPatternEntry",
+        "NullAssertPattern",
+        "NullCheckPattern",
+        "ObjectPattern",
+        "ParenthesizedPattern",
+        "PatternAssignment",
+        "PatternField",
+        "PatternFieldName",
+        "PatternVariableDeclaration",
+        "RecordPattern",
+        "RelationalPattern",
+        "RestPatternElement",
+        "WhenClause",
+        "WildcardPattern"
+      ],
+      "relatedProfiles": [
+        "list-patterns",
+        "map-patterns",
+        "pattern-comparisons",
+        "pattern-fields",
+        "pattern-joins",
+        "records",
+        "source",
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify the full accepted feature specification."
+    },
+    {
+      "file": "accepted/3.0/patterns/feature-specification.md",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "AssignedVariablePattern",
+        "CaseClause",
+        "CastPattern",
+        "ConstantPattern",
+        "DeclaredVariablePattern",
+        "ForEachPartsWithPattern",
+        "ForPartsWithPattern",
+        "GuardedPattern",
+        "ListPattern",
+        "LogicalAndPattern",
+        "LogicalOrPattern",
+        "MapPattern",
+        "MapPatternEntry",
+        "NullAssertPattern",
+        "NullCheckPattern",
+        "ObjectPattern",
+        "ParenthesizedPattern",
+        "PatternAssignment",
+        "PatternField",
+        "PatternFieldName",
+        "PatternVariableDeclaration",
+        "RecordPattern",
+        "RelationalPattern",
+        "RestPatternElement",
+        "SwitchCase",
+        "SwitchDefault",
+        "SwitchExpression",
+        "SwitchExpressionCase",
+        "SwitchPatternCase",
+        "SwitchStatement",
+        "WhenClause",
+        "WildcardPattern"
+      ],
+      "relatedProfiles": [
+        "list-patterns",
+        "map-patterns",
+        "pattern-comparisons",
+        "pattern-fields",
+        "pattern-joins",
+        "records",
+        "source",
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify the full accepted feature specification."
+    },
+    {
+      "file": "accepted/3.0/records/feature-specification.md",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "RecordLiteral",
+        "RecordTypeAnnotation",
+        "RecordTypeAnnotationNamedField",
+        "RecordTypeAnnotationNamedFields"
+      ],
+      "relatedProfiles": [
+        "records",
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify the full accepted feature specification."
+    },
+    {
+      "file": "accepted/3.3/extension-types/feature-specification.md",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "ExtensionTypeDeclaration",
+        "RepresentationConstructorName",
+        "RepresentationDeclaration"
+      ],
+      "relatedProfiles": [
+        "source",
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify the full accepted feature specification."
+    },
+    {
+      "file": "accepted/3.6/digit-separators/feature-specification.md",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "DoubleLiteral",
+        "IntegerLiteral"
+      ],
+      "relatedProfiles": [
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify the full accepted feature specification."
+    },
+    {
+      "file": "accepted/3.7/wildcard-variables/feature-specification.md",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "SimpleFormalParameter",
+        "VariableDeclaration",
+        "WildcardPattern"
+      ],
+      "relatedProfiles": [
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify the full accepted feature specification."
+    },
+    {
+      "file": "accepted/future-releases/0323-null-aware-elements/feature-specification.md",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "NullAwareElement"
+      ],
+      "relatedProfiles": [
+        "collections"
+      ],
+      "scope": "Related visitor tests do not qualify the full accepted feature specification."
+    },
+    {
+      "file": "accepted/future-releases/async-star-behavior/feature-specification.md",
+      "profile": "rule-obligations",
+      "relatedConstructs": [
+        "YieldStatement"
+      ],
+      "relatedProfiles": [
+        "syntax"
+      ],
+      "scope": "Related visitor tests do not qualify the full accepted feature specification."
+    }
+  ]
+}

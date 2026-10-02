@@ -1696,6 +1696,18 @@ sections/features/cases, duplicate cases, mixed revisions/tree IDs and stale
 specification hashes. Gate 2 stays open for remaining language-rule rows,
 construct-specific stage tests and executable traces.
 
+The stage matrix now accounts for all 175 visitors, 195 sections and thirty
+feature documents, linking 47 named tests through hash-checked evidence. Each
+profile has exporter, lowering, resolution, CFG, value-flow, negative and
+interaction cells. Selected graph assertions and bounded native cases have
+separate scopes; generic declaration/bound checks remain structural. Specification
+sections and complete feature rules retain unqualified obligations even when
+related visitor profiles have tested cells. Fourteen rejection controls cover
+stale evidence, missing rows/stages, mixed pins and unsupported promotions. The
+full 119-test native suite, analysis, formatting and the matrix verifier pass.
+This supplies explicit stage accounting, not complete-rule qualification or an
+execution certificate for every linked Scala test.
+
 
 Validation passes the 119-test native suite and final focused inventory check,
 analysis/formatting and thirteen source-verifier rejection checks. Full cached

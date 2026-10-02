@@ -260,8 +260,11 @@ pinned formal/feature sources and candidate SDK cases. The [source index](confor
 accounts for 195 base sections, thirty accepted feature documents and all 4,172
 pinned SDK language test candidates. Of 76 unmapped base sections, eight are
 document context and 68 retain semantic-rule obligations. Candidates are unreviewed/unexecuted, and existing
-per-stage semantic qualifications are unchanged. The complete language-rule
-matrix and broader executable traces remain unfinished.
+per-stage semantic qualifications are unchanged. The [qualification matrix](conformance/qualification-matrix.json)
+now assigns all visitor, base-section and feature-document rows seven explicit
+stage cells, with 47 named test links and stale-evidence checks. Shared profiles
+describe selected assertions; complete specification rules retain unqualified
+obligations. Rule-specific test mapping and broader executable traces remain unfinished.
 
 - [ ] Inventory Dart 3.9.2 constructs from the language specification, analyzer
       AST surface and pinned SDK language tests. Do not infer coverage solely

@@ -91,6 +91,36 @@ void main() {
           ]),
         );
       }
+      final matrix =
+          jsonDecode(
+                File(
+                  '../conformance/qualification-matrix.json',
+                ).readAsStringSync(),
+              )
+              as Map;
+      expect(
+        (matrix['visitors'] as List)
+            .map((row) => (row as Map)['construct'])
+            .toSet(),
+        constructs,
+      );
+      expect(
+        (matrix['rules'] as List).map((row) => (row as Map)['section']).toSet(),
+        sections.toSet(),
+      );
+      expect(
+        (matrix['features'] as List).map((row) => (row as Map)['file']).toSet(),
+        features,
+      );
+      final stages = matrix['stages'] as List;
+      final profiles = matrix['profiles'] as Map;
+      for (final profile in profiles.values.cast<Map>()) {
+        expect(profile.keys.toSet(), stages.toSet());
+        for (final cell in profile.values.cast<Map>()) {
+          expect(matrix['statuses'] as List, contains(cell['status']));
+          expect(cell['obligation'], isNotEmpty);
+        }
+      }
       final gaps = (inventory['specificationGaps'] as List).cast<Map>();
       expect(
         gaps.map((gap) => gap['section']).toSet(),

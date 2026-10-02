@@ -24,10 +24,22 @@ standalone constructs, while 68 semantic-rule sections remain unqualified. Exist
 qualifications are unchanged. The source inventory does not close Gate 2's
 complete language-rule matrix or executable-oracle obligations.
 
+[qualification-matrix.json](qualification-matrix.json) assigns seven stage cells
+to all 175 visitors, 195 base sections and thirty feature documents. Shared visitor
+profiles link 47 named graph, exporter and native tests, with file hashes and
+explicit assertion scopes. `tested-conservative` describes those selected tests;
+it does not qualify every visitor using the profile. Generic declaration/bound
+checks remain `structural-only`, and untested CFG cells remain `unqualified`.
+Specification sections and feature documents retain complete-rule obligations;
+their related visitor links do not imply complete rule coverage. The matrix is
+declared evidence, not an execution report or a release qualification.
+
 Check committed references without network access:
 
 ```sh
 python3 joern-cli/frontends/dartsrc2cpg/scripts/verify_conformance_sources.py
+python3 joern-cli/frontends/dartsrc2cpg/scripts/verify_qualification_matrix.py
+python3 joern-cli/frontends/dartsrc2cpg/scripts/test_qualification_matrix.py
 ```
 
 Fetch missing immutable evidence under `agents/` and verify the full pinned SDK
@@ -39,6 +51,8 @@ python3 joern-cli/frontends/dartsrc2cpg/scripts/verify_conformance_sources.py \
 ```
 
 The verifier checks cached content rather than silently replacing mismatches.
+The matrix verifier rejects stale test files, missing or ambiguous test selectors,
+missing rows/stages, tests assigned to the wrong stage and unsupported promotions.
 The native inventory test also checks every visitor's known references and keeps
 outside-scope visitors disabled. Neither check promotes a candidate into runtime
 or graph qualification.
