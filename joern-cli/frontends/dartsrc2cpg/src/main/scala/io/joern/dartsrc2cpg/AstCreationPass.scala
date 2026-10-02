@@ -1051,16 +1051,16 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
           )
         case "ParenthesizedPattern" => pattern(child(syntax, "pattern"), value, parent)
         case "CastPattern"          =>
-          val typ = child(syntax, "type")
-          saved(
-            syntax,
+          val typ    = child(syntax, "type")
+          val result =
             operator(syntax, Operators.cast, Seq(value(), Ast(NewTypeRef().code(code(typ)).typeFullName(tpe(typ)))))
-          )(ref => pattern(child(syntax, "pattern"), ref, parent))
+          result.root.foreach(erasedReceiver(_, string(syntax, "erasedTypeId")))
+          saved(syntax, result)(ref => pattern(child(syntax, "pattern"), ref, parent))
         case "NullCheckPattern"  => and(Seq(nonNull(syntax, value()), pattern(child(syntax, "pattern"), value, parent)))
         case "NullAssertPattern" =>
-          saved(syntax, operator(syntax, "<operator>.notNullAssert", Seq(value())))(ref =>
-            pattern(child(syntax, "pattern"), ref, parent)
-          )
+          val result = operator(syntax, "<operator>.notNullAssert", Seq(value()))
+          result.root.foreach(erasedReceiver(_, string(syntax, "erasedTypeId")))
+          saved(syntax, result)(ref => pattern(child(syntax, "pattern"), ref, parent))
         case "RecordPattern" | "ObjectPattern" =>
           val shape    = operator(syntax, "<operator>.patternShape", Seq(value(), literal(syntax, code(syntax))))
           var position = 0

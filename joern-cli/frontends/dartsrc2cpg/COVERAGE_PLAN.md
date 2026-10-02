@@ -55,7 +55,9 @@ keys, nested receivers, failed guards and generic nullable/nonnullable execution
 checks. Map index calls now retain instantiated nullable results before child
 matching, including cached wrapper views and caller identities. Object-pattern
 requirements intersect known receiver bounds rather than replacing narrower
-static/representation constraints. An accepted own-operator extension map triggers
+static/representation constraints. Cast and null-assertion results now retain
+successful scalar, generic, record/function and instantiated wrapper identities;
+saved/cache uses preserve representation constraints. An accepted own-operator extension map triggers
 a pinned compiler crash; separate structural/compiler controls record that
 disagreement without an execution claim. Comparison invocations now share constant arguments and normalized equality
 results within a match, while retaining constant/relational receiver direction.
@@ -225,8 +227,8 @@ stock paths and 117 modeled paths with unchanged endpoint outcomes. The
 in the three distinct Shelf/YAML paths, with same-budget positive controls for
 both isolation queries. Eight modeled negative searches elsewhere remain
 inconclusive. Additional sequences are not necessarily new semantic route families.
-The [analyzer review](corpus/analyzer-alternative-review.json) classifies 360
-transitions across 14 distinct paths, retaining readonly argument-output,
+The [analyzer review](corpus/analyzer-alternative-review.json) classifies 535
+transitions across 17 distinct paths, retaining readonly argument-output,
 receiver/field, external-read and caller detours as approximations rather than
 exact runtime provenance. Direct uint32 high-byte binding and fork offset
 assignment now have mixed-byte/flush-boundary and shared-byte/independent-offset
@@ -237,7 +239,7 @@ forwarding, readonly output detours, substring argument effects and callback
 approximations have separate dispositions; limited negative searches remain
 inconclusive.
 The [LocalSend/Saber review](corpus/applications-alternative-review.json)
-classifies 634 transitions across 51 distinct paths for all twenty-two queries.
+classifies 675 transitions across 52 distinct paths for all twenty-two queries.
 Certificate/callback, readonly caller-output, MapEntry/collection and worker
 receiver detours retain their approximation status. Native controls exercise the
 pinned URI helper class, filename extension and Base64 codec; they do not execute
@@ -250,9 +252,9 @@ have pinned execution controls. Both args negative searches retain call-depth
 limits; no exhaustive absence claim follows from passing endpoint controls.
 
 The [path/async/http_parser review](corpus/package-flows-alternative-review.json)
-classifies all 1,113 transitions in 41 distinct paths for its fifteen queries.
-The complete audit retains 248 selected paths sharing 146 distinct routes and
-2,512 classified transitions across all eighty queries. Endpoint identities,
+classifies all 1,012 transitions in 40 distinct paths for its fifteen queries.
+The complete audit retains 248 selected paths sharing 149 distinct routes and
+2,627 classified transitions across all eighty queries. Endpoint identities,
 caller re-entry, size/control detours and external effects retain their limitations;
 eight modeled negatives and omitted alternatives remain unqualified.
 
@@ -298,7 +300,7 @@ remain references; separately adapted manifest cases have explicit valid/diagnos
 classifications and bounded execution tests. Existing
 per-stage semantic qualifications are unchanged. The [qualification matrix](conformance/qualification-matrix.json)
 now assigns all visitor, base-section and feature-document rows seven explicit
-stage cells, with 104 named test links and stale-evidence checks. Shared profiles
+stage cells, with 111 named test links and stale-evidence checks. Shared profiles
 describe selected assertions; complete specification rules retain unqualified
 obligations. Rule-specific test mapping and broader executable traces remain unfinished.
 The asynchronous for-in rule now has a partial cancellation contract, with native

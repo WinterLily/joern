@@ -2442,3 +2442,89 @@ current type-view fixes do not close complete pattern CFG/implicit payloads,
 checked generic/receiver environments, representation storage aliasing,
 structured/function results, omitted alternatives or limited negative searches.
 All Gates 1–6 remain open.
+
+## Successful pattern refinement results
+
+Exporter 0.3.27 records the inner pattern's successful matched type for cast and
+null-assertion patterns. Lowering preserves its result identity and known
+instantiated wrapper erasure through saved values and cached getter extraction.
+Previously both operations produced ANY: a View<Store> cast or assertion then
+expanded its Contract getter union to Store and unrelated OtherStore. The fixed
+calls retain View and Store constraints; bounded View<S> results retain S and its
+Store bound. Plain class, scalar, scoped generic, record and function identities
+remain separate from the enclosing input type, without guessed class erasures.
+Both new graph regressions fail against the previous implementation, and nine
+focused graph checks pass after the fix.
+
+Four native tests exercise independent values, wrong-type/null TypeError before
+any getter, generic String/String? casts, bounded wrapper values, true/false
+guard alternatives with one getter read, record values and selected function
+identity/invocation. The exporter regression checks the original scoped generic
+owner and wrapper bounds. These observations do not qualify arbitrary runtime
+generic checks, callable resolution, implicit failure payloads or heap effects.
+
+The full opt-in native suite passes 170 tests, including VM/dart2js controls;
+Dart analysis reports no issues. The forced frontend suite passes 176 tests
+across twenty suites with eight opt-in cancellations. All seven packages,
+three applications and two holdouts pass, alongside four staged CLI and
+fourteen console checks. Their twelve graphs share analysis-source SHA-256
+`22d474c7d4ac73cf90fcce403c1cc72bce73dd0720c1336f9be99d4158f29692`
+over 414 files. Method/call counts, default-adapter observations and every prior
+iteration, map/list-pattern, field and representation observation are unchanged.
+The [refinement review](pattern-refinement-review.json) compares independent
+0.3.26/0.3.27 exports of the same pinned sources. Its three corpus refinements
+previously lacked result metadata: analyzer's LibraryElementImpl cast and Sass's
+two String null assertions. No corpus refinement has a wrapper erasure; the
+reduced fixture supplies wrapper/generic/record/function interaction evidence.
+These source observations do not count executed checks, receivers, callbacks or
+storage instances. Fresh storage/local-exit reviews retain six paths/123
+transitions and eleven paths/199 transitions. Formatting and compilation pass.
+
+Two-witness/two-round audits complete in 194165/49291/32174 ms for packages,
+applications and holdout, with sampled family RSS 5477476/4770204/1840132 KiB.
+Four-witness/two-round audits complete in 406395/50292/34189 ms, with RSS
+6244508/5065808/2257788 KiB. All categories pass their 600000 ms budgets with
+8 GiB/four-processor workers. RSS is sampled once per second over the process
+family, not an exact peak or one process's heap.
+
+Fresh four-witness dispositions cover 248 selected paths, 149 distinct routes
+and 2,627 transitions across eighty queries. Analyzer retains seventeen distinct
+paths/535 transitions, applications 52/675, Sass 23/346 and package flows
+40/1,012. Two-witness forwarding retains seventeen distinct paths/553
+transitions. Stock/model endpoint outcomes remain 78/80 and 80/80, with
+120/131 and 109/117 visible/detailed paths, 42/41 limited queries and seven/eight
+inconclusive negatives. Two-witness summaries retain 86/89 and 81/83 paths with
+43/42 limited queries. MediaType retains two paths/six transitions. Both summaries
+reproduce byte-for-byte, and all 87 review rejection controls pass against the
+fresh proofs and resource records.
+
+Twenty-one changed selections have separate source-grounded dispositions.
+Analyzer stock variants follow metadata.annotations through readonly length
+and parameter-output detours; one follows cached _length then bc/_buffer receiver
+demands, the other offset argument arithmetic. The implicit metadata getter's
+field declaration does not establish runtime initialization of the selected
+fragment. Modeled variants follow the element getter's _element return through
+bound.positionalFields and record serialization, with NodeList/BoolList length
+detours in either order. All length/iterator candidate unions remain explicit.
+LocalSend's changed modeled route crosses MapEntry value/key arguments, returns
+through callback METHOD_REF/collection feedback, then re-enters via element.value
+and extension getter. External substring bound-to-receiver effects and saved
+interpolation values retain their conservative scope.
+
+HTTP stock copy order is receiver 0 -> skipCount 4 -> computed end 2 -> bytes 3;
+stock buffer order is 3 -> 2 -> 0, with footer bounds 1 -> 2 -> 0. Two-witness
+buffer re-entry selects end then bytes; four-witness selects bytes twice.
+Four-witness modeled copies use direct byte slot 3 -> receiver 0 effects.
+Shorter variants omit an allocation or CR/LF saved alias while retaining hidden
+receiver evidence. Exact slots, flags, demands and initial/later call frames
+remain recorded. These readonly, range, field, external, dispatch and caller
+approximations do not establish actual receivers, callback delivery, branch
+feasibility, repeated-call order, allocation identity or precise byte/element
+provenance. No causal claim ties these route selections to refinement metadata.
+
+The qualification matrix links 111 named tests. Six matrix tests/sixteen
+rejection controls, thirteen source-index rejection controls, full cached source
+verification and two upstream-case tests/nine rejection controls pass. Complete
+pattern CFG/implicit payloads, checked generic/receiver environments, callable
+target propagation, representation storage aliasing, omitted alternatives and
+limited negative searches remain unqualified. All Gates 1–6 remain open.

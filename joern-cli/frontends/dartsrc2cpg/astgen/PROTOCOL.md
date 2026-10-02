@@ -7,7 +7,7 @@ unsupported protocol versions, and unsupported analyzer/exporter versions before
 constructing a graph. The Scala consumer validates the protocol, analyzer, SDK and offset encoding
 before constructing a graph. Exporter 0.3 adds modern-language fields to protocol 1.
 
-The header declares `protocolVersion` (1), `exporterVersion` (0.3.26),
+The header declares `protocolVersion` (1), `exporterVersion` (0.3.27),
 `analyzerVersion` (8.4.1), `sdkVersion` (3.9.2), and `offsetEncoding` (`utf-16`).
 No timestamps or checkout root are emitted. The exporter builds records one file
 at a time; the analyzer may retain project state internally.
@@ -333,3 +333,12 @@ receivers use the required map view for results and their representation for
 dispatch. The existing erased `valueType` still supplies the `null is V` presence
 test, including nullable wrapper representations. These facts do not supply checked
 runtime generic environments or precise map/storage identities.
+
+Exporter 0.3.27 adds `type`, `typeId` and optional `erasedTypeId` to cast and
+null-assertion patterns. These describe the inner pattern's successful matched
+value after the cast or null assertion, separately from the enclosing input
+and generic declaration identities. Instantiated wrapper erasures survive
+saved results and per-use cached getter extraction. Record/function result
+identities do not acquire guessed class erasures. This metadata does not
+establish runtime generic checks, implicit failure payloads or complete pattern
+CFG/value-flow behavior.

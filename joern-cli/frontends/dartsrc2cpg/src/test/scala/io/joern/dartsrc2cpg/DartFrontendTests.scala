@@ -2844,6 +2844,74 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         cpg.call.nameExact("<operator>.isInitialized").size shouldBe 2
       }
     }
+    "retain pattern cast and null-assertion result identities" in {
+      fixture(
+        Files.readString(frontend.resolve("src/test/resources/semantics/pattern_refinement_views.dart")),
+        "void main() {}",
+        dataflow = false,
+        extraFiles = Map(
+          "lib/pattern_receiver_intersection.dart" -> Files
+            .readString(frontend.resolve("src/test/resources/semantics/pattern_receiver_intersection.dart"))
+        )
+      ) { (cpg, _) =>
+        cpg.unknown.size shouldBe 0
+        for (
+          name <- Seq(
+            "plainCast",
+            "plainAssert",
+            "scalarCast",
+            "scalarAssert",
+            "genericCast",
+            "genericAssert",
+            "recordCast",
+            "functionCast"
+          )
+        ) {
+          val method  = cpg.method.nameExact(name).head
+          val results = method.ast.isCall.nameExact("<operator>.cast", "<operator>.notNullAssert").l
+          results.size shouldBe 1
+          val expected =
+            if (name.startsWith("plain")) cpg.typeDecl.nameExact("Store").fullName.head
+            else method.methodReturn.typeFullName
+          results.head.typeFullName shouldBe expected
+          results.head.tag.nameExact(VirtualCallPass.ReceiverErasureTag).size shouldBe 0
+          method.ast.isLocal.name("<tmp>.*").typeFullName.l should not contain "ANY"
+        }
+        for (name <- Seq("genericCast", "genericAssert")) {
+          cpg.method.nameExact(name).methodReturn.typeFullName.head should endWith(":TYPE_PARAMETER:T")
+        }
+      }
+    }
+    "preserve refined wrapper constraints through cached pattern getters" in {
+      fixture(
+        Files.readString(frontend.resolve("src/test/resources/semantics/pattern_refinement_views.dart")),
+        "void main() {}",
+        dataflow = false,
+        extraFiles = Map(
+          "lib/pattern_receiver_intersection.dart" -> Files
+            .readString(frontend.resolve("src/test/resources/semantics/pattern_receiver_intersection.dart"))
+        )
+      ) { (cpg, _) =>
+        for (name <- Seq("casted", "asserted", "genericWrapperCast", "boundedAssert", "cachedCast", "cachedAssert")) {
+          val method  = cpg.method.nameExact(name).head
+          val results = method.ast.isCall.nameExact("<operator>.cast", "<operator>.notNullAssert").l
+          results.size shouldBe (if (name.startsWith("cached")) 2 else 1)
+          results.foreach { result =>
+            result.typeFullName should endWith(":EXTENSION_TYPE:View")
+            val erasure = result.tag.nameExact(VirtualCallPass.ReceiverErasureTag).value.head
+            erasure should endWith(
+              if (name == "genericWrapperCast" || name == "boundedAssert") ":TYPE_PARAMETER:S" else ":CLASS:Store"
+            )
+          }
+          val calls = method.ast.isCall.nameExact("value").l
+          calls.size shouldBe results.size
+          calls.foreach { call =>
+            call.callee.isExternal(false).astParentFullName.l.map(_.split(":").last).toSet shouldBe Set("Store")
+            call.argument(0).tag.nameExact(VirtualCallPass.ReceiverErasureTag).value.size shouldBe 1
+          }
+        }
+      }
+    }
     "retain map index instantiations separately from matched child types" in {
       fixture(
         Files.readString(frontend.resolve("src/test/resources/semantics/map_pattern_results.dart")),
@@ -3812,7 +3880,7 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         val coverage = ujson.read(Files.readString(report))
         coverage("includedFiles").num shouldBe 0
         coverage("stringConversionOrder").str shouldBe "after-expression-evaluation"
-        coverage("exporter")("exporterVersion").str shouldBe "0.3.26"
+        coverage("exporter")("exporterVersion").str shouldBe "0.3.27"
         coverage("exporter")("sdkVersion").str shouldBe "3.9.2"
         coverage("exporter")("analyzerVersion").str shouldBe "8.4.1"
         Files.writeString(dir.resolve("excluded.dart"), "void excluded() {}")
@@ -3832,7 +3900,7 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         "offsetEncoding"  -> "utf-16",
         "analyzerVersion" -> "8.4.1",
         "sdkVersion"      -> "3.9.2",
-        "exporterVersion" -> "0.3.26"
+        "exporterVersion" -> "0.3.27"
       )
       intercept[IllegalArgumentException](ExportProtocol.units(Seq(valid)))
       intercept[IllegalArgumentException](

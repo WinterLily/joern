@@ -35,6 +35,89 @@ void main() {
 
   tearDown(() => project.deleteSync(recursive: true));
 
+  test(
+    'pattern refinements retain successful result types and erasures',
+    () async {
+      for (final name in [
+        'pattern_refinement_views.dart',
+        'pattern_receiver_intersection.dart',
+      ]) {
+        write(
+          name,
+          File('../src/test/resources/semantics/$name').readAsStringSync(),
+        );
+      }
+      final unit = units(
+        await export(),
+      ).singleWhere((u) => u['file'] == 'pattern_refinement_views.dart');
+      expect(unit['status'], 'resolved');
+      final nodes = entries(unit, 'nodes');
+      final symbols = {
+        for (final symbol in entries(unit, 'symbols')) symbol['id']: symbol,
+      };
+      List<Map<String, Object?>> refinements(String name) {
+        final function = nodes.singleWhere(
+          (n) => n['kind'] == 'FunctionDeclaration' && n['name'] == name,
+        );
+        final start = function['offset'] as int;
+        final end = start + (function['length'] as int);
+        return nodes
+            .where(
+              (n) =>
+                  ['CastPattern', 'NullAssertPattern'].contains(n['kind']) &&
+                  (n['offset'] as int) >= start &&
+                  (n['offset'] as int) < end,
+            )
+            .toList();
+      }
+
+      for (final name in ['casted', 'asserted', 'cachedCast', 'cachedAssert']) {
+        final results = refinements(name);
+        expect(results, hasLength(name.startsWith('cached') ? 2 : 1));
+        for (final result in results) {
+          expect(result['type'], 'View<Store>');
+          expect(symbols[result['typeId']]!['name'], 'View');
+          expect(symbols[result['erasedTypeId']]!['name'], 'Store');
+        }
+      }
+      for (final name in ['genericWrapperCast', 'boundedAssert']) {
+        final result = refinements(name).single;
+        expect(result['type'], 'View<S>');
+        final parameter = symbols[result['erasedTypeId']]!;
+        expect(parameter['name'], 'S');
+        expect(symbols[parameter['owner']]!['name'], name);
+        expect(symbols[parameter['boundTypeId']]!['name'], 'Store');
+      }
+      for (final (name, type) in [
+        ('plainCast', 'Store'),
+        ('plainAssert', 'Store'),
+        ('scalarCast', 'String'),
+        ('scalarAssert', 'String'),
+      ]) {
+        final result = refinements(name).single;
+        expect(result['type'], type);
+        expect(symbols[result['typeId']]!['name'], type);
+        expect(result.containsKey('erasedTypeId'), isFalse);
+      }
+      for (final name in ['genericCast', 'genericAssert']) {
+        final result = refinements(name).single;
+        expect(result['type'], 'T');
+        final parameter = symbols[result['typeId']]!;
+        expect(parameter['name'], 'T');
+        expect(symbols[parameter['owner']]!['name'], name);
+      }
+      for (final (name, type) in [
+        ('recordCast', '(String, int)'),
+        ('functionCast', 'String Function(String)'),
+      ]) {
+        final result = refinements(name).single;
+        expect(result['type'], type);
+        expect(result['typeId'], type);
+        expect(result.containsKey('erasedTypeId'), isFalse);
+      }
+    },
+  );
+
   test('synchronous iteration exports substituted member targets', () async {
     write(
       'main.dart',

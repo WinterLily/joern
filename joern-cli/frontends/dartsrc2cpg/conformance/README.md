@@ -26,7 +26,7 @@ complete language-rule matrix or executable-oracle obligations.
 
 [qualification-matrix.json](qualification-matrix.json) assigns seven stage cells
 to all 175 visitors, 195 base sections and thirty feature documents. Shared visitor
-profiles and partial case contracts link 104 named graph, exporter and native tests, with file hashes and
+profiles and partial case contracts link 111 named graph, exporter and native tests, with file hashes and
 explicit assertion scopes. `tested-conservative` describes those selected tests;
 it does not qualify every visitor using the profile. Generic declaration/bound
 checks remain `structural-only`, and untested CFG cells remain `unqualified`.
@@ -234,3 +234,12 @@ The `extension-map-compiler-disagreement` case is structural evidence only:
 analyzer accepts the own-operator extension map and retains representation index
 metadata, while the pinned compiler crashes and emits no kernel artifact.
 Its exporter and compiler checks do not qualify it as executable.
+
+
+The `pattern-refinement-result-views` partial case preserves successful cast and
+null-assertion types, scoped parameters and instantiated wrapper erasures through
+saved values and cached getter extraction. Graph controls exclude an unrelated
+observed getter; native controls check independent values, failures before getters,
+nullable generic casts and record/function identity. These selected checks do not
+qualify implicit exception payloads, complete pattern CFG, checked runtime type
+environments or callable/heap effects.

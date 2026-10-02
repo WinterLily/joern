@@ -644,3 +644,14 @@ complete CFG, payload, heap and runtime type environments remain unqualified.
 Analyzer accepts the reduced outer extension map with its own index operator,
 while the pinned VM compiler crashes; separate exporter/compiler controls record
 that disagreement without qualifying it as executable.
+
+
+Cast and null-assertion patterns retain the inner pattern's successful static
+result, separately from the enclosing input type. Saved results keep scoped
+parameters and instantiated wrapper erasures, so a View<Store> refinement does
+not widen its subsequent Contract getter to unrelated OtherStore. Per-use
+cached extractions keep those constraints. Scalar, record and function results
+retain their identities without guessed class erasures. Bounded VM controls
+check invalid casts/null failures before getters, nullable generic casts and
+record/function values; implicit failure payloads, runtime generic environments,
+callable/heap effects and complete pattern CFG remain unqualified.

@@ -23,7 +23,7 @@ import 'package:analyzer/source/line_info.dart';
 import 'package:path/path.dart' as p;
 
 const protocolVersion = 1;
-const exporterVersion = '0.3.26';
+const exporterVersion = '0.3.27';
 const analyzerVersion = '8.4.1';
 const supportedSdkVersion = '3.9.2';
 
@@ -658,6 +658,14 @@ class _UnitEncoder {
                 .toString(),
           )
           .toList();
+    }
+
+    void patternResult(DartPattern pattern) {
+      final type = pattern.matchedValueType;
+      record['type'] = type?.getDisplayString();
+      record['typeId'] = typeId(type);
+      final erased = erasedTypeId(type);
+      if (erased != null) record['erasedTypeId'] = erased;
     }
 
     void patternMembers(
@@ -1391,6 +1399,7 @@ class _UnitEncoder {
         child('pattern', ast.pattern);
       case CastPattern():
         kind = 'CastPattern';
+        patternResult(ast.pattern);
         child('pattern', ast.pattern);
         child('type', ast.type);
       case NullCheckPattern():
@@ -1398,6 +1407,7 @@ class _UnitEncoder {
         child('pattern', ast.pattern);
       case NullAssertPattern():
         kind = 'NullAssertPattern';
+        patternResult(ast.pattern);
         child('pattern', ast.pattern);
       case NullAwareElement():
         kind = 'NullAwareElement';

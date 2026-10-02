@@ -1,0 +1,371 @@
+{
+  "schemaVersion": 1,
+  "previousBaseCommit": "b3a9b4f72",
+  "previousAnalysisSources": {
+    "algorithm": "sha256-path-nul-content-nul",
+    "sha256": "d6e307a96b67cfc6d04d4067e6d3878a120983cc5cae648819677f956ede2d3b",
+    "files": 413,
+    "roots": [
+      "joern-cli/frontends/dartsrc2cpg/src",
+      "joern-cli/frontends/dartsrc2cpg/astgen/lib",
+      "joern-cli/frontends/dartsrc2cpg/astgen/bin",
+      "joern-cli/frontends/x2cpg/src/main",
+      "dataflowengineoss/src/main",
+      "semanticcpg/src/main",
+      "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.lock",
+      "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.yaml",
+      "joern-cli/frontends/dartsrc2cpg/build.sbt",
+      "joern-cli/frontends/x2cpg/build.sbt",
+      "joern-cli/build.sbt",
+      "dataflowengineoss/build.sbt",
+      "semanticcpg/build.sbt",
+      "build.sbt",
+      "project/Versions.scala",
+      "project/Projects.scala"
+    ]
+  },
+  "analysisSources": {
+    "algorithm": "sha256-path-nul-content-nul",
+    "sha256": "22d474c7d4ac73cf90fcce403c1cc72bce73dd0720c1336f9be99d4158f29692",
+    "files": 414,
+    "roots": [
+      "joern-cli/frontends/dartsrc2cpg/src",
+      "joern-cli/frontends/dartsrc2cpg/astgen/lib",
+      "joern-cli/frontends/dartsrc2cpg/astgen/bin",
+      "joern-cli/frontends/x2cpg/src/main",
+      "dataflowengineoss/src/main",
+      "semanticcpg/src/main",
+      "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.lock",
+      "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.yaml",
+      "joern-cli/frontends/dartsrc2cpg/build.sbt",
+      "joern-cli/frontends/x2cpg/build.sbt",
+      "joern-cli/build.sbt",
+      "dataflowengineoss/build.sbt",
+      "semanticcpg/build.sbt",
+      "build.sbt",
+      "project/Versions.scala",
+      "project/Projects.scala"
+    ]
+  },
+  "exporterVersion": "0.3.27",
+  "scope": "Successful cast and null-assertion pattern result identities on twelve pinned graphs, with reduced wrapper/generic/structured controls. Not complete pattern, type environment, CFG/payload, heap or release qualification.",
+  "reducedRegressions": {
+    "file": "src/test/resources/semantics/pattern_refinement_views.dart",
+    "sha256": "42f5cf360ba9be18f4214ab86b3ba3947a168b845243a7f285368d15b9ebe3a2",
+    "dependencies": [
+      {
+        "file": "src/test/resources/semantics/pattern_receiver_intersection.dart",
+        "sha256": "277fb612872635c232bd224d45c7c195c5f8c059d6d232f85b87224565164cc1"
+      }
+    ],
+    "exporter": "pattern refinements retain successful result types and erasures",
+    "graphs": [
+      "retain pattern cast and null-assertion result identities",
+      "preserve refined wrapper constraints through cached pattern getters"
+    ],
+    "native": "astgen/test/pattern_refinement_views_test.dart",
+    "nativeTests": 4,
+    "before": "Refinement calls and saved values have ANY; View<Store> casts and assertions lose representation constraints and broaden the following Contract getter union to Store and OtherStore.",
+    "after": "Inner successful matched types supply scalar, scoped generic, record and function identities. Instantiated View<Store>/View<S> erasures survive saved/cached receiver uses and exclude unrelated observed getters.",
+    "execution": "Independent values and guard booleans, generic String/String? and bounded wrapper values, wrong-type/null TypeError before getters, record values and selected function identity/invocation."
+  },
+  "projects": [
+    {
+      "project": "path-1.9.1",
+      "category": "packages",
+      "casts": 0,
+      "nullAssertions": 0,
+      "withResultType": 0,
+      "withWrapperErasure": 0,
+      "beforeWithResultType": 0,
+      "methods": 236,
+      "calls": 2026,
+      "defaultArguments": {
+        "adaptedCalls": 0,
+        "targetAdapters": 0,
+        "externalTargetAdapters": 0,
+        "adapterLinks": 0
+      },
+      "observations": [],
+      "priorObservationsSha256": "0b670f63d2bbdf1f53edbd461d5698268fe386f56872b56b8582294da70357f1"
+    },
+    {
+      "project": "collection-1.19.1",
+      "category": "packages",
+      "casts": 0,
+      "nullAssertions": 0,
+      "withResultType": 0,
+      "withWrapperErasure": 0,
+      "beforeWithResultType": 0,
+      "methods": 760,
+      "calls": 4610,
+      "defaultArguments": {
+        "adaptedCalls": 0,
+        "targetAdapters": 0,
+        "externalTargetAdapters": 0,
+        "adapterLinks": 0
+      },
+      "observations": [],
+      "priorObservationsSha256": "84fcc01003118fc26b83585c8d8ab063e5e380179ed6167f27d3c12f8e1431f0"
+    },
+    {
+      "project": "meta-1.17.0",
+      "category": "packages",
+      "casts": 0,
+      "nullAssertions": 0,
+      "withResultType": 0,
+      "withWrapperErasure": 0,
+      "beforeWithResultType": 0,
+      "methods": 42,
+      "calls": 327,
+      "defaultArguments": {
+        "adaptedCalls": 0,
+        "targetAdapters": 0,
+        "externalTargetAdapters": 0,
+        "adapterLinks": 0
+      },
+      "observations": [],
+      "priorObservationsSha256": "5a6e9e9b4a0e97319a5441ee4f8134eed8671bb175c61d7b86c029775b3569c6"
+    },
+    {
+      "project": "args-2.7.0",
+      "category": "packages",
+      "casts": 0,
+      "nullAssertions": 0,
+      "withResultType": 0,
+      "withWrapperErasure": 0,
+      "beforeWithResultType": 0,
+      "methods": 219,
+      "calls": 2290,
+      "defaultArguments": {
+        "adaptedCalls": 0,
+        "targetAdapters": 0,
+        "externalTargetAdapters": 0,
+        "adapterLinks": 0
+      },
+      "observations": [],
+      "priorObservationsSha256": "54fd7d2b1ec0bcef7c20d8687ca0272911178863ca81d5a3965dda9656caea8d"
+    },
+    {
+      "project": "async-2.13.0",
+      "category": "packages",
+      "casts": 0,
+      "nullAssertions": 0,
+      "withResultType": 0,
+      "withWrapperErasure": 0,
+      "beforeWithResultType": 0,
+      "methods": 700,
+      "calls": 3422,
+      "defaultArguments": {
+        "adaptedCalls": 0,
+        "targetAdapters": 0,
+        "externalTargetAdapters": 0,
+        "adapterLinks": 0
+      },
+      "observations": [],
+      "priorObservationsSha256": "c3deb14235d010b36f380aceb19016c180fa6331cefadee8426e5cbccd05f916"
+    },
+    {
+      "project": "http_parser-4.1.2",
+      "category": "packages",
+      "casts": 0,
+      "nullAssertions": 0,
+      "withResultType": 0,
+      "withWrapperErasure": 0,
+      "beforeWithResultType": 0,
+      "methods": 91,
+      "calls": 1135,
+      "defaultArguments": {
+        "adaptedCalls": 0,
+        "targetAdapters": 0,
+        "externalTargetAdapters": 0,
+        "adapterLinks": 0
+      },
+      "observations": [],
+      "priorObservationsSha256": "24181d7cd4468fd50ed434ceb731670dabe7f5218e7345b43f313f364c9dc952"
+    },
+    {
+      "project": "analyzer-8.4.1",
+      "category": "packages",
+      "casts": 1,
+      "nullAssertions": 0,
+      "withResultType": 1,
+      "withWrapperErasure": 0,
+      "beforeWithResultType": 0,
+      "methods": 30363,
+      "calls": 227637,
+      "defaultArguments": {
+        "adaptedCalls": 182,
+        "targetAdapters": 1966,
+        "externalTargetAdapters": 0,
+        "adapterLinks": 2006
+      },
+      "observations": [
+        {
+          "file": "src/fine/requirements.dart",
+          "sourceSha256": "4d8b0196fea117310b8a47441b76b50cdf2374909b470796b295bad4bdd14712",
+          "line": 2461,
+          "column": 12,
+          "source": "var libraryElement as LibraryElementImpl",
+          "kind": "CastPattern",
+          "type": "LibraryElementImpl",
+          "typeId": "package:analyzer/src/dart/element/element.dart#165612:CLASS:LibraryElementImpl",
+          "erasedTypeId": null,
+          "typeKind": "CLASS",
+          "typeOwner": null,
+          "boundTypeId": null,
+          "erasedKind": null,
+          "erasedBoundTypeId": null,
+          "innerKind": "DeclaredVariablePattern"
+        }
+      ],
+      "priorObservationsSha256": "192ec6a17eb2e3d96ebbbe45431b4c5144212ee2f9c9bebea262b80d9147d695"
+    },
+    {
+      "project": "localsend-1.17.0",
+      "category": "applications",
+      "casts": 0,
+      "nullAssertions": 0,
+      "withResultType": 0,
+      "withWrapperErasure": 0,
+      "beforeWithResultType": 0,
+      "methods": 31358,
+      "calls": 106237,
+      "defaultArguments": {
+        "adaptedCalls": 967,
+        "targetAdapters": 2747,
+        "externalTargetAdapters": 335,
+        "adapterLinks": 39647
+      },
+      "observations": [],
+      "priorObservationsSha256": "d98329981529cd57deaa1319df389c3a6099a5991d09cce9fba0cffae69c4b43"
+    },
+    {
+      "project": "saber-0.26.0",
+      "category": "applications",
+      "casts": 0,
+      "nullAssertions": 0,
+      "withResultType": 0,
+      "withWrapperErasure": 0,
+      "beforeWithResultType": 0,
+      "methods": 10428,
+      "calls": 53890,
+      "defaultArguments": {
+        "adaptedCalls": 258,
+        "targetAdapters": 493,
+        "externalTargetAdapters": 92,
+        "adapterLinks": 5344
+      },
+      "observations": [],
+      "priorObservationsSha256": "549e375d7766127737093e0854cb901c19de9b10c42b5856da163a3da0091f3b"
+    },
+    {
+      "project": "dart-sass-1.89.2",
+      "category": "applications",
+      "casts": 0,
+      "nullAssertions": 2,
+      "withResultType": 2,
+      "withWrapperErasure": 0,
+      "beforeWithResultType": 0,
+      "methods": 9590,
+      "calls": 87942,
+      "defaultArguments": {
+        "adaptedCalls": 68,
+        "targetAdapters": 2381,
+        "externalTargetAdapters": 99,
+        "adapterLinks": 3914
+      },
+      "observations": [
+        {
+          "file": "src/executable/watch.dart",
+          "sourceSha256": "837e962a7fa326be39448ca979f72167d60db84efeb06161d8bc0342613e75bf",
+          "line": 199,
+          "column": 19,
+          "source": "path!",
+          "kind": "NullAssertPattern",
+          "type": "String",
+          "typeId": "dart:core/string.dart#4237:CLASS:String",
+          "erasedTypeId": null,
+          "typeKind": "CLASS",
+          "typeOwner": null,
+          "boundTypeId": null,
+          "erasedKind": null,
+          "erasedBoundTypeId": null,
+          "innerKind": "DeclaredVariablePattern"
+        },
+        {
+          "file": "src/util/multi_dir_watcher.dart",
+          "sourceSha256": "118d5304d1bab353a8326b629c60b3e4237a8ec94ba1574c6297743a3429236d",
+          "line": 42,
+          "column": 15,
+          "source": "existingDir!",
+          "kind": "NullAssertPattern",
+          "type": "String",
+          "typeId": "dart:core/string.dart#4237:CLASS:String",
+          "erasedTypeId": null,
+          "typeKind": "CLASS",
+          "typeOwner": null,
+          "boundTypeId": null,
+          "erasedKind": null,
+          "erasedBoundTypeId": null,
+          "innerKind": "DeclaredVariablePattern"
+        }
+      ],
+      "priorObservationsSha256": "9c41e74feb21a4e1416c83a9bf7e57ee9e344260b9a58f5a61d9dfb477b5efff"
+    },
+    {
+      "project": "shelf-1.4.2",
+      "category": "holdout",
+      "casts": 0,
+      "nullAssertions": 0,
+      "withResultType": 0,
+      "withWrapperErasure": 0,
+      "beforeWithResultType": 0,
+      "methods": 214,
+      "calls": 1682,
+      "defaultArguments": {
+        "adaptedCalls": 0,
+        "targetAdapters": 0,
+        "externalTargetAdapters": 0,
+        "adapterLinks": 0
+      },
+      "observations": [],
+      "priorObservationsSha256": "b73fa4bfb306de871726149117aee9b8256d6b03a3bf47f1db4d716bd65e6df0"
+    },
+    {
+      "project": "yaml-3.1.3",
+      "category": "holdout",
+      "casts": 0,
+      "nullAssertions": 0,
+      "withResultType": 0,
+      "withWrapperErasure": 0,
+      "beforeWithResultType": 0,
+      "methods": 411,
+      "calls": 5346,
+      "defaultArguments": {
+        "adaptedCalls": 1,
+        "targetAdapters": 28,
+        "externalTargetAdapters": 5,
+        "adapterLinks": 28
+      },
+      "observations": [],
+      "priorObservationsSha256": "eefebbddbc0f3fec9a9dfa353e687c1b46f1496339b0ca57e62e7ef6188aef74"
+    }
+  ],
+  "totals": {
+    "casts": 1,
+    "nullAssertions": 2,
+    "withResultType": 3,
+    "withWrapperErasure": 0
+  },
+  "unchangedRepresentationCounts": true,
+  "unchangedPriorIterationPatternAndRepresentationFacts": true,
+  "limitations": [
+    "The corpus has one analyzer LibraryElementImpl cast and two Sass String null assertions; reduced tests supply generic, wrapper, record and function interactions.",
+    "These source observations and static result identities do not identify executed checks, receivers, callbacks or storage instances.",
+    "No corpus refinement has a wrapper erasure; known-wrapper graph exclusion and native traces have only the recorded reduced scope.",
+    "CPG declaration identities retain the existing nullable/nonnullable collapse; scoped parameters and display metadata do not establish checked runtime environments or bounds.",
+    "Record/function result preservation does not supply runtime callable targets or precise heap/alias effects.",
+    "Existing declaration fallbacks, complete pattern CFG, implicit failure payloads, general predicate feasibility, omitted alternatives and limited negative searches remain unfinished."
+  ]
+}
