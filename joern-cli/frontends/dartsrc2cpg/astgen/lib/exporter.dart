@@ -23,7 +23,7 @@ import 'package:analyzer/source/line_info.dart';
 import 'package:path/path.dart' as p;
 
 const protocolVersion = 1;
-const exporterVersion = '0.3.19';
+const exporterVersion = '0.3.20';
 const analyzerVersion = '8.4.1';
 const supportedSdkVersion = '3.9.2';
 
@@ -1460,6 +1460,31 @@ class _UnitEncoder {
     }
     if (ast is SwitchMember) {
       record['labels'] = ast.labels.map((label) => label.label.name).toList();
+    }
+    if (ast is ForEachParts) {
+      final asynchronous = switch (ast.parent) {
+        ForStatement(:final awaitKeyword) => awaitKeyword != null,
+        ForElement(:final awaitKeyword) => awaitKeyword != null,
+      };
+      final iterable = ast.iterable.staticType;
+      if (!asynchronous && iterable is InterfaceType) {
+        final iterator = iterable.lookUpGetter(
+          'iterator',
+          iterable.element.library,
+        );
+        final iteratorType = iterator?.returnType;
+        if (iterator != null && iteratorType is InterfaceType) {
+          record['iteratorTarget'] = symbol(iterator);
+          record['iteratorType'] = iteratorType.getDisplayString();
+          record['iteratorTypeId'] = typeId(iteratorType);
+          record['moveNextTarget'] = symbol(
+            iteratorType.lookUpMethod('moveNext', iteratorType.element.library),
+          );
+          record['currentTarget'] = symbol(
+            iteratorType.lookUpGetter('current', iteratorType.element.library),
+          );
+        }
+      }
     }
     record['kind'] = kind;
     if (ast is FunctionBody) {

@@ -1775,3 +1775,68 @@ analysis/formatting and thirteen source-verifier rejection checks. Full cached
 provenance verification and unchanged 403-file/all-twelve-graph provenance pass;
 the four-witness summary still regenerates byte-identically. No semantic status
 is upgraded by the new source references.
+
+
+## Resolved synchronous iteration and refreshed evidence
+
+Exporter 0.3.20 retains analyzer-selected iterator, moveNext and current members
+for synchronous for-in over known interface types. Lowering uses those calls and
+saves a pattern loop's current value once before extraction. Concrete Cursor
+receivers exclude unrelated implementations; an interface-typed control retains
+the observed implementation union. Declared, assigned, collection and record
+pattern forms have graph and native evaluation-order controls, including empty
+iteration. Dynamic and bounded type-parameter receivers and asynchronous SDK
+member resolution remain open. Generic declaration identities do not establish
+instantiated current-value types, runtime substitutions or iterator heap flow.
+
+The [count review](synchronous-iteration-count-review.json) compares the previous
+lowering against the same current exported facts on all twelve source roots.
+Across 2,165 synchronous loops, 82 change their call counts: args -2, analyzer
+-31 and Sass -64. Each pattern now reads current once; additional saved-value
+assignments explain the net reduction of 97 calls. Internal methods and UNKNOWN
+counts are unchanged. The initial comparison uses a 404-file fingerprint recorded
+in that review. A subsequent test assertion was strengthened to check callee
+owner identities, with a positive interface control. All twelve graphs and both
+bounded audits were then regenerated at the final fingerprint
+`fae2ab7ea70e9a3c442f62127604fd86c742f53d293ca79090e127207db91719`
+(404 files), rather than substituting provenance metadata.
+
+The native suite passes 127 tests with all runtime/corpus opt-ins enabled.
+Analysis and formatting of the four changed Dart files pass; a whole-test-tree
+format sweep separately reports a pre-existing caller_forwarding_test.dart
+formatting difference. The frontend target and normal-source Scala format checks
+pass. Its final invocation executes 124 frontend tests; other unchanged suites
+were cached after the earlier successful 166-test invocation. All twelve corpus
+graph checks, four staged CLI checks and fourteen language-selection checks pass.
+Two additional storage review tests rebuild six static-storage paths/123
+transitions and eleven local-exit paths/199 transitions.
+
+Both bounded audits finish within separate ten-minute category budgets, including
+startup and graph loading, using explicit 8 GiB/four-CPU workers. Two-witness
+package/application/holdout times are 188022/44230/29147 ms, with sampled
+process-family RSS 5155164/4500760/1759312 KiB. Four-witness times are
+397149/46250/30156 ms and RSS 6152836/5149084/2297716 KiB. These samples are
+not exact peaks or measurements of one worker's heap. An earlier four-witness
+run was deliberately interrupted to strengthen the owner assertion; it is not
+a resource failure or current qualification evidence.
+
+Four-witness outcomes remain stock 78/80 and modeled 80/80. Stock retains
+122 visible/131 detailed paths and modeled 109/117, with 42/41 limited queries.
+All eighty query dispositions cover 248 selected paths, 150 distinct routes and
+2,735 transitions. Analyzer contributes 18 routes/625 transitions, Sass 25/384
+and path/async/http_parser 39/1,033; other project totals remain unchanged.
+Thirty-one changed selected paths across the two audits were read against pinned
+source and exact call/context/output-flag/field-demand facts. Analyzer routes
+include the resolved iteration calls and external Iterator.current effects.
+Sass substring, path readonly/dispatch and HTTP size/header/caller detours retain
+explicit approximations. Changed HTTP selections do not imply that iteration
+caused those routes, that larger witness bounds contain smaller-bound selections,
+or that runtime call order, allocation identity or byte provenance is established.
+Unchanged routes match prior reviews after removing graph node IDs only.
+
+All 87 witness-review rejection controls pass; both summaries reproduce
+byte-identically from fresh reports. The matrix has 57 named links and a partial
+synchronous-iteration profile. Its six tests/sixteen rejection controls, native
+inventory check and source verifier/thirteen rejection controls pass. Complete
+language rules, eight inconclusive modeled negatives, omitted alternatives and
+Gates 1–6 remain open.

@@ -92,7 +92,7 @@
       "exporter": {
         "record": "header",
         "protocolVersion": 1,
-        "exporterVersion": "0.3.19",
+        "exporterVersion": "0.3.20",
         "analyzerVersion": "8.4.1",
         "sdkVersion": "3.9.2",
         "offsetEncoding": "utf-16",
@@ -100,8 +100,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "6a92ea4bf560d1c655b02efcb3b34bf999e1aab8fc5db39f6deebceba02685f9",
-        "files": 403,
+        "sha256": "fae2ab7ea70e9a3c442f62127604fd86c742f53d293ca79090e127207db91719",
+        "files": 404,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -228,7 +228,8 @@
             "branchConditions": "normalize returns early when normalization is unnecessary; withoutExtension edits the last nonempty part; forwarding methods have no additional branch.",
             "issue": "DART-FLOW-004",
             "owner": "shared dataflow query engine / Dart library models"
-          }
+          },
+          "refreshDisposition": "Fresh two-witness stock variants retain readonly _needsNormalization output and prettyUri -> relative caller re-entry, selecting isRelative or isAbsolute before re-entering normalize; the second _needsNormalization route retains path.codeUnits receiver availability and WindowsStyle.rootLength path.isEmpty output effects. A fresh four-witness modeled route instead enters relative.isAbsolute -> UrlStyle.rootLength path.codeUnitAt receiver and returns through unchanged formal outputs before re-entering normalize. Exact slots, output flags and frames are preserved. These are readonly/output/dispatch approximations, not String mutation, branch feasibility or real caller order. The native path oracle exercises POSIX normalization and does not execute these selected Windows/URL/prettyUri detours."
         },
         {
           "id": "set-extension-path",
@@ -489,28 +490,28 @@
             ]
           ]
         },
-        "111669150060": {
+        "111669150087": {
           "label": "METHOD_PARAMETER_IN",
-          "method": "package:path/src/style/url.dart#1348:METHOD:rootLength",
+          "method": "package:path/src/style/windows.dart#1324:METHOD:rootLength",
           "code": "String path",
           "line": 47,
           "parameterIndex": 1
         },
-        "68719478351": {
+        "68719478428": {
           "label": "IDENTIFIER",
-          "method": "package:path/src/style/url.dart#1348:METHOD:rootLength",
+          "method": "package:path/src/style/windows.dart#1324:METHOD:rootLength",
           "code": "path",
           "line": 48,
           "argumentsOf": [
             [
-              "30064772791",
+              "30064772876",
               0
             ]
           ]
         },
-        "115964117356": {
+        "115964117383": {
           "label": "METHOD_PARAMETER_OUT",
-          "method": "package:path/src/style/url.dart#1348:METHOD:rootLength",
+          "method": "package:path/src/style/windows.dart#1324:METHOD:rootLength",
           "code": "String path",
           "line": 47,
           "parameterIndex": 1
@@ -553,42 +554,30 @@
             ]
           ]
         },
-        "111669150035": {
+        "111669150060": {
           "label": "METHOD_PARAMETER_IN",
-          "method": "package:path/src/style/posix.dart#1039:METHOD:rootLength",
+          "method": "package:path/src/style/url.dart#1348:METHOD:rootLength",
           "code": "String path",
-          "line": 39,
+          "line": 47,
           "parameterIndex": 1
         },
-        "68719478295": {
+        "68719478351": {
           "label": "IDENTIFIER",
-          "method": "package:path/src/style/posix.dart#1039:METHOD:rootLength",
+          "method": "package:path/src/style/url.dart#1348:METHOD:rootLength",
           "code": "path",
-          "line": 40,
+          "line": 48,
           "argumentsOf": [
             [
-              "30064772719",
+              "30064772791",
               0
             ]
           ]
         },
-        "68719478297": {
-          "label": "IDENTIFIER",
-          "method": "package:path/src/style/posix.dart#1039:METHOD:rootLength",
-          "code": "path",
-          "line": 40,
-          "argumentsOf": [
-            [
-              "30064772721",
-              0
-            ]
-          ]
-        },
-        "115964117331": {
+        "115964117356": {
           "label": "METHOD_PARAMETER_OUT",
-          "method": "package:path/src/style/posix.dart#1039:METHOD:rootLength",
+          "method": "package:path/src/style/url.dart#1348:METHOD:rootLength",
           "code": "String path",
-          "line": 39,
+          "line": 47,
           "parameterIndex": 1
         },
         "111669149848": {
@@ -1350,8 +1339,8 @@
             }
           ]
         },
-        "30064772791": {
-          "nodeId": "30064772791",
+        "30064772876": {
+          "nodeId": "30064772876",
           "name": "isEmpty",
           "target": "dart:core/string.dart#13494:GETTER:isEmpty",
           "code": "path.isEmpty",
@@ -1386,26 +1375,14 @@
             }
           ]
         },
-        "30064772719": {
-          "nodeId": "30064772719",
-          "name": "isNotEmpty",
-          "target": "dart:core/string.dart#13555:GETTER:isNotEmpty",
-          "code": "path.isNotEmpty",
+        "30064772791": {
+          "nodeId": "30064772791",
+          "name": "isEmpty",
+          "target": "dart:core/string.dart#13494:GETTER:isEmpty",
+          "code": "path.isEmpty",
           "callees": [
             {
-              "fullName": "dart:core/string.dart#13555:GETTER:isNotEmpty",
-              "external": true
-            }
-          ]
-        },
-        "30064772721": {
-          "nodeId": "30064772721",
-          "name": "codeUnitAt",
-          "target": "dart:core/string.dart#8631:METHOD:codeUnitAt",
-          "code": "path.codeUnitAt(0)",
-          "callees": [
-            {
-              "fullName": "dart:core/string.dart#8631:METHOD:codeUnitAt",
+              "fullName": "dart:core/string.dart#13494:GETTER:isEmpty",
               "external": true
             }
           ]
@@ -2061,7 +2038,7 @@
               []
             ],
             [
-              "111669150060",
+              "111669150087",
               5,
               true,
               false,
@@ -2069,7 +2046,7 @@
               []
             ],
             [
-              "68719478351",
+              "68719478428",
               5,
               true,
               false,
@@ -2077,7 +2054,7 @@
               []
             ],
             [
-              "115964117356",
+              "115964117383",
               5,
               true,
               false,
@@ -2336,7 +2313,7 @@
               []
             ],
             [
-              "111669150060",
+              "111669150087",
               5,
               true,
               false,
@@ -2344,7 +2321,7 @@
               []
             ],
             [
-              "68719478351",
+              "68719478428",
               5,
               true,
               false,
@@ -2352,7 +2329,7 @@
               []
             ],
             [
-              "115964117356",
+              "115964117383",
               5,
               true,
               false,
@@ -2611,7 +2588,7 @@
               []
             ],
             [
-              "111669150035",
+              "111669150060",
               5,
               true,
               false,
@@ -2619,7 +2596,7 @@
               []
             ],
             [
-              "68719478295",
+              "68719478351",
               5,
               true,
               false,
@@ -2627,15 +2604,7 @@
               []
             ],
             [
-              "68719478297",
-              5,
-              true,
-              false,
-              "path",
-              []
-            ],
-            [
-              "115964117331",
+              "115964117356",
               5,
               true,
               false,
@@ -2707,7 +2676,6 @@
             "local-read",
             "parameter-binding",
             "parameter-read",
-            "local-read",
             "parameter-output",
             "caller-output",
             "parameter-output",
@@ -2895,7 +2863,7 @@
               []
             ],
             [
-              "111669150035",
+              "111669150060",
               5,
               true,
               false,
@@ -2903,7 +2871,7 @@
               []
             ],
             [
-              "68719478295",
+              "68719478351",
               5,
               true,
               false,
@@ -2911,15 +2879,7 @@
               []
             ],
             [
-              "68719478297",
-              5,
-              true,
-              false,
-              "path",
-              []
-            ],
-            [
-              "115964117331",
+              "115964117356",
               5,
               true,
               false,
@@ -2991,7 +2951,6 @@
             "local-read",
             "parameter-binding",
             "parameter-read",
-            "local-read",
             "parameter-output",
             "caller-output",
             "parameter-output",
@@ -4340,7 +4299,7 @@
       "exporter": {
         "record": "header",
         "protocolVersion": 1,
-        "exporterVersion": "0.3.19",
+        "exporterVersion": "0.3.20",
         "analyzerVersion": "8.4.1",
         "sdkVersion": "3.9.2",
         "offsetEncoding": "utf-16",
@@ -4348,8 +4307,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "6a92ea4bf560d1c655b02efcb3b34bf999e1aab8fc5db39f6deebceba02685f9",
-        "files": 403,
+        "sha256": "fae2ab7ea70e9a3c442f62127604fd86c742f53d293ca79090e127207db91719",
+        "files": 404,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -5133,7 +5092,7 @@
       "exporter": {
         "record": "header",
         "protocolVersion": 1,
-        "exporterVersion": "0.3.19",
+        "exporterVersion": "0.3.20",
         "analyzerVersion": "8.4.1",
         "sdkVersion": "3.9.2",
         "offsetEncoding": "utf-16",
@@ -5141,8 +5100,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "6a92ea4bf560d1c655b02efcb3b34bf999e1aab8fc5db39f6deebceba02685f9",
-        "files": 403,
+        "sha256": "fae2ab7ea70e9a3c442f62127604fd86c742f53d293ca79090e127207db91719",
+        "files": 404,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -5275,7 +5234,7 @@
             "issue": "DART-FLOW-003",
             "owner": "shared dataflow query engine / Dart library models"
           },
-          "refreshDisposition": "Stock paths now pass setRange receiver -> skipCount/start slot 4 -> end arithmetic slot 2 -> cursor/start slot 1 -> bytes slot 3. The prefix follows input.length into size/header and allocation effects; these cross-argument detours do not copy original byte elements. The modeled direct bytes binding remains separate and search limits remain explicit."
+          "refreshDisposition": "Fresh 28/27-node stock variants follow input.length -> _convert end slot 3 -> size/header/allocation -> saved list receivers. The final setRange cross-argument sequence is receiver slot 0 -> cursor/start slot 1 -> bytes slot 3; shorter variants omit one saved allocation temporary. These conservative range/allocation/argument effects do not copy original byte elements. Modeled direct bytes binding and query limits remain separate."
         },
         {
           "id": "chunk-return-buffer",
@@ -5380,7 +5339,7 @@
             "issue": "DART-FLOW-003",
             "owner": "shared dataflow query engine / Dart library models"
           },
-          "refreshDisposition": "Refreshed stock paths mix setRange byte/skip/end/start/receiver effects and readonly list.length results, then leave via output-marked _convert calls into add/addSlice candidate argument 1 and re-enter _convert. Four-witness paths select bytes slot 1; two-witness paths select chunk.length/end slot 3 and size/header/allocation routes. The two-witness modeled paths retain direct bytes-to-receiver copying initially, but subsequent repeated-call re-entry follows length -> size -> hex header codeUnits -> setRange. Whole-buffer return/header/receiver evidence is distinct from exact copied-byte provenance. Native whole/slice/empty/copy/close cases do not certify these repeated virtual calls, caller order, heap identity or omitted routes."
+          "refreshDisposition": "Fresh four-witness stock routes have 53 nodes: bytes slot 3 -> setRange receiver 0, saved receiver aliases/footer length/range effects -> return, then an ordinary outputFlag=false _convert return supplies a virtual Sink.add argument 1 and re-enters _Sink.add -> chunk.length -> _convert end slot 3 -> size/header/allocation. This scalar-return/candidate-dispatch route differs from the previous output-marked detour; no particular runtime output-sink instance is established. Four-witness modeled 61/60-node routes and two-witness stock 72-node routes retain output-marked re-entries selecting bytes slot 1 before a later end/size/header branch. Two-witness modeled 61-node routes select end/size/header first and bytes slot 1 later. Modeled header.codeUnits -> setRange slot 3 -> receiver 0 remains distinct from direct original-byte copying. Exact frames, slots, output flags and variant omissions are retained. Whole-buffer, readonly getter, repeated-caller, allocation and external/header effects remain approximations; native whole/slice/empty/copy/close controls do not establish these runtime caller orders, allocation identities or exact byte provenance."
         },
         {
           "id": "error-message-value",
@@ -5796,31 +5755,6 @@
             ]
           ]
         },
-        "68719477252": {
-          "label": "IDENTIFIER",
-          "method": "package:http_parser/src/chunked_coding/encoder.dart#1792:FUNCTION:_convert",
-          "code": "start",
-          "line": 74,
-          "argumentsOf": [
-            [
-              "30064771630",
-              4
-            ]
-          ]
-        },
-        "30064771631": {
-          "label": "CALL",
-          "method": "package:http_parser/src/chunked_coding/encoder.dart#1792:FUNCTION:_convert",
-          "code": "cursor + end - start",
-          "line": 74,
-          "call": "30064771631",
-          "argumentsOf": [
-            [
-              "30064771630",
-              2
-            ]
-          ]
-        },
         "68719477247": {
           "label": "IDENTIFIER",
           "method": "package:http_parser/src/chunked_coding/encoder.dart#1792:FUNCTION:_convert",
@@ -5924,28 +5858,16 @@
             ]
           ]
         },
-        "68719477275": {
-          "label": "IDENTIFIER",
-          "method": "package:http_parser/src/chunked_coding/encoder.dart#1792:FUNCTION:_convert",
-          "code": "list",
-          "line": 80,
-          "argumentsOf": [
-            [
-              "30064771651",
-              0
-            ]
-          ]
-        },
-        "30064771651": {
+        "30064771650": {
           "label": "CALL",
           "method": "package:http_parser/src/chunked_coding/encoder.dart#1792:FUNCTION:_convert",
           "code": "list.length",
           "line": 80,
-          "call": "30064771651",
+          "call": "30064771650",
           "argumentsOf": [
             [
-              "30064771648",
-              2
+              "30064771649",
+              1
             ]
           ]
         },
@@ -5959,6 +5881,19 @@
             [
               "30064771648",
               1
+            ]
+          ]
+        },
+        "30064771651": {
+          "label": "CALL",
+          "method": "package:http_parser/src/chunked_coding/encoder.dart#1792:FUNCTION:_convert",
+          "code": "list.length",
+          "line": 80,
+          "call": "30064771651",
+          "argumentsOf": [
+            [
+              "30064771648",
+              2
             ]
           ]
         },
@@ -6024,6 +5959,18 @@
             ]
           ]
         },
+        "68719477197": {
+          "label": "IDENTIFIER",
+          "method": "package:http_parser/src/chunked_coding/encoder.dart#1162:METHOD:add",
+          "code": "chunk",
+          "line": 38,
+          "argumentsOf": [
+            [
+              "30064771580",
+              1
+            ]
+          ]
+        },
         "30064771581": {
           "label": "CALL",
           "method": "package:http_parser/src/chunked_coding/encoder.dart#1162:METHOD:add",
@@ -6047,6 +5994,18 @@
             [
               "30064771584",
               1
+            ]
+          ]
+        },
+        "68719477275": {
+          "label": "IDENTIFIER",
+          "method": "package:http_parser/src/chunked_coding/encoder.dart#1792:FUNCTION:_convert",
+          "code": "list",
+          "line": 80,
+          "argumentsOf": [
+            [
+              "30064771651",
+              0
             ]
           ]
         },
@@ -6405,18 +6364,6 @@
             }
           ]
         },
-        "30064771631": {
-          "nodeId": "30064771631",
-          "name": "<operator>.subtraction",
-          "target": "<operator>.dart.subtraction",
-          "code": "cursor + end - start",
-          "callees": [
-            {
-              "fullName": "<operator>.dart.subtraction",
-              "external": true
-            }
-          ]
-        },
         "30064771580": {
           "nodeId": "30064771580",
           "name": "_convert",
@@ -6465,14 +6412,14 @@
             }
           ]
         },
-        "30064771651": {
-          "nodeId": "30064771651",
-          "name": "length",
-          "target": "dart:core/list.dart#15331:GETTER:length",
-          "code": "list.length",
+        "30064771649": {
+          "nodeId": "30064771649",
+          "name": "<operator>.subtraction",
+          "target": "<operator>.dart.subtraction",
+          "code": "list.length - footerSize",
           "callees": [
             {
-              "fullName": "dart:core/list.dart#15331:GETTER:length",
+              "fullName": "<operator>.dart.subtraction",
               "external": true
             }
           ]
@@ -6489,14 +6436,14 @@
             }
           ]
         },
-        "30064771649": {
-          "nodeId": "30064771649",
-          "name": "<operator>.subtraction",
-          "target": "<operator>.dart.subtraction",
-          "code": "list.length - footerSize",
+        "30064771651": {
+          "nodeId": "30064771651",
+          "name": "length",
+          "target": "dart:core/list.dart#15331:GETTER:length",
+          "code": "list.length",
           "callees": [
             {
-              "fullName": "<operator>.dart.subtraction",
+              "fullName": "dart:core/list.dart#15331:GETTER:length",
               "external": true
             }
           ]
@@ -6871,22 +6818,6 @@
               []
             ],
             [
-              "68719477252",
-              0,
-              true,
-              false,
-              "start",
-              []
-            ],
-            [
-              "30064771631",
-              0,
-              true,
-              false,
-              "cursor + end - start",
-              []
-            ],
-            [
               "68719477247",
               0,
               true,
@@ -6929,8 +6860,6 @@
             "alias",
             "assignment",
             "alias",
-            "external-write",
-            "external-write",
             "external-write",
             "external-write"
           ]
@@ -7138,22 +7067,6 @@
               []
             ],
             [
-              "68719477252",
-              0,
-              true,
-              false,
-              "start",
-              []
-            ],
-            [
-              "30064771631",
-              0,
-              true,
-              false,
-              "cursor + end - start",
-              []
-            ],
-            [
               "68719477247",
               0,
               true,
@@ -7195,8 +7108,6 @@
             "alias",
             "assignment",
             "alias",
-            "external-write",
-            "external-write",
             "external-write",
             "external-write"
           ]
@@ -7270,30 +7181,6 @@
               []
             ],
             [
-              "68719477252",
-              1,
-              true,
-              false,
-              "start",
-              []
-            ],
-            [
-              "30064771631",
-              1,
-              true,
-              false,
-              "cursor + end - start",
-              []
-            ],
-            [
-              "68719477247",
-              1,
-              true,
-              false,
-              "cursor",
-              []
-            ],
-            [
               "68719477246",
               1,
               true,
@@ -7342,17 +7229,9 @@
               []
             ],
             [
-              "68719477275",
+              "30064771650",
               1,
-              true,
               false,
-              "list",
-              []
-            ],
-            [
-              "30064771651",
-              1,
-              true,
               false,
               "list.length",
               []
@@ -7363,6 +7242,14 @@
               true,
               false,
               "list.length - footerSize",
+              []
+            ],
+            [
+              "30064771651",
+              1,
+              true,
+              false,
+              "list.length",
               []
             ],
             [
@@ -7422,7 +7309,7 @@
               []
             ],
             [
-              "30064771581",
+              "68719477197",
               0,
               true,
               false,
@@ -7430,179 +7317,19 @@
               []
             ],
             [
-              "111669149775",
+              "111669149773",
               1,
               true,
               false,
-              "end",
+              "bytes",
               []
             ],
             [
-              "68719477211",
-              1,
-              false,
-              false,
-              "end",
-              []
-            ],
-            [
-              "68719477215",
-              1,
-              false,
-              false,
-              "end",
-              []
-            ],
-            [
-              "30064771599",
+              "68719477251",
               1,
               true,
               false,
-              "end - start",
-              []
-            ],
-            [
-              "68719477214",
-              1,
-              true,
-              false,
-              "size",
-              []
-            ],
-            [
-              "68719477218",
-              1,
-              true,
-              false,
-              "size",
-              []
-            ],
-            [
-              "30064771601",
-              1,
-              true,
-              false,
-              "size.toRadixString(16)",
-              []
-            ],
-            [
-              "68719477217",
-              1,
-              true,
-              false,
-              "sizeInHex",
-              []
-            ],
-            [
-              "68719477223",
-              1,
-              true,
-              false,
-              "sizeInHex",
-              []
-            ],
-            [
-              "30064771612",
-              1,
-              false,
-              false,
-              "sizeInHex.length",
-              []
-            ],
-            [
-              "30064771611",
-              1,
-              false,
-              false,
-              "sizeInHex.length + 4",
-              []
-            ],
-            [
-              "30064771610",
-              1,
-              false,
-              false,
-              "sizeInHex.length + 4 + size",
-              []
-            ],
-            [
-              "30064771609",
-              1,
-              true,
-              false,
-              "sizeInHex.length + 4 + size + footerSize",
-              []
-            ],
-            [
-              "30064771608",
-              1,
-              true,
-              false,
-              "Uint8List(sizeInHex.length + 4 + size + footerSize)",
-              []
-            ],
-            [
-              "68719477222",
-              1,
-              true,
-              false,
-              "<tmp>4",
-              []
-            ],
-            [
-              "25769803906",
-              1,
-              true,
-              false,
-              "Uint8List(sizeInHex.length + 4 + size + footerSize)",
-              []
-            ],
-            [
-              "68719477221",
-              1,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477227",
-              1,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477233",
-              1,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477232",
-              1,
-              true,
-              false,
-              "<tmp>5",
-              []
-            ],
-            [
-              "68719477240",
-              1,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477239",
-              1,
-              true,
-              false,
-              "<tmp>7",
+              "bytes",
               []
             ],
             [
@@ -7654,17 +7381,9 @@
               []
             ],
             [
-              "68719477275",
+              "30064771650",
               1,
-              true,
               false,
-              "list",
-              []
-            ],
-            [
-              "30064771651",
-              1,
-              true,
               false,
               "list.length",
               []
@@ -7675,6 +7394,14 @@
               true,
               false,
               "list.length - footerSize",
+              []
+            ],
+            [
+              "30064771651",
+              1,
+              true,
+              false,
+              "list.length",
               []
             ],
             [
@@ -7966,17 +7693,9 @@
               []
             ],
             [
-              "68719477275",
+              "30064771650",
               0,
-              true,
               false,
-              "list",
-              []
-            ],
-            [
-              "30064771651",
-              0,
-              true,
               false,
               "list.length",
               []
@@ -7987,6 +7706,14 @@
               true,
               false,
               "list.length - footerSize",
+              []
+            ],
+            [
+              "30064771651",
+              0,
+              true,
+              false,
+              "list.length",
               []
             ],
             [
@@ -8017,16 +7744,32 @@
           "transitions": [
             "parameter-read",
             "external-write",
-            "external-write",
-            "external-write",
-            "external-write",
             "local-read",
             "assignment",
             "alias",
             "assignment",
             "alias",
-            "local-read",
             "external-return",
+            "operator-value",
+            "external-write",
+            "external-write",
+            "local-read",
+            "return-value",
+            "method-return",
+            "call-return",
+            "parameter-binding",
+            "parameter-read",
+            "local-read",
+            "parameter-binding",
+            "parameter-read",
+            "external-write",
+            "local-read",
+            "assignment",
+            "alias",
+            "assignment",
+            "alias",
+            "external-return",
+            "operator-value",
             "external-write",
             "external-write",
             "local-read",
@@ -8064,47 +7807,8 @@
             "alias",
             "assignment",
             "alias",
-            "local-read",
-            "external-return",
-            "external-write",
-            "external-write",
-            "local-read",
-            "return-value",
-            "method-return",
-            "call-return",
-            "parameter-binding",
-            "parameter-read",
-            "external-return",
-            "parameter-binding",
-            "parameter-read",
-            "local-read",
-            "operator-value",
-            "assignment",
-            "local-read",
-            "external-return",
-            "assignment",
-            "local-read",
             "external-return",
             "operator-value",
-            "operator-value",
-            "operator-value",
-            "external-return",
-            "assignment",
-            "block-result",
-            "assignment",
-            "local-read",
-            "local-read",
-            "assignment",
-            "alias",
-            "assignment",
-            "alias",
-            "local-read",
-            "assignment",
-            "alias",
-            "assignment",
-            "alias",
-            "local-read",
-            "external-return",
             "external-write",
             "external-write",
             "local-read",
@@ -8127,30 +7831,6 @@
               true,
               false,
               "bytes",
-              []
-            ],
-            [
-              "68719477252",
-              2,
-              true,
-              false,
-              "start",
-              []
-            ],
-            [
-              "30064771631",
-              2,
-              true,
-              false,
-              "cursor + end - start",
-              []
-            ],
-            [
-              "68719477247",
-              2,
-              true,
-              false,
-              "cursor",
               []
             ],
             [
@@ -8202,17 +7882,9 @@
               []
             ],
             [
-              "68719477275",
+              "30064771650",
               2,
-              true,
               false,
-              "list",
-              []
-            ],
-            [
-              "30064771651",
-              2,
-              true,
               false,
               "list.length",
               []
@@ -8223,6 +7895,14 @@
               true,
               false,
               "list.length - footerSize",
+              []
+            ],
+            [
+              "30064771651",
+              2,
+              true,
+              false,
+              "list.length",
               []
             ],
             [
@@ -8282,7 +7962,7 @@
               []
             ],
             [
-              "30064771581",
+              "68719477197",
               0,
               true,
               false,
@@ -8290,179 +7970,19 @@
               []
             ],
             [
-              "111669149775",
+              "111669149773",
               1,
               true,
               false,
-              "end",
+              "bytes",
               []
             ],
             [
-              "68719477211",
-              1,
-              false,
-              false,
-              "end",
-              []
-            ],
-            [
-              "68719477215",
-              1,
-              false,
-              false,
-              "end",
-              []
-            ],
-            [
-              "30064771599",
+              "68719477251",
               1,
               true,
               false,
-              "end - start",
-              []
-            ],
-            [
-              "68719477214",
-              1,
-              true,
-              false,
-              "size",
-              []
-            ],
-            [
-              "68719477218",
-              1,
-              true,
-              false,
-              "size",
-              []
-            ],
-            [
-              "30064771601",
-              1,
-              true,
-              false,
-              "size.toRadixString(16)",
-              []
-            ],
-            [
-              "68719477217",
-              1,
-              true,
-              false,
-              "sizeInHex",
-              []
-            ],
-            [
-              "68719477223",
-              1,
-              true,
-              false,
-              "sizeInHex",
-              []
-            ],
-            [
-              "30064771612",
-              1,
-              false,
-              false,
-              "sizeInHex.length",
-              []
-            ],
-            [
-              "30064771611",
-              1,
-              false,
-              false,
-              "sizeInHex.length + 4",
-              []
-            ],
-            [
-              "30064771610",
-              1,
-              false,
-              false,
-              "sizeInHex.length + 4 + size",
-              []
-            ],
-            [
-              "30064771609",
-              1,
-              true,
-              false,
-              "sizeInHex.length + 4 + size + footerSize",
-              []
-            ],
-            [
-              "30064771608",
-              1,
-              true,
-              false,
-              "Uint8List(sizeInHex.length + 4 + size + footerSize)",
-              []
-            ],
-            [
-              "68719477222",
-              1,
-              true,
-              false,
-              "<tmp>4",
-              []
-            ],
-            [
-              "25769803906",
-              1,
-              true,
-              false,
-              "Uint8List(sizeInHex.length + 4 + size + footerSize)",
-              []
-            ],
-            [
-              "68719477221",
-              1,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477227",
-              1,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477233",
-              1,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477232",
-              1,
-              true,
-              false,
-              "<tmp>5",
-              []
-            ],
-            [
-              "68719477240",
-              1,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477239",
-              1,
-              true,
-              false,
-              "<tmp>7",
+              "bytes",
               []
             ],
             [
@@ -8514,17 +8034,9 @@
               []
             ],
             [
-              "68719477275",
+              "30064771650",
               1,
-              true,
               false,
-              "list",
-              []
-            ],
-            [
-              "30064771651",
-              1,
-              true,
               false,
               "list.length",
               []
@@ -8535,6 +8047,14 @@
               true,
               false,
               "list.length - footerSize",
+              []
+            ],
+            [
+              "30064771651",
+              1,
+              true,
+              false,
+              "list.length",
               []
             ],
             [
@@ -8826,17 +8346,9 @@
               []
             ],
             [
-              "68719477275",
+              "30064771650",
               0,
-              true,
               false,
-              "list",
-              []
-            ],
-            [
-              "30064771651",
-              0,
-              true,
               false,
               "list.length",
               []
@@ -8847,6 +8359,14 @@
               true,
               false,
               "list.length - footerSize",
+              []
+            ],
+            [
+              "30064771651",
+              0,
+              true,
+              false,
+              "list.length",
               []
             ],
             [
@@ -8877,16 +8397,32 @@
           "transitions": [
             "parameter-read",
             "external-write",
-            "external-write",
-            "external-write",
-            "external-write",
             "local-read",
             "assignment",
             "alias",
             "assignment",
             "alias",
-            "local-read",
             "external-return",
+            "operator-value",
+            "external-write",
+            "external-write",
+            "local-read",
+            "return-value",
+            "method-return",
+            "call-return",
+            "parameter-binding",
+            "parameter-read",
+            "local-read",
+            "parameter-binding",
+            "parameter-read",
+            "external-write",
+            "local-read",
+            "assignment",
+            "alias",
+            "assignment",
+            "alias",
+            "external-return",
+            "operator-value",
             "external-write",
             "external-write",
             "local-read",
@@ -8924,47 +8460,8 @@
             "alias",
             "assignment",
             "alias",
-            "local-read",
-            "external-return",
-            "external-write",
-            "external-write",
-            "local-read",
-            "return-value",
-            "method-return",
-            "call-return",
-            "parameter-binding",
-            "parameter-read",
-            "external-return",
-            "parameter-binding",
-            "parameter-read",
-            "local-read",
-            "operator-value",
-            "assignment",
-            "local-read",
-            "external-return",
-            "assignment",
-            "local-read",
             "external-return",
             "operator-value",
-            "operator-value",
-            "operator-value",
-            "external-return",
-            "assignment",
-            "block-result",
-            "assignment",
-            "local-read",
-            "local-read",
-            "assignment",
-            "alias",
-            "assignment",
-            "alias",
-            "local-read",
-            "assignment",
-            "alias",
-            "assignment",
-            "alias",
-            "local-read",
-            "external-return",
             "external-write",
             "external-write",
             "local-read",
@@ -8973,6 +8470,142 @@
         },
         {
           "elements": [
+            [
+              "111669149773",
+              1,
+              true,
+              false,
+              "bytes",
+              []
+            ],
+            [
+              "68719477251",
+              1,
+              true,
+              false,
+              "bytes",
+              []
+            ],
+            [
+              "68719477246",
+              1,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477258",
+              1,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477257",
+              1,
+              true,
+              false,
+              "<tmp>9",
+              []
+            ],
+            [
+              "68719477265",
+              1,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477264",
+              1,
+              true,
+              false,
+              "<tmp>11",
+              []
+            ],
+            [
+              "68719477273",
+              1,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477275",
+              1,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477272",
+              1,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477276",
+              1,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "141733920810",
+              1,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "124554051637",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "30064771580",
+              0,
+              true,
+              true,
+              "",
+              []
+            ],
+            [
+              "111669149766",
+              0,
+              true,
+              false,
+              "chunk",
+              []
+            ],
+            [
+              "68719477198",
+              0,
+              true,
+              false,
+              "chunk",
+              []
+            ],
+            [
+              "68719477197",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
             [
               "111669149773",
               1,
@@ -9111,262 +8744,6 @@
             ],
             [
               "111669149775",
-              1,
-              true,
-              false,
-              "end",
-              []
-            ],
-            [
-              "68719477211",
-              1,
-              false,
-              false,
-              "end",
-              []
-            ],
-            [
-              "68719477215",
-              1,
-              false,
-              false,
-              "end",
-              []
-            ],
-            [
-              "30064771599",
-              1,
-              true,
-              false,
-              "end - start",
-              []
-            ],
-            [
-              "68719477214",
-              1,
-              true,
-              false,
-              "size",
-              []
-            ],
-            [
-              "68719477218",
-              1,
-              true,
-              false,
-              "size",
-              []
-            ],
-            [
-              "30064771601",
-              1,
-              true,
-              false,
-              "size.toRadixString(16)",
-              []
-            ],
-            [
-              "68719477217",
-              1,
-              true,
-              false,
-              "sizeInHex",
-              []
-            ],
-            [
-              "68719477223",
-              1,
-              true,
-              false,
-              "sizeInHex",
-              []
-            ],
-            [
-              "68719477228",
-              1,
-              true,
-              false,
-              "sizeInHex",
-              []
-            ],
-            [
-              "68719477229",
-              1,
-              true,
-              false,
-              "sizeInHex",
-              []
-            ],
-            [
-              "30064771615",
-              1,
-              true,
-              false,
-              "sizeInHex.codeUnits",
-              []
-            ],
-            [
-              "68719477227",
-              1,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477233",
-              1,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477232",
-              1,
-              true,
-              false,
-              "<tmp>5",
-              []
-            ],
-            [
-              "68719477240",
-              1,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477239",
-              1,
-              true,
-              false,
-              "<tmp>7",
-              []
-            ],
-            [
-              "68719477246",
-              1,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477258",
-              1,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477257",
-              1,
-              true,
-              false,
-              "<tmp>9",
-              []
-            ],
-            [
-              "68719477265",
-              1,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477264",
-              1,
-              true,
-              false,
-              "<tmp>11",
-              []
-            ],
-            [
-              "68719477273",
-              1,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477275",
-              1,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477272",
-              1,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477276",
-              1,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "141733920810",
-              1,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "124554051637",
-              0,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "30064771580",
-              0,
-              true,
-              true,
-              "",
-              []
-            ],
-            [
-              "111669149766",
-              0,
-              true,
-              false,
-              "chunk",
-              []
-            ],
-            [
-              "68719477198",
-              0,
-              true,
-              false,
-              "chunk",
-              []
-            ],
-            [
-              "30064771581",
-              0,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "111669149775",
               0,
               true,
               false,
@@ -9598,25 +8975,10 @@
             "call-return",
             "parameter-binding",
             "parameter-read",
-            "external-return",
+            "local-read",
             "parameter-binding",
             "parameter-read",
-            "local-read",
-            "operator-value",
-            "assignment",
-            "local-read",
-            "external-return",
-            "assignment",
-            "local-read",
-            "local-read",
-            "local-read",
-            "external-return",
             "external-write",
-            "local-read",
-            "assignment",
-            "alias",
-            "assignment",
-            "alias",
             "local-read",
             "assignment",
             "alias",
@@ -9791,7 +9153,7 @@
               []
             ],
             [
-              "30064771581",
+              "68719477197",
               0,
               true,
               false,
@@ -9799,139 +9161,19 @@
               []
             ],
             [
-              "111669149775",
+              "111669149773",
               1,
               true,
               false,
-              "end",
+              "bytes",
               []
             ],
             [
-              "68719477211",
-              1,
-              false,
-              false,
-              "end",
-              []
-            ],
-            [
-              "68719477215",
-              1,
-              false,
-              false,
-              "end",
-              []
-            ],
-            [
-              "30064771599",
+              "68719477251",
               1,
               true,
               false,
-              "end - start",
-              []
-            ],
-            [
-              "68719477214",
-              1,
-              true,
-              false,
-              "size",
-              []
-            ],
-            [
-              "68719477218",
-              1,
-              true,
-              false,
-              "size",
-              []
-            ],
-            [
-              "30064771601",
-              1,
-              true,
-              false,
-              "size.toRadixString(16)",
-              []
-            ],
-            [
-              "68719477217",
-              1,
-              true,
-              false,
-              "sizeInHex",
-              []
-            ],
-            [
-              "68719477223",
-              1,
-              true,
-              false,
-              "sizeInHex",
-              []
-            ],
-            [
-              "68719477228",
-              1,
-              true,
-              false,
-              "sizeInHex",
-              []
-            ],
-            [
-              "68719477229",
-              1,
-              true,
-              false,
-              "sizeInHex",
-              []
-            ],
-            [
-              "30064771615",
-              1,
-              true,
-              false,
-              "sizeInHex.codeUnits",
-              []
-            ],
-            [
-              "68719477227",
-              1,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477233",
-              1,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477232",
-              1,
-              true,
-              false,
-              "<tmp>5",
-              []
-            ],
-            [
-              "68719477240",
-              1,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477239",
-              1,
-              true,
-              false,
-              "<tmp>7",
+              "bytes",
               []
             ],
             [
@@ -10287,25 +9529,10 @@
             "call-return",
             "parameter-binding",
             "parameter-read",
-            "external-return",
+            "local-read",
             "parameter-binding",
             "parameter-read",
-            "local-read",
-            "operator-value",
-            "assignment",
-            "local-read",
-            "external-return",
-            "assignment",
-            "local-read",
-            "local-read",
-            "local-read",
-            "external-return",
             "external-write",
-            "local-read",
-            "assignment",
-            "alias",
-            "assignment",
-            "alias",
             "local-read",
             "assignment",
             "alias",
@@ -10563,7 +9790,7 @@
   ],
   "representation": "Node/call IDs and context/path indices are project-local. transitions[i] classifies elements[i] to elements[i+1]. All retained demand sets in this review are empty. Equivalent stock/modeled paths are shared; full path flags and selected caller contexts are preserved.",
   "reviewMethod": "Each selected displayed route was read against its pinned source expectation. Formal argument positions, resolved return targets and available selected frames were checked. Argument-output return evidence already in a caller frame has a separate category. This is a mechanism/approximation review, not branch feasibility, general scheduling or heap qualification.",
-  "analysisBaseCommit": "304dff99c",
+  "analysisBaseCommit": "907668e4c",
   "limitations": [
     "Only these seven query families and their returned bounded paths are reviewed; other corpus alternatives and larger searches remain pending.",
     "An endpoint identity is recorded separately from independent forwarding; conservative argument outputs, aggregate projections and external effects do not prove mutation, allocation identity, callback delivery or branch feasibility.",
@@ -10573,13 +9800,13 @@
     "queries": 7,
     "selectedPaths": 25,
     "distinctPaths": 19,
-    "distinctTransitions": 687
+    "distinctTransitions": 605
   },
   "refresh": {
-    "previousBaseCommit": "304dff99c",
+    "previousBaseCommit": "907668e4c",
     "previousAnalysisSources": {
       "algorithm": "sha256-path-nul-content-nul",
-      "sha256": "067ae48b90f8f891485eedfc142d904ce8069cd5fd5b82a3dff90ca521385e7c",
+      "sha256": "6a92ea4bf560d1c655b02efcb3b34bf999e1aab8fc5db39f6deebceba02685f9",
       "files": 403,
       "roots": [
         "joern-cli/frontends/dartsrc2cpg/src",
@@ -10604,8 +9831,8 @@
       "queries": 7,
       "selectedPaths": 25,
       "distinctPaths": 19,
-      "distinctTransitions": 533
+      "distinctTransitions": 687
     },
-    "method": "Replayed after awaited iterator cleanup. Unchanged routes are matched against previous two/four-witness reviewed paths after removing node IDs only; all other node/call/context/flag/demand facts are retained. Changed variants have separate source-grounded refresh dispositions and checked argument/return/output bindings. All new graph IDs are reconstructed from fresh raw audits. Native observations do not certify caller re-entry, allocation, heap/dispatch precision or route feasibility."
+    "method": "Replayed after resolving synchronous iteration members and saving pattern current reads. Unchanged routes are matched against previous two/four-witness reviewed paths after removing node IDs only; all other node/call/context/flag/demand facts are retained. Changed variants have separate source-grounded refresh dispositions and checked argument/return/output bindings. All new graph IDs are reconstructed from fresh raw audits. Native observations do not certify caller re-entry, allocation, heap/dispatch precision or route feasibility."
   }
 }

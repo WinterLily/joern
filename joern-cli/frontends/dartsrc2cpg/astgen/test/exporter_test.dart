@@ -35,6 +35,44 @@ void main() {
 
   tearDown(() => project.deleteSync(recursive: true));
 
+  test('synchronous iteration exports substituted member targets', () async {
+    write(
+      'main.dart',
+      File(
+        '../src/test/resources/semantics/synchronous_iteration.dart',
+      ).readAsStringSync(),
+    );
+    final unit = units(await export()).single;
+    expect(unit['status'], 'resolved');
+    final symbols = {
+      for (final value in entries(unit, 'symbols')) value['id']: value,
+    };
+    final loops = entries(
+      unit,
+      'nodes',
+    ).where((node) => node['kind'] == 'ForEachParts').toList();
+    expect(loops, hasLength(7));
+    for (final loop in loops.take(5)) {
+      for (final (key, name, kind) in [
+        ('iteratorTarget', 'iterator', 'GETTER'),
+        ('moveNextTarget', 'moveNext', 'METHOD'),
+        ('currentTarget', 'current', 'GETTER'),
+      ]) {
+        final member = symbols[loop[key]]!;
+        expect(member['name'], name);
+        expect(member['kind'], kind);
+      }
+    }
+    expect(loops[0]['iteratorType'], 'Cursor<String>');
+    expect(loops[3]['iteratorType'], 'Cursor<(String, String)>');
+    expect(loops[4]['iteratorType'], 'Iterator<String>');
+    for (final loop in loops.skip(5)) {
+      expect(loop.containsKey('iteratorTarget'), isFalse);
+      expect(loop.containsKey('moveNextTarget'), isFalse);
+      expect(loop.containsKey('currentTarget'), isFalse);
+    }
+  });
+
   test(
     'virtual implementation facts preserve covariant and generic declarations',
     () async {

@@ -26,7 +26,7 @@ complete language-rule matrix or executable-oracle obligations.
 
 [qualification-matrix.json](qualification-matrix.json) assigns seven stage cells
 to all 175 visitors, 195 base sections and thirty feature documents. Shared visitor
-profiles and partial case contracts link 53 named graph, exporter and native tests, with file hashes and
+profiles and partial case contracts link 57 named graph, exporter and native tests, with file hashes and
 explicit assertion scopes. `tested-conservative` describes those selected tests;
 it does not qualify every visitor using the profile. Generic declaration/bound
 checks remain `structural-only`, and untested CFG cells remain `unqualified`.
@@ -42,6 +42,14 @@ cancellation pending across an event turn to verify completion order. A delibera
 unawaited-cleanup mutation confirms that the completion observer detects early exit. Resolution, stream delivery and
 payload/heap dataflow remain unqualified for this case; the complete loop rules
 retain their separate obligations.
+
+The `synchronous-iteration-members` partial contract checks analyzer-selected
+iterator, moveNext and current targets for statically known interface receivers,
+including generic iterator return types, existing loop variables and record
+collection patterns. Native traces cover getter/method order and empty iteration.
+Receiver filtering excludes unrelated iterator implementations from concrete
+receivers. Dynamic and asynchronous boundaries remain unresolved. Complete CFG,
+payload, heap and runtime type qualification remain separate obligations.
 
 Check committed references without network access:
 

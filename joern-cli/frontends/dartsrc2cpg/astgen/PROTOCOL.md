@@ -7,7 +7,7 @@ unsupported protocol versions, and unsupported analyzer/exporter versions before
 constructing a graph. The Scala consumer validates the protocol, analyzer, SDK and offset encoding
 before constructing a graph. Exporter 0.3 adds modern-language fields to protocol 1.
 
-The header declares `protocolVersion` (1), `exporterVersion` (0.3.19),
+The header declares `protocolVersion` (1), `exporterVersion` (0.3.20),
 `analyzerVersion` (8.4.1), `sdkVersion` (3.9.2), and `offsetEncoding` (`utf-16`).
 No timestamps or checkout root are emitted. The exporter builds records one file
 at a time; the analyzer may retain project state internally.
@@ -273,3 +273,11 @@ its parameter declaration separately from a derived `typeDeclaration` ending in
 are exported as syntax children, including generic function types. Fresh inference
 variables with no source fragment or enclosing element have `typeId` `ANY`; they
 do not acquire a shared declaration identity from a missing offset.
+
+Synchronous `ForEachParts` with a statically known interface iterable records
+`iteratorTarget`, `moveNextTarget` and `currentTarget` symbol identities.
+`iteratorType` and `iteratorTypeId` retain the substituted iterator static type
+separately from the generic declaration symbol. Dynamic receivers and
+asynchronous iteration omit these facts; their synthetic SDK operations are
+unresolved. Runtime substitutions and iterator payload/heap effects are outside
+this exported target contract.

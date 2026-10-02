@@ -2844,6 +2844,52 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         cpg.call.nameExact("<operator>.isInitialized").size shouldBe 2
       }
     }
+    "resolve synchronous iteration members and retain dynamic boundaries" in {
+      fixture(
+        Files.readString(frontend.resolve("src/test/resources/semantics/synchronous_iteration.dart")),
+        "void main() {}",
+        dataflow = false
+      ) { (cpg, _) =>
+        cpg.unknown.size shouldBe 0
+        for (name <- Seq("declared", "assigned", "collected", "patterned", "throughInterface")) {
+          val method = cpg.method.nameExact(name).head
+          for (member <- Seq("iterator", "moveNext", "current")) {
+            val invocation = method.ast.isCall.nameExact(member).l
+            withClue(s"$name.$member: ") {
+              invocation.size shouldBe 1
+              invocation.head.callee.isExternal(false).name.l should contain(member)
+            }
+          }
+          val iterator = method.ast.isCall.nameExact("iterator").head
+          val moveNext = method.ast.isCall.nameExact("moveNext").head
+          val current  = method.ast.isCall.nameExact("current").head
+          if (name != "throughInterface") {
+            current.callee.isExternal(false).astParentFullName.l.foreach { target =>
+              target should endWith(":CLASS:Cursor")
+            }
+            moveNext.callee.isExternal(false).astParentFullName.l.foreach { target =>
+              target should endWith(":CLASS:Cursor")
+            }
+          } else {
+            current.callee.isExternal(false).astParentFullName.l should contain(
+              cpg.typeDecl.nameExact("UnrelatedCursor").fullName.head
+            )
+          }
+          moveNext.argument(0).start.isIdentifier.refsTo.l shouldBe current.argument(0).start.isIdentifier.refsTo.l
+          moveNext.argument(0).start.isIdentifier.typeFullName.head should (endWith(":CLASS:Cursor") or endWith(
+            ":CLASS:Iterator"
+          ))
+          iterator.cfgNext.isCall.name.l should contain("<operator>.assignment")
+        }
+        cpg.method.nameExact("declared").ast.isCall.nameExact("source").size shouldBe 1
+        val dynamic = cpg.method.nameExact("dynamicLoop").head
+        dynamic.ast.isCall.nameExact("moveNext").methodFullName.l shouldBe List("<unresolved>.moveNext")
+        dynamic.ast.isCall.nameExact("<operator>.iterator").size shouldBe 1
+        val asynchronous = cpg.method.nameExact("asyncLoop").head
+        asynchronous.ast.isCall.nameExact("<operator>.streamIterator").size shouldBe 1
+        asynchronous.ast.isCall.nameExact("moveNext").methodFullName.l shouldBe List("<unresolved>.moveNext")
+      }
+    }
     "cancel await-for iterators through abrupt exits and retain local continues" in {
       fixture(
         """Future<String> early(Stream<String> stream, int mode) async {
@@ -3390,7 +3436,7 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         val coverage = ujson.read(Files.readString(report))
         coverage("includedFiles").num shouldBe 0
         coverage("stringConversionOrder").str shouldBe "after-expression-evaluation"
-        coverage("exporter")("exporterVersion").str shouldBe "0.3.19"
+        coverage("exporter")("exporterVersion").str shouldBe "0.3.20"
         coverage("exporter")("sdkVersion").str shouldBe "3.9.2"
         coverage("exporter")("analyzerVersion").str shouldBe "8.4.1"
         Files.writeString(dir.resolve("excluded.dart"), "void excluded() {}")
@@ -3410,7 +3456,7 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         "offsetEncoding"  -> "utf-16",
         "analyzerVersion" -> "8.4.1",
         "sdkVersion"      -> "3.9.2",
-        "exporterVersion" -> "0.3.19"
+        "exporterVersion" -> "0.3.20"
       )
       intercept[IllegalArgumentException](ExportProtocol.units(Seq(valid)))
       intercept[IllegalArgumentException](

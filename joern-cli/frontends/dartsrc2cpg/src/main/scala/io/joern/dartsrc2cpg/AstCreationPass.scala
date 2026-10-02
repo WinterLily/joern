@@ -1733,18 +1733,27 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
           val variable    = children(parts, "variable").headOption.getOrElse(child(parts, "pattern"))
           val declaration = if (string(variable, "kind") == "DeclaredIdentifier") statements(variable) else Nil
           val name        = string(variable, "name")
-          val loop        =
-            saved(
-              syntax,
+          val iterable    = expression(child(parts, "iterable"))
+          val iterator    =
+            if (string(parts, "iteratorTarget").nonEmpty) {
+              val invocation = patternMember(syntax, string(parts, "iteratorTarget"), "iterator", Seq(iterable))
+              invocation.root.collect { case value: NewCall => value.typeFullName = string(parts, "iteratorTypeId") }
+              invocation
+            } else
               operator(
                 syntax,
                 if (bool(syntax, "await")) "<operator>.streamIterator" else "<operator>.iterator",
-                Seq(expression(child(parts, "iterable")))
+                Seq(iterable)
               )
-            )(ref => {
+          val loop =
+            saved(syntax, iterator)(ref => {
+              def current(): Ast =
+                if (string(parts, "currentTarget").nonEmpty)
+                  patternMember(syntax, string(parts, "currentTarget"), "current", Seq(ref()))
+                else field(syntax, ref(), "current")
               val assign =
                 if (children(parts, "pattern").nonEmpty)
-                  patternScope(syntax) { pattern(variable, () => field(syntax, ref(), "current")) }
+                  saved(syntax, current()) { value => patternScope(syntax) { pattern(variable, value) } }
                 else
                   operator(
                     syntax,
@@ -1756,7 +1765,7 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
                         string(variable, "declaration", string(variable, "reference")),
                         tpe(variable)
                       ),
-                      field(syntax, ref(), "current")
+                      current()
                     )
                   )
               val iteration = control(
@@ -1768,7 +1777,7 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
                     "<operator>.await",
                     Seq(call(syntax, "<unresolved>.moveNext", "moveNext", None, Some(ref())))
                   )
-                else call(syntax, "<unresolved>.moveNext", "moveNext", None, Some(ref())),
+                else patternMember(syntax, string(parts, "moveNextTarget"), "moveNext", Seq(ref())),
                 block(syntax, Seq(assign) ++ loopBody(syntax))
               )
               if (bool(syntax, "await")) {

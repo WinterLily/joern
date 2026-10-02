@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "analysisSources": {
     "algorithm": "sha256-path-nul-content-nul",
-    "sha256": "6a92ea4bf560d1c655b02efcb3b34bf999e1aab8fc5db39f6deebceba02685f9",
-    "files": 403,
+    "sha256": "fae2ab7ea70e9a3c442f62127604fd86c742f53d293ca79090e127207db91719",
+    "files": 404,
     "roots": [
       "joern-cli/frontends/dartsrc2cpg/src",
       "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -28,33 +28,33 @@
   "resources": [
     {
       "category": "packages",
-      "elapsedMillis": 399078,
+      "elapsedMillis": 397149,
       "exitCode": 0,
       "outcome": "completed",
       "budgetMillis": 600000,
-      "peakSampledFamilyRssKiB": 6344160,
+      "peakSampledFamilyRssKiB": 6152836,
       "workerHeapBytes": 8589934592,
       "workerProcessors": 4,
       "budgetScope": "Whole sbt subprocess including startup, graph loading and queries; process family sampled once per second."
     },
     {
       "category": "applications",
-      "elapsedMillis": 43216,
+      "elapsedMillis": 46250,
       "exitCode": 0,
       "outcome": "completed",
       "budgetMillis": 600000,
-      "peakSampledFamilyRssKiB": 5488968,
+      "peakSampledFamilyRssKiB": 5149084,
       "workerHeapBytes": 8589934592,
       "workerProcessors": 4,
       "budgetScope": "Whole sbt subprocess including startup, graph loading and queries; process family sampled once per second."
     },
     {
       "category": "holdout",
-      "elapsedMillis": 28137,
+      "elapsedMillis": 30156,
       "exitCode": 0,
       "outcome": "completed",
       "budgetMillis": 600000,
-      "peakSampledFamilyRssKiB": 2304644,
+      "peakSampledFamilyRssKiB": 2297716,
       "workerHeapBytes": 8589934592,
       "workerProcessors": 4,
       "budgetScope": "Whole sbt subprocess including startup, graph loading and queries; process family sampled once per second."
@@ -81,7 +81,7 @@
       "exporter": {
         "record": "header",
         "protocolVersion": 1,
-        "exporterVersion": "0.3.19",
+        "exporterVersion": "0.3.20",
         "analyzerVersion": "8.4.1",
         "sdkVersion": "3.9.2",
         "offsetEncoding": "utf-16",
@@ -89,8 +89,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "6a92ea4bf560d1c655b02efcb3b34bf999e1aab8fc5db39f6deebceba02685f9",
-        "files": 403,
+        "sha256": "fae2ab7ea70e9a3c442f62127604fd86c742f53d293ca79090e127207db91719",
+        "files": 404,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -169,8 +169,8 @@
                 28
               ],
               "twoWitnessDetailedPaths": 2,
-              "newDetailedSequences": 2,
-              "twoWitnessSequencesNotRetained": 0,
+              "newDetailedSequences": 4,
+              "twoWitnessSequencesNotRetained": 2,
               "detailedWitnessesSha256": "b0592e779bb5b3e41fb64bda5525c059842e766bf92d63deacd9fe6912e9e3eb"
             },
             "modeled": {
@@ -189,19 +189,19 @@
               "visibleLengths": [
                 30,
                 30,
-                30,
+                29,
                 28
               ],
               "detailedLengths": [
                 30,
                 30,
-                30,
+                29,
                 28
               ],
               "twoWitnessDetailedPaths": 2,
-              "newDetailedSequences": 4,
-              "twoWitnessSequencesNotRetained": 2,
-              "detailedWitnessesSha256": "b0592e779bb5b3e41fb64bda5525c059842e766bf92d63deacd9fe6912e9e3eb"
+              "newDetailedSequences": 2,
+              "twoWitnessSequencesNotRetained": 0,
+              "detailedWitnessesSha256": "f240d05480a791dab69ffa12c86819361601017a612102dc555370e2ebec7dec"
             }
           },
           "semanticReview": "see package-flows-alternative-review.json; The source fast branch returns path unchanged. All four alternatives first leave readonly _needsNormalization outputs, select prettyUri normalize(fromUri(typedUri)), traverse relative/isRelative and re-enter normalize/rootLength. Alternatives change rootLength selected implementation, intermediate path reads or helper output visits. Full selected callers and output flags are retained. DART-FLOW-004 caller/output detours are not immutable String mutation or proven caller order; depth/held-round/pruning limits remain."
@@ -517,7 +517,7 @@
       "exporter": {
         "record": "header",
         "protocolVersion": 1,
-        "exporterVersion": "0.3.19",
+        "exporterVersion": "0.3.20",
         "analyzerVersion": "8.4.1",
         "sdkVersion": "3.9.2",
         "offsetEncoding": "utf-16",
@@ -525,8 +525,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "6a92ea4bf560d1c655b02efcb3b34bf999e1aab8fc5db39f6deebceba02685f9",
-        "files": 403,
+        "sha256": "fae2ab7ea70e9a3c442f62127604fd86c742f53d293ca79090e127207db91719",
+        "files": 404,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -1053,7 +1053,7 @@
       "exporter": {
         "record": "header",
         "protocolVersion": 1,
-        "exporterVersion": "0.3.19",
+        "exporterVersion": "0.3.20",
         "analyzerVersion": "8.4.1",
         "sdkVersion": "3.9.2",
         "offsetEncoding": "utf-16",
@@ -1061,8 +1061,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "6a92ea4bf560d1c655b02efcb3b34bf999e1aab8fc5db39f6deebceba02685f9",
-        "files": 403,
+        "sha256": "fae2ab7ea70e9a3c442f62127604fd86c742f53d293ca79090e127207db91719",
+        "files": 404,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -1719,7 +1719,7 @@
       "exporter": {
         "record": "header",
         "protocolVersion": 1,
-        "exporterVersion": "0.3.19",
+        "exporterVersion": "0.3.20",
         "analyzerVersion": "8.4.1",
         "sdkVersion": "3.9.2",
         "offsetEncoding": "utf-16",
@@ -1727,8 +1727,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "6a92ea4bf560d1c655b02efcb3b34bf999e1aab8fc5db39f6deebceba02685f9",
-        "files": 403,
+        "sha256": "fae2ab7ea70e9a3c442f62127604fd86c742f53d293ca79090e127207db91719",
+        "files": 404,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -2186,7 +2186,7 @@
       "exporter": {
         "record": "header",
         "protocolVersion": 1,
-        "exporterVersion": "0.3.19",
+        "exporterVersion": "0.3.20",
         "analyzerVersion": "8.4.1",
         "sdkVersion": "3.9.2",
         "offsetEncoding": "utf-16",
@@ -2194,8 +2194,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "6a92ea4bf560d1c655b02efcb3b34bf999e1aab8fc5db39f6deebceba02685f9",
-        "files": 403,
+        "sha256": "fae2ab7ea70e9a3c442f62127604fd86c742f53d293ca79090e127207db91719",
+        "files": 404,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -2627,7 +2627,7 @@
       "exporter": {
         "record": "header",
         "protocolVersion": 1,
-        "exporterVersion": "0.3.19",
+        "exporterVersion": "0.3.20",
         "analyzerVersion": "8.4.1",
         "sdkVersion": "3.9.2",
         "offsetEncoding": "utf-16",
@@ -2635,8 +2635,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "6a92ea4bf560d1c655b02efcb3b34bf999e1aab8fc5db39f6deebceba02685f9",
-        "files": 403,
+        "sha256": "fae2ab7ea70e9a3c442f62127604fd86c742f53d293ca79090e127207db91719",
+        "files": 404,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -2706,21 +2706,21 @@
                 "witness-alternatives"
               ],
               "visibleLengths": [
-                25,
                 23,
-                23,
-                23
+                21,
+                21,
+                21
               ],
               "detailedLengths": [
-                30,
-                29,
-                29,
-                29
+                28,
+                27,
+                27,
+                27
               ],
               "twoWitnessDetailedPaths": 2,
               "newDetailedSequences": 2,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "0f2483c8ea81b3c5f798a86d5c6d89a7fb8b919406cce64dbf2b5f9d7ef5e960"
+              "detailedWitnessesSha256": "862e57d967bdf07f3b097212e22f5fbe9f7398799b0c3118c24827d394fb38f7"
             },
             "modeled": {
               "paths": 1,
@@ -2791,21 +2791,21 @@
                 "witness-alternatives"
               ],
               "visibleLengths": [
-                61,
-                61,
-                60,
-                60
+                46,
+                47,
+                46,
+                47
               ],
               "detailedLengths": [
-                61,
-                61,
-                60,
-                60
+                53,
+                53,
+                53,
+                53
               ],
               "twoWitnessDetailedPaths": 2,
               "newDetailedSequences": 4,
               "twoWitnessSequencesNotRetained": 2,
-              "detailedWitnessesSha256": "1e197a374ebe0401fcd3b2ced5476b0a700f0c7ac965ca54a1a945e1b8c3def1"
+              "detailedWitnessesSha256": "b1020d3ce73eb2d1460643403380522d1fe372914934e36eb9dc4eecdc91d0fc"
             },
             "modeled": {
               "paths": 4,
@@ -2822,21 +2822,21 @@
                 "witness-alternatives"
               ],
               "visibleLengths": [
-                46,
-                46,
-                44,
-                44
+                59,
+                59,
+                57,
+                57
               ],
               "detailedLengths": [
-                46,
-                46,
-                45,
-                45
+                61,
+                61,
+                60,
+                60
               ],
               "twoWitnessDetailedPaths": 2,
-              "newDetailedSequences": 4,
-              "twoWitnessSequencesNotRetained": 2,
-              "detailedWitnessesSha256": "80ead5ca9097953d6ce07aca40b531382f99d7e403279e1eb1ecddf3c0b1305c"
+              "newDetailedSequences": 2,
+              "twoWitnessSequencesNotRetained": 0,
+              "detailedWitnessesSha256": "8b73bdfa8e16bb9aae2ab7904f46ca27747cf0a12d08b0a761368b2ae9f6e461"
             }
           },
           "semanticReview": "see package-flows-alternative-review.json; The source copies bytes into the returned list. Stock routes first use setRange byte-to-list effects, exit to selected add or addSlice caller and re-enter _convert through chunk length/header allocation or cursor/start effects. Modeled routes preserve bytes-to-list dependence but retain repeated _convert/add re-entry, add/addSlice choices and temporary variants. Full output flags and caller contexts are retained. None proves arbitrary caller order, allocation identity or exact destination slots; DART-FLOW-003/external/output approximations and depth/storage/pruning limits remain. Native whole/sliced/empty chunks check actual bytes, not these detours."
@@ -3091,7 +3091,7 @@
       "exporter": {
         "record": "header",
         "protocolVersion": 1,
-        "exporterVersion": "0.3.19",
+        "exporterVersion": "0.3.20",
         "analyzerVersion": "8.4.1",
         "sdkVersion": "3.9.2",
         "offsetEncoding": "utf-16",
@@ -3099,8 +3099,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "6a92ea4bf560d1c655b02efcb3b34bf999e1aab8fc5db39f6deebceba02685f9",
-        "files": 403,
+        "sha256": "fae2ab7ea70e9a3c442f62127604fd86c742f53d293ca79090e127207db91719",
+        "files": 404,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -3183,7 +3183,7 @@
               "twoWitnessDetailedPaths": 2,
               "newDetailedSequences": 2,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "d28bae6d2282d79519195a309ff9a030aea40608f7dc4a0175c85ed6e4202eed"
+              "detailedWitnessesSha256": "6f469e8b46ee0324c4ae1671a6a690570abc5320695442c6601cb052d56783a0"
             },
             "modeled": {
               "paths": 4,
@@ -3214,7 +3214,7 @@
               "twoWitnessDetailedPaths": 2,
               "newDetailedSequences": 2,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "d28bae6d2282d79519195a309ff9a030aea40608f7dc4a0175c85ed6e4202eed"
+              "detailedWitnessesSha256": "6f469e8b46ee0324c4ae1671a6a690570abc5320695442c6601cb052d56783a0"
             }
           },
           "semanticReview": "see analyzer-alternative-review.json; Source writeByte forwards byte to _addByte RHS. All four returned routes instead exit readonly byte output slots, select a writeEnum or directive-kind caller, then re-enter writeByte and _addByte. Their contexts differ by caller; they are conservative argument-output detours, not scalar mutation or independent runtime byte provenance (DART-FLOW-004). The final store is genuine forwarding; full routes are approximations."
@@ -3268,7 +3268,7 @@
               "twoWitnessDetailedPaths": 1,
               "newDetailedSequences": 0,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "9d469ba5028e667abf2993c7b7688797871d563ac9fcc0d55c5c947fa71cd9d7"
+              "detailedWitnessesSha256": "377c95804395aaf63ce852a632dc32107a558e4368a0d282986d2dd62d6f5677"
             },
             "modeled": {
               "paths": 1,
@@ -3292,7 +3292,7 @@
               "twoWitnessDetailedPaths": 1,
               "newDetailedSequences": 0,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "9d469ba5028e667abf2993c7b7688797871d563ac9fcc0d55c5c947fa71cd9d7"
+              "detailedWitnessesSha256": "377c95804395aaf63ce852a632dc32107a558e4368a0d282986d2dd62d6f5677"
             }
           },
           "semanticReview": "see analyzer-alternative-review.json; The value formal reads through right shift by 24 and mask 0xFF into _addByte4 byte1 at its exact positional slot. Both modes retain the same direct scalar route; depth/field/pruning and stock external-storage limits remain. Actual writer/readUint32 cases cover zero, one, mixed-byte and maximum uint32 in fresh and flush-boundary buffers; this does not certify omitted alternatives."
@@ -3417,9 +3417,9 @@
                 60
               ],
               "twoWitnessDetailedPaths": 2,
-              "newDetailedSequences": 4,
-              "twoWitnessSequencesNotRetained": 2,
-              "detailedWitnessesSha256": "4bf8664d641c8b4004e937d6bd46ab0cb6ccea5a8912db92ee6c68591c63dc6d"
+              "newDetailedSequences": 2,
+              "twoWitnessSequencesNotRetained": 0,
+              "detailedWitnessesSha256": "ca557e51a195a611a4da629456365647d963bc8c3d9a2b74864227edd45c6050"
             },
             "modeled": {
               "paths": 4,
@@ -3438,21 +3438,21 @@
                 "witness-alternatives"
               ],
               "visibleLengths": [
-                58,
-                58,
-                58,
-                53
+                64,
+                59,
+                59,
+                59
               ],
               "detailedLengths": [
-                61,
-                61,
-                61,
-                60
+                68,
+                67,
+                67,
+                67
               ],
               "twoWitnessDetailedPaths": 2,
-              "newDetailedSequences": 2,
-              "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "f0820ebb2554f9e9ce09ea2acfa9115bb74796ae23af4c54fdfc413f887467be"
+              "newDetailedSequences": 4,
+              "twoWitnessSequencesNotRetained": 2,
+              "detailedWitnessesSha256": "8685bed277fe217453179f81e9901dadad03ba821250d7bd6bdc2c8ba736137e"
             }
           },
           "semanticReview": "see analyzer-alternative-review.json; Source writeList passes items[i] to writeItem once per loop iteration. Returned routes leave readonly items/getter outputs, select a typeParameterFragments caller and traverse metadata or bound record named/positional-field lists before re-entering writeList. Flat-buffer length getter paths also use getUint8/getUint32 offset-to-buffer external effects. Receiver field demands and selected call frames are preserved. These are conservative output/heap/dispatch/external detours, not exact element provenance, a specific runtime list implementation or general callback delivery. Actual writer/readback oracles do not execute these selected metadata/record/flat-buffer getter routes."
@@ -3504,7 +3504,7 @@
               "twoWitnessDetailedPaths": 1,
               "newDetailedSequences": 0,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "7e5d572ef9b3595447455e7705f871d55104ef9b09c81093f7844ea9d63fe4f3"
+              "detailedWitnessesSha256": "4ea91e104e0415e345f33016cc3df89430abd2da5cc0f3a41b767b7f09aadc49"
             },
             "modeled": {
               "paths": 1,
@@ -3527,7 +3527,7 @@
               "twoWitnessDetailedPaths": 1,
               "newDetailedSequences": 0,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "7e5d572ef9b3595447455e7705f871d55104ef9b09c81093f7844ea9d63fe4f3"
+              "detailedWitnessesSha256": "4ea91e104e0415e345f33016cc3df89430abd2da5cc0f3a41b767b7f09aadc49"
             }
           },
           "semanticReview": "see analyzer-alternative-review.json; The offset formal reads directly into result.offset assignment in BinaryReader.fork. Both modes retain the same direct route with depth/pruning limits. Actual reader forks share bytes while their read offsets advance independently; two forks and the original observe shared byte mutation without conflating offset state. This is exercised allocation/state evidence, not general heap independence."
@@ -3588,7 +3588,7 @@
               "twoWitnessDetailedPaths": 2,
               "newDetailedSequences": 2,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "46f52e831fbafe350f9dd69a4fd203e878be4e0696760c482493272999b5013b"
+              "detailedWitnessesSha256": "0b8de403faaf53f2bbd07e700942b97e3d437acedd9c40b23b0975f155af9c4b"
             },
             "modeled": {
               "paths": 4,
@@ -3619,7 +3619,7 @@
               "twoWitnessDetailedPaths": 2,
               "newDetailedSequences": 2,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "46f52e831fbafe350f9dd69a4fd203e878be4e0696760c482493272999b5013b"
+              "detailedWitnessesSha256": "0b8de403faaf53f2bbd07e700942b97e3d437acedd9c40b23b0975f155af9c4b"
             }
           },
           "semanticReview": "see analyzer-alternative-review.json; Source _addByte directly stores its byte RHS. All four routes first exit _addByte/writeUint30 readonly outputs, select list length or resolution-offset callers, and re-enter writeUint30 and _addByte. Unchanged integer outputs and selected caller contexts are conservative evidence, not mutation or allocation/call-order qualification (DART-FLOW-004)."
@@ -3648,7 +3648,7 @@
       "exporter": {
         "record": "header",
         "protocolVersion": 1,
-        "exporterVersion": "0.3.19",
+        "exporterVersion": "0.3.20",
         "analyzerVersion": "8.4.1",
         "sdkVersion": "3.9.2",
         "offsetEncoding": "utf-16",
@@ -3656,8 +3656,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "6a92ea4bf560d1c655b02efcb3b34bf999e1aab8fc5db39f6deebceba02685f9",
-        "files": 403,
+        "sha256": "fae2ab7ea70e9a3c442f62127604fd86c742f53d293ca79090e127207db91719",
+        "files": 404,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -4578,7 +4578,7 @@
       "exporter": {
         "record": "header",
         "protocolVersion": 1,
-        "exporterVersion": "0.3.19",
+        "exporterVersion": "0.3.20",
         "analyzerVersion": "8.4.1",
         "sdkVersion": "3.9.2",
         "offsetEncoding": "utf-16",
@@ -4586,8 +4586,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "6a92ea4bf560d1c655b02efcb3b34bf999e1aab8fc5db39f6deebceba02685f9",
-        "files": 403,
+        "sha256": "fae2ab7ea70e9a3c442f62127604fd86c742f53d293ca79090e127207db91719",
+        "files": 404,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -5489,7 +5489,7 @@
       "exporter": {
         "record": "header",
         "protocolVersion": 1,
-        "exporterVersion": "0.3.19",
+        "exporterVersion": "0.3.20",
         "analyzerVersion": "8.4.1",
         "sdkVersion": "3.9.2",
         "offsetEncoding": "utf-16",
@@ -5497,8 +5497,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "6a92ea4bf560d1c655b02efcb3b34bf999e1aab8fc5db39f6deebceba02685f9",
-        "files": 403,
+        "sha256": "fae2ab7ea70e9a3c442f62127604fd86c742f53d293ca79090e127207db91719",
+        "files": 404,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -5574,7 +5574,7 @@
               "twoWitnessDetailedPaths": 1,
               "newDetailedSequences": 0,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "c4f2018390f6ca58761ef54dfb28bafe54ba7f0df19a808046d4bb961be9d907"
+              "detailedWitnessesSha256": "0ea0a040f342bd457da227021cf876c96dee6c9b699b19e1103ece006623c4f5"
             },
             "modeled": {
               "paths": 1,
@@ -5599,7 +5599,7 @@
               "twoWitnessDetailedPaths": 1,
               "newDetailedSequences": 0,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "c4f2018390f6ca58761ef54dfb28bafe54ba7f0df19a808046d4bb961be9d907"
+              "detailedWitnessesSha256": "0ea0a040f342bd457da227021cf876c96dee6c9b699b19e1103ece006623c4f5"
             }
           },
           "semanticReview": "see sass-alternative-review.json; compileString passes source slot one to Stylesheet.parse contents. The returned three-node path is explicit forwarding; depth/storage/pruning limits remain, and it does not qualify evaluator correctness."
@@ -5803,7 +5803,7 @@
               "twoWitnessDetailedPaths": 2,
               "newDetailedSequences": 1,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "27f257504ee43a1c2ebcd634618531cdbb591b3584138f2b4405b64e752f7c25"
+              "detailedWitnessesSha256": "31a88208fa77431f7553baa3d7d505ed3ce24e6240fcbb86fbe382d2f2a75fd0"
             },
             "modeled": {
               "paths": 3,
@@ -5832,7 +5832,7 @@
               "twoWitnessDetailedPaths": 2,
               "newDetailedSequences": 1,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "27f257504ee43a1c2ebcd634618531cdbb591b3584138f2b4405b64e752f7c25"
+              "detailedWitnessesSha256": "31a88208fa77431f7553baa3d7d505ed3ce24e6240fcbb86fbe382d2f2a75fd0"
             }
           },
           "semanticReview": "see sass-alternative-review.json; The Syntax.scss branch forwards contents to parseScss slot one. One direct path and two readonly contents-output detours through compile/compileAsync readFile callers are retained. These DART-FLOW-004 alternatives do not establish String mutation, actual file reads or the selected runtime syntax branch."
@@ -5890,7 +5890,7 @@
               "twoWitnessDetailedPaths": 2,
               "newDetailedSequences": 1,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "76b540077ddbcd6d26a94c4d09ed5cf25565af31b62c16a0fcb5fc9f8eb383cb"
+              "detailedWitnessesSha256": "6b538e2dc6d06f2c76d1c1031ef509e11802806e23036ceb3d25d0cbf41a1f89"
             },
             "modeled": {
               "paths": 3,
@@ -5919,7 +5919,7 @@
               "twoWitnessDetailedPaths": 2,
               "newDetailedSequences": 1,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "76b540077ddbcd6d26a94c4d09ed5cf25565af31b62c16a0fcb5fc9f8eb383cb"
+              "detailedWitnessesSha256": "6b538e2dc6d06f2c76d1c1031ef509e11802806e23036ceb3d25d0cbf41a1f89"
             }
           },
           "semanticReview": "see sass-alternative-review.json; The Syntax.css branch forwards contents to parseCss slot one. One direct path and two readonly contents-output detours through compile/compileAsync readFile callers are retained. These DART-FLOW-004 alternatives do not establish String mutation, actual file reads or the selected runtime syntax branch."
@@ -5977,10 +5977,10 @@
               "twoWitnessDetailedPaths": 2,
               "newDetailedSequences": 2,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "e045cc9124e486c8f793ef770d3c8a54bb42a283ba0b50acce38911bf2934cbe"
+              "detailedWitnessesSha256": "8850f3f1f895b68448f80a3c451dd59c72178a5b88f4b0159938d06f77f8b1ca"
             },
             "modeled": {
-              "paths": 4,
+              "paths": 2,
               "detailedPaths": 4,
               "outcome": "flow-observed",
               "passed": true,
@@ -5994,8 +5994,6 @@
               ],
               "visibleLengths": [
                 21,
-                20,
-                20,
                 21
               ],
               "detailedLengths": [
@@ -6007,7 +6005,7 @@
               "twoWitnessDetailedPaths": 2,
               "newDetailedSequences": 2,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "e045cc9124e486c8f793ef770d3c8a54bb42a283ba0b50acce38911bf2934cbe"
+              "detailedWitnessesSha256": "562ad85650af9858a94b810567e1a02517e6bf01192ab03fe85f3ebdd0ecaef1"
             }
           },
           "semanticReview": "see sass-alternative-review.json; The source returns empty text for all-whitespace input or a substring between independently computed first/last bounds. The four returned paths traverse a readonly _firstNonWhitespace argument-output slot, _lastNonWhitespace length/index/return evidence, then external substring cross-argument effects from end to start to receiver. Those effects do not establish mutation of immutable String or integer arguments; the runtime preserves content and exercised ASCII/escape boundaries. Alternatives differ in local index visits or end-return branch. Call-depth, held-round and pruning diagnostics remain; empty-result feasibility is not inferred from the witness."
@@ -6059,7 +6057,7 @@
               "twoWitnessDetailedPaths": 1,
               "newDetailedSequences": 0,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "a4acc9743ccadc6408e1900a6b52f415b5af82185669303ecdc377204932bbb7"
+              "detailedWitnessesSha256": "34352d8d1688a8f44ad2665a2ce85cc6f94ea0d3cf59e0ebf5317e3e3f99c170"
             },
             "modeled": {
               "paths": 1,
@@ -6082,7 +6080,7 @@
               "twoWitnessDetailedPaths": 1,
               "newDetailedSequences": 0,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "a4acc9743ccadc6408e1900a6b52f415b5af82185669303ecdc377204932bbb7"
+              "detailedWitnessesSha256": "34352d8d1688a8f44ad2665a2ce85cc6f94ea0d3cf59e0ebf5317e3e3f99c170"
             }
           },
           "semanticReview": "see sass-alternative-review.json; trimAscii passes string slot one to _firstNonWhitespace. Direct three-node formal-root forwarding retains depth/pruning limits; this is input delivery to the scanner, not complete index correctness."
@@ -6194,7 +6192,7 @@
               "twoWitnessDetailedPaths": 1,
               "newDetailedSequences": 0,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "8389f67208423065f979bcfe5224160b6c5b750a178adcb3ab4b1041fc40f411"
+              "detailedWitnessesSha256": "0335126be01596cc09b1b60495d722c7640d9c112ad353425c0902c1fbf89669"
             },
             "modeled": {
               "paths": 1,
@@ -6214,7 +6212,7 @@
               "twoWitnessDetailedPaths": 1,
               "newDetailedSequences": 0,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "8389f67208423065f979bcfe5224160b6c5b750a178adcb3ab4b1041fc40f411"
+              "detailedWitnessesSha256": "0335126be01596cc09b1b60495d722c7640d9c112ad353425c0902c1fbf89669"
             }
           },
           "semanticReview": "see sass-alternative-review.json; The singular branch returns its supplied name. The three-node parameter-read/return path has no recorded query limitation; source-grounded count==1 is required for runtime selection."
@@ -6270,7 +6268,7 @@
               "twoWitnessDetailedPaths": 2,
               "newDetailedSequences": 2,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "6af113e6614f547a8e8689238aa9755eebb8c37c64457be9eba1b41e36e33238"
+              "detailedWitnessesSha256": "87ed956d787dc5b32b781fdbd75b0d27d6bf3f7cb567faffc9a32d31fc25df88"
             },
             "modeled": {
               "paths": 1,
@@ -6293,7 +6291,7 @@
               "twoWitnessDetailedPaths": 1,
               "newDetailedSequences": 0,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "9ca752fd3202a10f3f8849c877c27a245ce7aedb89c00b9aefbd9fad70bf62ac"
+              "detailedWitnessesSha256": "4a26c20f707def2eff94b02a0321c79068592447f89a89add8b610af08dcdf1f"
             }
           },
           "semanticReview": "see sass-alternative-review.json; The implementation splits lines, maps prefix plus line, then joins. The modeled path carries mapped lambda parameter/return through its METHOD_REF and join, under the opt-in iterable contract. Stock instead exits through an indent scalar return into bulletedList, propagates through its callback METHOD_REF to the collection receiver, then re-enters the lambda and indent via a rest pattern. This is a conservative callback/receiver/caller detour, not a mutation or general delivery proof. The native controls exercise direct indent and bulletedList on bounded lines; query depth/pruning limits remain."
@@ -6359,7 +6357,7 @@
               "twoWitnessDetailedPaths": 2,
               "newDetailedSequences": 2,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "fea3bd020281e87c3d4343e643accc9d896dbc883a576ad8dbeb85c95c5f120b"
+              "detailedWitnessesSha256": "1e1ef18daadaefd1b42dac5bc27f9a5676686b2c3079657834483e553a663122"
             },
             "modeled": {
               "paths": 4,
@@ -6394,7 +6392,7 @@
               "twoWitnessDetailedPaths": 2,
               "newDetailedSequences": 2,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "fea3bd020281e87c3d4343e643accc9d896dbc883a576ad8dbeb85c95c5f120b"
+              "detailedWitnessesSha256": "1e1ef18daadaefd1b42dac5bc27f9a5676686b2c3079657834483e553a663122"
             }
           },
           "semanticReview": "see sass-alternative-review.json; The sink is the input argument of number==1. Four retained routes leave pluralize readonly number output, select built-in evaluator named-key length callers, then re-enter pluralize and read number. They are conservative unchanged-integer/caller detours, not mutation or evaluator order; explicit query limitations remain."
@@ -6419,7 +6417,7 @@
       "exporter": {
         "record": "header",
         "protocolVersion": 1,
-        "exporterVersion": "0.3.19",
+        "exporterVersion": "0.3.20",
         "analyzerVersion": "8.4.1",
         "sdkVersion": "3.9.2",
         "offsetEncoding": "utf-16",
@@ -6427,8 +6425,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "6a92ea4bf560d1c655b02efcb3b34bf999e1aab8fc5db39f6deebceba02685f9",
-        "files": 403,
+        "sha256": "fae2ab7ea70e9a3c442f62127604fd86c742f53d293ca79090e127207db91719",
+        "files": 404,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -6613,7 +6611,7 @@
       "exporter": {
         "record": "header",
         "protocolVersion": 1,
-        "exporterVersion": "0.3.19",
+        "exporterVersion": "0.3.20",
         "analyzerVersion": "8.4.1",
         "sdkVersion": "3.9.2",
         "offsetEncoding": "utf-16",
@@ -6621,8 +6619,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "6a92ea4bf560d1c655b02efcb3b34bf999e1aab8fc5db39f6deebceba02685f9",
-        "files": 403,
+        "sha256": "fae2ab7ea70e9a3c442f62127604fd86c742f53d293ca79090e127207db91719",
+        "files": 404,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",

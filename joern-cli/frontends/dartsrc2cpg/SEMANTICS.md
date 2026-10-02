@@ -138,6 +138,15 @@ perform a whole-program function-value points-to analysis.
 Branches, loops, switches and exceptions use standard control structures and
 explicit condition/body edges. Switch cases with statements have implicit breaks.
 For-in loops evaluate the iterable once and lower to iterator/moveNext/current.
+For statically known interface receivers, synchronous iteration retains the
+analyzer-selected iterator getter, moveNext method and current getter. The
+substituted iterator static type filters the observed implementation union;
+this does not identify the runtime receiver instance. Declared, assigned,
+collection and record-pattern loop forms have target and native member-order
+controls. Pattern loops save current once before destructuring. Dynamic receivers,
+type-parameter receivers without exported iteration targets and asynchronous SDK
+iteration retain explicit unresolved boundaries; generic runtime substitutions,
+iterator heap effects and element payload dataflow remain unqualified.
 Short-circuit boolean operators use Joern's standard logical operators.
 
 The added exception routing, lexical capture, nested block-value and constant-field

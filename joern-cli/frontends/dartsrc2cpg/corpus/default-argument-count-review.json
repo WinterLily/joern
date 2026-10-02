@@ -2,8 +2,8 @@
   "scope": "Twelve pinned corpora; graph representation counts, not runtime precision/recall",
   "analysisSources": {
     "algorithm": "sha256-path-nul-content-nul",
-    "sha256": "6a92ea4bf560d1c655b02efcb3b34bf999e1aab8fc5db39f6deebceba02685f9",
-    "files": 403,
+    "sha256": "fae2ab7ea70e9a3c442f62127604fd86c742f53d293ca79090e127207db91719",
+    "files": 404,
     "roots": [
       "joern-cli/frontends/dartsrc2cpg/src",
       "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -24,7 +24,7 @@
     ]
   },
   "qualification": "DartCorpusTests: one delegate per unique annotated adapter, exact resolved target identity, source named slot binding, call-to-adapter links and bound entry-point capture edges; external generic pN slots remain opaque. override_arguments_test.dart and default_argument_interactions_test.dart independently execute direct, bound and mixin defaults, repeated invocation/receiver controls, cross-file positional/named defaults and evaluation traces.",
-  "baselineMeaning": "Graph baselines before default adapters; each adapter adds one method and one call. All remaining method/call counts must stay at their previous baseline.",
+  "baselineMeaning": "Graph representation baselines excluding per-target default adapters; each adapter adds one method and one call. Iteration representation changes are accounted separately by synchronous-iteration-count-review.json and the historical async-iteration-count-review.json.",
   "projects": [
     {
       "project": "path-1.9.1",
@@ -72,7 +72,7 @@
       "project": "args-2.7.0",
       "category": "packages",
       "baselineMethods": 219,
-      "baselineCalls": 2292,
+      "baselineCalls": 2290,
       "defaultArguments": {
         "adaptedCalls": 0,
         "targetAdapters": 0,
@@ -80,7 +80,7 @@
         "adapterLinks": 0
       },
       "methods": 219,
-      "calls": 2292
+      "calls": 2290
     },
     {
       "project": "async-2.13.0",
@@ -114,7 +114,7 @@
       "project": "analyzer-8.4.1",
       "category": "packages",
       "baselineMethods": 28397,
-      "baselineCalls": 225702,
+      "baselineCalls": 225671,
       "defaultArguments": {
         "adaptedCalls": 182,
         "targetAdapters": 1966,
@@ -122,7 +122,7 @@
         "adapterLinks": 2006
       },
       "methods": 30363,
-      "calls": 227668
+      "calls": 227637
     },
     {
       "project": "localsend-1.17.0",
@@ -156,7 +156,7 @@
       "project": "dart-sass-1.89.2",
       "category": "applications",
       "baselineMethods": 7209,
-      "baselineCalls": 85625,
+      "baselineCalls": 85561,
       "defaultArguments": {
         "adaptedCalls": 58,
         "targetAdapters": 2372,
@@ -164,7 +164,7 @@
         "adapterLinks": 3904
       },
       "methods": 9581,
-      "calls": 87997
+      "calls": 87933
     },
     {
       "project": "shelf-1.4.2",

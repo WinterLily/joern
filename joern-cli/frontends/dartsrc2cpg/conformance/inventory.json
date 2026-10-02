@@ -1474,7 +1474,7 @@
       "reason": "Explicit exporter representation; semantic obligations tracked independently.",
       "references": {
         "sections": [
-          "switch"
+          "for-in"
         ],
         "features": [
           "accepted/3.0/patterns/feature-specification.md",
@@ -1497,7 +1497,8 @@
       "references": {
         "sections": [
           "collectionLiteralElementEvaluation",
-          "asynchronousFor-in"
+          "asynchronousFor-in",
+          "for-in"
         ],
         "features": [
           "accepted/2.3/control-flow-collections/feature-specification.md"
@@ -1600,7 +1601,8 @@
       "references": {
         "sections": [
           "forLoop",
-          "asynchronousFor-in"
+          "asynchronousFor-in",
+          "for-in"
         ],
         "features": [],
         "sdkCandidateCases": [
