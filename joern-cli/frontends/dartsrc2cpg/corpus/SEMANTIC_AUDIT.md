@@ -1840,3 +1840,32 @@ synchronous-iteration profile. Its six tests/sixteen rejection controls, native
 inventory check and source verifier/thirteen rejection controls pass. Complete
 language rules, eight inconclusive modeled negatives, omitted alternatives and
 Gates 1–6 remain open.
+
+
+## Pinned synchronous SDK oracles
+
+Two further SDK 3.9.2 sources are classified in the upstream manifest. The
+for_in_side_effects regression keeps its body and expected value, adapting only
+the assertion import. Its iterator getter's global write executes in the VM
+and remains observable after dart2js compilation and Node.js execution. The
+for_in3 diagnostic source is unmodified: iterating a String retains exactly
+`for_in_of_invalid_type` and a partial exported unit. The valid source has no
+unsupported kinds and retains the source getter plus moveNext/current targets.
+This is runtime and diagnostic evidence, not graph CFG, static field-flow,
+generic bound or heap qualification. Initial exporter assertions used an AST
+visitor name instead of the exported ForEachParts kind and assumed an absolute
+file identity; they were corrected to the actual protocol and source-relative
+identity before qualification.
+
+All six manifest sources now record SDK Git blob identities, checked against the
+pinned candidate index. Retrieved originals also match their recorded SHA-256
+hashes; adapted contents have a persistent hash/classification verifier. Its two
+tests cover the baseline and nine stale/contradictory manifest rejection controls.
+The stage matrix has sixty named links and keeps the SDK diagnostic negative
+control separate from static flow absence. All six matrix tests/sixteen rejection
+controls pass. The focused six-test SDK suite and full 129-test native suite pass with all
+runtime/corpus opt-ins enabled. Native analysis and changed-file formatting pass.
+Analysis source hash remains
+`fae2ab7ea70e9a3c442f62127604fd86c742f53d293ca79090e127207db91719`
+(404 files), independently matching all twelve graphs. Full loop rules and
+Gates 1–6 remain open.

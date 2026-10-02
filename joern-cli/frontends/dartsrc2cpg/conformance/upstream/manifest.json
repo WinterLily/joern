@@ -12,7 +12,8 @@
       "adaptedSha256": "05291bda35ed3e7eeb0c40cb5010fa77cd5d7784f4bb911a23fb0fd43e45b2a4",
       "classification": "valid",
       "adaptation": "Only the expect import uses the local assertion adapter; test bodies and expected values unchanged.",
-      "qualification": "runtime oracle and exporter/CPG structure; feature-specific flow obligations remain separate"
+      "qualification": "runtime oracle and exporter/CPG structure; feature-specific flow obligations remain separate",
+      "upstreamGitBlob": "ade8b0eec06807a99b57b7fd099273381ee5c26a"
     },
     {
       "file": "late_field_initializers.dart",
@@ -21,7 +22,8 @@
       "adaptedSha256": "c978a94861f927096acae48e8cc0c102fb6a0662d51b2c7f7df71d3f233aa5b6",
       "classification": "valid",
       "adaptation": "Only the expect import uses the local assertion adapter; test bodies and expected values unchanged.",
-      "qualification": "runtime oracle and exporter/CPG structure; feature-specific flow obligations remain separate"
+      "qualification": "runtime oracle and exporter/CPG structure; feature-specific flow obligations remain separate",
+      "upstreamGitBlob": "b53f2194532ec55916d236af5c1a8d4249f71dcc"
     },
     {
       "file": "guard_capture.dart",
@@ -30,7 +32,8 @@
       "adaptedSha256": "2a259a1c53c50b597c3e45075b74484a1f2606464de9333608d57b36636c5c03",
       "classification": "valid",
       "adaptation": "Only the expect import uses the local assertion adapter; test bodies and expected values unchanged.",
-      "qualification": "runtime oracle and exporter/CPG structure; feature-specific flow obligations remain separate"
+      "qualification": "runtime oracle and exporter/CPG structure; feature-specific flow obligations remain separate",
+      "upstreamGitBlob": "06f7b34de3b4ad628082e924616cca0bbd997359"
     },
     {
       "file": "null_aware_type_errors.dart",
@@ -43,7 +46,31 @@
         "list_element_type_not_assignable",
         "set_element_type_not_assignable"
       ],
-      "qualification": "partial status and diagnostic preservation; not a runtime oracle"
+      "qualification": "partial status and diagnostic preservation; not a runtime oracle",
+      "upstreamGitBlob": "4508247b46fe0cad5200425a8d136d1f8b6797a2"
+    },
+    {
+      "file": "for_in_side_effects.dart",
+      "upstreamPath": "tests/language/loop/for_in_side_effects_test.dart",
+      "upstreamSha256": "0d471f49fa9e53e2e6b2755447129b8beff45fc2aae6d3e33e49149506c90e7d",
+      "upstreamGitBlob": "f9b5f1ab8a59674275c5d5d8ca718b80bfd59a5f",
+      "adaptedSha256": "b22aa6a091144e240c110ff216d5877c809ec0e9dd700de7bcd56bd2996e6146",
+      "classification": "valid",
+      "adaptation": "Only the expect import uses the local assertion adapter; test body and expected values unchanged.",
+      "qualification": "VM and dart2js iterator getter side-effect oracle plus resolved exporter classification; not CFG, static field flow or runtime heap qualification."
+    },
+    {
+      "file": "for_in_string_error.dart",
+      "upstreamPath": "tests/language/loop/for_in3_test.dart",
+      "upstreamSha256": "df2c98a9d17de67fbf744b2858a2ff62bd914c78251c9b87d18b86baf2547e1b",
+      "upstreamGitBlob": "b03e6be81f2fc1a1056ce1c7b4319f080f23901b",
+      "adaptedSha256": "df2c98a9d17de67fbf744b2858a2ff62bd914c78251c9b87d18b86baf2547e1b",
+      "classification": "deliberate-diagnostic",
+      "adaptation": "Unmodified upstream source, including deliberate diagnostic annotations.",
+      "qualification": "Exact analyzer invalid iterable diagnostic and partial unit classification; not a runtime oracle.",
+      "expectedDiagnostics": [
+        "for_in_of_invalid_type"
+      ]
     }
   ]
 }

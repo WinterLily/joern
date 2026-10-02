@@ -26,7 +26,7 @@ complete language-rule matrix or executable-oracle obligations.
 
 [qualification-matrix.json](qualification-matrix.json) assigns seven stage cells
 to all 175 visitors, 195 base sections and thirty feature documents. Shared visitor
-profiles and partial case contracts link 57 named graph, exporter and native tests, with file hashes and
+profiles and partial case contracts link 60 named graph, exporter and native tests, with file hashes and
 explicit assertion scopes. `tested-conservative` describes those selected tests;
 it does not qualify every visitor using the profile. Generic declaration/bound
 checks remain `structural-only`, and untested CFG cells remain `unqualified`.
@@ -51,10 +51,22 @@ Receiver filtering excludes unrelated iterator implementations from concrete
 receivers. Dynamic and asynchronous boundaries remain unresolved. Complete CFG,
 payload, heap and runtime type qualification remain separate obligations.
 
+The upstream manifest now contains six adapted SDK cases. The two synchronous
+loop cases retain the iterator getter side effect under both VM and dart2js
+execution, and the exact analyzer `for_in_of_invalid_type` error for iterating a
+String. The valid source changes only its expect import; the diagnostic source
+is unmodified. Original SHA-256 and Git blob identities were checked against
+retrieved pinned sources, including the four existing cases. The source verifier
+checks adapted contents, SDK candidate identities, version pins and diagnostic
+contracts. This diagnostic negative control does not establish static flow
+absence, CFG fidelity, runtime generic bounds or heap effects.
+
 Check committed references without network access:
 
 ```sh
 python3 joern-cli/frontends/dartsrc2cpg/scripts/verify_conformance_sources.py
+python3 joern-cli/frontends/dartsrc2cpg/scripts/verify_upstream_cases.py
+python3 joern-cli/frontends/dartsrc2cpg/scripts/test_upstream_cases.py
 python3 joern-cli/frontends/dartsrc2cpg/scripts/verify_qualification_matrix.py
 python3 joern-cli/frontends/dartsrc2cpg/scripts/test_qualification_matrix.py
 ```

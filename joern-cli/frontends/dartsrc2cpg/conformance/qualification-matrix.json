@@ -120,7 +120,7 @@
     "pattern-joins-runtime": {
       "file": "astgen/test/upstream_conformance_test.dart",
       "selector": "SDK pattern guard capture oracle",
-      "sha256": "b59aaae5e32edf1447d0f17aec9d2e8c624194b2593e3e8d03b800a2cd60911d",
+      "sha256": "80dc0a8490d40e8ecb509959078495381c235535687324f0e88d14aa6260d192",
       "stages": [
         "interaction"
       ],
@@ -579,6 +579,34 @@
         "interaction"
       ],
       "scope": "Bounded Dart 3.9.2 VM member-order traces for declared/assigned loops and generic/interface/record collection elements, including empty iteration. No arbitrary dispatch/heap/payload qualification."
+    },
+    "sdk-sync-iteration-exporter": {
+      "file": "astgen/test/upstream_conformance_test.dart",
+      "selector": "classify pinned SDK valid and deliberate diagnostic cases",
+      "sha256": "80dc0a8490d40e8ecb509959078495381c235535687324f0e88d14aa6260d192",
+      "stages": [
+        "exporter",
+        "negative"
+      ],
+      "scope": "Six adapted SDK cases: resolved valid units, no unsupported kinds and exact deliberate error codes. The synchronous loop additionally retains its source iterator getter and moveNext/current targets; no static value-flow absence claim."
+    },
+    "sdk-sync-iteration-vm": {
+      "file": "astgen/test/upstream_conformance_test.dart",
+      "selector": "SDK synchronous iterator getter side-effect oracle",
+      "sha256": "80dc0a8490d40e8ecb509959078495381c235535687324f0e88d14aa6260d192",
+      "stages": [
+        "interaction"
+      ],
+      "scope": "Pinned SDK for_in_side_effects test executes its iterator getter mutation under the named backend. Expected body and values are upstream; not complete CFG, heap, type-bound or library qualification."
+    },
+    "sdk-sync-iteration-web": {
+      "file": "astgen/test/upstream_conformance_test.dart",
+      "selector": "SDK iterator getter side effects survive dart2js compilation",
+      "sha256": "80dc0a8490d40e8ecb509959078495381c235535687324f0e88d14aa6260d192",
+      "stages": [
+        "interaction"
+      ],
+      "scope": "Pinned SDK for_in_side_effects test executes its iterator getter mutation under the named backend. Expected body and values are upstream; not complete CFG, heap, type-bound or library qualification."
     }
   },
   "profiles": {
@@ -5499,6 +5527,61 @@
           "evidence": [
             "sync-iteration-order",
             "sync-iteration-collections"
+          ],
+          "obligation": "Execute bounded independent inputs and interacting forms; preserve order, failures and unrelated instances."
+        }
+      }
+    },
+    {
+      "id": "sdk-synchronous-iteration-oracles",
+      "constructs": [
+        "ForStatement",
+        "ForEachPartsWithDeclaration"
+      ],
+      "sections": [
+        "for-in"
+      ],
+      "scope": "Two pinned SDK loop cases: iterator getter side-effect execution in VM/dart2js and String non-iterability diagnostic preservation. Graph CFG, payload/heap, runtime generics and complete for-in rule obligations remain open.",
+      "stages": {
+        "exporter": {
+          "status": "tested-conservative",
+          "evidence": [
+            "sdk-sync-iteration-exporter"
+          ],
+          "obligation": "Resolved SDK side-effect source and exact String-as-iterable compile-time diagnostic. Negative qualification is diagnostic preservation, not static flow absence."
+        },
+        "lowering": {
+          "status": "unqualified",
+          "evidence": [],
+          "obligation": "Preserve the rule's values, identities and exactly-once evaluation; test its operations and generated bodies."
+        },
+        "resolution": {
+          "status": "unqualified",
+          "evidence": [],
+          "obligation": "Check declarations and targets against pinned analyzer facts; distinguish symbolic types from runtime instances."
+        },
+        "cfg": {
+          "status": "unqualified",
+          "evidence": [],
+          "obligation": "Compare successor/order/abrupt-exit behavior with executable traces and retain uncertainty explicitly."
+        },
+        "valueFlow": {
+          "status": "unqualified",
+          "evidence": [],
+          "obligation": "Verify payload and state dependencies across the relevant calls/locations with visible search budgets."
+        },
+        "negative": {
+          "status": "tested-conservative",
+          "evidence": [
+            "sdk-sync-iteration-exporter"
+          ],
+          "obligation": "Resolved SDK side-effect source and exact String-as-iterable compile-time diagnostic. Negative qualification is diagnostic preservation, not static flow absence."
+        },
+        "interaction": {
+          "status": "tested-conservative",
+          "evidence": [
+            "sdk-sync-iteration-vm",
+            "sdk-sync-iteration-web"
           ],
           "obligation": "Execute bounded independent inputs and interacting forms; preserve order, failures and unrelated instances."
         }
