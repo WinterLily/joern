@@ -195,7 +195,19 @@
       "exporterCase": "AdjacentStrings",
       "contract": "strings",
       "qualification": "conservative",
-      "reason": "Pinned VM/dart2js order, conversion targets, nullable guards and operand isolation tested; arbitrary virtual overrides and other runtime backends remain outside the contract."
+      "reason": "Pinned VM/dart2js order, conversion targets, nullable guards and operand isolation tested; arbitrary virtual overrides and other runtime backends remain outside the contract.",
+      "references": {
+        "sections": [
+          "strings",
+          "stringInterpolation"
+        ],
+        "features": [],
+        "sdkCandidateCases": [
+          "string/adjacent_const_string_literals_test.dart",
+          "string/adjacent_string_literals_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "Annotation",
@@ -203,7 +215,18 @@
       "exporterCase": null,
       "contract": "source",
       "qualification": "structural-only",
-      "reason": "retained in declaration source; arbitrary annotation semantics not modeled"
+      "reason": "retained in declaration source; arbitrary annotation semantics not modeled",
+      "references": {
+        "sections": [
+          "metadata"
+        ],
+        "features": [],
+        "sdkCandidateCases": [
+          "metadata/constructor_new_error_test.dart",
+          "metadata/constructor_new_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "ArgumentList",
@@ -211,7 +234,22 @@
       "exporterCase": "ArgumentList",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "actualArgumentLists",
+          "actualArguments",
+          "bindingActualsToFormals"
+        ],
+        "features": [
+          "accepted/2.17/named-arguments-anywhere/feature-specification.md"
+        ],
+        "sdkCandidateCases": [
+          "argument/assignability_function_typed_error_test.dart",
+          "argument/named_argument_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "AsExpression",
@@ -219,7 +257,20 @@
       "exporterCase": "AsExpression",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "typeCast"
+        ],
+        "features": [
+          "accepted/2.12/nnbd/feature-specification.md"
+        ],
+        "sdkCandidateCases": [
+          "nnbd/boolean_conversion/boolean_conversion_error_test.dart",
+          "nnbd/boolean_conversion/boolean_conversion_strong_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "AssertInitializer",
@@ -227,7 +278,19 @@
       "exporterCase": "AssertInitializer",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "assert",
+          "generativeConstructors"
+        ],
+        "features": [],
+        "sdkCandidateCases": [
+          "assert/assert_test.dart",
+          "assert/assignable_type_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "AssertStatement",
@@ -235,7 +298,19 @@
       "exporterCase": "AssertStatement",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "assert",
+          "generativeConstructors"
+        ],
+        "features": [],
+        "sdkCandidateCases": [
+          "assert/assert_test.dart",
+          "assert/assignable_type_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "AssignedVariablePattern",
@@ -243,7 +318,21 @@
       "exporterCase": "AssignedVariablePattern",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "switch"
+        ],
+        "features": [
+          "accepted/3.0/patterns/feature-specification.md",
+          "accepted/3.0/patterns/exhaustiveness.md"
+        ],
+        "sdkCandidateCases": [
+          "patterns/call_tear_off_error_test.dart",
+          "patterns/call_tear_off_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "AssignmentExpression",
@@ -251,7 +340,21 @@
       "exporterCase": "AssignmentExpression",
       "contract": "operators",
       "qualification": "tested-conservative",
-      "reason": "User-declared resolved operators are calls; SDK primitive operators retain shared operator semantics. Dynamic targets and virtual runtime dispatch are conservative."
+      "reason": "User-declared resolved operators are calls; SDK primitive operators retain shared operator semantics. Dynamic targets and virtual runtime dispatch are conservative.",
+      "references": {
+        "sections": [
+          "assignment",
+          "compoundAssignment",
+          "postfixExpressions",
+          "unaryExpressions"
+        ],
+        "features": [],
+        "sdkCandidateCases": [
+          "assign/instance_method_test.dart",
+          "assign/op_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "AwaitExpression",
@@ -259,7 +362,19 @@
       "exporterCase": "AwaitExpression",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "awaitExpressions",
+          "concurrency"
+        ],
+        "features": [],
+        "sdkCandidateCases": [
+          "await/and_ifnull_test.dart",
+          "await/await_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "BinaryExpression",
@@ -267,7 +382,28 @@
       "exporterCase": "BinaryExpression",
       "contract": "operators",
       "qualification": "tested-conservative",
-      "reason": "User-declared resolved operators are calls; SDK primitive operators retain shared operator semantics. Dynamic targets and virtual runtime dispatch are conservative."
+      "reason": "User-declared resolved operators are calls; SDK primitive operators retain shared operator semantics. Dynamic targets and virtual runtime dispatch are conservative.",
+      "references": {
+        "sections": [
+          "logicalBooleanExpressions",
+          "equality",
+          "relationalExpressions",
+          "bitwiseExpressions",
+          "shift",
+          "additiveExpressions",
+          "multiplicativeExpressions",
+          "ifNull",
+          "operatorPrecedence"
+        ],
+        "features": [
+          "accepted/2.14/triple-shift-operator/feature-specification.md"
+        ],
+        "sdkCandidateCases": [
+          "operator/and_operation_on_non_integer_operand_test.dart",
+          "operator/arithmetic_canonicalization_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "Block",
@@ -275,7 +411,19 @@
       "exporterCase": "Block",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "blocks",
+          "statements"
+        ],
+        "features": [],
+        "sdkCandidateCases": [
+          "control_flow_collections/await_for_downcast_test.dart",
+          "control_flow_collections/await_for_dynamic_null_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "BlockClassBody",
@@ -283,7 +431,22 @@
       "exporterCase": null,
       "contract": "source",
       "qualification": "structural-only",
-      "reason": "members of declarations"
+      "reason": "members of declarations",
+      "references": {
+        "sections": [
+          "classes",
+          "superclasses",
+          "superinterfaces"
+        ],
+        "features": [
+          "accepted/3.0/class-modifiers/feature-specification.md"
+        ],
+        "sdkCandidateCases": [
+          "class/additional_interface_adds_optional_args_concrete_subclass_test.dart",
+          "class/class_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "BlockFunctionBody",
@@ -291,7 +454,20 @@
       "exporterCase": "BlockFunctionBody",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "functions",
+          "functionDeclarations",
+          "return"
+        ],
+        "features": [],
+        "sdkCandidateCases": [
+          "function/apply_generic2_test.dart",
+          "function/apply_generic_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "BooleanLiteral",
@@ -299,7 +475,18 @@
       "exporterCase": "BooleanLiteral",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "booleans"
+        ],
+        "features": [],
+        "sdkCandidateCases": [
+          "bool/bool_test.dart",
+          "bool/check_strong_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "BreakStatement",
@@ -307,7 +494,20 @@
       "exporterCase": "BreakStatement",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "break",
+          "continue",
+          "labels"
+        ],
+        "features": [],
+        "sdkCandidateCases": [
+          "label/label3_test.dart",
+          "label/label5_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "CascadeExpression",
@@ -315,7 +515,18 @@
       "exporterCase": "CascadeExpression",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "cascades"
+        ],
+        "features": [],
+        "sdkCandidateCases": [
+          "cascade/cascade2_test.dart",
+          "cascade/cascade3_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "CaseClause",
@@ -323,7 +534,21 @@
       "exporterCase": "CaseClause",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "switch"
+        ],
+        "features": [
+          "accepted/3.0/patterns/feature-specification.md",
+          "accepted/3.0/patterns/exhaustiveness.md"
+        ],
+        "sdkCandidateCases": [
+          "patterns/call_tear_off_error_test.dart",
+          "patterns/call_tear_off_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "CastPattern",
@@ -331,7 +556,21 @@
       "exporterCase": "CastPattern",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "switch"
+        ],
+        "features": [
+          "accepted/3.0/patterns/feature-specification.md",
+          "accepted/3.0/patterns/exhaustiveness.md"
+        ],
+        "sdkCandidateCases": [
+          "patterns/call_tear_off_error_test.dart",
+          "patterns/call_tear_off_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "CatchClause",
@@ -339,7 +578,19 @@
       "exporterCase": "CatchClause",
       "contract": "exceptions",
       "qualification": "conservative",
-      "reason": "Ordered handlers and internal-call exception/stack flow; implicit/external payloads and path feasibility remain open."
+      "reason": "Ordered handlers and internal-call exception/stack flow; implicit/external payloads and path feasibility remain open.",
+      "references": {
+        "sections": [
+          "try",
+          "on-catch"
+        ],
+        "features": [],
+        "sdkCandidateCases": [
+          "exception/catch_liveness_test.dart",
+          "exception/code_after_try_is_executed_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "CatchClauseParameter",
@@ -347,7 +598,19 @@
       "exporterCase": "CatchClauseParameter",
       "contract": "exceptions",
       "qualification": "conservative",
-      "reason": "Ordered handlers and internal-call exception/stack flow; implicit/external payloads and path feasibility remain open."
+      "reason": "Ordered handlers and internal-call exception/stack flow; implicit/external payloads and path feasibility remain open.",
+      "references": {
+        "sections": [
+          "try",
+          "on-catch"
+        ],
+        "features": [],
+        "sdkCandidateCases": [
+          "exception/catch_liveness_test.dart",
+          "exception/code_after_try_is_executed_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "ClassDeclaration",
@@ -355,7 +618,22 @@
       "exporterCase": "ClassDeclaration",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "classes",
+          "superclasses",
+          "superinterfaces"
+        ],
+        "features": [
+          "accepted/3.0/class-modifiers/feature-specification.md"
+        ],
+        "sdkCandidateCases": [
+          "class/additional_interface_adds_optional_args_concrete_subclass_test.dart",
+          "class/class_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "ClassTypeAlias",
@@ -363,7 +641,18 @@
       "exporterCase": "ClassTypeAlias",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "mixinApplication"
+        ],
+        "features": [],
+        "sdkCandidateCases": [
+          "mixin/abstract_getter_test.dart",
+          "mixin/accessor_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "Comment",
@@ -371,7 +660,18 @@
       "exporterCase": null,
       "contract": "source",
       "qualification": "structural-only",
-      "reason": "retained in file source"
+      "reason": "retained in file source",
+      "references": {
+        "sections": [
+          "comments"
+        ],
+        "features": [],
+        "sdkCandidateCases": [
+          "syntax/deep_nesting_expression_test.dart",
+          "syntax/deep_nesting_statement_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "CommentReference",
@@ -379,7 +679,18 @@
       "exporterCase": null,
       "contract": "source",
       "qualification": "structural-only",
-      "reason": "retained in file source"
+      "reason": "retained in file source",
+      "references": {
+        "sections": [
+          "comments"
+        ],
+        "features": [],
+        "sdkCandidateCases": [
+          "syntax/deep_nesting_expression_test.dart",
+          "syntax/deep_nesting_statement_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "CompilationUnit",
@@ -387,7 +698,18 @@
       "exporterCase": "CompilationUnit",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "librariesAndScripts"
+        ],
+        "features": [],
+        "sdkCandidateCases": [
+          "library/ambiguous_test.dart",
+          "library/env_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "ConditionalExpression",
@@ -395,7 +717,19 @@
       "exporterCase": "ConditionalExpression",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "if",
+          "conditional"
+        ],
+        "features": [],
+        "sdkCandidateCases": [
+          "if/and_test.dart",
+          "if/dangling_else_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "Configuration",
@@ -403,7 +737,21 @@
       "exporterCase": "Configuration",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "imports",
+          "uris"
+        ],
+        "features": [
+          "accepted/2.8/language-versioning/feature-specification.md"
+        ],
+        "sdkCandidateCases": [
+          "deferred/call_empty_before_load_test.dart",
+          "deferred/closurize_load_library_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "ConstantPattern",
@@ -411,7 +759,21 @@
       "exporterCase": "ConstantPattern",
       "contract": "pattern-comparisons",
       "qualification": "unqualified",
-      "reason": "Receiver direction, operator targets, null behavior and operand evaluation tested; cross-case invocation caching, generic dispatch and match feasibility remain open."
+      "reason": "Receiver direction, operator targets, null behavior and operand evaluation tested; cross-case invocation caching, generic dispatch and match feasibility remain open.",
+      "references": {
+        "sections": [
+          "switch"
+        ],
+        "features": [
+          "accepted/3.0/patterns/feature-specification.md",
+          "accepted/3.0/patterns/exhaustiveness.md"
+        ],
+        "sdkCandidateCases": [
+          "patterns/call_tear_off_error_test.dart",
+          "patterns/call_tear_off_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "ConstructorDeclaration",
@@ -419,7 +781,21 @@
       "exporterCase": "ConstructorDeclaration",
       "contract": "heap",
       "qualification": "unqualified",
-      "reason": "Construction, stable aliases and constant-field overwrites across stable reference parameters tested; mutable aliases, general interprocedural updates and heap identity remain open."
+      "reason": "Construction, stable aliases and constant-field overwrites across stable reference parameters tested; mutable aliases, general interprocedural updates and heap identity remain open.",
+      "references": {
+        "sections": [
+          "constructors",
+          "generativeConstructors",
+          "factories",
+          "constantConstructors"
+        ],
+        "features": [],
+        "sdkCandidateCases": [
+          "constructor/bad_constructor_test.dart",
+          "constructor/bad_named_constructor_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "ConstructorFieldInitializer",
@@ -427,7 +803,21 @@
       "exporterCase": "ConstructorFieldInitializer",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "constructors",
+          "generativeConstructors",
+          "factories",
+          "constantConstructors"
+        ],
+        "features": [],
+        "sdkCandidateCases": [
+          "constructor/bad_constructor_test.dart",
+          "constructor/bad_named_constructor_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "ConstructorName",
@@ -435,7 +825,21 @@
       "exporterCase": "ConstructorName",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "constructors",
+          "generativeConstructors",
+          "factories",
+          "constantConstructors"
+        ],
+        "features": [],
+        "sdkCandidateCases": [
+          "constructor/bad_constructor_test.dart",
+          "constructor/bad_named_constructor_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "ConstructorReference",
@@ -443,7 +847,20 @@
       "exporterCase": "ConstructorReference",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "functionClosurization"
+        ],
+        "features": [
+          "accepted/2.15/constructor-tearoffs/feature-specification.md"
+        ],
+        "sdkCandidateCases": [
+          "constructor/bad_constructor_test.dart",
+          "constructor/bad_named_constructor_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "ConstructorSelector",
@@ -451,7 +868,21 @@
       "exporterCase": null,
       "contract": "source",
       "qualification": "structural-only",
-      "reason": "ConstructorName target"
+      "reason": "ConstructorName target",
+      "references": {
+        "sections": [
+          "constructors",
+          "generativeConstructors",
+          "factories",
+          "constantConstructors"
+        ],
+        "features": [],
+        "sdkCandidateCases": [
+          "constructor/bad_constructor_test.dart",
+          "constructor/bad_named_constructor_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "ContinueStatement",
@@ -459,7 +890,20 @@
       "exporterCase": "ContinueStatement",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "break",
+          "continue",
+          "labels"
+        ],
+        "features": [],
+        "sdkCandidateCases": [
+          "label/label3_test.dart",
+          "label/label5_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "DeclaredIdentifier",
@@ -467,7 +911,21 @@
       "exporterCase": "DeclaredIdentifier",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "variables",
+          "localVariableDeclaration"
+        ],
+        "features": [
+          "accepted/2.12/nnbd/feature-specification.md"
+        ],
+        "sdkCandidateCases": [
+          "nnbd/late/chained_assignment_test.dart",
+          "nnbd/late/covariant_instance_field_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "DeclaredVariablePattern",
@@ -475,7 +933,21 @@
       "exporterCase": "DeclaredVariablePattern",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "switch"
+        ],
+        "features": [
+          "accepted/3.0/patterns/feature-specification.md",
+          "accepted/3.0/patterns/exhaustiveness.md"
+        ],
+        "sdkCandidateCases": [
+          "patterns/call_tear_off_error_test.dart",
+          "patterns/call_tear_off_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "DefaultFormalParameter",
@@ -483,7 +955,20 @@
       "exporterCase": "DefaultFormalParameter",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "formalParameters",
+          "requiredFormals",
+          "optionalFormals"
+        ],
+        "features": [],
+        "sdkCandidateCases": [
+          "initializing_formal/access_test.dart",
+          "initializing_formal/capture_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "DoStatement",
@@ -491,7 +976,18 @@
       "exporterCase": "DoStatement",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "do"
+        ],
+        "features": [],
+        "sdkCandidateCases": [
+          "loop/break_outside_loop_test.dart",
+          "loop/break_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "DotShorthandInvocation",
@@ -499,7 +995,13 @@
       "exporterCase": null,
       "contract": "outside",
       "qualification": "unsupported",
-      "reason": "Not enabled in Dart 3.9.2."
+      "reason": "Not enabled in Dart 3.9.2.",
+      "references": {
+        "sections": [],
+        "features": [],
+        "sdkCandidateCases": [],
+        "status": "outside pinned public language scope; no enabled semantic qualification"
+      }
     },
     {
       "construct": "DotShorthandPropertyAccess",
@@ -507,7 +1009,13 @@
       "exporterCase": null,
       "contract": "outside",
       "qualification": "unsupported",
-      "reason": "Not enabled in Dart 3.9.2."
+      "reason": "Not enabled in Dart 3.9.2.",
+      "references": {
+        "sections": [],
+        "features": [],
+        "sdkCandidateCases": [],
+        "status": "outside pinned public language scope; no enabled semantic qualification"
+      }
     },
     {
       "construct": "DottedName",
@@ -515,7 +1023,21 @@
       "exporterCase": null,
       "contract": "source",
       "qualification": "structural-only",
-      "reason": "Configuration name"
+      "reason": "Configuration name",
+      "references": {
+        "sections": [
+          "imports",
+          "uris"
+        ],
+        "features": [
+          "accepted/2.8/language-versioning/feature-specification.md"
+        ],
+        "sdkCandidateCases": [
+          "deferred/call_empty_before_load_test.dart",
+          "deferred/closurize_load_library_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "DoubleLiteral",
@@ -523,7 +1045,21 @@
       "exporterCase": "DoubleLiteral",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "numbers"
+        ],
+        "features": [
+          "accepted/2.1/int-literal-as-double-value/feature-specification.md",
+          "accepted/3.6/digit-separators/feature-specification.md"
+        ],
+        "sdkCandidateCases": [
+          "double_literals/double_literal_coercion_error_test.dart",
+          "double_literals/double_literal_coercion_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "EmptyClassBody",
@@ -531,7 +1067,22 @@
       "exporterCase": null,
       "contract": "source",
       "qualification": "structural-only",
-      "reason": "empty declaration"
+      "reason": "empty declaration",
+      "references": {
+        "sections": [
+          "classes",
+          "superclasses",
+          "superinterfaces"
+        ],
+        "features": [
+          "accepted/3.0/class-modifiers/feature-specification.md"
+        ],
+        "sdkCandidateCases": [
+          "class/additional_interface_adds_optional_args_concrete_subclass_test.dart",
+          "class/class_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "EmptyFunctionBody",
@@ -539,7 +1090,20 @@
       "exporterCase": "EmptyFunctionBody",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "functions",
+          "functionDeclarations",
+          "return"
+        ],
+        "features": [],
+        "sdkCandidateCases": [
+          "function/apply_generic2_test.dart",
+          "function/apply_generic_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "EmptyStatement",
@@ -547,7 +1111,19 @@
       "exporterCase": "EmptyStatement",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "blocks",
+          "statements"
+        ],
+        "features": [],
+        "sdkCandidateCases": [
+          "control_flow_collections/await_for_downcast_test.dart",
+          "control_flow_collections/await_for_dynamic_null_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "EnumBody",
@@ -555,7 +1131,20 @@
       "exporterCase": null,
       "contract": "source",
       "qualification": "structural-only",
-      "reason": "enum constants and members"
+      "reason": "enum constants and members",
+      "references": {
+        "sections": [
+          "enums"
+        ],
+        "features": [
+          "accepted/2.17/enhanced-enums/feature-specification.md"
+        ],
+        "sdkCandidateCases": [
+          "enum/duplicate_test.dart",
+          "enum/enhanced_enums_basic_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "EnumConstantArguments",
@@ -563,7 +1152,20 @@
       "exporterCase": null,
       "contract": "source",
       "qualification": "structural-only",
-      "reason": "EnumConstantDeclaration arguments"
+      "reason": "EnumConstantDeclaration arguments",
+      "references": {
+        "sections": [
+          "enums"
+        ],
+        "features": [
+          "accepted/2.17/enhanced-enums/feature-specification.md"
+        ],
+        "sdkCandidateCases": [
+          "enum/duplicate_test.dart",
+          "enum/enhanced_enums_basic_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "EnumConstantDeclaration",
@@ -571,7 +1173,20 @@
       "exporterCase": "EnumConstantDeclaration",
       "contract": "enum",
       "qualification": "conservative",
-      "reason": "Generated storage and concrete accessor dispatch have graph and execution regressions; general interface dispatch, global activation and heap flow remain open."
+      "reason": "Generated storage and concrete accessor dispatch have graph and execution regressions; general interface dispatch, global activation and heap flow remain open.",
+      "references": {
+        "sections": [
+          "enums"
+        ],
+        "features": [
+          "accepted/2.17/enhanced-enums/feature-specification.md"
+        ],
+        "sdkCandidateCases": [
+          "enum/duplicate_test.dart",
+          "enum/enhanced_enums_basic_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "EnumDeclaration",
@@ -579,7 +1194,20 @@
       "exporterCase": "EnumDeclaration",
       "contract": "enum",
       "qualification": "conservative",
-      "reason": "Generated storage and concrete accessor dispatch have graph and execution regressions; general interface dispatch, global activation and heap flow remain open."
+      "reason": "Generated storage and concrete accessor dispatch have graph and execution regressions; general interface dispatch, global activation and heap flow remain open.",
+      "references": {
+        "sections": [
+          "enums"
+        ],
+        "features": [
+          "accepted/2.17/enhanced-enums/feature-specification.md"
+        ],
+        "sdkCandidateCases": [
+          "enum/duplicate_test.dart",
+          "enum/enhanced_enums_basic_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "ExportDirective",
@@ -587,7 +1215,19 @@
       "exporterCase": "ExportDirective",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "exports",
+          "namespaceCombinators"
+        ],
+        "features": [],
+        "sdkCandidateCases": [
+          "export/ambiguous_main_test.dart",
+          "export/bigger_cyclic_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "ExpressionFunctionBody",
@@ -595,7 +1235,20 @@
       "exporterCase": "ExpressionFunctionBody",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "functions",
+          "functionDeclarations",
+          "return"
+        ],
+        "features": [],
+        "sdkCandidateCases": [
+          "function/apply_generic2_test.dart",
+          "function/apply_generic_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "ExpressionStatement",
@@ -603,7 +1256,18 @@
       "exporterCase": "ExpressionStatement",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "expressionStatements"
+        ],
+        "features": [],
+        "sdkCandidateCases": [
+          "syntax/deep_nesting_expression_test.dart",
+          "syntax/deep_nesting_statement_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "ExtendsClause",
@@ -611,7 +1275,22 @@
       "exporterCase": null,
       "contract": "source",
       "qualification": "structural-only",
-      "reason": "analyzer superDeclarations"
+      "reason": "analyzer superDeclarations",
+      "references": {
+        "sections": [
+          "classes",
+          "superclasses",
+          "superinterfaces"
+        ],
+        "features": [
+          "accepted/3.0/class-modifiers/feature-specification.md"
+        ],
+        "sdkCandidateCases": [
+          "class/additional_interface_adds_optional_args_concrete_subclass_test.dart",
+          "class/class_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "ExtensionDeclaration",
@@ -619,7 +1298,22 @@
       "exporterCase": "ExtensionDeclaration",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "extensions",
+          "explicitExtensionInvocations",
+          "implicitExtensionInvocations"
+        ],
+        "features": [
+          "accepted/2.7/static-extension-methods/feature-specification.md"
+        ],
+        "sdkCandidateCases": [
+          "extension_methods/basic_static_extension_test.dart",
+          "extension_methods/extension_operation_in_const_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "ExtensionOnClause",
@@ -627,7 +1321,22 @@
       "exporterCase": null,
       "contract": "source",
       "qualification": "structural-only",
-      "reason": "ExtensionDeclaration onType"
+      "reason": "ExtensionDeclaration onType",
+      "references": {
+        "sections": [
+          "extensions",
+          "explicitExtensionInvocations",
+          "implicitExtensionInvocations"
+        ],
+        "features": [
+          "accepted/2.7/static-extension-methods/feature-specification.md"
+        ],
+        "sdkCandidateCases": [
+          "extension_methods/basic_static_extension_test.dart",
+          "extension_methods/extension_operation_in_const_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "ExtensionOverride",
@@ -635,7 +1344,22 @@
       "exporterCase": "ExtensionOverride",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "extensions",
+          "explicitExtensionInvocations",
+          "implicitExtensionInvocations"
+        ],
+        "features": [
+          "accepted/2.7/static-extension-methods/feature-specification.md"
+        ],
+        "sdkCandidateCases": [
+          "extension_methods/basic_static_extension_test.dart",
+          "extension_methods/extension_operation_in_const_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "ExtensionTypeDeclaration",
@@ -643,7 +1367,20 @@
       "exporterCase": "ExtensionTypeDeclaration",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "types"
+        ],
+        "features": [
+          "accepted/3.3/extension-types/feature-specification.md"
+        ],
+        "sdkCandidateCases": [
+          "extension_type/combined_member_signature_error_test.dart",
+          "extension_type/combined_member_signature_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "FieldDeclaration",
@@ -651,7 +1388,21 @@
       "exporterCase": "FieldDeclaration",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "instanceVariables",
+          "implicitlyInducedGettersAndSetters"
+        ],
+        "features": [
+          "accepted/2.12/abstract-external-fields/feature-specification.md"
+        ],
+        "sdkCandidateCases": [
+          "external_abstract_fields/abstract_fields_error_test.dart",
+          "external_abstract_fields/abstract_fields_syntax_error_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "FieldFormalParameter",
@@ -659,7 +1410,20 @@
       "exporterCase": "FieldFormalParameter",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "formalParameters",
+          "requiredFormals",
+          "optionalFormals"
+        ],
+        "features": [],
+        "sdkCandidateCases": [
+          "initializing_formal/access_test.dart",
+          "initializing_formal/capture_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "ForEachPartsWithDeclaration",
@@ -667,7 +1431,19 @@
       "exporterCase": "ForEachPartsWithDeclaration",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "for-in",
+          "asynchronousFor-in"
+        ],
+        "features": [],
+        "sdkCandidateCases": [
+          "loop/break_outside_loop_test.dart",
+          "loop/break_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "ForEachPartsWithIdentifier",
@@ -675,7 +1451,19 @@
       "exporterCase": "ForEachPartsWithIdentifier",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "for-in",
+          "asynchronousFor-in"
+        ],
+        "features": [],
+        "sdkCandidateCases": [
+          "loop/break_outside_loop_test.dart",
+          "loop/break_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "ForEachPartsWithPattern",
@@ -683,7 +1471,21 @@
       "exporterCase": "ForEachPartsWithPattern",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "switch"
+        ],
+        "features": [
+          "accepted/3.0/patterns/feature-specification.md",
+          "accepted/3.0/patterns/exhaustiveness.md"
+        ],
+        "sdkCandidateCases": [
+          "patterns/call_tear_off_error_test.dart",
+          "patterns/call_tear_off_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "ForElement",
@@ -691,7 +1493,20 @@
       "exporterCase": "ForElement",
       "contract": "collections",
       "qualification": "conservative",
-      "reason": "Accumulator element-value flow and evaluation order tested; exact membership, multiplicity and slot/overwrite precision are outside the shared heap contract."
+      "reason": "Accumulator element-value flow and evaluation order tested; exact membership, multiplicity and slot/overwrite precision are outside the shared heap contract.",
+      "references": {
+        "sections": [
+          "collectionLiteralElementEvaluation"
+        ],
+        "features": [
+          "accepted/2.3/control-flow-collections/feature-specification.md"
+        ],
+        "sdkCandidateCases": [
+          "control_flow_collections/await_for_downcast_test.dart",
+          "control_flow_collections/await_for_dynamic_null_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "FormalParameterList",
@@ -699,7 +1514,20 @@
       "exporterCase": "FormalParameterList",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "formalParameters",
+          "requiredFormals",
+          "optionalFormals"
+        ],
+        "features": [],
+        "sdkCandidateCases": [
+          "initializing_formal/access_test.dart",
+          "initializing_formal/capture_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "ForPartsWithDeclarations",
@@ -707,7 +1535,18 @@
       "exporterCase": "ForPartsWithDeclarations",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "forLoop"
+        ],
+        "features": [],
+        "sdkCandidateCases": [
+          "loop/break_outside_loop_test.dart",
+          "loop/break_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "ForPartsWithExpression",
@@ -715,7 +1554,18 @@
       "exporterCase": "ForPartsWithExpression",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "forLoop"
+        ],
+        "features": [],
+        "sdkCandidateCases": [
+          "loop/break_outside_loop_test.dart",
+          "loop/break_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "ForPartsWithPattern",
@@ -723,7 +1573,21 @@
       "exporterCase": "ForPartsWithPattern",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "switch"
+        ],
+        "features": [
+          "accepted/3.0/patterns/feature-specification.md",
+          "accepted/3.0/patterns/exhaustiveness.md"
+        ],
+        "sdkCandidateCases": [
+          "patterns/call_tear_off_error_test.dart",
+          "patterns/call_tear_off_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "ForStatement",
@@ -731,7 +1595,18 @@
       "exporterCase": "ForStatement",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "forLoop"
+        ],
+        "features": [],
+        "sdkCandidateCases": [
+          "loop/break_outside_loop_test.dart",
+          "loop/break_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "FunctionDeclaration",
@@ -739,7 +1614,20 @@
       "exporterCase": "FunctionDeclaration",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "functions",
+          "functionDeclarations",
+          "functionExpressions"
+        ],
+        "features": [],
+        "sdkCandidateCases": [
+          "closure/bound_closure_equality_test.dart",
+          "closure/bound_closure_primitives_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "FunctionDeclarationStatement",
@@ -747,7 +1635,20 @@
       "exporterCase": "FunctionDeclarationStatement",
       "contract": "captures",
       "qualification": "unqualified",
-      "reason": "Incoming capture identity and replacement within closures tested; callback timing, mutable targets and enclosing-scope writeback remain open."
+      "reason": "Incoming capture identity and replacement within closures tested; callback timing, mutable targets and enclosing-scope writeback remain open.",
+      "references": {
+        "sections": [
+          "functions",
+          "functionDeclarations",
+          "functionExpressions"
+        ],
+        "features": [],
+        "sdkCandidateCases": [
+          "closure/bound_closure_equality_test.dart",
+          "closure/bound_closure_primitives_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "FunctionExpression",
@@ -755,7 +1656,20 @@
       "exporterCase": "FunctionExpression",
       "contract": "captures",
       "qualification": "unqualified",
-      "reason": "Incoming capture identity and replacement within closures tested; callback timing, mutable targets and enclosing-scope writeback remain open."
+      "reason": "Incoming capture identity and replacement within closures tested; callback timing, mutable targets and enclosing-scope writeback remain open.",
+      "references": {
+        "sections": [
+          "functions",
+          "functionDeclarations",
+          "functionExpressions"
+        ],
+        "features": [],
+        "sdkCandidateCases": [
+          "closure/bound_closure_equality_test.dart",
+          "closure/bound_closure_primitives_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "FunctionExpressionInvocation",
@@ -763,7 +1677,19 @@
       "exporterCase": "FunctionExpressionInvocation",
       "contract": "captures",
       "qualification": "unqualified",
-      "reason": "Direct local callback calls tested; general callable points-to and invocation context remain open."
+      "reason": "Direct local callback calls tested; general callable points-to and invocation context remain open.",
+      "references": {
+        "sections": [
+          "functionInvocation",
+          "functionExpressionInvocation"
+        ],
+        "features": [],
+        "sdkCandidateCases": [
+          "call/argument_inference_test.dart",
+          "call/call_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "FunctionReference",
@@ -771,7 +1697,20 @@
       "exporterCase": "FunctionReference",
       "contract": "function-values",
       "qualification": "unqualified",
-      "reason": "Explicit static types/source and stable final function aliases tested; runtime type environments, bound checks and general points-to unqualified."
+      "reason": "Explicit static types/source and stable final function aliases tested; runtime type environments, bound checks and general points-to unqualified.",
+      "references": {
+        "sections": [
+          "functionClosurization"
+        ],
+        "features": [
+          "accepted/2.15/constructor-tearoffs/feature-specification.md"
+        ],
+        "sdkCandidateCases": [
+          "constructor/bad_constructor_test.dart",
+          "constructor/bad_named_constructor_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "FunctionTypeAlias",
@@ -779,7 +1718,20 @@
       "exporterCase": "FunctionTypeAlias",
       "contract": "generic-scopes",
       "qualification": "unqualified",
-      "reason": "Scoped declarations, bound relations, anonymous generic function identities and signatures tested; runtime type substitution and dispatch remain unqualified."
+      "reason": "Scoped declarations, bound relations, anonymous generic function identities and signatures tested; runtime type substitution and dispatch remain unqualified.",
+      "references": {
+        "sections": [
+          "functionTypes"
+        ],
+        "features": [
+          "accepted/2.13/nonfunction-type-aliases/feature-specification.md"
+        ],
+        "sdkCandidateCases": [
+          "function_type/function_type0_test.dart",
+          "function_type/function_type10_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "FunctionTypedFormalParameter",
@@ -787,7 +1739,20 @@
       "exporterCase": "FunctionTypedFormalParameter",
       "contract": "generic-scopes",
       "qualification": "unqualified",
-      "reason": "Scoped declarations, bound relations, anonymous generic function identities and signatures tested; runtime type substitution and dispatch remain unqualified."
+      "reason": "Scoped declarations, bound relations, anonymous generic function identities and signatures tested; runtime type substitution and dispatch remain unqualified.",
+      "references": {
+        "sections": [
+          "functionTypes"
+        ],
+        "features": [
+          "accepted/2.13/nonfunction-type-aliases/feature-specification.md"
+        ],
+        "sdkCandidateCases": [
+          "function_type/function_type0_test.dart",
+          "function_type/function_type10_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "GenericFunctionType",
@@ -795,7 +1760,20 @@
       "exporterCase": "GenericFunctionType",
       "contract": "generic-scopes",
       "qualification": "unqualified",
-      "reason": "Scoped declarations, bound relations, anonymous generic function identities and signatures tested; runtime type substitution and dispatch remain unqualified."
+      "reason": "Scoped declarations, bound relations, anonymous generic function identities and signatures tested; runtime type substitution and dispatch remain unqualified.",
+      "references": {
+        "sections": [
+          "functionTypes"
+        ],
+        "features": [
+          "accepted/2.13/nonfunction-type-aliases/feature-specification.md"
+        ],
+        "sdkCandidateCases": [
+          "function_type/function_type0_test.dart",
+          "function_type/function_type10_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "GenericTypeAlias",
@@ -803,7 +1781,20 @@
       "exporterCase": "GenericTypeAlias",
       "contract": "generic-scopes",
       "qualification": "unqualified",
-      "reason": "Scoped declarations, bound relations, anonymous generic function identities and signatures tested; runtime type substitution and dispatch remain unqualified."
+      "reason": "Scoped declarations, bound relations, anonymous generic function identities and signatures tested; runtime type substitution and dispatch remain unqualified.",
+      "references": {
+        "sections": [
+          "typedef"
+        ],
+        "features": [
+          "accepted/2.13/nonfunction-type-aliases/feature-specification.md"
+        ],
+        "sdkCandidateCases": [
+          "nonfunction_type_aliases/aliased_cyclic_superclass_error_test.dart",
+          "nonfunction_type_aliases/basic_syntax_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "GuardedPattern",
@@ -811,7 +1802,21 @@
       "exporterCase": "GuardedPattern",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "switch"
+        ],
+        "features": [
+          "accepted/3.0/patterns/feature-specification.md",
+          "accepted/3.0/patterns/exhaustiveness.md"
+        ],
+        "sdkCandidateCases": [
+          "patterns/call_tear_off_error_test.dart",
+          "patterns/call_tear_off_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "HideCombinator",
@@ -819,7 +1824,19 @@
       "exporterCase": "HideCombinator",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "exports",
+          "namespaceCombinators"
+        ],
+        "features": [],
+        "sdkCandidateCases": [
+          "export/ambiguous_main_test.dart",
+          "export/bigger_cyclic_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "IfElement",
@@ -827,7 +1844,20 @@
       "exporterCase": "IfElement",
       "contract": "collections",
       "qualification": "conservative",
-      "reason": "Accumulator element-value flow and evaluation order tested; exact membership, multiplicity and slot/overwrite precision are outside the shared heap contract."
+      "reason": "Accumulator element-value flow and evaluation order tested; exact membership, multiplicity and slot/overwrite precision are outside the shared heap contract.",
+      "references": {
+        "sections": [
+          "collectionLiteralElementEvaluation"
+        ],
+        "features": [
+          "accepted/2.3/control-flow-collections/feature-specification.md"
+        ],
+        "sdkCandidateCases": [
+          "control_flow_collections/await_for_downcast_test.dart",
+          "control_flow_collections/await_for_dynamic_null_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "IfStatement",
@@ -835,7 +1865,19 @@
       "exporterCase": "IfStatement",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "if",
+          "conditional"
+        ],
+        "features": [],
+        "sdkCandidateCases": [
+          "if/and_test.dart",
+          "if/dangling_else_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "ImplementsClause",
@@ -843,7 +1885,22 @@
       "exporterCase": null,
       "contract": "source",
       "qualification": "structural-only",
-      "reason": "analyzer superDeclarations"
+      "reason": "analyzer superDeclarations",
+      "references": {
+        "sections": [
+          "classes",
+          "superclasses",
+          "superinterfaces"
+        ],
+        "features": [
+          "accepted/3.0/class-modifiers/feature-specification.md"
+        ],
+        "sdkCandidateCases": [
+          "class/additional_interface_adds_optional_args_concrete_subclass_test.dart",
+          "class/class_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "ImplicitCallReference",
@@ -851,7 +1908,19 @@
       "exporterCase": "ImplicitCallReference",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "theCallMemberOfAnExtension",
+          "instanceMethodClosurization"
+        ],
+        "features": [],
+        "sdkCandidateCases": [
+          "call/argument_inference_test.dart",
+          "call/call_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "ImportDirective",
@@ -859,7 +1928,21 @@
       "exporterCase": "ImportDirective",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "imports",
+          "uris"
+        ],
+        "features": [
+          "accepted/2.8/language-versioning/feature-specification.md"
+        ],
+        "sdkCandidateCases": [
+          "deferred/call_empty_before_load_test.dart",
+          "deferred/closurize_load_library_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "ImportPrefixReference",
@@ -867,7 +1950,21 @@
       "exporterCase": null,
       "contract": "source",
       "qualification": "structural-only",
-      "reason": "directive source and resolved IDs"
+      "reason": "directive source and resolved IDs",
+      "references": {
+        "sections": [
+          "imports",
+          "uris"
+        ],
+        "features": [
+          "accepted/2.8/language-versioning/feature-specification.md"
+        ],
+        "sdkCandidateCases": [
+          "deferred/call_empty_before_load_test.dart",
+          "deferred/closurize_load_library_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "IndexExpression",
@@ -875,7 +1972,21 @@
       "exporterCase": "IndexExpression",
       "contract": "operators",
       "qualification": "tested-conservative",
-      "reason": "User-declared resolved operators are calls; SDK primitive operators retain shared operator semantics. Dynamic targets and virtual runtime dispatch are conservative."
+      "reason": "User-declared resolved operators are calls; SDK primitive operators retain shared operator semantics. Dynamic targets and virtual runtime dispatch are conservative.",
+      "references": {
+        "sections": [
+          "assignableExpressions",
+          "operators"
+        ],
+        "features": [
+          "accepted/2.14/small-features-21Q1/feature-specification.md"
+        ],
+        "sdkCandidateCases": [
+          "operator/and_operation_on_non_integer_operand_test.dart",
+          "operator/arithmetic_canonicalization_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "InstanceCreationExpression",
@@ -883,7 +1994,21 @@
       "exporterCase": "InstanceCreationExpression",
       "contract": "heap",
       "qualification": "unqualified",
-      "reason": "Construction, stable aliases and constant-field overwrites across stable reference parameters tested; mutable aliases, general interprocedural updates and heap identity remain open."
+      "reason": "Construction, stable aliases and constant-field overwrites across stable reference parameters tested; mutable aliases, general interprocedural updates and heap identity remain open.",
+      "references": {
+        "sections": [
+          "constructors",
+          "generativeConstructors",
+          "factories",
+          "constantConstructors"
+        ],
+        "features": [],
+        "sdkCandidateCases": [
+          "constructor/bad_constructor_test.dart",
+          "constructor/bad_named_constructor_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "IntegerLiteral",
@@ -891,7 +2016,22 @@
       "exporterCase": "IntegerLiteral",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "numbers",
+          "constants"
+        ],
+        "features": [
+          "accepted/3.6/digit-separators/feature-specification.md",
+          "accepted/2.5/constant-update-2018/feature-specification.md"
+        ],
+        "sdkCandidateCases": [
+          "number/constant_folding1_test.dart",
+          "number/identifier_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "InterpolationExpression",
@@ -899,7 +2039,19 @@
       "exporterCase": "InterpolationExpression",
       "contract": "strings",
       "qualification": "conservative",
-      "reason": "Pinned VM/dart2js order, conversion targets, nullable guards and operand isolation tested; arbitrary virtual overrides and other runtime backends remain outside the contract."
+      "reason": "Pinned VM/dart2js order, conversion targets, nullable guards and operand isolation tested; arbitrary virtual overrides and other runtime backends remain outside the contract.",
+      "references": {
+        "sections": [
+          "strings",
+          "stringInterpolation"
+        ],
+        "features": [],
+        "sdkCandidateCases": [
+          "string/adjacent_const_string_literals_test.dart",
+          "string/adjacent_string_literals_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "InterpolationString",
@@ -907,7 +2059,19 @@
       "exporterCase": "InterpolationString",
       "contract": "strings",
       "qualification": "conservative",
-      "reason": "Pinned VM/dart2js order, conversion targets, nullable guards and operand isolation tested; arbitrary virtual overrides and other runtime backends remain outside the contract."
+      "reason": "Pinned VM/dart2js order, conversion targets, nullable guards and operand isolation tested; arbitrary virtual overrides and other runtime backends remain outside the contract.",
+      "references": {
+        "sections": [
+          "strings",
+          "stringInterpolation"
+        ],
+        "features": [],
+        "sdkCandidateCases": [
+          "string/adjacent_const_string_literals_test.dart",
+          "string/adjacent_string_literals_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "IsExpression",
@@ -915,7 +2079,21 @@
       "exporterCase": "IsExpression",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "typeTest",
+          "typePromotion"
+        ],
+        "features": [
+          "accepted/2.12/nnbd/feature-specification.md"
+        ],
+        "sdkCandidateCases": [
+          "is/function_test.dart",
+          "is/instanceof_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "Label",
@@ -923,7 +2101,20 @@
       "exporterCase": null,
       "contract": "source",
       "qualification": "structural-only",
-      "reason": "LabeledStatement and switch labels"
+      "reason": "LabeledStatement and switch labels",
+      "references": {
+        "sections": [
+          "break",
+          "continue",
+          "labels"
+        ],
+        "features": [],
+        "sdkCandidateCases": [
+          "label/label3_test.dart",
+          "label/label5_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "LabeledStatement",
@@ -931,7 +2122,20 @@
       "exporterCase": "LabeledStatement",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "break",
+          "continue",
+          "labels"
+        ],
+        "features": [],
+        "sdkCandidateCases": [
+          "label/label3_test.dart",
+          "label/label5_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "LibraryDirective",
@@ -939,7 +2143,20 @@
       "exporterCase": "LibraryDirective",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "librariesAndScripts"
+        ],
+        "features": [
+          "accepted/2.19/unnamed-libraries/feature-specification.md"
+        ],
+        "sdkCandidateCases": [
+          "library/ambiguous_test.dart",
+          "library/env_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "LibraryIdentifier",
@@ -947,7 +2164,18 @@
       "exporterCase": null,
       "contract": "source",
       "qualification": "structural-only",
-      "reason": "library identity"
+      "reason": "library identity",
+      "references": {
+        "sections": [
+          "librariesAndScripts"
+        ],
+        "features": [],
+        "sdkCandidateCases": [
+          "library/ambiguous_test.dart",
+          "library/env_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "ListLiteral",
@@ -955,7 +2183,20 @@
       "exporterCase": "ListLiteral",
       "contract": "collections",
       "qualification": "conservative",
-      "reason": "Accumulator element-value flow and evaluation order tested; exact membership, multiplicity and slot/overwrite precision are outside the shared heap contract."
+      "reason": "Accumulator element-value flow and evaluation order tested; exact membership, multiplicity and slot/overwrite precision are outside the shared heap contract.",
+      "references": {
+        "sections": [
+          "lists"
+        ],
+        "features": [
+          "accepted/2.3/unified-collections/feature-specification.md"
+        ],
+        "sdkCandidateCases": [
+          "list/double_index_in_loop2_test.dart",
+          "list/double_index_in_loop_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "ListPattern",
@@ -963,7 +2204,21 @@
       "exporterCase": "ListPattern",
       "contract": "list-patterns",
       "qualification": "unqualified",
-      "reason": "List extraction targets, size guards, lazy invocation reuse, wildcard skipping and rest bounds tested; generic/virtual dispatch, exact collection slots and map qualification remain open."
+      "reason": "List extraction targets, size guards, lazy invocation reuse, wildcard skipping and rest bounds tested; generic/virtual dispatch, exact collection slots and map qualification remain open.",
+      "references": {
+        "sections": [
+          "switch"
+        ],
+        "features": [
+          "accepted/3.0/patterns/feature-specification.md",
+          "accepted/3.0/patterns/exhaustiveness.md"
+        ],
+        "sdkCandidateCases": [
+          "patterns/call_tear_off_error_test.dart",
+          "patterns/call_tear_off_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "LogicalAndPattern",
@@ -971,7 +2226,21 @@
       "exporterCase": "LogicalAndPattern",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "switch"
+        ],
+        "features": [
+          "accepted/3.0/patterns/feature-specification.md",
+          "accepted/3.0/patterns/exhaustiveness.md"
+        ],
+        "sdkCandidateCases": [
+          "patterns/call_tear_off_error_test.dart",
+          "patterns/call_tear_off_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "LogicalOrPattern",
@@ -979,7 +2248,21 @@
       "exporterCase": "LogicalOrPattern",
       "contract": "pattern-joins",
       "qualification": "conservative",
-      "reason": "Logical-or identities and shared-case guard/body captures tested against pinned SDK cases; exact pattern matching and callback-container execution remain conservative."
+      "reason": "Logical-or identities and shared-case guard/body captures tested against pinned SDK cases; exact pattern matching and callback-container execution remain conservative.",
+      "references": {
+        "sections": [
+          "switch"
+        ],
+        "features": [
+          "accepted/3.0/patterns/feature-specification.md",
+          "accepted/3.0/patterns/exhaustiveness.md"
+        ],
+        "sdkCandidateCases": [
+          "patterns/call_tear_off_error_test.dart",
+          "patterns/call_tear_off_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "MapLiteralEntry",
@@ -987,7 +2270,22 @@
       "exporterCase": "MapLiteralEntry",
       "contract": "collections",
       "qualification": "conservative",
-      "reason": "Accumulator element-value flow and evaluation order tested; exact membership, multiplicity and slot/overwrite precision are outside the shared heap contract."
+      "reason": "Accumulator element-value flow and evaluation order tested; exact membership, multiplicity and slot/overwrite precision are outside the shared heap contract.",
+      "references": {
+        "sections": [
+          "maps",
+          "sets"
+        ],
+        "features": [
+          "accepted/2.2/set-literals/feature-specification.md",
+          "accepted/2.3/unified-collections/feature-specification.md"
+        ],
+        "sdkCandidateCases": [
+          "map/literal10_test.dart",
+          "map/literal11_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "MapPattern",
@@ -995,7 +2293,21 @@
       "exporterCase": "MapPattern",
       "contract": "map-patterns",
       "qualification": "conservative",
-      "reason": "Required-type and nullable presence tests, resolved reads and per-match constant-key invocation reuse have graph/runtime regressions; exact collection slots, generic feasibility and complete virtual dispatch remain unqualified."
+      "reason": "Required-type and nullable presence tests, resolved reads and per-match constant-key invocation reuse have graph/runtime regressions; exact collection slots, generic feasibility and complete virtual dispatch remain unqualified.",
+      "references": {
+        "sections": [
+          "switch"
+        ],
+        "features": [
+          "accepted/3.0/patterns/feature-specification.md",
+          "accepted/3.0/patterns/exhaustiveness.md"
+        ],
+        "sdkCandidateCases": [
+          "patterns/call_tear_off_error_test.dart",
+          "patterns/call_tear_off_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "MapPatternEntry",
@@ -1003,7 +2315,21 @@
       "exporterCase": "MapPatternEntry",
       "contract": "map-patterns",
       "qualification": "conservative",
-      "reason": "Required-type and nullable presence tests, resolved reads and per-match constant-key invocation reuse have graph/runtime regressions; exact collection slots, generic feasibility and complete virtual dispatch remain unqualified."
+      "reason": "Required-type and nullable presence tests, resolved reads and per-match constant-key invocation reuse have graph/runtime regressions; exact collection slots, generic feasibility and complete virtual dispatch remain unqualified.",
+      "references": {
+        "sections": [
+          "switch"
+        ],
+        "features": [
+          "accepted/3.0/patterns/feature-specification.md",
+          "accepted/3.0/patterns/exhaustiveness.md"
+        ],
+        "sdkCandidateCases": [
+          "patterns/call_tear_off_error_test.dart",
+          "patterns/call_tear_off_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "MethodDeclaration",
@@ -1011,7 +2337,25 @@
       "exporterCase": "MethodDeclaration",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "instanceMethods",
+          "staticMethods",
+          "getters",
+          "setters",
+          "operators",
+          "covariantParameters"
+        ],
+        "features": [
+          "accepted/2.12/abstract-external-fields/feature-specification.md"
+        ],
+        "sdkCandidateCases": [
+          "getter/closure_execution_order_test.dart",
+          "getter/declaration_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "MethodInvocation",
@@ -1019,7 +2363,21 @@
       "exporterCase": "MethodInvocation",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "methodInvocation",
+          "ordinaryInvocation"
+        ],
+        "features": [
+          "accepted/2.12/nnbd/feature-specification.md"
+        ],
+        "sdkCandidateCases": [
+          "method/as_constants2_test.dart",
+          "method/as_constants_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "MixinDeclaration",
@@ -1027,7 +2385,21 @@
       "exporterCase": "MixinDeclaration",
       "contract": "dispatch",
       "qualification": "conservative",
-      "reason": "Selected superclass/extension and analyzer hierarchy targets tested, including covariant/generic overrides and source implicit accessors; runtime receiver contexts, general callable binding and heap qualification remain open."
+      "reason": "Selected superclass/extension and analyzer hierarchy targets tested, including covariant/generic overrides and source implicit accessors; runtime receiver contexts, general callable binding and heap qualification remain open.",
+      "references": {
+        "sections": [
+          "mixins",
+          "mixinDeclaration"
+        ],
+        "features": [
+          "accepted/2.1/super-mixins/feature-specification.md"
+        ],
+        "sdkCandidateCases": [
+          "mixin/abstract_getter_test.dart",
+          "mixin/accessor_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "MixinOnClause",
@@ -1035,7 +2407,21 @@
       "exporterCase": null,
       "contract": "source",
       "qualification": "structural-only",
-      "reason": "analyzer superDeclarations"
+      "reason": "analyzer superDeclarations",
+      "references": {
+        "sections": [
+          "mixins",
+          "mixinDeclaration"
+        ],
+        "features": [
+          "accepted/2.1/super-mixins/feature-specification.md"
+        ],
+        "sdkCandidateCases": [
+          "mixin/abstract_getter_test.dart",
+          "mixin/accessor_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "NamedExpression",
@@ -1043,7 +2429,22 @@
       "exporterCase": "NamedExpression",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "actualArgumentLists",
+          "actualArguments",
+          "bindingActualsToFormals"
+        ],
+        "features": [
+          "accepted/2.17/named-arguments-anywhere/feature-specification.md"
+        ],
+        "sdkCandidateCases": [
+          "argument/assignability_function_typed_error_test.dart",
+          "argument/named_argument_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "NamedType",
@@ -1051,7 +2452,28 @@
       "exporterCase": "NamedType",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "types",
+          "parameterizedTypes",
+          "actualTypes",
+          "generics",
+          "variance",
+          "superBoundedTypes",
+          "instantiationToBound"
+        ],
+        "features": [
+          "accepted/2.12/nnbd/feature-specification.md",
+          "accepted/2.5/contravariant-superinterface-2018/feature-specification.md",
+          "accepted/2.18/horizontal-inference/feature-specification.md"
+        ],
+        "sdkCandidateCases": [
+          "type/alias_equality_test.dart",
+          "type/check_const_function_typedef2_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "NameWithTypeParameters",
@@ -1059,7 +2481,22 @@
       "exporterCase": null,
       "contract": "source",
       "qualification": "structural-only",
-      "reason": "declaration name and type parameters"
+      "reason": "declaration name and type parameters",
+      "references": {
+        "sections": [
+          "types",
+          "parameterizedTypes",
+          "actualTypes"
+        ],
+        "features": [
+          "accepted/2.12/nnbd/feature-specification.md"
+        ],
+        "sdkCandidateCases": [
+          "type/alias_equality_test.dart",
+          "type/check_const_function_typedef2_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "NativeClause",
@@ -1067,7 +2504,13 @@
       "exporterCase": null,
       "contract": "outside",
       "qualification": "unsupported",
-      "reason": "Native implementation bodies are outside source execution modeling."
+      "reason": "Native implementation bodies are outside source execution modeling.",
+      "references": {
+        "sections": [],
+        "features": [],
+        "sdkCandidateCases": [],
+        "status": "outside pinned public language scope; no enabled semantic qualification"
+      }
     },
     {
       "construct": "NativeFunctionBody",
@@ -1075,7 +2518,13 @@
       "exporterCase": null,
       "contract": "outside",
       "qualification": "unsupported",
-      "reason": "Native implementation bodies are outside source execution modeling."
+      "reason": "Native implementation bodies are outside source execution modeling.",
+      "references": {
+        "sections": [],
+        "features": [],
+        "sdkCandidateCases": [],
+        "status": "outside pinned public language scope; no enabled semantic qualification"
+      }
     },
     {
       "construct": "NullAssertPattern",
@@ -1083,7 +2532,21 @@
       "exporterCase": "NullAssertPattern",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "switch"
+        ],
+        "features": [
+          "accepted/3.0/patterns/feature-specification.md",
+          "accepted/3.0/patterns/exhaustiveness.md"
+        ],
+        "sdkCandidateCases": [
+          "patterns/call_tear_off_error_test.dart",
+          "patterns/call_tear_off_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "NullAwareElement",
@@ -1091,7 +2554,20 @@
       "exporterCase": "NullAwareElement",
       "contract": "collections",
       "qualification": "conservative",
-      "reason": "Accumulator element-value flow and evaluation order tested; exact membership, multiplicity and slot/overwrite precision are outside the shared heap contract."
+      "reason": "Accumulator element-value flow and evaluation order tested; exact membership, multiplicity and slot/overwrite precision are outside the shared heap contract.",
+      "references": {
+        "sections": [
+          "collectionLiteralElementEvaluation"
+        ],
+        "features": [
+          "accepted/future-releases/0323-null-aware-elements/feature-specification.md"
+        ],
+        "sdkCandidateCases": [
+          "null_aware_elements/const_literals_error_test.dart",
+          "null_aware_elements/const_literals_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "NullCheckPattern",
@@ -1099,7 +2575,21 @@
       "exporterCase": "NullCheckPattern",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "switch"
+        ],
+        "features": [
+          "accepted/3.0/patterns/feature-specification.md",
+          "accepted/3.0/patterns/exhaustiveness.md"
+        ],
+        "sdkCandidateCases": [
+          "patterns/call_tear_off_error_test.dart",
+          "patterns/call_tear_off_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "NullLiteral",
@@ -1107,7 +2597,20 @@
       "exporterCase": "NullLiteral",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "null"
+        ],
+        "features": [
+          "accepted/2.12/nnbd/feature-specification.md"
+        ],
+        "sdkCandidateCases": [
+          "null/access_error_test.dart",
+          "null/checked_null_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "ObjectPattern",
@@ -1115,7 +2618,21 @@
       "exporterCase": "ObjectPattern",
       "contract": "pattern-fields",
       "qualification": "unqualified",
-      "reason": "Ordinary getter invocation reuse, laziness and nested paths tested; extension substitutions, general shape constraints and full invocation-key coverage remain open."
+      "reason": "Ordinary getter invocation reuse, laziness and nested paths tested; extension substitutions, general shape constraints and full invocation-key coverage remain open.",
+      "references": {
+        "sections": [
+          "switch"
+        ],
+        "features": [
+          "accepted/3.0/patterns/feature-specification.md",
+          "accepted/3.0/patterns/exhaustiveness.md"
+        ],
+        "sdkCandidateCases": [
+          "patterns/call_tear_off_error_test.dart",
+          "patterns/call_tear_off_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "ParenthesizedExpression",
@@ -1123,7 +2640,18 @@
       "exporterCase": "ParenthesizedExpression",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "expressions"
+        ],
+        "features": [],
+        "sdkCandidateCases": [
+          "syntax/deep_nesting_expression_test.dart",
+          "syntax/deep_nesting_statement_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "ParenthesizedPattern",
@@ -1131,7 +2659,21 @@
       "exporterCase": "ParenthesizedPattern",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "switch"
+        ],
+        "features": [
+          "accepted/3.0/patterns/feature-specification.md",
+          "accepted/3.0/patterns/exhaustiveness.md"
+        ],
+        "sdkCandidateCases": [
+          "patterns/call_tear_off_error_test.dart",
+          "patterns/call_tear_off_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "PartDirective",
@@ -1139,7 +2681,18 @@
       "exporterCase": "PartDirective",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "parts"
+        ],
+        "features": [],
+        "sdkCandidateCases": [
+          "part/missing_part_of_tag_test.dart",
+          "part/of_multiple_libs_runtime_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "PartOfDirective",
@@ -1147,7 +2700,18 @@
       "exporterCase": "PartOfDirective",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "parts"
+        ],
+        "features": [],
+        "sdkCandidateCases": [
+          "part/missing_part_of_tag_test.dart",
+          "part/of_multiple_libs_runtime_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "PatternAssignment",
@@ -1155,7 +2719,21 @@
       "exporterCase": "PatternAssignment",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "switch"
+        ],
+        "features": [
+          "accepted/3.0/patterns/feature-specification.md",
+          "accepted/3.0/patterns/exhaustiveness.md"
+        ],
+        "sdkCandidateCases": [
+          "patterns/call_tear_off_error_test.dart",
+          "patterns/call_tear_off_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "PatternField",
@@ -1163,7 +2741,21 @@
       "exporterCase": "PatternField",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "switch"
+        ],
+        "features": [
+          "accepted/3.0/patterns/feature-specification.md",
+          "accepted/3.0/patterns/exhaustiveness.md"
+        ],
+        "sdkCandidateCases": [
+          "patterns/call_tear_off_error_test.dart",
+          "patterns/call_tear_off_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "PatternFieldName",
@@ -1171,7 +2763,21 @@
       "exporterCase": null,
       "contract": "source",
       "qualification": "structural-only",
-      "reason": "PatternField name"
+      "reason": "PatternField name",
+      "references": {
+        "sections": [
+          "switch"
+        ],
+        "features": [
+          "accepted/3.0/patterns/feature-specification.md",
+          "accepted/3.0/patterns/exhaustiveness.md"
+        ],
+        "sdkCandidateCases": [
+          "patterns/call_tear_off_error_test.dart",
+          "patterns/call_tear_off_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "PatternVariableDeclaration",
@@ -1179,7 +2785,21 @@
       "exporterCase": "PatternVariableDeclaration",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "switch"
+        ],
+        "features": [
+          "accepted/3.0/patterns/feature-specification.md",
+          "accepted/3.0/patterns/exhaustiveness.md"
+        ],
+        "sdkCandidateCases": [
+          "patterns/call_tear_off_error_test.dart",
+          "patterns/call_tear_off_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "PostfixExpression",
@@ -1187,7 +2807,21 @@
       "exporterCase": "PostfixExpression",
       "contract": "operators",
       "qualification": "tested-conservative",
-      "reason": "User-declared resolved operators are calls; SDK primitive operators retain shared operator semantics. Dynamic targets and virtual runtime dispatch are conservative."
+      "reason": "User-declared resolved operators are calls; SDK primitive operators retain shared operator semantics. Dynamic targets and virtual runtime dispatch are conservative.",
+      "references": {
+        "sections": [
+          "assignment",
+          "compoundAssignment",
+          "postfixExpressions",
+          "unaryExpressions"
+        ],
+        "features": [],
+        "sdkCandidateCases": [
+          "assign/instance_method_test.dart",
+          "assign/op_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "PrefixedIdentifier",
@@ -1195,7 +2829,20 @@
       "exporterCase": "PrefixedIdentifier",
       "contract": "heap",
       "qualification": "unqualified",
-      "reason": "Constant-field paths and writes across calls with stable parameters tested; mutable aliases, general interprocedural updates and broader identity/dispatch obligations remain open."
+      "reason": "Constant-field paths and writes across calls with stable parameters tested; mutable aliases, general interprocedural updates and broader identity/dispatch obligations remain open.",
+      "references": {
+        "sections": [
+          "identifierReference",
+          "lexicalLookup",
+          "propertyExtraction"
+        ],
+        "features": [],
+        "sdkCandidateCases": [
+          "identifier/built_in_identifier_test.dart",
+          "identifier/built_in_illegal_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "PrefixExpression",
@@ -1203,7 +2850,21 @@
       "exporterCase": "PrefixExpression",
       "contract": "operators",
       "qualification": "tested-conservative",
-      "reason": "User-declared resolved operators are calls; SDK primitive operators retain shared operator semantics. Dynamic targets and virtual runtime dispatch are conservative."
+      "reason": "User-declared resolved operators are calls; SDK primitive operators retain shared operator semantics. Dynamic targets and virtual runtime dispatch are conservative.",
+      "references": {
+        "sections": [
+          "assignment",
+          "compoundAssignment",
+          "postfixExpressions",
+          "unaryExpressions"
+        ],
+        "features": [],
+        "sdkCandidateCases": [
+          "assign/instance_method_test.dart",
+          "assign/op_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "PrimaryConstructorDeclaration",
@@ -1211,7 +2872,13 @@
       "exporterCase": null,
       "contract": "outside",
       "qualification": "unsupported",
-      "reason": "Not enabled in Dart 3.9.2."
+      "reason": "Not enabled in Dart 3.9.2.",
+      "references": {
+        "sections": [],
+        "features": [],
+        "sdkCandidateCases": [],
+        "status": "outside pinned public language scope; no enabled semantic qualification"
+      }
     },
     {
       "construct": "PrimaryConstructorName",
@@ -1219,7 +2886,13 @@
       "exporterCase": null,
       "contract": "outside",
       "qualification": "unsupported",
-      "reason": "Not enabled in Dart 3.9.2."
+      "reason": "Not enabled in Dart 3.9.2.",
+      "references": {
+        "sections": [],
+        "features": [],
+        "sdkCandidateCases": [],
+        "status": "outside pinned public language scope; no enabled semantic qualification"
+      }
     },
     {
       "construct": "PropertyAccess",
@@ -1227,7 +2900,22 @@
       "exporterCase": "PropertyAccess",
       "contract": "heap",
       "qualification": "unqualified",
-      "reason": "Constant-field paths and writes across calls with stable parameters tested; mutable aliases, general interprocedural updates and broader identity/dispatch obligations remain open."
+      "reason": "Constant-field paths and writes across calls with stable parameters tested; mutable aliases, general interprocedural updates and broader identity/dispatch obligations remain open.",
+      "references": {
+        "sections": [
+          "identifierReference",
+          "lexicalLookup",
+          "propertyExtraction"
+        ],
+        "features": [
+          "accepted/2.12/nnbd/feature-specification.md"
+        ],
+        "sdkCandidateCases": [
+          "identifier/built_in_identifier_test.dart",
+          "identifier/built_in_illegal_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "RecordLiteral",
@@ -1235,7 +2923,21 @@
       "exporterCase": "RecordLiteral",
       "contract": "records",
       "qualification": "unqualified",
-      "reason": "Field identities, evaluation order and bounded projection flow tested; constant canonicalization, general equality and deeper structural-type interactions remain open."
+      "reason": "Field identities, evaluation order and bounded projection flow tested; constant canonicalization, general equality and deeper structural-type interactions remain open.",
+      "references": {
+        "sections": [
+          "types",
+          "expressions"
+        ],
+        "features": [
+          "accepted/3.0/records/feature-specification.md"
+        ],
+        "sdkCandidateCases": [
+          "record_literal_test.dart",
+          "record_type_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "RecordPattern",
@@ -1243,7 +2945,21 @@
       "exporterCase": "RecordPattern",
       "contract": "records",
       "qualification": "unqualified",
-      "reason": "Field extraction, binding isolation and per-match field caching tested; general shape and branch-feasibility qualification remain open."
+      "reason": "Field extraction, binding isolation and per-match field caching tested; general shape and branch-feasibility qualification remain open.",
+      "references": {
+        "sections": [
+          "switch"
+        ],
+        "features": [
+          "accepted/3.0/patterns/feature-specification.md",
+          "accepted/3.0/patterns/exhaustiveness.md"
+        ],
+        "sdkCandidateCases": [
+          "patterns/call_tear_off_error_test.dart",
+          "patterns/call_tear_off_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "RecordTypeAnnotation",
@@ -1251,7 +2967,21 @@
       "exporterCase": "RecordTypeAnnotation",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "types",
+          "expressions"
+        ],
+        "features": [
+          "accepted/3.0/records/feature-specification.md"
+        ],
+        "sdkCandidateCases": [
+          "record_literal_test.dart",
+          "record_type_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "RecordTypeAnnotationNamedField",
@@ -1259,7 +2989,21 @@
       "exporterCase": "RecordTypeAnnotationField",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "types",
+          "expressions"
+        ],
+        "features": [
+          "accepted/3.0/records/feature-specification.md"
+        ],
+        "sdkCandidateCases": [
+          "record_literal_test.dart",
+          "record_type_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "RecordTypeAnnotationNamedFields",
@@ -1267,7 +3011,21 @@
       "exporterCase": "RecordTypeAnnotationNamedFields",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "types",
+          "expressions"
+        ],
+        "features": [
+          "accepted/3.0/records/feature-specification.md"
+        ],
+        "sdkCandidateCases": [
+          "record_literal_test.dart",
+          "record_type_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "RelationalPattern",
@@ -1275,7 +3033,21 @@
       "exporterCase": "RelationalPattern",
       "contract": "pattern-comparisons",
       "qualification": "unqualified",
-      "reason": "Receiver direction, operator targets, null behavior and operand evaluation tested; cross-case invocation caching, generic dispatch and match feasibility remain open."
+      "reason": "Receiver direction, operator targets, null behavior and operand evaluation tested; cross-case invocation caching, generic dispatch and match feasibility remain open.",
+      "references": {
+        "sections": [
+          "switch"
+        ],
+        "features": [
+          "accepted/3.0/patterns/feature-specification.md",
+          "accepted/3.0/patterns/exhaustiveness.md"
+        ],
+        "sdkCandidateCases": [
+          "patterns/call_tear_off_error_test.dart",
+          "patterns/call_tear_off_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "RepresentationConstructorName",
@@ -1283,7 +3055,20 @@
       "exporterCase": null,
       "contract": "source",
       "qualification": "structural-only",
-      "reason": "representation constructor symbol"
+      "reason": "representation constructor symbol",
+      "references": {
+        "sections": [
+          "types"
+        ],
+        "features": [
+          "accepted/3.3/extension-types/feature-specification.md"
+        ],
+        "sdkCandidateCases": [
+          "extension_type/combined_member_signature_error_test.dart",
+          "extension_type/combined_member_signature_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "RepresentationDeclaration",
@@ -1291,7 +3076,20 @@
       "exporterCase": "RepresentationDeclaration",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "types"
+        ],
+        "features": [
+          "accepted/3.3/extension-types/feature-specification.md"
+        ],
+        "sdkCandidateCases": [
+          "extension_type/combined_member_signature_error_test.dart",
+          "extension_type/combined_member_signature_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "RestPatternElement",
@@ -1299,7 +3097,21 @@
       "exporterCase": "RestPatternElement",
       "contract": "list-patterns",
       "qualification": "unqualified",
-      "reason": "List extraction targets, size guards, lazy invocation reuse, wildcard skipping and rest bounds tested; generic/virtual dispatch, exact collection slots and map qualification remain open."
+      "reason": "List extraction targets, size guards, lazy invocation reuse, wildcard skipping and rest bounds tested; generic/virtual dispatch, exact collection slots and map qualification remain open.",
+      "references": {
+        "sections": [
+          "switch"
+        ],
+        "features": [
+          "accepted/3.0/patterns/feature-specification.md",
+          "accepted/3.0/patterns/exhaustiveness.md"
+        ],
+        "sdkCandidateCases": [
+          "patterns/call_tear_off_error_test.dart",
+          "patterns/call_tear_off_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "RethrowExpression",
@@ -1307,7 +3119,18 @@
       "exporterCase": "RethrowExpression",
       "contract": "exceptions",
       "qualification": "conservative",
-      "reason": "Ordered handlers and internal-call exception/stack flow; implicit/external payloads and path feasibility remain open."
+      "reason": "Ordered handlers and internal-call exception/stack flow; implicit/external payloads and path feasibility remain open.",
+      "references": {
+        "sections": [
+          "rethrow"
+        ],
+        "features": [],
+        "sdkCandidateCases": [
+          "exception/catch_liveness_test.dart",
+          "exception/code_after_try_is_executed_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "ReturnStatement",
@@ -1315,7 +3138,18 @@
       "exporterCase": "ReturnStatement",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "return"
+        ],
+        "features": [],
+        "sdkCandidateCases": [
+          "return/in_loop_test.dart",
+          "return/skip_expression_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "ScriptTag",
@@ -1323,7 +3157,18 @@
       "exporterCase": null,
       "contract": "source",
       "qualification": "structural-only",
-      "reason": "retained in file source"
+      "reason": "retained in file source",
+      "references": {
+        "sections": [
+          "scripts"
+        ],
+        "features": [],
+        "sdkCandidateCases": [
+          "script/script1_test.dart",
+          "script/script2_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "SetOrMapLiteral",
@@ -1331,7 +3176,22 @@
       "exporterCase": "SetOrMapLiteral",
       "contract": "collections",
       "qualification": "conservative",
-      "reason": "Accumulator element-value flow and evaluation order tested; exact membership, multiplicity and slot/overwrite precision are outside the shared heap contract."
+      "reason": "Accumulator element-value flow and evaluation order tested; exact membership, multiplicity and slot/overwrite precision are outside the shared heap contract.",
+      "references": {
+        "sections": [
+          "maps",
+          "sets"
+        ],
+        "features": [
+          "accepted/2.2/set-literals/feature-specification.md",
+          "accepted/2.3/unified-collections/feature-specification.md"
+        ],
+        "sdkCandidateCases": [
+          "map/literal10_test.dart",
+          "map/literal11_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "ShowCombinator",
@@ -1339,7 +3199,19 @@
       "exporterCase": "ShowCombinator",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "exports",
+          "namespaceCombinators"
+        ],
+        "features": [],
+        "sdkCandidateCases": [
+          "export/ambiguous_main_test.dart",
+          "export/bigger_cyclic_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "SimpleFormalParameter",
@@ -1347,7 +3219,22 @@
       "exporterCase": "SimpleFormalParameter",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "formalParameters",
+          "requiredFormals",
+          "optionalFormals"
+        ],
+        "features": [
+          "accepted/3.7/wildcard-variables/feature-specification.md"
+        ],
+        "sdkCandidateCases": [
+          "initializing_formal/access_test.dart",
+          "initializing_formal/capture_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "SimpleIdentifier",
@@ -1355,7 +3242,20 @@
       "exporterCase": "SimpleIdentifier",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "identifierReference",
+          "lexicalLookup",
+          "propertyExtraction"
+        ],
+        "features": [],
+        "sdkCandidateCases": [
+          "identifier/built_in_identifier_test.dart",
+          "identifier/built_in_illegal_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "SimpleStringLiteral",
@@ -1363,7 +3263,19 @@
       "exporterCase": "SimpleStringLiteral",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "strings",
+          "stringInterpolation"
+        ],
+        "features": [],
+        "sdkCandidateCases": [
+          "string/adjacent_const_string_literals_test.dart",
+          "string/adjacent_string_literals_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "SpreadElement",
@@ -1371,7 +3283,20 @@
       "exporterCase": "SpreadElement",
       "contract": "collections",
       "qualification": "conservative",
-      "reason": "Accumulator element-value flow and evaluation order tested; exact membership, multiplicity and slot/overwrite precision are outside the shared heap contract."
+      "reason": "Accumulator element-value flow and evaluation order tested; exact membership, multiplicity and slot/overwrite precision are outside the shared heap contract.",
+      "references": {
+        "sections": [
+          "collectionLiteralElementEvaluation"
+        ],
+        "features": [
+          "accepted/2.3/spread-collections/feature-specification.md"
+        ],
+        "sdkCandidateCases": [
+          "spread_collections/await_test.dart",
+          "spread_collections/bind_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "StringInterpolation",
@@ -1379,7 +3304,19 @@
       "exporterCase": "StringInterpolation",
       "contract": "strings",
       "qualification": "conservative",
-      "reason": "Pinned VM/dart2js order, conversion targets, nullable guards and operand isolation tested; arbitrary virtual overrides and other runtime backends remain outside the contract."
+      "reason": "Pinned VM/dart2js order, conversion targets, nullable guards and operand isolation tested; arbitrary virtual overrides and other runtime backends remain outside the contract.",
+      "references": {
+        "sections": [
+          "strings",
+          "stringInterpolation"
+        ],
+        "features": [],
+        "sdkCandidateCases": [
+          "string/adjacent_const_string_literals_test.dart",
+          "string/adjacent_string_literals_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "SuperConstructorInvocation",
@@ -1387,7 +3324,19 @@
       "exporterCase": "SuperConstructorInvocation",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "superInvocations",
+          "superGetterAccessAndMethodClosurization"
+        ],
+        "features": [],
+        "sdkCandidateCases": [
+          "constructor/bad_constructor_test.dart",
+          "constructor/bad_named_constructor_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "SuperExpression",
@@ -1395,7 +3344,19 @@
       "exporterCase": "SuperExpression",
       "contract": "dispatch",
       "qualification": "conservative",
-      "reason": "Selected superclass/extension and analyzer hierarchy targets tested, including covariant/generic overrides and source implicit accessors; runtime receiver contexts, general callable binding and heap qualification remain open."
+      "reason": "Selected superclass/extension and analyzer hierarchy targets tested, including covariant/generic overrides and source implicit accessors; runtime receiver contexts, general callable binding and heap qualification remain open.",
+      "references": {
+        "sections": [
+          "superInvocations",
+          "superGetterAccessAndMethodClosurization"
+        ],
+        "features": [],
+        "sdkCandidateCases": [
+          "constructor/bad_constructor_test.dart",
+          "constructor/bad_named_constructor_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "SuperFormalParameter",
@@ -1403,7 +3364,21 @@
       "exporterCase": "SuperFormalParameter",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "formalParameters",
+          "generativeConstructors"
+        ],
+        "features": [
+          "accepted/2.17/super-parameters/feature-specification.md"
+        ],
+        "sdkCandidateCases": [
+          "constructor/bad_constructor_test.dart",
+          "constructor/bad_named_constructor_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "SwitchCase",
@@ -1411,7 +3386,21 @@
       "exporterCase": "SwitchCase",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "switch",
+          "case-execute"
+        ],
+        "features": [
+          "accepted/3.0/patterns/feature-specification.md"
+        ],
+        "sdkCandidateCases": [
+          "switch/aborting_switch_case_test.dart",
+          "switch/backward_jump_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "SwitchDefault",
@@ -1419,7 +3408,21 @@
       "exporterCase": "SwitchDefault",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "switch",
+          "case-execute"
+        ],
+        "features": [
+          "accepted/3.0/patterns/feature-specification.md"
+        ],
+        "sdkCandidateCases": [
+          "switch/aborting_switch_case_test.dart",
+          "switch/backward_jump_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "SwitchExpression",
@@ -1427,7 +3430,21 @@
       "exporterCase": "SwitchExpression",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "switch",
+          "case-execute"
+        ],
+        "features": [
+          "accepted/3.0/patterns/feature-specification.md"
+        ],
+        "sdkCandidateCases": [
+          "switch/aborting_switch_case_test.dart",
+          "switch/backward_jump_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "SwitchExpressionCase",
@@ -1435,7 +3452,21 @@
       "exporterCase": "SwitchExpressionCase",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "switch",
+          "case-execute"
+        ],
+        "features": [
+          "accepted/3.0/patterns/feature-specification.md"
+        ],
+        "sdkCandidateCases": [
+          "switch/aborting_switch_case_test.dart",
+          "switch/backward_jump_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "SwitchPatternCase",
@@ -1443,7 +3474,21 @@
       "exporterCase": "SwitchPatternCase",
       "contract": "pattern-joins",
       "qualification": "conservative",
-      "reason": "Logical-or identities and shared-case guard/body captures tested against pinned SDK cases; exact pattern matching and callback-container execution remain conservative."
+      "reason": "Logical-or identities and shared-case guard/body captures tested against pinned SDK cases; exact pattern matching and callback-container execution remain conservative.",
+      "references": {
+        "sections": [
+          "switch",
+          "case-execute"
+        ],
+        "features": [
+          "accepted/3.0/patterns/feature-specification.md"
+        ],
+        "sdkCandidateCases": [
+          "switch/aborting_switch_case_test.dart",
+          "switch/backward_jump_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "SwitchStatement",
@@ -1451,7 +3496,21 @@
       "exporterCase": "SwitchStatement",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "switch",
+          "case-execute"
+        ],
+        "features": [
+          "accepted/3.0/patterns/feature-specification.md"
+        ],
+        "sdkCandidateCases": [
+          "switch/aborting_switch_case_test.dart",
+          "switch/backward_jump_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "SymbolLiteral",
@@ -1459,7 +3518,18 @@
       "exporterCase": "SymbolLiteral",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "symbols"
+        ],
+        "features": [],
+        "sdkCandidateCases": [
+          "symbol/conflict_test.dart",
+          "symbol/literal_runtime_1_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "ThisExpression",
@@ -1467,7 +3537,18 @@
       "exporterCase": "ThisExpression",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "this"
+        ],
+        "features": [],
+        "sdkCandidateCases": [
+          "this/as_covariant_call_checks_test.dart",
+          "this/as_dynamic_call_checks_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "ThrowExpression",
@@ -1475,7 +3556,18 @@
       "exporterCase": "ThrowExpression",
       "contract": "exceptions",
       "qualification": "conservative",
-      "reason": "Ordered handlers and internal-call exception/stack flow; implicit/external payloads and path feasibility remain open."
+      "reason": "Ordered handlers and internal-call exception/stack flow; implicit/external payloads and path feasibility remain open.",
+      "references": {
+        "sections": [
+          "throw"
+        ],
+        "features": [],
+        "sdkCandidateCases": [
+          "exception/catch_liveness_test.dart",
+          "exception/code_after_try_is_executed_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "TopLevelVariableDeclaration",
@@ -1483,7 +3575,21 @@
       "exporterCase": "TopLevelVariableDeclaration",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "variables",
+          "localVariableDeclaration"
+        ],
+        "features": [
+          "accepted/2.12/nnbd/feature-specification.md"
+        ],
+        "sdkCandidateCases": [
+          "nnbd/late/chained_assignment_test.dart",
+          "nnbd/late/covariant_instance_field_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "TryStatement",
@@ -1491,7 +3597,19 @@
       "exporterCase": "TryStatement",
       "contract": "exceptions",
       "qualification": "conservative",
-      "reason": "Ordered handlers and internal-call exception/stack flow; implicit/external payloads and path feasibility remain open."
+      "reason": "Ordered handlers and internal-call exception/stack flow; implicit/external payloads and path feasibility remain open.",
+      "references": {
+        "sections": [
+          "try",
+          "on-catch"
+        ],
+        "features": [],
+        "sdkCandidateCases": [
+          "exception/catch_liveness_test.dart",
+          "exception/code_after_try_is_executed_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "TypeArgumentList",
@@ -1499,7 +3617,22 @@
       "exporterCase": "TypeArgumentList",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "types",
+          "parameterizedTypes",
+          "actualTypes"
+        ],
+        "features": [
+          "accepted/2.12/nnbd/feature-specification.md"
+        ],
+        "sdkCandidateCases": [
+          "type/alias_equality_test.dart",
+          "type/check_const_function_typedef2_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "TypeLiteral",
@@ -1507,7 +3640,22 @@
       "exporterCase": "TypeLiteral",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "types",
+          "parameterizedTypes",
+          "actualTypes"
+        ],
+        "features": [
+          "accepted/2.12/nnbd/feature-specification.md"
+        ],
+        "sdkCandidateCases": [
+          "type/alias_equality_test.dart",
+          "type/check_const_function_typedef2_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "TypeParameter",
@@ -1515,7 +3663,25 @@
       "exporterCase": "TypeParameter",
       "contract": "generic-scopes",
       "qualification": "unqualified",
-      "reason": "Scoped declarations, bound relations, anonymous generic function identities and signatures tested; runtime type substitution and dispatch remain unqualified."
+      "reason": "Scoped declarations, bound relations, anonymous generic function identities and signatures tested; runtime type substitution and dispatch remain unqualified.",
+      "references": {
+        "sections": [
+          "types",
+          "parameterizedTypes",
+          "actualTypes",
+          "generics",
+          "variance",
+          "instantiationToBound"
+        ],
+        "features": [
+          "accepted/2.12/nnbd/feature-specification.md"
+        ],
+        "sdkCandidateCases": [
+          "type/alias_equality_test.dart",
+          "type/check_const_function_typedef2_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "TypeParameterList",
@@ -1523,7 +3689,25 @@
       "exporterCase": "TypeParameterList",
       "contract": "generic-scopes",
       "qualification": "unqualified",
-      "reason": "Scoped declarations, bound relations, anonymous generic function identities and signatures tested; runtime type substitution and dispatch remain unqualified."
+      "reason": "Scoped declarations, bound relations, anonymous generic function identities and signatures tested; runtime type substitution and dispatch remain unqualified.",
+      "references": {
+        "sections": [
+          "types",
+          "parameterizedTypes",
+          "actualTypes",
+          "generics",
+          "variance",
+          "instantiationToBound"
+        ],
+        "features": [
+          "accepted/2.12/nnbd/feature-specification.md"
+        ],
+        "sdkCandidateCases": [
+          "type/alias_equality_test.dart",
+          "type/check_const_function_typedef2_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "VariableDeclaration",
@@ -1531,7 +3715,22 @@
       "exporterCase": "VariableDeclaration",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "variables",
+          "localVariableDeclaration"
+        ],
+        "features": [
+          "accepted/2.12/nnbd/feature-specification.md",
+          "accepted/3.7/wildcard-variables/feature-specification.md"
+        ],
+        "sdkCandidateCases": [
+          "nnbd/late/chained_assignment_test.dart",
+          "nnbd/late/covariant_instance_field_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "VariableDeclarationList",
@@ -1539,7 +3738,21 @@
       "exporterCase": "VariableDeclarationList",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "variables",
+          "localVariableDeclaration"
+        ],
+        "features": [
+          "accepted/2.12/nnbd/feature-specification.md"
+        ],
+        "sdkCandidateCases": [
+          "nnbd/late/chained_assignment_test.dart",
+          "nnbd/late/covariant_instance_field_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "VariableDeclarationStatement",
@@ -1547,7 +3760,21 @@
       "exporterCase": "VariableDeclarationStatement",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "variables",
+          "localVariableDeclaration"
+        ],
+        "features": [
+          "accepted/2.12/nnbd/feature-specification.md"
+        ],
+        "sdkCandidateCases": [
+          "nnbd/late/chained_assignment_test.dart",
+          "nnbd/late/covariant_instance_field_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "WhenClause",
@@ -1555,7 +3782,21 @@
       "exporterCase": null,
       "contract": "source",
       "qualification": "structural-only",
-      "reason": "GuardedPattern condition"
+      "reason": "GuardedPattern condition",
+      "references": {
+        "sections": [
+          "switch"
+        ],
+        "features": [
+          "accepted/3.0/patterns/feature-specification.md",
+          "accepted/3.0/patterns/exhaustiveness.md"
+        ],
+        "sdkCandidateCases": [
+          "patterns/call_tear_off_error_test.dart",
+          "patterns/call_tear_off_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "WhileStatement",
@@ -1563,7 +3804,18 @@
       "exporterCase": "WhileStatement",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "while"
+        ],
+        "features": [],
+        "sdkCandidateCases": [
+          "loop/break_outside_loop_test.dart",
+          "loop/break_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "WildcardPattern",
@@ -1571,7 +3823,22 @@
       "exporterCase": "WildcardPattern",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "switch"
+        ],
+        "features": [
+          "accepted/3.0/patterns/feature-specification.md",
+          "accepted/3.0/patterns/exhaustiveness.md",
+          "accepted/3.7/wildcard-variables/feature-specification.md"
+        ],
+        "sdkCandidateCases": [
+          "patterns/call_tear_off_error_test.dart",
+          "patterns/call_tear_off_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "WithClause",
@@ -1579,7 +3846,21 @@
       "exporterCase": null,
       "contract": "source",
       "qualification": "structural-only",
-      "reason": "analyzer superDeclarations"
+      "reason": "analyzer superDeclarations",
+      "references": {
+        "sections": [
+          "mixins",
+          "mixinDeclaration"
+        ],
+        "features": [
+          "accepted/2.1/super-mixins/feature-specification.md"
+        ],
+        "sdkCandidateCases": [
+          "mixin/abstract_getter_test.dart",
+          "mixin/accessor_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     },
     {
       "construct": "YieldStatement",
@@ -1587,7 +3868,21 @@
       "exporterCase": "YieldStatement",
       "contract": "syntax",
       "qualification": "unqualified",
-      "reason": "Explicit exporter representation; semantic obligations tracked independently."
+      "reason": "Explicit exporter representation; semantic obligations tracked independently.",
+      "references": {
+        "sections": [
+          "yield",
+          "yieldEach"
+        ],
+        "features": [
+          "accepted/future-releases/async-star-behavior/feature-specification.md"
+        ],
+        "sdkCandidateCases": [
+          "async_star/async_star2_regression_test.dart",
+          "async_star/async_star_await_for_test.dart"
+        ],
+        "status": "reference-only; candidate cases unreviewed and not executed"
+      }
     }
   ],
   "qualifiedCases": {
@@ -1626,5 +3921,468 @@
     }
   },
   "upstreamCases": "upstream/manifest.json",
-  "initializationContract": "initialization"
+  "initializationContract": "initialization",
+  "sourceIndex": {
+    "file": "source-index.json",
+    "sha256": "15f1eef77dd2791eee383c3952c97d7c5e16e1da893bfc200d0e313474211afe",
+    "scope": "175 analyzer visitor cross-references plus complete pinned SDK candidate test index. Formal sections and accepted feature documents are reference material, not a claim that every language rule has a semantic inventory row."
+  },
+  "specificationGaps": [
+    {
+      "section": "ecmaScope",
+      "qualification": "not-applicable",
+      "reason": "Specification organization, terminology or reference notation; no standalone language construct.",
+      "kind": "document-context"
+    },
+    {
+      "section": "ecmaConformance",
+      "qualification": "not-applicable",
+      "reason": "Specification organization, terminology or reference notation; no standalone language construct.",
+      "kind": "document-context"
+    },
+    {
+      "section": "ecmaNormativeReferences",
+      "qualification": "not-applicable",
+      "reason": "Specification organization, terminology or reference notation; no standalone language construct.",
+      "kind": "document-context"
+    },
+    {
+      "section": "ecmaTermsAndDefinitions",
+      "qualification": "not-applicable",
+      "reason": "Specification organization, terminology or reference notation; no standalone language construct.",
+      "kind": "document-context"
+    },
+    {
+      "section": "notation",
+      "qualification": "not-applicable",
+      "reason": "Specification organization, terminology or reference notation; no standalone language construct.",
+      "kind": "document-context"
+    },
+    {
+      "section": "overview",
+      "qualification": "not-applicable",
+      "reason": "Specification organization, terminology or reference notation; no standalone language construct.",
+      "kind": "document-context"
+    },
+    {
+      "section": "scoping",
+      "qualification": "unqualified",
+      "reason": "No construct-specific semantic cross-reference; static/dynamic rule obligations remain to be inventoried.",
+      "kind": "semantic-rule"
+    },
+    {
+      "section": "privacy",
+      "qualification": "unqualified",
+      "reason": "No construct-specific semantic cross-reference; static/dynamic rule obligations remain to be inventoried.",
+      "kind": "semantic-rule"
+    },
+    {
+      "section": "errorsAndWarnings",
+      "qualification": "unqualified",
+      "reason": "No construct-specific semantic cross-reference; static/dynamic rule obligations remain to be inventoried.",
+      "kind": "semantic-rule"
+    },
+    {
+      "section": "evaluationOfImplicitVariableGetters",
+      "qualification": "unqualified",
+      "reason": "No construct-specific semantic cross-reference; static/dynamic rule obligations remain to be inventoried.",
+      "kind": "semantic-rule"
+    },
+    {
+      "section": "typeOfAFunction",
+      "qualification": "unqualified",
+      "reason": "No construct-specific semantic cross-reference; static/dynamic rule obligations remain to be inventoried.",
+      "kind": "semantic-rule"
+    },
+    {
+      "section": "externalFunctions",
+      "qualification": "unqualified",
+      "reason": "No construct-specific semantic cross-reference; static/dynamic rule obligations remain to be inventoried.",
+      "kind": "semantic-rule"
+    },
+    {
+      "section": "fullyImplementingAnInterface",
+      "qualification": "unqualified",
+      "reason": "No construct-specific semantic cross-reference; static/dynamic rule obligations remain to be inventoried.",
+      "kind": "semantic-rule"
+    },
+    {
+      "section": "theMethodNoSuchMethod",
+      "qualification": "unqualified",
+      "reason": "No construct-specific semantic cross-reference; static/dynamic rule obligations remain to be inventoried.",
+      "kind": "semantic-rule"
+    },
+    {
+      "section": "theOperatorEqualsEquals",
+      "qualification": "unqualified",
+      "reason": "No construct-specific semantic cross-reference; static/dynamic rule obligations remain to be inventoried.",
+      "kind": "semantic-rule"
+    },
+    {
+      "section": "abstractInstanceMembers",
+      "qualification": "unqualified",
+      "reason": "No construct-specific semantic cross-reference; static/dynamic rule obligations remain to be inventoried.",
+      "kind": "semantic-rule"
+    },
+    {
+      "section": "inheritanceAndOverriding",
+      "qualification": "unqualified",
+      "reason": "No construct-specific semantic cross-reference; static/dynamic rule obligations remain to be inventoried.",
+      "kind": "semantic-rule"
+    },
+    {
+      "section": "classMemberConflicts",
+      "qualification": "unqualified",
+      "reason": "No construct-specific semantic cross-reference; static/dynamic rule obligations remain to be inventoried.",
+      "kind": "semantic-rule"
+    },
+    {
+      "section": "interfaces",
+      "qualification": "unqualified",
+      "reason": "No construct-specific semantic cross-reference; static/dynamic rule obligations remain to be inventoried.",
+      "kind": "semantic-rule"
+    },
+    {
+      "section": "combinedMemberSignatures",
+      "qualification": "unqualified",
+      "reason": "No construct-specific semantic cross-reference; static/dynamic rule obligations remain to be inventoried.",
+      "kind": "semantic-rule"
+    },
+    {
+      "section": "interfaceSuperinterfaces",
+      "qualification": "unqualified",
+      "reason": "No construct-specific semantic cross-reference; static/dynamic rule obligations remain to be inventoried.",
+      "kind": "semantic-rule"
+    },
+    {
+      "section": "interfaceInheritanceAndOverriding",
+      "qualification": "unqualified",
+      "reason": "No construct-specific semantic cross-reference; static/dynamic rule obligations remain to be inventoried.",
+      "kind": "semantic-rule"
+    },
+    {
+      "section": "correctMemberOverrides",
+      "qualification": "unqualified",
+      "reason": "No construct-specific semantic cross-reference; static/dynamic rule obligations remain to be inventoried.",
+      "kind": "semantic-rule"
+    },
+    {
+      "section": "mixinClasses",
+      "qualification": "unqualified",
+      "reason": "No construct-specific semantic cross-reference; static/dynamic rule obligations remain to be inventoried.",
+      "kind": "semantic-rule"
+    },
+    {
+      "section": "extensionAccessibility",
+      "qualification": "unqualified",
+      "reason": "No construct-specific semantic cross-reference; static/dynamic rule obligations remain to be inventoried.",
+      "kind": "semantic-rule"
+    },
+    {
+      "section": "extensionApplicability",
+      "qualification": "unqualified",
+      "reason": "No construct-specific semantic cross-reference; static/dynamic rule obligations remain to be inventoried.",
+      "kind": "semantic-rule"
+    },
+    {
+      "section": "extensionSpecificity",
+      "qualification": "unqualified",
+      "reason": "No construct-specific semantic cross-reference; static/dynamic rule obligations remain to be inventoried.",
+      "kind": "semantic-rule"
+    },
+    {
+      "section": "staticAnalysisOfMembersOfAnExtension",
+      "qualification": "unqualified",
+      "reason": "No construct-specific semantic cross-reference; static/dynamic rule obligations remain to be inventoried.",
+      "kind": "semantic-rule"
+    },
+    {
+      "section": "extensionMethodClosurization",
+      "qualification": "unqualified",
+      "reason": "No construct-specific semantic cross-reference; static/dynamic rule obligations remain to be inventoried.",
+      "kind": "semantic-rule"
+    },
+    {
+      "section": "auxiliaryConceptsForInstantiationToBound",
+      "qualification": "unqualified",
+      "reason": "No construct-specific semantic cross-reference; static/dynamic rule obligations remain to be inventoried.",
+      "kind": "semantic-rule"
+    },
+    {
+      "section": "theInstantiationToBoundAlgorithm",
+      "qualification": "unqualified",
+      "reason": "No construct-specific semantic cross-reference; static/dynamic rule obligations remain to be inventoried.",
+      "kind": "semantic-rule"
+    },
+    {
+      "section": "expressionEvaluation",
+      "qualification": "unqualified",
+      "reason": "No construct-specific semantic cross-reference; static/dynamic rule obligations remain to be inventoried.",
+      "kind": "semantic-rule"
+    },
+    {
+      "section": "objectIdentity",
+      "qualification": "unqualified",
+      "reason": "No construct-specific semantic cross-reference; static/dynamic rule obligations remain to be inventoried.",
+      "kind": "semantic-rule"
+    },
+    {
+      "section": "furtherCommentsOnConstantsAndPotentiallyConstants",
+      "qualification": "unqualified",
+      "reason": "No construct-specific semantic cross-reference; static/dynamic rule obligations remain to be inventoried.",
+      "kind": "semantic-rule"
+    },
+    {
+      "section": "constantContexts",
+      "qualification": "unqualified",
+      "reason": "No construct-specific semantic cross-reference; static/dynamic rule obligations remain to be inventoried.",
+      "kind": "semantic-rule"
+    },
+    {
+      "section": "collectionLiterals",
+      "qualification": "unqualified",
+      "reason": "No construct-specific semantic cross-reference; static/dynamic rule obligations remain to be inventoried.",
+      "kind": "semantic-rule"
+    },
+    {
+      "section": "collectionLiteralTypePromotion",
+      "qualification": "unqualified",
+      "reason": "No construct-specific semantic cross-reference; static/dynamic rule obligations remain to be inventoried.",
+      "kind": "semantic-rule"
+    },
+    {
+      "section": "listLiteralInference",
+      "qualification": "unqualified",
+      "reason": "No construct-specific semantic cross-reference; static/dynamic rule obligations remain to be inventoried.",
+      "kind": "semantic-rule"
+    },
+    {
+      "section": "setAndMapLiteralDisambiguation",
+      "qualification": "unqualified",
+      "reason": "No construct-specific semantic cross-reference; static/dynamic rule obligations remain to be inventoried.",
+      "kind": "semantic-rule"
+    },
+    {
+      "section": "setAndMapLiteralInference",
+      "qualification": "unqualified",
+      "reason": "No construct-specific semantic cross-reference; static/dynamic rule obligations remain to be inventoried.",
+      "kind": "semantic-rule"
+    },
+    {
+      "section": "instanceCreation",
+      "qualification": "unqualified",
+      "reason": "No construct-specific semantic cross-reference; static/dynamic rule obligations remain to be inventoried.",
+      "kind": "semantic-rule"
+    },
+    {
+      "section": "new",
+      "qualification": "unqualified",
+      "reason": "No construct-specific semantic cross-reference; static/dynamic rule obligations remain to be inventoried.",
+      "kind": "semantic-rule"
+    },
+    {
+      "section": "const",
+      "qualification": "unqualified",
+      "reason": "No construct-specific semantic cross-reference; static/dynamic rule obligations remain to be inventoried.",
+      "kind": "semantic-rule"
+    },
+    {
+      "section": "spawningAnIsolate",
+      "qualification": "unqualified",
+      "reason": "No construct-specific semantic cross-reference; static/dynamic rule obligations remain to be inventoried.",
+      "kind": "semantic-rule"
+    },
+    {
+      "section": "unqualifiedInvocation",
+      "qualification": "unqualified",
+      "reason": "No construct-specific semantic cross-reference; static/dynamic rule obligations remain to be inventoried.",
+      "kind": "semantic-rule"
+    },
+    {
+      "section": "genericFunctionInstantiation",
+      "qualification": "unqualified",
+      "reason": "No construct-specific semantic cross-reference; static/dynamic rule obligations remain to be inventoried.",
+      "kind": "semantic-rule"
+    },
+    {
+      "section": "lookup",
+      "qualification": "unqualified",
+      "reason": "No construct-specific semantic cross-reference; static/dynamic rule obligations remain to be inventoried.",
+      "kind": "semantic-rule"
+    },
+    {
+      "section": "topLevelGetterInvocation",
+      "qualification": "unqualified",
+      "reason": "No construct-specific semantic cross-reference; static/dynamic rule obligations remain to be inventoried.",
+      "kind": "semantic-rule"
+    },
+    {
+      "section": "memberInvocations",
+      "qualification": "unqualified",
+      "reason": "No construct-specific semantic cross-reference; static/dynamic rule obligations remain to be inventoried.",
+      "kind": "semantic-rule"
+    },
+    {
+      "section": "sendingMessages",
+      "qualification": "unqualified",
+      "reason": "No construct-specific semantic cross-reference; static/dynamic rule obligations remain to be inventoried.",
+      "kind": "semantic-rule"
+    },
+    {
+      "section": "getterAccessAndMethodExtraction",
+      "qualification": "unqualified",
+      "reason": "No construct-specific semantic cross-reference; static/dynamic rule obligations remain to be inventoried.",
+      "kind": "semantic-rule"
+    },
+    {
+      "section": "superClosurization",
+      "qualification": "unqualified",
+      "reason": "No construct-specific semantic cross-reference; static/dynamic rule obligations remain to be inventoried.",
+      "kind": "semantic-rule"
+    },
+    {
+      "section": "genericMethodInstantiation",
+      "qualification": "unqualified",
+      "reason": "No construct-specific semantic cross-reference; static/dynamic rule obligations remain to be inventoried.",
+      "kind": "semantic-rule"
+    },
+    {
+      "section": "statementCompletion",
+      "qualification": "unqualified",
+      "reason": "No construct-specific semantic cross-reference; static/dynamic rule obligations remain to be inventoried.",
+      "kind": "semantic-rule"
+    },
+    {
+      "section": "localFunctionDeclaration",
+      "qualification": "unqualified",
+      "reason": "No construct-specific semantic cross-reference; static/dynamic rule obligations remain to be inventoried.",
+      "kind": "semantic-rule"
+    },
+    {
+      "section": "for",
+      "qualification": "unqualified",
+      "reason": "No construct-specific semantic cross-reference; static/dynamic rule obligations remain to be inventoried.",
+      "kind": "semantic-rule"
+    },
+    {
+      "section": "theImportedNamespace",
+      "qualification": "unqualified",
+      "reason": "No construct-specific semantic cross-reference; static/dynamic rule obligations remain to be inventoried.",
+      "kind": "semantic-rule"
+    },
+    {
+      "section": "semanticsOfImports",
+      "qualification": "unqualified",
+      "reason": "No construct-specific semantic cross-reference; static/dynamic rule obligations remain to be inventoried.",
+      "kind": "semantic-rule"
+    },
+    {
+      "section": "conflictMergingOfNamespaces",
+      "qualification": "unqualified",
+      "reason": "No construct-specific semantic cross-reference; static/dynamic rule obligations remain to be inventoried.",
+      "kind": "semantic-rule"
+    },
+    {
+      "section": "staticTypes",
+      "qualification": "unqualified",
+      "reason": "No construct-specific semantic cross-reference; static/dynamic rule obligations remain to be inventoried.",
+      "kind": "semantic-rule"
+    },
+    {
+      "section": "dynamicTypeSystem",
+      "qualification": "unqualified",
+      "reason": "No construct-specific semantic cross-reference; static/dynamic rule obligations remain to be inventoried.",
+      "kind": "semantic-rule"
+    },
+    {
+      "section": "subtypes",
+      "qualification": "unqualified",
+      "reason": "No construct-specific semantic cross-reference; static/dynamic rule obligations remain to be inventoried.",
+      "kind": "semantic-rule"
+    },
+    {
+      "section": "metaVariables",
+      "qualification": "not-applicable",
+      "reason": "Specification organization, terminology or reference notation; no standalone language construct.",
+      "kind": "document-context"
+    },
+    {
+      "section": "subtypeRules",
+      "qualification": "unqualified",
+      "reason": "No construct-specific semantic cross-reference; static/dynamic rule obligations remain to be inventoried.",
+      "kind": "semantic-rule"
+    },
+    {
+      "section": "beingASubtype",
+      "qualification": "unqualified",
+      "reason": "No construct-specific semantic cross-reference; static/dynamic rule obligations remain to be inventoried.",
+      "kind": "semantic-rule"
+    },
+    {
+      "section": "informalSubtypeRuleDescriptions",
+      "qualification": "unqualified",
+      "reason": "No construct-specific semantic cross-reference; static/dynamic rule obligations remain to be inventoried.",
+      "kind": "semantic-rule"
+    },
+    {
+      "section": "additionalSubtypingConcepts",
+      "qualification": "unqualified",
+      "reason": "No construct-specific semantic cross-reference; static/dynamic rule obligations remain to be inventoried.",
+      "kind": "semantic-rule"
+    },
+    {
+      "section": "functionType",
+      "qualification": "unqualified",
+      "reason": "No construct-specific semantic cross-reference; static/dynamic rule obligations remain to be inventoried.",
+      "kind": "semantic-rule"
+    },
+    {
+      "section": "typeDynamic",
+      "qualification": "unqualified",
+      "reason": "No construct-specific semantic cross-reference; static/dynamic rule obligations remain to be inventoried.",
+      "kind": "semantic-rule"
+    },
+    {
+      "section": "typeFutureOr",
+      "qualification": "unqualified",
+      "reason": "No construct-specific semantic cross-reference; static/dynamic rule obligations remain to be inventoried.",
+      "kind": "semantic-rule"
+    },
+    {
+      "section": "typeVoid",
+      "qualification": "unqualified",
+      "reason": "No construct-specific semantic cross-reference; static/dynamic rule obligations remain to be inventoried.",
+      "kind": "semantic-rule"
+    },
+    {
+      "section": "voidSoundness",
+      "qualification": "unqualified",
+      "reason": "No construct-specific semantic cross-reference; static/dynamic rule obligations remain to be inventoried.",
+      "kind": "semantic-rule"
+    },
+    {
+      "section": "leastUpperBounds",
+      "qualification": "unqualified",
+      "reason": "No construct-specific semantic cross-reference; static/dynamic rule obligations remain to be inventoried.",
+      "kind": "semantic-rule"
+    },
+    {
+      "section": "reference",
+      "qualification": "not-applicable",
+      "reason": "Specification organization, terminology or reference notation; no standalone language construct.",
+      "kind": "document-context"
+    },
+    {
+      "section": "lexicalRules",
+      "qualification": "unqualified",
+      "reason": "No construct-specific semantic cross-reference; static/dynamic rule obligations remain to be inventoried.",
+      "kind": "semantic-rule"
+    },
+    {
+      "section": "reservedWords",
+      "qualification": "unqualified",
+      "reason": "No construct-specific semantic cross-reference; static/dynamic rule obligations remain to be inventoried.",
+      "kind": "semantic-rule"
+    }
+  ]
 }

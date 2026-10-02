@@ -3,8 +3,45 @@
 `inventory.json` accounts for the analyzer 8.4.1 visitor surface at Dart 3.9.2.
 Its test checks that every visitor construct is classified and that declared
 exporter cases still exist. A row marked `unqualified` is an open semantic
-obligation, even when its syntax is exported. This inventory is not yet a complete
-cross-reference to specification sections and SDK language tests.
+obligation, even when its syntax is exported. Every in-scope visitor row now references
+pinned base-specification sections, accepted feature documents and candidate SDK
+cases. These are source references; candidate cases are unreviewed and unexecuted
+unless separately qualified by the existing upstream manifest and tests.
+
+[source-index.json](source-index.json) records 195 base section labels, thirty
+accepted feature documents and the complete 4,172 `_test.dart` candidate index
+from the Dart 3.9.2 SDK language-test tree. Git blob identities and immutable
+repository revisions preserve provenance. The language repository snapshot is
+the last commit before the SDK revision's committer timestamp; it is reference
+material rather than a compiler dependency. The [formal specification](https://dart.dev/resources/language/spec)
+is unfinished, so accepted feature documents supplement the older base draft.
+Diagnostic, VM and experimental SDK tests are included in the candidate index;
+their presence does not establish valid Dart 3.9 syntax or a passing oracle.
+
+Seventy-six base sections have no construct-specific cross-reference yet and
+remain explicit `specificationGaps`: eight document-context sections are not
+standalone constructs, while 68 semantic-rule sections remain unqualified. Existing per-stage contracts and semantic
+qualifications are unchanged. The source inventory does not close Gate 2's
+complete language-rule matrix or executable-oracle obligations.
+
+Check committed references without network access:
+
+```sh
+python3 joern-cli/frontends/dartsrc2cpg/scripts/verify_conformance_sources.py
+```
+
+Fetch missing immutable evidence under `agents/` and verify the full pinned SDK
+index, section extraction and actual specification hashes:
+
+```sh
+python3 joern-cli/frontends/dartsrc2cpg/scripts/verify_conformance_sources.py \
+  --fetch --source-root agents/language-inventory
+```
+
+The verifier checks cached content rather than silently replacing mismatches.
+The native inventory test also checks every visitor's known references and keeps
+outside-scope visitors disabled. Neither check promotes a candidate into runtime
+or graph qualification.
 
 `DartFrontendTests` exercises these paired transformations against the same
 source-to-sink dependency: local renaming, helper extraction/inlining, named

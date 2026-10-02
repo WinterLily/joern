@@ -1668,3 +1668,37 @@ hashes, altered field demands and forged totals. Final source provenance remains
 403 files/all twelve graphs, and summary regeneration is byte-identical. Eight
 modeled negative searches, omitted alternatives, historical interrupted searches
 and Gates 2–6 remain open; this completes returned-path review only.
+
+
+## Pinned specification and SDK reference inventory
+
+Gate 2 now supplements its 175 analyzer visitor rows with immutable source
+references and candidate SDK cases. The source index records 195 base-specification
+section labels, thirty accepted feature documents with actual SHA-256/Git blob
+hashes, and all 4,172 `_test.dart` candidates in the pinned SDK language subtree.
+Each enabled visitor has known source/candidate references; outside-scope visitors
+retain no enabled qualification. Of 76 unmapped base sections, eight are document
+context and 68 retain explicit unqualified semantic-rule obligations. Existing semantic contract classifications are
+unchanged. These links and filenames are not executed conformance evidence.
+
+The verifier checks the committed index hash, matching SDK pins, all row references,
+unqualified gap accounting and feature-document coverage. With downloaded evidence
+it also checks the SDK root/tests/language tree binding, complete candidate set,
+language repository revision and actual specification hashes/section extraction.
+Optional fetching uses immutable URLs and caches only under agents/. The language
+snapshot precedes the SDK revision's committer date; it is reference material,
+not a compiler dependency or completed Dart 3 specification. The official
+specification remains unfinished and accepted feature documents supplement it.
+
+The native inventory test checks visitor references and explicit gaps. Thirteen
+mutation controls reject removed gaps/SDK cases, promoted candidates, unknown
+sections/features/cases, duplicate cases, mixed revisions/tree IDs and stale
+specification hashes. Gate 2 stays open for remaining language-rule rows,
+construct-specific stage tests and executable traces.
+
+
+Validation passes the 119-test native suite and final focused inventory check,
+analysis/formatting and thirteen source-verifier rejection checks. Full cached
+provenance verification and unchanged 403-file/all-twelve-graph provenance pass;
+the four-witness summary still regenerates byte-identically. No semantic status
+is upgraded by the new source references.

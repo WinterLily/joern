@@ -255,6 +255,14 @@ coverage wording if any positive exists only through an unjustified shortcut.
 
 ## Gate 2 — Establish a language conformance inventory and oracle
 
+Progress: the 175-row analyzer inventory now links each in-scope visitor to
+pinned formal/feature sources and candidate SDK cases. The [source index](conformance/source-index.json)
+accounts for 195 base sections, thirty accepted feature documents and all 4,172
+pinned SDK language test candidates. Of 76 unmapped base sections, eight are
+document context and 68 retain semantic-rule obligations. Candidates are unreviewed/unexecuted, and existing
+per-stage semantic qualifications are unchanged. The complete language-rule
+matrix and broader executable traces remain unfinished.
+
 - [ ] Inventory Dart 3.9.2 constructs from the language specification, analyzer
       AST surface and pinned SDK language tests. Do not infer coverage solely
       from syntax appearing in the current corpus.
