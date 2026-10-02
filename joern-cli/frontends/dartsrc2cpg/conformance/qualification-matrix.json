@@ -26,7 +26,7 @@
     "records-graph": {
       "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
       "selector": "\"isolate record fields through calls, nested records and destructuring\" in {",
-      "sha256": "1e83eddc5acdb02d93949b3b62102305bd66221b27b698006f56c97c8af11b24",
+      "sha256": "f2aa2a65703f3eb09cbae030ccd86e2740ab6df7faa3b6f8ec78a0c37c600fad",
       "stages": [
         "lowering",
         "resolution",
@@ -48,7 +48,7 @@
     "captures-graph": {
       "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
       "selector": "\"preserve captured binding identity and exclude replaced capture values\" in {",
-      "sha256": "1e83eddc5acdb02d93949b3b62102305bd66221b27b698006f56c97c8af11b24",
+      "sha256": "f2aa2a65703f3eb09cbae030ccd86e2740ab6df7faa3b6f8ec78a0c37c600fad",
       "stages": [
         "lowering",
         "valueFlow",
@@ -68,7 +68,7 @@
     "operators-graph": {
       "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
       "selector": "\"yield the assigned value independently of setter and index-setter returns\" in {",
-      "sha256": "1e83eddc5acdb02d93949b3b62102305bd66221b27b698006f56c97c8af11b24",
+      "sha256": "f2aa2a65703f3eb09cbae030ccd86e2740ab6df7faa3b6f8ec78a0c37c600fad",
       "stages": [
         "lowering",
         "resolution",
@@ -89,7 +89,7 @@
     "collections-graph": {
       "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
       "selector": "\"accumulate values across nested collection loops without treating conditions as elements\" in {",
-      "sha256": "1e83eddc5acdb02d93949b3b62102305bd66221b27b698006f56c97c8af11b24",
+      "sha256": "f2aa2a65703f3eb09cbae030ccd86e2740ab6df7faa3b6f8ec78a0c37c600fad",
       "stages": [
         "lowering",
         "valueFlow",
@@ -109,7 +109,7 @@
     "pattern-joins-graph": {
       "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
       "selector": "\"preserve SDK shared-case guard captures separately from the body variable\" in {",
-      "sha256": "1e83eddc5acdb02d93949b3b62102305bd66221b27b698006f56c97c8af11b24",
+      "sha256": "f2aa2a65703f3eb09cbae030ccd86e2740ab6df7faa3b6f8ec78a0c37c600fad",
       "stages": [
         "lowering",
         "resolution",
@@ -129,7 +129,7 @@
     "initialization-graph": {
       "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
       "selector": "\"defer ordinary static and top-level initialization until a getter is read\" in {",
-      "sha256": "1e83eddc5acdb02d93949b3b62102305bd66221b27b698006f56c97c8af11b24",
+      "sha256": "f2aa2a65703f3eb09cbae030ccd86e2740ab6df7faa3b6f8ec78a0c37c600fad",
       "stages": [
         "lowering",
         "resolution",
@@ -150,7 +150,7 @@
     "strings-graph": {
       "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
       "selector": "\"preserve interpolation results without writing independent fragments\" in {",
-      "sha256": "1e83eddc5acdb02d93949b3b62102305bd66221b27b698006f56c97c8af11b24",
+      "sha256": "f2aa2a65703f3eb09cbae030ccd86e2740ab6df7faa3b6f8ec78a0c37c600fad",
       "stages": [
         "lowering",
         "valueFlow",
@@ -170,7 +170,7 @@
     "enum-graph": {
       "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
       "selector": "\"represent generated enum storage and concrete enum accessors\" in {",
-      "sha256": "1e83eddc5acdb02d93949b3b62102305bd66221b27b698006f56c97c8af11b24",
+      "sha256": "f2aa2a65703f3eb09cbae030ccd86e2740ab6df7faa3b6f8ec78a0c37c600fad",
       "stages": [
         "lowering",
         "resolution",
@@ -190,7 +190,7 @@
     "heap-graph": {
       "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
       "selector": "\"retain selected fields through wrappers, read aliases and exceptions\" in {",
-      "sha256": "1e83eddc5acdb02d93949b3b62102305bd66221b27b698006f56c97c8af11b24",
+      "sha256": "f2aa2a65703f3eb09cbae030ccd86e2740ab6df7faa3b6f8ec78a0c37c600fad",
       "stages": [
         "lowering",
         "valueFlow",
@@ -210,7 +210,7 @@
     "exceptions-graph": {
       "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
       "selector": "\"separate exception payloads from normal values across method calls\" in {",
-      "sha256": "1e83eddc5acdb02d93949b3b62102305bd66221b27b698006f56c97c8af11b24",
+      "sha256": "f2aa2a65703f3eb09cbae030ccd86e2740ab6df7faa3b6f8ec78a0c37c600fad",
       "stages": [
         "lowering",
         "valueFlow",
@@ -230,7 +230,7 @@
     "pattern-comparisons-graph": {
       "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
       "selector": "\"resolve pattern comparison operators with the correct receiver\" in {",
-      "sha256": "1e83eddc5acdb02d93949b3b62102305bd66221b27b698006f56c97c8af11b24",
+      "sha256": "f2aa2a65703f3eb09cbae030ccd86e2740ab6df7faa3b6f8ec78a0c37c600fad",
       "stages": [
         "lowering",
         "resolution",
@@ -251,7 +251,7 @@
     "pattern-fields-graph": {
       "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
       "selector": "\"share lazy pattern getter storage across cases and separate nested paths\" in {",
-      "sha256": "1e83eddc5acdb02d93949b3b62102305bd66221b27b698006f56c97c8af11b24",
+      "sha256": "f2aa2a65703f3eb09cbae030ccd86e2740ab6df7faa3b6f8ec78a0c37c600fad",
       "stages": [
         "lowering",
         "resolution",
@@ -271,7 +271,7 @@
     "list-patterns-graph": {
       "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
       "selector": "\"resolve and cache list pattern members while skipping untyped wildcards\" in {",
-      "sha256": "1e83eddc5acdb02d93949b3b62102305bd66221b27b698006f56c97c8af11b24",
+      "sha256": "f2aa2a65703f3eb09cbae030ccd86e2740ab6df7faa3b6f8ec78a0c37c600fad",
       "stages": [
         "lowering",
         "resolution",
@@ -291,7 +291,7 @@
     "map-patterns-graph": {
       "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
       "selector": "\"resolve map pattern calls and share lazy storage by constant key\" in {",
-      "sha256": "1e83eddc5acdb02d93949b3b62102305bd66221b27b698006f56c97c8af11b24",
+      "sha256": "f2aa2a65703f3eb09cbae030ccd86e2740ab6df7faa3b6f8ec78a0c37c600fad",
       "stages": [
         "lowering",
         "resolution",
@@ -312,7 +312,7 @@
     "generic-scopes-graph": {
       "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
       "selector": "\"preserve generic parameter scopes and bound relationships\" in {",
-      "sha256": "1e83eddc5acdb02d93949b3b62102305bd66221b27b698006f56c97c8af11b24",
+      "sha256": "f2aa2a65703f3eb09cbae030ccd86e2740ab6df7faa3b6f8ec78a0c37c600fad",
       "stages": [
         "lowering",
         "resolution",
@@ -332,7 +332,7 @@
     "function-values-graph": {
       "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
       "selector": "\"retain instantiated generic tear-off types, source and stable aliases\" in {",
-      "sha256": "1e83eddc5acdb02d93949b3b62102305bd66221b27b698006f56c97c8af11b24",
+      "sha256": "f2aa2a65703f3eb09cbae030ccd86e2740ab6df7faa3b6f8ec78a0c37c600fad",
       "stages": [
         "lowering",
         "resolution",
@@ -353,7 +353,7 @@
     "dispatch-graph": {
       "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
       "selector": "\"bind reordered override arguments and preserve independent output receivers\" in {",
-      "sha256": "1e83eddc5acdb02d93949b3b62102305bd66221b27b698006f56c97c8af11b24",
+      "sha256": "f2aa2a65703f3eb09cbae030ccd86e2740ab6df7faa3b6f8ec78a0c37c600fad",
       "stages": [
         "lowering",
         "resolution",
@@ -383,7 +383,7 @@
     "records-exporter": {
       "file": "astgen/test/exporter_test.dart",
       "selector": "modern syntax has explicit nodes and stable pattern identities",
-      "sha256": "3de7ffba0eb66b3ae0ba49444782a8dca2bf0538909c818767440d8be5378707",
+      "sha256": "e9e6abe06de2255644244d443014a690b42760c3dc3c027495f0ebfaee96ddc3",
       "stages": [
         "exporter"
       ],
@@ -392,7 +392,7 @@
     "operators-exporter": {
       "file": "astgen/test/exporter_test.dart",
       "selector": "export operator dispatch separately from indexed read and write targets",
-      "sha256": "3de7ffba0eb66b3ae0ba49444782a8dca2bf0538909c818767440d8be5378707",
+      "sha256": "e9e6abe06de2255644244d443014a690b42760c3dc3c027495f0ebfaee96ddc3",
       "stages": [
         "exporter"
       ],
@@ -401,7 +401,7 @@
     "collections-exporter": {
       "file": "astgen/test/exporter_test.dart",
       "selector": "distinguish list, set and map collection literals after resolution",
-      "sha256": "3de7ffba0eb66b3ae0ba49444782a8dca2bf0538909c818767440d8be5378707",
+      "sha256": "e9e6abe06de2255644244d443014a690b42760c3dc3c027495f0ebfaee96ddc3",
       "stages": [
         "exporter"
       ],
@@ -410,7 +410,7 @@
     "pattern-joins-exporter": {
       "file": "astgen/test/exporter_test.dart",
       "selector": "keep separate logical-or joins distinct within one function",
-      "sha256": "3de7ffba0eb66b3ae0ba49444782a8dca2bf0538909c818767440d8be5378707",
+      "sha256": "e9e6abe06de2255644244d443014a690b42760c3dc3c027495f0ebfaee96ddc3",
       "stages": [
         "exporter"
       ],
@@ -419,7 +419,7 @@
     "initialization-exporter": {
       "file": "astgen/test/exporter_test.dart",
       "selector": "export static lazy accessors separately from constant storage",
-      "sha256": "3de7ffba0eb66b3ae0ba49444782a8dca2bf0538909c818767440d8be5378707",
+      "sha256": "e9e6abe06de2255644244d443014a690b42760c3dc3c027495f0ebfaee96ddc3",
       "stages": [
         "exporter"
       ],
@@ -428,7 +428,7 @@
     "exceptions-exporter": {
       "file": "astgen/test/exporter_test.dart",
       "selector": "export catch filters separately from exception and stack bindings",
-      "sha256": "3de7ffba0eb66b3ae0ba49444782a8dca2bf0538909c818767440d8be5378707",
+      "sha256": "e9e6abe06de2255644244d443014a690b42760c3dc3c027495f0ebfaee96ddc3",
       "stages": [
         "exporter"
       ],
@@ -437,7 +437,7 @@
     "pattern-comparisons-exporter": {
       "file": "astgen/test/exporter_test.dart",
       "selector": "export comparison targets for constant and relational patterns",
-      "sha256": "3de7ffba0eb66b3ae0ba49444782a8dca2bf0538909c818767440d8be5378707",
+      "sha256": "e9e6abe06de2255644244d443014a690b42760c3dc3c027495f0ebfaee96ddc3",
       "stages": [
         "exporter"
       ],
@@ -446,7 +446,7 @@
     "list-patterns-exporter": {
       "file": "astgen/test/exporter_test.dart",
       "selector": "export list pattern type and member targets",
-      "sha256": "3de7ffba0eb66b3ae0ba49444782a8dca2bf0538909c818767440d8be5378707",
+      "sha256": "e9e6abe06de2255644244d443014a690b42760c3dc3c027495f0ebfaee96ddc3",
       "stages": [
         "exporter"
       ],
@@ -455,7 +455,7 @@
     "map-patterns-exporter": {
       "file": "astgen/test/exporter_test.dart",
       "selector": "export map pattern targets and constant key identities",
-      "sha256": "3de7ffba0eb66b3ae0ba49444782a8dca2bf0538909c818767440d8be5378707",
+      "sha256": "e9e6abe06de2255644244d443014a690b42760c3dc3c027495f0ebfaee96ddc3",
       "stages": [
         "exporter"
       ],
@@ -464,7 +464,7 @@
     "generic-scopes-exporter": {
       "file": "astgen/test/exporter_test.dart",
       "selector": "export scoped generic declarations and bounds",
-      "sha256": "3de7ffba0eb66b3ae0ba49444782a8dca2bf0538909c818767440d8be5378707",
+      "sha256": "e9e6abe06de2255644244d443014a690b42760c3dc3c027495f0ebfaee96ddc3",
       "stages": [
         "exporter"
       ],
@@ -473,7 +473,7 @@
     "function-values-exporter": {
       "file": "astgen/test/exporter_test.dart",
       "selector": "export aliases, type literals, implicit call tear-offs and null-aware elements",
-      "sha256": "3de7ffba0eb66b3ae0ba49444782a8dca2bf0538909c818767440d8be5378707",
+      "sha256": "e9e6abe06de2255644244d443014a690b42760c3dc3c027495f0ebfaee96ddc3",
       "stages": [
         "exporter"
       ],
@@ -482,7 +482,7 @@
     "dispatch-exporter": {
       "file": "astgen/test/exporter_test.dart",
       "selector": "virtual implementation facts preserve covariant and generic declarations",
-      "sha256": "3de7ffba0eb66b3ae0ba49444782a8dca2bf0538909c818767440d8be5378707",
+      "sha256": "e9e6abe06de2255644244d443014a690b42760c3dc3c027495f0ebfaee96ddc3",
       "stages": [
         "exporter"
       ],
@@ -491,7 +491,7 @@
     "async-iteration-graph": {
       "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
       "selector": "\"cancel await-for iterators through abrupt exits and retain local continues\" in {",
-      "sha256": "1e83eddc5acdb02d93949b3b62102305bd66221b27b698006f56c97c8af11b24",
+      "sha256": "f2aa2a65703f3eb09cbae030ccd86e2740ab6df7faa3b6f8ec78a0c37c600fad",
       "stages": [
         "lowering",
         "cfg"
@@ -546,7 +546,7 @@
     "sync-iteration-graph": {
       "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
       "selector": "\"resolve synchronous iteration members and retain dynamic boundaries\" in {",
-      "sha256": "1e83eddc5acdb02d93949b3b62102305bd66221b27b698006f56c97c8af11b24",
+      "sha256": "f2aa2a65703f3eb09cbae030ccd86e2740ab6df7faa3b6f8ec78a0c37c600fad",
       "stages": [
         "lowering",
         "resolution"
@@ -556,7 +556,7 @@
     "sync-iteration-exporter": {
       "file": "astgen/test/exporter_test.dart",
       "selector": "synchronous iteration exports substituted member targets",
-      "sha256": "3de7ffba0eb66b3ae0ba49444782a8dca2bf0538909c818767440d8be5378707",
+      "sha256": "e9e6abe06de2255644244d443014a690b42760c3dc3c027495f0ebfaee96ddc3",
       "stages": [
         "exporter"
       ],
@@ -611,7 +611,7 @@
     "generic-iteration-exporter": {
       "file": "astgen/test/exporter_test.dart",
       "selector": "generic iteration resolves bounds and instantiated current types",
-      "sha256": "3de7ffba0eb66b3ae0ba49444782a8dca2bf0538909c818767440d8be5378707",
+      "sha256": "e9e6abe06de2255644244d443014a690b42760c3dc3c027495f0ebfaee96ddc3",
       "stages": [
         "exporter"
       ],
@@ -620,7 +620,7 @@
     "generic-iteration-negative": {
       "file": "astgen/test/exporter_test.dart",
       "selector": "generic iteration preserves invalid and unresolved boundaries",
-      "sha256": "3de7ffba0eb66b3ae0ba49444782a8dca2bf0538909c818767440d8be5378707",
+      "sha256": "e9e6abe06de2255644244d443014a690b42760c3dc3c027495f0ebfaee96ddc3",
       "stages": [
         "exporter",
         "negative"
@@ -630,7 +630,7 @@
     "generic-iteration-graph": {
       "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
       "selector": "\"resolve generic iteration bounds without replacing declaration types\" in {",
-      "sha256": "1e83eddc5acdb02d93949b3b62102305bd66221b27b698006f56c97c8af11b24",
+      "sha256": "f2aa2a65703f3eb09cbae030ccd86e2740ab6df7faa3b6f8ec78a0c37c600fad",
       "stages": [
         "lowering",
         "resolution"
@@ -676,7 +676,7 @@
     "extension-erasure-exporter": {
       "file": "astgen/test/exporter_test.dart",
       "selector": "extension type dispatch retains instantiated representation constraints",
-      "sha256": "3de7ffba0eb66b3ae0ba49444782a8dca2bf0538909c818767440d8be5378707",
+      "sha256": "e9e6abe06de2255644244d443014a690b42760c3dc3c027495f0ebfaee96ddc3",
       "stages": [
         "exporter"
       ],
@@ -685,7 +685,7 @@
     "extension-erasure-graph": {
       "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
       "selector": "\"dispatch inherited class members through extension type representations\" in {",
-      "sha256": "1e83eddc5acdb02d93949b3b62102305bd66221b27b698006f56c97c8af11b24",
+      "sha256": "f2aa2a65703f3eb09cbae030ccd86e2740ab6df7faa3b6f8ec78a0c37c600fad",
       "stages": [
         "lowering",
         "resolution",
@@ -723,7 +723,7 @@
     "pattern-receiver-exporter": {
       "file": "astgen/test/exporter_test.dart",
       "selector": "object patterns retain required receivers and instantiated field types",
-      "sha256": "3de7ffba0eb66b3ae0ba49444782a8dca2bf0538909c818767440d8be5378707",
+      "sha256": "e9e6abe06de2255644244d443014a690b42760c3dc3c027495f0ebfaee96ddc3",
       "stages": [
         "exporter",
         "negative"
@@ -733,7 +733,7 @@
     "pattern-receiver-graph": {
       "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
       "selector": "\"constrain object-pattern receivers and preserve instantiated field results\" in {",
-      "sha256": "1e83eddc5acdb02d93949b3b62102305bd66221b27b698006f56c97c8af11b24",
+      "sha256": "f2aa2a65703f3eb09cbae030ccd86e2740ab6df7faa3b6f8ec78a0c37c600fad",
       "stages": [
         "lowering",
         "resolution",
@@ -780,7 +780,7 @@
     "list-result-exporter": {
       "file": "astgen/test/exporter_test.dart",
       "selector": "list patterns retain instantiated element types and erasures",
-      "sha256": "3de7ffba0eb66b3ae0ba49444782a8dca2bf0538909c818767440d8be5378707",
+      "sha256": "e9e6abe06de2255644244d443014a690b42760c3dc3c027495f0ebfaee96ddc3",
       "stages": [
         "exporter"
       ],
@@ -789,7 +789,7 @@
     "list-result-graph": {
       "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
       "selector": "\"preserve list-pattern instantiated results without changing generic declarations\" in {",
-      "sha256": "1e83eddc5acdb02d93949b3b62102305bd66221b27b698006f56c97c8af11b24",
+      "sha256": "f2aa2a65703f3eb09cbae030ccd86e2740ab6df7faa3b6f8ec78a0c37c600fad",
       "stages": [
         "lowering",
         "resolution",
@@ -836,7 +836,7 @@
     "rest-default-graph": {
       "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
       "selector": "\"omit list rest end arguments and adapt each target default\" in {",
-      "sha256": "1e83eddc5acdb02d93949b3b62102305bd66221b27b698006f56c97c8af11b24",
+      "sha256": "f2aa2a65703f3eb09cbae030ccd86e2740ab6df7faa3b6f8ec78a0c37c600fad",
       "stages": [
         "lowering",
         "resolution",
@@ -888,6 +888,138 @@
         "interaction"
       ],
       "scope": "Bounded VM omitted/explicit-null slice results, virtual defaults, explicit tail bounds, getter-once guard alternatives, skipped wildcards and short-list RangeError observations. No complete CFG, implicit exception payload, runtime receiver or static flow absence claim."
+    },
+    "map-result-exporter": {
+      "file": "astgen/test/exporter_test.dart",
+      "selector": "map patterns retain index return types before child narrowing",
+      "sha256": "e9e6abe06de2255644244d443014a690b42760c3dc3c027495f0ebfaee96ddc3",
+      "stages": [
+        "exporter",
+        "negative"
+      ],
+      "scope": "Instantiated nullable index results preserve caller identities and original inner/outer wrapper views. Selected getter declarations and child matched views remain separate; narrow String? getter and erased null/presence type controls detect incorrect substitution."
+    },
+    "map-result-graph": {
+      "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
+      "selector": "\"retain map index instantiations separately from matched child types\" in {",
+      "sha256": "f2aa2a65703f3eb09cbae030ccd86e2740ab6df7faa3b6f8ec78a0c37c600fad",
+      "stages": [
+        "lowering",
+        "resolution",
+        "negative"
+      ],
+      "scope": "Index calls retain instantiated results, before child narrowing, with source generic declarations unchanged. Cached views and wrapper erasures survive extraction; unrelated getter implementations are excluded on narrow wrapper views. Nullable declaration IDs retain the existing CPG convention; no full CFG/payload/heap or runtime environment claim."
+    },
+    "map-result-results": {
+      "file": "astgen/test/map_pattern_results_test.dart",
+      "selector": "map index results retain instantiated call and child views",
+      "sha256": "e6126c945d782f80f3079676abe2f7e23b52820f9701d889e62723155ad6c229",
+      "stages": [
+        "interaction"
+      ],
+      "scope": "Bounded independent VM scalar, narrow getter, caller generic, null/missing-key, poorly behaved map, cached read and wrapper observations. Does not prove static absence, storage identities, checked type environments or arbitrary map behavior."
+    },
+    "map-result-presence": {
+      "file": "astgen/test/map_pattern_results_test.dart",
+      "selector": "map presence guards distinguish nullable and missing results",
+      "sha256": "e6126c945d782f80f3079676abe2f7e23b52820f9701d889e62723155ad6c229",
+      "stages": [
+        "interaction"
+      ],
+      "scope": "Bounded independent VM scalar, narrow getter, caller generic, null/missing-key, poorly behaved map, cached read and wrapper observations. Does not prove static absence, storage identities, checked type environments or arbitrary map behavior."
+    },
+    "map-result-cache": {
+      "file": "astgen/test/map_pattern_results_test.dart",
+      "selector": "map cached reads retain each required result view",
+      "sha256": "e6126c945d782f80f3079676abe2f7e23b52820f9701d889e62723155ad6c229",
+      "stages": [
+        "interaction"
+      ],
+      "scope": "Bounded independent VM scalar, narrow getter, caller generic, null/missing-key, poorly behaved map, cached read and wrapper observations. Does not prove static absence, storage identities, checked type environments or arbitrary map behavior."
+    },
+    "map-result-wrappers": {
+      "file": "astgen/test/map_pattern_results_test.dart",
+      "selector": "map results retain inner and outer wrapper views",
+      "sha256": "e6126c945d782f80f3079676abe2f7e23b52820f9701d889e62723155ad6c229",
+      "stages": [
+        "interaction"
+      ],
+      "scope": "Bounded independent VM scalar, narrow getter, caller generic, null/missing-key, poorly behaved map, cached read and wrapper observations. Does not prove static absence, storage identities, checked type environments or arbitrary map behavior."
+    },
+    "map-result-nullable-wrapper": {
+      "file": "astgen/test/map_pattern_results_test.dart",
+      "selector": "map presence tests use nullable wrapper representation types",
+      "sha256": "e6126c945d782f80f3079676abe2f7e23b52820f9701d889e62723155ad6c229",
+      "stages": [
+        "interaction"
+      ],
+      "scope": "Bounded independent VM scalar, narrow getter, caller generic, null/missing-key, poorly behaved map, cached read and wrapper observations. Does not prove static absence, storage identities, checked type environments or arbitrary map behavior."
+    },
+    "pattern-intersection-graph": {
+      "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
+      "selector": "\"intersect object-pattern requirements with known receiver constraints\" in {",
+      "sha256": "f2aa2a65703f3eb09cbae030ccd86e2740ab6df7faa3b6f8ec78a0c37c600fad",
+      "stages": [
+        "lowering",
+        "resolution",
+        "negative"
+      ],
+      "scope": "Required class constraints intersect existing static/representation bounds rather than replacing them. Known Store, generic bounds, nullable/wrapped receivers and cached per-use calls exclude OtherStore; broad Contract views retain both implementations and broad inputs still narrow to required Store. Declaration fallbacks remain conservative."
+    },
+    "pattern-intersection-known": {
+      "file": "astgen/test/pattern_receiver_intersection_test.dart",
+      "selector": "object pattern constraints retain known receiver classes",
+      "sha256": "430f2ff95100701ff378331ab1e485412b1841904eecaefa75dfc61c3edc80ad",
+      "stages": [
+        "interaction"
+      ],
+      "scope": "Pinned independent Store/OtherStore values and getter traces, generic and wrapper bounds, null/type-failure exclusion and guard-alternative getter-once observations. No complete CFG/payload, runtime context or static flow absence claim."
+    },
+    "pattern-intersection-bounds": {
+      "file": "astgen/test/pattern_receiver_intersection_test.dart",
+      "selector": "object pattern constraints retain generic bounds and wrapper erasures",
+      "sha256": "430f2ff95100701ff378331ab1e485412b1841904eecaefa75dfc61c3edc80ad",
+      "stages": [
+        "interaction"
+      ],
+      "scope": "Pinned independent Store/OtherStore values and getter traces, generic and wrapper bounds, null/type-failure exclusion and guard-alternative getter-once observations. No complete CFG/payload, runtime context or static flow absence claim."
+    },
+    "pattern-intersection-required": {
+      "file": "astgen/test/pattern_receiver_intersection_test.dart",
+      "selector": "required receiver constraints still filter broad inputs",
+      "sha256": "430f2ff95100701ff378331ab1e485412b1841904eecaefa75dfc61c3edc80ad",
+      "stages": [
+        "interaction"
+      ],
+      "scope": "Pinned independent Store/OtherStore values and getter traces, generic and wrapper bounds, null/type-failure exclusion and guard-alternative getter-once observations. No complete CFG/payload, runtime context or static flow absence claim."
+    },
+    "pattern-intersection-cache": {
+      "file": "astgen/test/pattern_receiver_intersection_test.dart",
+      "selector": "cached object patterns keep receiver constraints per use",
+      "sha256": "430f2ff95100701ff378331ab1e485412b1841904eecaefa75dfc61c3edc80ad",
+      "stages": [
+        "interaction"
+      ],
+      "scope": "Pinned independent Store/OtherStore values and getter traces, generic and wrapper bounds, null/type-failure exclusion and guard-alternative getter-once observations. No complete CFG/payload, runtime context or static flow absence claim."
+    },
+    "map-extension-disagreement-exporter": {
+      "file": "astgen/test/exporter_test.dart",
+      "selector": "outer extension map results avoid static operator guesses",
+      "sha256": "e9e6abe06de2255644244d443014a690b42760c3dc3c027495f0ebfaee96ddc3",
+      "stages": [
+        "exporter",
+        "negative"
+      ],
+      "scope": "Analyzer accepts the source and selects Entries index representation with Object? result rather than the own extension String? operator. This is structural analyzer evidence; pinned compiler failure prevents an execution claim."
+    },
+    "map-extension-disagreement-compiler": {
+      "file": "astgen/test/map_pattern_results_test.dart",
+      "selector": "pinned compiler reports the extension map operator disagreement",
+      "sha256": "e6126c945d782f80f3079676abe2f7e23b52820f9701d889e62723155ad6c229",
+      "stages": [
+        "negative"
+      ],
+      "scope": "Pinned SDK compiler crashes in ObjectAccessTarget.classMember/visitMapPattern and produces no kernel artifact. Records the analyzer/CFE disagreement, not native member values or successful execution."
     }
   },
   "profiles": {
@@ -6175,6 +6307,186 @@
             "rest-default-cache",
             "rest-default-failure"
           ],
+          "obligation": "Execute bounded independent inputs and interacting forms; preserve order, failures and unrelated instances."
+        }
+      }
+    },
+    {
+      "id": "map-pattern-index-results",
+      "constructs": [
+        "MapPattern",
+        "MapPatternEntry",
+        "ExtensionTypeDeclaration"
+      ],
+      "sections": [
+        "switch",
+        "types"
+      ],
+      "scope": "Instantiated map index results before child matching, null/presence erasure and cached wrapper views. Complete CFG/payload/heap and runtime receiver/generic environments remain unqualified.",
+      "stages": {
+        "exporter": {
+          "status": "tested-conservative",
+          "evidence": [
+            "map-result-exporter"
+          ],
+          "obligation": "Identify and retain analyzer facts for this rule, including diagnostics and explicit unsupported cases."
+        },
+        "lowering": {
+          "status": "tested-conservative",
+          "evidence": [
+            "map-result-graph"
+          ],
+          "obligation": "Preserve the rule's values, identities and exactly-once evaluation; test its operations and generated bodies."
+        },
+        "resolution": {
+          "status": "tested-conservative",
+          "evidence": [
+            "map-result-graph"
+          ],
+          "obligation": "Check declarations and targets against pinned analyzer facts; distinguish symbolic types from runtime instances."
+        },
+        "cfg": {
+          "status": "unqualified",
+          "evidence": [],
+          "obligation": "Compare successor/order/abrupt-exit behavior with executable traces and retain uncertainty explicitly."
+        },
+        "valueFlow": {
+          "status": "unqualified",
+          "evidence": [],
+          "obligation": "Verify payload and state dependencies across the relevant calls/locations with visible search budgets."
+        },
+        "negative": {
+          "status": "tested-conservative",
+          "evidence": [
+            "map-result-exporter",
+            "map-result-graph"
+          ],
+          "obligation": "Wrong declaration/caller identity, premature child narrowing, lost wrapper erasure and cached first-view controls only; negative payload and complete search obligations remain open."
+        },
+        "interaction": {
+          "status": "tested-conservative",
+          "evidence": [
+            "map-result-results",
+            "map-result-presence",
+            "map-result-cache",
+            "map-result-wrappers",
+            "map-result-nullable-wrapper"
+          ],
+          "obligation": "Execute bounded independent inputs and interacting forms; preserve order, failures and unrelated instances."
+        }
+      }
+    },
+    {
+      "id": "pattern-receiver-constraint-intersection",
+      "constructs": [
+        "ObjectPattern",
+        "PatternField",
+        "ExtensionTypeDeclaration"
+      ],
+      "sections": [
+        "switch",
+        "types"
+      ],
+      "scope": "Additional object-pattern receiver constraints without broadening known static or representation bounds. Runtime receiver environments, declaration fallback precision and full CFG/value-flow/heap remain unqualified.",
+      "stages": {
+        "exporter": {
+          "status": "unqualified",
+          "evidence": [],
+          "obligation": "Identify and retain analyzer facts for this rule, including diagnostics and explicit unsupported cases."
+        },
+        "lowering": {
+          "status": "tested-conservative",
+          "evidence": [
+            "pattern-intersection-graph"
+          ],
+          "obligation": "Preserve the rule's values, identities and exactly-once evaluation; test its operations and generated bodies."
+        },
+        "resolution": {
+          "status": "tested-conservative",
+          "evidence": [
+            "pattern-intersection-graph"
+          ],
+          "obligation": "Check declarations and targets against pinned analyzer facts; distinguish symbolic types from runtime instances."
+        },
+        "cfg": {
+          "status": "unqualified",
+          "evidence": [],
+          "obligation": "Compare successor/order/abrupt-exit behavior with executable traces and retain uncertainty explicitly."
+        },
+        "valueFlow": {
+          "status": "unqualified",
+          "evidence": [],
+          "obligation": "Verify payload and state dependencies across the relevant calls/locations with visible search budgets."
+        },
+        "negative": {
+          "status": "tested-conservative",
+          "evidence": [
+            "pattern-intersection-graph"
+          ],
+          "obligation": "Known/required observed hierarchy exclusions and cached per-use constraints only; declaration fallbacks, negative payload and exhaustive search qualification remain open."
+        },
+        "interaction": {
+          "status": "tested-conservative",
+          "evidence": [
+            "pattern-intersection-known",
+            "pattern-intersection-bounds",
+            "pattern-intersection-required",
+            "pattern-intersection-cache"
+          ],
+          "obligation": "Execute bounded independent inputs and interacting forms; preserve order, failures and unrelated instances."
+        }
+      }
+    },
+    {
+      "id": "extension-map-compiler-disagreement",
+      "constructs": [
+        "MapPattern",
+        "ExtensionTypeDeclaration"
+      ],
+      "sections": [
+        "switch",
+        "types"
+      ],
+      "scope": "Accepted analyzer representation and pinned compiler failure for an outer extension map with its own index operator. Not executable runtime qualification.",
+      "stages": {
+        "exporter": {
+          "status": "structural-only",
+          "evidence": [
+            "map-extension-disagreement-exporter"
+          ],
+          "obligation": "Identify and retain analyzer facts for this rule, including diagnostics and explicit unsupported cases."
+        },
+        "lowering": {
+          "status": "unqualified",
+          "evidence": [],
+          "obligation": "Preserve the rule's values, identities and exactly-once evaluation; test its operations and generated bodies."
+        },
+        "resolution": {
+          "status": "unqualified",
+          "evidence": [],
+          "obligation": "Check declarations and targets against pinned analyzer facts; distinguish symbolic types from runtime instances."
+        },
+        "cfg": {
+          "status": "unqualified",
+          "evidence": [],
+          "obligation": "Compare successor/order/abrupt-exit behavior with executable traces and retain uncertainty explicitly."
+        },
+        "valueFlow": {
+          "status": "unqualified",
+          "evidence": [],
+          "obligation": "Verify payload and state dependencies across the relevant calls/locations with visible search budgets."
+        },
+        "negative": {
+          "status": "structural-only",
+          "evidence": [
+            "map-extension-disagreement-exporter",
+            "map-extension-disagreement-compiler"
+          ],
+          "obligation": "Pinned analyzer/CFE disagreement and no kernel artifact only; semantic/runtime and static absence contracts remain open."
+        },
+        "interaction": {
+          "status": "unqualified",
+          "evidence": [],
           "obligation": "Execute bounded independent inputs and interacting forms; preserve order, failures and unrelated instances."
         }
       }

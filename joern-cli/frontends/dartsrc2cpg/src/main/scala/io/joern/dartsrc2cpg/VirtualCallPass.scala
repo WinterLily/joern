@@ -10,7 +10,8 @@ import scala.collection.mutable
 import ujson.Value
 
 private[dartsrc2cpg] object VirtualCallPass {
-  val ReceiverErasureTag = "dart.receiver.erasure"
+  val ReceiverErasureTag  = "dart.receiver.erasure"
+  val RequiredReceiverTag = "dart.receiver.required"
 }
 
 class VirtualCallPass(cpg: Cpg, units: Seq[Value]) extends CpgPass(cpg) {
@@ -94,22 +95,23 @@ class VirtualCallPass(cpg: Cpg, units: Seq[Value]) extends CpgPass(cpg) {
             .exists(owner => Set("CLASS", "MIXIN", "ENUM").contains(text(owner, "kind")))
         }
         .foreach { _ =>
-          val receiver =
+          val constraints =
             call.receiver
               .flatMap { value =>
-                value.tag
+                val actual = value.tag
                   .nameExact(VirtualCallPass.ReceiverErasureTag)
                   .value
                   .headOption
                   .orElse(value.propertyOption(Properties.TypeFullName))
+                actual.toSeq ++ value.tag.nameExact(VirtualCallPass.RequiredReceiverTag).value
               }
-              .headOption
               .map(bound(_))
-              .getOrElse("")
+              .filter(symbols.contains)
+              .toSet
           val candidates = implementations
             .getOrElse(call.methodFullName, Nil)
             .filter { case (id, _) =>
-              !symbols.contains(receiver) || hierarchy.getOrElse(id, Set.empty)(receiver)
+              constraints.forall(hierarchy.getOrElse(id, Set.empty))
             }
             .map { case (id, implementation) =>
               val member    = symbols.getOrElse(implementation, ujson.Obj())

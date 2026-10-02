@@ -73,6 +73,119 @@ void main() {
     }
   });
 
+  test('outer extension map results avoid static operator guesses', () async {
+    write(
+      'map_pattern_results.dart',
+      File(
+        '../src/test/resources/semantics/map_pattern_results.dart',
+      ).readAsStringSync(),
+    );
+    write(
+      'main.dart',
+      File(
+        '../src/test/resources/semantics/map_pattern_extension_diagnostic.dart',
+      ).readAsStringSync(),
+    );
+    final unit = units(
+      await export(input: p.join(project.path, 'main.dart')),
+    ).single;
+    expect(unit['status'], 'resolved');
+    expect(unit['diagnostics'], isEmpty);
+    final symbols = {
+      for (final symbol in entries(unit, 'symbols')) symbol['id']: symbol,
+    };
+    final pattern = entries(
+      unit,
+      'nodes',
+    ).singleWhere((n) => n['kind'] == 'MapPattern');
+    final target = symbols[pattern['indexTarget']]!;
+    expect(symbols[target['owner']]!['name'], 'Entries');
+    expect(pattern['indexType'], 'Object?');
+    expect(symbols[pattern['indexTypeId']]!['name'], 'Object');
+    final own = symbols.values.singleWhere(
+      (s) => s['name'] == '[]' && symbols[s['owner']]?['name'] == 'OwnMapView',
+    );
+    expect(own['returnType'], 'String?');
+    expect(pattern['indexTypeId'], isNot(own['returnTypeId']));
+  });
+
+  test(
+    'map patterns retain index return types before child narrowing',
+    () async {
+      write(
+        'main.dart',
+        File(
+          '../src/test/resources/semantics/map_pattern_results.dart',
+        ).readAsStringSync(),
+      );
+      final unit = units(await export()).single;
+      expect(unit['status'], 'resolved');
+      final nodes = entries(unit, 'nodes');
+      final symbols = {
+        for (final symbol in entries(unit, 'symbols')) symbol['id']: symbol,
+      };
+      List<Map<String, Object?>> patterns(String name) {
+        final function = nodes.singleWhere(
+          (n) => n['kind'] == 'FunctionDeclaration' && n['name'] == name,
+        );
+        final start = function['offset'] as int;
+        final end = start + (function['length'] as int);
+        return nodes
+            .where(
+              (n) =>
+                  n['kind'] == 'MapPattern' &&
+                  (n['offset'] as int) >= start &&
+                  (n['offset'] as int) < end,
+            )
+            .toList();
+      }
+
+      for (final name in ['selected', 'nullable', 'broad']) {
+        final pattern = patterns(name).single;
+        expect(pattern['indexType'], 'String?');
+        expect(symbols[pattern['indexTypeId']]!['name'], 'String');
+      }
+      final selected = symbols[patterns('selected').single['indexTarget']]!;
+      expect(selected['returnType'], 'V?');
+      expect(symbols[selected['returnTypeId']]!['owner'], selected['owner']);
+      expect(patterns('broad').single['valueType'], 'Object?');
+      expect(patterns('typed').single['indexType'], 'Object?');
+      expect(patterns('cached').map((p) => p['indexType']), [
+        'Object?',
+        'String?',
+      ]);
+      for (final name in ['wrapped', 'outerWrapper']) {
+        final pattern = patterns(name).single;
+        expect(pattern['indexType'], 'View<Store>?');
+        expect(symbols[pattern['indexTypeId']]!['name'], 'View');
+        expect(symbols[pattern['indexErasedTypeId']]!['name'], 'Store');
+      }
+      final nullable = patterns('nullableWrapper').single;
+      expect(nullable['indexType'], 'NullableView<String?>?');
+      expect(nullable['valueType'], 'String?');
+      expect(symbols[nullable['indexErasedTypeId']]!['name'], 'String');
+      expect(patterns('cachedWrapper').map((p) => p['indexType']), [
+        'View<Contract>?',
+        'View<Store>?',
+      ]);
+      expect(
+        patterns(
+          'cachedWrapper',
+        ).map((p) => symbols[p['indexErasedTypeId']]!['name']),
+        ['Contract', 'Store'],
+      );
+      final generic = patterns('generic').single;
+      expect(generic['indexType'], 'T?');
+      final parameter = symbols[generic['indexTypeId']]!;
+      expect(parameter['kind'], 'TYPE_PARAMETER');
+      expect(symbols[parameter['owner']]!['name'], 'generic');
+      expect(
+        generic['indexTypeId'],
+        isNot(symbols[generic['indexTarget']]!['returnTypeId']),
+      );
+    },
+  );
+
   test(
     'list patterns retain instantiated element types and erasures',
     () async {

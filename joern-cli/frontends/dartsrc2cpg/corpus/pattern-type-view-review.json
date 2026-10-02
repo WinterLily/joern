@@ -1,0 +1,345 @@
+{
+  "schemaVersion": 1,
+  "previousBaseCommit": "9b7ecf185",
+  "previousAnalysisSources": {
+    "algorithm": "sha256-path-nul-content-nul",
+    "sha256": "87f52ad214fa9b743ef6333513ba3d760879f0aee4ce75fff1caa8b0517623e1",
+    "files": 410,
+    "roots": [
+      "joern-cli/frontends/dartsrc2cpg/src",
+      "joern-cli/frontends/dartsrc2cpg/astgen/lib",
+      "joern-cli/frontends/dartsrc2cpg/astgen/bin",
+      "joern-cli/frontends/x2cpg/src/main",
+      "dataflowengineoss/src/main",
+      "semanticcpg/src/main",
+      "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.lock",
+      "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.yaml",
+      "joern-cli/frontends/dartsrc2cpg/build.sbt",
+      "joern-cli/frontends/x2cpg/build.sbt",
+      "joern-cli/build.sbt",
+      "dataflowengineoss/build.sbt",
+      "semanticcpg/build.sbt",
+      "build.sbt",
+      "project/Versions.scala",
+      "project/Projects.scala"
+    ]
+  },
+  "analysisSources": {
+    "algorithm": "sha256-path-nul-content-nul",
+    "sha256": "d6e307a96b67cfc6d04d4067e6d3878a120983cc5cae648819677f956ede2d3b",
+    "files": 413,
+    "roots": [
+      "joern-cli/frontends/dartsrc2cpg/src",
+      "joern-cli/frontends/dartsrc2cpg/astgen/lib",
+      "joern-cli/frontends/dartsrc2cpg/astgen/bin",
+      "joern-cli/frontends/x2cpg/src/main",
+      "dataflowengineoss/src/main",
+      "semanticcpg/src/main",
+      "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.lock",
+      "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.yaml",
+      "joern-cli/frontends/dartsrc2cpg/build.sbt",
+      "joern-cli/frontends/x2cpg/build.sbt",
+      "joern-cli/build.sbt",
+      "dataflowengineoss/build.sbt",
+      "semanticcpg/build.sbt",
+      "build.sbt",
+      "project/Versions.scala",
+      "project/Projects.scala"
+    ]
+  },
+  "exporterVersion": "0.3.26",
+  "scope": "Instantiated map index result metadata and intersection of observed object-pattern receiver constraints on twelve pinned graphs. Not complete pattern, type environment, CFG/payload, heap or release qualification.",
+  "reducedRegressions": [
+    {
+      "file": "src/test/resources/semantics/map_pattern_results.dart",
+      "sha256": "724870cab5952eca9f53ff957ca8b5b938a29f7f2f5853996ee43d6c347f70a8",
+      "graph": "retain map index instantiations separately from matched child types",
+      "exporter": "map patterns retain index return types before child narrowing",
+      "native": "astgen/test/map_pattern_results_test.dart",
+      "nativeExecutionTests": 5,
+      "before": "Entries<String,String> and caller-generic map reads keep the getter class parameter V; wrapper result erasure is missing.",
+      "after": "Index calls keep instantiated nullable return identities before child matching, including narrow getter return versus broad child views. Generic declaration V and caller T remain distinct; cached/inner/outer wrapper results keep current views and representation constraints."
+    },
+    {
+      "file": "src/test/resources/semantics/pattern_receiver_intersection.dart",
+      "sha256": "277fb612872635c232bd224d45c7c195c5f8c059d6d232f85b87224565164cc1",
+      "graph": "intersect object-pattern requirements with known receiver constraints",
+      "native": "astgen/test/pattern_receiver_intersection_test.dart",
+      "nativeExecutionTests": 4,
+      "before": "Required Contract replaces known Store receiver erasure, widening the observed getter union to Store and OtherStore.",
+      "after": "Observed implementation candidates satisfy both actual static/representation bounds and the additional required pattern constraint. Broad Contract keeps both implementations; broad Object narrows to required Store; per-use cached constraints do not leak."
+    }
+  ],
+  "compilerDisagreement": {
+    "file": "src/test/resources/semantics/map_pattern_extension_diagnostic.dart",
+    "sha256": "528c71caaa5a0d8415b01732d991b2e9db5e1886948f30e39ef8f3d982484f57",
+    "analyzer": "Accepted and resolved; representation Entries index and required Object? result remain distinct from own extension String? operator.",
+    "compiler": "Pinned Dart 3.9.2 kernel compilation crashes in ObjectAccessTarget.classMember/visitMapPattern and emits no kernel artifact.",
+    "exporterTest": "outer extension map results avoid static operator guesses",
+    "compilerTest": "pinned compiler reports the extension map operator disagreement",
+    "qualification": "Structural analyzer evidence and explicit compiler failure only; not executable runtime qualification."
+  },
+  "projects": [
+    {
+      "project": "path-1.9.1",
+      "category": "packages",
+      "mapPatterns": 0,
+      "withIndexType": 0,
+      "differentFromDeclaration": 0,
+      "withIndexErasure": 0,
+      "objectPatterns": 0,
+      "methods": 236,
+      "calls": 2026,
+      "defaultArguments": {
+        "adaptedCalls": 0,
+        "targetAdapters": 0,
+        "externalTargetAdapters": 0,
+        "adapterLinks": 0
+      },
+      "observations": [],
+      "priorObservationsSha256": "cfcd5f47c0c17b2a43b473c53d88ddb0444cd004db35cb276e82ac3c81d19363"
+    },
+    {
+      "project": "collection-1.19.1",
+      "category": "packages",
+      "mapPatterns": 0,
+      "withIndexType": 0,
+      "differentFromDeclaration": 0,
+      "withIndexErasure": 0,
+      "objectPatterns": 0,
+      "methods": 760,
+      "calls": 4610,
+      "defaultArguments": {
+        "adaptedCalls": 0,
+        "targetAdapters": 0,
+        "externalTargetAdapters": 0,
+        "adapterLinks": 0
+      },
+      "observations": [],
+      "priorObservationsSha256": "7b05364d463f415c2dd9d4ee0f478026910c7f629dbde724da718f5a7038deb1"
+    },
+    {
+      "project": "meta-1.17.0",
+      "category": "packages",
+      "mapPatterns": 0,
+      "withIndexType": 0,
+      "differentFromDeclaration": 0,
+      "withIndexErasure": 0,
+      "objectPatterns": 0,
+      "methods": 42,
+      "calls": 327,
+      "defaultArguments": {
+        "adaptedCalls": 0,
+        "targetAdapters": 0,
+        "externalTargetAdapters": 0,
+        "adapterLinks": 0
+      },
+      "observations": [],
+      "priorObservationsSha256": "689c5522851155682ad2b5c3dd585359da5685fb3c2727782b976a335a75ca28"
+    },
+    {
+      "project": "args-2.7.0",
+      "category": "packages",
+      "mapPatterns": 0,
+      "withIndexType": 0,
+      "differentFromDeclaration": 0,
+      "withIndexErasure": 0,
+      "objectPatterns": 1,
+      "methods": 219,
+      "calls": 2290,
+      "defaultArguments": {
+        "adaptedCalls": 0,
+        "targetAdapters": 0,
+        "externalTargetAdapters": 0,
+        "adapterLinks": 0
+      },
+      "observations": [],
+      "priorObservationsSha256": "e30e3f70869772f34397d1a44cd434aa82fe3a56cbe345a6c205a6c2525fb1ad"
+    },
+    {
+      "project": "async-2.13.0",
+      "category": "packages",
+      "mapPatterns": 0,
+      "withIndexType": 0,
+      "differentFromDeclaration": 0,
+      "withIndexErasure": 0,
+      "objectPatterns": 0,
+      "methods": 700,
+      "calls": 3422,
+      "defaultArguments": {
+        "adaptedCalls": 0,
+        "targetAdapters": 0,
+        "externalTargetAdapters": 0,
+        "adapterLinks": 0
+      },
+      "observations": [],
+      "priorObservationsSha256": "e8fe367f012543f11bf6350c476c6be744420196c0e91feaaf13539004c426d2"
+    },
+    {
+      "project": "http_parser-4.1.2",
+      "category": "packages",
+      "mapPatterns": 0,
+      "withIndexType": 0,
+      "differentFromDeclaration": 0,
+      "withIndexErasure": 0,
+      "objectPatterns": 0,
+      "methods": 91,
+      "calls": 1135,
+      "defaultArguments": {
+        "adaptedCalls": 0,
+        "targetAdapters": 0,
+        "externalTargetAdapters": 0,
+        "adapterLinks": 0
+      },
+      "observations": [],
+      "priorObservationsSha256": "72b6bb24dc5b760d53489a824167c8124cc03f9b10720ef52f6ffad9361d1152"
+    },
+    {
+      "project": "analyzer-8.4.1",
+      "category": "packages",
+      "mapPatterns": 0,
+      "withIndexType": 0,
+      "differentFromDeclaration": 0,
+      "withIndexErasure": 0,
+      "objectPatterns": 600,
+      "methods": 30363,
+      "calls": 227637,
+      "defaultArguments": {
+        "adaptedCalls": 182,
+        "targetAdapters": 1966,
+        "externalTargetAdapters": 0,
+        "adapterLinks": 2006
+      },
+      "observations": [],
+      "priorObservationsSha256": "7d3549d938d7c3297d0a9781228b5ccab1c8be88fad9f37637b1d0df5ed98353"
+    },
+    {
+      "project": "localsend-1.17.0",
+      "category": "applications",
+      "mapPatterns": 0,
+      "withIndexType": 0,
+      "differentFromDeclaration": 0,
+      "withIndexErasure": 0,
+      "objectPatterns": 8,
+      "methods": 31358,
+      "calls": 106237,
+      "defaultArguments": {
+        "adaptedCalls": 967,
+        "targetAdapters": 2747,
+        "externalTargetAdapters": 335,
+        "adapterLinks": 39647
+      },
+      "observations": [],
+      "priorObservationsSha256": "e202aacd16e4155402ddb28d16786cd5189b79606787df248a09baba78eb0470"
+    },
+    {
+      "project": "saber-0.26.0",
+      "category": "applications",
+      "mapPatterns": 0,
+      "withIndexType": 0,
+      "differentFromDeclaration": 0,
+      "withIndexErasure": 0,
+      "objectPatterns": 0,
+      "methods": 10428,
+      "calls": 53890,
+      "defaultArguments": {
+        "adaptedCalls": 258,
+        "targetAdapters": 493,
+        "externalTargetAdapters": 92,
+        "adapterLinks": 5344
+      },
+      "observations": [],
+      "priorObservationsSha256": "f62121aba89311881116c71da34c844acaf293fa3f39d73f48782f3531fb8957"
+    },
+    {
+      "project": "dart-sass-1.89.2",
+      "category": "applications",
+      "mapPatterns": 1,
+      "withIndexType": 1,
+      "differentFromDeclaration": 1,
+      "withIndexErasure": 0,
+      "objectPatterns": 308,
+      "methods": 9590,
+      "calls": 87942,
+      "defaultArguments": {
+        "adaptedCalls": 68,
+        "targetAdapters": 2381,
+        "externalTargetAdapters": 99,
+        "adapterLinks": 3914
+      },
+      "observations": [
+        {
+          "file": "src/importer/node_package.dart",
+          "sourceSha256": "8a527904b612a61bcd5be4386ef3847d207a90f7b1c9b2a79eae8280561ca696",
+          "line": 376,
+          "column": 7,
+          "source": "<String, dynamic>{'.': var export?}",
+          "requiredType": "Map<String, dynamic>",
+          "requiredTypeId": "dart:core/map.dart#1559:CLASS:Map",
+          "valueType": "dynamic",
+          "indexType": "dynamic",
+          "indexTypeId": "dynamic",
+          "indexErasedTypeId": null,
+          "indexTarget": "dart:core/map.dart#11456:METHOD:[]",
+          "declarationReturnType": "V?",
+          "declarationReturnTypeId": "dart:core/map.dart#1566:TYPE_PARAMETER:V"
+        }
+      ],
+      "priorObservationsSha256": "82bbb46b38f978721fa3646f3c496f147b78d89b3c297170e4217fdef9478fcc"
+    },
+    {
+      "project": "shelf-1.4.2",
+      "category": "holdout",
+      "mapPatterns": 0,
+      "withIndexType": 0,
+      "differentFromDeclaration": 0,
+      "withIndexErasure": 0,
+      "objectPatterns": 0,
+      "methods": 214,
+      "calls": 1682,
+      "defaultArguments": {
+        "adaptedCalls": 0,
+        "targetAdapters": 0,
+        "externalTargetAdapters": 0,
+        "adapterLinks": 0
+      },
+      "observations": [],
+      "priorObservationsSha256": "d5251ad354a08c0bfc6e5779d72e8550e24fee80c233c419cc9b2c6f0c562d3e"
+    },
+    {
+      "project": "yaml-3.1.3",
+      "category": "holdout",
+      "mapPatterns": 0,
+      "withIndexType": 0,
+      "differentFromDeclaration": 0,
+      "withIndexErasure": 0,
+      "objectPatterns": 0,
+      "methods": 411,
+      "calls": 5346,
+      "defaultArguments": {
+        "adaptedCalls": 1,
+        "targetAdapters": 28,
+        "externalTargetAdapters": 5,
+        "adapterLinks": 28
+      },
+      "observations": [],
+      "priorObservationsSha256": "fd51471aaff67bd5d8230f213bb5ac7f4b96792f6d8e9d9ad05d2954b4c5f3e8"
+    }
+  ],
+  "totals": {
+    "mapPatterns": 1,
+    "withIndexType": 1,
+    "differentFromDeclaration": 1,
+    "withIndexErasure": 0,
+    "objectPatterns": 917
+  },
+  "unchangedRepresentationCounts": true,
+  "unchangedPriorIterationPatternAndRepresentationFacts": true,
+  "limitations": [
+    "The corpus has one map pattern, a Sass dynamic-valued export case; native/reduced tests supply nullable, caller-generic, narrow getter and wrapper interactions.",
+    "No corpus map index result has a wrapper erasure; extraction counts and type metadata do not identify executed calls or map/storage instances.",
+    "CPG declaration identities collapse nullable/nonnullable variants; nullable result display metadata and child views do not qualify checked runtime type environments.",
+    "Observed hierarchy constraints retain existing declaration fallbacks; fallback precision and instance-specific dispatch remain open.",
+    "Complete pattern CFG/payload/implicit exceptions, heap/alias effects, callback timing, omitted alternatives, limited negative searches and operational release qualification remain unfinished."
+  ]
+}

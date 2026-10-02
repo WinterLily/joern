@@ -604,8 +604,11 @@ Pinned native values/member-order controls and invalid getter override diagnosti
 cover this reduced boundary. Runtime substitutions, checked bounds, precise
 iterator element storage and full loop CFG/value-flow qualification remain open.
 
-Object-pattern accessor uses carry the required type's known class erasure as a
-dispatch constraint while the original matched expression keeps its static type.
+Object-pattern accessor uses carry the required type's known class erasure as an
+additional dispatch constraint. Observed hierarchy candidates must satisfy both
+that requirement and the matched expression's known static/representation bound;
+a broad required pattern does not replace a narrower known receiver. Declaration
+fallbacks retain their existing conservative contract.
 Object and record fields retain analyzer-instantiated static result types. Shared
 pattern getter storage presents each use's current static type and erasure, so
 one case's generic substitution does not become every later case's constraint.
@@ -629,3 +632,15 @@ supplied argument. Native and graph controls cover differing override defaults,
 shared adapters, cached getter-once alternatives, skipped wildcards and a
 short-list RangeError. Complete implicit exception payloads and runtime receiver
 qualification remain open.
+
+Map index calls retain instantiated nullable result metadata separately from
+generic declarations and child matched types. A narrow String? getter remains
+distinct from a broad Object? child view; child type tests do not replace an
+Object? index result. Original nested wrapper types and representation constraints
+survive saved/cached extraction, including different views across guard alternatives
+and caller generic identities. Erased value types still govern null/presence checks.
+The existing CPG declaration identities collapse nullable/nonnullable variants;
+complete CFG, payload, heap and runtime type environments remain unqualified.
+Analyzer accepts the reduced outer extension map with its own index operator,
+while the pinned VM compiler crashes; separate exporter/compiler controls record
+that disagreement without qualifying it as executable.

@@ -7,7 +7,7 @@ unsupported protocol versions, and unsupported analyzer/exporter versions before
 constructing a graph. The Scala consumer validates the protocol, analyzer, SDK and offset encoding
 before constructing a graph. Exporter 0.3 adds modern-language fields to protocol 1.
 
-The header declares `protocolVersion` (1), `exporterVersion` (0.3.25),
+The header declares `protocolVersion` (1), `exporterVersion` (0.3.26),
 `analyzerVersion` (8.4.1), `sdkVersion` (3.9.2), and `offsetEncoding` (`utf-16`).
 No timestamps or checkout root are emitted. The exporter builds records one file
 at a time; the analyzer may retain project state internally.
@@ -324,3 +324,12 @@ selected override declares a more specific generic list return type. Each use
 of shared extraction storage keeps its current result type and known wrapper
 erasure. This metadata does not supply checked runtime generic environments or
 actual collection/storage identities.
+
+Exporter 0.3.26 adds `indexType`, `indexTypeId` and optional `indexErasedTypeId`
+to resolved map patterns. They retain an instantiated index method's nullable
+return type separately from its generic declaration and the child pattern's
+matched type. Lookup preserves original nested wrapper arguments; outer extension
+receivers use the required map view for results and their representation for
+dispatch. The existing erased `valueType` still supplies the `null is V` presence
+test, including nullable wrapper representations. These facts do not supply checked
+runtime generic environments or precise map/storage identities.

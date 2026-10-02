@@ -94,6 +94,7 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
     var caughtValues: Option[() => Seq[Ast]] = None
     var temporary                            = 0
     val receiverErasures                     = new java.util.IdentityHashMap[NewNode, String]()
+    val requiredReceivers                    = new java.util.IdentityHashMap[NewNode, String]()
     val receiverOverrides                    = mutable.Map.empty[Int, () => Ast]
     val labelTargets                         = mutable.Map.empty[String, (String, String)]
     val continueTargets                      = mutable.Map.empty[Int, String]
@@ -1071,7 +1072,8 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
             val access =
               if (string(syntax, "kind") == "ObjectPattern") {
                 val receiver = value()
-                receiver.root.foreach(erasedReceiver(_, string(syntax, "requiredErasedTypeId")))
+                val required = string(syntax, "requiredErasedTypeId")
+                if (required.nonEmpty) receiver.root.foreach(requiredReceivers.put(_, required))
                 reference(entry, string(entry, "reference"), name, Some(receiver))
               } else field(entry, value(), name)
             access.root.foreach(erasedReceiver(_, string(entry, "erasedTypeId")))
@@ -1156,7 +1158,14 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
                 val identity = string(entry, "keyIdentity", s"source:${entry("id")}")
                 val key      = parent :+ s"map:$identity"
                 Seq(saved(entry, expression(child(entry, "key"))) { constant =>
-                  val access = patternMember(entry, string(syntax, "indexTarget"), "[]", Seq(value(), constant()))
+                  val access = patternMember(
+                    entry,
+                    string(syntax, "indexTarget"),
+                    "[]",
+                    Seq(value(), constant()),
+                    string(syntax, "indexTypeId")
+                  )
+                  access.root.foreach(erasedReceiver(_, string(syntax, "indexErasedTypeId")))
                   saved(entry, patternAccess(entry, key, access)) { ref =>
                     val acceptsNull = operator(
                       entry,
@@ -2887,6 +2896,11 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
     ast.nodes.foreach { node =>
       Option(receiverErasures.remove(node)).foreach { id =>
         val tag = NewTag().name(VirtualCallPass.ReceiverErasureTag).value(id)
+        diffGraph.addNode(tag)
+        diffGraph.addEdge(node, tag, io.shiftleft.codepropertygraph.generated.EdgeTypes.TAGGED_BY)
+      }
+      Option(requiredReceivers.remove(node)).foreach { id =>
+        val tag = NewTag().name(VirtualCallPass.RequiredReceiverTag).value(id)
         diffGraph.addNode(tag)
         diffGraph.addEdge(node, tag, io.shiftleft.codepropertygraph.generated.EdgeTypes.TAGGED_BY)
       }

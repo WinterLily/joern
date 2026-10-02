@@ -2844,6 +2844,105 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         cpg.call.nameExact("<operator>.isInitialized").size shouldBe 2
       }
     }
+    "retain map index instantiations separately from matched child types" in {
+      fixture(
+        Files.readString(frontend.resolve("src/test/resources/semantics/map_pattern_results.dart")),
+        "void main() {}",
+        dataflow = false
+      ) { (cpg, _) =>
+        cpg.unknown.size shouldBe 0
+        for (name <- Seq("selected", "nullable", "broad")) {
+          val read = cpg.method.nameExact(name).ast.isCall.nameExact("[]").head
+          read.typeFullName should endWith(":CLASS:String")
+        }
+        cpg.method.nameExact("broad").ast.isLocal.nameExact("value").typeFullName.head should endWith(":CLASS:Object")
+        cpg.method.nameExact("typed").ast.isCall.nameExact("[]").typeFullName.head should endWith(":CLASS:Object")
+        cpg.method.nameExact("typed").ast.isLocal.nameExact("value").typeFullName.head should endWith(":CLASS:String")
+        val cached = cpg.method.nameExact("cached").ast.isCall.nameExact("[]").typeFullName.l
+        cached.size shouldBe 2
+        cached.count(_.endsWith(":CLASS:Object")) shouldBe 1
+        cached.count(_.endsWith(":CLASS:String")) shouldBe 1
+        for (name <- Seq("wrapped", "outerWrapper")) {
+          val read = cpg.method.nameExact(name).ast.isCall.nameExact("[]").head
+          read.typeFullName should endWith(":EXTENSION_TYPE:View")
+          read.tag.nameExact(VirtualCallPass.ReceiverErasureTag).value.head should endWith(":CLASS:Store")
+          cpg.method
+            .nameExact(name)
+            .ast
+            .isCall
+            .nameExact("value")
+            .callee
+            .isExternal(false)
+            .astParentFullName
+            .l
+            .map(_.split(":").last)
+            .toSet shouldBe Set("Store")
+        }
+        cpg.method.nameExact("nullableWrapper").ast.isCall.nameExact("[]").typeFullName.head should endWith(
+          ":EXTENSION_TYPE:NullableView"
+        )
+        cpg.method.nameExact("nullableWrapper").ast.isTypeRef.code.l should contain("String?")
+        val wrapperReads = cpg.method.nameExact("cachedWrapper").ast.isCall.nameExact("[]").l
+        wrapperReads.size shouldBe 2
+        wrapperReads.map(_.typeFullName).distinct.size shouldBe 1
+        val wrapperErasures =
+          wrapperReads.flatMap(_.tag.nameExact(VirtualCallPass.ReceiverErasureTag).value.l).map(_.split(":").last).toSet
+        wrapperErasures shouldBe Set("Contract", "Store")
+        val getters =
+          cpg.method.nameExact("cachedWrapper").ast.isCall.nameExact("value").l.sortBy(_.lineNumber.getOrElse(0))
+        getters.size shouldBe 2
+        getters.last.callee.isExternal(false).astParentFullName.l.map(_.split(":").last).toSet shouldBe Set("Store")
+        val generic = cpg.method.nameExact("generic").head
+        val read    = generic.ast.isCall.nameExact("[]").head
+        read.typeFullName shouldBe generic.methodReturn.typeFullName
+        read.typeFullName should not be read.callee.isExternal(false).methodReturn.typeFullName.head
+        val declarationType = cpg.method
+          .nameExact("selected")
+          .ast
+          .isCall
+          .nameExact("[]")
+          .callee
+          .isExternal(false)
+          .methodReturn
+          .typeFullName
+          .head
+        declarationType should endWith(":TYPE_PARAMETER:V")
+      }
+    }
+    "intersect object-pattern requirements with known receiver constraints" in {
+      fixture(
+        Files.readString(frontend.resolve("src/test/resources/semantics/pattern_receiver_intersection.dart")),
+        "void main() {}",
+        dataflow = false
+      ) { (cpg, _) =>
+        cpg.unknown.size shouldBe 0
+        for (name <- Seq("selected", "wrapped", "bounded", "boundedView", "nullable", "narrowed", "repeated")) {
+          val calls = cpg.method.nameExact(name).ast.isCall.nameExact("value").l
+          calls.size shouldBe (if (name == "repeated") 2 else 1)
+          calls.foreach { call =>
+            call.callee.isExternal(false).astParentFullName.l.map(_.split(":").last).toSet shouldBe Set("Store")
+          }
+        }
+        cpg.method
+          .nameExact("matched")
+          .ast
+          .isCall
+          .nameExact("value")
+          .callee
+          .isExternal(false)
+          .astParentFullName
+          .l
+          .map(_.split(":").last)
+          .toSet shouldBe Set("Store", "OtherStore")
+        val cached = cpg.method.nameExact("cached").ast.isCall.nameExact("value").l.sortBy(_.lineNumber.getOrElse(0))
+        cached.size shouldBe 2
+        cached.head.callee.isExternal(false).astParentFullName.l.map(_.split(":").last).toSet shouldBe Set("Store")
+        cached.last.callee.isExternal(false).astParentFullName.l.map(_.split(":").last).toSet shouldBe Set(
+          "Store",
+          "OtherStore"
+        )
+      }
+    }
     "omit list rest end arguments and adapt each target default" in {
       fixture(
         Files.readString(frontend.resolve("src/test/resources/semantics/list_pattern_defaults.dart")),
@@ -3713,7 +3812,7 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         val coverage = ujson.read(Files.readString(report))
         coverage("includedFiles").num shouldBe 0
         coverage("stringConversionOrder").str shouldBe "after-expression-evaluation"
-        coverage("exporter")("exporterVersion").str shouldBe "0.3.25"
+        coverage("exporter")("exporterVersion").str shouldBe "0.3.26"
         coverage("exporter")("sdkVersion").str shouldBe "3.9.2"
         coverage("exporter")("analyzerVersion").str shouldBe "8.4.1"
         Files.writeString(dir.resolve("excluded.dart"), "void excluded() {}")
@@ -3733,7 +3832,7 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         "offsetEncoding"  -> "utf-16",
         "analyzerVersion" -> "8.4.1",
         "sdkVersion"      -> "3.9.2",
-        "exporterVersion" -> "0.3.25"
+        "exporterVersion" -> "0.3.26"
       )
       intercept[IllegalArgumentException](ExportProtocol.units(Seq(valid)))
       intercept[IllegalArgumentException](

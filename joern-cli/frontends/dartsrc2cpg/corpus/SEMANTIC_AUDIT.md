@@ -2355,3 +2355,90 @@ receiver constraints remain implementation obligations. Complete pattern CFG and
 implicit exception payloads, runtime receiver/generic environments, heap/alias
 effects, omitted alternatives and limited negative searches remain unqualified.
 All Gates 1–6 remain open.
+
+## Map result views and intersecting pattern receivers
+
+Exporter 0.3.26 retains the instantiated nullable return type of each map
+pattern index call separately from its generic member declaration and the
+child's matched type. A narrow getter returning String? keeps that result even
+when the child matches Object?; a broad getter keeps Object? before a String
+child test. Caller T remains distinct from the getter class's V. Inner and
+outer wrapper results retain their current representation constraints, and
+cached reads keep per-use result views. The map presence test continues to use
+the required value's erased nullability. Five native tests check independent
+values, missing/null entries, nonnull reads with false containsKey, narrowing,
+guard alternatives, getter-once behavior and nested nullable wrappers.
+
+Object-pattern requirements now add a receiver constraint instead of replacing
+known static or representation bounds. Observed hierarchy candidates must satisfy
+both. A Contract pattern over known Store excludes OtherStore; a broad Contract
+input still retains both. Four native tests check ordinary, nullable, bounded,
+wrapped, narrowed and cached alternatives. Both new graph regressions fail
+against the previous implementation. Existing declaration fallbacks remain
+conservative; this does not qualify instance-specific dispatch.
+
+An own-operator extension map is accepted by analyzer 8.4.1 but crashes the
+pinned Dart 3.9.2 compiler in ObjectAccessTarget.classMember/visitMapPattern,
+without emitting a kernel artifact. Separate exporter and compiler controls
+retain that disagreement as structural/failure evidence. The inherited-operator
+outer wrapper executes successfully; the own-operator case has no runtime
+qualification claim.
+
+The full opt-in native suite passes 165 tests, Dart analysis reports no issues,
+and the forced frontend suite passes 174 tests across twenty suites with eight
+opt-in cancellations. All seven packages, three applications and two holdouts
+pass, alongside four staged CLI and fourteen console checks. Their twelve graphs
+share analysis-source SHA-256
+`d6e307a96b67cfc6d04d4067e6d3878a120983cc5cae648819677f956ede2d3b`
+over 413 files. Method/call counts, default-adapter observations and all previous
+iteration, pattern and representation facts are unchanged. The
+[type-view review](pattern-type-view-review.json) pins both reduced regressions,
+the compiler disagreement and the sole corpus map pattern: Sass's dynamic-valued
+'.' export case. Its index result is dynamic rather than the SDK declaration's
+V? identity; no corpus map result has a wrapper erasure. The 917 object patterns
+and one map pattern are source observations, not counts of executed calls or
+storage instances. Fresh storage/local-exit reviews retain six paths/123
+transitions and eleven paths/199 transitions. Formatting and compilation pass.
+
+Two-witness/two-round audits complete in 187102/49279/33183 ms for packages,
+applications and holdout, with sampled family RSS 6004156/5012228/1849608 KiB.
+Four-witness/two-round audits complete in 430505/51297/34190 ms, with RSS
+6325760/5036644/2391328 KiB. All categories pass their 600000 ms budgets with
+8 GiB/four-processor workers. RSS is a once-per-second process-family sample,
+not exact peak memory or the heap of one process.
+
+Fresh four-witness reviews classify 248 selected paths, 146 distinct routes and
+2,512 transitions across eighty queries. Analyzer retains fourteen distinct
+paths/360 transitions, Sass 23/346 and package flows 41/1,113; two-witness
+forwarding retains nineteen distinct paths/617 transitions. Stock/model endpoint
+outcomes remain 78/80 and 80/80, with 120/131 and 109/117 visible/detailed paths,
+42/41 limited queries and seven/eight inconclusive negatives. Two-witness
+summaries retain 86/89 and 81/83 paths with 43/42 limited queries. MediaType
+retains two paths/six transitions. Both summaries reproduce byte-for-byte, and all 87 review rejection controls
+pass against the fresh proofs and resource records.
+
+Twenty-four changed selections have separate source-grounded dispositions.
+Analyzer stock and modeled variants retain the same two sixty-node paths:
+iterator/current and element extraction lead through bound.namedFields, record
+serialization and readonly NodeList/BoolList length detours in either order,
+with offset demands and external byte reads. Path variants select isRelative or
+isAbsolute caller-output detours and the URL rootLength body while retaining
+all style candidates. HTTP stock copy order is receiver 0 -> computed end 2 ->
+skipCount 4 -> bytes 3; stock buffer order is 3 -> 2 -> 4 -> 0, with footer
+bounds 1 -> 2 -> 0. Two-witness buffer re-entry selects end then bytes, while
+four-witness stock selects bytes twice and four-witness modeled selects bytes
+then end/header.codeUnits. Shorter variants omit an allocation or CR/LF saved
+alias, or an initial skipCount detour; hidden receiver evidence remains explicit.
+Exact slots, flags, fields and frames are retained. These readonly, range, field,
+external, dispatch and caller approximations do not establish actual receivers,
+callback delivery, branch feasibility, repeated-call order, allocation identity
+or precise byte/element provenance. No causal claim ties these route selections
+to map result metadata or pattern receiver intersection.
+
+The qualification matrix links 104 named tests. Six matrix tests/sixteen
+rejection controls, thirteen source-index rejection controls, full cached source
+verification and two upstream-case tests/nine rejection controls pass. The
+current type-view fixes do not close complete pattern CFG/implicit payloads,
+checked generic/receiver environments, representation storage aliasing,
+structured/function results, omitted alternatives or limited negative searches.
+All Gates 1–6 remain open.

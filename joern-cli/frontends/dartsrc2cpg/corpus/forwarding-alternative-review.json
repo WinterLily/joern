@@ -92,7 +92,7 @@
       "exporter": {
         "record": "header",
         "protocolVersion": 1,
-        "exporterVersion": "0.3.25",
+        "exporterVersion": "0.3.26",
         "analyzerVersion": "8.4.1",
         "sdkVersion": "3.9.2",
         "offsetEncoding": "utf-16",
@@ -100,8 +100,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "87f52ad214fa9b743ef6333513ba3d760879f0aee4ce75fff1caa8b0517623e1",
-        "files": 410,
+        "sha256": "d6e307a96b67cfc6d04d4067e6d3878a120983cc5cae648819677f956ede2d3b",
+        "files": 413,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -229,7 +229,7 @@
             "issue": "DART-FLOW-004",
             "owner": "shared dataflow query engine / Dart library models"
           },
-          "refreshDisposition": "Fresh two/four-witness stock 30-node alternatives select unchanged _needsNormalization parameter output, return into prettyUri, relative caller re-entry and readonly isRelative or isAbsolute parameter output. Each then re-enters normalize -> _needsNormalization and selects the URL rootLength path.isEmpty body, while the call retains POSIX/URL/Windows candidates. Exact slots, visibility, output flags and call frames are preserved; field/storage demands are empty. These external/readonly/caller and style-dispatch approximations do not establish String mutation, branch feasibility, actual runtime style or caller order. POSIX native normalization controls do not execute the selected URL/prettyUri detours. No causal claim connects this selection to rest argument omission."
+          "refreshDisposition": "Fresh two-witness stock 30-node variants retain unchanged _needsNormalization parameter output and normalize return, then output-marked normalize entering prettyUri and relative. One variant selects isRelative and the other isAbsolute argument/output binding before re-entering normalize. Both then follow path.codeUnits and the URL-style rootLength path.isEmpty body, retaining the POSIX/URL/Windows callee union in every style.rootLength frame. Exact flags, slots and frames remain recorded; field and storage demands are empty. These readonly-output, external-read, dispatch and caller detours do not establish String mutation, branch feasibility, runtime style identity or actual caller order. The POSIX native helper does not execute the URL body or prettyUri route. No causal connection between these selection changes and map result metadata or pattern receiver intersections is asserted. Fresh four-witness modeled variants select those same two 30-node readonly/caller routes and URL body; the modes and bounds remain separate records."
         },
         {
           "id": "set-extension-path",
@@ -490,28 +490,28 @@
             ]
           ]
         },
-        "111669150060": {
+        "111669150087": {
           "label": "METHOD_PARAMETER_IN",
-          "method": "package:path/src/style/url.dart#1348:METHOD:rootLength",
+          "method": "package:path/src/style/windows.dart#1324:METHOD:rootLength",
           "code": "String path",
           "line": 47,
           "parameterIndex": 1
         },
-        "68719478351": {
+        "68719478428": {
           "label": "IDENTIFIER",
-          "method": "package:path/src/style/url.dart#1348:METHOD:rootLength",
+          "method": "package:path/src/style/windows.dart#1324:METHOD:rootLength",
           "code": "path",
           "line": 48,
           "argumentsOf": [
             [
-              "30064772791",
+              "30064772876",
               0
             ]
           ]
         },
-        "115964117356": {
+        "115964117383": {
           "label": "METHOD_PARAMETER_OUT",
-          "method": "package:path/src/style/url.dart#1348:METHOD:rootLength",
+          "method": "package:path/src/style/windows.dart#1324:METHOD:rootLength",
           "code": "String path",
           "line": 47,
           "parameterIndex": 1
@@ -1351,8 +1351,8 @@
             }
           ]
         },
-        "30064772791": {
-          "nodeId": "30064772791",
+        "30064772876": {
+          "nodeId": "30064772876",
           "name": "isEmpty",
           "target": "dart:core/string.dart#13494:GETTER:isEmpty",
           "code": "path.isEmpty",
@@ -2062,7 +2062,7 @@
               []
             ],
             [
-              "111669150060",
+              "111669150087",
               5,
               true,
               false,
@@ -2070,7 +2070,7 @@
               []
             ],
             [
-              "68719478351",
+              "68719478428",
               5,
               true,
               false,
@@ -2078,7 +2078,7 @@
               []
             ],
             [
-              "115964117356",
+              "115964117383",
               5,
               true,
               false,
@@ -2337,7 +2337,7 @@
               []
             ],
             [
-              "111669150060",
+              "111669150087",
               5,
               true,
               false,
@@ -2345,7 +2345,7 @@
               []
             ],
             [
-              "68719478351",
+              "68719478428",
               5,
               true,
               false,
@@ -2353,7 +2353,7 @@
               []
             ],
             [
-              "115964117356",
+              "115964117383",
               5,
               true,
               false,
@@ -4341,7 +4341,7 @@
       "exporter": {
         "record": "header",
         "protocolVersion": 1,
-        "exporterVersion": "0.3.25",
+        "exporterVersion": "0.3.26",
         "analyzerVersion": "8.4.1",
         "sdkVersion": "3.9.2",
         "offsetEncoding": "utf-16",
@@ -4349,8 +4349,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "87f52ad214fa9b743ef6333513ba3d760879f0aee4ce75fff1caa8b0517623e1",
-        "files": 410,
+        "sha256": "d6e307a96b67cfc6d04d4067e6d3878a120983cc5cae648819677f956ede2d3b",
+        "files": 413,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -5134,7 +5134,7 @@
       "exporter": {
         "record": "header",
         "protocolVersion": 1,
-        "exporterVersion": "0.3.25",
+        "exporterVersion": "0.3.26",
         "analyzerVersion": "8.4.1",
         "sdkVersion": "3.9.2",
         "offsetEncoding": "utf-16",
@@ -5142,8 +5142,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "87f52ad214fa9b743ef6333513ba3d760879f0aee4ce75fff1caa8b0517623e1",
-        "files": 410,
+        "sha256": "d6e307a96b67cfc6d04d4067e6d3878a120983cc5cae648819677f956ede2d3b",
+        "files": 413,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -5276,7 +5276,7 @@
             "issue": "DART-FLOW-003",
             "owner": "shared dataflow query engine / Dart library models"
           },
-          "refreshDisposition": "Fresh two-witness stock 30/29-node and four-witness stock 30/29/29/29-node selections follow convert input.length -> _convert end slot 3 -> end/start size computation -> hexadecimal header length and Uint8List allocation -> saved receivers. The copy call's cross-argument route is receiver 0 -> cursor slot 1 -> skipCount/start slot 4 -> computed end slot 2 -> bytes slot 3. The shorter allocation variant omits <tmp>4 and keeps the constructor result detail-only; other four-witness variants omit the saved CR or LF alias and preserve the corresponding hidden receiver node. Exact flags, arguments and frames are preserved; field/storage demands are empty. These size/header/allocation and range/receiver effects are conservative approximations, not direct original-byte element copying. Direct modeled byte effects and bounded whole/slice/empty native observations remain separate. No causal claim ties these choices to rest omission."
+          "refreshDisposition": "Fresh two-witness stock 29/28-node variants follow input.length into _convert end slot 3, then size and sizeInHex/header-length arithmetic into Uint8List allocation and saved CR/LF aliases. The selected setRange chain is receiver slot 0 -> computed end slot 2 -> skipCount/start slot 4 -> bytes slot 3; the shorter path omits the saved allocation identifier while retaining its hidden allocation evidence. Exact output/visibility flags, argument slots and empty field/storage demands remain recorded. These readonly size/header, external allocation and cross-argument range effects are conservative approximations, not direct original-byte copying or an executed allocation identity. Optional byte-content model effects and independent whole/slice/empty native checks remain separate. Fresh four-witness stock 29/28-node variants retain the same receiver 0 -> computed end 2 -> start 4 -> bytes 3 selection. Additional shorter variants omit either the CR or LF saved alias while retaining its invisible receiver evidence; all visibility, slot, field and frame facts are retained."
         },
         {
           "id": "chunk-return-buffer",
@@ -5381,7 +5381,7 @@
             "issue": "DART-FLOW-003",
             "owner": "shared dataflow query engine / Dart library models"
           },
-          "refreshDisposition": "Fresh two-witness stock 78-node selections retain bytes slot 3 -> cursor slot 1 -> skipCount/start slot 4 -> computed end slot 2 -> setRange receiver 0, saved CR/LF receivers and footer setRange start slot 1 -> end slot 2 -> receiver 0 before return. The initial add or addSlice frame is retained separately. An output-marked _convert result enters the conservative Sink.add candidate union; the first re-entry selects chunk.length -> end slot 3 -> size/header/allocation and saved buffer effects, while the second selects chunk -> bytes slot 1. Fresh four-witness stock 61/60-node alternatives retain two byte-slot re-entries instead. One shorter four-witness route omits only the first skipCount slot 4 detour; another omits a saved CR alias and retains its detail-only receiver. All later end-slot 2 effects, output flags, exact frames and empty field/storage demands are preserved. The Sink.add union includes external Sink plus decoder/encoder implementations. These whole-buffer, readonly/receiver, range/footer, dispatch, allocation and caller approximations do not establish actual sinks, repeated-call ordering, object identity or precise byte provenance. Model-specific direct byte effects and bounded native controls remain distinct; larger bounds do not include every smaller-bound route. No causal claim ties this selection to rest omission."
+          "refreshDisposition": "Fresh two-witness stock 76-node variants retain bytes slot 3 -> computed end slot 2 -> skipCount/start slot 4 -> setRange receiver slot 0, CR/LF saved aliases and footer setRange start slot 1 -> end slot 2 -> receiver slot 0, then _convert return. Output-marked _convert enters the candidate _Sink.add parameter: first re-entry selects chunk.length -> end slot 3 -> size/header/allocation, while the later output-marked add re-entry selects chunk -> bytes slot 1. Initial add and addSlice frames are distinct, with later add invocations retained; every _sink.add frame keeps the core/decoder/encoder target union. Exact slots, flags and frames remain recorded; field/storage demands are empty. Whole-buffer, size/header, range, readonly/external and dispatch/caller detours do not establish runtime sink identity, repeated-call order, branch feasibility, allocation identity or exact byte-element provenance. Model-specific byte effects and bounded native library executions retain their separate scope. Fresh four-witness stock 58/57-node variants instead select bytes slot 1 at both output-marked add re-entries, retaining range order 3 -> 2 -> 4 -> 0 and footer order 1 -> 2 -> 0. One shorter variant omits the initial start/skipCount detour and another omits the initial CR saved alias while retaining hidden receiver evidence. Fresh four-witness modeled 61/60-node variants use direct modeled setRange byte slot 3 -> receiver 0 and readonly list-length receiver detours. Their first re-entry selects bytes and their second selects chunk.length/end into size/header.codeUnits -> modeled header-copy receiver, then final buffer return. Shorter modeled variants omit an initial CR or LF saved alias while preserving its hidden receiver node. Initial add/addSlice frames stay distinct. Neither the larger bound nor these conservative caller/header/receiver effects certify repeated execution, allocation identity or exact byte provenance; no causal link to the frontend changes is claimed."
         },
         {
           "id": "error-message-value",
@@ -5797,15 +5797,16 @@
             ]
           ]
         },
-        "68719477247": {
-          "label": "IDENTIFIER",
+        "30064771631": {
+          "label": "CALL",
           "method": "package:http_parser/src/chunked_coding/encoder.dart#1792:FUNCTION:_convert",
-          "code": "cursor",
+          "code": "cursor + end - start",
           "line": 74,
+          "call": "30064771631",
           "argumentsOf": [
             [
               "30064771630",
-              1
+              2
             ]
           ]
         },
@@ -5818,19 +5819,6 @@
             [
               "30064771630",
               4
-            ]
-          ]
-        },
-        "30064771631": {
-          "label": "CALL",
-          "method": "package:http_parser/src/chunked_coding/encoder.dart#1792:FUNCTION:_convert",
-          "code": "cursor + end - start",
-          "line": 74,
-          "call": "30064771631",
-          "argumentsOf": [
-            [
-              "30064771630",
-              2
             ]
           ]
         },
@@ -6897,11 +6885,11 @@
               []
             ],
             [
-              "68719477247",
+              "30064771631",
               0,
               true,
               false,
-              "cursor",
+              "cursor + end - start",
               []
             ],
             [
@@ -6910,14 +6898,6 @@
               true,
               false,
               "start",
-              []
-            ],
-            [
-              "30064771631",
-              0,
-              true,
-              false,
-              "cursor + end - start",
               []
             ],
             [
@@ -6955,7 +6935,6 @@
             "alias",
             "assignment",
             "alias",
-            "external-write",
             "external-write",
             "external-write",
             "external-write"
@@ -7164,11 +7143,11 @@
               []
             ],
             [
-              "68719477247",
+              "30064771631",
               0,
               true,
               false,
-              "cursor",
+              "cursor + end - start",
               []
             ],
             [
@@ -7177,14 +7156,6 @@
               true,
               false,
               "start",
-              []
-            ],
-            [
-              "30064771631",
-              0,
-              true,
-              false,
-              "cursor + end - start",
               []
             ],
             [
@@ -7221,7 +7192,6 @@
             "alias",
             "assignment",
             "alias",
-            "external-write",
             "external-write",
             "external-write",
             "external-write"
@@ -7296,11 +7266,11 @@
               []
             ],
             [
-              "68719477247",
+              "30064771631",
               1,
               true,
               false,
-              "cursor",
+              "cursor + end - start",
               []
             ],
             [
@@ -7309,14 +7279,6 @@
               true,
               false,
               "start",
-              []
-            ],
-            [
-              "30064771631",
-              1,
-              true,
-              false,
-              "cursor + end - start",
               []
             ],
             [
@@ -7784,11 +7746,11 @@
               []
             ],
             [
-              "68719477247",
+              "30064771631",
               0,
               true,
               false,
-              "cursor",
+              "cursor + end - start",
               []
             ],
             [
@@ -7797,14 +7759,6 @@
               true,
               false,
               "start",
-              []
-            ],
-            [
-              "30064771631",
-              0,
-              true,
-              false,
-              "cursor + end - start",
               []
             ],
             [
@@ -7909,7 +7863,6 @@
             "external-write",
             "external-write",
             "external-write",
-            "external-write",
             "local-read",
             "assignment",
             "alias",
@@ -7970,7 +7923,6 @@
             "external-write",
             "external-write",
             "external-write",
-            "external-write",
             "local-read",
             "assignment",
             "alias",
@@ -8003,11 +7955,11 @@
               []
             ],
             [
-              "68719477247",
+              "30064771631",
               2,
               true,
               false,
-              "cursor",
+              "cursor + end - start",
               []
             ],
             [
@@ -8016,14 +7968,6 @@
               true,
               false,
               "start",
-              []
-            ],
-            [
-              "30064771631",
-              2,
-              true,
-              false,
-              "cursor + end - start",
               []
             ],
             [
@@ -8491,11 +8435,11 @@
               []
             ],
             [
-              "68719477247",
+              "30064771631",
               0,
               true,
               false,
-              "cursor",
+              "cursor + end - start",
               []
             ],
             [
@@ -8504,14 +8448,6 @@
               true,
               false,
               "start",
-              []
-            ],
-            [
-              "30064771631",
-              0,
-              true,
-              false,
-              "cursor + end - start",
               []
             ],
             [
@@ -8616,7 +8552,6 @@
             "external-write",
             "external-write",
             "external-write",
-            "external-write",
             "local-read",
             "assignment",
             "alias",
@@ -8674,7 +8609,6 @@
             "local-read",
             "parameter-binding",
             "parameter-read",
-            "external-write",
             "external-write",
             "external-write",
             "external-write",
@@ -10013,7 +9947,7 @@
   ],
   "representation": "Node/call IDs and context/path indices are project-local. transitions[i] classifies elements[i] to elements[i+1]. All retained demand sets in this review are empty. Equivalent stock/modeled paths are shared; full path flags and selected caller contexts are preserved.",
   "reviewMethod": "Each selected displayed route was read against its pinned source expectation. Formal argument positions, resolved return targets and available selected frames were checked. Argument-output return evidence already in a caller frame has a separate category. This is a mechanism/approximation review, not branch feasibility, general scheduling or heap qualification.",
-  "analysisBaseCommit": "33c4e802b",
+  "analysisBaseCommit": "9b7ecf185",
   "limitations": [
     "Only these seven query families and their returned bounded paths are reviewed; other corpus alternatives and larger searches remain pending.",
     "An endpoint identity is recorded separately from independent forwarding; conservative argument outputs, aggregate projections and external effects do not prove mutation, allocation identity, callback delivery or branch feasibility.",
@@ -10023,14 +9957,14 @@
     "queries": 7,
     "selectedPaths": 25,
     "distinctPaths": 19,
-    "distinctTransitions": 623
+    "distinctTransitions": 617
   },
   "refresh": {
-    "previousBaseCommit": "33c4e802b",
+    "previousBaseCommit": "9b7ecf185",
     "previousAnalysisSources": {
       "algorithm": "sha256-path-nul-content-nul",
-      "sha256": "5d91a08c4e2b4d47e123e1c664dc2ba15552afd24636dec2488bca49fb379858",
-      "files": 409,
+      "sha256": "87f52ad214fa9b743ef6333513ba3d760879f0aee4ce75fff1caa8b0517623e1",
+      "files": 410,
       "roots": [
         "joern-cli/frontends/dartsrc2cpg/src",
         "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -10054,9 +9988,9 @@
       "queries": 7,
       "selectedPaths": 25,
       "distinctPaths": 19,
-      "distinctTransitions": 617
+      "distinctTransitions": 623
     },
-    "method": "Replayed after omitting the end argument on list-pattern rest calls without tail elements, enabling per-target default adapters while retaining explicit computed ends for tail patterns. Unchanged routes are matched against previous two/four-witness reviewed paths after removing node IDs only; all other node/call/context/flag/demand facts are retained. Changed variants have separate source-grounded refresh dispositions and checked argument/return/output bindings. All new graph IDs are reconstructed from fresh raw audits. Native observations do not certify caller re-entry, allocation, heap/dispatch precision or route feasibility."
+    "method": "Replayed after retaining instantiated map index result types and intersecting observed object-pattern receiver candidates with both their static or representation bounds and their required pattern constraints. Unchanged routes are matched against previous two/four-witness reviewed paths after removing node IDs only; all other node/call/context/flag/demand facts are retained. Changed variants have separate source-grounded refresh dispositions and checked argument/return/output bindings. All new graph IDs are reconstructed from fresh raw audits. Native observations do not certify caller re-entry, allocation, heap/dispatch precision or route feasibility."
   },
   "nativeRefreshScope": "Existing native oracle contracts remain unchanged."
 }

@@ -23,7 +23,7 @@ import 'package:analyzer/source/line_info.dart';
 import 'package:path/path.dart' as p;
 
 const protocolVersion = 1;
-const exporterVersion = '0.3.25';
+const exporterVersion = '0.3.26';
 const analyzerVersion = '8.4.1';
 const supportedSdkVersion = '3.9.2';
 
@@ -663,8 +663,9 @@ class _UnitEncoder {
     void patternMembers(
       DartPattern pattern,
       DartType? requiredType,
-      Map<String, String> members,
-    ) {
+      Map<String, String> members, {
+      Map<String, String> resultFields = const {},
+    }) {
       record['requiredType'] = requiredType?.getDisplayString();
       record['requiredTypeId'] = typeId(requiredType);
       final required = requiredType?.extensionTypeErasure;
@@ -678,6 +679,37 @@ class _UnitEncoder {
               required.lookUpGetter(member.value, required.element.library) ??
               required.lookUpMethod(member.value, required.element.library),
         );
+        final prefix = resultFields[member.key];
+        if (prefix != null) {
+          final original = interfaceBound(
+            pattern.matchedValueType,
+            allowNullable: true,
+          );
+          // Outer extension members do not supply the representation's index result.
+          final resultReceiver = original?.element is ExtensionTypeElement
+              ? null
+              : original;
+          final resultRequired = interfaceBound(
+            requiredType,
+            allowNullable: true,
+          );
+          final result =
+              resultReceiver?.lookUpMethod(
+                member.value,
+                resultReceiver.element.library,
+              ) ??
+              resultRequired?.lookUpMethod(
+                member.value,
+                resultRequired.element.library,
+              );
+          final type = result?.returnType;
+          if (type != null) {
+            record['${prefix}Type'] = type.getDisplayString();
+            record['${prefix}TypeId'] = typeId(type);
+            final erased = erasedTypeId(type);
+            if (erased != null) record['${prefix}ErasedTypeId'] = erased;
+          }
+        }
       }
     }
 
@@ -1314,10 +1346,12 @@ class _UnitEncoder {
         many('element', ast.elements);
       case MapPattern():
         kind = 'MapPattern';
-        patternMembers(ast, ast.requiredType, {
-          'indexTarget': '[]',
-          'containsKeyTarget': 'containsKey',
-        });
+        patternMembers(
+          ast,
+          ast.requiredType,
+          {'indexTarget': '[]', 'containsKeyTarget': 'containsKey'},
+          resultFields: {'indexTarget': 'index'},
+        );
         final required = ast.requiredType?.extensionTypeErasure;
         if (required is InterfaceType) {
           record['valueType'] = required.typeArguments[1].getDisplayString();
