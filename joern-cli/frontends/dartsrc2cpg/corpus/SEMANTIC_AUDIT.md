@@ -1791,7 +1791,8 @@ instantiated current-value types, runtime substitutions or iterator heap flow.
 
 The [count review](synchronous-iteration-count-review.json) compares the previous
 lowering against the same current exported facts on all twelve source roots.
-Across 2,165 synchronous loops, 82 change their call counts: args -2, analyzer
+Across 2,165 for-in loops (including 17 asynchronous controls), 82 change their
+call counts: args -2, analyzer
 -31 and Sass -64. Each pattern now reads current once; additional saved-value
 assignments explain the net reduction of 97 calls. Internal methods and UNKNOWN
 counts are unchanged. The initial comparison uses a 404-file fingerprint recorded
@@ -1869,3 +1870,91 @@ Analysis source hash remains
 `fae2ab7ea70e9a3c442f62127604fd86c742f53d293ca79090e127207db91719`
 (404 files), independently matching all twelve graphs. Full loop rules and
 Gates 1–6 remain open.
+
+
+## Generic iteration bounds and instantiated static results
+
+Exporter 0.3.21 follows declared/promoted iterable type-parameter bounds, with
+cycle detection and a nonnullable interface check. Iterator, moveNext and current
+lookups retain normalized declaration targets. New currentType/currentTypeId
+facts separately retain the instantiated getter result; synthetic current calls
+and saved pattern values use that static type. The parameter's symbolic type and
+the callee's generic return declaration remain unchanged. Focused controls cover
+chained/recursive bounds, inherited members, nullable promotion, scoped symbolic
+element types and record patterns. Invalid nullable/unbounded sources preserve
+exact analyzer diagnostics without guessed member facts; dynamic and asynchronous
+SDK operations remain unresolved.
+
+Runtime validation exposed a pinned-toolchain disagreement: analyzer 8.4.1
+accepts the bounded record-pattern loop in generic_iteration_pattern.dart, but
+the Dart 3.9.2 compiler rejects T as not implementing Iterable<dynamic>. The
+source is retained separately for exporter/graph assertions. A kernel compilation
+control checks that exact rejection and absence of an output artifact, rather
+than importing the source into a passing execution oracle. Ordinary bounded
+loops independently check member order, nullable guards and recursive element
+identity. The actual pinned collection package exercises its three promoted
+generic-bound UnorderedIterableEquality equality/hash loops with empty, reversed,
+duplicate, extra-element and null controls. These observations do not establish
+static payload absence, arbitrary callback behavior or runtime generic environments.
+
+The [static fact review](generic-iteration-review.json) independently re-exports
+all twelve lib roots: 2,148 synchronous loops retain targets, including three
+newly resolved type-parameter receivers in collection/src/equality.dart. In
+2,147 cases the instantiated current type identity differs from its generic
+declaration's return identity. The other seventeen for-in loops are asynchronous
+controls; the earlier count comparison's 2,165 total includes them. All twelve
+saved graph method/call counts match the pre-change audits, and corpus UNKNOWN
+checks pass. Fresh graphs share source hash
+`8d38cb5a00e2e084f0ca2aafa3ac34c7806d06b38764782aa0704abafa7adb17`
+(406 files), independently verified against current source contents.
+
+The full 134-test native suite passes with all runtime/corpus opt-ins, as do
+native analysis and formatting of the six changed Dart files. All 168 frontend
+tests pass across twenty suites; eight opt-in cases are canceled in that run.
+All twelve corpus graph tests, four staged CLI checks and fourteen language
+selection checks pass. The storage review tests rebuild six paths/123 transitions
+and eleven local-exit paths/199 transitions. Normal-source Scala formatting passes.
+The stage matrix now has 67 named links, with separate static, diagnostic,
+runtime and compiler-boundary scopes. Six matrix tests/sixteen rejection controls,
+upstream source tests/nine rejection controls and the source verifier/thirteen
+rejection controls pass.
+
+Two- and four-witness audits pass under separate ten-minute category budgets
+including startup and graph loading, with explicit 8 GiB/four-CPU workers.
+Two-witness package/application/holdout times are 191081/44236/28145 ms, with
+sampled process-family RSS 5806504/4624356/1644600 KiB. Four-witness times are
+402210/46249/30153 ms and RSS 6454292/5060428/2385988 KiB. These are sampled
+family measurements, not exact peaks or a single worker heap.
+
+Four-witness endpoints remain stock 78/80 and modeled 80/80, with
+120 visible/131 detailed stock paths and 111/117 modeled paths. There are
+42/41 limited queries and seven/eight inconclusive negatives. All eighty query
+dispositions now cover 248 selected paths, 149 distinct routes and 2,673
+transitions. Analyzer has 18 routes/629 transitions; path/async/http_parser has
+38/967; other project totals remain unchanged. The two-witness forwarding review
+has nineteen distinct paths/617 transitions. Twenty-seven changed selected paths
+were checked against pinned source and exact call/context/output/visibility/demand
+facts; unchanged paths match after removing graph node IDs only. All 87 witness
+review rejection checks pass, and both summaries reproduce byte-identically.
+
+Fresh analyzer routes retain metadata/record-bound offset demands and flat-buffer
+length/getUint32/getUint8 receiver effects. The modeled variants retain a separate
+BoolList offset receiver route. Fresh two-witness path selection uses URL
+rootLength in stock mode and POSIX rootLength in modeled mode; the exact source
+owner distinguishes those from the observed Windows dispatch candidate. HTTP
+copy routes retain conservative setRange 0 -> 4 -> 1 -> 3 effects. Two-witness
+buffer routes select an end/header detour before a later byte re-entry; fresh
+four-witness routes instead re-enter byte parameters twice, with output-marked
+returns and distinct add/addSlice frames. Shorter variants omit saved aliases
+and preserve detail-only receiver visibility. These readonly/external/dispatch,
+field aggregation, caller and allocation effects remain approximations. Neither
+selection changes nor passing endpoint controls prove runtime receiver instances,
+actual repeated-call order, precise element provenance or a causal effect of
+generic iteration on the HTTP routes.
+
+A further reduced source is accepted by both the analyzer and kernel compiler
+but still lacks iteration facts when the iterator getter returns a bounded type
+parameter rather than an interface type. That lookup gap is recorded for the
+next implementation step. Runtime substitutions/bound checks, complete loop CFG
+and payload/heap qualification, omitted alternatives, inconclusive negatives
+and Gates 1–6 remain open.

@@ -575,3 +575,15 @@ describes per-expression conversion; the observed VM behavior is kept explicit.
 The standalone runtime oracle covers JIT, AOT and dart2js/Node execution, including
 exceptions and nulls. It does not qualify WebAssembly or arbitrary optimization
 configurations.
+
+
+Synchronous iteration lookup follows declared/promoted type-parameter bounds
+without replacing the receiver parameter's symbolic identity. Synthetic current
+calls use the instantiated static getter result, while the callee's generic
+declaration return type remains unchanged. Chained/recursive bounds, inherited
+members and nullable promotion have static regressions and bounded execution
+controls. Nullable/unbounded invalid sources retain diagnostics and omit target
+facts. The pinned analyzer accepts a bounded record-pattern loop that the Dart
+3.9.2 compiler rejects; separate tests retain that disagreement rather than
+qualifying it as executable. Runtime type environments, checked substitutions,
+instance-sensitive dispatch and iterator payload/heap effects remain open.

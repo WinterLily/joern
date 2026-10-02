@@ -91,6 +91,19 @@ void main() {
       throw StateError('Lost swap temporary or loop boundaries');
     }
   }
+  const unordered = UnorderedIterableEquality<int>();
+  for (final values in <List<int>>[[], [1], [1, 2, 1]]) {
+    final reversed = values.reversed.toList();
+    if (!unordered.equals(values, reversed) ||
+        unordered.hash(values) != unordered.hash(reversed) ||
+        unordered.equals(values, [...values, 99]) ||
+        unordered.equals(values, null)) {
+      throw StateError('Lost generic iterable bound, multiplicity or null guard');
+    }
+  }
+  if (!unordered.equals(null, null) || unordered.hash(null) != null.hashCode) {
+    throw StateError('Lost nullable unordered equality control');
+  }
   final partial = [0, 1, 2, 3, 4];
   reverse(partial, 1, 4);
   if (!const ListEquality<int>().equals(partial, [0, 3, 2, 1, 4])) {

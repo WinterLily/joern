@@ -74,6 +74,133 @@ void main() {
   });
 
   test(
+    'generic iteration resolves bounds and instantiated current types',
+    () async {
+      for (final name in [
+        'generic_iteration.dart',
+        'generic_iteration_pattern.dart',
+        'synchronous_iteration.dart',
+      ]) {
+        write(
+          name,
+          File('../src/test/resources/semantics/$name').readAsStringSync(),
+        );
+      }
+      final unit = units(
+        await export(input: p.join(project.path, 'generic_iteration.dart')),
+      ).single;
+      expect(unit['status'], 'resolved');
+      final symbols = {
+        for (final value in entries(unit, 'symbols')) value['id']: value,
+      };
+      final loops = entries(
+        unit,
+        'nodes',
+      ).where((node) => node['kind'] == 'ForEachParts').toList();
+      final patternUnit = units(
+        await export(
+          input: p.join(project.path, 'generic_iteration_pattern.dart'),
+        ),
+      ).single;
+      expect(patternUnit['status'], 'resolved');
+      symbols.addEntries(
+        entries(
+          patternUnit,
+          'symbols',
+        ).map((value) => MapEntry(value['id'], value)),
+      );
+      loops.addAll(
+        entries(
+          patternUnit,
+          'nodes',
+        ).where((node) => node['kind'] == 'ForEachParts'),
+      );
+      expect(loops, hasLength(8));
+      for (final loop in loops) {
+        for (final (key, name) in [
+          ('iteratorTarget', 'iterator'),
+          ('moveNextTarget', 'moveNext'),
+          ('currentTarget', 'current'),
+        ]) {
+          expect(symbols[loop[key]]?['name'], name, reason: '$key: $loop');
+        }
+      }
+      expect(loops[0]['iteratorType'], 'Cursor<String>');
+      expect(loops[1]['iteratorType'], 'Cursor<E>');
+      expect(loops[3]['iteratorType'], 'Cursor<T>');
+      expect(loops[6]['iteratorType'], 'Iterator<String>');
+      for (final index in [0, 4, 5, 6]) {
+        expect(loops[index]['currentType'], 'String');
+        expect(symbols[loops[index]['currentTypeId']]?['name'], 'String');
+      }
+      for (final index in [1, 2, 3]) {
+        final type = symbols[loops[index]['currentTypeId']]!;
+        expect(type['kind'], 'TYPE_PARAMETER');
+        expect(type['name'], index == 3 ? 'T' : 'E');
+        final declaration = symbols[loops[index]['currentTarget']]!;
+        expect(
+          loops[index]['currentTypeId'],
+          isNot(declaration['returnTypeId']),
+        );
+      }
+      expect(loops[7]['currentType'], '(String, String)');
+      expect(loops[7]['currentTypeId'], '(String, String)');
+      expect(loops[0]['currentTarget'], loops[7]['currentTarget']);
+      expect(symbols[loops[0]['currentTarget']]!['returnType'], 'T');
+    },
+  );
+
+  test(
+    'generic iteration preserves invalid and unresolved boundaries',
+    () async {
+      write(
+        'synchronous_iteration.dart',
+        File(
+          '../src/test/resources/semantics/synchronous_iteration.dart',
+        ).readAsStringSync(),
+      );
+      write('invalid_iteration.dart', """
+import 'synchronous_iteration.dart';
+void unbounded<T>(T values) { for (final value in values) {} }
+void nullable<T extends Values<String>?>(T values) { for (final value in values) {} }
+void dynamicLoop(dynamic values) { for (final value in values) {} }
+Future<void> asynchronous<T extends Stream<String>>(T values) async {
+  await for (final value in values) {}
+}
+""");
+      final unit = units(
+        await export(input: p.join(project.path, 'invalid_iteration.dart')),
+      ).single;
+      expect(unit['status'], 'partial');
+      expect(
+        entries(unit, 'diagnostics')
+            .where((entry) => entry['severity'] == 'ERROR')
+            .map((entry) => (entry['code'] as String).toLowerCase()),
+        unorderedEquals([
+          'unchecked_use_of_nullable_value',
+          'unchecked_use_of_nullable_value',
+          'for_in_of_invalid_type',
+        ]),
+      );
+      final loops = entries(
+        unit,
+        'nodes',
+      ).where((node) => node['kind'] == 'ForEachParts').toList();
+      expect(loops, hasLength(4));
+      for (final loop in loops) {
+        for (final key in [
+          'iteratorTarget',
+          'moveNextTarget',
+          'currentTarget',
+          'currentTypeId',
+        ]) {
+          expect(loop.containsKey(key), isFalse, reason: '$key: $loop');
+        }
+      }
+    },
+  );
+
+  test(
     'virtual implementation facts preserve covariant and generic declarations',
     () async {
       write(

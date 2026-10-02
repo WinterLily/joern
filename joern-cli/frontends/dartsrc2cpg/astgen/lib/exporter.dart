@@ -23,7 +23,7 @@ import 'package:analyzer/source/line_info.dart';
 import 'package:path/path.dart' as p;
 
 const protocolVersion = 1;
-const exporterVersion = '0.3.20';
+const exporterVersion = '0.3.21';
 const analyzerVersion = '8.4.1';
 const supportedSdkVersion = '3.9.2';
 
@@ -1466,8 +1466,14 @@ class _UnitEncoder {
         ForStatement(:final awaitKeyword) => awaitKeyword != null,
         ForElement(:final awaitKeyword) => awaitKeyword != null,
       };
-      final iterable = ast.iterable.staticType;
-      if (!asynchronous && iterable is InterfaceType) {
+      var iterable = ast.iterable.staticType;
+      final bounds = <DartType>{};
+      while (iterable is TypeParameterType && bounds.add(iterable)) {
+        iterable = iterable.bound;
+      }
+      if (!asynchronous &&
+          iterable is InterfaceType &&
+          iterable.nullabilitySuffix == NullabilitySuffix.none) {
         final iterator = iterable.lookUpGetter(
           'iterator',
           iterable.element.library,
@@ -1480,9 +1486,13 @@ class _UnitEncoder {
           record['moveNextTarget'] = symbol(
             iteratorType.lookUpMethod('moveNext', iteratorType.element.library),
           );
-          record['currentTarget'] = symbol(
-            iteratorType.lookUpGetter('current', iteratorType.element.library),
+          final current = iteratorType.lookUpGetter(
+            'current',
+            iteratorType.element.library,
           );
+          record['currentTarget'] = symbol(current);
+          record['currentType'] = current?.returnType.getDisplayString();
+          record['currentTypeId'] = typeId(current?.returnType);
         }
       }
     }

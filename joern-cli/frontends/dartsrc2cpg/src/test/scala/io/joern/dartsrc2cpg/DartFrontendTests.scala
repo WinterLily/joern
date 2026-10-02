@@ -2844,6 +2844,71 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         cpg.call.nameExact("<operator>.isInitialized").size shouldBe 2
       }
     }
+    "resolve generic iteration bounds without replacing declaration types" in {
+      fixture(
+        Files.readString(frontend.resolve("src/test/resources/semantics/generic_iteration.dart")),
+        "void main() {}",
+        dataflow = false,
+        extraFiles = Map(
+          "lib/generic_iteration_pattern.dart" -> Files.readString(
+            frontend.resolve("src/test/resources/semantics/generic_iteration_pattern.dart")
+          ),
+          "lib/synchronous_iteration.dart" -> Files
+            .readString(frontend.resolve("src/test/resources/semantics/synchronous_iteration.dart"))
+        )
+      ) { (cpg, _) =>
+        cpg.unknown.size shouldBe 0
+        for (
+          name <- Seq(
+            "bounded",
+            "chained",
+            "symbolic",
+            "recursive",
+            "inherited",
+            "nullableBound",
+            "boundedInterface",
+            "boundedPattern"
+          )
+        ) {
+          val method = cpg.method.nameExact(name).head
+          for (member <- Seq("iterator", "moveNext", "current")) {
+            val calls = method.ast.isCall.nameExact(member).l
+            withClue(s"$name.$member: ") {
+              calls.size shouldBe 1
+              calls.head.callee.isExternal(false).name.l should contain(member)
+            }
+          }
+          val current = method.ast.isCall.nameExact("current").head
+          if (name != "boundedInterface") {
+            current.callee.isExternal(false).astParentFullName.l.foreach { owner =>
+              owner should endWith(":CLASS:Cursor")
+            }
+          }
+          if (Seq("bounded", "inherited", "nullableBound", "boundedInterface").contains(name)) {
+            current.typeFullName should endWith(":CLASS:String")
+          } else if (name == "boundedPattern") {
+            current.typeFullName shouldBe "(String, String)"
+            current.cfgNext.isCall.name.l should contain("<operator>.assignment")
+            val saved = current.cfgNext.isCall.head
+              .argument(1)
+              .start
+              .isIdentifier
+              .refsTo
+              .collect { case local: io.shiftleft.codepropertygraph.generated.nodes.Local =>
+                local
+              }
+              .head
+            saved.typeFullName shouldBe current.typeFullName
+          } else {
+            current.typeFullName should include(":TYPE_PARAMETER:")
+            current.typeFullName should not be current.callee.isExternal(false).methodReturn.typeFullName.head
+          }
+        }
+        cpg.method.nameExact("bounded").parameter.nameExact("values").typeFullName.head should include(
+          ":TYPE_PARAMETER:T"
+        )
+      }
+    }
     "resolve synchronous iteration members and retain dynamic boundaries" in {
       fixture(
         Files.readString(frontend.resolve("src/test/resources/semantics/synchronous_iteration.dart")),
@@ -3436,7 +3501,7 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         val coverage = ujson.read(Files.readString(report))
         coverage("includedFiles").num shouldBe 0
         coverage("stringConversionOrder").str shouldBe "after-expression-evaluation"
-        coverage("exporter")("exporterVersion").str shouldBe "0.3.20"
+        coverage("exporter")("exporterVersion").str shouldBe "0.3.21"
         coverage("exporter")("sdkVersion").str shouldBe "3.9.2"
         coverage("exporter")("analyzerVersion").str shouldBe "8.4.1"
         Files.writeString(dir.resolve("excluded.dart"), "void excluded() {}")
@@ -3456,7 +3521,7 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         "offsetEncoding"  -> "utf-16",
         "analyzerVersion" -> "8.4.1",
         "sdkVersion"      -> "3.9.2",
-        "exporterVersion" -> "0.3.20"
+        "exporterVersion" -> "0.3.21"
       )
       intercept[IllegalArgumentException](ExportProtocol.units(Seq(valid)))
       intercept[IllegalArgumentException](

@@ -44,7 +44,7 @@
       "exporter": {
         "record": "header",
         "protocolVersion": 1,
-        "exporterVersion": "0.3.20",
+        "exporterVersion": "0.3.21",
         "analyzerVersion": "8.4.1",
         "sdkVersion": "3.9.2",
         "offsetEncoding": "utf-16",
@@ -52,8 +52,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "fae2ab7ea70e9a3c442f62127604fd86c742f53d293ca79090e127207db91719",
-        "files": 404,
+        "sha256": "8d38cb5a00e2e084f0ca2aafa3ac34c7806d06b38764782aa0704abafa7adb17",
+        "files": 406,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -1124,7 +1124,7 @@
       "exporter": {
         "record": "header",
         "protocolVersion": 1,
-        "exporterVersion": "0.3.20",
+        "exporterVersion": "0.3.21",
         "analyzerVersion": "8.4.1",
         "sdkVersion": "3.9.2",
         "offsetEncoding": "utf-16",
@@ -1132,8 +1132,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "fae2ab7ea70e9a3c442f62127604fd86c742f53d293ca79090e127207db91719",
-        "files": 404,
+        "sha256": "8d38cb5a00e2e084f0ca2aafa3ac34c7806d06b38764782aa0704abafa7adb17",
+        "files": 406,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -2207,7 +2207,7 @@
       "exporter": {
         "record": "header",
         "protocolVersion": 1,
-        "exporterVersion": "0.3.20",
+        "exporterVersion": "0.3.21",
         "analyzerVersion": "8.4.1",
         "sdkVersion": "3.9.2",
         "offsetEncoding": "utf-16",
@@ -2215,8 +2215,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "fae2ab7ea70e9a3c442f62127604fd86c742f53d293ca79090e127207db91719",
-        "files": 404,
+        "sha256": "8d38cb5a00e2e084f0ca2aafa3ac34c7806d06b38764782aa0704abafa7adb17",
+        "files": 406,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -3475,7 +3475,7 @@
   "executionOracles": [
     {
       "file": "astgen/test/package_boundaries_test.dart",
-      "sha256": "1e7812ce0cce695ab01ad082aca27b1550c82c94c332afe119786d579c954659",
+      "sha256": "0d6f84265856049282688d31dd8d058abc4e68bbfc0a1bb54ee6f98f260fb7b5",
       "scope": "Pinned args 2.7.0 supplied/null/default/deprecated forwarding and independent ArgResults constructor slots; collection 1.19.1 identity/search callback first input, missing keys and reverse boundaries/subranges; meta 1.17.0 independent UseResult fields and existing public TargetKind constants. No arbitrary private TargetKind constructor, branch feasibility or general heap/slot precision qualification."
     }
   ],
@@ -3489,7 +3489,7 @@
   ],
   "representation": "Node/call IDs and context/path indices are project-local. transitions[i] classifies elements[i] to elements[i+1]. All retained demand sets in this review are empty. Equivalent stock/modeled paths are shared; full path flags and selected caller contexts are preserved.",
   "reviewMethod": "Each selected displayed route was read against its pinned source expectation. Formal argument positions, resolved return targets and available selected frames were checked. Argument-output return evidence already in a caller frame has a separate category. This is a mechanism/approximation review, not branch feasibility, general scheduling or heap qualification.",
-  "analysisBaseCommit": "907668e4c",
+  "analysisBaseCommit": "06679a391",
   "limitations": [
     "Only these twenty-two args/collection/meta query families and their returned bounded paths are reviewed; other corpus alternatives and larger searches remain pending.",
     "An endpoint identity is recorded separately from independent forwarding; conservative argument outputs, aggregate projections and external effects do not prove mutation, allocation identity, callback delivery or branch feasibility.",
@@ -3502,11 +3502,11 @@
     "distinctTransitions": 40
   },
   "refresh": {
-    "previousBaseCommit": "907668e4c",
+    "previousBaseCommit": "06679a391",
     "previousAnalysisSources": {
       "algorithm": "sha256-path-nul-content-nul",
-      "sha256": "6a92ea4bf560d1c655b02efcb3b34bf999e1aab8fc5db39f6deebceba02685f9",
-      "files": 403,
+      "sha256": "fae2ab7ea70e9a3c442f62127604fd86c742f53d293ca79090e127207db91719",
+      "files": 404,
       "roots": [
         "joern-cli/frontends/dartsrc2cpg/src",
         "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -3532,6 +3532,7 @@
       "distinctPaths": 14,
       "distinctTransitions": 40
     },
-    "method": "Replayed after resolving synchronous iteration members and saving pattern current reads. Unchanged routes are matched against previous two/four-witness reviewed paths after removing node IDs only; all other node/call/context/flag/demand facts are retained. Changed variants have separate source-grounded refresh dispositions and checked argument/return/output bindings. All new graph IDs are reconstructed from fresh raw audits. Native observations do not certify caller re-entry, allocation, heap/dispatch precision or route feasibility."
-  }
+    "method": "Replayed after retaining bound-based synchronous iteration targets and instantiated current static types. Unchanged routes are matched against previous two/four-witness reviewed paths after removing node IDs only; all other node/call/context/flag/demand facts are retained. Changed variants have separate source-grounded refresh dispositions and checked argument/return/output bindings. All new graph IDs are reconstructed from fresh raw audits. Native observations do not certify caller re-entry, allocation, heap/dispatch precision or route feasibility."
+  },
+  "nativeRefreshScope": "The pinned collection oracle additionally executes UnorderedIterableEquality empty/reversed/duplicate/extra/null equality/hash controls for its three bound-based iteration loops. Existing oracle assertions and limitations are retained; this does not qualify arbitrary equality/hash callbacks, heap precision or all SDK bodies."
 }

@@ -1,0 +1,257 @@
+{
+  "schemaVersion": 1,
+  "scope": "Static member targets and instantiated result facts across twelve pinned source roots. Counts and declared/static types do not qualify runtime receiver environments, generic bound enforcement, CFG, payload or heap precision.",
+  "previousBaseCommit": "06679a391",
+  "previousAnalysisSources": {
+    "algorithm": "sha256-path-nul-content-nul",
+    "sha256": "fae2ab7ea70e9a3c442f62127604fd86c742f53d293ca79090e127207db91719",
+    "files": 404,
+    "roots": [
+      "joern-cli/frontends/dartsrc2cpg/src",
+      "joern-cli/frontends/dartsrc2cpg/astgen/lib",
+      "joern-cli/frontends/dartsrc2cpg/astgen/bin",
+      "joern-cli/frontends/x2cpg/src/main",
+      "dataflowengineoss/src/main",
+      "semanticcpg/src/main",
+      "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.lock",
+      "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.yaml",
+      "joern-cli/frontends/dartsrc2cpg/build.sbt",
+      "joern-cli/frontends/x2cpg/build.sbt",
+      "joern-cli/build.sbt",
+      "dataflowengineoss/build.sbt",
+      "semanticcpg/build.sbt",
+      "build.sbt",
+      "project/Versions.scala",
+      "project/Projects.scala"
+    ]
+  },
+  "analysisSources": {
+    "algorithm": "sha256-path-nul-content-nul",
+    "sha256": "8d38cb5a00e2e084f0ca2aafa3ac34c7806d06b38764782aa0704abafa7adb17",
+    "files": 406,
+    "roots": [
+      "joern-cli/frontends/dartsrc2cpg/src",
+      "joern-cli/frontends/dartsrc2cpg/astgen/lib",
+      "joern-cli/frontends/dartsrc2cpg/astgen/bin",
+      "joern-cli/frontends/x2cpg/src/main",
+      "dataflowengineoss/src/main",
+      "semanticcpg/src/main",
+      "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.lock",
+      "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.yaml",
+      "joern-cli/frontends/dartsrc2cpg/build.sbt",
+      "joern-cli/frontends/x2cpg/build.sbt",
+      "joern-cli/build.sbt",
+      "dataflowengineoss/build.sbt",
+      "semanticcpg/build.sbt",
+      "build.sbt",
+      "project/Versions.scala",
+      "project/Projects.scala"
+    ]
+  },
+  "exporterVersion": "0.3.21",
+  "totals": {
+    "loopsWithTargets": 2148,
+    "boundReceivers": 3,
+    "instantiatedCurrentTypes": 2147
+  },
+  "method": "Independently re-exported the twelve identical lib roots with the pinned native exporter. Type-parameter iterable facts are identified by scoped symbol kinds; instantiated current identities are compared with normalized declaration returnTypeId. Source excerpts use UTF-16 spans. All twelve fresh saved graph method/call counts match the pre-change audit counts. UNKNOWN checks pass in the corpus tests.",
+  "compilerBoundary": {
+    "analyzer": "8.4.1",
+    "sdk": "3.9.2",
+    "source": "src/test/resources/semantics/generic_iteration_pattern.dart",
+    "sha256": "64783e43de851592ce7b64580714d3dd8dc766a77e363798b0abadf5f1b6b2e2",
+    "analyzerStatus": "resolved",
+    "compilerStatus": "rejected: T iterable requirement",
+    "qualification": "Static bound/pattern facts are exercised in exporter/graph tests; this source is not a passing runtime oracle."
+  },
+  "remainingBoundaries": [
+    "Getter iterator return types that are type parameters remain unresolved, even with Iterator-compatible bounds (reduced exporter probe is resolved but has no loop targets).",
+    "Dynamic and asynchronous SDK target resolution, runtime type environments/substitutions/bound checks and iterator payload/heap effects remain unqualified."
+  ],
+  "projects": [
+    {
+      "project": "path-1.9.1",
+      "category": "packages",
+      "methods": 236,
+      "calls": 2026,
+      "unchangedRepresentationCounts": true,
+      "loopsWithTargets": 2,
+      "boundReceivers": 0,
+      "instantiatedCurrentTypes": 2,
+      "boundObservations": []
+    },
+    {
+      "project": "collection-1.19.1",
+      "category": "packages",
+      "methods": 760,
+      "calls": 4610,
+      "unchangedRepresentationCounts": true,
+      "loopsWithTargets": 53,
+      "boundReceivers": 3,
+      "instantiatedCurrentTypes": 53,
+      "boundObservations": [
+        {
+          "file": "src/equality.dart",
+          "sourceSha256": "2538528180ddb2af6ae6f9e2219f8512c91af3a3d03cf77368216892f6a5cc5e",
+          "line": 220,
+          "column": 10,
+          "source": "var e in elements1",
+          "iterableType": "T",
+          "iterableTypeId": "package:collection/src/equality.dart#6304:TYPE_PARAMETER:T",
+          "throughTypeParameter": true,
+          "iteratorTarget": "dart:core/iterable.dart#8844:GETTER:iterator",
+          "iteratorType": "Iterator<E>",
+          "currentTarget": "dart:core/iterator.dart#3533:GETTER:current",
+          "declarationReturnType": "E",
+          "declarationReturnTypeId": "dart:core/iterator.dart#1357:TYPE_PARAMETER:E",
+          "currentType": "E",
+          "currentTypeId": "package:collection/src/equality.dart#6301:TYPE_PARAMETER:E"
+        },
+        {
+          "file": "src/equality.dart",
+          "sourceSha256": "2538528180ddb2af6ae6f9e2219f8512c91af3a3d03cf77368216892f6a5cc5e",
+          "line": 225,
+          "column": 10,
+          "source": "var e in elements2",
+          "iterableType": "T",
+          "iterableTypeId": "package:collection/src/equality.dart#6304:TYPE_PARAMETER:T",
+          "throughTypeParameter": true,
+          "iteratorTarget": "dart:core/iterable.dart#8844:GETTER:iterator",
+          "iteratorType": "Iterator<E>",
+          "currentTarget": "dart:core/iterator.dart#3533:GETTER:current",
+          "declarationReturnType": "E",
+          "declarationReturnTypeId": "dart:core/iterator.dart#1357:TYPE_PARAMETER:E",
+          "currentType": "E",
+          "currentTypeId": "package:collection/src/equality.dart#6301:TYPE_PARAMETER:E"
+        },
+        {
+          "file": "src/equality.dart",
+          "sourceSha256": "2538528180ddb2af6ae6f9e2219f8512c91af3a3d03cf77368216892f6a5cc5e",
+          "line": 238,
+          "column": 10,
+          "source": "E element in elements",
+          "iterableType": "T",
+          "iterableTypeId": "package:collection/src/equality.dart#6304:TYPE_PARAMETER:T",
+          "throughTypeParameter": true,
+          "iteratorTarget": "dart:core/iterable.dart#8844:GETTER:iterator",
+          "iteratorType": "Iterator<E>",
+          "currentTarget": "dart:core/iterator.dart#3533:GETTER:current",
+          "declarationReturnType": "E",
+          "declarationReturnTypeId": "dart:core/iterator.dart#1357:TYPE_PARAMETER:E",
+          "currentType": "E",
+          "currentTypeId": "package:collection/src/equality.dart#6301:TYPE_PARAMETER:E"
+        }
+      ]
+    },
+    {
+      "project": "meta-1.17.0",
+      "category": "packages",
+      "methods": 42,
+      "calls": 327,
+      "unchangedRepresentationCounts": true,
+      "loopsWithTargets": 0,
+      "boundReceivers": 0,
+      "instantiatedCurrentTypes": 0,
+      "boundObservations": []
+    },
+    {
+      "project": "args-2.7.0",
+      "category": "packages",
+      "methods": 219,
+      "calls": 2290,
+      "unchangedRepresentationCounts": true,
+      "loopsWithTargets": 23,
+      "boundReceivers": 0,
+      "instantiatedCurrentTypes": 23,
+      "boundObservations": []
+    },
+    {
+      "project": "async-2.13.0",
+      "category": "packages",
+      "methods": 700,
+      "calls": 3422,
+      "unchangedRepresentationCounts": true,
+      "loopsWithTargets": 17,
+      "boundReceivers": 0,
+      "instantiatedCurrentTypes": 17,
+      "boundObservations": []
+    },
+    {
+      "project": "http_parser-4.1.2",
+      "category": "packages",
+      "methods": 91,
+      "calls": 1135,
+      "unchangedRepresentationCounts": true,
+      "loopsWithTargets": 0,
+      "boundReceivers": 0,
+      "instantiatedCurrentTypes": 0,
+      "boundObservations": []
+    },
+    {
+      "project": "analyzer-8.4.1",
+      "category": "packages",
+      "methods": 30363,
+      "calls": 227637,
+      "unchangedRepresentationCounts": true,
+      "loopsWithTargets": 1525,
+      "boundReceivers": 0,
+      "instantiatedCurrentTypes": 1525,
+      "boundObservations": []
+    },
+    {
+      "project": "localsend-1.17.0",
+      "category": "applications",
+      "methods": 31358,
+      "calls": 106237,
+      "unchangedRepresentationCounts": true,
+      "loopsWithTargets": 24,
+      "boundReceivers": 0,
+      "instantiatedCurrentTypes": 24,
+      "boundObservations": []
+    },
+    {
+      "project": "saber-0.26.0",
+      "category": "applications",
+      "methods": 10428,
+      "calls": 53890,
+      "unchangedRepresentationCounts": true,
+      "loopsWithTargets": 89,
+      "boundReceivers": 0,
+      "instantiatedCurrentTypes": 89,
+      "boundObservations": []
+    },
+    {
+      "project": "dart-sass-1.89.2",
+      "category": "applications",
+      "methods": 9581,
+      "calls": 87933,
+      "unchangedRepresentationCounts": true,
+      "loopsWithTargets": 412,
+      "boundReceivers": 0,
+      "instantiatedCurrentTypes": 411,
+      "boundObservations": []
+    },
+    {
+      "project": "shelf-1.4.2",
+      "category": "holdout",
+      "methods": 214,
+      "calls": 1682,
+      "unchangedRepresentationCounts": true,
+      "loopsWithTargets": 2,
+      "boundReceivers": 0,
+      "instantiatedCurrentTypes": 2,
+      "boundObservations": []
+    },
+    {
+      "project": "yaml-3.1.3",
+      "category": "holdout",
+      "methods": 411,
+      "calls": 5346,
+      "unchangedRepresentationCounts": true,
+      "loopsWithTargets": 1,
+      "boundReceivers": 0,
+      "instantiatedCurrentTypes": 1,
+      "boundObservations": []
+    }
+  ]
+}

@@ -1748,9 +1748,13 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
           val loop =
             saved(syntax, iterator)(ref => {
               def current(): Ast =
-                if (string(parts, "currentTarget").nonEmpty)
-                  patternMember(syntax, string(parts, "currentTarget"), "current", Seq(ref()))
-                else field(syntax, ref(), "current")
+                if (string(parts, "currentTarget").nonEmpty) {
+                  val invocation = patternMember(syntax, string(parts, "currentTarget"), "current", Seq(ref()))
+                  invocation.root.collect { case value: NewCall =>
+                    value.typeFullName = string(parts, "currentTypeId", value.typeFullName)
+                  }
+                  invocation
+                } else field(syntax, ref(), "current")
               val assign =
                 if (children(parts, "pattern").nonEmpty)
                   saved(syntax, current()) { value => patternScope(syntax) { pattern(variable, value) } }

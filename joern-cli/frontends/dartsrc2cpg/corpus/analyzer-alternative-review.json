@@ -84,7 +84,7 @@
       "exporter": {
         "record": "header",
         "protocolVersion": 1,
-        "exporterVersion": "0.3.20",
+        "exporterVersion": "0.3.21",
         "analyzerVersion": "8.4.1",
         "sdkVersion": "3.9.2",
         "offsetEncoding": "utf-16",
@@ -92,8 +92,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "fae2ab7ea70e9a3c442f62127604fd86c742f53d293ca79090e127207db91719",
-        "files": 404,
+        "sha256": "8d38cb5a00e2e084f0ca2aafa3ac34c7806d06b38764782aa0704abafa7adb17",
+        "files": 406,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -343,7 +343,7 @@
             "issue": "DART-FLOW-002",
             "owner": "shared dataflow query engine / Dart library models"
           },
-          "refreshDisposition": "Fresh routes replace synthetic iterator/current projections with analyzer-selected Iterable.iterator/ListBase.iterator and Iterator.current getter calls; those SDK bodies remain external. Stock paths retain readonly NodeList/flat-buffer length and getUint8 offset/receiver effects with metadata.annotations or element.bound.namedFields demands. Modeled 68/67-node paths retain metadata.annotations or bound.namedFields/positionalFields/typeArguments followed by bc._buffer demands into _getUint32/getUint32, byteLength -> _getByte index -> getUint8 offset/receiver effects and repeated length output before items[i]. All field demands, output flags, exact slots and frames are retained; storage demands are empty. These aggregate/dispatch/SDK/heap/readonly-output/caller detours are approximations, not exact iterated-element provenance or arbitrary callback delivery. The native BinaryWriter oracle does not execute the selected metadata, record-bound, SDK iterator or flat-buffer getter routes."
+          "refreshDisposition": "Fresh four-witness stock 69/68-node routes retain readonly list/NodeList length outputs and resolved iterable iterator/current calls, with metadata.annotations.offset or _element -> bound.namedFields/positionalFields/typeArguments.offset demands. The selected BoolList length offset supplies _getUint32 -> external ByteData.getUint32 receiver/return -> byteLength -> _getByte index -> _getUint8/getUint8 offset/receiver effects before repeated length outputs and items[i]. Fresh modeled 60-node variants retain _element -> bound.positionalFields demands, then readonly NodeList length output and BoolList offset argument output/receiver demand into _getByte -> _getUint8, with the NodeList length detour selected before or after that branch. Exact demands, output flags, slots and frames are preserved; storage demands are empty. The instantiated static current type does not establish an actual element, callback delivery, runtime flat-buffer receiver or precise field provenance. SDK current bodies and external scalar/readonly getter effects remain conservative. BinaryWriter byte/list native controls do not execute the selected metadata/record-bound/flat-buffer/SDK iterator routes."
         },
         {
           "id": "write-byte-not-reset-control",
@@ -1160,18 +1160,6 @@
           "line": -1,
           "parameterIndex": 0
         },
-        "68719648557": {
-          "label": "IDENTIFIER",
-          "method": "package:analyzer/src/summary/flat_buffers.dart#20420:GETTER:length",
-          "code": "this",
-          "line": 703,
-          "argumentsOf": [
-            [
-              "30064951543",
-              1
-            ]
-          ]
-        },
         "30064951543": {
           "label": "CALL",
           "method": "package:analyzer/src/summary/flat_buffers.dart#20420:GETTER:length",
@@ -1185,48 +1173,135 @@
             ]
           ]
         },
-        "68719648560": {
+        "111669189012": {
+          "label": "METHOD_PARAMETER_IN",
+          "method": "package:analyzer/src/summary/flat_buffers.dart#1712:METHOD:_getUint32",
+          "code": "int offset",
+          "line": 62,
+          "parameterIndex": 1
+        },
+        "68719647882": {
           "label": "IDENTIFIER",
-          "method": "package:analyzer/src/summary/flat_buffers.dart#20420:GETTER:length",
-          "code": "this",
-          "line": 704,
+          "method": "package:analyzer/src/summary/flat_buffers.dart#1712:METHOD:_getUint32",
+          "code": "offset",
+          "line": 62,
           "argumentsOf": [
             [
-              "30064951549",
+              "30064950901",
+              1
+            ]
+          ]
+        },
+        "30064950902": {
+          "label": "CALL",
+          "method": "package:analyzer/src/summary/flat_buffers.dart#1712:METHOD:_getUint32",
+          "code": "_buffer",
+          "line": 62,
+          "call": "30064950902",
+          "argumentsOf": [
+            [
+              "30064950901",
               0
             ]
           ]
         },
-        "111669189205": {
-          "label": "METHOD_PARAMETER_IN",
-          "method": "package:analyzer/src/summary/flat_buffers.dart#20942:METHOD:_getByte",
-          "code": "this",
-          "line": -1,
-          "parameterIndex": 0
-        },
-        "30064951571": {
+        "30064950901": {
           "label": "CALL",
-          "method": "package:analyzer/src/summary/flat_buffers.dart#20942:METHOD:_getByte",
-          "code": "offset",
-          "line": 723,
-          "call": "30064951571",
+          "method": "package:analyzer/src/summary/flat_buffers.dart#1712:METHOD:_getUint32",
+          "code": "_buffer.getUint32(offset, Endian.little)",
+          "line": 62,
+          "call": "30064950901"
+        },
+        "141733941225": {
+          "label": "RETURN",
+          "method": "package:analyzer/src/summary/flat_buffers.dart#1712:METHOD:_getUint32",
+          "code": "=> _buffer.getUint32(offset, Endian.little);",
+          "line": 62
+        },
+        "124554074858": {
+          "label": "METHOD_RETURN",
+          "method": "package:analyzer/src/summary/flat_buffers.dart#1712:METHOD:_getUint32",
+          "code": "RET",
+          "line": -1
+        },
+        "30064951541": {
+          "label": "CALL",
+          "method": "package:analyzer/src/summary/flat_buffers.dart#20420:GETTER:length",
+          "code": "bc._getUint32(offset)",
+          "line": 703,
+          "call": "30064951541",
           "argumentsOf": [
             [
-              "30064951570",
+              "30064951540",
+              2
+            ]
+          ]
+        },
+        "68719648555": {
+          "label": "IDENTIFIER",
+          "method": "package:analyzer/src/summary/flat_buffers.dart#20420:GETTER:length",
+          "code": "byteLength",
+          "line": 703,
+          "argumentsOf": [
+            [
+              "30064951540",
               1
             ]
           ]
         },
-        "30064951570": {
+        "68719648559": {
+          "label": "IDENTIFIER",
+          "method": "package:analyzer/src/summary/flat_buffers.dart#20420:GETTER:length",
+          "code": "byteLength",
+          "line": 704,
+          "argumentsOf": [
+            [
+              "30064951548",
+              1
+            ]
+          ]
+        },
+        "68719648561": {
+          "label": "IDENTIFIER",
+          "method": "package:analyzer/src/summary/flat_buffers.dart#20420:GETTER:length",
+          "code": "byteLength",
+          "line": 704,
+          "argumentsOf": [
+            [
+              "30064951550",
+              1
+            ]
+          ]
+        },
+        "30064951550": {
           "label": "CALL",
+          "method": "package:analyzer/src/summary/flat_buffers.dart#20420:GETTER:length",
+          "code": "byteLength - 1",
+          "line": 704,
+          "call": "30064951550",
+          "argumentsOf": [
+            [
+              "30064951549",
+              1
+            ]
+          ]
+        },
+        "111669189206": {
+          "label": "METHOD_PARAMETER_IN",
           "method": "package:analyzer/src/summary/flat_buffers.dart#20942:METHOD:_getByte",
-          "code": "offset + 4",
+          "code": "int index",
           "line": 723,
-          "call": "30064951570",
+          "parameterIndex": 1
+        },
+        "68719648578": {
+          "label": "IDENTIFIER",
+          "method": "package:analyzer/src/summary/flat_buffers.dart#20942:METHOD:_getByte",
+          "code": "index",
+          "line": 723,
           "argumentsOf": [
             [
               "30064951569",
-              1
+              2
             ]
           ]
         },
@@ -1579,139 +1654,6 @@
             ]
           ]
         },
-        "30064951542": {
-          "label": "CALL",
-          "method": "package:analyzer/src/summary/flat_buffers.dart#20420:GETTER:length",
-          "code": "bc",
-          "line": 703,
-          "call": "30064951542",
-          "argumentsOf": [
-            [
-              "30064951541",
-              0
-            ]
-          ]
-        },
-        "111669189011": {
-          "label": "METHOD_PARAMETER_IN",
-          "method": "package:analyzer/src/summary/flat_buffers.dart#1712:METHOD:_getUint32",
-          "code": "this",
-          "line": -1,
-          "parameterIndex": 0
-        },
-        "30064950902": {
-          "label": "CALL",
-          "method": "package:analyzer/src/summary/flat_buffers.dart#1712:METHOD:_getUint32",
-          "code": "_buffer",
-          "line": 62,
-          "call": "30064950902",
-          "argumentsOf": [
-            [
-              "30064950901",
-              0
-            ]
-          ]
-        },
-        "30064950901": {
-          "label": "CALL",
-          "method": "package:analyzer/src/summary/flat_buffers.dart#1712:METHOD:_getUint32",
-          "code": "_buffer.getUint32(offset, Endian.little)",
-          "line": 62,
-          "call": "30064950901"
-        },
-        "141733941225": {
-          "label": "RETURN",
-          "method": "package:analyzer/src/summary/flat_buffers.dart#1712:METHOD:_getUint32",
-          "code": "=> _buffer.getUint32(offset, Endian.little);",
-          "line": 62
-        },
-        "124554074858": {
-          "label": "METHOD_RETURN",
-          "method": "package:analyzer/src/summary/flat_buffers.dart#1712:METHOD:_getUint32",
-          "code": "RET",
-          "line": -1
-        },
-        "30064951541": {
-          "label": "CALL",
-          "method": "package:analyzer/src/summary/flat_buffers.dart#20420:GETTER:length",
-          "code": "bc._getUint32(offset)",
-          "line": 703,
-          "call": "30064951541",
-          "argumentsOf": [
-            [
-              "30064951540",
-              2
-            ]
-          ]
-        },
-        "68719648555": {
-          "label": "IDENTIFIER",
-          "method": "package:analyzer/src/summary/flat_buffers.dart#20420:GETTER:length",
-          "code": "byteLength",
-          "line": 703,
-          "argumentsOf": [
-            [
-              "30064951540",
-              1
-            ]
-          ]
-        },
-        "68719648559": {
-          "label": "IDENTIFIER",
-          "method": "package:analyzer/src/summary/flat_buffers.dart#20420:GETTER:length",
-          "code": "byteLength",
-          "line": 704,
-          "argumentsOf": [
-            [
-              "30064951548",
-              1
-            ]
-          ]
-        },
-        "68719648561": {
-          "label": "IDENTIFIER",
-          "method": "package:analyzer/src/summary/flat_buffers.dart#20420:GETTER:length",
-          "code": "byteLength",
-          "line": 704,
-          "argumentsOf": [
-            [
-              "30064951550",
-              1
-            ]
-          ]
-        },
-        "30064951550": {
-          "label": "CALL",
-          "method": "package:analyzer/src/summary/flat_buffers.dart#20420:GETTER:length",
-          "code": "byteLength - 1",
-          "line": 704,
-          "call": "30064951550",
-          "argumentsOf": [
-            [
-              "30064951549",
-              1
-            ]
-          ]
-        },
-        "111669189206": {
-          "label": "METHOD_PARAMETER_IN",
-          "method": "package:analyzer/src/summary/flat_buffers.dart#20942:METHOD:_getByte",
-          "code": "int index",
-          "line": 723,
-          "parameterIndex": 1
-        },
-        "68719648578": {
-          "label": "IDENTIFIER",
-          "method": "package:analyzer/src/summary/flat_buffers.dart#20942:METHOD:_getByte",
-          "code": "index",
-          "line": 723,
-          "argumentsOf": [
-            [
-              "30064951569",
-              2
-            ]
-          ]
-        },
         "30064963278": {
           "label": "CALL",
           "method": "package:analyzer/src/summary2/bundle_writer.dart#39280:METHOD:_writeRecordType",
@@ -1789,6 +1731,63 @@
           "argumentsOf": [
             [
               "30064963293",
+              1
+            ]
+          ]
+        },
+        "68719648557": {
+          "label": "IDENTIFIER",
+          "method": "package:analyzer/src/summary/flat_buffers.dart#20420:GETTER:length",
+          "code": "this",
+          "line": 703,
+          "argumentsOf": [
+            [
+              "30064951543",
+              1
+            ]
+          ]
+        },
+        "68719648560": {
+          "label": "IDENTIFIER",
+          "method": "package:analyzer/src/summary/flat_buffers.dart#20420:GETTER:length",
+          "code": "this",
+          "line": 704,
+          "argumentsOf": [
+            [
+              "30064951549",
+              0
+            ]
+          ]
+        },
+        "111669189205": {
+          "label": "METHOD_PARAMETER_IN",
+          "method": "package:analyzer/src/summary/flat_buffers.dart#20942:METHOD:_getByte",
+          "code": "this",
+          "line": -1,
+          "parameterIndex": 0
+        },
+        "30064951571": {
+          "label": "CALL",
+          "method": "package:analyzer/src/summary/flat_buffers.dart#20942:METHOD:_getByte",
+          "code": "offset",
+          "line": 723,
+          "call": "30064951571",
+          "argumentsOf": [
+            [
+              "30064951570",
+              1
+            ]
+          ]
+        },
+        "30064951570": {
+          "label": "CALL",
+          "method": "package:analyzer/src/summary/flat_buffers.dart#20942:METHOD:_getByte",
+          "code": "offset + 4",
+          "line": 723,
+          "call": "30064951570",
+          "argumentsOf": [
+            [
+              "30064951569",
               1
             ]
           ]
@@ -2639,6 +2638,66 @@
             }
           ]
         },
+        "30064950901": {
+          "nodeId": "30064950901",
+          "name": "getUint32",
+          "target": "dart:typed_data#26432:METHOD:getUint32",
+          "code": "_buffer.getUint32(offset, Endian.little)",
+          "callees": [
+            {
+              "fullName": "dart:typed_data#26432:METHOD:getUint32",
+              "external": true
+            }
+          ]
+        },
+        "30064950902": {
+          "nodeId": "30064950902",
+          "name": "<operator>.fieldAccess",
+          "target": "<operator>.fieldAccess",
+          "code": "_buffer",
+          "callees": [
+            {
+              "fullName": "<operator>.fieldAccess",
+              "external": true
+            }
+          ]
+        },
+        "30064951540": {
+          "nodeId": "30064951540",
+          "name": "<operator>.assignment",
+          "target": "<operator>.assignment",
+          "code": "byteLength = bc._getUint32(offset)",
+          "callees": [
+            {
+              "fullName": "<operator>.assignment",
+              "external": true
+            }
+          ]
+        },
+        "30064951548": {
+          "nodeId": "30064951548",
+          "name": "<operator>.subtraction",
+          "target": "<operator>.dart.subtraction",
+          "code": "byteLength - 1",
+          "callees": [
+            {
+              "fullName": "<operator>.dart.subtraction",
+              "external": true
+            }
+          ]
+        },
+        "30064951550": {
+          "nodeId": "30064951550",
+          "name": "<operator>.subtraction",
+          "target": "<operator>.dart.subtraction",
+          "code": "byteLength - 1",
+          "callees": [
+            {
+              "fullName": "<operator>.dart.subtraction",
+              "external": true
+            }
+          ]
+        },
         "30064951549": {
           "nodeId": "30064951549",
           "name": "_getByte",
@@ -2648,30 +2707,6 @@
             {
               "fullName": "package:analyzer/src/summary/flat_buffers.dart#20942:METHOD:_getByte",
               "external": false
-            }
-          ]
-        },
-        "30064951571": {
-          "nodeId": "30064951571",
-          "name": "<operator>.fieldAccess",
-          "target": "<operator>.fieldAccess",
-          "code": "offset",
-          "callees": [
-            {
-              "fullName": "<operator>.fieldAccess",
-              "external": true
-            }
-          ]
-        },
-        "30064951570": {
-          "nodeId": "30064951570",
-          "name": "<operator>.addition",
-          "target": "<operator>.addition",
-          "code": "offset + 4",
-          "callees": [
-            {
-              "fullName": "<operator>.addition",
-              "external": true
             }
           ]
         },
@@ -2999,78 +3034,6 @@
             }
           ]
         },
-        "30064951542": {
-          "nodeId": "30064951542",
-          "name": "<operator>.fieldAccess",
-          "target": "<operator>.fieldAccess",
-          "code": "bc",
-          "callees": [
-            {
-              "fullName": "<operator>.fieldAccess",
-              "external": true
-            }
-          ]
-        },
-        "30064950902": {
-          "nodeId": "30064950902",
-          "name": "<operator>.fieldAccess",
-          "target": "<operator>.fieldAccess",
-          "code": "_buffer",
-          "callees": [
-            {
-              "fullName": "<operator>.fieldAccess",
-              "external": true
-            }
-          ]
-        },
-        "30064950901": {
-          "nodeId": "30064950901",
-          "name": "getUint32",
-          "target": "dart:typed_data#26432:METHOD:getUint32",
-          "code": "_buffer.getUint32(offset, Endian.little)",
-          "callees": [
-            {
-              "fullName": "dart:typed_data#26432:METHOD:getUint32",
-              "external": true
-            }
-          ]
-        },
-        "30064951540": {
-          "nodeId": "30064951540",
-          "name": "<operator>.assignment",
-          "target": "<operator>.assignment",
-          "code": "byteLength = bc._getUint32(offset)",
-          "callees": [
-            {
-              "fullName": "<operator>.assignment",
-              "external": true
-            }
-          ]
-        },
-        "30064951548": {
-          "nodeId": "30064951548",
-          "name": "<operator>.subtraction",
-          "target": "<operator>.dart.subtraction",
-          "code": "byteLength - 1",
-          "callees": [
-            {
-              "fullName": "<operator>.dart.subtraction",
-              "external": true
-            }
-          ]
-        },
-        "30064951550": {
-          "nodeId": "30064951550",
-          "name": "<operator>.subtraction",
-          "target": "<operator>.dart.subtraction",
-          "code": "byteLength - 1",
-          "callees": [
-            {
-              "fullName": "<operator>.dart.subtraction",
-              "external": true
-            }
-          ]
-        },
         "30064963278": {
           "nodeId": "30064963278",
           "name": "<operator>.fieldAccess",
@@ -3156,6 +3119,30 @@
             {
               "fullName": "package:analyzer/src/binary/binary_writer.dart#3935:METHOD:writeList",
               "external": false
+            }
+          ]
+        },
+        "30064951571": {
+          "nodeId": "30064951571",
+          "name": "<operator>.fieldAccess",
+          "target": "<operator>.fieldAccess",
+          "code": "offset",
+          "callees": [
+            {
+              "fullName": "<operator>.fieldAccess",
+              "external": true
+            }
+          ]
+        },
+        "30064951570": {
+          "nodeId": "30064951570",
+          "name": "<operator>.addition",
+          "target": "<operator>.addition",
+          "code": "offset + 4",
+          "callees": [
+            {
+              "fullName": "<operator>.addition",
+              "external": true
             }
           ]
         },
@@ -3415,29 +3402,29 @@
           "30064780616"
         ],
         [
-          "30064780619"
-        ],
-        [
-          "30064951549",
-          "30064780619"
-        ],
-        [
-          "30064951567",
-          "30064951549",
-          "30064780619"
-        ],
-        [
-          "30064951549",
-          "30064780616"
-        ],
-        [
-          "30064951567",
-          "30064951549",
-          "30064780616"
-        ],
-        [
           "30064951541",
           "30064780616"
+        ],
+        [
+          "30064951549",
+          "30064780616"
+        ],
+        [
+          "30064951567",
+          "30064951549",
+          "30064780616"
+        ],
+        [
+          "30064780619"
+        ],
+        [
+          "30064951549",
+          "30064780619"
+        ],
+        [
+          "30064951567",
+          "30064951549",
+          "30064780619"
         ],
         [
           "30064780702",
@@ -4261,2403 +4248,8 @@
               "for (var typeParameter in typeParameterFragments) {\n        writeType(typeParameter.element.bound);\n        if (withAnnotations) {\n          _writeMetadata(typeParameter.metadata);\n        }\n      }",
               [
                 "metadata",
-                "annotations"
-              ]
-            ],
-            [
-              "68719660665",
-              2,
-              true,
-              false,
-              "typeParameter",
-              [
-                "metadata",
-                "annotations"
-              ]
-            ],
-            [
-              "68719660668",
-              2,
-              true,
-              false,
-              "",
-              [
-                "metadata",
-                "annotations"
-              ]
-            ],
-            [
-              "111669172075",
-              12,
-              true,
-              false,
-              "this",
-              [
-                "metadata",
-                "annotations"
-              ]
-            ],
-            [
-              "115964139371",
-              12,
-              true,
-              false,
-              "",
-              [
-                "metadata",
-                "annotations"
-              ]
-            ],
-            [
-              "68719660668",
-              2,
-              true,
-              true,
-              "typeParameter",
-              [
-                "metadata",
-                "annotations"
-              ]
-            ],
-            [
-              "68719660671",
-              2,
-              true,
-              false,
-              "",
-              [
-                "metadata",
-                "annotations"
-              ]
-            ],
-            [
-              "111669170118",
-              13,
-              true,
-              false,
-              "this",
-              [
-                "metadata",
-                "annotations"
-              ]
-            ],
-            [
-              "30064833892",
-              13,
-              true,
-              false,
-              "metadata = MetadataImpl.empty",
-              [
-                "annotations"
-              ]
-            ],
-            [
-              "141733930950",
-              13,
-              true,
-              false,
-              "",
-              [
-                "annotations"
-              ]
-            ],
-            [
-              "124554064125",
-              2,
-              true,
-              false,
-              "",
-              [
-                "annotations"
-              ]
-            ],
-            [
-              "30064964189",
-              2,
-              true,
-              true,
-              "",
-              [
-                "annotations"
-              ]
-            ],
-            [
-              "111669191110",
-              2,
-              true,
-              false,
-              "metadata",
-              [
-                "annotations"
-              ]
-            ],
-            [
-              "30064963263",
-              2,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "111669155856",
-              2,
-              true,
-              false,
-              "items",
-              []
-            ],
-            [
-              "68719486498",
-              2,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "111669164184",
-              14,
-              true,
-              false,
-              "this",
-              []
-            ],
-            [
-              "115964131480",
-              14,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "68719486498",
-              2,
-              true,
-              true,
-              "items",
-              []
-            ],
-            [
-              "68719486501",
-              2,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "111669189197",
-              15,
-              true,
-              false,
-              "this",
-              []
-            ],
-            [
-              "68719648557",
-              15,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "30064951543",
-              15,
-              true,
-              true,
-              "offset",
-              []
-            ],
-            [
-              "68719648560",
-              15,
-              true,
-              false,
-              "",
-              [
-                "offset"
-              ]
-            ],
-            [
-              "111669189205",
-              16,
-              true,
-              false,
-              "this",
-              [
-                "offset"
-              ]
-            ],
-            [
-              "30064951571",
-              16,
-              false,
-              false,
-              "offset",
-              []
-            ],
-            [
-              "30064951570",
-              16,
-              false,
-              false,
-              "offset + 4",
-              []
-            ],
-            [
-              "30064951569",
-              16,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "111669189014",
-              17,
-              true,
-              false,
-              "offset",
-              []
-            ],
-            [
-              "68719647885",
-              17,
-              true,
-              false,
-              "offset",
-              []
-            ],
-            [
-              "30064950905",
-              17,
-              true,
-              false,
-              "_buffer",
-              []
-            ],
-            [
-              "30064950904",
-              17,
-              true,
-              false,
-              "_buffer.getUint8(offset)",
-              []
-            ],
-            [
-              "141733941226",
-              17,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "124554074859",
-              16,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "30064951567",
-              16,
-              true,
-              true,
-              "bc._getUint8(offset + 4 + index)",
-              []
-            ],
-            [
-              "141733941301",
-              16,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "124554074959",
-              15,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "30064951549",
-              15,
-              false,
-              true,
-              "_getByte(byteLength - 1)",
-              []
-            ],
-            [
-              "30064951546",
-              15,
-              true,
-              false,
-              "(byteLength - 1) * 8 - _getByte(byteLength - 1)",
-              []
-            ],
-            [
-              "30064951545",
-              15,
-              true,
-              false,
-              "_length",
-              []
-            ],
-            [
-              "30064951552",
-              15,
-              true,
-              false,
-              "_length",
-              []
-            ],
-            [
-              "115964156493",
-              15,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "68719486501",
-              2,
-              true,
-              true,
-              "items",
-              []
-            ],
-            [
-              "30064780622",
-              2,
-              true,
-              false,
-              "",
-              []
-            ]
-          ],
-          "transitions": [
-            "parameter-read",
-            "receiver-binding",
-            "parameter-output",
-            "caller-output",
-            "local-read",
-            "receiver-binding",
-            "field-projection",
-            "parameter-output",
-            "caller-output",
-            "parameter-output",
-            "caller-output",
-            "local-read",
-            "external-return",
-            "assignment",
-            "local-read",
-            "local-read",
-            "external-return",
-            "assignment",
-            "local-read",
-            "receiver-binding",
-            "parameter-output",
-            "caller-output",
-            "local-read",
-            "receiver-binding",
-            "field-projection",
-            "return-value",
-            "method-return",
-            "call-return",
-            "parameter-binding",
-            "field-projection",
-            "parameter-binding",
-            "parameter-read",
-            "receiver-binding",
-            "parameter-output",
-            "caller-output",
-            "local-read",
-            "receiver-binding",
-            "parameter-read",
-            "field-projection",
-            "field-alias",
-            "receiver-binding",
-            "field-projection",
-            "operator-value",
-            "operator-value",
-            "parameter-binding",
-            "parameter-read",
-            "external-write",
-            "external-return",
-            "return-value",
-            "method-return",
-            "output-return-evidence",
-            "return-value",
-            "method-return",
-            "output-return-evidence",
-            "operator-value",
-            "assignment",
-            "field-projection",
-            "parameter-output",
-            "caller-output",
-            "element-projection"
-          ]
-        },
-        {
-          "elements": [
-            [
-              "111669155856",
-              9,
-              true,
-              false,
-              "items",
-              [
-                "_length"
-              ]
-            ],
-            [
-              "68719486498",
-              9,
-              true,
-              false,
-              "",
-              [
-                "_length"
-              ]
-            ],
-            [
-              "111669164184",
-              10,
-              true,
-              false,
-              "this",
-              [
-                "_length"
-              ]
-            ],
-            [
-              "115964131480",
-              10,
-              true,
-              false,
-              "",
-              [
-                "_length"
-              ]
-            ],
-            [
-              "68719486498",
-              9,
-              true,
-              true,
-              "items",
-              [
-                "_length"
-              ]
-            ],
-            [
-              "68719486501",
-              9,
-              true,
-              false,
-              "",
-              [
-                "_length"
-              ]
-            ],
-            [
-              "111669189230",
-              11,
-              true,
-              false,
-              "this",
-              [
-                "_length"
-              ]
-            ],
-            [
-              "30064951628",
-              11,
-              true,
-              false,
-              "_length",
-              []
-            ],
-            [
-              "115964156526",
-              11,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "68719486501",
-              9,
-              true,
-              true,
-              "items",
-              []
-            ],
-            [
-              "115964123152",
-              9,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "68719660659",
-              2,
-              true,
-              true,
-              "typeParameterFragments",
-              []
-            ],
-            [
-              "68719660663",
-              2,
-              true,
-              false,
-              "typeParameterFragments",
-              []
-            ],
-            [
-              "30064964181",
-              2,
-              true,
-              false,
-              "for (var typeParameter in typeParameterFragments) {\n        writeType(typeParameter.element.bound);\n        if (withAnnotations) {\n          _writeMetadata(typeParameter.metadata);\n        }\n      }",
-              []
-            ],
-            [
-              "68719660662",
-              2,
-              true,
-              false,
-              "<tmp>99",
-              []
-            ],
-            [
-              "68719660664",
-              2,
-              true,
-              false,
-              "<tmp>99",
-              []
-            ],
-            [
-              "68719660666",
-              2,
-              true,
-              false,
-              "<tmp>99",
-              []
-            ],
-            [
-              "30064964184",
-              2,
-              true,
-              false,
-              "for (var typeParameter in typeParameterFragments) {\n        writeType(typeParameter.element.bound);\n        if (withAnnotations) {\n          _writeMetadata(typeParameter.metadata);\n        }\n      }",
-              [
-                "metadata",
-                "annotations"
-              ]
-            ],
-            [
-              "68719660665",
-              2,
-              true,
-              false,
-              "typeParameter",
-              [
-                "metadata",
-                "annotations"
-              ]
-            ],
-            [
-              "68719660668",
-              2,
-              true,
-              false,
-              "",
-              [
-                "metadata",
-                "annotations"
-              ]
-            ],
-            [
-              "111669172075",
-              12,
-              true,
-              false,
-              "this",
-              [
-                "metadata",
-                "annotations"
-              ]
-            ],
-            [
-              "115964139371",
-              12,
-              true,
-              false,
-              "",
-              [
-                "metadata",
-                "annotations"
-              ]
-            ],
-            [
-              "68719660668",
-              2,
-              true,
-              true,
-              "typeParameter",
-              [
-                "metadata",
-                "annotations"
-              ]
-            ],
-            [
-              "68719660671",
-              2,
-              true,
-              false,
-              "",
-              [
-                "metadata",
-                "annotations"
-              ]
-            ],
-            [
-              "111669170118",
-              13,
-              true,
-              false,
-              "this",
-              [
-                "metadata",
-                "annotations"
-              ]
-            ],
-            [
-              "30064833892",
-              13,
-              true,
-              false,
-              "metadata = MetadataImpl.empty",
-              [
-                "annotations"
-              ]
-            ],
-            [
-              "141733930950",
-              13,
-              true,
-              false,
-              "",
-              [
-                "annotations"
-              ]
-            ],
-            [
-              "124554064125",
-              2,
-              true,
-              false,
-              "",
-              [
-                "annotations"
-              ]
-            ],
-            [
-              "30064964189",
-              2,
-              true,
-              true,
-              "",
-              [
-                "annotations"
-              ]
-            ],
-            [
-              "111669191110",
-              2,
-              true,
-              false,
-              "metadata",
-              [
-                "annotations"
-              ]
-            ],
-            [
-              "30064963263",
-              2,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "111669155856",
-              2,
-              true,
-              false,
-              "items",
-              []
-            ],
-            [
-              "68719486498",
-              2,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "111669189197",
-              14,
-              true,
-              false,
-              "this",
-              []
-            ],
-            [
-              "68719648557",
-              14,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "30064951543",
-              14,
-              true,
-              true,
-              "offset",
-              []
-            ],
-            [
-              "68719648560",
-              14,
-              true,
-              false,
-              "",
-              [
-                "offset"
-              ]
-            ],
-            [
-              "111669189205",
-              18,
-              true,
-              false,
-              "this",
-              [
-                "offset"
-              ]
-            ],
-            [
-              "30064951571",
-              18,
-              false,
-              false,
-              "offset",
-              []
-            ],
-            [
-              "30064951570",
-              18,
-              false,
-              false,
-              "offset + 4",
-              []
-            ],
-            [
-              "30064951569",
-              18,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "111669189014",
-              19,
-              true,
-              false,
-              "offset",
-              []
-            ],
-            [
-              "68719647885",
-              19,
-              true,
-              false,
-              "offset",
-              []
-            ],
-            [
-              "30064950905",
-              19,
-              true,
-              false,
-              "_buffer",
-              []
-            ],
-            [
-              "30064950904",
-              19,
-              true,
-              false,
-              "_buffer.getUint8(offset)",
-              []
-            ],
-            [
-              "141733941226",
-              19,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "124554074859",
-              18,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "30064951567",
-              18,
-              true,
-              true,
-              "bc._getUint8(offset + 4 + index)",
-              []
-            ],
-            [
-              "141733941301",
-              18,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "124554074959",
-              14,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "30064951549",
-              14,
-              false,
-              true,
-              "_getByte(byteLength - 1)",
-              []
-            ],
-            [
-              "30064951546",
-              14,
-              true,
-              false,
-              "(byteLength - 1) * 8 - _getByte(byteLength - 1)",
-              []
-            ],
-            [
-              "30064951545",
-              14,
-              true,
-              false,
-              "_length",
-              []
-            ],
-            [
-              "30064951552",
-              14,
-              true,
-              false,
-              "_length",
-              []
-            ],
-            [
-              "115964156493",
-              14,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "68719486498",
-              2,
-              true,
-              true,
-              "items",
-              []
-            ],
-            [
-              "68719486501",
-              2,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "111669164184",
-              15,
-              true,
-              false,
-              "this",
-              []
-            ],
-            [
-              "115964131480",
-              15,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "68719486501",
-              2,
-              true,
-              true,
-              "items",
-              []
-            ],
-            [
-              "30064780622",
-              2,
-              true,
-              false,
-              "",
-              []
-            ]
-          ],
-          "transitions": [
-            "parameter-read",
-            "receiver-binding",
-            "parameter-output",
-            "caller-output",
-            "local-read",
-            "receiver-binding",
-            "field-projection",
-            "parameter-output",
-            "caller-output",
-            "parameter-output",
-            "caller-output",
-            "local-read",
-            "external-return",
-            "assignment",
-            "local-read",
-            "local-read",
-            "external-return",
-            "assignment",
-            "local-read",
-            "receiver-binding",
-            "parameter-output",
-            "caller-output",
-            "local-read",
-            "receiver-binding",
-            "field-projection",
-            "return-value",
-            "method-return",
-            "call-return",
-            "parameter-binding",
-            "field-projection",
-            "parameter-binding",
-            "parameter-read",
-            "receiver-binding",
-            "parameter-read",
-            "field-projection",
-            "field-alias",
-            "receiver-binding",
-            "field-projection",
-            "operator-value",
-            "operator-value",
-            "parameter-binding",
-            "parameter-read",
-            "external-write",
-            "external-return",
-            "return-value",
-            "method-return",
-            "output-return-evidence",
-            "return-value",
-            "method-return",
-            "output-return-evidence",
-            "operator-value",
-            "assignment",
-            "field-projection",
-            "parameter-output",
-            "caller-output",
-            "local-read",
-            "receiver-binding",
-            "parameter-output",
-            "caller-output",
-            "element-projection"
-          ]
-        },
-        {
-          "elements": [
-            [
-              "111669155856",
-              9,
-              true,
-              false,
-              "items",
-              []
-            ],
-            [
-              "115964123152",
-              9,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "68719660659",
-              2,
-              true,
-              true,
-              "typeParameterFragments",
-              []
-            ],
-            [
-              "68719660663",
-              2,
-              true,
-              false,
-              "typeParameterFragments",
-              []
-            ],
-            [
-              "30064964181",
-              2,
-              true,
-              false,
-              "for (var typeParameter in typeParameterFragments) {\n        writeType(typeParameter.element.bound);\n        if (withAnnotations) {\n          _writeMetadata(typeParameter.metadata);\n        }\n      }",
-              []
-            ],
-            [
-              "68719660662",
-              2,
-              true,
-              false,
-              "<tmp>99",
-              []
-            ],
-            [
-              "68719660664",
-              2,
-              true,
-              false,
-              "<tmp>99",
-              []
-            ],
-            [
-              "68719660666",
-              2,
-              true,
-              false,
-              "<tmp>99",
-              []
-            ],
-            [
-              "30064964184",
-              2,
-              true,
-              false,
-              "for (var typeParameter in typeParameterFragments) {\n        writeType(typeParameter.element.bound);\n        if (withAnnotations) {\n          _writeMetadata(typeParameter.metadata);\n        }\n      }",
-              [
-                "_element"
-              ]
-            ],
-            [
-              "68719660665",
-              2,
-              true,
-              false,
-              "typeParameter",
-              [
-                "_element"
-              ]
-            ],
-            [
-              "68719660668",
-              2,
-              true,
-              false,
-              "",
-              [
-                "_element"
-              ]
-            ],
-            [
-              "111669172075",
-              12,
-              true,
-              false,
-              "this",
-              [
-                "_element"
-              ]
-            ],
-            [
-              "30064839341",
-              12,
-              false,
-              false,
-              "_element",
-              []
-            ],
-            [
-              "30064839343",
-              12,
-              false,
-              false,
-              "_element",
-              []
-            ],
-            [
-              "30064839342",
-              12,
-              true,
-              false,
-              "_element!",
-              [
-                "bound",
-                "namedFields"
-              ]
-            ],
-            [
-              "141733932085",
-              12,
-              true,
-              false,
-              "",
-              [
-                "bound",
-                "namedFields"
-              ]
-            ],
-            [
-              "124554065536",
-              2,
-              true,
-              false,
-              "",
-              [
-                "bound",
-                "namedFields"
-              ]
-            ],
-            [
-              "30064964187",
-              2,
-              false,
-              true,
-              "typeParameter.element",
-              [
-                "bound",
-                "namedFields"
-              ]
-            ],
-            [
-              "30064964186",
-              2,
-              true,
-              false,
-              "",
-              [
-                "namedFields"
-              ]
-            ],
-            [
-              "111669191092",
-              2,
-              true,
-              false,
-              "type",
-              [
-                "namedFields"
-              ]
-            ],
-            [
-              "68719659642",
-              2,
-              false,
-              false,
-              "type",
-              [
-                "namedFields"
-              ]
-            ],
-            [
-              "68719659645",
-              2,
-              true,
-              false,
-              "type",
-              [
-                "namedFields"
-              ]
-            ],
-            [
-              "68719659650",
-              2,
-              true,
-              false,
-              "type",
-              [
-                "namedFields"
-              ]
-            ],
-            [
-              "68719659655",
-              2,
-              true,
-              false,
-              "type",
-              [
-                "namedFields"
-              ]
-            ],
-            [
-              "68719659697",
-              2,
-              true,
-              false,
-              "type",
-              [
-                "namedFields"
-              ]
-            ],
-            [
-              "68719659702",
-              2,
-              true,
-              false,
-              "type",
-              [
-                "namedFields"
-              ]
-            ],
-            [
-              "68719659709",
-              2,
-              true,
-              false,
-              "type",
-              [
-                "namedFields"
-              ]
-            ],
-            [
-              "68719659711",
-              2,
-              true,
-              false,
-              "",
-              [
-                "namedFields"
-              ]
-            ],
-            [
-              "111669191118",
-              2,
-              true,
-              false,
-              "type",
-              [
-                "namedFields"
-              ]
-            ],
-            [
-              "30064963280",
-              2,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "111669155856",
-              2,
-              true,
-              false,
-              "items",
-              []
-            ],
-            [
-              "68719486498",
-              2,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "111669164184",
-              14,
-              true,
-              false,
-              "this",
-              []
-            ],
-            [
-              "115964131480",
-              14,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "68719486498",
-              2,
-              true,
-              true,
-              "items",
-              []
-            ],
-            [
-              "68719486501",
-              2,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "111669189197",
-              15,
-              true,
-              false,
-              "this",
-              []
-            ],
-            [
-              "68719648557",
-              15,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "30064951543",
-              15,
-              true,
-              true,
-              "offset",
-              []
-            ],
-            [
-              "68719648560",
-              15,
-              true,
-              false,
-              "",
-              [
-                "offset"
-              ]
-            ],
-            [
-              "111669189205",
-              16,
-              true,
-              false,
-              "this",
-              [
-                "offset"
-              ]
-            ],
-            [
-              "30064951571",
-              16,
-              false,
-              false,
-              "offset",
-              []
-            ],
-            [
-              "30064951570",
-              16,
-              false,
-              false,
-              "offset + 4",
-              []
-            ],
-            [
-              "30064951569",
-              16,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "111669189014",
-              17,
-              true,
-              false,
-              "offset",
-              []
-            ],
-            [
-              "68719647885",
-              17,
-              true,
-              false,
-              "offset",
-              []
-            ],
-            [
-              "30064950905",
-              17,
-              true,
-              false,
-              "_buffer",
-              []
-            ],
-            [
-              "30064950904",
-              17,
-              true,
-              false,
-              "_buffer.getUint8(offset)",
-              []
-            ],
-            [
-              "141733941226",
-              17,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "124554074859",
-              16,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "30064951567",
-              16,
-              true,
-              true,
-              "bc._getUint8(offset + 4 + index)",
-              []
-            ],
-            [
-              "141733941301",
-              16,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "124554074959",
-              15,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "30064951549",
-              15,
-              false,
-              true,
-              "_getByte(byteLength - 1)",
-              []
-            ],
-            [
-              "30064951546",
-              15,
-              true,
-              false,
-              "(byteLength - 1) * 8 - _getByte(byteLength - 1)",
-              []
-            ],
-            [
-              "30064951545",
-              15,
-              true,
-              false,
-              "_length",
-              []
-            ],
-            [
-              "30064951552",
-              15,
-              true,
-              false,
-              "_length",
-              []
-            ],
-            [
-              "115964156493",
-              15,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "68719486501",
-              2,
-              true,
-              true,
-              "items",
-              []
-            ],
-            [
-              "30064780622",
-              2,
-              true,
-              false,
-              "",
-              []
-            ]
-          ],
-          "transitions": [
-            "parameter-output",
-            "caller-output",
-            "local-read",
-            "external-return",
-            "assignment",
-            "local-read",
-            "local-read",
-            "external-return",
-            "assignment",
-            "local-read",
-            "receiver-binding",
-            "field-projection",
-            "field-projection",
-            "operator-value",
-            "return-value",
-            "method-return",
-            "call-return",
-            "field-projection",
-            "parameter-binding",
-            "parameter-read",
-            "local-read",
-            "local-read",
-            "local-read",
-            "local-read",
-            "local-read",
-            "local-read",
-            "local-read",
-            "parameter-binding",
-            "field-projection",
-            "parameter-binding",
-            "parameter-read",
-            "receiver-binding",
-            "parameter-output",
-            "caller-output",
-            "local-read",
-            "receiver-binding",
-            "parameter-read",
-            "field-projection",
-            "field-alias",
-            "receiver-binding",
-            "field-projection",
-            "operator-value",
-            "operator-value",
-            "parameter-binding",
-            "parameter-read",
-            "external-write",
-            "external-return",
-            "return-value",
-            "method-return",
-            "output-return-evidence",
-            "return-value",
-            "method-return",
-            "output-return-evidence",
-            "operator-value",
-            "assignment",
-            "field-projection",
-            "parameter-output",
-            "caller-output",
-            "element-projection"
-          ]
-        },
-        {
-          "elements": [
-            [
-              "111669155856",
-              9,
-              true,
-              false,
-              "items",
-              []
-            ],
-            [
-              "115964123152",
-              9,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "68719660659",
-              2,
-              true,
-              true,
-              "typeParameterFragments",
-              []
-            ],
-            [
-              "68719660663",
-              2,
-              true,
-              false,
-              "typeParameterFragments",
-              []
-            ],
-            [
-              "30064964181",
-              2,
-              true,
-              false,
-              "for (var typeParameter in typeParameterFragments) {\n        writeType(typeParameter.element.bound);\n        if (withAnnotations) {\n          _writeMetadata(typeParameter.metadata);\n        }\n      }",
-              []
-            ],
-            [
-              "68719660662",
-              2,
-              true,
-              false,
-              "<tmp>99",
-              []
-            ],
-            [
-              "68719660664",
-              2,
-              true,
-              false,
-              "<tmp>99",
-              []
-            ],
-            [
-              "68719660666",
-              2,
-              true,
-              false,
-              "<tmp>99",
-              []
-            ],
-            [
-              "30064964184",
-              2,
-              true,
-              false,
-              "for (var typeParameter in typeParameterFragments) {\n        writeType(typeParameter.element.bound);\n        if (withAnnotations) {\n          _writeMetadata(typeParameter.metadata);\n        }\n      }",
-              [
-                "_element"
-              ]
-            ],
-            [
-              "68719660665",
-              2,
-              true,
-              false,
-              "typeParameter",
-              [
-                "_element"
-              ]
-            ],
-            [
-              "68719660668",
-              2,
-              true,
-              false,
-              "",
-              [
-                "_element"
-              ]
-            ],
-            [
-              "111669172075",
-              12,
-              true,
-              false,
-              "this",
-              [
-                "_element"
-              ]
-            ],
-            [
-              "30064839341",
-              12,
-              false,
-              false,
-              "_element",
-              []
-            ],
-            [
-              "30064839343",
-              12,
-              false,
-              false,
-              "_element",
-              []
-            ],
-            [
-              "30064839342",
-              12,
-              true,
-              false,
-              "_element!",
-              [
-                "bound",
-                "namedFields"
-              ]
-            ],
-            [
-              "141733932085",
-              12,
-              true,
-              false,
-              "",
-              [
-                "bound",
-                "namedFields"
-              ]
-            ],
-            [
-              "124554065536",
-              2,
-              true,
-              false,
-              "",
-              [
-                "bound",
-                "namedFields"
-              ]
-            ],
-            [
-              "30064964187",
-              2,
-              false,
-              true,
-              "typeParameter.element",
-              [
-                "bound",
-                "namedFields"
-              ]
-            ],
-            [
-              "30064964186",
-              2,
-              true,
-              false,
-              "",
-              [
-                "namedFields"
-              ]
-            ],
-            [
-              "111669191092",
-              2,
-              true,
-              false,
-              "type",
-              [
-                "namedFields"
-              ]
-            ],
-            [
-              "68719659642",
-              2,
-              false,
-              false,
-              "type",
-              [
-                "namedFields"
-              ]
-            ],
-            [
-              "68719659645",
-              2,
-              true,
-              false,
-              "type",
-              [
-                "namedFields"
-              ]
-            ],
-            [
-              "68719659650",
-              2,
-              true,
-              false,
-              "type",
-              [
-                "namedFields"
-              ]
-            ],
-            [
-              "68719659655",
-              2,
-              true,
-              false,
-              "type",
-              [
-                "namedFields"
-              ]
-            ],
-            [
-              "68719659697",
-              2,
-              true,
-              false,
-              "type",
-              [
-                "namedFields"
-              ]
-            ],
-            [
-              "68719659702",
-              2,
-              true,
-              false,
-              "type",
-              [
-                "namedFields"
-              ]
-            ],
-            [
-              "68719659709",
-              2,
-              true,
-              false,
-              "type",
-              [
-                "namedFields"
-              ]
-            ],
-            [
-              "68719659711",
-              2,
-              true,
-              false,
-              "",
-              [
-                "namedFields"
-              ]
-            ],
-            [
-              "111669191118",
-              2,
-              true,
-              false,
-              "type",
-              [
-                "namedFields"
-              ]
-            ],
-            [
-              "30064963280",
-              2,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "111669155856",
-              2,
-              true,
-              false,
-              "items",
-              []
-            ],
-            [
-              "68719486498",
-              2,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "111669189197",
-              14,
-              true,
-              false,
-              "this",
-              []
-            ],
-            [
-              "68719648557",
-              14,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "30064951543",
-              14,
-              true,
-              true,
-              "offset",
-              []
-            ],
-            [
-              "68719648560",
-              14,
-              true,
-              false,
-              "",
-              [
-                "offset"
-              ]
-            ],
-            [
-              "111669189205",
-              18,
-              true,
-              false,
-              "this",
-              [
-                "offset"
-              ]
-            ],
-            [
-              "30064951571",
-              18,
-              false,
-              false,
-              "offset",
-              []
-            ],
-            [
-              "30064951570",
-              18,
-              false,
-              false,
-              "offset + 4",
-              []
-            ],
-            [
-              "30064951569",
-              18,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "111669189014",
-              19,
-              true,
-              false,
-              "offset",
-              []
-            ],
-            [
-              "68719647885",
-              19,
-              true,
-              false,
-              "offset",
-              []
-            ],
-            [
-              "30064950905",
-              19,
-              true,
-              false,
-              "_buffer",
-              []
-            ],
-            [
-              "30064950904",
-              19,
-              true,
-              false,
-              "_buffer.getUint8(offset)",
-              []
-            ],
-            [
-              "141733941226",
-              19,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "124554074859",
-              18,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "30064951567",
-              18,
-              true,
-              true,
-              "bc._getUint8(offset + 4 + index)",
-              []
-            ],
-            [
-              "141733941301",
-              18,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "124554074959",
-              14,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "30064951549",
-              14,
-              false,
-              true,
-              "_getByte(byteLength - 1)",
-              []
-            ],
-            [
-              "30064951546",
-              14,
-              true,
-              false,
-              "(byteLength - 1) * 8 - _getByte(byteLength - 1)",
-              []
-            ],
-            [
-              "30064951545",
-              14,
-              true,
-              false,
-              "_length",
-              []
-            ],
-            [
-              "30064951552",
-              14,
-              true,
-              false,
-              "_length",
-              []
-            ],
-            [
-              "115964156493",
-              14,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "68719486498",
-              2,
-              true,
-              true,
-              "items",
-              []
-            ],
-            [
-              "68719486501",
-              2,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "111669164184",
-              15,
-              true,
-              false,
-              "this",
-              []
-            ],
-            [
-              "115964131480",
-              15,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "68719486501",
-              2,
-              true,
-              true,
-              "items",
-              []
-            ],
-            [
-              "30064780622",
-              2,
-              true,
-              false,
-              "",
-              []
-            ]
-          ],
-          "transitions": [
-            "parameter-output",
-            "caller-output",
-            "local-read",
-            "external-return",
-            "assignment",
-            "local-read",
-            "local-read",
-            "external-return",
-            "assignment",
-            "local-read",
-            "receiver-binding",
-            "field-projection",
-            "field-projection",
-            "operator-value",
-            "return-value",
-            "method-return",
-            "call-return",
-            "field-projection",
-            "parameter-binding",
-            "parameter-read",
-            "local-read",
-            "local-read",
-            "local-read",
-            "local-read",
-            "local-read",
-            "local-read",
-            "local-read",
-            "parameter-binding",
-            "field-projection",
-            "parameter-binding",
-            "parameter-read",
-            "receiver-binding",
-            "parameter-read",
-            "field-projection",
-            "field-alias",
-            "receiver-binding",
-            "field-projection",
-            "operator-value",
-            "operator-value",
-            "parameter-binding",
-            "parameter-read",
-            "external-write",
-            "external-return",
-            "return-value",
-            "method-return",
-            "output-return-evidence",
-            "return-value",
-            "method-return",
-            "output-return-evidence",
-            "operator-value",
-            "assignment",
-            "field-projection",
-            "parameter-output",
-            "caller-output",
-            "local-read",
-            "receiver-binding",
-            "parameter-output",
-            "caller-output",
-            "element-projection"
-          ]
-        },
-        {
-          "elements": [
-            [
-              "111669155856",
-              9,
-              true,
-              false,
-              "items",
-              [
-                "_length"
-              ]
-            ],
-            [
-              "68719486498",
-              9,
-              true,
-              false,
-              "",
-              [
-                "_length"
-              ]
-            ],
-            [
-              "111669164184",
-              10,
-              true,
-              false,
-              "this",
-              [
-                "_length"
-              ]
-            ],
-            [
-              "115964131480",
-              10,
-              true,
-              false,
-              "",
-              [
-                "_length"
-              ]
-            ],
-            [
-              "68719486498",
-              9,
-              true,
-              true,
-              "items",
-              [
-                "_length"
-              ]
-            ],
-            [
-              "68719486501",
-              9,
-              true,
-              false,
-              "",
-              [
-                "_length"
-              ]
-            ],
-            [
-              "111669189230",
-              11,
-              true,
-              false,
-              "this",
-              [
-                "_length"
-              ]
-            ],
-            [
-              "30064951628",
-              11,
-              true,
-              false,
-              "_length",
-              []
-            ],
-            [
-              "115964156526",
-              11,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "68719486501",
-              9,
-              true,
-              true,
-              "items",
-              []
-            ],
-            [
-              "115964123152",
-              9,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "68719660659",
-              2,
-              true,
-              true,
-              "typeParameterFragments",
-              []
-            ],
-            [
-              "68719660663",
-              2,
-              true,
-              false,
-              "typeParameterFragments",
-              []
-            ],
-            [
-              "30064964181",
-              2,
-              true,
-              false,
-              "for (var typeParameter in typeParameterFragments) {\n        writeType(typeParameter.element.bound);\n        if (withAnnotations) {\n          _writeMetadata(typeParameter.metadata);\n        }\n      }",
-              []
-            ],
-            [
-              "68719660662",
-              2,
-              true,
-              false,
-              "<tmp>99",
-              []
-            ],
-            [
-              "68719660664",
-              2,
-              true,
-              false,
-              "<tmp>99",
-              []
-            ],
-            [
-              "68719660666",
-              2,
-              true,
-              false,
-              "<tmp>99",
-              []
-            ],
-            [
-              "30064964184",
-              2,
-              true,
-              false,
-              "for (var typeParameter in typeParameterFragments) {\n        writeType(typeParameter.element.bound);\n        if (withAnnotations) {\n          _writeMetadata(typeParameter.metadata);\n        }\n      }",
-              [
-                "metadata",
                 "annotations",
-                "bc",
-                "_buffer"
+                "offset"
               ]
             ],
             [
@@ -6669,8 +4261,7 @@
               [
                 "metadata",
                 "annotations",
-                "bc",
-                "_buffer"
+                "offset"
               ]
             ],
             [
@@ -6682,8 +4273,7 @@
               [
                 "metadata",
                 "annotations",
-                "bc",
-                "_buffer"
+                "offset"
               ]
             ],
             [
@@ -6695,8 +4285,7 @@
               [
                 "metadata",
                 "annotations",
-                "bc",
-                "_buffer"
+                "offset"
               ]
             ],
             [
@@ -6708,8 +4297,7 @@
               [
                 "metadata",
                 "annotations",
-                "bc",
-                "_buffer"
+                "offset"
               ]
             ],
             [
@@ -6721,8 +4309,7 @@
               [
                 "metadata",
                 "annotations",
-                "bc",
-                "_buffer"
+                "offset"
               ]
             ],
             [
@@ -6734,8 +4321,7 @@
               [
                 "metadata",
                 "annotations",
-                "bc",
-                "_buffer"
+                "offset"
               ]
             ],
             [
@@ -6747,8 +4333,7 @@
               [
                 "metadata",
                 "annotations",
-                "bc",
-                "_buffer"
+                "offset"
               ]
             ],
             [
@@ -6759,8 +4344,7 @@
               "metadata = MetadataImpl.empty",
               [
                 "annotations",
-                "bc",
-                "_buffer"
+                "offset"
               ]
             ],
             [
@@ -6771,8 +4355,7 @@
               "",
               [
                 "annotations",
-                "bc",
-                "_buffer"
+                "offset"
               ]
             ],
             [
@@ -6783,8 +4366,7 @@
               "",
               [
                 "annotations",
-                "bc",
-                "_buffer"
+                "offset"
               ]
             ],
             [
@@ -6795,8 +4377,7 @@
               "",
               [
                 "annotations",
-                "bc",
-                "_buffer"
+                "offset"
               ]
             ],
             [
@@ -6807,8 +4388,7 @@
               "metadata",
               [
                 "annotations",
-                "bc",
-                "_buffer"
+                "offset"
               ]
             ],
             [
@@ -6818,8 +4398,7 @@
               false,
               "",
               [
-                "bc",
-                "_buffer"
+                "offset"
               ]
             ],
             [
@@ -6829,8 +4408,7 @@
               false,
               "items",
               [
-                "bc",
-                "_buffer"
+                "offset"
               ]
             ],
             [
@@ -6840,8 +4418,7 @@
               false,
               "",
               [
-                "bc",
-                "_buffer"
+                "offset"
               ]
             ],
             [
@@ -6851,33 +4428,36 @@
               false,
               "this",
               [
-                "bc",
-                "_buffer"
+                "offset"
               ]
             ],
             [
-              "30064951542",
+              "30064951543",
               14,
               true,
               false,
               "",
-              [
-                "_buffer"
-              ]
+              []
             ],
             [
-              "111669189011",
-              20,
+              "111669189012",
+              15,
               true,
               false,
-              "this",
-              [
-                "_buffer"
-              ]
+              "offset",
+              []
+            ],
+            [
+              "68719647882",
+              15,
+              true,
+              false,
+              "offset",
+              []
             ],
             [
               "30064950902",
-              20,
+              15,
               true,
               false,
               "_buffer",
@@ -6885,7 +4465,7 @@
             ],
             [
               "30064950901",
-              20,
+              15,
               true,
               false,
               "_buffer.getUint32(offset, Endian.little)",
@@ -6893,7 +4473,7 @@
             ],
             [
               "141733941225",
-              20,
+              15,
               true,
               false,
               "",
@@ -6949,7 +4529,7 @@
             ],
             [
               "111669189206",
-              18,
+              16,
               true,
               false,
               "index",
@@ -6957,7 +4537,7 @@
             ],
             [
               "68719648578",
-              18,
+              16,
               false,
               false,
               "index",
@@ -6965,7 +4545,7 @@
             ],
             [
               "30064951569",
-              18,
+              16,
               true,
               false,
               "",
@@ -6973,7 +4553,7 @@
             ],
             [
               "111669189014",
-              19,
+              17,
               true,
               false,
               "offset",
@@ -6981,7 +4561,7 @@
             ],
             [
               "68719647885",
-              19,
+              17,
               true,
               false,
               "offset",
@@ -6989,7 +4569,7 @@
             ],
             [
               "30064950905",
-              19,
+              17,
               true,
               false,
               "_buffer",
@@ -6997,7 +4577,7 @@
             ],
             [
               "30064950904",
-              19,
+              17,
               true,
               false,
               "_buffer.getUint8(offset)",
@@ -7005,7 +4585,7 @@
             ],
             [
               "141733941226",
-              19,
+              17,
               true,
               false,
               "",
@@ -7013,7 +4593,7 @@
             ],
             [
               "124554074859",
-              18,
+              16,
               true,
               false,
               "",
@@ -7021,7 +4601,7 @@
             ],
             [
               "30064951567",
-              18,
+              16,
               true,
               true,
               "bc._getUint8(offset + 4 + index)",
@@ -7029,7 +4609,7 @@
             ],
             [
               "141733941301",
-              18,
+              16,
               true,
               false,
               "",
@@ -7101,7 +4681,7 @@
             ],
             [
               "111669164184",
-              15,
+              18,
               true,
               false,
               "this",
@@ -7109,7 +4689,7 @@
             ],
             [
               "115964131480",
-              15,
+              18,
               true,
               false,
               "",
@@ -7167,8 +4747,9 @@
             "parameter-read",
             "receiver-binding",
             "field-projection",
-            "receiver-binding",
-            "field-projection",
+            "parameter-binding",
+            "parameter-read",
+            "external-write",
             "external-return",
             "return-value",
             "method-return",
@@ -7333,8 +4914,7 @@
               [
                 "bound",
                 "namedFields",
-                "bc",
-                "_buffer"
+                "offset"
               ]
             ],
             [
@@ -7346,8 +4926,7 @@
               [
                 "bound",
                 "namedFields",
-                "bc",
-                "_buffer"
+                "offset"
               ]
             ],
             [
@@ -7359,8 +4938,7 @@
               [
                 "bound",
                 "namedFields",
-                "bc",
-                "_buffer"
+                "offset"
               ]
             ],
             [
@@ -7372,8 +4950,7 @@
               [
                 "bound",
                 "namedFields",
-                "bc",
-                "_buffer"
+                "offset"
               ]
             ],
             [
@@ -7384,8 +4961,7 @@
               "",
               [
                 "namedFields",
-                "bc",
-                "_buffer"
+                "offset"
               ]
             ],
             [
@@ -7396,8 +4972,7 @@
               "type",
               [
                 "namedFields",
-                "bc",
-                "_buffer"
+                "offset"
               ]
             ],
             [
@@ -7408,8 +4983,7 @@
               "type",
               [
                 "namedFields",
-                "bc",
-                "_buffer"
+                "offset"
               ]
             ],
             [
@@ -7420,8 +4994,7 @@
               "type",
               [
                 "namedFields",
-                "bc",
-                "_buffer"
+                "offset"
               ]
             ],
             [
@@ -7432,8 +5005,7 @@
               "type",
               [
                 "namedFields",
-                "bc",
-                "_buffer"
+                "offset"
               ]
             ],
             [
@@ -7444,8 +5016,7 @@
               "type",
               [
                 "namedFields",
-                "bc",
-                "_buffer"
+                "offset"
               ]
             ],
             [
@@ -7456,8 +5027,7 @@
               "type",
               [
                 "namedFields",
-                "bc",
-                "_buffer"
+                "offset"
               ]
             ],
             [
@@ -7468,8 +5038,7 @@
               "type",
               [
                 "namedFields",
-                "bc",
-                "_buffer"
+                "offset"
               ]
             ],
             [
@@ -7480,8 +5049,7 @@
               "type",
               [
                 "namedFields",
-                "bc",
-                "_buffer"
+                "offset"
               ]
             ],
             [
@@ -7492,8 +5060,7 @@
               "",
               [
                 "namedFields",
-                "bc",
-                "_buffer"
+                "offset"
               ]
             ],
             [
@@ -7504,8 +5071,7 @@
               "type",
               [
                 "namedFields",
-                "bc",
-                "_buffer"
+                "offset"
               ]
             ],
             [
@@ -7515,8 +5081,7 @@
               false,
               "",
               [
-                "bc",
-                "_buffer"
+                "offset"
               ]
             ],
             [
@@ -7526,8 +5091,7 @@
               false,
               "items",
               [
-                "bc",
-                "_buffer"
+                "offset"
               ]
             ],
             [
@@ -7537,8 +5101,7 @@
               false,
               "",
               [
-                "bc",
-                "_buffer"
+                "offset"
               ]
             ],
             [
@@ -7548,33 +5111,36 @@
               false,
               "this",
               [
-                "bc",
-                "_buffer"
+                "offset"
               ]
             ],
             [
-              "30064951542",
+              "30064951543",
               14,
               true,
               false,
               "",
-              [
-                "_buffer"
-              ]
+              []
             ],
             [
-              "111669189011",
-              20,
+              "111669189012",
+              15,
               true,
               false,
-              "this",
-              [
-                "_buffer"
-              ]
+              "offset",
+              []
+            ],
+            [
+              "68719647882",
+              15,
+              true,
+              false,
+              "offset",
+              []
             ],
             [
               "30064950902",
-              20,
+              15,
               true,
               false,
               "_buffer",
@@ -7582,7 +5148,7 @@
             ],
             [
               "30064950901",
-              20,
+              15,
               true,
               false,
               "_buffer.getUint32(offset, Endian.little)",
@@ -7590,7 +5156,7 @@
             ],
             [
               "141733941225",
-              20,
+              15,
               true,
               false,
               "",
@@ -7646,7 +5212,7 @@
             ],
             [
               "111669189206",
-              18,
+              16,
               true,
               false,
               "index",
@@ -7654,7 +5220,7 @@
             ],
             [
               "68719648578",
-              18,
+              16,
               false,
               false,
               "index",
@@ -7662,7 +5228,7 @@
             ],
             [
               "30064951569",
-              18,
+              16,
               true,
               false,
               "",
@@ -7670,7 +5236,7 @@
             ],
             [
               "111669189014",
-              19,
+              17,
               true,
               false,
               "offset",
@@ -7678,7 +5244,7 @@
             ],
             [
               "68719647885",
-              19,
+              17,
               true,
               false,
               "offset",
@@ -7686,7 +5252,7 @@
             ],
             [
               "30064950905",
-              19,
+              17,
               true,
               false,
               "_buffer",
@@ -7694,7 +5260,7 @@
             ],
             [
               "30064950904",
-              19,
+              17,
               true,
               false,
               "_buffer.getUint8(offset)",
@@ -7702,7 +5268,7 @@
             ],
             [
               "141733941226",
-              19,
+              17,
               true,
               false,
               "",
@@ -7710,7 +5276,7 @@
             ],
             [
               "124554074859",
-              18,
+              16,
               true,
               false,
               "",
@@ -7718,7 +5284,7 @@
             ],
             [
               "30064951567",
-              18,
+              16,
               true,
               true,
               "bc._getUint8(offset + 4 + index)",
@@ -7726,7 +5292,7 @@
             ],
             [
               "141733941301",
-              18,
+              16,
               true,
               false,
               "",
@@ -7798,7 +5364,7 @@
             ],
             [
               "111669164184",
-              15,
+              18,
               true,
               false,
               "this",
@@ -7806,7 +5372,7 @@
             ],
             [
               "115964131480",
-              15,
+              18,
               true,
               false,
               "",
@@ -7863,8 +5429,9 @@
             "parameter-read",
             "receiver-binding",
             "field-projection",
-            "receiver-binding",
-            "field-projection",
+            "parameter-binding",
+            "parameter-read",
+            "external-write",
             "external-return",
             "return-value",
             "method-return",
@@ -8029,8 +5596,7 @@
               [
                 "bound",
                 "positionalFields",
-                "bc",
-                "_buffer"
+                "offset"
               ]
             ],
             [
@@ -8042,8 +5608,7 @@
               [
                 "bound",
                 "positionalFields",
-                "bc",
-                "_buffer"
+                "offset"
               ]
             ],
             [
@@ -8055,8 +5620,7 @@
               [
                 "bound",
                 "positionalFields",
-                "bc",
-                "_buffer"
+                "offset"
               ]
             ],
             [
@@ -8068,8 +5632,7 @@
               [
                 "bound",
                 "positionalFields",
-                "bc",
-                "_buffer"
+                "offset"
               ]
             ],
             [
@@ -8080,8 +5643,7 @@
               "",
               [
                 "positionalFields",
-                "bc",
-                "_buffer"
+                "offset"
               ]
             ],
             [
@@ -8092,8 +5654,7 @@
               "type",
               [
                 "positionalFields",
-                "bc",
-                "_buffer"
+                "offset"
               ]
             ],
             [
@@ -8104,8 +5665,7 @@
               "type",
               [
                 "positionalFields",
-                "bc",
-                "_buffer"
+                "offset"
               ]
             ],
             [
@@ -8116,8 +5676,7 @@
               "type",
               [
                 "positionalFields",
-                "bc",
-                "_buffer"
+                "offset"
               ]
             ],
             [
@@ -8128,8 +5687,7 @@
               "type",
               [
                 "positionalFields",
-                "bc",
-                "_buffer"
+                "offset"
               ]
             ],
             [
@@ -8140,8 +5698,7 @@
               "type",
               [
                 "positionalFields",
-                "bc",
-                "_buffer"
+                "offset"
               ]
             ],
             [
@@ -8152,8 +5709,7 @@
               "type",
               [
                 "positionalFields",
-                "bc",
-                "_buffer"
+                "offset"
               ]
             ],
             [
@@ -8164,8 +5720,7 @@
               "type",
               [
                 "positionalFields",
-                "bc",
-                "_buffer"
+                "offset"
               ]
             ],
             [
@@ -8176,8 +5731,7 @@
               "type",
               [
                 "positionalFields",
-                "bc",
-                "_buffer"
+                "offset"
               ]
             ],
             [
@@ -8188,8 +5742,7 @@
               "",
               [
                 "positionalFields",
-                "bc",
-                "_buffer"
+                "offset"
               ]
             ],
             [
@@ -8200,8 +5753,7 @@
               "type",
               [
                 "positionalFields",
-                "bc",
-                "_buffer"
+                "offset"
               ]
             ],
             [
@@ -8211,8 +5763,7 @@
               false,
               "",
               [
-                "bc",
-                "_buffer"
+                "offset"
               ]
             ],
             [
@@ -8222,8 +5773,7 @@
               false,
               "items",
               [
-                "bc",
-                "_buffer"
+                "offset"
               ]
             ],
             [
@@ -8233,8 +5783,7 @@
               false,
               "",
               [
-                "bc",
-                "_buffer"
+                "offset"
               ]
             ],
             [
@@ -8244,33 +5793,36 @@
               false,
               "this",
               [
-                "bc",
-                "_buffer"
+                "offset"
               ]
             ],
             [
-              "30064951542",
+              "30064951543",
               14,
               true,
               false,
               "",
-              [
-                "_buffer"
-              ]
+              []
             ],
             [
-              "111669189011",
-              20,
+              "111669189012",
+              15,
               true,
               false,
-              "this",
-              [
-                "_buffer"
-              ]
+              "offset",
+              []
+            ],
+            [
+              "68719647882",
+              15,
+              true,
+              false,
+              "offset",
+              []
             ],
             [
               "30064950902",
-              20,
+              15,
               true,
               false,
               "_buffer",
@@ -8278,7 +5830,7 @@
             ],
             [
               "30064950901",
-              20,
+              15,
               true,
               false,
               "_buffer.getUint32(offset, Endian.little)",
@@ -8286,7 +5838,7 @@
             ],
             [
               "141733941225",
-              20,
+              15,
               true,
               false,
               "",
@@ -8342,7 +5894,7 @@
             ],
             [
               "111669189206",
-              18,
+              16,
               true,
               false,
               "index",
@@ -8350,7 +5902,7 @@
             ],
             [
               "68719648578",
-              18,
+              16,
               false,
               false,
               "index",
@@ -8358,7 +5910,7 @@
             ],
             [
               "30064951569",
-              18,
+              16,
               true,
               false,
               "",
@@ -8366,7 +5918,7 @@
             ],
             [
               "111669189014",
-              19,
+              17,
               true,
               false,
               "offset",
@@ -8374,7 +5926,7 @@
             ],
             [
               "68719647885",
-              19,
+              17,
               true,
               false,
               "offset",
@@ -8382,7 +5934,7 @@
             ],
             [
               "30064950905",
-              19,
+              17,
               true,
               false,
               "_buffer",
@@ -8390,7 +5942,7 @@
             ],
             [
               "30064950904",
-              19,
+              17,
               true,
               false,
               "_buffer.getUint8(offset)",
@@ -8398,7 +5950,7 @@
             ],
             [
               "141733941226",
-              19,
+              17,
               true,
               false,
               "",
@@ -8406,7 +5958,7 @@
             ],
             [
               "124554074859",
-              18,
+              16,
               true,
               false,
               "",
@@ -8414,7 +5966,7 @@
             ],
             [
               "30064951567",
-              18,
+              16,
               true,
               true,
               "bc._getUint8(offset + 4 + index)",
@@ -8422,7 +5974,7 @@
             ],
             [
               "141733941301",
-              18,
+              16,
               true,
               false,
               "",
@@ -8494,7 +6046,7 @@
             ],
             [
               "111669164184",
-              15,
+              18,
               true,
               false,
               "this",
@@ -8502,7 +6054,7 @@
             ],
             [
               "115964131480",
-              15,
+              18,
               true,
               false,
               "",
@@ -8559,8 +6111,9 @@
             "parameter-read",
             "receiver-binding",
             "field-projection",
-            "receiver-binding",
-            "field-projection",
+            "parameter-binding",
+            "parameter-read",
+            "external-write",
             "external-return",
             "return-value",
             "method-return",
@@ -8725,8 +6278,7 @@
               [
                 "bound",
                 "typeArguments",
-                "bc",
-                "_buffer"
+                "offset"
               ]
             ],
             [
@@ -8738,8 +6290,7 @@
               [
                 "bound",
                 "typeArguments",
-                "bc",
-                "_buffer"
+                "offset"
               ]
             ],
             [
@@ -8751,8 +6302,7 @@
               [
                 "bound",
                 "typeArguments",
-                "bc",
-                "_buffer"
+                "offset"
               ]
             ],
             [
@@ -8764,8 +6314,7 @@
               [
                 "bound",
                 "typeArguments",
-                "bc",
-                "_buffer"
+                "offset"
               ]
             ],
             [
@@ -8776,8 +6325,7 @@
               "",
               [
                 "typeArguments",
-                "bc",
-                "_buffer"
+                "offset"
               ]
             ],
             [
@@ -8788,8 +6336,7 @@
               "type",
               [
                 "typeArguments",
-                "bc",
-                "_buffer"
+                "offset"
               ]
             ],
             [
@@ -8800,8 +6347,7 @@
               "type",
               [
                 "typeArguments",
-                "bc",
-                "_buffer"
+                "offset"
               ]
             ],
             [
@@ -8812,8 +6358,7 @@
               "type",
               [
                 "typeArguments",
-                "bc",
-                "_buffer"
+                "offset"
               ]
             ],
             [
@@ -8824,8 +6369,7 @@
               "type",
               [
                 "typeArguments",
-                "bc",
-                "_buffer"
+                "offset"
               ]
             ],
             [
@@ -8836,8 +6380,7 @@
               "type",
               [
                 "typeArguments",
-                "bc",
-                "_buffer"
+                "offset"
               ]
             ],
             [
@@ -8847,8 +6390,7 @@
               false,
               "type.typeArguments",
               [
-                "bc",
-                "_buffer"
+                "offset"
               ]
             ],
             [
@@ -8858,8 +6400,7 @@
               false,
               "typeArguments",
               [
-                "bc",
-                "_buffer"
+                "offset"
               ]
             ],
             [
@@ -8869,8 +6410,7 @@
               false,
               "typeArguments",
               [
-                "bc",
-                "_buffer"
+                "offset"
               ]
             ],
             [
@@ -8880,8 +6420,7 @@
               false,
               "",
               [
-                "bc",
-                "_buffer"
+                "offset"
               ]
             ],
             [
@@ -8891,8 +6430,7 @@
               false,
               "types",
               [
-                "bc",
-                "_buffer"
+                "offset"
               ]
             ],
             [
@@ -8902,8 +6440,7 @@
               false,
               "",
               [
-                "bc",
-                "_buffer"
+                "offset"
               ]
             ],
             [
@@ -8913,8 +6450,7 @@
               false,
               "items",
               [
-                "bc",
-                "_buffer"
+                "offset"
               ]
             ],
             [
@@ -8924,8 +6460,7 @@
               false,
               "",
               [
-                "bc",
-                "_buffer"
+                "offset"
               ]
             ],
             [
@@ -8935,33 +6470,36 @@
               false,
               "this",
               [
-                "bc",
-                "_buffer"
+                "offset"
               ]
             ],
             [
-              "30064951542",
+              "30064951543",
               14,
               true,
               false,
               "",
-              [
-                "_buffer"
-              ]
+              []
             ],
             [
-              "111669189011",
-              20,
+              "111669189012",
+              15,
               true,
               false,
-              "this",
-              [
-                "_buffer"
-              ]
+              "offset",
+              []
+            ],
+            [
+              "68719647882",
+              15,
+              true,
+              false,
+              "offset",
+              []
             ],
             [
               "30064950902",
-              20,
+              15,
               true,
               false,
               "_buffer",
@@ -8969,7 +6507,7 @@
             ],
             [
               "30064950901",
-              20,
+              15,
               true,
               false,
               "_buffer.getUint32(offset, Endian.little)",
@@ -8977,7 +6515,7 @@
             ],
             [
               "141733941225",
-              20,
+              15,
               true,
               false,
               "",
@@ -9033,7 +6571,7 @@
             ],
             [
               "111669189206",
-              18,
+              16,
               true,
               false,
               "index",
@@ -9041,7 +6579,7 @@
             ],
             [
               "68719648578",
-              18,
+              16,
               false,
               false,
               "index",
@@ -9049,7 +6587,7 @@
             ],
             [
               "30064951569",
-              18,
+              16,
               true,
               false,
               "",
@@ -9057,7 +6595,7 @@
             ],
             [
               "111669189014",
-              19,
+              17,
               true,
               false,
               "offset",
@@ -9065,7 +6603,7 @@
             ],
             [
               "68719647885",
-              19,
+              17,
               true,
               false,
               "offset",
@@ -9073,7 +6611,7 @@
             ],
             [
               "30064950905",
-              19,
+              17,
               true,
               false,
               "_buffer",
@@ -9081,7 +6619,7 @@
             ],
             [
               "30064950904",
-              19,
+              17,
               true,
               false,
               "_buffer.getUint8(offset)",
@@ -9089,7 +6627,7 @@
             ],
             [
               "141733941226",
-              19,
+              17,
               true,
               false,
               "",
@@ -9097,7 +6635,7 @@
             ],
             [
               "124554074859",
-              18,
+              16,
               true,
               false,
               "",
@@ -9105,7 +6643,7 @@
             ],
             [
               "30064951567",
-              18,
+              16,
               true,
               true,
               "bc._getUint8(offset + 4 + index)",
@@ -9113,7 +6651,7 @@
             ],
             [
               "141733941301",
-              18,
+              16,
               true,
               false,
               "",
@@ -9185,7 +6723,7 @@
             ],
             [
               "111669164184",
-              15,
+              18,
               true,
               false,
               "this",
@@ -9193,7 +6731,7 @@
             ],
             [
               "115964131480",
-              15,
+              18,
               true,
               false,
               "",
@@ -9250,8 +6788,9 @@
             "parameter-read",
             "receiver-binding",
             "field-projection",
-            "receiver-binding",
-            "field-projection",
+            "parameter-binding",
+            "parameter-read",
+            "external-write",
             "external-return",
             "return-value",
             "method-return",
@@ -9262,6 +6801,2400 @@
             "operator-value",
             "parameter-binding",
             "parameter-read",
+            "operator-value",
+            "parameter-binding",
+            "parameter-read",
+            "external-write",
+            "external-return",
+            "return-value",
+            "method-return",
+            "output-return-evidence",
+            "return-value",
+            "method-return",
+            "output-return-evidence",
+            "operator-value",
+            "assignment",
+            "field-projection",
+            "parameter-output",
+            "caller-output",
+            "local-read",
+            "receiver-binding",
+            "parameter-output",
+            "caller-output",
+            "element-projection"
+          ]
+        },
+        {
+          "elements": [
+            [
+              "111669155856",
+              9,
+              true,
+              false,
+              "items",
+              [
+                "_length"
+              ]
+            ],
+            [
+              "68719486498",
+              9,
+              true,
+              false,
+              "",
+              [
+                "_length"
+              ]
+            ],
+            [
+              "111669164184",
+              10,
+              true,
+              false,
+              "this",
+              [
+                "_length"
+              ]
+            ],
+            [
+              "115964131480",
+              10,
+              true,
+              false,
+              "",
+              [
+                "_length"
+              ]
+            ],
+            [
+              "68719486498",
+              9,
+              true,
+              true,
+              "items",
+              [
+                "_length"
+              ]
+            ],
+            [
+              "68719486501",
+              9,
+              true,
+              false,
+              "",
+              [
+                "_length"
+              ]
+            ],
+            [
+              "111669189230",
+              11,
+              true,
+              false,
+              "this",
+              [
+                "_length"
+              ]
+            ],
+            [
+              "30064951628",
+              11,
+              true,
+              false,
+              "_length",
+              []
+            ],
+            [
+              "115964156526",
+              11,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "68719486501",
+              9,
+              true,
+              true,
+              "items",
+              []
+            ],
+            [
+              "115964123152",
+              9,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "68719660659",
+              2,
+              true,
+              true,
+              "typeParameterFragments",
+              []
+            ],
+            [
+              "68719660663",
+              2,
+              true,
+              false,
+              "typeParameterFragments",
+              []
+            ],
+            [
+              "30064964181",
+              2,
+              true,
+              false,
+              "for (var typeParameter in typeParameterFragments) {\n        writeType(typeParameter.element.bound);\n        if (withAnnotations) {\n          _writeMetadata(typeParameter.metadata);\n        }\n      }",
+              []
+            ],
+            [
+              "68719660662",
+              2,
+              true,
+              false,
+              "<tmp>99",
+              []
+            ],
+            [
+              "68719660664",
+              2,
+              true,
+              false,
+              "<tmp>99",
+              []
+            ],
+            [
+              "68719660666",
+              2,
+              true,
+              false,
+              "<tmp>99",
+              []
+            ],
+            [
+              "30064964184",
+              2,
+              true,
+              false,
+              "for (var typeParameter in typeParameterFragments) {\n        writeType(typeParameter.element.bound);\n        if (withAnnotations) {\n          _writeMetadata(typeParameter.metadata);\n        }\n      }",
+              [
+                "metadata",
+                "annotations"
+              ]
+            ],
+            [
+              "68719660665",
+              2,
+              true,
+              false,
+              "typeParameter",
+              [
+                "metadata",
+                "annotations"
+              ]
+            ],
+            [
+              "68719660668",
+              2,
+              true,
+              false,
+              "",
+              [
+                "metadata",
+                "annotations"
+              ]
+            ],
+            [
+              "111669172075",
+              12,
+              true,
+              false,
+              "this",
+              [
+                "metadata",
+                "annotations"
+              ]
+            ],
+            [
+              "115964139371",
+              12,
+              true,
+              false,
+              "",
+              [
+                "metadata",
+                "annotations"
+              ]
+            ],
+            [
+              "68719660668",
+              2,
+              true,
+              true,
+              "typeParameter",
+              [
+                "metadata",
+                "annotations"
+              ]
+            ],
+            [
+              "68719660671",
+              2,
+              true,
+              false,
+              "",
+              [
+                "metadata",
+                "annotations"
+              ]
+            ],
+            [
+              "111669170118",
+              13,
+              true,
+              false,
+              "this",
+              [
+                "metadata",
+                "annotations"
+              ]
+            ],
+            [
+              "30064833892",
+              13,
+              true,
+              false,
+              "metadata = MetadataImpl.empty",
+              [
+                "annotations"
+              ]
+            ],
+            [
+              "141733930950",
+              13,
+              true,
+              false,
+              "",
+              [
+                "annotations"
+              ]
+            ],
+            [
+              "124554064125",
+              2,
+              true,
+              false,
+              "",
+              [
+                "annotations"
+              ]
+            ],
+            [
+              "30064964189",
+              2,
+              true,
+              true,
+              "",
+              [
+                "annotations"
+              ]
+            ],
+            [
+              "111669191110",
+              2,
+              true,
+              false,
+              "metadata",
+              [
+                "annotations"
+              ]
+            ],
+            [
+              "30064963263",
+              2,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "111669155856",
+              2,
+              true,
+              false,
+              "items",
+              []
+            ],
+            [
+              "68719486498",
+              2,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "111669164184",
+              14,
+              true,
+              false,
+              "this",
+              []
+            ],
+            [
+              "115964131480",
+              14,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "68719486498",
+              2,
+              true,
+              true,
+              "items",
+              []
+            ],
+            [
+              "68719486501",
+              2,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "111669189197",
+              18,
+              true,
+              false,
+              "this",
+              []
+            ],
+            [
+              "68719648557",
+              18,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "30064951543",
+              18,
+              true,
+              true,
+              "offset",
+              []
+            ],
+            [
+              "68719648560",
+              18,
+              true,
+              false,
+              "",
+              [
+                "offset"
+              ]
+            ],
+            [
+              "111669189205",
+              19,
+              true,
+              false,
+              "this",
+              [
+                "offset"
+              ]
+            ],
+            [
+              "30064951571",
+              19,
+              false,
+              false,
+              "offset",
+              []
+            ],
+            [
+              "30064951570",
+              19,
+              false,
+              false,
+              "offset + 4",
+              []
+            ],
+            [
+              "30064951569",
+              19,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "111669189014",
+              20,
+              true,
+              false,
+              "offset",
+              []
+            ],
+            [
+              "68719647885",
+              20,
+              true,
+              false,
+              "offset",
+              []
+            ],
+            [
+              "30064950905",
+              20,
+              true,
+              false,
+              "_buffer",
+              []
+            ],
+            [
+              "30064950904",
+              20,
+              true,
+              false,
+              "_buffer.getUint8(offset)",
+              []
+            ],
+            [
+              "141733941226",
+              20,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "124554074859",
+              19,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "30064951567",
+              19,
+              true,
+              true,
+              "bc._getUint8(offset + 4 + index)",
+              []
+            ],
+            [
+              "141733941301",
+              19,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "124554074959",
+              18,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "30064951549",
+              18,
+              false,
+              true,
+              "_getByte(byteLength - 1)",
+              []
+            ],
+            [
+              "30064951546",
+              18,
+              true,
+              false,
+              "(byteLength - 1) * 8 - _getByte(byteLength - 1)",
+              []
+            ],
+            [
+              "30064951545",
+              18,
+              true,
+              false,
+              "_length",
+              []
+            ],
+            [
+              "30064951552",
+              18,
+              true,
+              false,
+              "_length",
+              []
+            ],
+            [
+              "115964156493",
+              18,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "68719486501",
+              2,
+              true,
+              true,
+              "items",
+              []
+            ],
+            [
+              "30064780622",
+              2,
+              true,
+              false,
+              "",
+              []
+            ]
+          ],
+          "transitions": [
+            "parameter-read",
+            "receiver-binding",
+            "parameter-output",
+            "caller-output",
+            "local-read",
+            "receiver-binding",
+            "field-projection",
+            "parameter-output",
+            "caller-output",
+            "parameter-output",
+            "caller-output",
+            "local-read",
+            "external-return",
+            "assignment",
+            "local-read",
+            "local-read",
+            "external-return",
+            "assignment",
+            "local-read",
+            "receiver-binding",
+            "parameter-output",
+            "caller-output",
+            "local-read",
+            "receiver-binding",
+            "field-projection",
+            "return-value",
+            "method-return",
+            "call-return",
+            "parameter-binding",
+            "field-projection",
+            "parameter-binding",
+            "parameter-read",
+            "receiver-binding",
+            "parameter-output",
+            "caller-output",
+            "local-read",
+            "receiver-binding",
+            "parameter-read",
+            "field-projection",
+            "field-alias",
+            "receiver-binding",
+            "field-projection",
+            "operator-value",
+            "operator-value",
+            "parameter-binding",
+            "parameter-read",
+            "external-write",
+            "external-return",
+            "return-value",
+            "method-return",
+            "output-return-evidence",
+            "return-value",
+            "method-return",
+            "output-return-evidence",
+            "operator-value",
+            "assignment",
+            "field-projection",
+            "parameter-output",
+            "caller-output",
+            "element-projection"
+          ]
+        },
+        {
+          "elements": [
+            [
+              "111669155856",
+              9,
+              true,
+              false,
+              "items",
+              [
+                "_length"
+              ]
+            ],
+            [
+              "68719486498",
+              9,
+              true,
+              false,
+              "",
+              [
+                "_length"
+              ]
+            ],
+            [
+              "111669164184",
+              10,
+              true,
+              false,
+              "this",
+              [
+                "_length"
+              ]
+            ],
+            [
+              "115964131480",
+              10,
+              true,
+              false,
+              "",
+              [
+                "_length"
+              ]
+            ],
+            [
+              "68719486498",
+              9,
+              true,
+              true,
+              "items",
+              [
+                "_length"
+              ]
+            ],
+            [
+              "68719486501",
+              9,
+              true,
+              false,
+              "",
+              [
+                "_length"
+              ]
+            ],
+            [
+              "111669189230",
+              11,
+              true,
+              false,
+              "this",
+              [
+                "_length"
+              ]
+            ],
+            [
+              "30064951628",
+              11,
+              true,
+              false,
+              "_length",
+              []
+            ],
+            [
+              "115964156526",
+              11,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "68719486501",
+              9,
+              true,
+              true,
+              "items",
+              []
+            ],
+            [
+              "115964123152",
+              9,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "68719660659",
+              2,
+              true,
+              true,
+              "typeParameterFragments",
+              []
+            ],
+            [
+              "68719660663",
+              2,
+              true,
+              false,
+              "typeParameterFragments",
+              []
+            ],
+            [
+              "30064964181",
+              2,
+              true,
+              false,
+              "for (var typeParameter in typeParameterFragments) {\n        writeType(typeParameter.element.bound);\n        if (withAnnotations) {\n          _writeMetadata(typeParameter.metadata);\n        }\n      }",
+              []
+            ],
+            [
+              "68719660662",
+              2,
+              true,
+              false,
+              "<tmp>99",
+              []
+            ],
+            [
+              "68719660664",
+              2,
+              true,
+              false,
+              "<tmp>99",
+              []
+            ],
+            [
+              "68719660666",
+              2,
+              true,
+              false,
+              "<tmp>99",
+              []
+            ],
+            [
+              "30064964184",
+              2,
+              true,
+              false,
+              "for (var typeParameter in typeParameterFragments) {\n        writeType(typeParameter.element.bound);\n        if (withAnnotations) {\n          _writeMetadata(typeParameter.metadata);\n        }\n      }",
+              [
+                "metadata",
+                "annotations"
+              ]
+            ],
+            [
+              "68719660665",
+              2,
+              true,
+              false,
+              "typeParameter",
+              [
+                "metadata",
+                "annotations"
+              ]
+            ],
+            [
+              "68719660668",
+              2,
+              true,
+              false,
+              "",
+              [
+                "metadata",
+                "annotations"
+              ]
+            ],
+            [
+              "111669172075",
+              12,
+              true,
+              false,
+              "this",
+              [
+                "metadata",
+                "annotations"
+              ]
+            ],
+            [
+              "115964139371",
+              12,
+              true,
+              false,
+              "",
+              [
+                "metadata",
+                "annotations"
+              ]
+            ],
+            [
+              "68719660668",
+              2,
+              true,
+              true,
+              "typeParameter",
+              [
+                "metadata",
+                "annotations"
+              ]
+            ],
+            [
+              "68719660671",
+              2,
+              true,
+              false,
+              "",
+              [
+                "metadata",
+                "annotations"
+              ]
+            ],
+            [
+              "111669170118",
+              13,
+              true,
+              false,
+              "this",
+              [
+                "metadata",
+                "annotations"
+              ]
+            ],
+            [
+              "30064833892",
+              13,
+              true,
+              false,
+              "metadata = MetadataImpl.empty",
+              [
+                "annotations"
+              ]
+            ],
+            [
+              "141733930950",
+              13,
+              true,
+              false,
+              "",
+              [
+                "annotations"
+              ]
+            ],
+            [
+              "124554064125",
+              2,
+              true,
+              false,
+              "",
+              [
+                "annotations"
+              ]
+            ],
+            [
+              "30064964189",
+              2,
+              true,
+              true,
+              "",
+              [
+                "annotations"
+              ]
+            ],
+            [
+              "111669191110",
+              2,
+              true,
+              false,
+              "metadata",
+              [
+                "annotations"
+              ]
+            ],
+            [
+              "30064963263",
+              2,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "111669155856",
+              2,
+              true,
+              false,
+              "items",
+              []
+            ],
+            [
+              "68719486498",
+              2,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "111669189197",
+              14,
+              true,
+              false,
+              "this",
+              []
+            ],
+            [
+              "68719648557",
+              14,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "30064951543",
+              14,
+              true,
+              true,
+              "offset",
+              []
+            ],
+            [
+              "68719648560",
+              14,
+              true,
+              false,
+              "",
+              [
+                "offset"
+              ]
+            ],
+            [
+              "111669189205",
+              16,
+              true,
+              false,
+              "this",
+              [
+                "offset"
+              ]
+            ],
+            [
+              "30064951571",
+              16,
+              false,
+              false,
+              "offset",
+              []
+            ],
+            [
+              "30064951570",
+              16,
+              false,
+              false,
+              "offset + 4",
+              []
+            ],
+            [
+              "30064951569",
+              16,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "111669189014",
+              17,
+              true,
+              false,
+              "offset",
+              []
+            ],
+            [
+              "68719647885",
+              17,
+              true,
+              false,
+              "offset",
+              []
+            ],
+            [
+              "30064950905",
+              17,
+              true,
+              false,
+              "_buffer",
+              []
+            ],
+            [
+              "30064950904",
+              17,
+              true,
+              false,
+              "_buffer.getUint8(offset)",
+              []
+            ],
+            [
+              "141733941226",
+              17,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "124554074859",
+              16,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "30064951567",
+              16,
+              true,
+              true,
+              "bc._getUint8(offset + 4 + index)",
+              []
+            ],
+            [
+              "141733941301",
+              16,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "124554074959",
+              14,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "30064951549",
+              14,
+              false,
+              true,
+              "_getByte(byteLength - 1)",
+              []
+            ],
+            [
+              "30064951546",
+              14,
+              true,
+              false,
+              "(byteLength - 1) * 8 - _getByte(byteLength - 1)",
+              []
+            ],
+            [
+              "30064951545",
+              14,
+              true,
+              false,
+              "_length",
+              []
+            ],
+            [
+              "30064951552",
+              14,
+              true,
+              false,
+              "_length",
+              []
+            ],
+            [
+              "115964156493",
+              14,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "68719486498",
+              2,
+              true,
+              true,
+              "items",
+              []
+            ],
+            [
+              "68719486501",
+              2,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "111669164184",
+              18,
+              true,
+              false,
+              "this",
+              []
+            ],
+            [
+              "115964131480",
+              18,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "68719486501",
+              2,
+              true,
+              true,
+              "items",
+              []
+            ],
+            [
+              "30064780622",
+              2,
+              true,
+              false,
+              "",
+              []
+            ]
+          ],
+          "transitions": [
+            "parameter-read",
+            "receiver-binding",
+            "parameter-output",
+            "caller-output",
+            "local-read",
+            "receiver-binding",
+            "field-projection",
+            "parameter-output",
+            "caller-output",
+            "parameter-output",
+            "caller-output",
+            "local-read",
+            "external-return",
+            "assignment",
+            "local-read",
+            "local-read",
+            "external-return",
+            "assignment",
+            "local-read",
+            "receiver-binding",
+            "parameter-output",
+            "caller-output",
+            "local-read",
+            "receiver-binding",
+            "field-projection",
+            "return-value",
+            "method-return",
+            "call-return",
+            "parameter-binding",
+            "field-projection",
+            "parameter-binding",
+            "parameter-read",
+            "receiver-binding",
+            "parameter-read",
+            "field-projection",
+            "field-alias",
+            "receiver-binding",
+            "field-projection",
+            "operator-value",
+            "operator-value",
+            "parameter-binding",
+            "parameter-read",
+            "external-write",
+            "external-return",
+            "return-value",
+            "method-return",
+            "output-return-evidence",
+            "return-value",
+            "method-return",
+            "output-return-evidence",
+            "operator-value",
+            "assignment",
+            "field-projection",
+            "parameter-output",
+            "caller-output",
+            "local-read",
+            "receiver-binding",
+            "parameter-output",
+            "caller-output",
+            "element-projection"
+          ]
+        },
+        {
+          "elements": [
+            [
+              "111669155856",
+              9,
+              true,
+              false,
+              "items",
+              []
+            ],
+            [
+              "115964123152",
+              9,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "68719660659",
+              2,
+              true,
+              true,
+              "typeParameterFragments",
+              []
+            ],
+            [
+              "68719660663",
+              2,
+              true,
+              false,
+              "typeParameterFragments",
+              []
+            ],
+            [
+              "30064964181",
+              2,
+              true,
+              false,
+              "for (var typeParameter in typeParameterFragments) {\n        writeType(typeParameter.element.bound);\n        if (withAnnotations) {\n          _writeMetadata(typeParameter.metadata);\n        }\n      }",
+              []
+            ],
+            [
+              "68719660662",
+              2,
+              true,
+              false,
+              "<tmp>99",
+              []
+            ],
+            [
+              "68719660664",
+              2,
+              true,
+              false,
+              "<tmp>99",
+              []
+            ],
+            [
+              "68719660666",
+              2,
+              true,
+              false,
+              "<tmp>99",
+              []
+            ],
+            [
+              "30064964184",
+              2,
+              true,
+              false,
+              "for (var typeParameter in typeParameterFragments) {\n        writeType(typeParameter.element.bound);\n        if (withAnnotations) {\n          _writeMetadata(typeParameter.metadata);\n        }\n      }",
+              [
+                "_element"
+              ]
+            ],
+            [
+              "68719660665",
+              2,
+              true,
+              false,
+              "typeParameter",
+              [
+                "_element"
+              ]
+            ],
+            [
+              "68719660668",
+              2,
+              true,
+              false,
+              "",
+              [
+                "_element"
+              ]
+            ],
+            [
+              "111669172075",
+              12,
+              true,
+              false,
+              "this",
+              [
+                "_element"
+              ]
+            ],
+            [
+              "30064839341",
+              12,
+              false,
+              false,
+              "_element",
+              []
+            ],
+            [
+              "30064839343",
+              12,
+              false,
+              false,
+              "_element",
+              []
+            ],
+            [
+              "30064839342",
+              12,
+              true,
+              false,
+              "_element!",
+              [
+                "bound",
+                "positionalFields"
+              ]
+            ],
+            [
+              "141733932085",
+              12,
+              true,
+              false,
+              "",
+              [
+                "bound",
+                "positionalFields"
+              ]
+            ],
+            [
+              "124554065536",
+              2,
+              true,
+              false,
+              "",
+              [
+                "bound",
+                "positionalFields"
+              ]
+            ],
+            [
+              "30064964187",
+              2,
+              false,
+              true,
+              "typeParameter.element",
+              [
+                "bound",
+                "positionalFields"
+              ]
+            ],
+            [
+              "30064964186",
+              2,
+              true,
+              false,
+              "",
+              [
+                "positionalFields"
+              ]
+            ],
+            [
+              "111669191092",
+              2,
+              true,
+              false,
+              "type",
+              [
+                "positionalFields"
+              ]
+            ],
+            [
+              "68719659642",
+              2,
+              false,
+              false,
+              "type",
+              [
+                "positionalFields"
+              ]
+            ],
+            [
+              "68719659645",
+              2,
+              true,
+              false,
+              "type",
+              [
+                "positionalFields"
+              ]
+            ],
+            [
+              "68719659650",
+              2,
+              true,
+              false,
+              "type",
+              [
+                "positionalFields"
+              ]
+            ],
+            [
+              "68719659655",
+              2,
+              true,
+              false,
+              "type",
+              [
+                "positionalFields"
+              ]
+            ],
+            [
+              "68719659697",
+              2,
+              true,
+              false,
+              "type",
+              [
+                "positionalFields"
+              ]
+            ],
+            [
+              "68719659702",
+              2,
+              true,
+              false,
+              "type",
+              [
+                "positionalFields"
+              ]
+            ],
+            [
+              "68719659709",
+              2,
+              true,
+              false,
+              "type",
+              [
+                "positionalFields"
+              ]
+            ],
+            [
+              "68719659711",
+              2,
+              true,
+              false,
+              "",
+              [
+                "positionalFields"
+              ]
+            ],
+            [
+              "111669191118",
+              2,
+              true,
+              false,
+              "type",
+              [
+                "positionalFields"
+              ]
+            ],
+            [
+              "30064963278",
+              2,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "111669155856",
+              2,
+              true,
+              false,
+              "items",
+              []
+            ],
+            [
+              "68719486498",
+              2,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "111669164184",
+              14,
+              true,
+              false,
+              "this",
+              []
+            ],
+            [
+              "115964131480",
+              14,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "68719486498",
+              2,
+              true,
+              true,
+              "items",
+              []
+            ],
+            [
+              "68719486501",
+              2,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "111669189197",
+              18,
+              true,
+              false,
+              "this",
+              []
+            ],
+            [
+              "68719648557",
+              18,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "30064951543",
+              18,
+              true,
+              true,
+              "offset",
+              []
+            ],
+            [
+              "68719648560",
+              18,
+              true,
+              false,
+              "",
+              [
+                "offset"
+              ]
+            ],
+            [
+              "111669189205",
+              19,
+              true,
+              false,
+              "this",
+              [
+                "offset"
+              ]
+            ],
+            [
+              "30064951571",
+              19,
+              false,
+              false,
+              "offset",
+              []
+            ],
+            [
+              "30064951570",
+              19,
+              false,
+              false,
+              "offset + 4",
+              []
+            ],
+            [
+              "30064951569",
+              19,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "111669189014",
+              20,
+              true,
+              false,
+              "offset",
+              []
+            ],
+            [
+              "68719647885",
+              20,
+              true,
+              false,
+              "offset",
+              []
+            ],
+            [
+              "30064950905",
+              20,
+              true,
+              false,
+              "_buffer",
+              []
+            ],
+            [
+              "30064950904",
+              20,
+              true,
+              false,
+              "_buffer.getUint8(offset)",
+              []
+            ],
+            [
+              "141733941226",
+              20,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "124554074859",
+              19,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "30064951567",
+              19,
+              true,
+              true,
+              "bc._getUint8(offset + 4 + index)",
+              []
+            ],
+            [
+              "141733941301",
+              19,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "124554074959",
+              18,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "30064951549",
+              18,
+              false,
+              true,
+              "_getByte(byteLength - 1)",
+              []
+            ],
+            [
+              "30064951546",
+              18,
+              true,
+              false,
+              "(byteLength - 1) * 8 - _getByte(byteLength - 1)",
+              []
+            ],
+            [
+              "30064951545",
+              18,
+              true,
+              false,
+              "_length",
+              []
+            ],
+            [
+              "30064951552",
+              18,
+              true,
+              false,
+              "_length",
+              []
+            ],
+            [
+              "115964156493",
+              18,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "68719486501",
+              2,
+              true,
+              true,
+              "items",
+              []
+            ],
+            [
+              "30064780622",
+              2,
+              true,
+              false,
+              "",
+              []
+            ]
+          ],
+          "transitions": [
+            "parameter-output",
+            "caller-output",
+            "local-read",
+            "external-return",
+            "assignment",
+            "local-read",
+            "local-read",
+            "external-return",
+            "assignment",
+            "local-read",
+            "receiver-binding",
+            "field-projection",
+            "field-projection",
+            "operator-value",
+            "return-value",
+            "method-return",
+            "call-return",
+            "field-projection",
+            "parameter-binding",
+            "parameter-read",
+            "local-read",
+            "local-read",
+            "local-read",
+            "local-read",
+            "local-read",
+            "local-read",
+            "local-read",
+            "parameter-binding",
+            "field-projection",
+            "parameter-binding",
+            "parameter-read",
+            "receiver-binding",
+            "parameter-output",
+            "caller-output",
+            "local-read",
+            "receiver-binding",
+            "parameter-read",
+            "field-projection",
+            "field-alias",
+            "receiver-binding",
+            "field-projection",
+            "operator-value",
+            "operator-value",
+            "parameter-binding",
+            "parameter-read",
+            "external-write",
+            "external-return",
+            "return-value",
+            "method-return",
+            "output-return-evidence",
+            "return-value",
+            "method-return",
+            "output-return-evidence",
+            "operator-value",
+            "assignment",
+            "field-projection",
+            "parameter-output",
+            "caller-output",
+            "element-projection"
+          ]
+        },
+        {
+          "elements": [
+            [
+              "111669155856",
+              9,
+              true,
+              false,
+              "items",
+              []
+            ],
+            [
+              "115964123152",
+              9,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "68719660659",
+              2,
+              true,
+              true,
+              "typeParameterFragments",
+              []
+            ],
+            [
+              "68719660663",
+              2,
+              true,
+              false,
+              "typeParameterFragments",
+              []
+            ],
+            [
+              "30064964181",
+              2,
+              true,
+              false,
+              "for (var typeParameter in typeParameterFragments) {\n        writeType(typeParameter.element.bound);\n        if (withAnnotations) {\n          _writeMetadata(typeParameter.metadata);\n        }\n      }",
+              []
+            ],
+            [
+              "68719660662",
+              2,
+              true,
+              false,
+              "<tmp>99",
+              []
+            ],
+            [
+              "68719660664",
+              2,
+              true,
+              false,
+              "<tmp>99",
+              []
+            ],
+            [
+              "68719660666",
+              2,
+              true,
+              false,
+              "<tmp>99",
+              []
+            ],
+            [
+              "30064964184",
+              2,
+              true,
+              false,
+              "for (var typeParameter in typeParameterFragments) {\n        writeType(typeParameter.element.bound);\n        if (withAnnotations) {\n          _writeMetadata(typeParameter.metadata);\n        }\n      }",
+              [
+                "_element"
+              ]
+            ],
+            [
+              "68719660665",
+              2,
+              true,
+              false,
+              "typeParameter",
+              [
+                "_element"
+              ]
+            ],
+            [
+              "68719660668",
+              2,
+              true,
+              false,
+              "",
+              [
+                "_element"
+              ]
+            ],
+            [
+              "111669172075",
+              12,
+              true,
+              false,
+              "this",
+              [
+                "_element"
+              ]
+            ],
+            [
+              "30064839341",
+              12,
+              false,
+              false,
+              "_element",
+              []
+            ],
+            [
+              "30064839343",
+              12,
+              false,
+              false,
+              "_element",
+              []
+            ],
+            [
+              "30064839342",
+              12,
+              true,
+              false,
+              "_element!",
+              [
+                "bound",
+                "positionalFields"
+              ]
+            ],
+            [
+              "141733932085",
+              12,
+              true,
+              false,
+              "",
+              [
+                "bound",
+                "positionalFields"
+              ]
+            ],
+            [
+              "124554065536",
+              2,
+              true,
+              false,
+              "",
+              [
+                "bound",
+                "positionalFields"
+              ]
+            ],
+            [
+              "30064964187",
+              2,
+              false,
+              true,
+              "typeParameter.element",
+              [
+                "bound",
+                "positionalFields"
+              ]
+            ],
+            [
+              "30064964186",
+              2,
+              true,
+              false,
+              "",
+              [
+                "positionalFields"
+              ]
+            ],
+            [
+              "111669191092",
+              2,
+              true,
+              false,
+              "type",
+              [
+                "positionalFields"
+              ]
+            ],
+            [
+              "68719659642",
+              2,
+              false,
+              false,
+              "type",
+              [
+                "positionalFields"
+              ]
+            ],
+            [
+              "68719659645",
+              2,
+              true,
+              false,
+              "type",
+              [
+                "positionalFields"
+              ]
+            ],
+            [
+              "68719659650",
+              2,
+              true,
+              false,
+              "type",
+              [
+                "positionalFields"
+              ]
+            ],
+            [
+              "68719659655",
+              2,
+              true,
+              false,
+              "type",
+              [
+                "positionalFields"
+              ]
+            ],
+            [
+              "68719659697",
+              2,
+              true,
+              false,
+              "type",
+              [
+                "positionalFields"
+              ]
+            ],
+            [
+              "68719659702",
+              2,
+              true,
+              false,
+              "type",
+              [
+                "positionalFields"
+              ]
+            ],
+            [
+              "68719659709",
+              2,
+              true,
+              false,
+              "type",
+              [
+                "positionalFields"
+              ]
+            ],
+            [
+              "68719659711",
+              2,
+              true,
+              false,
+              "",
+              [
+                "positionalFields"
+              ]
+            ],
+            [
+              "111669191118",
+              2,
+              true,
+              false,
+              "type",
+              [
+                "positionalFields"
+              ]
+            ],
+            [
+              "30064963278",
+              2,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "111669155856",
+              2,
+              true,
+              false,
+              "items",
+              []
+            ],
+            [
+              "68719486498",
+              2,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "111669189197",
+              14,
+              true,
+              false,
+              "this",
+              []
+            ],
+            [
+              "68719648557",
+              14,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "30064951543",
+              14,
+              true,
+              true,
+              "offset",
+              []
+            ],
+            [
+              "68719648560",
+              14,
+              true,
+              false,
+              "",
+              [
+                "offset"
+              ]
+            ],
+            [
+              "111669189205",
+              16,
+              true,
+              false,
+              "this",
+              [
+                "offset"
+              ]
+            ],
+            [
+              "30064951571",
+              16,
+              false,
+              false,
+              "offset",
+              []
+            ],
+            [
+              "30064951570",
+              16,
+              false,
+              false,
+              "offset + 4",
+              []
+            ],
+            [
+              "30064951569",
+              16,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "111669189014",
+              17,
+              true,
+              false,
+              "offset",
+              []
+            ],
+            [
+              "68719647885",
+              17,
+              true,
+              false,
+              "offset",
+              []
+            ],
+            [
+              "30064950905",
+              17,
+              true,
+              false,
+              "_buffer",
+              []
+            ],
+            [
+              "30064950904",
+              17,
+              true,
+              false,
+              "_buffer.getUint8(offset)",
+              []
+            ],
+            [
+              "141733941226",
+              17,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "124554074859",
+              16,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "30064951567",
+              16,
+              true,
+              true,
+              "bc._getUint8(offset + 4 + index)",
+              []
+            ],
+            [
+              "141733941301",
+              16,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "124554074959",
+              14,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "30064951549",
+              14,
+              false,
+              true,
+              "_getByte(byteLength - 1)",
+              []
+            ],
+            [
+              "30064951546",
+              14,
+              true,
+              false,
+              "(byteLength - 1) * 8 - _getByte(byteLength - 1)",
+              []
+            ],
+            [
+              "30064951545",
+              14,
+              true,
+              false,
+              "_length",
+              []
+            ],
+            [
+              "30064951552",
+              14,
+              true,
+              false,
+              "_length",
+              []
+            ],
+            [
+              "115964156493",
+              14,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "68719486498",
+              2,
+              true,
+              true,
+              "items",
+              []
+            ],
+            [
+              "68719486501",
+              2,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "111669164184",
+              18,
+              true,
+              false,
+              "this",
+              []
+            ],
+            [
+              "115964131480",
+              18,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "68719486501",
+              2,
+              true,
+              true,
+              "items",
+              []
+            ],
+            [
+              "30064780622",
+              2,
+              true,
+              false,
+              "",
+              []
+            ]
+          ],
+          "transitions": [
+            "parameter-output",
+            "caller-output",
+            "local-read",
+            "external-return",
+            "assignment",
+            "local-read",
+            "local-read",
+            "external-return",
+            "assignment",
+            "local-read",
+            "receiver-binding",
+            "field-projection",
+            "field-projection",
+            "operator-value",
+            "return-value",
+            "method-return",
+            "call-return",
+            "field-projection",
+            "parameter-binding",
+            "parameter-read",
+            "local-read",
+            "local-read",
+            "local-read",
+            "local-read",
+            "local-read",
+            "local-read",
+            "local-read",
+            "parameter-binding",
+            "field-projection",
+            "parameter-binding",
+            "parameter-read",
+            "receiver-binding",
+            "parameter-read",
+            "field-projection",
+            "field-alias",
+            "receiver-binding",
+            "field-projection",
+            "operator-value",
             "operator-value",
             "parameter-binding",
             "parameter-read",
@@ -9949,7 +9882,7 @@
   ],
   "representation": "Node/call IDs and context/path indices are project-local. transitions[i] classifies elements[i] to elements[i+1]. Field demands are preserved; retained storage-demand sets are empty. Equivalent stock/modeled paths are shared; full path flags and selected caller contexts are preserved.",
   "reviewMethod": "Each selected displayed route was read against its pinned source expectation. Formal argument positions, resolved return targets and available selected frames were checked. Argument-output return evidence already in a caller frame has a separate category. This is a mechanism/approximation review, not branch feasibility, general scheduling or heap qualification.",
-  "analysisBaseCommit": "907668e4c",
+  "analysisBaseCommit": "06679a391",
   "limitations": [
     "All six analyzer query families and their returned bounded paths are reviewed; other corpus alternatives and larger searches remain pending.",
     "An endpoint identity is recorded separately from independent forwarding; conservative argument outputs, aggregate projections and external effects do not prove mutation, allocation identity, callback delivery or branch feasibility.",
@@ -9959,14 +9892,14 @@
     "queries": 6,
     "selectedPaths": 28,
     "distinctPaths": 18,
-    "distinctTransitions": 625
+    "distinctTransitions": 629
   },
   "refresh": {
-    "previousBaseCommit": "907668e4c",
+    "previousBaseCommit": "06679a391",
     "previousAnalysisSources": {
       "algorithm": "sha256-path-nul-content-nul",
-      "sha256": "6a92ea4bf560d1c655b02efcb3b34bf999e1aab8fc5db39f6deebceba02685f9",
-      "files": 403,
+      "sha256": "fae2ab7ea70e9a3c442f62127604fd86c742f53d293ca79090e127207db91719",
+      "files": 404,
       "roots": [
         "joern-cli/frontends/dartsrc2cpg/src",
         "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -9989,9 +9922,10 @@
     "previousTotals": {
       "queries": 6,
       "selectedPaths": 28,
-      "distinctPaths": 15,
-      "distinctTransitions": 420
+      "distinctPaths": 18,
+      "distinctTransitions": 625
     },
-    "method": "Replayed after resolving synchronous iteration members and saving pattern current reads. Unchanged routes are matched against previous two/four-witness reviewed paths after removing node IDs only; all other node/call/context/flag/demand facts are retained. Changed variants have separate source-grounded refresh dispositions and checked argument/return/output bindings. All new graph IDs are reconstructed from fresh raw audits. Native observations do not certify caller re-entry, allocation, heap/dispatch precision or route feasibility."
-  }
+    "method": "Replayed after retaining bound-based synchronous iteration targets and instantiated current static types. Unchanged routes are matched against previous two/four-witness reviewed paths after removing node IDs only; all other node/call/context/flag/demand facts are retained. Changed variants have separate source-grounded refresh dispositions and checked argument/return/output bindings. All new graph IDs are reconstructed from fresh raw audits. Native observations do not certify caller re-entry, allocation, heap/dispatch precision or route feasibility."
+  },
+  "nativeRefreshScope": "Existing native oracle contracts remain unchanged."
 }

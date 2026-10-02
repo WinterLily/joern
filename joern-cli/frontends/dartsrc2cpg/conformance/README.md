@@ -26,7 +26,7 @@ complete language-rule matrix or executable-oracle obligations.
 
 [qualification-matrix.json](qualification-matrix.json) assigns seven stage cells
 to all 175 visitors, 195 base sections and thirty feature documents. Shared visitor
-profiles and partial case contracts link 60 named graph, exporter and native tests, with file hashes and
+profiles and partial case contracts link 67 named graph, exporter and native tests, with file hashes and
 explicit assertion scopes. `tested-conservative` describes those selected tests;
 it does not qualify every visitor using the profile. Generic declaration/bound
 checks remain `structural-only`, and untested CFG cells remain `unqualified`.
@@ -60,6 +60,18 @@ retrieved pinned sources, including the four existing cases. The source verifier
 checks adapted contents, SDK candidate identities, version pins and diagnostic
 contracts. This diagnostic negative control does not establish static flow
 absence, CFG fidelity, runtime generic bounds or heap effects.
+
+The `generic-synchronous-iteration` case follows declared/promoted interface
+bounds and retains instantiated current-result types independently of generic
+declaration IDs. Static controls cover chained/recursive bounds, inheritance,
+nullable promotion and symbolic element types. Runtime controls retain member
+order and recursive element identity. The actual pinned collection package
+also exercises its three promoted generic-bound equality/hash loops with empty,
+reversed, duplicate, null and extra-element controls. A separate pinned compiler check records
+that analyzer 8.4.1 accepts a bounded record-pattern loop rejected by the Dart
+3.9.2 compiler; that source supplies static evidence only. Invalid nullable and
+unbounded receivers retain exact diagnostics without guessed iterator targets.
+Runtime substitutions/bounds, full CFG, payload and heap qualification remain open.
 
 Check committed references without network access:
 

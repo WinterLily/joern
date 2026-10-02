@@ -1,7 +1,7 @@
 # Distribution and operational checks
 
 The native exporter is built per host with Dart 3.9.2, analyzer 8.4.1, exporter
-0.3.20, protocol 1 and JDK 21. Linux x86-64 has been verified locally. Linux
+0.3.21, protocol 1 and JDK 21. Linux x86-64 has been verified locally. Linux
 arm64, macOS x86-64/arm64 and Windows x86-64 require local validation before
 claiming release support. SDK resources are **not** embedded:
 install the matching Dart SDK and set `DART_SDK`, or pass `--dart-sdk`.
