@@ -2844,6 +2844,45 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         cpg.call.nameExact("<operator>.isInitialized").size shouldBe 2
       }
     }
+    "preserve list-pattern instantiated results without changing generic declarations" in {
+      fixture(
+        Files.readString(frontend.resolve("src/test/resources/semantics/list_pattern_results.dart")),
+        "void main() {}",
+        dataflow = false
+      ) { (cpg, _) =>
+        cpg.unknown.size shouldBe 0
+        for (name <- Seq("scalar", "tail")) {
+          val read = cpg.method.nameExact(name).ast.isCall.nameExact("[]").head
+          read.typeFullName should endWith(":CLASS:String")
+          read.callee.isExternal(false).methodReturn.typeFullName.head should endWith(":TYPE_PARAMETER:T")
+        }
+        cpg.method.nameExact("sliced").ast.isCall.nameExact("sublist").head.typeFullName should endWith(":CLASS:List")
+        cpg.method.nameExact("typed").ast.isCall.nameExact("[]").head.typeFullName should endWith(":CLASS:Object")
+        val cached = cpg.method.nameExact("cached").ast.isCall.nameExact("[]").typeFullName.l
+        cached.size shouldBe 2
+        cached.count(_.endsWith(":CLASS:Object")) shouldBe 1
+        cached.count(_.endsWith(":CLASS:num")) shouldBe 1
+        for (name <- Seq("wrapped", "nested")) {
+          val read = cpg.method
+            .nameExact(name)
+            .ast
+            .isCall
+            .nameExact("[]")
+            .l
+            .find(_.typeFullName.endsWith(":EXTENSION_TYPE:View"))
+            .get
+          read.tag.nameExact(VirtualCallPass.ReceiverErasureTag).value.head should endWith(":CLASS:Store")
+          val targets =
+            cpg.method.nameExact(name).ast.isCall.nameExact("value").callee.isExternal(false).astParentFullName.l
+          targets.size shouldBe 1
+          targets.head should endWith(":CLASS:Store")
+        }
+        val generic = cpg.method.nameExact("generic").head
+        val read    = generic.ast.isCall.nameExact("[]").head
+        read.typeFullName shouldBe generic.methodReturn.typeFullName
+        read.typeFullName should not be read.callee.isExternal(false).methodReturn.typeFullName.head
+      }
+    }
     "constrain object-pattern receivers and preserve instantiated field results" in {
       fixture(
         Files.readString(frontend.resolve("src/test/resources/semantics/extension_type_patterns.dart")),
@@ -3637,7 +3676,7 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         val coverage = ujson.read(Files.readString(report))
         coverage("includedFiles").num shouldBe 0
         coverage("stringConversionOrder").str shouldBe "after-expression-evaluation"
-        coverage("exporter")("exporterVersion").str shouldBe "0.3.24"
+        coverage("exporter")("exporterVersion").str shouldBe "0.3.25"
         coverage("exporter")("sdkVersion").str shouldBe "3.9.2"
         coverage("exporter")("analyzerVersion").str shouldBe "8.4.1"
         Files.writeString(dir.resolve("excluded.dart"), "void excluded() {}")
@@ -3657,7 +3696,7 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         "offsetEncoding"  -> "utf-16",
         "analyzerVersion" -> "8.4.1",
         "sdkVersion"      -> "3.9.2",
-        "exporterVersion" -> "0.3.24"
+        "exporterVersion" -> "0.3.25"
       )
       intercept[IllegalArgumentException](ExportProtocol.units(Seq(valid)))
       intercept[IllegalArgumentException](

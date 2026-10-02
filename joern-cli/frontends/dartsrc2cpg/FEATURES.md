@@ -1,6 +1,6 @@
 # Dart and Flutter feature matrix
 
-Tested with Dart 3.9.2, analyzer 8.4.1, exporter 0.3.24 and Flutter 3.35.3
+Tested with Dart 3.9.2, analyzer 8.4.1, exporter 0.3.25 and Flutter 3.35.3
 (framework revision `a402d9a437`). “Parsed” means explicit exporter nodes rather
 than UNKNOWN. Resolution uses existing package configuration and SDK resources.
 Dataflow claims below refer to the OSS engine with default semantics, not Dart

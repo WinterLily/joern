@@ -612,3 +612,12 @@ one case's generic substitution does not become every later case's constraint.
 Type-failure exclusion, nested/record values and repeated-case getter evaluation
 have bounded native/graph controls; full pattern CFG, payload/heap effects and
 runtime generic environments remain unqualified.
+
+List-pattern index results retain the required pattern's instantiated element
+type, before child narrowing. Slice results retain its required List type
+independently of an override's generic declaration return type. Caller generic
+parameter identities remain separate from the index getter's class parameter.
+Known extension-wrapper element erasures survive saved/cached extraction and
+nested list patterns. Cached uses keep their own static views; this does not
+qualify runtime type environments, representation storage aliases or complete
+pattern CFG/payload effects.

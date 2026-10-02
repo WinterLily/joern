@@ -1,0 +1,225 @@
+{
+  "schemaVersion": 1,
+  "previousBaseCommit": "53e2352f6",
+  "previousAnalysisSources": {
+    "algorithm": "sha256-path-nul-content-nul",
+    "sha256": "c860f38644b091fcd88fc4f962d7efeac3085766620c43f34ed22dcaeb326c52",
+    "files": 408,
+    "roots": [
+      "joern-cli/frontends/dartsrc2cpg/src",
+      "joern-cli/frontends/dartsrc2cpg/astgen/lib",
+      "joern-cli/frontends/dartsrc2cpg/astgen/bin",
+      "joern-cli/frontends/x2cpg/src/main",
+      "dataflowengineoss/src/main",
+      "semanticcpg/src/main",
+      "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.lock",
+      "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.yaml",
+      "joern-cli/frontends/dartsrc2cpg/build.sbt",
+      "joern-cli/frontends/x2cpg/build.sbt",
+      "joern-cli/build.sbt",
+      "dataflowengineoss/build.sbt",
+      "semanticcpg/build.sbt",
+      "build.sbt",
+      "project/Versions.scala",
+      "project/Projects.scala"
+    ]
+  },
+  "analysisSources": {
+    "algorithm": "sha256-path-nul-content-nul",
+    "sha256": "5d91a08c4e2b4d47e123e1c664dc2ba15552afd24636dec2488bca49fb379858",
+    "files": 409,
+    "roots": [
+      "joern-cli/frontends/dartsrc2cpg/src",
+      "joern-cli/frontends/dartsrc2cpg/astgen/lib",
+      "joern-cli/frontends/dartsrc2cpg/astgen/bin",
+      "joern-cli/frontends/x2cpg/src/main",
+      "dataflowengineoss/src/main",
+      "semanticcpg/src/main",
+      "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.lock",
+      "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.yaml",
+      "joern-cli/frontends/dartsrc2cpg/build.sbt",
+      "joern-cli/frontends/x2cpg/build.sbt",
+      "joern-cli/build.sbt",
+      "dataflowengineoss/build.sbt",
+      "semanticcpg/build.sbt",
+      "build.sbt",
+      "project/Versions.scala",
+      "project/Projects.scala"
+    ]
+  },
+  "exporterVersion": "0.3.25",
+  "scope": "List-pattern instantiated element and slice static types, wrapper erasures and original generic declaration identity, with graph count comparison. Not complete pattern, runtime environment, CFG/payload, heap or release qualification.",
+  "reducedRegression": {
+    "fixture": "src/test/resources/semantics/list_pattern_results.dart",
+    "sha256": "68cddb1f07e92fbc60adafaddd45ddf73f31a105839f40a65b7c3f62d73a9845",
+    "before": "Values<String> resolves the correct source index getter but the extracted call result still has the getter class parameter T. The native control returns a String.",
+    "after": "Index extraction retains the required pattern element type, before child narrowing. Slice extraction retains the required List type. Caller parameter identities and per-use cached views remain separate from the generic member declaration; known nested wrapper element erasures constrain downstream inherited getter lookup.",
+    "graph": "preserve list-pattern instantiated results without changing generic declarations",
+    "exporter": "list patterns retain instantiated element types and erasures",
+    "nativeFile": "astgen/test/list_pattern_results_test.dart",
+    "nativeTests": 4,
+    "controls": [
+      "Scalar String, slice List<String> and tail results retain instantiated static identities while declaration return T stays scoped to Values.",
+      "A String child test does not replace its Object matched element type.",
+      "Cached Object/num pattern views retain their own static types; the VM observes one getter read across alternatives.",
+      "Caller generic T remains distinct from Values.T.",
+      "Nested View<Store> results retain Store erasure and exclude OtherStore getters; independent inputs preserve their values."
+    ]
+  },
+  "projects": [
+    {
+      "project": "path-1.9.1",
+      "category": "packages",
+      "listPatterns": 0,
+      "withElementType": 0,
+      "differentFromIndexDeclaration": 0,
+      "withElementErasure": 0,
+      "observationsSha256": "cfcd5f47c0c17b2a43b473c53d88ddb0444cd004db35cb276e82ac3c81d19363"
+    },
+    {
+      "project": "collection-1.19.1",
+      "category": "packages",
+      "listPatterns": 0,
+      "withElementType": 0,
+      "differentFromIndexDeclaration": 0,
+      "withElementErasure": 0,
+      "observationsSha256": "7b05364d463f415c2dd9d4ee0f478026910c7f629dbde724da718f5a7038deb1"
+    },
+    {
+      "project": "meta-1.17.0",
+      "category": "packages",
+      "listPatterns": 0,
+      "withElementType": 0,
+      "differentFromIndexDeclaration": 0,
+      "withElementErasure": 0,
+      "observationsSha256": "689c5522851155682ad2b5c3dd585359da5685fb3c2727782b976a335a75ca28"
+    },
+    {
+      "project": "args-2.7.0",
+      "category": "packages",
+      "listPatterns": 0,
+      "withElementType": 0,
+      "differentFromIndexDeclaration": 0,
+      "withElementErasure": 0,
+      "observationsSha256": "e30e3f70869772f34397d1a44cd434aa82fe3a56cbe345a6c205a6c2525fb1ad"
+    },
+    {
+      "project": "async-2.13.0",
+      "category": "packages",
+      "listPatterns": 0,
+      "withElementType": 0,
+      "differentFromIndexDeclaration": 0,
+      "withElementErasure": 0,
+      "observationsSha256": "e8fe367f012543f11bf6350c476c6be744420196c0e91feaaf13539004c426d2"
+    },
+    {
+      "project": "http_parser-4.1.2",
+      "category": "packages",
+      "listPatterns": 0,
+      "withElementType": 0,
+      "differentFromIndexDeclaration": 0,
+      "withElementErasure": 0,
+      "observationsSha256": "72b6bb24dc5b760d53489a824167c8124cc03f9b10720ef52f6ffad9361d1152"
+    },
+    {
+      "project": "analyzer-8.4.1",
+      "category": "packages",
+      "listPatterns": 3,
+      "withElementType": 3,
+      "differentFromIndexDeclaration": 3,
+      "withElementErasure": 0,
+      "observationsSha256": "7d3549d938d7c3297d0a9781228b5ccab1c8be88fad9f37637b1d0df5ed98353"
+    },
+    {
+      "project": "localsend-1.17.0",
+      "category": "applications",
+      "listPatterns": 2,
+      "withElementType": 2,
+      "differentFromIndexDeclaration": 2,
+      "withElementErasure": 0,
+      "observationsSha256": "e202aacd16e4155402ddb28d16786cd5189b79606787df248a09baba78eb0470"
+    },
+    {
+      "project": "saber-0.26.0",
+      "category": "applications",
+      "listPatterns": 0,
+      "withElementType": 0,
+      "differentFromIndexDeclaration": 0,
+      "withElementErasure": 0,
+      "observationsSha256": "f62121aba89311881116c71da34c844acaf293fa3f39d73f48782f3531fb8957"
+    },
+    {
+      "project": "dart-sass-1.89.2",
+      "category": "applications",
+      "listPatterns": 117,
+      "withElementType": 117,
+      "differentFromIndexDeclaration": 117,
+      "withElementErasure": 0,
+      "observationsSha256": "82bbb46b38f978721fa3646f3c496f147b78d89b3c297170e4217fdef9478fcc"
+    },
+    {
+      "project": "shelf-1.4.2",
+      "category": "holdout",
+      "listPatterns": 0,
+      "withElementType": 0,
+      "differentFromIndexDeclaration": 0,
+      "withElementErasure": 0,
+      "observationsSha256": "d5251ad354a08c0bfc6e5779d72e8550e24fee80c233c419cc9b2c6f0c562d3e"
+    },
+    {
+      "project": "yaml-3.1.3",
+      "category": "holdout",
+      "listPatterns": 0,
+      "withElementType": 0,
+      "differentFromIndexDeclaration": 0,
+      "withElementErasure": 0,
+      "observationsSha256": "fd51471aaff67bd5d8230f213bb5ac7f4b96792f6d8e9d9ad05d2954b4c5f3e8"
+    }
+  ],
+  "totals": {
+    "listPatterns": 122,
+    "withElementType": 122,
+    "differentFromIndexDeclaration": 122,
+    "withElementErasure": 0
+  },
+  "sourceEvidence": [
+    {
+      "project": "analyzer-8.4.1",
+      "file": "src/generated/ffi_verifier.dart",
+      "sha256": "25da28e76219d82ac5dc18e8e8dbe2a9719513e152ea4e58a7e31c99c1833636"
+    },
+    {
+      "project": "analyzer-8.4.1",
+      "file": "src/generated/resolver.dart",
+      "sha256": "277e1aeb1cbf451a9938ba31c59045d25fbea0d29e786099adac2c92994f2e33"
+    },
+    {
+      "project": "dart-sass-1.89.2",
+      "file": "src/ast/sass/argument_list.dart",
+      "sha256": "27de85ba6e02e5829b7ee02c0d6c62cad67f23b8ce868b38fdfbcfd1c43cc799"
+    },
+    {
+      "project": "dart-sass-1.89.2",
+      "file": "src/ast/selector/complex.dart",
+      "sha256": "5bf4343c926753b4b4aab4b83dab1259814cf14260a3a6313acd04180e09f640"
+    },
+    {
+      "project": "dart-sass-1.89.2",
+      "file": "src/utils.dart",
+      "sha256": "00b72f1d8befe8bd8567a9b53e733de79b030e9891509900376767480567c7f9"
+    },
+    {
+      "project": "localsend-1.17.0",
+      "file": "pages/settings/network_interfaces_page.dart",
+      "sha256": "edd77ad9c0b3c5269c2f1870da6e63cd556ae25461ecde5dfe15efe9267dd3e6"
+    }
+  ],
+  "unchangedRepresentationCounts": true,
+  "unchangedPriorIterationPatternAndRepresentationFacts": true,
+  "limitations": [
+    "Counts include empty and wildcard patterns that do not extract elements; metadata differences do not prove an index invocation or a runtime execution.",
+    "No corpus element type has a wrapper erasure; reduced nested wrapper controls supply that direct evidence.",
+    "Known static result types do not identify actual list/storage instances or checked runtime generic environments.",
+    "Complete pattern CFG/payload effects, generic bounds, heap/representation storage aliasing, library callbacks/platform effects, omitted alternatives and limited negative searches remain open."
+  ]
+}

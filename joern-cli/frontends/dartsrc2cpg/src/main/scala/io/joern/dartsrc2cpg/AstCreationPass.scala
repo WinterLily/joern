@@ -979,14 +979,16 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
         value.root.foreach(source => result.root.foreach(copyErasure(source, _)))
         result
     }
-    def patternMember(syntax: Value, targetId: String, name: String, values: Seq[Ast]): Ast = {
+    def patternMember(syntax: Value, targetId: String, name: String, values: Seq[Ast], resultType: String = ""): Ast = {
       val target = sym(targetId)
       val out    = located(
         NewCall()
           .name(name)
           .methodFullName(if (targetId.nonEmpty) targetId else s"<unresolved>.$name")
           .code(code(syntax))
-          .typeFullName(string(target, "returnTypeId", string(target, "returnType", "ANY")))
+          .typeFullName(
+            if (resultType.nonEmpty) resultType else string(target, "returnTypeId", string(target, "returnType", "ANY"))
+          )
           .dispatchType(
             if (fixedTarget(syntax, targetId)) DispatchTypes.STATIC_DISPATCH else DispatchTypes.DYNAMIC_DISPATCH
           ),
@@ -1120,7 +1122,8 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
                 entry,
                 string(syntax, "sublistTarget"),
                 "sublist",
-                Seq(value(), literal(entry, index.toString, "int"), end)
+                Seq(value(), literal(entry, index.toString, "int"), end),
+                string(syntax, "requiredTypeId")
               )
               saved(entry, patternAccess(entry, key, slice))(ref => pattern(inner, ref, key))
             }
@@ -1133,7 +1136,14 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
                 if (fromEnd)
                   operator(entry, Operators.subtraction, Seq(length(), literal(entry, (position + 1).toString, "int")))
                 else literal(entry, position.toString, "int")
-              val element = patternMember(entry, string(syntax, "indexTarget"), "[]", Seq(value(), offset))
+              val element = patternMember(
+                entry,
+                string(syntax, "indexTarget"),
+                "[]",
+                Seq(value(), offset),
+                string(syntax, "elementTypeId")
+              )
+              element.root.foreach(erasedReceiver(_, string(syntax, "elementErasedTypeId")))
               Seq(saved(entry, patternAccess(entry, key, element))(ref => pattern(entry, ref, key)))
             }
           }

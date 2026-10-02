@@ -92,7 +92,7 @@
       "exporter": {
         "record": "header",
         "protocolVersion": 1,
-        "exporterVersion": "0.3.24",
+        "exporterVersion": "0.3.25",
         "analyzerVersion": "8.4.1",
         "sdkVersion": "3.9.2",
         "offsetEncoding": "utf-16",
@@ -100,8 +100,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "c860f38644b091fcd88fc4f962d7efeac3085766620c43f34ed22dcaeb326c52",
-        "files": 408,
+        "sha256": "5d91a08c4e2b4d47e123e1c664dc2ba15552afd24636dec2488bca49fb379858",
+        "files": 409,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -490,28 +490,28 @@
             ]
           ]
         },
-        "111669150060": {
+        "111669150087": {
           "label": "METHOD_PARAMETER_IN",
-          "method": "package:path/src/style/url.dart#1348:METHOD:rootLength",
+          "method": "package:path/src/style/windows.dart#1324:METHOD:rootLength",
           "code": "String path",
           "line": 47,
           "parameterIndex": 1
         },
-        "68719478351": {
+        "68719478428": {
           "label": "IDENTIFIER",
-          "method": "package:path/src/style/url.dart#1348:METHOD:rootLength",
+          "method": "package:path/src/style/windows.dart#1324:METHOD:rootLength",
           "code": "path",
           "line": 48,
           "argumentsOf": [
             [
-              "30064772791",
+              "30064772876",
               0
             ]
           ]
         },
-        "115964117356": {
+        "115964117383": {
           "label": "METHOD_PARAMETER_OUT",
-          "method": "package:path/src/style/url.dart#1348:METHOD:rootLength",
+          "method": "package:path/src/style/windows.dart#1324:METHOD:rootLength",
           "code": "String path",
           "line": 47,
           "parameterIndex": 1
@@ -1351,8 +1351,8 @@
             }
           ]
         },
-        "30064772791": {
-          "nodeId": "30064772791",
+        "30064772876": {
+          "nodeId": "30064772876",
           "name": "isEmpty",
           "target": "dart:core/string.dart#13494:GETTER:isEmpty",
           "code": "path.isEmpty",
@@ -2062,7 +2062,7 @@
               []
             ],
             [
-              "111669150060",
+              "111669150087",
               5,
               true,
               false,
@@ -2070,7 +2070,7 @@
               []
             ],
             [
-              "68719478351",
+              "68719478428",
               5,
               true,
               false,
@@ -2078,7 +2078,7 @@
               []
             ],
             [
-              "115964117356",
+              "115964117383",
               5,
               true,
               false,
@@ -2337,7 +2337,7 @@
               []
             ],
             [
-              "111669150060",
+              "111669150087",
               5,
               true,
               false,
@@ -2345,7 +2345,7 @@
               []
             ],
             [
-              "68719478351",
+              "68719478428",
               5,
               true,
               false,
@@ -2353,7 +2353,7 @@
               []
             ],
             [
-              "115964117356",
+              "115964117383",
               5,
               true,
               false,
@@ -4341,7 +4341,7 @@
       "exporter": {
         "record": "header",
         "protocolVersion": 1,
-        "exporterVersion": "0.3.24",
+        "exporterVersion": "0.3.25",
         "analyzerVersion": "8.4.1",
         "sdkVersion": "3.9.2",
         "offsetEncoding": "utf-16",
@@ -4349,8 +4349,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "c860f38644b091fcd88fc4f962d7efeac3085766620c43f34ed22dcaeb326c52",
-        "files": 408,
+        "sha256": "5d91a08c4e2b4d47e123e1c664dc2ba15552afd24636dec2488bca49fb379858",
+        "files": 409,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -5134,7 +5134,7 @@
       "exporter": {
         "record": "header",
         "protocolVersion": 1,
-        "exporterVersion": "0.3.24",
+        "exporterVersion": "0.3.25",
         "analyzerVersion": "8.4.1",
         "sdkVersion": "3.9.2",
         "offsetEncoding": "utf-16",
@@ -5142,8 +5142,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "c860f38644b091fcd88fc4f962d7efeac3085766620c43f34ed22dcaeb326c52",
-        "files": 408,
+        "sha256": "5d91a08c4e2b4d47e123e1c664dc2ba15552afd24636dec2488bca49fb379858",
+        "files": 409,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -5276,7 +5276,7 @@
             "issue": "DART-FLOW-003",
             "owner": "shared dataflow query engine / Dart library models"
           },
-          "refreshDisposition": "Fresh two-witness stock 29/28-node paths select input.length -> end slot 3 -> size/header/allocation and saved Uint8List receivers, then setRange receiver 0 -> range end expression slot 2 -> start/skipCount slot 4 -> bytes slot 3. The shorter variant omits the allocation result alias and preserves invisible constructor evidence. Four-witness shorter variants additionally omit one CR/LF saved alias, preserving its invisible receiver evidence. Exact slots, frames and flags remain explicit, with empty field/storage demands. These readonly, allocation, receiver/range and cross-argument effects are conservative, not direct byte copying or runtime allocation identity; native whole/slice/empty controls retain separate scope."
+          "refreshDisposition": "Fresh two-witness stock 29/28-node variants retain input.length -> end slot 3 -> size/header/allocation and saved Uint8List receivers, then conservative setRange receiver 0 -> cursor slot 1 -> start/skipCount slot 4 -> bytes slot 3. The shorter variant omits the saved allocation identifier and retains invisible constructor evidence. Exact slots, visibility/output flags and frames remain explicit, with empty field/storage demands. These readonly, range, allocation and cross-argument effects are approximations, not direct byte copying or allocation identity. Native whole/slice/empty controls and modeled direct-byte effects keep their separate scopes; no causal claim ties route selections to list result types. Fresh four-witness 29/28-node variants retain the same 0 -> 1 -> 4 -> 3 range order; shorter variants omit the saved allocation identifier or one CR/LF alias, with corresponding invisible receiver evidence retained."
         },
         {
           "id": "chunk-return-buffer",
@@ -5381,7 +5381,7 @@
             "issue": "DART-FLOW-003",
             "owner": "shared dataflow query engine / Dart library models"
           },
-          "refreshDisposition": "Fresh two-witness stock 76-node routes select conservative setRange bytes 3 -> range end 2 -> start/skipCount 4 -> receiver 0, saved CR/LF aliases and footer range/length effects into returned whole buffers. Output-marked _convert results enter candidate _Sink.add; the first re-entry selects chunk.length -> end slot 3 -> size/header/allocation, and the later re-entry selects bytes slot 1. Modeled 61-node paths instead retain direct modeled bytes 3 -> receiver 0 effects, with an end/header.codeUnits -> modeled header-copy detour before later bytes re-entry. Four-witness stock 58/57-node routes instead select bytes re-entry twice, retaining conservative 3 -> 2 -> 4 -> 0 range effects each time. Shorter variants omit one initial CR/LF saved alias and preserve its invisible evidence. Initial add/addSlice and later add frames remain distinct; exact output/visibility flags are retained and field/storage demands are empty. These receiver, range, readonly/header, dispatch and caller effects do not establish actual sink/array instances, repeated-call order, allocation identity or precise byte-element provenance. Native copy controls do not certify those routes, and larger witness bounds need not retain smaller-bound selections. No causal claim ties route changes to pattern constraints."
+          "refreshDisposition": "Fresh two-witness stock 76-node variants retain conservative setRange bytes 3 -> cursor 1 -> start/skipCount 4 -> receiver 0, CR/LF saved aliases and footer range/length effects before returned whole buffers. Output-marked _convert results enter candidate _Sink.add. The first re-entry selects chunk.length -> end slot 3 -> size/header/allocation; the later re-entry selects chunk -> bytes slot 1. Initial add and addSlice invocation identities remain distinct from later add frames; all slots, flags and contexts are retained, with empty field/storage demands. These external receiver/range, readonly/header, caller, allocation and dispatch effects do not establish actual sink/array instances, repeated-call order, allocation identity or precise byte provenance. Native copy controls do not certify those detours; larger witness bounds need not retain smaller-bound choices. No causal claim connects these selections to list result instantiation. Fresh four-witness stock 58/57-node variants instead retain two bytes-slot-1 re-entries, with 3 -> 1 -> 4 -> 0 range effects. The 58-node paths retain initial add/addSlice identities. One 57-node initial add route omits the first skipCount slot-4 detour (3 -> 1 -> 0); the other omits one CR saved alias while preserving its invisible receiver evidence. Both later byte re-entries retain skipCount, aliases and footer/return effects. Model-specific direct-byte effects remain separately replayed."
         },
         {
           "id": "error-message-value",
@@ -5797,16 +5797,15 @@
             ]
           ]
         },
-        "30064771631": {
-          "label": "CALL",
+        "68719477247": {
+          "label": "IDENTIFIER",
           "method": "package:http_parser/src/chunked_coding/encoder.dart#1792:FUNCTION:_convert",
-          "code": "cursor + end - start",
+          "code": "cursor",
           "line": 74,
-          "call": "30064771631",
           "argumentsOf": [
             [
               "30064771630",
-              2
+              1
             ]
           ]
         },
@@ -6406,18 +6405,6 @@
             }
           ]
         },
-        "30064771631": {
-          "nodeId": "30064771631",
-          "name": "<operator>.subtraction",
-          "target": "<operator>.dart.subtraction",
-          "code": "cursor + end - start",
-          "callees": [
-            {
-              "fullName": "<operator>.dart.subtraction",
-              "external": true
-            }
-          ]
-        },
         "30064771580": {
           "nodeId": "30064771580",
           "name": "_convert",
@@ -6872,11 +6859,11 @@
               []
             ],
             [
-              "30064771631",
+              "68719477247",
               0,
               true,
               false,
-              "cursor + end - start",
+              "cursor",
               []
             ],
             [
@@ -7130,11 +7117,11 @@
               []
             ],
             [
-              "30064771631",
+              "68719477247",
               0,
               true,
               false,
-              "cursor + end - start",
+              "cursor",
               []
             ],
             [
@@ -7253,11 +7240,11 @@
               []
             ],
             [
-              "30064771631",
+              "68719477247",
               1,
               true,
               false,
-              "cursor + end - start",
+              "cursor",
               []
             ],
             [
@@ -7733,11 +7720,11 @@
               []
             ],
             [
-              "30064771631",
+              "68719477247",
               0,
               true,
               false,
-              "cursor + end - start",
+              "cursor",
               []
             ],
             [
@@ -7942,11 +7929,11 @@
               []
             ],
             [
-              "30064771631",
+              "68719477247",
               2,
               true,
               false,
-              "cursor + end - start",
+              "cursor",
               []
             ],
             [
@@ -8422,11 +8409,11 @@
               []
             ],
             [
-              "30064771631",
+              "68719477247",
               0,
               true,
               false,
-              "cursor + end - start",
+              "cursor",
               []
             ],
             [
@@ -9934,7 +9921,7 @@
   ],
   "representation": "Node/call IDs and context/path indices are project-local. transitions[i] classifies elements[i] to elements[i+1]. All retained demand sets in this review are empty. Equivalent stock/modeled paths are shared; full path flags and selected caller contexts are preserved.",
   "reviewMethod": "Each selected displayed route was read against its pinned source expectation. Formal argument positions, resolved return targets and available selected frames were checked. Argument-output return evidence already in a caller frame has a separate category. This is a mechanism/approximation review, not branch feasibility, general scheduling or heap qualification.",
-  "analysisBaseCommit": "babb30042",
+  "analysisBaseCommit": "53e2352f6",
   "limitations": [
     "Only these seven query families and their returned bounded paths are reviewed; other corpus alternatives and larger searches remain pending.",
     "An endpoint identity is recorded separately from independent forwarding; conservative argument outputs, aggregate projections and external effects do not prove mutation, allocation identity, callback delivery or branch feasibility.",
@@ -9947,11 +9934,11 @@
     "distinctTransitions": 617
   },
   "refresh": {
-    "previousBaseCommit": "babb30042",
+    "previousBaseCommit": "53e2352f6",
     "previousAnalysisSources": {
       "algorithm": "sha256-path-nul-content-nul",
-      "sha256": "e93d7f16ba74f0ed500a0e2dfb6b80a06f917cb1ae2b49a97201fb8ee195c526",
-      "files": 407,
+      "sha256": "c860f38644b091fcd88fc4f962d7efeac3085766620c43f34ed22dcaeb326c52",
+      "files": 408,
       "roots": [
         "joern-cli/frontends/dartsrc2cpg/src",
         "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -9975,9 +9962,9 @@
       "queries": 7,
       "selectedPaths": 25,
       "distinctPaths": 19,
-      "distinctTransitions": 637
+      "distinctTransitions": 617
     },
-    "method": "Replayed after adding object-pattern required receiver constraints and instantiated object/record field result types, preserving per-use cached field erasures and generic declaration identities. Unchanged routes are matched against previous two/four-witness reviewed paths after removing node IDs only; all other node/call/context/flag/demand facts are retained. Changed variants have separate source-grounded refresh dispositions and checked argument/return/output bindings. All new graph IDs are reconstructed from fresh raw audits. Native observations do not certify caller re-entry, allocation, heap/dispatch precision or route feasibility."
+    "method": "Replayed after retaining list-pattern element and slice static types and instantiated element erasures, preserving per-use cached result views and original generic declaration identities. Unchanged routes are matched against previous two/four-witness reviewed paths after removing node IDs only; all other node/call/context/flag/demand facts are retained. Changed variants have separate source-grounded refresh dispositions and checked argument/return/output bindings. All new graph IDs are reconstructed from fresh raw audits. Native observations do not certify caller re-entry, allocation, heap/dispatch precision or route feasibility."
   },
   "nativeRefreshScope": "Existing native oracle contracts remain unchanged."
 }

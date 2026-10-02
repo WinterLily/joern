@@ -2202,3 +2202,82 @@ should retain T while the extracted result preserves its instantiated type.
 Full pattern CFG/payload effects, runtime generic environments, representation
 storage aliasing, structured/function effects, omitted alternatives and limited
 negative searches remain open.
+
+## Instantiated list-pattern result types
+
+Exporter 0.3.25 records the element type of each resolved list pattern's required
+List<E>, including scoped generic identities and known wrapper erasures. Index
+results now use E before child narrowing, and slice results use the required
+List type independently of the override's declaration return type. Generic
+getter declarations retain their original class parameters. A Values<String>
+index read previously resolved its source getter but retained Values.T as its
+result type; it now retains String. Cached Object/num views, caller-versus-class
+T identities, scalar/slice/tail results and nested View<Store> getter exclusion
+have exporter and graph controls. Four native tests exercise independent values,
+child-test outcomes, getter-once alternatives and nested wrapper extraction.
+
+The full opt-in native suite passes 148 tests, Dart analysis reports no issues,
+and the forced frontend suite passes 171 tests. All seven packages, three
+applications and two holdout projects pass, alongside four staged CLI and
+fourteen staged console checks. Their graphs share analysis-source SHA-256
+`5d91a08c4e2b4d47e123e1c664dc2ba15552afd24636dec2488bca49fb379858`
+over 409 files. Method/call counts and all previous iteration, pattern and
+representation observations are unchanged. Independent exports retain 122 list
+patterns: three in analyzer, two in LocalSend and 117 in Sass. All have element
+metadata distinct from their index declaration's generic return identity.
+These counts include empty and wildcard patterns that do not extract elements;
+they do not prove 122 getter invocations. No corpus element has a wrapper
+erasure, so the reduced fixture supplies that interaction evidence. The
+[result review](list-pattern-result-review.json) preserves source pins and exact
+comparison scope. The stage matrix links 84 named tests. Six matrix tests and
+sixteen rejection controls pass, as do thirteen source-index rejection controls,
+full cached source verification and two upstream-case tests with nine rejection
+controls. Complete rule cells and all Gates 1–6 remain open.
+
+Two-witness/two-round audits complete in 237411/48279/31170 ms for packages,
+applications and holdout, with sampled family RSS 5485700/4578832/1895316 KiB.
+Four-witness/two-round audits complete in 419402/50288/32184 ms, with RSS
+6126636/5073420/2267060 KiB. Each category remains within its 600000 ms budget;
+workers explicitly use 8 GiB/four processors. Memory is a once-per-second
+process-family sample, not exact peak RSS or one heap.
+
+Fresh four-witness dispositions cover 248 selected paths, 148 distinct routes
+and 2,556 transitions across eighty queries. Stock/model endpoint outcomes
+remain 78/80 and 80/80, with 122/131 and 111/117 visible/detailed paths and 42/41
+limited queries. Seven stock and eight modeled negatives remain inconclusive.
+The two-witness summaries retain stock 86/89 and modeled 81/83 paths with 43/42
+limited queries; forwarding's seven queries retain nineteen distinct paths and
+617 transitions. MediaType retains two paths/six transitions, and fresh storage
+and local-exit checks retain six paths/123 transitions and eleven paths/199
+transitions. Both summaries reproduce byte-for-byte, and all 87 review rejection
+controls pass against current proofs and resource records.
+
+Fifteen changed selections received separate source-grounded dispositions.
+Two stock analyzer variants retain _element -> bound.typeArguments demands,
+then the interface-type branch, _writeTypeList and readonly NodeList/BoolList
+length detours in either order. One modeled Path route selects readonly
+normalization output, prettyUri/relative re-entry, then the POSIX rootLength
+body while retaining all style candidates. Twelve HTTP selections retain
+setRange copy order receiver 0 -> cursor 1 -> skipCount 4 -> bytes 3, and buffer
+order 3 -> 1 -> 4 -> 0. Two-witness buffer re-entry selects end then bytes;
+four-witness stock selects bytes twice. One shorter four-witness buffer route
+omits the first skipCount detour; another omits a saved CR alias while retaining
+hidden receiver evidence. Other shorter copy routes omit an allocation or
+CR/LF alias. Exact flags, slots, demands and frames are preserved. These
+readonly, field, external, size/range, dispatch and caller approximations do
+not establish actual receivers, callback delivery, branch feasibility,
+repeated-call order, allocation identity or precise element/byte provenance.
+No causal claim ties those selections to list result types.
+
+Reduced probes identify the next boundaries. A trailing list rest pattern
+requires sublist(start) with its end argument omitted, but lowering supplies
+null. An override whose default is 2 returns two items in the VM; the generated
+call passes null and would retain all items instead. Head/tail, explicit-null,
+independent override-default, cached-read and short-list failure observations
+confirm that omission matters. Map index results still retain a declaration's
+scoped V instead of its instantiated type. A broad Contract object pattern over
+known Store also widens accessor lookup to unrelated OtherStore because its
+required receiver tag replaces the narrower static constraint. These remain
+open implementation obligations. Full pattern CFG/payload effects, runtime
+generic environments, representation storage aliasing, structured/function
+results, omitted alternatives and limited negative searches remain unqualified.

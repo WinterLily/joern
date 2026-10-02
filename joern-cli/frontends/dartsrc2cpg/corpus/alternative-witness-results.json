@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "analysisSources": {
     "algorithm": "sha256-path-nul-content-nul",
-    "sha256": "c860f38644b091fcd88fc4f962d7efeac3085766620c43f34ed22dcaeb326c52",
-    "files": 408,
+    "sha256": "5d91a08c4e2b4d47e123e1c664dc2ba15552afd24636dec2488bca49fb379858",
+    "files": 409,
     "roots": [
       "joern-cli/frontends/dartsrc2cpg/src",
       "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -45,7 +45,7 @@
       "exporter": {
         "record": "header",
         "protocolVersion": 1,
-        "exporterVersion": "0.3.24",
+        "exporterVersion": "0.3.25",
         "analyzerVersion": "8.4.1",
         "sdkVersion": "3.9.2",
         "offsetEncoding": "utf-16",
@@ -101,8 +101,8 @@
               "distinctEndpoints": true,
               "viaSatisfied": true,
               "positiveControlSatisfied": null,
-              "witnessesSha256": "57af24058c8b1c81e8282155c73580659ea9b00852f1dc8f4bd45d2656230a8e",
-              "detailedWitnessesSha256": "623e6d6c829350a7501972d07da262c1d48d695dd8a60f483b2d9cd25da1b993"
+              "witnessesSha256": "cfee1e4e6f12ce06dba2f6dc2ef1f2d0c926321a3b2aeb7d49154707a3e13abf",
+              "detailedWitnessesSha256": "6738c763f68b67de2b67da0a8212065e11f78175cc57ad4c9c3235ece22eeb49"
             },
             "modeled": {
               "paths": 2,
@@ -440,7 +440,7 @@
       "exporter": {
         "record": "header",
         "protocolVersion": 1,
-        "exporterVersion": "0.3.24",
+        "exporterVersion": "0.3.25",
         "analyzerVersion": "8.4.1",
         "sdkVersion": "3.9.2",
         "offsetEncoding": "utf-16",
@@ -949,7 +949,7 @@
       "exporter": {
         "record": "header",
         "protocolVersion": 1,
-        "exporterVersion": "0.3.24",
+        "exporterVersion": "0.3.25",
         "analyzerVersion": "8.4.1",
         "sdkVersion": "3.9.2",
         "offsetEncoding": "utf-16",
@@ -1584,7 +1584,7 @@
       "exporter": {
         "record": "header",
         "protocolVersion": 1,
-        "exporterVersion": "0.3.24",
+        "exporterVersion": "0.3.25",
         "analyzerVersion": "8.4.1",
         "sdkVersion": "3.9.2",
         "offsetEncoding": "utf-16",
@@ -2030,7 +2030,7 @@
       "exporter": {
         "record": "header",
         "protocolVersion": 1,
-        "exporterVersion": "0.3.24",
+        "exporterVersion": "0.3.25",
         "analyzerVersion": "8.4.1",
         "sdkVersion": "3.9.2",
         "offsetEncoding": "utf-16",
@@ -2438,7 +2438,7 @@
       "exporter": {
         "record": "header",
         "protocolVersion": 1,
-        "exporterVersion": "0.3.24",
+        "exporterVersion": "0.3.25",
         "analyzerVersion": "8.4.1",
         "sdkVersion": "3.9.2",
         "offsetEncoding": "utf-16",
@@ -2497,8 +2497,8 @@
               "distinctEndpoints": true,
               "viaSatisfied": true,
               "positiveControlSatisfied": null,
-              "witnessesSha256": "a6e42cbc74422d7cbc184887b8323dd8f19bf07dcf79e497dda2059237e3e9ae",
-              "detailedWitnessesSha256": "05b6c42d90ba3626aba92eb8b7a7daa940a86cb752899f36634f2b852e3bab2e"
+              "witnessesSha256": "4de61aa1121158000a2e027452cd8e0dd0314f7dd8d7558f6ed8c7cdb6b773f6",
+              "detailedWitnessesSha256": "1358bb5d37f60f3d5c8b9fc00fe2393c74b8dab417471d665876629e2eac1751"
             },
             "modeled": {
               "paths": 1,
@@ -2578,8 +2578,8 @@
               "distinctEndpoints": true,
               "viaSatisfied": true,
               "positiveControlSatisfied": null,
-              "witnessesSha256": "647802464e6bf8c2afc1bcbe46d2a39a23d37d4b284330b7c835c77909b5edca",
-              "detailedWitnessesSha256": "faf1fd1ab99e74b86b13ecb20cfb5bfe01b4a07ec37e6e5f321e4c659086ce00"
+              "witnessesSha256": "ad8a4807ba4dc508c8743ee96645da350bf960daea9ccdf4e77f363b2789c0dc",
+              "detailedWitnessesSha256": "c47b2e2b0ce9b508c1dbe1e02f7b5e2eae3717609f0a0c27ec8b7352d325051e"
             },
             "modeled": {
               "paths": 2,
@@ -2857,7 +2857,7 @@
       "exporter": {
         "record": "header",
         "protocolVersion": 1,
-        "exporterVersion": "0.3.24",
+        "exporterVersion": "0.3.25",
         "analyzerVersion": "8.4.1",
         "sdkVersion": "3.9.2",
         "offsetEncoding": "utf-16",
@@ -3120,11 +3120,11 @@
               "legacyPaths": 1,
               "visibleLengths": [
                 58,
-                58
+                53
               ],
               "detailedLengths": [
                 61,
-                61
+                60
               ],
               "outcome": "flow-observed",
               "limitations": [
@@ -3141,19 +3141,19 @@
               "distinctEndpoints": true,
               "viaSatisfied": true,
               "positiveControlSatisfied": null,
-              "witnessesSha256": "9d0ede5b1981949d5b212c6ecb0d068db61c776496a1a3cdbbbbf108359ff832",
-              "detailedWitnessesSha256": "e0e09a8a7b331a0d3ada780360eddb3b9020d20a04e150dae7e5fc8198f04b6b"
+              "witnessesSha256": "8bf41648cb97fbdd5bfac6cc84284352b66e0f0455e84b3e3dfb2618ad7d61a2",
+              "detailedWitnessesSha256": "80a501f6f4bc7a68ce78bf00349bf8cfaca94a31204a3eb02716b326a0e27514"
             },
             "modeled": {
               "paths": 2,
               "detailedPaths": 2,
               "legacyPaths": 1,
               "visibleLengths": [
-                58,
-                58
+                59,
+                54
               ],
               "detailedLengths": [
-                61,
+                62,
                 61
               ],
               "outcome": "flow-observed",
@@ -3171,8 +3171,8 @@
               "distinctEndpoints": true,
               "viaSatisfied": true,
               "positiveControlSatisfied": null,
-              "witnessesSha256": "9d0ede5b1981949d5b212c6ecb0d068db61c776496a1a3cdbbbbf108359ff832",
-              "detailedWitnessesSha256": "e0e09a8a7b331a0d3ada780360eddb3b9020d20a04e150dae7e5fc8198f04b6b"
+              "witnessesSha256": "266bd9083de3140c665cde64e6be87f1c753651a83db07951ceaf5a961fb5d0e",
+              "detailedWitnessesSha256": "c2ca5aa773cd205766a1952e1ee542668c0a88d98dd6278afeaa7986f95f8b0f"
             }
           },
           "maxHeldTaskIterations": 2,
@@ -3365,7 +3365,7 @@
       "exporter": {
         "record": "header",
         "protocolVersion": 1,
-        "exporterVersion": "0.3.24",
+        "exporterVersion": "0.3.25",
         "analyzerVersion": "8.4.1",
         "sdkVersion": "3.9.2",
         "offsetEncoding": "utf-16",
@@ -4236,7 +4236,7 @@
       "exporter": {
         "record": "header",
         "protocolVersion": 1,
-        "exporterVersion": "0.3.24",
+        "exporterVersion": "0.3.25",
         "analyzerVersion": "8.4.1",
         "sdkVersion": "3.9.2",
         "offsetEncoding": "utf-16",
@@ -5104,7 +5104,7 @@
       "exporter": {
         "record": "header",
         "protocolVersion": 1,
-        "exporterVersion": "0.3.24",
+        "exporterVersion": "0.3.25",
         "analyzerVersion": "8.4.1",
         "sdkVersion": "3.9.2",
         "offsetEncoding": "utf-16",
@@ -5557,7 +5557,7 @@
               "legacyPaths": 1,
               "visibleLengths": [
                 21,
-                20
+                21
               ],
               "detailedLengths": [
                 29,
@@ -5575,8 +5575,8 @@
               "distinctEndpoints": true,
               "viaSatisfied": true,
               "positiveControlSatisfied": null,
-              "witnessesSha256": "8923726103a860da2d5a39d6f9cc1bac2cbc74e3a80eb2ef620d40293099bf05",
-              "detailedWitnessesSha256": "58036d426b33737afffb7f14938a8f35e9b0f3de657404263fbe286a93c111ce"
+              "witnessesSha256": "a9d109caa8b017c9079836b835534139cfbcd5fd0bf20c79065f5640547177bf",
+              "detailedWitnessesSha256": "8546f735a0f9e80ee43ed79f2aaf160dee41b6b12a27dbfffb1d357676f0622a"
             }
           },
           "maxHeldTaskIterations": 2,
@@ -5979,7 +5979,7 @@
       "exporter": {
         "record": "header",
         "protocolVersion": 1,
-        "exporterVersion": "0.3.24",
+        "exporterVersion": "0.3.25",
         "analyzerVersion": "8.4.1",
         "sdkVersion": "3.9.2",
         "offsetEncoding": "utf-16",
@@ -6148,7 +6148,7 @@
       "exporter": {
         "record": "header",
         "protocolVersion": 1,
-        "exporterVersion": "0.3.24",
+        "exporterVersion": "0.3.25",
         "analyzerVersion": "8.4.1",
         "sdkVersion": "3.9.2",
         "offsetEncoding": "utf-16",

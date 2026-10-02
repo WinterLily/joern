@@ -74,6 +74,48 @@ void main() {
   });
 
   test(
+    'list patterns retain instantiated element types and erasures',
+    () async {
+      write(
+        'main.dart',
+        File(
+          '../src/test/resources/semantics/list_pattern_results.dart',
+        ).readAsStringSync(),
+      );
+      final unit = units(await export()).single;
+      expect(unit['status'], 'resolved');
+      final symbols = {for (final s in entries(unit, 'symbols')) s['id']: s};
+      final patterns = entries(
+        unit,
+        'nodes',
+      ).where((n) => n['kind'] == 'ListPattern').toList();
+      expect(patterns, hasLength(10));
+      for (final pattern in patterns) {
+        expect(pattern['elementType'], isNotNull);
+        expect(pattern['elementTypeId'], isNotNull);
+        expect(pattern['requiredType'], 'List<${pattern['elementType']}>');
+        expect(symbols[pattern['indexTarget']]!['returnType'], 'T');
+      }
+      expect(patterns.where((n) => n['elementType'] == 'Object'), hasLength(2));
+      expect(patterns.where((n) => n['elementType'] == 'num'), hasLength(1));
+      final wrapped = patterns
+          .where((n) => n['elementType'] == 'View<Store>')
+          .toList();
+      expect(wrapped, hasLength(2));
+      for (final pattern in wrapped) {
+        expect(symbols[pattern['elementTypeId']]!['kind'], 'EXTENSION_TYPE');
+        expect(symbols[pattern['elementErasedTypeId']]!['name'], 'Store');
+      }
+      final generic = patterns.singleWhere((n) => n['elementType'] == 'T');
+      expect(symbols[generic['elementTypeId']]!['kind'], 'TYPE_PARAMETER');
+      expect(
+        generic['elementTypeId'],
+        isNot(symbols[generic['indexTarget']]!['returnTypeId']),
+      );
+    },
+  );
+
+  test(
     'object patterns retain required receivers and instantiated field types',
     () async {
       write(

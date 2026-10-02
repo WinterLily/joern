@@ -45,8 +45,10 @@ comparisons preserve receiver direction, user operator targets and null guards,
 with ordinary and dynamic equality evaluation traces. Ordinary object and record
 field extraction now uses lazy storage shared across cases within each match.
 List patterns now resolve and cache length, index and slice reads, with bounded
-wildcard/rest execution traces. Map patterns now retain resolved index/presence
-calls, nullable-value guards and per-match constant-key storage, with alias/null
+wildcard/rest execution traces. Index/slice results retain instantiated pattern
+types and nested wrapper erasures separately from generic member declarations
+and child tests; cached views retain their current types. Map patterns now retain
+resolved index/presence calls, nullable-value guards and per-match constant-key storage, with alias/null
 keys, nested receivers, failed guards and generic nullable/nonnullable execution
 checks. Comparison invocations now share constant arguments and normalized equality
 results within a match, while retaining constant/relational receiver direction.
@@ -241,9 +243,9 @@ have pinned execution controls. Both args negative searches retain call-depth
 limits; no exhaustive absence claim follows from passing endpoint controls.
 
 The [path/async/http_parser review](corpus/package-flows-alternative-review.json)
-classifies all 1,053 transitions in 41 distinct paths for its fifteen queries.
+classifies all 1,055 transitions in 41 distinct paths for its fifteen queries.
 The complete audit retains 248 selected paths sharing 148 distinct routes and
-2,554 classified transitions across all eighty queries. Endpoint identities,
+2,556 classified transitions across all eighty queries. Endpoint identities,
 caller re-entry, size/control detours and external effects retain their limitations;
 eight modeled negatives and omitted alternatives remain unqualified.
 
@@ -289,7 +291,7 @@ remain references; separately adapted manifest cases have explicit valid/diagnos
 classifications and bounded execution tests. Existing
 per-stage semantic qualifications are unchanged. The [qualification matrix](conformance/qualification-matrix.json)
 now assigns all visitor, base-section and feature-document rows seven explicit
-stage cells, with 78 named test links and stale-evidence checks. Shared profiles
+stage cells, with 84 named test links and stale-evidence checks. Shared profiles
 describe selected assertions; complete specification rules retain unqualified
 obligations. Rule-specific test mapping and broader executable traces remain unfinished.
 The asynchronous for-in rule now has a partial cancellation contract, with native

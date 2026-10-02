@@ -23,7 +23,7 @@ import 'package:analyzer/source/line_info.dart';
 import 'package:path/path.dart' as p;
 
 const protocolVersion = 1;
-const exporterVersion = '0.3.24';
+const exporterVersion = '0.3.25';
 const analyzerVersion = '8.4.1';
 const supportedSdkVersion = '3.9.2';
 
@@ -1298,6 +1298,14 @@ class _UnitEncoder {
         child('pattern', ast.pattern);
       case ListPattern():
         kind = 'ListPattern';
+        final required = ast.requiredType;
+        if (required is InterfaceType) {
+          final element = required.typeArguments.single;
+          record['elementType'] = element.getDisplayString();
+          record['elementTypeId'] = typeId(element);
+          final erased = erasedTypeId(element);
+          if (erased != null) record['elementErasedTypeId'] = erased;
+        }
         patternMembers(ast, ast.requiredType, {
           'lengthTarget': 'length',
           'indexTarget': '[]',
