@@ -96,8 +96,9 @@ length groups, with task-context, field/output-flag, tie and pruning regressions
 An isolated four-witness/two-held-round audit now passes baseline comparisons
 on all twelve graphs under explicit worker heap/CPU and wall-clock budgets.
 Its four holdout queries, four analyzer query families and all thirty-three
-application queries have complete transition reviews and pinned library or pure
-helper execution controls; other package routes still require review.
+application queries, plus twenty-two args/collection/meta queries, have complete
+transition reviews and pinned library or pure helper execution controls; other
+package routes still require review.
 Held-task combination rounds now have an optional Dart-only budget with explicit
 inconclusive diagnostics; default and foreign-language searches retain their
 previous behavior. A four-witness package audit exceeded its seven-minute worker
@@ -206,6 +207,12 @@ Certificate/callback, readonly caller-output, MapEntry/collection and worker
 receiver detours retain their approximation status. Native controls exercise the
 pinned URI helper class, filename extension and Base64 codec; they do not execute
 Flutter delivery, file saving, encryption or worker scheduling.
+
+The [args/collection/meta review](corpus/package-bindings-alternative-review.json)
+classifies all 40 transitions in fourteen distinct paths for twenty-two queries.
+Direct forwarding, matching field-formal stores and the reverse-loop temporary
+have pinned execution controls. Both args negative searches retain call-depth
+limits; no exhaustive absence claim follows from passing endpoint controls.
 
 Bounded alternative reporting is now available through `DartWitnessAuditTests`
 on saved corpus graphs. It preserves intermediate call contexts and reports

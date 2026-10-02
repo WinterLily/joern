@@ -13,6 +13,7 @@ LIMITS = (
 REVIEW = "holdout-witness-review.json"
 REVIEW_FILES = (
     REVIEW, "analyzer-alternative-review.json", "sass-alternative-review.json", "applications-alternative-review.json",
+    "package-bindings-alternative-review.json",
 )
 
 
@@ -88,7 +89,8 @@ def summarize(audit_root, resource_file):
             for key in ["defaultSemantics", "dartSummaries"]:
                 require([q["id"] for q in audit[key]] == [q["id"] for q in two[key]]
                         == [q["id"] for q in ordinary[key]], f"Incomplete query set: {name}")
-                if proof and category in ["holdout", "applications"]:
+                if proof and (category in ["holdout", "applications"]
+                              or review_file == "package-bindings-alternative-review.json"):
                     require({q["id"] for q in proof["queries"]} == {q["id"] for q in audit[key]},
                             f"Incomplete project review: {name}")
             for stock, modeled in zip(audit["defaultSemantics"], audit["dartSummaries"], strict=True):
@@ -147,7 +149,7 @@ def summarize(audit_root, resource_file):
             "Intermediate pruning, depth and held-round budgets exclude routes; negative searches with limits remain inconclusive.",
             "New sequences may differ only in temporary/context details; larger bounds need not retain all smaller-bound sequences.",
             "Memory values are sampled process-family sums, not measured peak RSS or the heap of one process.",
-            "All four holdout and thirty-three application queries, plus four analyzer query families, have full transition reviews; other package routes remain pending.",
+            "All four holdout and thirty-three application queries, plus twenty-two args/collection/meta and four analyzer query families, have full transition reviews; other package routes remain pending.",
         ], projects=projects,
     )
 

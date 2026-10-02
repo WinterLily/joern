@@ -1562,3 +1562,48 @@ reject altered evidence, and summary regeneration is byte-identical. The LocalSe
 oracle extracts its pure URI class verbatim rather than executing the Flutter
 library. Other package alternatives, eight modeled inconclusive negatives and
 remaining coverage-plan gates stay open.
+
+
+## Bounded args, collection and meta query review
+
+The [binding snapshot](package-bindings-alternative-review.json) covers all 22
+args/collection/meta queries in both modes. Twenty-eight selected paths share
+fourteen distinct routes and forty classified transitions. Six pinned source
+files, exact positional slots, selected caller frames and path flags are retained.
+The verifier requires each of these project query sets to be complete.
+
+Args supplied values return directly or through the deprecated forwarding method.
+The ArgResults helper binds name and parsed to separate constructor field formals.
+Both negative searches report call-depth and remain inconclusive, despite passing
+same-budget controls and exercised runtime separation. Collection search values
+and lists bind separately, while the reverse-loop temporary carries the selected
+old element to the opposite assignment. Limits on that swap route remain explicit;
+constant -1 returns describe payload independence rather than control independence.
+Meta fields retain matching named/positional constructor assignments and constant
+null isolation. Collection/meta negatives record no query limitations and passing
+controls, without certifying larger searches or general heap/collection precision.
+
+`package_boundaries_test.dart` executes the actual pinned packages. Args checks
+nonnull/null/deprecated forwarding, independent constructor names/parsed values
+and fresh empty lists when the low-level option's defaultsTo is null. The initial
+oracle incorrectly assumed ArgParser.addMultiOption also used a null default:
+that API supplies its configured list, so its result can be shared. The corrected
+control invokes actual newOption with null defaultsTo; no application source was
+changed. An initial collection driver also required the internal algorithms import
+because binarySearchBy is not exported from the public library. Both failures are
+retained as oracle setup/expectation corrections, not frontend defects.
+
+Collection checks empty/single/distinct sorted lists, present/missing keys, the
+first callback input, identity and empty/single/even/odd/subrange reversal. Meta
+checks independent UseResult named fields, the unnamed null field and distinct
+public TargetKind constants. The latter does not execute arbitrary inputs through
+the private constructor. The summary now links 63 fully reviewed query families;
+seventeen package queries, eight inconclusive modeled negatives and other plan
+gates remain open.
+
+Validation passes all 114 native tests with runtime, Flutter, corpus, holdout and
+application flags enabled, final-file analysis/formatting, thirteen additional
+verifier rejection checks and the previous fifty checks. Missing args, collection
+or meta queries, changed positional formals, caller stacks, flags, source/oracle
+hashes and limits are rejected. Summary regeneration is byte-identical and the
+403-file/all-twelve-graph source fingerprint remains unchanged.

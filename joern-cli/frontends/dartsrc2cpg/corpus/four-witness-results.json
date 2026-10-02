@@ -65,7 +65,7 @@
     "Intermediate pruning, depth and held-round budgets exclude routes; negative searches with limits remain inconclusive.",
     "New sequences may differ only in temporary/context details; larger bounds need not retain all smaller-bound sequences.",
     "Memory values are sampled process-family sums, not measured peak RSS or the heap of one process.",
-    "All four holdout and thirty-three application queries, plus four analyzer query families, have full transition reviews; other package routes remain pending."
+    "All four holdout and thirty-three application queries, plus twenty-two args/collection/meta and four analyzer query families, have full transition reviews; other package routes remain pending."
   ],
   "projects": [
     {
@@ -619,7 +619,7 @@
               "detailedWitnessesSha256": "3154669d97d1a22b79a0aa2039baa3a6422503fc589dae7ed9951a382b881b01"
             }
           },
-          "semanticReview": "pending transition review; additional sequences are not necessarily distinct semantic route families"
+          "semanticReview": "see package-bindings-alternative-review.json; The formal reads directly into its expression return. No query limitation is recorded. Pinned execution checks object identity."
         },
         {
           "id": "search-key",
@@ -690,7 +690,7 @@
               "detailedWitnessesSha256": "3e3852f1b98843406e1a68f3cc9de87152777793b9022b90fb266283256e3855"
             }
           },
-          "semanticReview": "pending transition review; additional sequences are not necessarily distinct semantic route families"
+          "semanticReview": "see package-bindings-alternative-review.json; binarySearch forwards value to binarySearchBy, whose first keyOf actual reads that formal. Exact positional slots and selected caller frame are checked. No query limitation is recorded; callback executions distinguish the first searched value from later list-element visits."
         },
         {
           "id": "search-list-not-key",
@@ -755,7 +755,7 @@
               "detailedWitnessesSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
             }
           },
-          "semanticReview": "pending transition review; additional sequences are not necessarily distinct semantic route families"
+          "semanticReview": "see package-bindings-alternative-review.json; sortedList forwards to its separate list formal and does not supply the keyOf(value) actual. No path or query limitation is recorded; the same-budget forwarding control passes. Native searches check first callback input and independent lists/values, not exhaustive static absence."
         },
         {
           "id": "reverse-loop-element",
@@ -833,7 +833,7 @@
               "detailedWitnessesSha256": "0e4d977a780c5a5a7459fcad9bcbe7a8dbd297d312877d1668f2592e36ed679f"
             }
           },
-          "semanticReview": "pending transition review; additional sequences are not necessarily distinct semantic route families"
+          "semanticReview": "see package-bindings-alternative-review.json; The selected elements[i] read assigns tmp, which is read at elements[j] assignment. This is a direct saved-value swap route, with depth/pruning limits retained. Native empty/single/even/odd and subrange cases check loop boundaries and unchanged outside slots; general collection-slot precision remains open."
         },
         {
           "id": "constant-not-found",
@@ -896,7 +896,7 @@
               "detailedWitnessesSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
             }
           },
-          "semanticReview": "pending transition review; additional sequences are not necessarily distinct semantic route families"
+          "semanticReview": "see package-bindings-alternative-review.json; value determines comparison/branch selection, while the selected unsuccessful return is literal -1. No path or query limitation is recorded and the same-budget key control passes. Pinned present/missing searches validate selected returns without turning control dependence into payload flow."
         },
         {
           "id": "search-list-not-key-control",
@@ -965,7 +965,7 @@
               "detailedWitnessesSha256": "b9f586163847ee0d0be91aab678908dc72701f9d0786ce3e83523783af779aa3"
             }
           },
-          "semanticReview": "pending transition review; additional sequences are not necessarily distinct semantic route families"
+          "semanticReview": "see package-bindings-alternative-review.json; The searched list binds directly to binarySearchBy sortedList at its exact positional slot and selected caller frame. No query limitation is recorded; this validates source connectivity independently of key input."
         },
         {
           "id": "constant-not-found-control",
@@ -1036,7 +1036,7 @@
               "detailedWitnessesSha256": "a8d860d1312cb62f044df62c0a051e31e9bc045ea0b2107ae06721a4835774ef"
             }
           },
-          "semanticReview": "pending transition review; additional sequences are not necessarily distinct semantic route families"
+          "semanticReview": "see package-bindings-alternative-review.json; The value formal reads directly at the keyOf actual. No query limitation is recorded. This endpoint control does not analyze arbitrary callback implementations."
         }
       ]
     },
@@ -1158,7 +1158,7 @@
               "detailedWitnessesSha256": "e0959c2bf6d69ab9b95e455c46b1d751d4124f198e8bd34ee69564620f74e554"
             }
           },
-          "semanticReview": "pending transition review; additional sequences are not necessarily distinct semantic route families"
+          "semanticReview": "see package-bindings-alternative-review.json; UseResult.unless reason reads into the generated matching field-formal assignment. No query limitation is recorded. Native independent named pairs verify corresponding fields."
         },
         {
           "id": "named-reason-to-parameterDefined",
@@ -1223,7 +1223,7 @@
               "detailedWitnessesSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
             }
           },
-          "semanticReview": "pending transition review; additional sequences are not necessarily distinct semantic route families"
+          "semanticReview": "see package-bindings-alternative-review.json; The named reason and parameterDefined field formals are separate. No path or query limitation is recorded; the same-budget reason-field control passes. Native independent pairs exercise their separation."
         },
         {
           "id": "named-parameterDefined-to-reason",
@@ -1288,7 +1288,7 @@
               "detailedWitnessesSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
             }
           },
-          "semanticReview": "pending transition review; additional sequences are not necessarily distinct semantic route families"
+          "semanticReview": "see package-bindings-alternative-review.json; The parameterDefined formal stores only its matching field, separately from reason. No path or query limitation is recorded and its matching-field control passes. Native independent pairs exercise this separation."
         },
         {
           "id": "named-parameterDefined-to-parameterDefined",
@@ -1359,7 +1359,7 @@
               "detailedWitnessesSha256": "71ccd8588e6b1225ab31827eb311e2c57382955301a1c3714a375888e2632a77"
             }
           },
-          "semanticReview": "pending transition review; additional sequences are not necessarily distinct semantic route families"
+          "semanticReview": "see package-bindings-alternative-review.json; The required named formal reads into its matching generated field assignment. No query limitation is recorded. Native independent reasons/parameter names validate exercised constructor fields."
         },
         {
           "id": "constant-field-not-reason",
@@ -1424,7 +1424,7 @@
               "detailedWitnessesSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
             }
           },
-          "semanticReview": "pending transition review; additional sequences are not necessarily distinct semantic route families"
+          "semanticReview": "see package-bindings-alternative-review.json; The unnamed constructor assigns parameterDefined literal null independently of supplied reason. No path or query limitation is recorded and its matching reason-field control passes. Native empty/distinct reasons retain null."
         },
         {
           "id": "target-kind-displayString",
@@ -1489,7 +1489,7 @@
               "detailedWitnessesSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
             }
           },
-          "semanticReview": "pending transition review; additional sequences are not necessarily distinct semantic route families"
+          "semanticReview": "see package-bindings-alternative-review.json; TargetKind._ displayString and name are separate positional field formals. No path or query limitation is recorded and the matching displayString-field control passes. Native checks use distinct existing public constants; they do not directly invoke the private constructor with arbitrary inputs."
         },
         {
           "id": "target-kind-name",
@@ -1560,7 +1560,7 @@
               "detailedWitnessesSha256": "41d8acc7cbd34f31e382f6ebd257440489d2ad87c2c1b8d3e6085ea396e1bba5"
             }
           },
-          "semanticReview": "pending transition review; additional sequences are not necessarily distinct semantic route families"
+          "semanticReview": "see package-bindings-alternative-review.json; The positional name formal reads into its matching generated field assignment. No query limitation is recorded. Native public constant checks distinguish name/displayString, without direct arbitrary private-constructor execution."
         },
         {
           "id": "constant-field-not-reason-control",
@@ -1631,7 +1631,7 @@
               "detailedWitnessesSha256": "12d0e207a6eb56a23aac5e4ea5beb3080a488bc0aca48cd874946c2f229e6c72"
             }
           },
-          "semanticReview": "pending transition review; additional sequences are not necessarily distinct semantic route families"
+          "semanticReview": "see package-bindings-alternative-review.json; The unnamed UseResult reason formal stores its matching field directly. No query limitation is recorded. Actual constructors preserve supplied reason independently of the constant null field."
         },
         {
           "id": "target-kind-displayString-control",
@@ -1702,7 +1702,7 @@
               "detailedWitnessesSha256": "892dc49c7c371a7afcf29e67bcb93027a55bc3e14467f54a409ecac8937bfc74"
             }
           },
-          "semanticReview": "pending transition review; additional sequences are not necessarily distinct semantic route families"
+          "semanticReview": "see package-bindings-alternative-review.json; The positional displayString formal reads into its matching generated field assignment. No query limitation is recorded. Public constants retain distinct displayString and name values."
         }
       ]
     },
@@ -1822,7 +1822,7 @@
               "detailedWitnessesSha256": "a5594ce2fe1b22a5fcd5f5c37d35f86d0c2dadf55a42bcdbd49b18039ca6d4af"
             }
           },
-          "semanticReview": "pending transition review; additional sequences are not necessarily distinct semantic route families"
+          "semanticReview": "see package-bindings-alternative-review.json; The nonnull branch returns the supplied value through two local reads. The same-budget control is connected. Pinned execution checks empty/distinct values, null fallback and independent fresh multi-option defaults. This is the selected branch, not branch-feasibility analysis."
         },
         {
           "id": "deprecated-forwarder",
@@ -1890,7 +1890,7 @@
               "detailedWitnessesSha256": "67dab4f5613bfc4ada2600f5dedb93f3356c8ca10c9774d2ac8f0e31d2437d60"
             }
           },
-          "semanticReview": "pending transition review; additional sequences are not necessarily distinct semantic route families"
+          "semanticReview": "see package-bindings-alternative-review.json; The deprecated method binds value to valueOrDefault slot one and returns the selected resolved call result with its caller frame. The direct chain preserves the nonnull value; pinned calls also cover null fallback."
         },
         {
           "id": "value-not-default",
@@ -1957,7 +1957,7 @@
               "detailedWitnessesSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
             }
           },
-          "semanticReview": "pending transition review; additional sequences are not necessarily distinct semantic route families"
+          "semanticReview": "see package-bindings-alternative-review.json; The fallback return reads defaultsTo rather than value. No path is returned, but call-depth is reported, so the graph negative remains inconclusive despite a same-budget direct-return control and native branch separation."
         },
         {
           "id": "forwarded-constructor-name",
@@ -2031,7 +2031,7 @@
               "detailedWitnessesSha256": "ad77a3cd5ec3432a0b1389a8e83ae0e9d523c20bb08e3e4d0dca9674cd26acda"
             }
           },
-          "semanticReview": "pending transition review; additional sequences are not necessarily distinct semantic route families"
+          "semanticReview": "see package-bindings-alternative-review.json; newArgResults binds name to its exact positional constructor slot; the field formal stores it in this.name. The route is direct and its caller frame is retained. Call-depth remains explicit. Native independent names/parsed values exercise the public helper, not general heap identity."
         },
         {
           "id": "forwarded-constructor-parsed",
@@ -2099,7 +2099,7 @@
               "detailedWitnessesSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
             }
           },
-          "semanticReview": "pending transition review; additional sequences are not necessarily distinct semantic route families"
+          "semanticReview": "see package-bindings-alternative-review.json; parsed and name occupy different positional constructor slots. No path is returned but call-depth is reported, so absence remains inconclusive. The same-budget _parsed-field control passes; native helper calls keep name and parsed values separate."
         },
         {
           "id": "forwarded-constructor-parsed-control",
@@ -2169,7 +2169,7 @@
               "detailedWitnessesSha256": "9e24ff3b1beb6d15a07bd3125d2168e18f78801e154f7ec03746c60c67d35b7c"
             }
           },
-          "semanticReview": "pending transition review; additional sequences are not necessarily distinct semantic route families"
+          "semanticReview": "see package-bindings-alternative-review.json; newArgResults binds parsed to the _parsed field formal and its generated field assignment. No query limit is recorded. Actual helper calls verify parsed option reads with independent names; this does not establish arbitrary field-sensitive heap behavior."
         }
       ]
     },

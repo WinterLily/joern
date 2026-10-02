@@ -1,0 +1,3504 @@
+{
+  "schemaVersion": 2,
+  "scope": "All twenty-two args/collection/meta bounded alternative queries; transition mechanisms and approximations, not exhaustive execution traces.",
+  "transitionClasses": {
+    "parameter-read": {
+      "kind": "parameter binding",
+      "meaning": "Reading the formal value within its method; this does not establish which invocation supplied it."
+    },
+    "local-read": {
+      "kind": "assignment",
+      "meaning": "Reaching-definition propagation between reads of the same local or receiver. Branch/path feasibility is not established."
+    },
+    "assignment": {
+      "kind": "assignment",
+      "meaning": "Assignment, temporary binding, constructor field-formal storage, or an indexed/member write represented by assignment."
+    },
+    "parameter-binding": {
+      "kind": "parameter binding",
+      "meaning": "Actual argument to formal parameter. The saved call context, argument index and resolved callee were checked."
+    },
+    "return-value": {
+      "kind": "return",
+      "meaning": "Displayed value to the method return expression; no claim about feasibility of all preceding transitions."
+    },
+    "method-return": {
+      "kind": "return",
+      "meaning": "Return expression to the method return node."
+    },
+    "call-return": {
+      "kind": "return",
+      "meaning": "Method return to its call result. The recorded call has the returning method among its resolved callees."
+    }
+  },
+  "projects": [
+    {
+      "project": "args-2.7.0",
+      "source": {
+        "name": "args",
+        "version": "2.7.0",
+        "sha256": "d0481093c50b1da8910eb0bb301626d4d8eb7284aa739614d2b394ee09e3ea04",
+        "librarySha256": "0943c9c27ee7c773b0736c480e6db08b752b7ca7148f580786905f55d360c432",
+        "probe": "parse"
+      },
+      "exporter": {
+        "record": "header",
+        "protocolVersion": 1,
+        "exporterVersion": "0.3.19",
+        "analyzerVersion": "8.4.1",
+        "sdkVersion": "3.9.2",
+        "offsetEncoding": "utf-16",
+        "conditionalEnvironment": "analyzer-default"
+      },
+      "analysisSources": {
+        "algorithm": "sha256-path-nul-content-nul",
+        "sha256": "067ae48b90f8f891485eedfc142d904ce8069cd5fd5b82a3dff90ca521385e7c",
+        "files": 403,
+        "roots": [
+          "joern-cli/frontends/dartsrc2cpg/src",
+          "joern-cli/frontends/dartsrc2cpg/astgen/lib",
+          "joern-cli/frontends/dartsrc2cpg/astgen/bin",
+          "joern-cli/frontends/x2cpg/src/main",
+          "dataflowengineoss/src/main",
+          "semanticcpg/src/main",
+          "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.lock",
+          "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.yaml",
+          "joern-cli/frontends/dartsrc2cpg/build.sbt",
+          "joern-cli/frontends/x2cpg/build.sbt",
+          "joern-cli/build.sbt",
+          "dataflowengineoss/build.sbt",
+          "semanticcpg/build.sbt",
+          "build.sbt",
+          "project/Versions.scala",
+          "project/Projects.scala"
+        ]
+      },
+      "modelFilesSha256": {
+        "async": "c482e7bc9300c13523e5a921d43d67952fffa69290b0cf7ca6ba48e55cb2f48c",
+        "worker_manager": "972688de95dc40d77a055b86cb3c3422ac6242bcb18379cacb1d6fe4fde82c13",
+        "iterable": "f557cbefb4e70574ec692d069c90d1d3fb812e3e09511816c6af62fe82f6b4d3",
+        "bytes": "868e7d0918ddb0761370255754488290d5c6d9a175951a3b76cc88ad2bc95ad4"
+      },
+      "queries": [
+        {
+          "id": "option-value-return",
+          "expectedFlow": true,
+          "disposition": "The nonnull branch returns the supplied value through two local reads. The same-budget control is connected. Pinned execution checks empty/distinct values, null fallback and independent fresh multi-option defaults. This is the selected branch, not branch-feasibility analysis.",
+          "modes": {
+            "stock": {
+              "outcome": "flow-observed",
+              "passed": true,
+              "limitations": [],
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "source": {
+                "file": "src/option.dart",
+                "method": "valueOrDefault",
+                "kind": "parameter",
+                "name": "value"
+              },
+              "sink": {
+                "file": "src/option.dart",
+                "method": "valueOrDefault",
+                "kind": "return",
+                "code": "return value;"
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "pathIndices": [
+                0
+              ]
+            },
+            "modeled": {
+              "outcome": "flow-observed",
+              "passed": true,
+              "limitations": [],
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "source": {
+                "file": "src/option.dart",
+                "method": "valueOrDefault",
+                "kind": "parameter",
+                "name": "value"
+              },
+              "sink": {
+                "file": "src/option.dart",
+                "method": "valueOrDefault",
+                "kind": "return",
+                "code": "return value;"
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "pathIndices": [
+                0
+              ]
+            }
+          },
+          "sourceEvidence": [
+            {
+              "role": "source",
+              "file": "lib/src/option.dart",
+              "fileSha256": "65eb28decde419b4a178a2524bcc027dd9ff058b46fc064e00af7252220a8d6a",
+              "declarationLines": [
+                151
+              ]
+            },
+            {
+              "role": "sink",
+              "file": "lib/src/option.dart",
+              "fileSha256": "65eb28decde419b4a178a2524bcc027dd9ff058b46fc064e00af7252220a8d6a",
+              "declarationLines": [
+                151
+              ]
+            }
+          ],
+          "sourceExpectation": {
+            "disposition": "reviewed-endpoint",
+            "reason": "A supplied option value is returned directly.",
+            "branchConditions": "valueOrDefault returns supplied nonnull value; null selects defaultsTo or a list default. Constructor forwarding is unconditional."
+          }
+        },
+        {
+          "id": "deprecated-forwarder",
+          "expectedFlow": true,
+          "disposition": "The deprecated method binds value to valueOrDefault slot one and returns the selected resolved call result with its caller frame. The direct chain preserves the nonnull value; pinned calls also cover null fallback.",
+          "modes": {
+            "stock": {
+              "outcome": "flow-observed",
+              "passed": true,
+              "limitations": [],
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "source": {
+                "file": "src/option.dart",
+                "method": "getOrDefault",
+                "kind": "parameter",
+                "name": "value"
+              },
+              "sink": {
+                "file": "src/option.dart",
+                "method": "getOrDefault",
+                "kind": "return"
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "pathIndices": [
+                1
+              ]
+            },
+            "modeled": {
+              "outcome": "flow-observed",
+              "passed": true,
+              "limitations": [],
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "source": {
+                "file": "src/option.dart",
+                "method": "getOrDefault",
+                "kind": "parameter",
+                "name": "value"
+              },
+              "sink": {
+                "file": "src/option.dart",
+                "method": "getOrDefault",
+                "kind": "return"
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "pathIndices": [
+                1
+              ]
+            }
+          },
+          "sourceEvidence": [
+            {
+              "role": "source",
+              "file": "lib/src/option.dart",
+              "fileSha256": "65eb28decde419b4a178a2524bcc027dd9ff058b46fc064e00af7252220a8d6a",
+              "declarationLines": [
+                163
+              ]
+            },
+            {
+              "role": "sink",
+              "file": "lib/src/option.dart",
+              "fileSha256": "65eb28decde419b4a178a2524bcc027dd9ff058b46fc064e00af7252220a8d6a",
+              "declarationLines": [
+                163
+              ]
+            }
+          ],
+          "sourceExpectation": {
+            "disposition": "reviewed-endpoint",
+            "reason": "The deprecated getter forwards to valueOrDefault.",
+            "branchConditions": "valueOrDefault returns supplied nonnull value; null selects defaultsTo or a list default. Constructor forwarding is unconditional."
+          }
+        },
+        {
+          "id": "value-not-default",
+          "expectedFlow": false,
+          "disposition": "The fallback return reads defaultsTo rather than value. No path is returned, but call-depth is reported, so the graph negative remains inconclusive despite a same-budget direct-return control and native branch separation.",
+          "modes": {
+            "stock": {
+              "outcome": "inconclusive-query-limits",
+              "passed": true,
+              "limitations": [
+                "call-depth"
+              ],
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "source": {
+                "file": "src/option.dart",
+                "method": "valueOrDefault",
+                "kind": "parameter",
+                "name": "value"
+              },
+              "sink": {
+                "file": "src/option.dart",
+                "method": "valueOrDefault",
+                "kind": "return",
+                "code": "return defaultsTo;"
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "positiveControl": "option-value-return",
+              "positiveControlSatisfied": true,
+              "pathIndices": []
+            },
+            "modeled": {
+              "outcome": "inconclusive-query-limits",
+              "passed": true,
+              "limitations": [
+                "call-depth"
+              ],
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "source": {
+                "file": "src/option.dart",
+                "method": "valueOrDefault",
+                "kind": "parameter",
+                "name": "value"
+              },
+              "sink": {
+                "file": "src/option.dart",
+                "method": "valueOrDefault",
+                "kind": "return",
+                "code": "return defaultsTo;"
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "positiveControl": "option-value-return",
+              "positiveControlSatisfied": true,
+              "pathIndices": []
+            }
+          },
+          "sourceEvidence": [
+            {
+              "role": "source",
+              "file": "lib/src/option.dart",
+              "fileSha256": "65eb28decde419b4a178a2524bcc027dd9ff058b46fc064e00af7252220a8d6a",
+              "declarationLines": [
+                151
+              ]
+            },
+            {
+              "role": "sink",
+              "file": "lib/src/option.dart",
+              "fileSha256": "65eb28decde419b4a178a2524bcc027dd9ff058b46fc064e00af7252220a8d6a",
+              "declarationLines": [
+                151
+              ]
+            }
+          ],
+          "sourceExpectation": {
+            "disposition": "bounded-negative",
+            "reason": "The fallback reads the default field, not the supplied value.",
+            "branchConditions": "valueOrDefault returns supplied nonnull value; null selects defaultsTo or a list default. Constructor forwarding is unconditional.",
+            "positiveControl": "option-value-return",
+            "negativeProof": "Inconclusive beyond configured search; nearby positive control proves source connectivity only."
+          }
+        },
+        {
+          "id": "forwarded-constructor-name",
+          "expectedFlow": true,
+          "disposition": "newArgResults binds name to its exact positional constructor slot; the field formal stores it in this.name. The route is direct and its caller frame is retained. Call-depth remains explicit. Native independent names/parsed values exercise the public helper, not general heap identity.",
+          "modes": {
+            "stock": {
+              "outcome": "flow-observed",
+              "passed": true,
+              "limitations": [
+                "call-depth"
+              ],
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "source": {
+                "file": "src/arg_results.dart",
+                "method": "newArgResults",
+                "kind": "parameter",
+                "name": "name"
+              },
+              "sink": {
+                "file": "src/arg_results.dart",
+                "method": "_",
+                "kind": "fieldWrite",
+                "owner": "ArgResults",
+                "name": "name"
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "pathIndices": [
+                2
+              ]
+            },
+            "modeled": {
+              "outcome": "flow-observed",
+              "passed": true,
+              "limitations": [
+                "call-depth"
+              ],
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "source": {
+                "file": "src/arg_results.dart",
+                "method": "newArgResults",
+                "kind": "parameter",
+                "name": "name"
+              },
+              "sink": {
+                "file": "src/arg_results.dart",
+                "method": "_",
+                "kind": "fieldWrite",
+                "owner": "ArgResults",
+                "name": "name"
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "pathIndices": [
+                2
+              ]
+            }
+          },
+          "sourceEvidence": [
+            {
+              "role": "source",
+              "file": "lib/src/arg_results.dart",
+              "fileSha256": "e05aa1739d805de20c10e08f543dcd0ffd9686c01aa7e5c5331453aa158220be",
+              "declarationLines": [
+                9
+              ]
+            },
+            {
+              "role": "sink",
+              "file": "lib/src/arg_results.dart",
+              "fileSha256": "e05aa1739d805de20c10e08f543dcd0ffd9686c01aa7e5c5331453aa158220be",
+              "declarationLines": [
+                55
+              ]
+            }
+          ],
+          "sourceExpectation": {
+            "disposition": "reviewed-endpoint",
+            "reason": "The helper forwards six constructor arguments; only name initializes the name field.",
+            "branchConditions": "valueOrDefault returns supplied nonnull value; null selects defaultsTo or a list default. Constructor forwarding is unconditional."
+          }
+        },
+        {
+          "id": "forwarded-constructor-parsed",
+          "expectedFlow": false,
+          "disposition": "parsed and name occupy different positional constructor slots. No path is returned but call-depth is reported, so absence remains inconclusive. The same-budget _parsed-field control passes; native helper calls keep name and parsed values separate.",
+          "modes": {
+            "stock": {
+              "outcome": "inconclusive-query-limits",
+              "passed": true,
+              "limitations": [
+                "call-depth"
+              ],
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "source": {
+                "file": "src/arg_results.dart",
+                "method": "newArgResults",
+                "kind": "parameter",
+                "name": "parsed"
+              },
+              "sink": {
+                "file": "src/arg_results.dart",
+                "method": "_",
+                "kind": "fieldWrite",
+                "owner": "ArgResults",
+                "name": "name"
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "positiveControl": "forwarded-constructor-parsed-control",
+              "positiveControlSatisfied": true,
+              "pathIndices": []
+            },
+            "modeled": {
+              "outcome": "inconclusive-query-limits",
+              "passed": true,
+              "limitations": [
+                "call-depth"
+              ],
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "source": {
+                "file": "src/arg_results.dart",
+                "method": "newArgResults",
+                "kind": "parameter",
+                "name": "parsed"
+              },
+              "sink": {
+                "file": "src/arg_results.dart",
+                "method": "_",
+                "kind": "fieldWrite",
+                "owner": "ArgResults",
+                "name": "name"
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "positiveControl": "forwarded-constructor-parsed-control",
+              "positiveControlSatisfied": true,
+              "pathIndices": []
+            }
+          },
+          "sourceEvidence": [
+            {
+              "role": "source",
+              "file": "lib/src/arg_results.dart",
+              "fileSha256": "e05aa1739d805de20c10e08f543dcd0ffd9686c01aa7e5c5331453aa158220be",
+              "declarationLines": [
+                9
+              ]
+            },
+            {
+              "role": "sink",
+              "file": "lib/src/arg_results.dart",
+              "fileSha256": "e05aa1739d805de20c10e08f543dcd0ffd9686c01aa7e5c5331453aa158220be",
+              "declarationLines": [
+                55
+              ]
+            }
+          ],
+          "sourceExpectation": {
+            "disposition": "bounded-negative",
+            "reason": "The helper forwards six constructor arguments; only name initializes the name field.",
+            "branchConditions": "valueOrDefault returns supplied nonnull value; null selects defaultsTo or a list default. Constructor forwarding is unconditional.",
+            "positiveControl": "forwarded-constructor-parsed-control",
+            "negativeProof": "Inconclusive beyond configured search; nearby positive control proves source connectivity only."
+          }
+        },
+        {
+          "id": "forwarded-constructor-parsed-control",
+          "expectedFlow": true,
+          "disposition": "newArgResults binds parsed to the _parsed field formal and its generated field assignment. No query limit is recorded. Actual helper calls verify parsed option reads with independent names; this does not establish arbitrary field-sensitive heap behavior.",
+          "modes": {
+            "stock": {
+              "outcome": "flow-observed",
+              "passed": true,
+              "limitations": [],
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "source": {
+                "file": "src/arg_results.dart",
+                "method": "newArgResults",
+                "kind": "parameter",
+                "name": "parsed"
+              },
+              "sink": {
+                "file": "src/arg_results.dart",
+                "method": "_",
+                "kind": "fieldWrite",
+                "owner": "ArgResults",
+                "name": "_parsed"
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "pathIndices": [
+                3
+              ]
+            },
+            "modeled": {
+              "outcome": "flow-observed",
+              "passed": true,
+              "limitations": [],
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "source": {
+                "file": "src/arg_results.dart",
+                "method": "newArgResults",
+                "kind": "parameter",
+                "name": "parsed"
+              },
+              "sink": {
+                "file": "src/arg_results.dart",
+                "method": "_",
+                "kind": "fieldWrite",
+                "owner": "ArgResults",
+                "name": "_parsed"
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "pathIndices": [
+                3
+              ]
+            }
+          },
+          "sourceEvidence": [
+            {
+              "role": "source",
+              "file": "lib/src/arg_results.dart",
+              "fileSha256": "e05aa1739d805de20c10e08f543dcd0ffd9686c01aa7e5c5331453aa158220be",
+              "declarationLines": [
+                9
+              ]
+            },
+            {
+              "role": "sink",
+              "file": "lib/src/arg_results.dart",
+              "fileSha256": "e05aa1739d805de20c10e08f543dcd0ffd9686c01aa7e5c5331453aa158220be",
+              "declarationLines": [
+                55
+              ]
+            }
+          ],
+          "sourceExpectation": {
+            "disposition": "reviewed-endpoint",
+            "reason": "Positive control for forwarded-constructor-parsed: the same source reaches its own field, forwarded argument or use.",
+            "branchConditions": "valueOrDefault returns supplied nonnull value; null selects defaultsTo or a list default. Constructor forwarding is unconditional."
+          }
+        }
+      ],
+      "nodes": {
+        "111669150022": {
+          "label": "METHOD_PARAMETER_IN",
+          "method": "package:args/src/option.dart#5002:METHOD:valueOrDefault",
+          "code": "Object? value",
+          "line": 157,
+          "parameterIndex": 1
+        },
+        "68719477968": {
+          "label": "IDENTIFIER",
+          "method": "package:args/src/option.dart#5002:METHOD:valueOrDefault",
+          "code": "value",
+          "line": 158,
+          "argumentsOf": [
+            [
+              "30064772344",
+              1
+            ]
+          ]
+        },
+        "68719477969": {
+          "label": "IDENTIFIER",
+          "method": "package:args/src/option.dart#5002:METHOD:valueOrDefault",
+          "code": "value",
+          "line": 158
+        },
+        "141733920906": {
+          "label": "RETURN",
+          "method": "package:args/src/option.dart#5002:METHOD:valueOrDefault",
+          "code": "return value;",
+          "line": 158
+        },
+        "111669150024": {
+          "label": "METHOD_PARAMETER_IN",
+          "method": "package:args/src/option.dart#5207:METHOD:getOrDefault",
+          "code": "Object? value",
+          "line": 164,
+          "parameterIndex": 1
+        },
+        "68719477977": {
+          "label": "IDENTIFIER",
+          "method": "package:args/src/option.dart#5207:METHOD:getOrDefault",
+          "code": "value",
+          "line": 164,
+          "argumentsOf": [
+            [
+              "30064772352",
+              1
+            ]
+          ]
+        },
+        "124554051736": {
+          "label": "METHOD_RETURN",
+          "method": "package:args/src/option.dart#5002:METHOD:valueOrDefault",
+          "code": "RET",
+          "line": -1
+        },
+        "30064772352": {
+          "label": "CALL",
+          "method": "package:args/src/option.dart#5207:METHOD:getOrDefault",
+          "code": "valueOrDefault(value)",
+          "line": 164,
+          "call": "30064772352"
+        },
+        "141733920909": {
+          "label": "RETURN",
+          "method": "package:args/src/option.dart#5207:METHOD:getOrDefault",
+          "code": "=> valueOrDefault(value);",
+          "line": 164
+        },
+        "111669149936": {
+          "label": "METHOD_PARAMETER_IN",
+          "method": "package:args/src/arg_results.dart#476:FUNCTION:newArgResults",
+          "code": "String? name",
+          "line": 16,
+          "parameterIndex": 3
+        },
+        "68719477622": {
+          "label": "IDENTIFIER",
+          "method": "package:args/src/arg_results.dart#476:FUNCTION:newArgResults",
+          "code": "name",
+          "line": 20,
+          "argumentsOf": [
+            [
+              "30064771964",
+              3
+            ]
+          ]
+        },
+        "111669149949": {
+          "label": "METHOD_PARAMETER_IN",
+          "method": "package:args/src/arg_results.dart#1814:CONSTRUCTOR:_",
+          "code": "this.name",
+          "line": 55,
+          "parameterIndex": 3
+        },
+        "68719477638": {
+          "label": "IDENTIFIER",
+          "method": "package:args/src/arg_results.dart#1814:CONSTRUCTOR:_",
+          "code": "name",
+          "line": 55,
+          "argumentsOf": [
+            [
+              "30064771975",
+              2
+            ]
+          ]
+        },
+        "30064771975": {
+          "label": "CALL",
+          "method": "package:args/src/arg_results.dart#1814:CONSTRUCTOR:_",
+          "code": "this.name",
+          "line": 55,
+          "call": "30064771975"
+        },
+        "111669149935": {
+          "label": "METHOD_PARAMETER_IN",
+          "method": "package:args/src/arg_results.dart#476:FUNCTION:newArgResults",
+          "code": "Map<String, dynamic> parsed",
+          "line": 15,
+          "parameterIndex": 2
+        },
+        "68719477621": {
+          "label": "IDENTIFIER",
+          "method": "package:args/src/arg_results.dart#476:FUNCTION:newArgResults",
+          "code": "parsed",
+          "line": 20,
+          "argumentsOf": [
+            [
+              "30064771964",
+              2
+            ]
+          ]
+        },
+        "111669149948": {
+          "label": "METHOD_PARAMETER_IN",
+          "method": "package:args/src/arg_results.dart#1814:CONSTRUCTOR:_",
+          "code": "this._parsed",
+          "line": 55,
+          "parameterIndex": 2
+        },
+        "68719477636": {
+          "label": "IDENTIFIER",
+          "method": "package:args/src/arg_results.dart#1814:CONSTRUCTOR:_",
+          "code": "_parsed",
+          "line": 55,
+          "argumentsOf": [
+            [
+              "30064771973",
+              2
+            ]
+          ]
+        },
+        "30064771973": {
+          "label": "CALL",
+          "method": "package:args/src/arg_results.dart#1814:CONSTRUCTOR:_",
+          "code": "this._parsed",
+          "line": 55,
+          "call": "30064771973"
+        }
+      },
+      "calls": {
+        "30064772344": {
+          "nodeId": "30064772344",
+          "name": "<operator>.notEquals",
+          "target": "<operator>.dart.notEquals",
+          "code": "value != null",
+          "callees": [
+            {
+              "fullName": "<operator>.dart.notEquals",
+              "external": true
+            }
+          ]
+        },
+        "30064772352": {
+          "nodeId": "30064772352",
+          "name": "valueOrDefault",
+          "target": "package:args/src/option.dart#5002:METHOD:valueOrDefault",
+          "code": "valueOrDefault(value)",
+          "callees": [
+            {
+              "fullName": "package:args/src/option.dart#5002:METHOD:valueOrDefault",
+              "external": false
+            }
+          ]
+        },
+        "30064771964": {
+          "nodeId": "30064771964",
+          "name": "_",
+          "target": "package:args/src/arg_results.dart#1814:CONSTRUCTOR:_",
+          "code": "ArgResults._(parser, parsed, name, command, rest, arguments)",
+          "callees": [
+            {
+              "fullName": "package:args/src/arg_results.dart#1814:CONSTRUCTOR:_",
+              "external": false
+            }
+          ]
+        },
+        "30064771975": {
+          "nodeId": "30064771975",
+          "name": "<operator>.assignment",
+          "target": "<operator>.assignment",
+          "code": "this.name",
+          "callees": [
+            {
+              "fullName": "<operator>.assignment",
+              "external": true
+            }
+          ]
+        },
+        "30064771973": {
+          "nodeId": "30064771973",
+          "name": "<operator>.assignment",
+          "target": "<operator>.assignment",
+          "code": "this._parsed",
+          "callees": [
+            {
+              "fullName": "<operator>.assignment",
+              "external": true
+            }
+          ]
+        }
+      },
+      "contexts": [
+        [],
+        [
+          "30064772352"
+        ]
+      ],
+      "paths": [
+        {
+          "transitions": [
+            "parameter-read",
+            "local-read",
+            "return-value"
+          ],
+          "elements": [
+            [
+              "111669150022",
+              0,
+              true,
+              false,
+              "value",
+              []
+            ],
+            [
+              "68719477968",
+              0,
+              false,
+              false,
+              "value",
+              []
+            ],
+            [
+              "68719477969",
+              0,
+              true,
+              false,
+              "value",
+              []
+            ],
+            [
+              "141733920906",
+              0,
+              true,
+              false,
+              "",
+              []
+            ]
+          ]
+        },
+        {
+          "transitions": [
+            "parameter-read",
+            "parameter-binding",
+            "parameter-read",
+            "local-read",
+            "return-value",
+            "method-return",
+            "call-return",
+            "return-value"
+          ],
+          "elements": [
+            [
+              "111669150024",
+              0,
+              true,
+              false,
+              "value",
+              []
+            ],
+            [
+              "68719477977",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "111669150022",
+              1,
+              true,
+              false,
+              "value",
+              []
+            ],
+            [
+              "68719477968",
+              1,
+              false,
+              false,
+              "value",
+              []
+            ],
+            [
+              "68719477969",
+              1,
+              true,
+              false,
+              "value",
+              []
+            ],
+            [
+              "141733920906",
+              1,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "124554051736",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "30064772352",
+              0,
+              true,
+              true,
+              "valueOrDefault(value)",
+              []
+            ],
+            [
+              "141733920909",
+              0,
+              true,
+              false,
+              "",
+              []
+            ]
+          ]
+        },
+        {
+          "transitions": [
+            "parameter-read",
+            "parameter-binding",
+            "parameter-read",
+            "assignment"
+          ],
+          "elements": [
+            [
+              "111669149936",
+              0,
+              true,
+              false,
+              "name",
+              []
+            ],
+            [
+              "68719477622",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "111669149949",
+              0,
+              true,
+              false,
+              "name",
+              []
+            ],
+            [
+              "68719477638",
+              0,
+              false,
+              false,
+              "name",
+              []
+            ],
+            [
+              "30064771975",
+              0,
+              true,
+              false,
+              "",
+              []
+            ]
+          ]
+        },
+        {
+          "transitions": [
+            "parameter-read",
+            "parameter-binding",
+            "parameter-read",
+            "assignment"
+          ],
+          "elements": [
+            [
+              "111669149935",
+              0,
+              true,
+              false,
+              "parsed",
+              []
+            ],
+            [
+              "68719477621",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "111669149948",
+              0,
+              true,
+              false,
+              "_parsed",
+              []
+            ],
+            [
+              "68719477636",
+              0,
+              false,
+              false,
+              "_parsed",
+              []
+            ],
+            [
+              "30064771973",
+              0,
+              true,
+              false,
+              "",
+              []
+            ]
+          ]
+        }
+      ],
+      "sourceEvidence": [
+        {
+          "file": "lib/src/arg_results.dart",
+          "fileSha256": "e05aa1739d805de20c10e08f543dcd0ffd9686c01aa7e5c5331453aa158220be",
+          "role": "represented witness method"
+        },
+        {
+          "file": "lib/src/option.dart",
+          "fileSha256": "65eb28decde419b4a178a2524bcc027dd9ff058b46fc064e00af7252220a8d6a",
+          "role": "represented witness method"
+        }
+      ]
+    },
+    {
+      "project": "collection-1.19.1",
+      "source": {
+        "name": "collection",
+        "version": "1.19.1",
+        "sha256": "2f5709ae4d3d59dd8f7cd309b4e023046b57d8a6c82130785d2b0e5868084e76",
+        "librarySha256": "4f47fc544751d177fe92fc8382873875aadbde550802b093d0654062cb1285f2",
+        "probe": "binarySearch"
+      },
+      "exporter": {
+        "record": "header",
+        "protocolVersion": 1,
+        "exporterVersion": "0.3.19",
+        "analyzerVersion": "8.4.1",
+        "sdkVersion": "3.9.2",
+        "offsetEncoding": "utf-16",
+        "conditionalEnvironment": "analyzer-default"
+      },
+      "analysisSources": {
+        "algorithm": "sha256-path-nul-content-nul",
+        "sha256": "067ae48b90f8f891485eedfc142d904ce8069cd5fd5b82a3dff90ca521385e7c",
+        "files": 403,
+        "roots": [
+          "joern-cli/frontends/dartsrc2cpg/src",
+          "joern-cli/frontends/dartsrc2cpg/astgen/lib",
+          "joern-cli/frontends/dartsrc2cpg/astgen/bin",
+          "joern-cli/frontends/x2cpg/src/main",
+          "dataflowengineoss/src/main",
+          "semanticcpg/src/main",
+          "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.lock",
+          "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.yaml",
+          "joern-cli/frontends/dartsrc2cpg/build.sbt",
+          "joern-cli/frontends/x2cpg/build.sbt",
+          "joern-cli/build.sbt",
+          "dataflowengineoss/build.sbt",
+          "semanticcpg/build.sbt",
+          "build.sbt",
+          "project/Versions.scala",
+          "project/Projects.scala"
+        ]
+      },
+      "modelFilesSha256": {
+        "async": "c482e7bc9300c13523e5a921d43d67952fffa69290b0cf7ca6ba48e55cb2f48c",
+        "worker_manager": "972688de95dc40d77a055b86cb3c3422ac6242bcb18379cacb1d6fe4fde82c13",
+        "iterable": "f557cbefb4e70574ec692d069c90d1d3fb812e3e09511816c6af62fe82f6b4d3",
+        "bytes": "868e7d0918ddb0761370255754488290d5c6d9a175951a3b76cc88ad2bc95ad4"
+      },
+      "queries": [
+        {
+          "id": "identity",
+          "expectedFlow": true,
+          "disposition": "The formal reads directly into its expression return. No query limitation is recorded. Pinned execution checks object identity.",
+          "modes": {
+            "stock": {
+              "outcome": "flow-observed",
+              "passed": true,
+              "limitations": [],
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "source": {
+                "file": "src/utils.dart",
+                "method": "identity",
+                "kind": "parameter",
+                "name": "value"
+              },
+              "sink": {
+                "file": "src/utils.dart",
+                "method": "identity",
+                "kind": "return"
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "pathIndices": [
+                0
+              ]
+            },
+            "modeled": {
+              "outcome": "flow-observed",
+              "passed": true,
+              "limitations": [],
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "source": {
+                "file": "src/utils.dart",
+                "method": "identity",
+                "kind": "parameter",
+                "name": "value"
+              },
+              "sink": {
+                "file": "src/utils.dart",
+                "method": "identity",
+                "kind": "return"
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "pathIndices": [
+                0
+              ]
+            }
+          },
+          "sourceEvidence": [
+            {
+              "role": "source",
+              "file": "lib/src/utils.dart",
+              "fileSha256": "3103ae95cf8ad7ee0433f75e3aaf3c5d53714db411ffce44db24f609e7718cb9",
+              "declarationLines": [
+                16
+              ]
+            },
+            {
+              "role": "sink",
+              "file": "lib/src/utils.dart",
+              "fileSha256": "3103ae95cf8ad7ee0433f75e3aaf3c5d53714db411ffce44db24f609e7718cb9",
+              "declarationLines": [
+                16
+              ]
+            }
+          ],
+          "sourceExpectation": {
+            "disposition": "reviewed-endpoint",
+            "reason": "identity returns its parameter.",
+            "branchConditions": "binarySearch defaults a missing comparator; binarySearchBy searches while min < max, returns an index on equality, otherwise -1; reverse swaps while i < j."
+          }
+        },
+        {
+          "id": "search-key",
+          "expectedFlow": true,
+          "disposition": "binarySearch forwards value to binarySearchBy, whose first keyOf actual reads that formal. Exact positional slots and selected caller frame are checked. No query limitation is recorded; callback executions distinguish the first searched value from later list-element visits.",
+          "modes": {
+            "stock": {
+              "outcome": "flow-observed",
+              "passed": true,
+              "limitations": [],
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "source": {
+                "file": "src/algorithms.dart",
+                "method": "binarySearch",
+                "kind": "parameter",
+                "name": "value"
+              },
+              "sink": {
+                "file": "src/algorithms.dart",
+                "method": "binarySearchBy",
+                "kind": "call",
+                "argument": 1,
+                "name": "keyOf",
+                "code": "keyOf(value)"
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "pathIndices": [
+                1
+              ]
+            },
+            "modeled": {
+              "outcome": "flow-observed",
+              "passed": true,
+              "limitations": [],
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "source": {
+                "file": "src/algorithms.dart",
+                "method": "binarySearch",
+                "kind": "parameter",
+                "name": "value"
+              },
+              "sink": {
+                "file": "src/algorithms.dart",
+                "method": "binarySearchBy",
+                "kind": "call",
+                "argument": 1,
+                "name": "keyOf",
+                "code": "keyOf(value)"
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "pathIndices": [
+                1
+              ]
+            }
+          },
+          "sourceEvidence": [
+            {
+              "role": "source",
+              "file": "lib/src/algorithms.dart",
+              "fileSha256": "4fd89497360fa35c92160b7a936e6fdf953278bb14473b15803013a671fcbf6c",
+              "declarationLines": [
+                12
+              ]
+            },
+            {
+              "role": "sink",
+              "file": "lib/src/algorithms.dart",
+              "fileSha256": "4fd89497360fa35c92160b7a936e6fdf953278bb14473b15803013a671fcbf6c",
+              "declarationLines": [
+                27
+              ]
+            }
+          ],
+          "sourceExpectation": {
+            "disposition": "reviewed-endpoint",
+            "reason": "binarySearch forwards its value to binarySearchBy, which computes the search key.",
+            "branchConditions": "binarySearch defaults a missing comparator; binarySearchBy searches while min < max, returns an index on equality, otherwise -1; reverse swaps while i < j."
+          }
+        },
+        {
+          "id": "search-list-not-key",
+          "expectedFlow": false,
+          "disposition": "sortedList forwards to its separate list formal and does not supply the keyOf(value) actual. No path or query limitation is recorded; the same-budget forwarding control passes. Native searches check first callback input and independent lists/values, not exhaustive static absence.",
+          "modes": {
+            "stock": {
+              "outcome": "no-flow-observed-within-limits",
+              "passed": true,
+              "limitations": [],
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "source": {
+                "file": "src/algorithms.dart",
+                "method": "binarySearch",
+                "kind": "parameter",
+                "name": "sortedList"
+              },
+              "sink": {
+                "file": "src/algorithms.dart",
+                "method": "binarySearchBy",
+                "kind": "call",
+                "argument": 1,
+                "code": "keyOf(value)",
+                "name": "keyOf"
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "positiveControl": "search-list-not-key-control",
+              "positiveControlSatisfied": true,
+              "pathIndices": []
+            },
+            "modeled": {
+              "outcome": "no-flow-observed-within-limits",
+              "passed": true,
+              "limitations": [],
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "source": {
+                "file": "src/algorithms.dart",
+                "method": "binarySearch",
+                "kind": "parameter",
+                "name": "sortedList"
+              },
+              "sink": {
+                "file": "src/algorithms.dart",
+                "method": "binarySearchBy",
+                "kind": "call",
+                "argument": 1,
+                "code": "keyOf(value)",
+                "name": "keyOf"
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "positiveControl": "search-list-not-key-control",
+              "positiveControlSatisfied": true,
+              "pathIndices": []
+            }
+          },
+          "sourceEvidence": [
+            {
+              "role": "source",
+              "file": "lib/src/algorithms.dart",
+              "fileSha256": "4fd89497360fa35c92160b7a936e6fdf953278bb14473b15803013a671fcbf6c",
+              "declarationLines": [
+                12
+              ]
+            },
+            {
+              "role": "sink",
+              "file": "lib/src/algorithms.dart",
+              "fileSha256": "4fd89497360fa35c92160b7a936e6fdf953278bb14473b15803013a671fcbf6c",
+              "declarationLines": [
+                27
+              ]
+            }
+          ],
+          "sourceExpectation": {
+            "disposition": "bounded-negative",
+            "reason": "The searched list must not become the search key value.",
+            "branchConditions": "binarySearch defaults a missing comparator; binarySearchBy searches while min < max, returns an index on equality, otherwise -1; reverse swaps while i < j.",
+            "positiveControl": "search-list-not-key-control",
+            "negativeProof": "Inconclusive beyond configured search; nearby positive control proves source connectivity only."
+          }
+        },
+        {
+          "id": "reverse-loop-element",
+          "expectedFlow": true,
+          "disposition": "The selected elements[i] read assigns tmp, which is read at elements[j] assignment. This is a direct saved-value swap route, with depth/pruning limits retained. Native empty/single/even/odd and subrange cases check loop boundaries and unchanged outside slots; general collection-slot precision remains open.",
+          "modes": {
+            "stock": {
+              "outcome": "flow-observed",
+              "passed": true,
+              "limitations": [
+                "call-depth",
+                "witness-alternatives"
+              ],
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "source": {
+                "file": "src/algorithms.dart",
+                "method": "_reverse",
+                "kind": "call",
+                "code": "elements[i]",
+                "name": "<operator>.indexAccess",
+                "line": 139
+              },
+              "sink": {
+                "file": "src/algorithms.dart",
+                "method": "_reverse",
+                "kind": "call",
+                "code": "elements[j] = tmp",
+                "name": "<operator>.assignment"
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "pathIndices": [
+                2
+              ]
+            },
+            "modeled": {
+              "outcome": "flow-observed",
+              "passed": true,
+              "limitations": [
+                "call-depth",
+                "witness-alternatives"
+              ],
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "source": {
+                "file": "src/algorithms.dart",
+                "method": "_reverse",
+                "kind": "call",
+                "code": "elements[i]",
+                "name": "<operator>.indexAccess",
+                "line": 139
+              },
+              "sink": {
+                "file": "src/algorithms.dart",
+                "method": "_reverse",
+                "kind": "call",
+                "code": "elements[j] = tmp",
+                "name": "<operator>.assignment"
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "pathIndices": [
+                2
+              ]
+            }
+          },
+          "sourceEvidence": [
+            {
+              "role": "source",
+              "file": "lib/src/algorithms.dart",
+              "fileSha256": "4fd89497360fa35c92160b7a936e6fdf953278bb14473b15803013a671fcbf6c",
+              "declarationLines": [
+                136
+              ]
+            },
+            {
+              "role": "sink",
+              "file": "lib/src/algorithms.dart",
+              "fileSha256": "4fd89497360fa35c92160b7a936e6fdf953278bb14473b15803013a671fcbf6c",
+              "declarationLines": [
+                136
+              ]
+            }
+          ],
+          "sourceExpectation": {
+            "disposition": "reviewed-endpoint",
+            "reason": "A loop temporary carries the old element into the opposite slot.",
+            "branchConditions": "binarySearch defaults a missing comparator; binarySearchBy searches while min < max, returns an index on equality, otherwise -1; reverse swaps while i < j."
+          }
+        },
+        {
+          "id": "constant-not-found",
+          "expectedFlow": false,
+          "disposition": "value determines comparison/branch selection, while the selected unsuccessful return is literal -1. No path or query limitation is recorded and the same-budget key control passes. Pinned present/missing searches validate selected returns without turning control dependence into payload flow.",
+          "modes": {
+            "stock": {
+              "outcome": "no-flow-observed-within-limits",
+              "passed": true,
+              "limitations": [],
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "source": {
+                "file": "src/algorithms.dart",
+                "method": "binarySearchBy",
+                "kind": "parameter",
+                "name": "value"
+              },
+              "sink": {
+                "file": "src/algorithms.dart",
+                "method": "binarySearchBy",
+                "kind": "return",
+                "code": "return -1;"
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "positiveControl": "constant-not-found-control",
+              "positiveControlSatisfied": true,
+              "pathIndices": []
+            },
+            "modeled": {
+              "outcome": "no-flow-observed-within-limits",
+              "passed": true,
+              "limitations": [],
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "source": {
+                "file": "src/algorithms.dart",
+                "method": "binarySearchBy",
+                "kind": "parameter",
+                "name": "value"
+              },
+              "sink": {
+                "file": "src/algorithms.dart",
+                "method": "binarySearchBy",
+                "kind": "return",
+                "code": "return -1;"
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "positiveControl": "constant-not-found-control",
+              "positiveControlSatisfied": true,
+              "pathIndices": []
+            }
+          },
+          "sourceEvidence": [
+            {
+              "role": "source",
+              "file": "lib/src/algorithms.dart",
+              "fileSha256": "4fd89497360fa35c92160b7a936e6fdf953278bb14473b15803013a671fcbf6c",
+              "declarationLines": [
+                27
+              ]
+            },
+            {
+              "role": "sink",
+              "file": "lib/src/algorithms.dart",
+              "fileSha256": "4fd89497360fa35c92160b7a936e6fdf953278bb14473b15803013a671fcbf6c",
+              "declarationLines": [
+                27
+              ]
+            }
+          ],
+          "sourceExpectation": {
+            "disposition": "bounded-negative",
+            "reason": "Search data controls the branch but not the constant -1 value; this audit checks explicit dataflow.",
+            "branchConditions": "binarySearch defaults a missing comparator; binarySearchBy searches while min < max, returns an index on equality, otherwise -1; reverse swaps while i < j.",
+            "positiveControl": "constant-not-found-control",
+            "negativeProof": "Inconclusive beyond configured search; nearby positive control proves source connectivity only."
+          }
+        },
+        {
+          "id": "search-list-not-key-control",
+          "expectedFlow": true,
+          "disposition": "The searched list binds directly to binarySearchBy sortedList at its exact positional slot and selected caller frame. No query limitation is recorded; this validates source connectivity independently of key input.",
+          "modes": {
+            "stock": {
+              "outcome": "flow-observed",
+              "passed": true,
+              "limitations": [],
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "source": {
+                "file": "src/algorithms.dart",
+                "method": "binarySearch",
+                "kind": "parameter",
+                "name": "sortedList"
+              },
+              "sink": {
+                "file": "src/algorithms.dart",
+                "method": "binarySearchBy",
+                "kind": "parameter",
+                "name": "sortedList"
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "pathIndices": [
+                3
+              ]
+            },
+            "modeled": {
+              "outcome": "flow-observed",
+              "passed": true,
+              "limitations": [],
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "source": {
+                "file": "src/algorithms.dart",
+                "method": "binarySearch",
+                "kind": "parameter",
+                "name": "sortedList"
+              },
+              "sink": {
+                "file": "src/algorithms.dart",
+                "method": "binarySearchBy",
+                "kind": "parameter",
+                "name": "sortedList"
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "pathIndices": [
+                3
+              ]
+            }
+          },
+          "sourceEvidence": [
+            {
+              "role": "source",
+              "file": "lib/src/algorithms.dart",
+              "fileSha256": "4fd89497360fa35c92160b7a936e6fdf953278bb14473b15803013a671fcbf6c",
+              "declarationLines": [
+                12
+              ]
+            },
+            {
+              "role": "sink",
+              "file": "lib/src/algorithms.dart",
+              "fileSha256": "4fd89497360fa35c92160b7a936e6fdf953278bb14473b15803013a671fcbf6c",
+              "declarationLines": [
+                27
+              ]
+            }
+          ],
+          "sourceExpectation": {
+            "disposition": "reviewed-endpoint",
+            "reason": "Positive control for search-list-not-key: the same source reaches its own field, forwarded argument or use.",
+            "branchConditions": "binarySearch defaults a missing comparator; binarySearchBy searches while min < max, returns an index on equality, otherwise -1; reverse swaps while i < j."
+          }
+        },
+        {
+          "id": "constant-not-found-control",
+          "expectedFlow": true,
+          "disposition": "The value formal reads directly at the keyOf actual. No query limitation is recorded. This endpoint control does not analyze arbitrary callback implementations.",
+          "modes": {
+            "stock": {
+              "outcome": "flow-observed",
+              "passed": true,
+              "limitations": [],
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "source": {
+                "file": "src/algorithms.dart",
+                "method": "binarySearchBy",
+                "kind": "parameter",
+                "name": "value"
+              },
+              "sink": {
+                "file": "src/algorithms.dart",
+                "method": "binarySearchBy",
+                "kind": "call",
+                "code": "keyOf(value)",
+                "name": "keyOf",
+                "argument": 1
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "pathIndices": [
+                4
+              ]
+            },
+            "modeled": {
+              "outcome": "flow-observed",
+              "passed": true,
+              "limitations": [],
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "source": {
+                "file": "src/algorithms.dart",
+                "method": "binarySearchBy",
+                "kind": "parameter",
+                "name": "value"
+              },
+              "sink": {
+                "file": "src/algorithms.dart",
+                "method": "binarySearchBy",
+                "kind": "call",
+                "code": "keyOf(value)",
+                "name": "keyOf",
+                "argument": 1
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "pathIndices": [
+                4
+              ]
+            }
+          },
+          "sourceEvidence": [
+            {
+              "role": "source",
+              "file": "lib/src/algorithms.dart",
+              "fileSha256": "4fd89497360fa35c92160b7a936e6fdf953278bb14473b15803013a671fcbf6c",
+              "declarationLines": [
+                27
+              ]
+            },
+            {
+              "role": "sink",
+              "file": "lib/src/algorithms.dart",
+              "fileSha256": "4fd89497360fa35c92160b7a936e6fdf953278bb14473b15803013a671fcbf6c",
+              "declarationLines": [
+                27
+              ]
+            }
+          ],
+          "sourceExpectation": {
+            "disposition": "reviewed-endpoint",
+            "reason": "Positive control for constant-not-found: the same source reaches its own field, forwarded argument or use.",
+            "branchConditions": "binarySearch defaults a missing comparator; binarySearchBy searches while min < max, returns an index on equality, otherwise -1; reverse swaps while i < j."
+          }
+        }
+      ],
+      "nodes": {
+        "111669150768": {
+          "label": "METHOD_PARAMETER_IN",
+          "method": "package:collection/src/utils.dart#743:FUNCTION:identity",
+          "code": "T value",
+          "line": 17,
+          "parameterIndex": 1
+        },
+        "68719481399": {
+          "label": "IDENTIFIER",
+          "method": "package:collection/src/utils.dart#743:FUNCTION:identity",
+          "code": "value",
+          "line": 17
+        },
+        "141733921346": {
+          "label": "RETURN",
+          "method": "package:collection/src/utils.dart#743:FUNCTION:identity",
+          "code": "=> value;",
+          "line": 17
+        },
+        "111669149697": {
+          "label": "METHOD_PARAMETER_IN",
+          "method": "package:collection/src/algorithms.dart#708:FUNCTION:binarySearch",
+          "code": "E value",
+          "line": 21,
+          "parameterIndex": 2
+        },
+        "68719476743": {
+          "label": "IDENTIFIER",
+          "method": "package:collection/src/algorithms.dart#708:FUNCTION:binarySearch",
+          "code": "value",
+          "line": 24,
+          "argumentsOf": [
+            [
+              "30064771076",
+              4
+            ]
+          ]
+        },
+        "111669149702": {
+          "label": "METHOD_PARAMETER_IN",
+          "method": "package:collection/src/algorithms.dart#1286:FUNCTION:binarySearchBy",
+          "code": "E value",
+          "line": 37,
+          "parameterIndex": 4
+        },
+        "68719476753": {
+          "label": "IDENTIFIER",
+          "method": "package:collection/src/algorithms.dart#1286:FUNCTION:binarySearchBy",
+          "code": "value",
+          "line": 42,
+          "argumentsOf": [
+            [
+              "30064771083",
+              1
+            ]
+          ]
+        },
+        "30064771169": {
+          "label": "CALL",
+          "method": "package:collection/src/algorithms.dart#4595:FUNCTION:_reverse",
+          "code": "elements[i]",
+          "line": 139,
+          "call": "30064771169",
+          "argumentsOf": [
+            [
+              "30064771168",
+              2
+            ]
+          ]
+        },
+        "68719476873": {
+          "label": "IDENTIFIER",
+          "method": "package:collection/src/algorithms.dart#4595:FUNCTION:_reverse",
+          "code": "tmp",
+          "line": 139,
+          "argumentsOf": [
+            [
+              "30064771168",
+              1
+            ]
+          ]
+        },
+        "68719476890": {
+          "label": "IDENTIFIER",
+          "method": "package:collection/src/algorithms.dart#4595:FUNCTION:_reverse",
+          "code": "tmp",
+          "line": 141,
+          "argumentsOf": [
+            [
+              "30064771177",
+              2
+            ]
+          ]
+        },
+        "30064771177": {
+          "label": "CALL",
+          "method": "package:collection/src/algorithms.dart#4595:FUNCTION:_reverse",
+          "code": "elements[j] = tmp",
+          "line": 141,
+          "call": "30064771177"
+        },
+        "111669149696": {
+          "label": "METHOD_PARAMETER_IN",
+          "method": "package:collection/src/algorithms.dart#708:FUNCTION:binarySearch",
+          "code": "List<E> sortedList",
+          "line": 21,
+          "parameterIndex": 1
+        },
+        "68719476741": {
+          "label": "IDENTIFIER",
+          "method": "package:collection/src/algorithms.dart#708:FUNCTION:binarySearch",
+          "code": "sortedList",
+          "line": 24,
+          "argumentsOf": [
+            [
+              "30064771076",
+              1
+            ]
+          ]
+        },
+        "111669149699": {
+          "label": "METHOD_PARAMETER_IN",
+          "method": "package:collection/src/algorithms.dart#1286:FUNCTION:binarySearchBy",
+          "code": "List<E> sortedList",
+          "line": 36,
+          "parameterIndex": 1
+        }
+      },
+      "calls": {
+        "30064771076": {
+          "nodeId": "30064771076",
+          "name": "binarySearchBy",
+          "target": "package:collection/src/algorithms.dart#1286:FUNCTION:binarySearchBy",
+          "code": "binarySearchBy<E, E>(sortedList, identity, compare, value)",
+          "callees": [
+            {
+              "fullName": "package:collection/src/algorithms.dart#1286:FUNCTION:binarySearchBy",
+              "external": false
+            }
+          ]
+        },
+        "30064771083": {
+          "nodeId": "30064771083",
+          "name": "keyOf",
+          "target": "<unresolved>.keyOf",
+          "code": "keyOf(value)",
+          "callees": [
+            {
+              "fullName": "<unresolved>.keyOf",
+              "external": true
+            }
+          ]
+        },
+        "30064771169": {
+          "nodeId": "30064771169",
+          "name": "<operator>.indexAccess",
+          "target": "<operator>.indexAccess",
+          "code": "elements[i]",
+          "callees": [
+            {
+              "fullName": "<operator>.indexAccess",
+              "external": true
+            }
+          ]
+        },
+        "30064771168": {
+          "nodeId": "30064771168",
+          "name": "<operator>.assignment",
+          "target": "<operator>.assignment",
+          "code": "tmp = elements[i]",
+          "callees": [
+            {
+              "fullName": "<operator>.assignment",
+              "external": true
+            }
+          ]
+        },
+        "30064771177": {
+          "nodeId": "30064771177",
+          "name": "<operator>.assignment",
+          "target": "<operator>.assignment",
+          "code": "elements[j] = tmp",
+          "callees": [
+            {
+              "fullName": "<operator>.assignment",
+              "external": true
+            }
+          ]
+        }
+      },
+      "contexts": [
+        []
+      ],
+      "paths": [
+        {
+          "transitions": [
+            "parameter-read",
+            "return-value"
+          ],
+          "elements": [
+            [
+              "111669150768",
+              0,
+              true,
+              false,
+              "value",
+              []
+            ],
+            [
+              "68719481399",
+              0,
+              true,
+              false,
+              "value",
+              []
+            ],
+            [
+              "141733921346",
+              0,
+              true,
+              false,
+              "",
+              []
+            ]
+          ]
+        },
+        {
+          "transitions": [
+            "parameter-read",
+            "parameter-binding",
+            "parameter-read"
+          ],
+          "elements": [
+            [
+              "111669149697",
+              0,
+              true,
+              false,
+              "value",
+              []
+            ],
+            [
+              "68719476743",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "111669149702",
+              0,
+              true,
+              false,
+              "value",
+              []
+            ],
+            [
+              "68719476753",
+              0,
+              true,
+              false,
+              "",
+              []
+            ]
+          ]
+        },
+        {
+          "transitions": [
+            "assignment",
+            "local-read",
+            "assignment"
+          ],
+          "elements": [
+            [
+              "30064771169",
+              0,
+              true,
+              false,
+              "elements[i]",
+              []
+            ],
+            [
+              "68719476873",
+              0,
+              true,
+              false,
+              "tmp",
+              []
+            ],
+            [
+              "68719476890",
+              0,
+              false,
+              false,
+              "tmp",
+              []
+            ],
+            [
+              "30064771177",
+              0,
+              true,
+              false,
+              "",
+              []
+            ]
+          ]
+        },
+        {
+          "transitions": [
+            "parameter-read",
+            "parameter-binding"
+          ],
+          "elements": [
+            [
+              "111669149696",
+              0,
+              true,
+              false,
+              "sortedList",
+              []
+            ],
+            [
+              "68719476741",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "111669149699",
+              0,
+              true,
+              false,
+              "",
+              []
+            ]
+          ]
+        },
+        {
+          "transitions": [
+            "parameter-read"
+          ],
+          "elements": [
+            [
+              "111669149702",
+              0,
+              true,
+              false,
+              "value",
+              []
+            ],
+            [
+              "68719476753",
+              0,
+              true,
+              false,
+              "",
+              []
+            ]
+          ]
+        }
+      ],
+      "sourceEvidence": [
+        {
+          "file": "lib/src/algorithms.dart",
+          "fileSha256": "4fd89497360fa35c92160b7a936e6fdf953278bb14473b15803013a671fcbf6c",
+          "role": "represented witness method"
+        },
+        {
+          "file": "lib/src/utils.dart",
+          "fileSha256": "3103ae95cf8ad7ee0433f75e3aaf3c5d53714db411ffce44db24f609e7718cb9",
+          "role": "represented witness method"
+        }
+      ]
+    },
+    {
+      "project": "meta-1.17.0",
+      "source": {
+        "name": "meta",
+        "version": "1.17.0",
+        "sha256": "23f08335362185a5ea2ad3a4e597f1375e78bce8a040df5c600c8d3552ef2394",
+        "librarySha256": "bc8ca749c62fd67c8c79348f272a9a7e723333b42bd8411280b7f0ed4f1c6fba",
+        "probe": "index"
+      },
+      "exporter": {
+        "record": "header",
+        "protocolVersion": 1,
+        "exporterVersion": "0.3.19",
+        "analyzerVersion": "8.4.1",
+        "sdkVersion": "3.9.2",
+        "offsetEncoding": "utf-16",
+        "conditionalEnvironment": "analyzer-default"
+      },
+      "analysisSources": {
+        "algorithm": "sha256-path-nul-content-nul",
+        "sha256": "067ae48b90f8f891485eedfc142d904ce8069cd5fd5b82a3dff90ca521385e7c",
+        "files": 403,
+        "roots": [
+          "joern-cli/frontends/dartsrc2cpg/src",
+          "joern-cli/frontends/dartsrc2cpg/astgen/lib",
+          "joern-cli/frontends/dartsrc2cpg/astgen/bin",
+          "joern-cli/frontends/x2cpg/src/main",
+          "dataflowengineoss/src/main",
+          "semanticcpg/src/main",
+          "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.lock",
+          "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.yaml",
+          "joern-cli/frontends/dartsrc2cpg/build.sbt",
+          "joern-cli/frontends/x2cpg/build.sbt",
+          "joern-cli/build.sbt",
+          "dataflowengineoss/build.sbt",
+          "semanticcpg/build.sbt",
+          "build.sbt",
+          "project/Versions.scala",
+          "project/Projects.scala"
+        ]
+      },
+      "modelFilesSha256": {
+        "async": "c482e7bc9300c13523e5a921d43d67952fffa69290b0cf7ca6ba48e55cb2f48c",
+        "worker_manager": "972688de95dc40d77a055b86cb3c3422ac6242bcb18379cacb1d6fe4fde82c13",
+        "iterable": "f557cbefb4e70574ec692d069c90d1d3fb812e3e09511816c6af62fe82f6b4d3",
+        "bytes": "868e7d0918ddb0761370255754488290d5c6d9a175951a3b76cc88ad2bc95ad4"
+      },
+      "queries": [
+        {
+          "id": "named-reason-to-reason",
+          "expectedFlow": true,
+          "disposition": "UseResult.unless reason reads into the generated matching field-formal assignment. No query limitation is recorded. Native independent named pairs verify corresponding fields.",
+          "modes": {
+            "stock": {
+              "outcome": "flow-observed",
+              "passed": true,
+              "limitations": [],
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "source": {
+                "file": "meta.dart",
+                "method": "unless",
+                "kind": "parameter",
+                "owner": "UseResult",
+                "name": "reason"
+              },
+              "sink": {
+                "file": "meta.dart",
+                "method": "unless",
+                "kind": "fieldWrite",
+                "owner": "UseResult",
+                "name": "reason"
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "pathIndices": [
+                0
+              ]
+            },
+            "modeled": {
+              "outcome": "flow-observed",
+              "passed": true,
+              "limitations": [],
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "source": {
+                "file": "meta.dart",
+                "method": "unless",
+                "kind": "parameter",
+                "owner": "UseResult",
+                "name": "reason"
+              },
+              "sink": {
+                "file": "meta.dart",
+                "method": "unless",
+                "kind": "fieldWrite",
+                "owner": "UseResult",
+                "name": "reason"
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "pathIndices": [
+                0
+              ]
+            }
+          },
+          "sourceEvidence": [
+            {
+              "role": "source",
+              "file": "lib/meta.dart",
+              "fileSha256": "85de4cc58002c814ac46e5e350884643d8056adc70e2927f5b029d74e4a2cbd0",
+              "declarationLines": [
+                651
+              ]
+            },
+            {
+              "role": "sink",
+              "file": "lib/meta.dart",
+              "fileSha256": "85de4cc58002c814ac46e5e350884643d8056adc70e2927f5b029d74e4a2cbd0",
+              "declarationLines": [
+                651
+              ]
+            }
+          ],
+          "sourceExpectation": {
+            "disposition": "reviewed-endpoint",
+            "reason": "Named constructor formals initialize only their corresponding fields.",
+            "branchConditions": "Constructors assign corresponding formals; UseResult unnamed constructor fixes parameterDefined to null. No conditional execution."
+          }
+        },
+        {
+          "id": "named-reason-to-parameterDefined",
+          "expectedFlow": false,
+          "disposition": "The named reason and parameterDefined field formals are separate. No path or query limitation is recorded; the same-budget reason-field control passes. Native independent pairs exercise their separation.",
+          "modes": {
+            "stock": {
+              "outcome": "no-flow-observed-within-limits",
+              "passed": true,
+              "limitations": [],
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "source": {
+                "file": "meta.dart",
+                "method": "unless",
+                "kind": "parameter",
+                "owner": "UseResult",
+                "name": "reason"
+              },
+              "sink": {
+                "file": "meta.dart",
+                "method": "unless",
+                "kind": "fieldWrite",
+                "owner": "UseResult",
+                "name": "parameterDefined"
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "positiveControl": "named-reason-to-reason",
+              "positiveControlSatisfied": true,
+              "pathIndices": []
+            },
+            "modeled": {
+              "outcome": "no-flow-observed-within-limits",
+              "passed": true,
+              "limitations": [],
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "source": {
+                "file": "meta.dart",
+                "method": "unless",
+                "kind": "parameter",
+                "owner": "UseResult",
+                "name": "reason"
+              },
+              "sink": {
+                "file": "meta.dart",
+                "method": "unless",
+                "kind": "fieldWrite",
+                "owner": "UseResult",
+                "name": "parameterDefined"
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "positiveControl": "named-reason-to-reason",
+              "positiveControlSatisfied": true,
+              "pathIndices": []
+            }
+          },
+          "sourceEvidence": [
+            {
+              "role": "source",
+              "file": "lib/meta.dart",
+              "fileSha256": "85de4cc58002c814ac46e5e350884643d8056adc70e2927f5b029d74e4a2cbd0",
+              "declarationLines": [
+                651
+              ]
+            },
+            {
+              "role": "sink",
+              "file": "lib/meta.dart",
+              "fileSha256": "85de4cc58002c814ac46e5e350884643d8056adc70e2927f5b029d74e4a2cbd0",
+              "declarationLines": [
+                651
+              ]
+            }
+          ],
+          "sourceExpectation": {
+            "disposition": "bounded-negative",
+            "reason": "Named constructor formals initialize only their corresponding fields.",
+            "branchConditions": "Constructors assign corresponding formals; UseResult unnamed constructor fixes parameterDefined to null. No conditional execution.",
+            "positiveControl": "named-reason-to-reason",
+            "negativeProof": "Inconclusive beyond configured search; nearby positive control proves source connectivity only."
+          }
+        },
+        {
+          "id": "named-parameterDefined-to-reason",
+          "expectedFlow": false,
+          "disposition": "The parameterDefined formal stores only its matching field, separately from reason. No path or query limitation is recorded and its matching-field control passes. Native independent pairs exercise this separation.",
+          "modes": {
+            "stock": {
+              "outcome": "no-flow-observed-within-limits",
+              "passed": true,
+              "limitations": [],
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "source": {
+                "file": "meta.dart",
+                "method": "unless",
+                "kind": "parameter",
+                "owner": "UseResult",
+                "name": "parameterDefined"
+              },
+              "sink": {
+                "file": "meta.dart",
+                "method": "unless",
+                "kind": "fieldWrite",
+                "owner": "UseResult",
+                "name": "reason"
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "positiveControl": "named-parameterDefined-to-parameterDefined",
+              "positiveControlSatisfied": true,
+              "pathIndices": []
+            },
+            "modeled": {
+              "outcome": "no-flow-observed-within-limits",
+              "passed": true,
+              "limitations": [],
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "source": {
+                "file": "meta.dart",
+                "method": "unless",
+                "kind": "parameter",
+                "owner": "UseResult",
+                "name": "parameterDefined"
+              },
+              "sink": {
+                "file": "meta.dart",
+                "method": "unless",
+                "kind": "fieldWrite",
+                "owner": "UseResult",
+                "name": "reason"
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "positiveControl": "named-parameterDefined-to-parameterDefined",
+              "positiveControlSatisfied": true,
+              "pathIndices": []
+            }
+          },
+          "sourceEvidence": [
+            {
+              "role": "source",
+              "file": "lib/meta.dart",
+              "fileSha256": "85de4cc58002c814ac46e5e350884643d8056adc70e2927f5b029d74e4a2cbd0",
+              "declarationLines": [
+                651
+              ]
+            },
+            {
+              "role": "sink",
+              "file": "lib/meta.dart",
+              "fileSha256": "85de4cc58002c814ac46e5e350884643d8056adc70e2927f5b029d74e4a2cbd0",
+              "declarationLines": [
+                651
+              ]
+            }
+          ],
+          "sourceExpectation": {
+            "disposition": "bounded-negative",
+            "reason": "Named constructor formals initialize only their corresponding fields.",
+            "branchConditions": "Constructors assign corresponding formals; UseResult unnamed constructor fixes parameterDefined to null. No conditional execution.",
+            "positiveControl": "named-parameterDefined-to-parameterDefined",
+            "negativeProof": "Inconclusive beyond configured search; nearby positive control proves source connectivity only."
+          }
+        },
+        {
+          "id": "named-parameterDefined-to-parameterDefined",
+          "expectedFlow": true,
+          "disposition": "The required named formal reads into its matching generated field assignment. No query limitation is recorded. Native independent reasons/parameter names validate exercised constructor fields.",
+          "modes": {
+            "stock": {
+              "outcome": "flow-observed",
+              "passed": true,
+              "limitations": [],
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "source": {
+                "file": "meta.dart",
+                "method": "unless",
+                "kind": "parameter",
+                "owner": "UseResult",
+                "name": "parameterDefined"
+              },
+              "sink": {
+                "file": "meta.dart",
+                "method": "unless",
+                "kind": "fieldWrite",
+                "owner": "UseResult",
+                "name": "parameterDefined"
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "pathIndices": [
+                1
+              ]
+            },
+            "modeled": {
+              "outcome": "flow-observed",
+              "passed": true,
+              "limitations": [],
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "source": {
+                "file": "meta.dart",
+                "method": "unless",
+                "kind": "parameter",
+                "owner": "UseResult",
+                "name": "parameterDefined"
+              },
+              "sink": {
+                "file": "meta.dart",
+                "method": "unless",
+                "kind": "fieldWrite",
+                "owner": "UseResult",
+                "name": "parameterDefined"
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "pathIndices": [
+                1
+              ]
+            }
+          },
+          "sourceEvidence": [
+            {
+              "role": "source",
+              "file": "lib/meta.dart",
+              "fileSha256": "85de4cc58002c814ac46e5e350884643d8056adc70e2927f5b029d74e4a2cbd0",
+              "declarationLines": [
+                651
+              ]
+            },
+            {
+              "role": "sink",
+              "file": "lib/meta.dart",
+              "fileSha256": "85de4cc58002c814ac46e5e350884643d8056adc70e2927f5b029d74e4a2cbd0",
+              "declarationLines": [
+                651
+              ]
+            }
+          ],
+          "sourceExpectation": {
+            "disposition": "reviewed-endpoint",
+            "reason": "Named constructor formals initialize only their corresponding fields.",
+            "branchConditions": "Constructors assign corresponding formals; UseResult unnamed constructor fixes parameterDefined to null. No conditional execution."
+          }
+        },
+        {
+          "id": "constant-field-not-reason",
+          "expectedFlow": false,
+          "disposition": "The unnamed constructor assigns parameterDefined literal null independently of supplied reason. No path or query limitation is recorded and its matching reason-field control passes. Native empty/distinct reasons retain null.",
+          "modes": {
+            "stock": {
+              "outcome": "no-flow-observed-within-limits",
+              "passed": true,
+              "limitations": [],
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "source": {
+                "file": "meta.dart",
+                "method": "<init>",
+                "kind": "parameter",
+                "owner": "UseResult",
+                "name": "reason"
+              },
+              "sink": {
+                "file": "meta.dart",
+                "method": "<init>",
+                "kind": "fieldWrite",
+                "owner": "UseResult",
+                "name": "parameterDefined"
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "positiveControl": "constant-field-not-reason-control",
+              "positiveControlSatisfied": true,
+              "pathIndices": []
+            },
+            "modeled": {
+              "outcome": "no-flow-observed-within-limits",
+              "passed": true,
+              "limitations": [],
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "source": {
+                "file": "meta.dart",
+                "method": "<init>",
+                "kind": "parameter",
+                "owner": "UseResult",
+                "name": "reason"
+              },
+              "sink": {
+                "file": "meta.dart",
+                "method": "<init>",
+                "kind": "fieldWrite",
+                "owner": "UseResult",
+                "name": "parameterDefined"
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "positiveControl": "constant-field-not-reason-control",
+              "positiveControlSatisfied": true,
+              "pathIndices": []
+            }
+          },
+          "sourceEvidence": [
+            {
+              "role": "source",
+              "file": "lib/meta.dart",
+              "fileSha256": "85de4cc58002c814ac46e5e350884643d8056adc70e2927f5b029d74e4a2cbd0",
+              "declarationLines": [
+                648
+              ]
+            },
+            {
+              "role": "sink",
+              "file": "lib/meta.dart",
+              "fileSha256": "85de4cc58002c814ac46e5e350884643d8056adc70e2927f5b029d74e4a2cbd0",
+              "declarationLines": [
+                648
+              ]
+            }
+          ],
+          "sourceExpectation": {
+            "disposition": "bounded-negative",
+            "reason": "The unnamed constructor sets parameterDefined to null independently of reason.",
+            "branchConditions": "Constructors assign corresponding formals; UseResult unnamed constructor fixes parameterDefined to null. No conditional execution.",
+            "positiveControl": "constant-field-not-reason-control",
+            "negativeProof": "Inconclusive beyond configured search; nearby positive control proves source connectivity only."
+          }
+        },
+        {
+          "id": "target-kind-displayString",
+          "expectedFlow": false,
+          "disposition": "TargetKind._ displayString and name are separate positional field formals. No path or query limitation is recorded and the matching displayString-field control passes. Native checks use distinct existing public constants; they do not directly invoke the private constructor with arbitrary inputs.",
+          "modes": {
+            "stock": {
+              "outcome": "no-flow-observed-within-limits",
+              "passed": true,
+              "limitations": [],
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "source": {
+                "file": "meta_meta.dart",
+                "method": "_",
+                "kind": "parameter",
+                "owner": "TargetKind",
+                "name": "displayString"
+              },
+              "sink": {
+                "file": "meta_meta.dart",
+                "method": "_",
+                "kind": "fieldWrite",
+                "owner": "TargetKind",
+                "name": "name"
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "positiveControl": "target-kind-displayString-control",
+              "positiveControlSatisfied": true,
+              "pathIndices": []
+            },
+            "modeled": {
+              "outcome": "no-flow-observed-within-limits",
+              "passed": true,
+              "limitations": [],
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "source": {
+                "file": "meta_meta.dart",
+                "method": "_",
+                "kind": "parameter",
+                "owner": "TargetKind",
+                "name": "displayString"
+              },
+              "sink": {
+                "file": "meta_meta.dart",
+                "method": "_",
+                "kind": "fieldWrite",
+                "owner": "TargetKind",
+                "name": "name"
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "positiveControl": "target-kind-displayString-control",
+              "positiveControlSatisfied": true,
+              "pathIndices": []
+            }
+          },
+          "sourceEvidence": [
+            {
+              "role": "source",
+              "file": "lib/meta_meta.dart",
+              "fileSha256": "bd1f558325fc104eef117195027e853bba4f24985bd9fec0b0b68b464e776c8b",
+              "declarationLines": [
+                176
+              ]
+            },
+            {
+              "role": "sink",
+              "file": "lib/meta_meta.dart",
+              "fileSha256": "bd1f558325fc104eef117195027e853bba4f24985bd9fec0b0b68b464e776c8b",
+              "declarationLines": [
+                176
+              ]
+            }
+          ],
+          "sourceExpectation": {
+            "disposition": "bounded-negative",
+            "reason": "Two positional constructor fields must remain independent.",
+            "branchConditions": "Constructors assign corresponding formals; UseResult unnamed constructor fixes parameterDefined to null. No conditional execution.",
+            "positiveControl": "target-kind-displayString-control",
+            "negativeProof": "Inconclusive beyond configured search; nearby positive control proves source connectivity only."
+          }
+        },
+        {
+          "id": "target-kind-name",
+          "expectedFlow": true,
+          "disposition": "The positional name formal reads into its matching generated field assignment. No query limitation is recorded. Native public constant checks distinguish name/displayString, without direct arbitrary private-constructor execution.",
+          "modes": {
+            "stock": {
+              "outcome": "flow-observed",
+              "passed": true,
+              "limitations": [],
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "source": {
+                "file": "meta_meta.dart",
+                "method": "_",
+                "kind": "parameter",
+                "owner": "TargetKind",
+                "name": "name"
+              },
+              "sink": {
+                "file": "meta_meta.dart",
+                "method": "_",
+                "kind": "fieldWrite",
+                "owner": "TargetKind",
+                "name": "name"
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "pathIndices": [
+                2
+              ]
+            },
+            "modeled": {
+              "outcome": "flow-observed",
+              "passed": true,
+              "limitations": [],
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "source": {
+                "file": "meta_meta.dart",
+                "method": "_",
+                "kind": "parameter",
+                "owner": "TargetKind",
+                "name": "name"
+              },
+              "sink": {
+                "file": "meta_meta.dart",
+                "method": "_",
+                "kind": "fieldWrite",
+                "owner": "TargetKind",
+                "name": "name"
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "pathIndices": [
+                2
+              ]
+            }
+          },
+          "sourceEvidence": [
+            {
+              "role": "source",
+              "file": "lib/meta_meta.dart",
+              "fileSha256": "bd1f558325fc104eef117195027e853bba4f24985bd9fec0b0b68b464e776c8b",
+              "declarationLines": [
+                176
+              ]
+            },
+            {
+              "role": "sink",
+              "file": "lib/meta_meta.dart",
+              "fileSha256": "bd1f558325fc104eef117195027e853bba4f24985bd9fec0b0b68b464e776c8b",
+              "declarationLines": [
+                176
+              ]
+            }
+          ],
+          "sourceExpectation": {
+            "disposition": "reviewed-endpoint",
+            "reason": "Two positional constructor fields must remain independent.",
+            "branchConditions": "Constructors assign corresponding formals; UseResult unnamed constructor fixes parameterDefined to null. No conditional execution."
+          }
+        },
+        {
+          "id": "constant-field-not-reason-control",
+          "expectedFlow": true,
+          "disposition": "The unnamed UseResult reason formal stores its matching field directly. No query limitation is recorded. Actual constructors preserve supplied reason independently of the constant null field.",
+          "modes": {
+            "stock": {
+              "outcome": "flow-observed",
+              "passed": true,
+              "limitations": [],
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "source": {
+                "file": "meta.dart",
+                "method": "<init>",
+                "kind": "parameter",
+                "owner": "UseResult",
+                "name": "reason"
+              },
+              "sink": {
+                "file": "meta.dart",
+                "method": "<init>",
+                "kind": "fieldWrite",
+                "owner": "UseResult",
+                "name": "reason"
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "pathIndices": [
+                3
+              ]
+            },
+            "modeled": {
+              "outcome": "flow-observed",
+              "passed": true,
+              "limitations": [],
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "source": {
+                "file": "meta.dart",
+                "method": "<init>",
+                "kind": "parameter",
+                "owner": "UseResult",
+                "name": "reason"
+              },
+              "sink": {
+                "file": "meta.dart",
+                "method": "<init>",
+                "kind": "fieldWrite",
+                "owner": "UseResult",
+                "name": "reason"
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "pathIndices": [
+                3
+              ]
+            }
+          },
+          "sourceEvidence": [
+            {
+              "role": "source",
+              "file": "lib/meta.dart",
+              "fileSha256": "85de4cc58002c814ac46e5e350884643d8056adc70e2927f5b029d74e4a2cbd0",
+              "declarationLines": [
+                648
+              ]
+            },
+            {
+              "role": "sink",
+              "file": "lib/meta.dart",
+              "fileSha256": "85de4cc58002c814ac46e5e350884643d8056adc70e2927f5b029d74e4a2cbd0",
+              "declarationLines": [
+                648
+              ]
+            }
+          ],
+          "sourceExpectation": {
+            "disposition": "reviewed-endpoint",
+            "reason": "Positive control for constant-field-not-reason: the same source reaches its own field, forwarded argument or use.",
+            "branchConditions": "Constructors assign corresponding formals; UseResult unnamed constructor fixes parameterDefined to null. No conditional execution."
+          }
+        },
+        {
+          "id": "target-kind-displayString-control",
+          "expectedFlow": true,
+          "disposition": "The positional displayString formal reads into its matching generated field assignment. No query limitation is recorded. Public constants retain distinct displayString and name values.",
+          "modes": {
+            "stock": {
+              "outcome": "flow-observed",
+              "passed": true,
+              "limitations": [],
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "source": {
+                "file": "meta_meta.dart",
+                "method": "_",
+                "kind": "parameter",
+                "owner": "TargetKind",
+                "name": "displayString"
+              },
+              "sink": {
+                "file": "meta_meta.dart",
+                "method": "_",
+                "kind": "fieldWrite",
+                "owner": "TargetKind",
+                "name": "displayString"
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "pathIndices": [
+                4
+              ]
+            },
+            "modeled": {
+              "outcome": "flow-observed",
+              "passed": true,
+              "limitations": [],
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "source": {
+                "file": "meta_meta.dart",
+                "method": "_",
+                "kind": "parameter",
+                "owner": "TargetKind",
+                "name": "displayString"
+              },
+              "sink": {
+                "file": "meta_meta.dart",
+                "method": "_",
+                "kind": "fieldWrite",
+                "owner": "TargetKind",
+                "name": "displayString"
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "pathIndices": [
+                4
+              ]
+            }
+          },
+          "sourceEvidence": [
+            {
+              "role": "source",
+              "file": "lib/meta_meta.dart",
+              "fileSha256": "bd1f558325fc104eef117195027e853bba4f24985bd9fec0b0b68b464e776c8b",
+              "declarationLines": [
+                176
+              ]
+            },
+            {
+              "role": "sink",
+              "file": "lib/meta_meta.dart",
+              "fileSha256": "bd1f558325fc104eef117195027e853bba4f24985bd9fec0b0b68b464e776c8b",
+              "declarationLines": [
+                176
+              ]
+            }
+          ],
+          "sourceExpectation": {
+            "disposition": "reviewed-endpoint",
+            "reason": "Positive control for target-kind-displayString: the same source reaches its own field, forwarded argument or use.",
+            "branchConditions": "Constructors assign corresponding formals; UseResult unnamed constructor fixes parameterDefined to null. No conditional execution."
+          }
+        }
+      ],
+      "nodes": {
+        "111669149709": {
+          "label": "METHOD_PARAMETER_IN",
+          "method": "package:meta/meta.dart#28564:CONSTRUCTOR:unless",
+          "code": "this.reason = ''",
+          "line": 662,
+          "parameterIndex": 2
+        },
+        "68719476764": {
+          "label": "IDENTIFIER",
+          "method": "package:meta/meta.dart#28564:CONSTRUCTOR:unless",
+          "code": "reason",
+          "line": 662,
+          "argumentsOf": [
+            [
+              "30064771098",
+              2
+            ]
+          ]
+        },
+        "30064771098": {
+          "label": "CALL",
+          "method": "package:meta/meta.dart#28564:CONSTRUCTOR:unless",
+          "code": "this.reason",
+          "line": 662,
+          "call": "30064771098"
+        },
+        "111669149708": {
+          "label": "METHOD_PARAMETER_IN",
+          "method": "package:meta/meta.dart#28564:CONSTRUCTOR:unless",
+          "code": "required this.parameterDefined",
+          "line": 662,
+          "parameterIndex": 1
+        },
+        "68719476762": {
+          "label": "IDENTIFIER",
+          "method": "package:meta/meta.dart#28564:CONSTRUCTOR:unless",
+          "code": "parameterDefined",
+          "line": 662,
+          "argumentsOf": [
+            [
+              "30064771096",
+              2
+            ]
+          ]
+        },
+        "30064771096": {
+          "label": "CALL",
+          "method": "package:meta/meta.dart#28564:CONSTRUCTOR:unless",
+          "code": "required this.parameterDefined",
+          "line": 662,
+          "call": "30064771096"
+        },
+        "111669149740": {
+          "label": "METHOD_PARAMETER_IN",
+          "method": "package:meta/meta_meta.dart#7534:CONSTRUCTOR:_",
+          "code": "this.name",
+          "line": 176,
+          "parameterIndex": 2
+        },
+        "68719476927": {
+          "label": "IDENTIFIER",
+          "method": "package:meta/meta_meta.dart#7534:CONSTRUCTOR:_",
+          "code": "name",
+          "line": 176,
+          "argumentsOf": [
+            [
+              "30064771262",
+              2
+            ]
+          ]
+        },
+        "30064771262": {
+          "label": "CALL",
+          "method": "package:meta/meta_meta.dart#7534:CONSTRUCTOR:_",
+          "code": "this.name",
+          "line": 176,
+          "call": "30064771262"
+        },
+        "111669149706": {
+          "label": "METHOD_PARAMETER_IN",
+          "method": "package:meta/meta.dart#27894:CONSTRUCTOR:new",
+          "code": "this.reason = ''",
+          "line": 649,
+          "parameterIndex": 1
+        },
+        "68719476757": {
+          "label": "IDENTIFIER",
+          "method": "package:meta/meta.dart#27894:CONSTRUCTOR:new",
+          "code": "reason",
+          "line": 649,
+          "argumentsOf": [
+            [
+              "30064771091",
+              2
+            ]
+          ]
+        },
+        "30064771091": {
+          "label": "CALL",
+          "method": "package:meta/meta.dart#27894:CONSTRUCTOR:new",
+          "code": "this.reason",
+          "line": 649,
+          "call": "30064771091"
+        },
+        "111669149739": {
+          "label": "METHOD_PARAMETER_IN",
+          "method": "package:meta/meta_meta.dart#7534:CONSTRUCTOR:_",
+          "code": "this.displayString",
+          "line": 176,
+          "parameterIndex": 1
+        },
+        "68719476925": {
+          "label": "IDENTIFIER",
+          "method": "package:meta/meta_meta.dart#7534:CONSTRUCTOR:_",
+          "code": "displayString",
+          "line": 176,
+          "argumentsOf": [
+            [
+              "30064771260",
+              2
+            ]
+          ]
+        },
+        "30064771260": {
+          "label": "CALL",
+          "method": "package:meta/meta_meta.dart#7534:CONSTRUCTOR:_",
+          "code": "this.displayString",
+          "line": 176,
+          "call": "30064771260"
+        }
+      },
+      "calls": {
+        "30064771098": {
+          "nodeId": "30064771098",
+          "name": "<operator>.assignment",
+          "target": "<operator>.assignment",
+          "code": "this.reason",
+          "callees": [
+            {
+              "fullName": "<operator>.assignment",
+              "external": true
+            }
+          ]
+        },
+        "30064771096": {
+          "nodeId": "30064771096",
+          "name": "<operator>.assignment",
+          "target": "<operator>.assignment",
+          "code": "required this.parameterDefined",
+          "callees": [
+            {
+              "fullName": "<operator>.assignment",
+              "external": true
+            }
+          ]
+        },
+        "30064771262": {
+          "nodeId": "30064771262",
+          "name": "<operator>.assignment",
+          "target": "<operator>.assignment",
+          "code": "this.name",
+          "callees": [
+            {
+              "fullName": "<operator>.assignment",
+              "external": true
+            }
+          ]
+        },
+        "30064771091": {
+          "nodeId": "30064771091",
+          "name": "<operator>.assignment",
+          "target": "<operator>.assignment",
+          "code": "this.reason",
+          "callees": [
+            {
+              "fullName": "<operator>.assignment",
+              "external": true
+            }
+          ]
+        },
+        "30064771260": {
+          "nodeId": "30064771260",
+          "name": "<operator>.assignment",
+          "target": "<operator>.assignment",
+          "code": "this.displayString",
+          "callees": [
+            {
+              "fullName": "<operator>.assignment",
+              "external": true
+            }
+          ]
+        }
+      },
+      "contexts": [
+        []
+      ],
+      "paths": [
+        {
+          "transitions": [
+            "parameter-read",
+            "assignment"
+          ],
+          "elements": [
+            [
+              "111669149709",
+              0,
+              true,
+              false,
+              "reason",
+              []
+            ],
+            [
+              "68719476764",
+              0,
+              false,
+              false,
+              "reason",
+              []
+            ],
+            [
+              "30064771098",
+              0,
+              true,
+              false,
+              "",
+              []
+            ]
+          ]
+        },
+        {
+          "transitions": [
+            "parameter-read",
+            "assignment"
+          ],
+          "elements": [
+            [
+              "111669149708",
+              0,
+              true,
+              false,
+              "parameterDefined",
+              []
+            ],
+            [
+              "68719476762",
+              0,
+              false,
+              false,
+              "parameterDefined",
+              []
+            ],
+            [
+              "30064771096",
+              0,
+              true,
+              false,
+              "",
+              []
+            ]
+          ]
+        },
+        {
+          "transitions": [
+            "parameter-read",
+            "assignment"
+          ],
+          "elements": [
+            [
+              "111669149740",
+              0,
+              true,
+              false,
+              "name",
+              []
+            ],
+            [
+              "68719476927",
+              0,
+              false,
+              false,
+              "name",
+              []
+            ],
+            [
+              "30064771262",
+              0,
+              true,
+              false,
+              "",
+              []
+            ]
+          ]
+        },
+        {
+          "transitions": [
+            "parameter-read",
+            "assignment"
+          ],
+          "elements": [
+            [
+              "111669149706",
+              0,
+              true,
+              false,
+              "reason",
+              []
+            ],
+            [
+              "68719476757",
+              0,
+              false,
+              false,
+              "reason",
+              []
+            ],
+            [
+              "30064771091",
+              0,
+              true,
+              false,
+              "",
+              []
+            ]
+          ]
+        },
+        {
+          "transitions": [
+            "parameter-read",
+            "assignment"
+          ],
+          "elements": [
+            [
+              "111669149739",
+              0,
+              true,
+              false,
+              "displayString",
+              []
+            ],
+            [
+              "68719476925",
+              0,
+              false,
+              false,
+              "displayString",
+              []
+            ],
+            [
+              "30064771260",
+              0,
+              true,
+              false,
+              "",
+              []
+            ]
+          ]
+        }
+      ],
+      "sourceEvidence": [
+        {
+          "file": "lib/meta.dart",
+          "fileSha256": "85de4cc58002c814ac46e5e350884643d8056adc70e2927f5b029d74e4a2cbd0",
+          "role": "represented witness method"
+        },
+        {
+          "file": "lib/meta_meta.dart",
+          "fileSha256": "bd1f558325fc104eef117195027e853bba4f24985bd9fec0b0b68b464e776c8b",
+          "role": "represented witness method"
+        }
+      ]
+    }
+  ],
+  "modelFilesHashAlgorithm": "sha256-utf8",
+  "executionOracles": [
+    {
+      "file": "astgen/test/package_boundaries_test.dart",
+      "sha256": "1e7812ce0cce695ab01ad082aca27b1550c82c94c332afe119786d579c954659",
+      "scope": "Pinned args 2.7.0 supplied/null/default/deprecated forwarding and independent ArgResults constructor slots; collection 1.19.1 identity/search callback first input, missing keys and reverse boundaries/subranges; meta 1.17.0 independent UseResult fields and existing public TargetKind constants. No arbitrary private TargetKind constructor, branch feasibility or general heap/slot precision qualification."
+    }
+  ],
+  "elementColumns": [
+    "nodeId",
+    "contextIndex",
+    "visible",
+    "isOutputArg",
+    "outEdgeLabel",
+    "fieldDemand"
+  ],
+  "representation": "Node/call IDs and context/path indices are project-local. transitions[i] classifies elements[i] to elements[i+1]. All retained demand sets in this review are empty. Equivalent stock/modeled paths are shared; full path flags and selected caller contexts are preserved.",
+  "reviewMethod": "Each selected displayed route was read against its pinned source expectation. Formal argument positions, resolved return targets and available selected frames were checked. Argument-output return evidence already in a caller frame has a separate category. This is a mechanism/approximation review, not branch feasibility, general scheduling or heap qualification.",
+  "analysisBaseCommit": "d8f6ee435",
+  "limitations": [
+    "Only these twenty-two args/collection/meta query families and their returned bounded paths are reviewed; other corpus alternatives and larger searches remain pending.",
+    "An endpoint identity is recorded separately from independent forwarding; conservative argument outputs, aggregate projections and external effects do not prove mutation, allocation identity, callback delivery or branch feasibility.",
+    "Negative observations retain their same-budget positive controls and explicit query limitations; no absence proof follows from an unfinished search."
+  ],
+  "totals": {
+    "queries": 22,
+    "selectedPaths": 28,
+    "distinctPaths": 14,
+    "distinctTransitions": 40
+  }
+}

@@ -178,8 +178,12 @@ covers all eleven compiler/utility queries, including direct parser forwarding
 and bounded negative dispositions. The [LocalSend/Saber review](applications-alternative-review.json)
 covers the remaining twenty-two application queries, retaining caller/output,
 callback, aggregate and worker receiver approximations. All thirty-three application
-queries now have complete bounded transition dispositions; other package paths
-remain pending review.
+queries now have complete bounded transition dispositions. The
+[args/collection/meta review](package-bindings-alternative-review.json) adds
+twenty-two package queries, with fourteen distinct paths and forty classified
+transitions. Direct binding/assignment routes have pinned runtime controls; both
+args negative searches remain inconclusive under call-depth limits. Seventeen
+other package queries still require review.
 
 To check the isolated reports and reproduce the summary:
 
