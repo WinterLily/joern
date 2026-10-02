@@ -7,7 +7,7 @@ unsupported protocol versions, and unsupported analyzer/exporter versions before
 constructing a graph. The Scala consumer validates the protocol, analyzer, SDK and offset encoding
 before constructing a graph. Exporter 0.3 adds modern-language fields to protocol 1.
 
-The header declares `protocolVersion` (1), `exporterVersion` (0.3.23),
+The header declares `protocolVersion` (1), `exporterVersion` (0.3.24),
 `analyzerVersion` (8.4.1), `sdkVersion` (3.9.2), and `offsetEncoding` (`utf-16`).
 No timestamps or checkout root are emitted. The exporter builds records one file
 at a time; the analyzer may retain project state internally.
@@ -305,3 +305,12 @@ Record/function/dynamic representations do not acquire guessed class identities.
 erasures can retain scoped parameters, while expression erasures retain the
 actual static substitution. These are class dispatch constraints, not runtime
 receiver or storage identities.
+
+Exporter 0.3.24 adds `requiredType`, `requiredTypeId` and optional
+`requiredErasedTypeId` to object patterns. The latter identifies known interface
+or type-parameter erasures of the pattern's required type, including an ordinary
+class's unchanged identity. `PatternField` records `type`/`typeId` from the
+child pattern's analyzer matched-value type, and optional instantiated
+`erasedTypeId`. These describe the extracted static result before the child's
+type test; getter declaration identities and generic return types remain separate.
+Record/function/unknown required erasures do not acquire guessed class identities.

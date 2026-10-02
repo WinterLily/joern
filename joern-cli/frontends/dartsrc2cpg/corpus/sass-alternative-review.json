@@ -96,7 +96,7 @@
       "exporter": {
         "record": "header",
         "protocolVersion": 1,
-        "exporterVersion": "0.3.23",
+        "exporterVersion": "0.3.24",
         "analyzerVersion": "8.4.1",
         "sdkVersion": "3.9.2",
         "offsetEncoding": "utf-16",
@@ -104,8 +104,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "e93d7f16ba74f0ed500a0e2dfb6b80a06f917cb1ae2b49a97201fb8ee195c526",
-        "files": 407,
+        "sha256": "c860f38644b091fcd88fc4f962d7efeac3085766620c43f34ed22dcaeb326c52",
+        "files": 408,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -743,7 +743,7 @@
             "reason": "The compiler trims the source string using computed bounds.",
             "branchConditions": "Stylesheet syntax selects Sass/SCSS/CSS parser. trimAscii returns empty if no non-whitespace exists. pluralize returns name for count one, supplied plural when nonnull, otherwise appends s. Compilation forwarding does not prove evaluation."
           },
-          "refreshDisposition": "Fresh modeled 28-node variants retain _firstNonWhitespace readonly parameter output, then _lastNonWhitespace string.length/index arithmetic -> return i+1, with excludeEscape binding retained. Their substring route selects end slot 2 -> start slot 1 -> receiver slot 0 before the conditional result. Exact frames/output flags and external substring effects are preserved. The source does not mutate String inputs; these readonly/index/cross-argument detours do not establish character provenance or branch feasibility."
+          "refreshDisposition": "Fresh four-witness stock and modeled 28-node variants retain _firstNonWhitespace readonly argument output, then _lastNonWhitespace string.length -> i -> codeUnitAt index -> return i+1. The output-marked call return flows through null assertion and end+1 into substring end slot 2, then either receiver slot 0 or start slot 1 before the conditional return. This is the selected escape-end return branch; both helper invocation identities, hidden arithmetic/condition evidence and all output/visibility flags remain explicit. Field/storage demands are empty. External length/codeUnitAt/substring and readonly/cross-argument effects do not establish mutation of immutable String or character provenance; the native oracle exercises ASCII/escape boundaries but does not certify this detour, index values or empty-branch feasibility. No causal claim ties selections to pattern receiver constraints."
         },
         {
           "id": "trim-scan-input",
@@ -3652,15 +3652,23 @@
               []
             ],
             [
-              "68719525637",
+              "68719525636",
               4,
-              true,
+              false,
               false,
               "i",
               []
             ],
             [
-              "141733925859",
+              "30064826614",
+              4,
+              true,
+              false,
+              "i + 1",
+              []
+            ],
+            [
+              "141733925858",
               4,
               true,
               false,
@@ -3697,14 +3705,6 @@
               true,
               false,
               "_lastNonWhitespace(string, excludeEscape: excludeEscape)! + 1",
-              []
-            ],
-            [
-              "68719525601",
-              0,
-              true,
-              false,
-              "start",
               []
             ],
             [
@@ -3758,12 +3758,12 @@
             "local-read",
             "local-read",
             "local-read",
+            "operator-value",
             "return-value",
             "method-return",
             "call-return",
             "operator-value",
             "operator-value",
-            "external-write",
             "external-write",
             "external-return",
             "selection",
@@ -3901,6 +3901,14 @@
               []
             ],
             [
+              "68719525632",
+              4,
+              false,
+              false,
+              "i",
+              []
+            ],
+            [
               "68719525636",
               4,
               false,
@@ -3965,14 +3973,6 @@
               []
             ],
             [
-              "68719525600",
-              0,
-              true,
-              false,
-              "string",
-              []
-            ],
-            [
               "30064826574",
               0,
               false,
@@ -4014,13 +4014,13 @@
             "local-read",
             "local-read",
             "local-read",
+            "local-read",
             "operator-value",
             "return-value",
             "method-return",
             "call-return",
             "operator-value",
             "operator-value",
-            "external-write",
             "external-write",
             "external-return",
             "selection",
@@ -4150,6 +4150,14 @@
               []
             ],
             [
+              "68719525631",
+              4,
+              false,
+              false,
+              "i",
+              []
+            ],
+            [
               "68719525632",
               4,
               false,
@@ -4158,23 +4166,15 @@
               []
             ],
             [
-              "68719525636",
+              "68719525637",
               4,
-              false,
+              true,
               false,
               "i",
               []
             ],
             [
-              "30064826614",
-              4,
-              true,
-              false,
-              "i + 1",
-              []
-            ],
-            [
-              "141733925858",
+              "141733925859",
               4,
               true,
               false,
@@ -4271,7 +4271,7 @@
             "local-read",
             "local-read",
             "local-read",
-            "operator-value",
+            "local-read",
             "return-value",
             "method-return",
             "call-return",
@@ -6226,7 +6226,7 @@
   ],
   "representation": "Node/call IDs and context/path indices are project-local. transitions[i] classifies elements[i] to elements[i+1]. All retained demand sets in this review are empty. Equivalent stock/modeled paths are shared; full path flags and selected caller contexts are preserved.",
   "reviewMethod": "Each selected displayed route was read against its pinned source expectation. Formal argument positions, resolved return targets and available selected frames were checked. Argument-output return evidence already in a caller frame has a separate category. This is a mechanism/approximation review, not branch feasibility, general scheduling or heap qualification.",
-  "analysisBaseCommit": "f0e383ca5",
+  "analysisBaseCommit": "babb30042",
   "limitations": [
     "Only these eleven Sass query families and their returned bounded paths are reviewed; other corpus alternatives and larger searches remain pending.",
     "An endpoint identity is recorded separately from independent forwarding; conservative argument outputs, aggregate projections and external effects do not prove mutation, allocation identity, callback delivery or branch feasibility.",
@@ -6239,11 +6239,11 @@
     "distinctTransitions": 330
   },
   "refresh": {
-    "previousBaseCommit": "f0e383ca5",
+    "previousBaseCommit": "babb30042",
     "previousAnalysisSources": {
       "algorithm": "sha256-path-nul-content-nul",
-      "sha256": "5381126986a8bc6c2fa819f56be744fee0f7c656a0de4539d90fb1e1d3c026c4",
-      "files": 406,
+      "sha256": "e93d7f16ba74f0ed500a0e2dfb6b80a06f917cb1ae2b49a97201fb8ee195c526",
+      "files": 407,
       "roots": [
         "joern-cli/frontends/dartsrc2cpg/src",
         "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -6266,10 +6266,10 @@
     "previousTotals": {
       "queries": 11,
       "selectedPaths": 41,
-      "distinctPaths": 25,
-      "distinctTransitions": 384
+      "distinctPaths": 23,
+      "distinctTransitions": 330
     },
-    "method": "Replayed after adding instantiated extension-type representation constraints for inherited class dispatch, while retaining original static types and static own-member dispatch. Unchanged routes are matched against previous two/four-witness reviewed paths after removing node IDs only; all other node/call/context/flag/demand facts are retained. Changed variants have separate source-grounded refresh dispositions and checked argument/return/output bindings. All new graph IDs are reconstructed from fresh raw audits. Native observations do not certify caller re-entry, allocation, heap/dispatch precision or route feasibility."
+    "method": "Replayed after adding object-pattern required receiver constraints and instantiated object/record field result types, preserving per-use cached field erasures and generic declaration identities. Unchanged routes are matched against previous two/four-witness reviewed paths after removing node IDs only; all other node/call/context/flag/demand facts are retained. Changed variants have separate source-grounded refresh dispositions and checked argument/return/output bindings. All new graph IDs are reconstructed from fresh raw audits. Native observations do not certify caller re-entry, allocation, heap/dispatch precision or route feasibility."
   },
   "nativeRefreshScope": "Existing native oracle contracts remain unchanged."
 }

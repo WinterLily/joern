@@ -1,0 +1,233 @@
+{
+  "schemaVersion": 1,
+  "previousBaseCommit": "babb30042",
+  "previousAnalysisSources": {
+    "algorithm": "sha256-path-nul-content-nul",
+    "sha256": "e93d7f16ba74f0ed500a0e2dfb6b80a06f917cb1ae2b49a97201fb8ee195c526",
+    "files": 407,
+    "roots": [
+      "joern-cli/frontends/dartsrc2cpg/src",
+      "joern-cli/frontends/dartsrc2cpg/astgen/lib",
+      "joern-cli/frontends/dartsrc2cpg/astgen/bin",
+      "joern-cli/frontends/x2cpg/src/main",
+      "dataflowengineoss/src/main",
+      "semanticcpg/src/main",
+      "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.lock",
+      "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.yaml",
+      "joern-cli/frontends/dartsrc2cpg/build.sbt",
+      "joern-cli/frontends/x2cpg/build.sbt",
+      "joern-cli/build.sbt",
+      "dataflowengineoss/build.sbt",
+      "semanticcpg/build.sbt",
+      "build.sbt",
+      "project/Versions.scala",
+      "project/Projects.scala"
+    ]
+  },
+  "analysisSources": {
+    "algorithm": "sha256-path-nul-content-nul",
+    "sha256": "c860f38644b091fcd88fc4f962d7efeac3085766620c43f34ed22dcaeb326c52",
+    "files": 408,
+    "roots": [
+      "joern-cli/frontends/dartsrc2cpg/src",
+      "joern-cli/frontends/dartsrc2cpg/astgen/lib",
+      "joern-cli/frontends/dartsrc2cpg/astgen/bin",
+      "joern-cli/frontends/x2cpg/src/main",
+      "dataflowengineoss/src/main",
+      "semanticcpg/src/main",
+      "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.lock",
+      "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.yaml",
+      "joern-cli/frontends/dartsrc2cpg/build.sbt",
+      "joern-cli/frontends/x2cpg/build.sbt",
+      "joern-cli/build.sbt",
+      "dataflowengineoss/build.sbt",
+      "semanticcpg/build.sbt",
+      "build.sbt",
+      "project/Versions.scala",
+      "project/Projects.scala"
+    ]
+  },
+  "exporterVersion": "0.3.24",
+  "scope": "Required object-pattern receiver constraints and instantiated object/record field result metadata, with graph count comparison. Not complete pattern/extension, runtime, heap or release qualification.",
+  "reducedRegression": {
+    "fixture": "src/test/resources/semantics/extension_type_patterns.dart",
+    "sha256": "308adb1492ae72784b6873e5fa9f4657a0cb8f186c55001ac4e3d9235c87b767",
+    "before": "View<Store>(value: var text) over Object links both Store.value and unrelated OtherStore.value; native execution accepts Store and rejects OtherStore. Pattern accessor result types are unavailable in syntax metadata.",
+    "after": "Each accessor receiver retains the known required class erasure. Matched field static types and instantiated erasures are retained separately from generic declarations and presented per use through shared getter storage.",
+    "graph": "constrain object-pattern receivers and preserve instantiated field results",
+    "exporter": "object patterns retain required receivers and instantiated field types",
+    "nativeFile": "astgen/test/extension_type_patterns_test.dart",
+    "nativeTests": 4,
+    "controls": [
+      "Plain and extension object patterns exclude unrelated inherited getter implementations.",
+      "Nested holder and record patterns retain instantiated field results, including own representation field projection.",
+      "Shared cached field views retain Store and OtherStore substitutions independently.",
+      "Repeated typed alternatives invoke the actual receiver getter once; independent objects retain their own values.",
+      "A valid dynamic object pattern has no guessed required class constraint."
+    ]
+  },
+  "projects": [
+    {
+      "project": "path-1.9.1",
+      "category": "packages",
+      "objectPatterns": 0,
+      "withKnownRequiredErasure": 0,
+      "patternFields": 0,
+      "withMatchedType": 0,
+      "withFieldErasure": 0,
+      "observationsSha256": "509b4cf180683cb82787bbd1bdfe943f2bf0950b6fa7616e65e281a85f0373e8"
+    },
+    {
+      "project": "collection-1.19.1",
+      "category": "packages",
+      "objectPatterns": 0,
+      "withKnownRequiredErasure": 0,
+      "patternFields": 0,
+      "withMatchedType": 0,
+      "withFieldErasure": 0,
+      "observationsSha256": "07d05e26d0ff179e96d673ce922eeb6cb483d89471acfc44351e50564229db01"
+    },
+    {
+      "project": "meta-1.17.0",
+      "category": "packages",
+      "objectPatterns": 0,
+      "withKnownRequiredErasure": 0,
+      "patternFields": 0,
+      "withMatchedType": 0,
+      "withFieldErasure": 0,
+      "observationsSha256": "e0d85f85b75d7eebc64d834af2ccf79e31ff38f7dbd3e14015f711c228752ee5"
+    },
+    {
+      "project": "args-2.7.0",
+      "category": "packages",
+      "objectPatterns": 1,
+      "withKnownRequiredErasure": 1,
+      "patternFields": 2,
+      "withMatchedType": 2,
+      "withFieldErasure": 0,
+      "observationsSha256": "c30753877bfd7be58012a2321e9b295070d5ee29e30867dda5fc3ab0116c68d0"
+    },
+    {
+      "project": "async-2.13.0",
+      "category": "packages",
+      "objectPatterns": 0,
+      "withKnownRequiredErasure": 0,
+      "patternFields": 0,
+      "withMatchedType": 0,
+      "withFieldErasure": 0,
+      "observationsSha256": "0022f6e7544a210c6f903fab4002bda850156d5da84ef0f2867c3afd257879c4"
+    },
+    {
+      "project": "http_parser-4.1.2",
+      "category": "packages",
+      "objectPatterns": 0,
+      "withKnownRequiredErasure": 0,
+      "patternFields": 0,
+      "withMatchedType": 0,
+      "withFieldErasure": 0,
+      "observationsSha256": "2fbffd655f9305d37dfc437761d4f244773c81a259da6784ebb09ffbd516f63c"
+    },
+    {
+      "project": "analyzer-8.4.1",
+      "category": "packages",
+      "objectPatterns": 600,
+      "withKnownRequiredErasure": 593,
+      "patternFields": 265,
+      "withMatchedType": 265,
+      "withFieldErasure": 0,
+      "observationsSha256": "3c87afa9ed040d1ecfa90cc9c2f477cbfe272b2dfec7495ede4c361c3846e091"
+    },
+    {
+      "project": "localsend-1.17.0",
+      "category": "applications",
+      "objectPatterns": 8,
+      "withKnownRequiredErasure": 8,
+      "patternFields": 24,
+      "withMatchedType": 24,
+      "withFieldErasure": 0,
+      "observationsSha256": "2cf48c062919922f7d02685cd7ddcdbe8fa8bb17ce2125065ff5bbcbed6f9895"
+    },
+    {
+      "project": "saber-0.26.0",
+      "category": "applications",
+      "objectPatterns": 0,
+      "withKnownRequiredErasure": 0,
+      "patternFields": 16,
+      "withMatchedType": 16,
+      "withFieldErasure": 0,
+      "observationsSha256": "462ad8cc70d0ef0cd84439cd3588a40b72e1fa5750a403ad6ab5d4220403c7b0"
+    },
+    {
+      "project": "dart-sass-1.89.2",
+      "category": "applications",
+      "objectPatterns": 308,
+      "withKnownRequiredErasure": 308,
+      "patternFields": 782,
+      "withMatchedType": 782,
+      "withFieldErasure": 0,
+      "observationsSha256": "bfe41563f232a9f17e886bf75f9ce9e56be452b0d8179ca37d11c5069d7e635b"
+    },
+    {
+      "project": "shelf-1.4.2",
+      "category": "holdout",
+      "objectPatterns": 0,
+      "withKnownRequiredErasure": 0,
+      "patternFields": 0,
+      "withMatchedType": 0,
+      "withFieldErasure": 0,
+      "observationsSha256": "877a3825fa6690a1a194a0d37f39f9022c642c607963ed5d98b8170f138e1837"
+    },
+    {
+      "project": "yaml-3.1.3",
+      "category": "holdout",
+      "objectPatterns": 0,
+      "withKnownRequiredErasure": 0,
+      "patternFields": 2,
+      "withMatchedType": 2,
+      "withFieldErasure": 0,
+      "observationsSha256": "a681e7656b53b2c91964669fef0bbaa9e947a57c987790a6e7e6384645168965"
+    }
+  ],
+  "totals": {
+    "objectPatterns": 917,
+    "withKnownRequiredErasure": 910,
+    "patternFields": 1091,
+    "withMatchedType": 1091,
+    "withFieldErasure": 0
+  },
+  "sourceEvidence": [
+    {
+      "project": "args-2.7.0",
+      "file": "src/usage.dart",
+      "sha256": "335c91b0c284aa3b167adecce8c2f3f2b265c9edb3872893bbaf7a083b902566"
+    },
+    {
+      "project": "analyzer-8.4.1",
+      "file": "src/wolf/ir/ast_to_ir.dart",
+      "sha256": "1a781f548a63e4b4db84644de4dc4f0b1c94df0891b3f654c5f68b6d48751015"
+    },
+    {
+      "project": "analyzer-8.4.1",
+      "file": "src/wolf/ir/interpreter.dart",
+      "sha256": "ed5139de896b84c5bc1a9f3bd3ab9223ada707d46bd558983ca7924f5115e52f"
+    },
+    {
+      "project": "dart-sass-1.89.2",
+      "file": "src/ast/sass/argument_list.dart",
+      "sha256": "27de85ba6e02e5829b7ee02c0d6c62cad67f23b8ce868b38fdfbcfd1c43cc799"
+    },
+    {
+      "project": "yaml-3.1.3",
+      "file": "lib/src/parser.dart",
+      "sha256": "8ad3fe6b509dd7e029edf93c05f5eb322225a4384da0a4be09de683ef3561776"
+    }
+  ],
+  "unchangedRepresentationCounts": true,
+  "unchangedPriorIterationAndExpressionErasureFacts": true,
+  "limitations": [
+    "Seven explicit dynamic object patterns in analyzer omit required class constraints; dynamic matching and runtime getter effects are not thereby qualified.",
+    "No newly observed corpus field result is an extension wrapper; the reduced nested/cached fixture supplies the direct field-erasure controls.",
+    "Per-use static constraints do not identify actual receiver/storage instances or checked runtime generic environments.",
+    "Complete object/record/pattern CFG and payload/heap behavior, library callbacks/platform effects, omitted alternatives and limited negative searches remain open."
+  ]
+}

@@ -2128,3 +2128,77 @@ but the graph retains Object as the accessor receiver and links both source
 value getters. Instantiated pattern receiver constraints remain to be implemented.
 Representation storage aliasing, structured/function effects, runtime generic
 qualification, omitted alternatives and limited negative searches remain open.
+
+## Object-pattern receiver constraints and instantiated field results
+
+Exporter 0.3.24 records each object pattern's required type and known class or
+bounded-parameter erasure, and each object/record field's instantiated matched
+value type. Lowering constrains the individual accessor receiver and preserves
+result types and erasures separately for each use of shared extraction storage.
+It retains original getter declaration identities and generic return types.
+A reduced View<Store> pattern previously linked both Store.value and
+OtherStore.value through Object; it now selects Store.value. Ordinary Store,
+OtherStore, nested holder, record, representation-field, captured-field and
+alternative-case controls check receiver separation and String results.
+Cached field views retain their own Store/OtherStore constraints. Explicit
+dynamic object patterns supply no guessed class constraint.
+
+Four native controls exercise independent values, type-failure exclusion,
+nested/record extraction, getter order and getter-once behavior across cases.
+The full opt-in native suite passes 143 tests, Dart analysis reports no issues,
+and the forced frontend suite passes 170 tests. All seven packages, three
+applications and two holdout projects pass, as do four staged CLI checks and
+fourteen staged console checks. All graphs share analysis-source SHA-256
+`c860f38644b091fcd88fc4f962d7efeac3085766620c43f34ed22dcaeb326c52`
+over 408 files. Their method/call counts and saved iteration/representation
+facts are unchanged. Independent native exports observe 917 object patterns,
+910 known required class erasures and 1,091 typed pattern fields. Seven explicit
+dynamic patterns remain unconstrained; no corpus field result has a wrapper
+erasure, so the reduced fixture supplies that interaction evidence. The
+[pattern review](pattern-receiver-review.json) records exact source pins and
+comparison scope. The stage matrix links 78 named tests; six matrix tests and
+sixteen rejection controls pass, alongside thirteen source-index rejection
+controls, full cached source verification and two upstream-case tests with
+nine rejection controls. Complete rule cells and all Gates 1–6 remain open.
+
+Two-witness/two-round audits complete in 191210/47275/29165 ms for packages,
+applications and holdout, with sampled family RSS 5617128/4754560/1542056 KiB.
+Four-witness/two-round audits complete in 405418/51300/33187 ms, with RSS
+6131076/5382536/2305048 KiB. Each category remains within its 600000 ms budget;
+workers explicitly use 8 GiB/four processors. These are once-per-second
+process-family memory samples, not exact peak RSS or one heap.
+
+The fresh four-witness review classifies 248 selected paths, 148 distinct routes
+and 2,554 transitions across eighty queries. Stock/model endpoint outcomes
+remain 78/80 and 80/80, with 122/131 and 111/117 visible/detailed paths and 42/41
+limited queries. Seven stock and eight modeled negatives remain inconclusive.
+The two-witness summaries retain stock 86/89 and modeled 81/83 paths with 43/42
+limited queries. Forwarding's seven queries retain nineteen distinct paths and
+617 transitions. MediaType retains two paths/six transitions; fresh storage and
+local-exit checks retain six paths/123 transitions and eleven paths/199
+transitions. Both summaries reproduce byte-for-byte; all 87 review rejection
+controls pass against the refreshed proofs and resource records.
+
+Twenty changed selections received separate source-grounded dispositions.
+Two stock analyzer variants retain _element -> bound.positionalFields demands,
+then readonly NodeList length and BoolList offset/_getByte/_getUint8 detours in
+either order. Four Sass stock/model variants retain readonly helper output,
+last-index arithmetic and the escape-end return, then substring end-to-receiver
+or end-to-start effects. Fourteen HTTP variants retain exact setRange slots:
+copy uses receiver 0 -> range end 2 -> skipCount 4 -> bytes 3; stock buffer
+uses 3 -> 2 -> 4 -> 0. Two-witness buffer re-entry selects end then bytes;
+four-witness stock selects bytes twice. Modeled byte-copy effects remain
+separate. Shorter routes omit saved aliases while retaining hidden evidence.
+Exact flags, slots, fields and frames remain explicit. These conservative
+readonly, range, field, external, dispatch and caller detours do not establish
+runtime receivers, callback delivery, branch feasibility, repeated-call order,
+allocation identity or precise element provenance. No causal claim ties route
+selection changes to object-pattern constraints.
+
+The next reduced control exposes list-pattern result instantiation:
+Values<String> supplies a native String through its resolved index getter, but
+the graph result still has the getter declaration's scoped T. The declaration
+should retain T while the extracted result preserves its instantiated type.
+Full pattern CFG/payload effects, runtime generic environments, representation
+storage aliasing, structured/function effects, omitted alternatives and limited
+negative searches remain open.

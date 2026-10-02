@@ -975,7 +975,8 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
             ref()
           )
         )
-        result.root.collect { case block: NewBlock => block.typeFullName = local.typeFullName }
+        result.root.collect { case block: NewBlock => block.typeFullName = astType(value) }
+        value.root.foreach(source => result.root.foreach(copyErasure(source, _)))
         result
     }
     def patternMember(syntax: Value, targetId: String, name: String, values: Seq[Ast]): Ast = {
@@ -1066,9 +1067,12 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
               s"$$$position"
             }
             val access =
-              if (string(syntax, "kind") == "ObjectPattern")
-                reference(entry, string(entry, "reference"), name, Some(value()))
-              else field(entry, value(), name)
+              if (string(syntax, "kind") == "ObjectPattern") {
+                val receiver = value()
+                receiver.root.foreach(erasedReceiver(_, string(syntax, "requiredErasedTypeId")))
+                reference(entry, string(entry, "reference"), name, Some(receiver))
+              } else field(entry, value(), name)
+            access.root.foreach(erasedReceiver(_, string(entry, "erasedTypeId")))
             val key = patternInvocation(entry, parent, name)
             saved(entry, patternAccess(entry, key, access))(ref => pattern(child(entry, "pattern"), ref, key))
           })

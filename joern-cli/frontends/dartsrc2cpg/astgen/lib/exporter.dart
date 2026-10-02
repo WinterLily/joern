@@ -23,7 +23,7 @@ import 'package:analyzer/source/line_info.dart';
 import 'package:path/path.dart' as p;
 
 const protocolVersion = 1;
-const exporterVersion = '0.3.23';
+const exporterVersion = '0.3.24';
 const analyzerVersion = '8.4.1';
 const supportedSdkVersion = '3.9.2';
 
@@ -1271,10 +1271,22 @@ class _UnitEncoder {
         many('field', ast.fields);
       case ObjectPattern():
         kind = 'ObjectPattern';
+        final required = ast.type.type;
+        record['requiredType'] = required?.getDisplayString();
+        record['requiredTypeId'] = typeId(required);
+        final erased = required?.extensionTypeErasure;
+        if (erased is InterfaceType || erased is TypeParameterType) {
+          record['requiredErasedTypeId'] = typeId(erased);
+        }
         child('type', ast.type);
         many('field', ast.fields);
       case PatternField():
         kind = 'PatternField';
+        final type = ast.pattern.matchedValueType;
+        record['type'] = type?.getDisplayString();
+        record['typeId'] = typeId(type);
+        final erased = erasedTypeId(type);
+        if (erased != null) record['erasedTypeId'] = erased;
         record['name'] = ast.name == null ? null : ast.effectiveName;
         record['reference'] = symbol(ast.element);
         extensionInvocation(

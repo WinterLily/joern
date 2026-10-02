@@ -2844,6 +2844,52 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         cpg.call.nameExact("<operator>.isInitialized").size shouldBe 2
       }
     }
+    "constrain object-pattern receivers and preserve instantiated field results" in {
+      fixture(
+        Files.readString(frontend.resolve("src/test/resources/semantics/extension_type_patterns.dart")),
+        "void main() {}",
+        dataflow = false
+      ) { (cpg, _) =>
+        cpg.unknown.size shouldBe 0
+        for (name <- Seq("direct", "plain", "nested", "captured", "record", "own")) {
+          val calls = cpg.method.nameExact(name).ast.isCall.nameExact("value").l
+          calls.size shouldBe 1
+          val targets = calls.head.callee.isExternal(false).astParentFullName.l
+          targets.size shouldBe 1
+          targets.head should endWith(":CLASS:Store")
+          calls.head.typeFullName should endWith(":CLASS:String")
+        }
+        val other =
+          cpg.method.nameExact("other").ast.isCall.nameExact("value").callee.isExternal(false).astParentFullName.l
+        other.size shouldBe 1
+        other.head should endWith(":CLASS:OtherStore")
+        for (name <- Seq("nested", "captured")) {
+          val view = cpg.method.nameExact(name).ast.isCall.nameExact("view").head
+          view.typeFullName should endWith(":EXTENSION_TYPE:View")
+          view.tag.nameExact(VirtualCallPass.ReceiverErasureTag).value.l should have size 1
+          view.tag.nameExact(VirtualCallPass.ReceiverErasureTag).value.head should endWith(":CLASS:Store")
+          view.callee.isExternal(false).methodReturn.typeFullName.head shouldBe view.typeFullName
+        }
+        val views = cpg.method
+          .nameExact("nestedAlternatives")
+          .ast
+          .isBlock
+          .tag
+          .nameExact(VirtualCallPass.ReceiverErasureTag)
+          .value
+          .l
+        views.count(_.endsWith(":CLASS:Store")) shouldBe 2
+        views.count(_.endsWith(":CLASS:OtherStore")) shouldBe 1
+        val alternatives = cpg.method.nameExact("alternatives").ast.isCall.nameExact("value").l
+        alternatives.size shouldBe 3
+        alternatives
+          .flatMap(_.callee.isExternal(false).astParentFullName.l)
+          .count(_.endsWith(":CLASS:Store")) shouldBe 2
+        alternatives
+          .flatMap(_.callee.isExternal(false).astParentFullName.l)
+          .count(_.endsWith(":CLASS:OtherStore")) shouldBe 1
+      }
+    }
     "dispatch inherited class members through extension type representations" in {
       fixture(
         Files.readString(frontend.resolve("src/test/resources/semantics/extension_type_dispatch.dart")),
@@ -3591,7 +3637,7 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         val coverage = ujson.read(Files.readString(report))
         coverage("includedFiles").num shouldBe 0
         coverage("stringConversionOrder").str shouldBe "after-expression-evaluation"
-        coverage("exporter")("exporterVersion").str shouldBe "0.3.23"
+        coverage("exporter")("exporterVersion").str shouldBe "0.3.24"
         coverage("exporter")("sdkVersion").str shouldBe "3.9.2"
         coverage("exporter")("analyzerVersion").str shouldBe "8.4.1"
         Files.writeString(dir.resolve("excluded.dart"), "void excluded() {}")
@@ -3611,7 +3657,7 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         "offsetEncoding"  -> "utf-16",
         "analyzerVersion" -> "8.4.1",
         "sdkVersion"      -> "3.9.2",
-        "exporterVersion" -> "0.3.23"
+        "exporterVersion" -> "0.3.24"
       )
       intercept[IllegalArgumentException](ExportProtocol.units(Seq(valid)))
       intercept[IllegalArgumentException](

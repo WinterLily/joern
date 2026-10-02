@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "analysisBaseCommit": "f0e383ca5",
+  "analysisBaseCommit": "babb30042",
   "scope": "All four initial holdout queries at witness bound four/two held rounds, both model sets; complete review of returned paths and source-grounded bounded absence controls.",
   "elementColumns": [
     "nodeId",
@@ -72,8 +72,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "e93d7f16ba74f0ed500a0e2dfb6b80a06f917cb1ae2b49a97201fb8ee195c526",
-        "files": 407,
+        "sha256": "c860f38644b091fcd88fc4f962d7efeac3085766620c43f34ed22dcaeb326c52",
+        "files": 408,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -96,7 +96,7 @@
       "exporter": {
         "record": "header",
         "protocolVersion": 1,
-        "exporterVersion": "0.3.23",
+        "exporterVersion": "0.3.24",
         "analyzerVersion": "8.4.1",
         "sdkVersion": "3.9.2",
         "offsetEncoding": "utf-16",
@@ -610,8 +610,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "e93d7f16ba74f0ed500a0e2dfb6b80a06f917cb1ae2b49a97201fb8ee195c526",
-        "files": 407,
+        "sha256": "c860f38644b091fcd88fc4f962d7efeac3085766620c43f34ed22dcaeb326c52",
+        "files": 408,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -634,7 +634,7 @@
       "exporter": {
         "record": "header",
         "protocolVersion": 1,
-        "exporterVersion": "0.3.23",
+        "exporterVersion": "0.3.24",
         "analyzerVersion": "8.4.1",
         "sdkVersion": "3.9.2",
         "offsetEncoding": "utf-16",
@@ -996,11 +996,11 @@
     }
   ],
   "refresh": {
-    "previousBaseCommit": "f0e383ca5",
+    "previousBaseCommit": "babb30042",
     "previousAnalysisSources": {
       "algorithm": "sha256-path-nul-content-nul",
-      "sha256": "5381126986a8bc6c2fa819f56be744fee0f7c656a0de4539d90fb1e1d3c026c4",
-      "files": 406,
+      "sha256": "e93d7f16ba74f0ed500a0e2dfb6b80a06f917cb1ae2b49a97201fb8ee195c526",
+      "files": 407,
       "roots": [
         "joern-cli/frontends/dartsrc2cpg/src",
         "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -1026,7 +1026,7 @@
       "distinctPaths": 3,
       "distinctTransitions": 19
     },
-    "method": "Replayed after adding instantiated extension-type representation constraints for inherited class dispatch, while retaining original static types and static own-member dispatch. Unchanged routes are matched against previous two/four-witness reviewed paths after removing node IDs only; all other node/call/context/flag/demand facts are retained. Changed variants have separate source-grounded refresh dispositions and checked argument/return/output bindings. All new graph IDs are reconstructed from fresh raw audits. Native observations do not certify caller re-entry, allocation, heap/dispatch precision or route feasibility."
+    "method": "Replayed after adding object-pattern required receiver constraints and instantiated object/record field result types, preserving per-use cached field erasures and generic declaration identities. Unchanged routes are matched against previous two/four-witness reviewed paths after removing node IDs only; all other node/call/context/flag/demand facts are retained. Changed variants have separate source-grounded refresh dispositions and checked argument/return/output bindings. All new graph IDs are reconstructed from fresh raw audits. Native observations do not certify caller re-entry, allocation, heap/dispatch precision or route feasibility."
   },
   "nativeRefreshScope": "Existing native oracle contracts remain unchanged."
 }

@@ -74,6 +74,83 @@ void main() {
   });
 
   test(
+    'object patterns retain required receivers and instantiated field types',
+    () async {
+      write(
+        'main.dart',
+        File(
+          '../src/test/resources/semantics/extension_type_patterns.dart',
+        ).readAsStringSync(),
+      );
+      final unit = units(await export()).single;
+      expect(unit['status'], 'resolved');
+      final symbols = {for (final s in entries(unit, 'symbols')) s['id']: s};
+      final nodes = entries(unit, 'nodes');
+      final patterns = nodes
+          .where((n) => n['kind'] == 'ObjectPattern')
+          .toList();
+      expect(patterns, isNotEmpty);
+      for (final pattern in patterns) {
+        final required = symbols[pattern['requiredTypeId']]!;
+        final erased = symbols[pattern['requiredErasedTypeId']]!;
+        expect(
+          erased['name'],
+          required['name'] == 'View' &&
+                  pattern['requiredType'] == 'View<OtherStore>'
+              ? 'OtherStore'
+              : required['name'] == 'View'
+              ? 'Store'
+              : required['name'],
+        );
+        if (required['name'] == 'View') {
+          expect(required['kind'], 'EXTENSION_TYPE');
+        }
+      }
+      final fields = nodes.where((n) => n['kind'] == 'PatternField');
+      final views = fields.where((n) => n['name'] == 'view').toList();
+      expect(views, hasLength(5));
+      for (final view in views) {
+        expect(view['type'], anyOf('View<Store>', 'View<OtherStore>'));
+        expect(symbols[view['typeId']]!['kind'], 'EXTENSION_TYPE');
+        expect(
+          symbols[view['erasedTypeId']]!['name'],
+          view['type'] == 'View<OtherStore>' ? 'OtherStore' : 'Store',
+        );
+        expect(symbols[view['reference']]!['returnType'], 'View<S>');
+      }
+      final values = fields.where((n) => n['name'] == 'value').toList();
+      expect(values, hasLength(12));
+      for (final value in values) {
+        expect(value['type'], 'String');
+        expect(symbols[value['typeId']]!['name'], 'String');
+      }
+      expect(
+        values.any(
+          (n) =>
+              symbols[symbols[n['reference']]!['returnTypeId']]?['kind'] ==
+              'TYPE_PARAMETER',
+        ),
+        isTrue,
+      );
+      write(
+        'dynamic.dart',
+        'String describe(Object? input) => switch (input) {dynamic(:var runtimeType) => runtimeType.toString()};',
+      );
+      final dynamicUnit = units(
+        await export(input: p.join(project.path, 'dynamic.dart')),
+      ).single;
+      expect(dynamicUnit['status'], 'resolved');
+      final dynamicPattern = entries(
+        dynamicUnit,
+        'nodes',
+      ).singleWhere((n) => n['kind'] == 'ObjectPattern');
+      expect(dynamicPattern['requiredType'], 'dynamic');
+      expect(dynamicPattern['requiredTypeId'], 'dynamic');
+      expect(dynamicPattern.containsKey('requiredErasedTypeId'), isFalse);
+    },
+  );
+
+  test(
     'extension type dispatch retains instantiated representation constraints',
     () async {
       for (final name in [

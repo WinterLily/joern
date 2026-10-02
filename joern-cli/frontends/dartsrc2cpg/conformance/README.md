@@ -26,7 +26,7 @@ complete language-rule matrix or executable-oracle obligations.
 
 [qualification-matrix.json](qualification-matrix.json) assigns seven stage cells
 to all 175 visitors, 195 base sections and thirty feature documents. Shared visitor
-profiles and partial case contracts link 72 named graph, exporter and native tests, with file hashes and
+profiles and partial case contracts link 78 named graph, exporter and native tests, with file hashes and
 explicit assertion scopes. `tested-conservative` describes those selected tests;
 it does not qualify every visitor using the profile. Generic declaration/bound
 checks remain `structural-only`, and untested CFG cells remain `unqualified`.
@@ -202,3 +202,10 @@ remain separate from class dispatch constraints; own extension members retain
 static dispatch. Unrelated concrete representations are graph controls. Native
 member/value/order observations do not qualify heap aliasing, runtime generic
 environments, record/function representations or the full extension-type rules.
+
+The object-pattern receiver case adds the required static type and representation
+constraint at each accessor use. Object and record field results keep instantiated
+matched types separately from getter declarations. Cached getter storage retains
+per-use field views, including different generic substitutions across cases.
+Native type-failure exclusion and getter-once traces accompany graph receiver
+controls; complete CFG, payload, heap and runtime generic rules remain open.

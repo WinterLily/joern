@@ -603,3 +603,12 @@ symbolic current results remain distinct from generic callee declarations.
 Pinned native values/member-order controls and invalid getter override diagnostics
 cover this reduced boundary. Runtime substitutions, checked bounds, precise
 iterator element storage and full loop CFG/value-flow qualification remain open.
+
+Object-pattern accessor uses carry the required type's known class erasure as a
+dispatch constraint while the original matched expression keeps its static type.
+Object and record fields retain analyzer-instantiated static result types. Shared
+pattern getter storage presents each use's current static type and erasure, so
+one case's generic substitution does not become every later case's constraint.
+Type-failure exclusion, nested/record values and repeated-case getter evaluation
+have bounded native/graph controls; full pattern CFG, payload/heap effects and
+runtime generic environments remain unqualified.
