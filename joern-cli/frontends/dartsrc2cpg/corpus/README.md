@@ -172,7 +172,7 @@ with explicit 8 GiB forked-worker heaps and four worker processors. These
 observations qualify this configuration; the historical interrupted searches
 remain inconclusive. The [holdout review](holdout-witness-review.json) covers
 all four Shelf/YAML queries. The [analyzer review](analyzer-alternative-review.json)
-covers four byte-write/callback/reset query families, preserving conservative
+covers all six writer/reader query families, preserving conservative
 caller, receiver and external-read detours. The [Sass review](sass-alternative-review.json)
 covers all eleven compiler/utility queries, including direct parser forwarding
 and bounded negative dispositions. The [LocalSend/Saber review](applications-alternative-review.json)
@@ -182,8 +182,12 @@ queries now have complete bounded transition dispositions. The
 [args/collection/meta review](package-bindings-alternative-review.json) adds
 twenty-two package queries, with fourteen distinct paths and forty classified
 transitions. Direct binding/assignment routes have pinned runtime controls; both
-args negative searches remain inconclusive under call-depth limits. Seventeen
-other package queries still require review.
+args negative searches remain inconclusive under call-depth limits. The
+[path/async/http_parser review](package-flows-alternative-review.json) completes
+the remaining fifteen package families; the analyzer review also adds direct
+uint32/fork routes. All eighty families now retain complete dispositions for all
+248 selected bounded paths (146 distinct routes and 2,499 transitions). Eight
+modeled negatives and omitted alternatives remain unqualified.
 
 To check the isolated reports and reproduce the summary:
 

@@ -88,17 +88,16 @@ An opt-in Dart witness bound now retains distinct routes through intraprocedural
 held-task and final selection, with explicit pruning diagnostics and detailed
 call-context reports. Three-route branch/call isolation has graph and bounded
 SDK execution controls; C/Java/JavaScript/Kotlin keep longest-witness selection.
-The current HTTP capture review and seven additional path/async/parser query
-families classify selected bounded alternatives, including conservative detours
-and endpoint identity. Other alternatives still require review; Gate 1 stays open.
+The complete four-witness review classifies all eighty query families, including
+conservative detours and endpoint identities. Omitted alternatives and limited
+negative searches remain unqualified; Gate 1 stays open.
 Bounded witness ordering now skips ranking identical entries and unnecessary
 length groups, with task-context, field/output-flag, tie and pruning regressions.
 An isolated four-witness/two-held-round audit now passes baseline comparisons
 on all twelve graphs under explicit worker heap/CPU and wall-clock budgets.
-Its four holdout queries, four analyzer query families and all thirty-three
-application queries, plus twenty-two args/collection/meta queries, have complete
-transition reviews and pinned library or pure helper execution controls; other
-package routes still require review.
+All returned paths have complete transition dispositions and pinned source
+evidence, with library or pure helper execution controls. These controls qualify
+exercised behavior rather than every retained detour or omitted route.
 Held-task combination rounds now have an optional Dart-only budget with explicit
 inconclusive diagnostics; default and foreign-language searches retain their
 previous behavior. A four-witness package audit exceeded its seven-minute worker
@@ -192,10 +191,12 @@ stock paths and 117 modeled paths with unchanged endpoint outcomes. The
 in the three distinct Shelf/YAML paths, with same-budget positive controls for
 both isolation queries. Eight modeled negative searches elsewhere remain
 inconclusive. Additional sequences are not necessarily new semantic route families.
-The [analyzer review](corpus/analyzer-alternative-review.json) classifies 529
-transitions across 15 distinct paths, retaining readonly argument-output,
+The [analyzer review](corpus/analyzer-alternative-review.json) classifies 535
+transitions across 17 distinct paths, retaining readonly argument-output,
 receiver/field, external-read and caller detours as approximations rather than
-exact runtime provenance.
+exact runtime provenance. Direct uint32 high-byte binding and fork offset
+assignment now have mixed-byte/flush-boundary and shared-byte/independent-offset
+execution controls.
 The [Sass review](corpus/sass-alternative-review.json) classifies all 330
 transitions across 23 distinct paths for its eleven queries. Direct parser
 forwarding, readonly output detours, substring argument effects and callback
@@ -213,6 +214,13 @@ classifies all 40 transitions in fourteen distinct paths for twenty-two queries.
 Direct forwarding, matching field-formal stores and the reverse-loop temporary
 have pinned execution controls. Both args negative searches retain call-depth
 limits; no exhaustive absence claim follows from passing endpoint controls.
+
+The [path/async/http_parser review](corpus/package-flows-alternative-review.json)
+classifies all 941 transitions in 38 distinct paths for its fifteen queries.
+The complete audit retains 248 selected paths sharing 146 distinct routes and
+2,499 classified transitions across all eighty queries. Endpoint identities,
+caller re-entry, size/control detours and external effects retain their limitations;
+eight modeled negatives and omitted alternatives remain unqualified.
 
 Bounded alternative reporting is now available through `DartWitnessAuditTests`
 on saved corpus graphs. It preserves intermediate call contexts and reports

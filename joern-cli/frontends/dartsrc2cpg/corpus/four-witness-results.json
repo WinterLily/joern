@@ -65,7 +65,7 @@
     "Intermediate pruning, depth and held-round budgets exclude routes; negative searches with limits remain inconclusive.",
     "New sequences may differ only in temporary/context details; larger bounds need not retain all smaller-bound sequences.",
     "Memory values are sampled process-family sums, not measured peak RSS or the heap of one process.",
-    "All four holdout and thirty-three application queries, plus twenty-two args/collection/meta and four analyzer query families, have full transition reviews; other package routes remain pending."
+    "All eighty query families have full transition dispositions for the returned four-witness/two-round paths; omitted routes, limited negatives and broader semantic qualification remain open."
   ],
   "projects": [
     {
@@ -204,7 +204,7 @@
               "detailedWitnessesSha256": "b0592e779bb5b3e41fb64bda5525c059842e766bf92d63deacd9fe6912e9e3eb"
             }
           },
-          "semanticReview": "pending transition review; additional sequences are not necessarily distinct semantic route families"
+          "semanticReview": "see package-flows-alternative-review.json; The source fast branch returns path unchanged. All four alternatives first leave readonly _needsNormalization outputs, select prettyUri normalize(fromUri(typedUri)), traverse relative/isRelative and re-enter normalize/rootLength. Alternatives change rootLength selected implementation, intermediate path reads or helper output visits. Full selected callers and output flags are retained. DART-FLOW-004 caller/output detours are not immutable String mutation or proven caller order; depth/held-round/pruning limits remain."
         },
         {
           "id": "set-extension-path",
@@ -292,7 +292,7 @@
               "detailedWitnessesSha256": "9f5439d57b7a488749714abf4d279448cd526a32b6b6e1ee96c2e83f310e0047"
             }
           },
-          "semanticReview": "pending transition review; additional sequences are not necessarily distinct semantic route families"
+          "semanticReview": "see package-flows-alternative-review.json; The actual source parses path, replaces the last nonempty part with basenameWithoutExtension and renders it before adding extension. All four returned routes include readonly getRoot/isRootRelative outputs, substring/index effects, separators collection propagation into the exact field formal, a separators field demand through returned ParsedPath, readonly basename/_splitExtension receiver outputs, then separators.last external builder effects. They differ in local reads and _splitExtension output visits. Field demands are preserved, not replaced by whole-object proof. These DART-FLOW-004/006 external/output/aggregate approximations do not prove exact path character or allocation/field independence; all search limits remain."
         },
         {
           "id": "set-extension-suffix",
@@ -366,7 +366,7 @@
               "detailedWitnessesSha256": "bdb1e908623df967f9878ea904758694c8808606c57a7474df7a8757c508ae87"
             }
           },
-          "semanticReview": "pending transition review; additional sequences are not necessarily distinct semantic route families"
+          "semanticReview": "see package-flows-alternative-review.json; The extension formal reads directly into string addition and its expression return. Its exact payload role is separate from withoutExtension(path), with depth/pruning limits retained. Native independent suffixes and paths exercise the actual API without certifying all parse routes."
         },
         {
           "id": "extension-not-parse-input",
@@ -430,7 +430,7 @@
               "detailedWitnessesSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
             }
           },
-          "semanticReview": "pending transition review; additional sequences are not necessarily distinct semantic route families"
+          "semanticReview": "see package-flows-alternative-review.json; withoutExtension parses path before extension is appended. No path or query limitation is recorded; same-source/same-budget suffix-return control passes. Native independent suffixes preserve the parsed basename, not exhaustive negative-search qualification."
         },
         {
           "id": "cross-file-basename",
@@ -500,7 +500,7 @@
               "detailedWitnessesSha256": "85cf9bdf85cb473451d751e001e0a0d681db49993f85a123ddb53e541250cff3"
             }
           },
-          "semanticReview": "pending transition review; additional sequences are not necessarily distinct semantic route families"
+          "semanticReview": "see package-flows-alternative-review.json; The public wrapper binds path to Context.basename at the exact positional slot; its read is already the _parse argument endpoint. No query limitation is recorded. This is direct cross-file forwarding to a parse actual, not execution of the parser body."
         }
       ]
     },
@@ -2297,7 +2297,7 @@
               "detailedWitnessesSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
             }
           },
-          "semanticReview": "pending transition review; additional sequences are not necessarily distinct semantic route families"
+          "semanticReview": "see package-flows-alternative-review.json; ErrorResult.complete passes error and stackTrace separately to completeError. Stock retains direct cross-argument and completer-receiver alternatives, the known DART-FLOW-001 false positive. The versioned summary removes those paths and the same-budget error-argument control is connected, but the modeled negative still has call-depth/pruning limits and remains inconclusive. Native completion checks separate supplied error/trace values; no general delivery or scheduling qualification follows."
         },
         {
           "id": "error-to-error-argument",
@@ -2374,7 +2374,7 @@
               "detailedWitnessesSha256": "9fd8603fdad2d40fcdbe388532d227733a488f380f23013f3f19ade11ce33cb0"
             }
           },
-          "semanticReview": "pending transition review; additional sequences are not necessarily distinct semantic route families"
+          "semanticReview": "see package-flows-alternative-review.json; The error field source and completeError argument-one sink are the same graph node. The one-node path is endpoint identity, not independent forwarding or completer storage evidence. Depth/pruning limits remain. Pinned ErrorResult.complete execution independently checks selected delivered error/trace."
         },
         {
           "id": "value-to-event-sink",
@@ -2463,7 +2463,7 @@
               "detailedWitnessesSha256": "e5bdc016c7aca7bc515b26beb68316df8671d830964b27982a4a01b3e39afa33"
             }
           },
-          "semanticReview": "pending transition review; additional sequences are not necessarily distinct semantic route families"
+          "semanticReview": "see package-flows-alternative-review.json; The value field source is already the EventSink.add actual endpoint. Four selected identity-ending detours traverse DelegatingEventSink.add and/or ReleaseSink.add, re-enter ValueResult.addTo through whole-result receiver projection and consume value or repeated value field demands. One route repeats ReleaseSink and another repeats the delegate; all exact slots and demands are retained. Those aggregate/receiver/caller approximations are not precise wrapper allocation or arbitrary event delivery. Native explicit delegate/release-sink calls check selected independent receivers; depth/pruning remain."
         },
         {
           "id": "cancellation-cascade",
@@ -2533,7 +2533,7 @@
               "detailedWitnessesSha256": "cb886d65e9b0152d3ae8bf6990d93ae8106018a039fbbaf830fc114579b40370"
             }
           },
-          "semanticReview": "pending transition review; additional sequences are not necessarily distinct semantic route families"
+          "semanticReview": "see package-flows-alternative-review.json; The fromValue formal reads directly at CancelableCompleter.complete slot one in the source cascade. No query limitation is recorded. Actual fromValue operations preserve two supplied values; this does not qualify cancellation callbacks, timing or arbitrary future states."
         },
         {
           "id": "error-stored-in-completer",
@@ -2610,7 +2610,7 @@
               "detailedWitnessesSha256": "3482c7f7a56d0367d92e7eb167a44d326480b6a921d26fa2f1672ed31803c6c1"
             }
           },
-          "semanticReview": "pending transition review; additional sequences are not necessarily distinct semantic route families"
+          "semanticReview": "see package-flows-alternative-review.json; The selected ErrorResult error field crosses to completeError receiver under external write effects. The modeled completeError summary deliberately preserves receiver storage dependence while excluding stack-trace mixing. This is a payload/state contract, not a scalar return or scheduling proof; depth/pruning limits remain. Native completion observes exercised error delivery."
         }
       ]
     },
@@ -2748,7 +2748,7 @@
               "detailedWitnessesSha256": "10b6a0b4299ebbea07ce86b64494154f9ada0a97d8fc03d15479f988f945e18e"
             }
           },
-          "semanticReview": "pending transition review; additional sequences are not necessarily distinct semantic route families"
+          "semanticReview": "see package-flows-alternative-review.json; The source passes input to _convert bytes and copies its slice with setRange. Four stock routes instead follow input length/end, size/header allocation and setRange receiver-to-bytes effects, differing in allocation/cursor temporaries. They are size/position and external-write detours, not byte-content traces (DART-FLOW-003). The modeled path binds input directly to bytes and its selected setRange actual. Source slots/frames are checked; depth/storage/pruning limits remain and native codec checks exercise selected byte contents."
         },
         {
           "id": "chunk-return-buffer",
@@ -2839,7 +2839,7 @@
               "detailedWitnessesSha256": "80ead5ca9097953d6ce07aca40b531382f99d7e403279e1eb1ecddf3c0b1305c"
             }
           },
-          "semanticReview": "pending transition review; additional sequences are not necessarily distinct semantic route families"
+          "semanticReview": "see package-flows-alternative-review.json; The source copies bytes into the returned list. Stock routes first use setRange byte-to-list effects, exit to selected add or addSlice caller and re-enter _convert through chunk length/header allocation or cursor/start effects. Modeled routes preserve bytes-to-list dependence but retain repeated _convert/add re-entry, add/addSlice choices and temporary variants. Full output flags and caller contexts are retained. None proves arbitrary caller order, allocation identity or exact destination slots; DART-FLOW-003/external/output approximations and depth/storage/pruning limits remain. Native whole/sliced/empty chunks check actual bytes, not these detours."
         },
         {
           "id": "chunk-empty-return",
@@ -2910,7 +2910,7 @@
               "detailedWitnessesSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
             }
           },
-          "semanticReview": "pending transition review; additional sequences are not necessarily distinct semantic route families"
+          "semanticReview": "see package-flows-alternative-review.json; The empty slice branch returns the fixed done chunk or const empty list, independent of input byte contents. No path is returned, but depth/external-storage/initialization limits remain in both modes, so the negative is inconclusive despite its same-source/same-budget copy control. Native empty whole/nonlast/last slice cases exercise constant outputs without closing the search."
         },
         {
           "id": "captured-media-type",
@@ -2985,7 +2985,7 @@
               "detailedWitnessesSha256": "c67e185173308496e3dd1210c77b8f5ad21e346718dbc2286219a915fc6818dc"
             }
           },
-          "semanticReview": "pending transition review; additional sequences are not necessarily distinct semantic route families"
+          "semanticReview": "see package-flows-alternative-review.json; The closure lexically captures mediaType at StringScanner argument one. The short two-node route binds its enclosing formal directly to the captured read. The six-node route detours through wrapFormatException readonly value output and re-enters the lambda. Saved lambda identity and slots/frames are checked. No query limitation is recorded; actual MediaType.parse inputs exercise capture, not mutable String output effects or arbitrary callback delivery."
         },
         {
           "id": "error-message-value",
@@ -3074,7 +3074,7 @@
               "detailedWitnessesSha256": "2394f2ac3b41282be88a2137701f8c9482c9fe2051890f30b7fa81b7e758924c"
             }
           },
-          "semanticReview": "pending transition review; additional sequences are not necessarily distinct semantic route families"
+          "semanticReview": "see package-flows-alternative-review.json; The selected FormatException handler interpolates the saved value into the message actual. Four routes differ in saved-temporary reads and generated interpolation block exits. Their text dependence is explicit on the selected catch branch; external-exception-channel/pruning remain, and they do not prove that every body invocation throws. Existing pinned wrapper tests check successful bodies, FormatException and SourceSpanFormatException branches independently."
         }
       ]
     },
@@ -3295,7 +3295,7 @@
               "detailedWitnessesSha256": "9d469ba5028e667abf2993c7b7688797871d563ac9fcc0d55c5c947fa71cd9d7"
             }
           },
-          "semanticReview": "pending transition review; additional sequences are not necessarily distinct semantic route families"
+          "semanticReview": "see analyzer-alternative-review.json; The value formal reads through right shift by 24 and mask 0xFF into _addByte4 byte1 at its exact positional slot. Both modes retain the same direct scalar route; depth/field/pruning and stock external-storage limits remain. Actual writer/readUint32 cases cover zero, one, mixed-byte and maximum uint32 in fresh and flush-boundary buffers; this does not certify omitted alternatives."
         },
         {
           "id": "write-byte-not-reset",
@@ -3455,7 +3455,7 @@
               "detailedWitnessesSha256": "7384f63f020e1c755e7326d5026b2b155e64515745f8454e34238eca64f4645c"
             }
           },
-          "semanticReview": "see analyzer-alternative-review.json; Source writeList passes items[i] to writeItem once per loop iteration. Returned routes leave via readonly items/getter outputs, select a typeParameterFragments caller and traverse metadata or bound/type-argument lists before re-entering writeList. Flat-buffer length getter paths also use offset-to-buffer external getUint8 effects. Receiver field demands and selected call frames are preserved. These are conservative output/heap/dispatch/external detours, not exact element provenance, a specific runtime list implementation or general callback delivery. Stock and modeled routes differ despite the same justified endpoint. Stock includes a record positionalFields branch, while modeled includes typeArguments branches; their shared optional models do not certify either runtime branch."
+          "semanticReview": "see analyzer-alternative-review.json; Source writeList passes items[i] to writeItem once per loop iteration. Returned routes leave via readonly items/getter outputs, select a typeParameterFragments caller and traverse metadata or bound/type-argument lists before re-entering writeList. Flat-buffer length getter paths also use offset-to-buffer external getUint8 effects. Receiver field demands and selected call frames are preserved. These are conservative output/heap/dispatch/external detours, not exact element provenance, a specific runtime list implementation or general callback delivery. Stock and modeled routes differ despite the same justified endpoint."
         },
         {
           "id": "fork-offset-field",
@@ -3530,7 +3530,7 @@
               "detailedWitnessesSha256": "7e5d572ef9b3595447455e7705f871d55104ef9b09c81093f7844ea9d63fe4f3"
             }
           },
-          "semanticReview": "pending transition review; additional sequences are not necessarily distinct semantic route families"
+          "semanticReview": "see analyzer-alternative-review.json; The offset formal reads directly into result.offset assignment in BinaryReader.fork. Both modes retain the same direct route with depth/pruning limits. Actual reader forks share bytes while their read offsets advance independently; two forks and the original observe shared byte mutation without conflating offset state. This is exercised allocation/state evidence, not general heap independence."
         },
         {
           "id": "write-byte-not-reset-control",

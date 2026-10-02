@@ -1528,8 +1528,8 @@ eight modeled inconclusive negative searches and the remaining plan gates stay o
 The [LocalSend/Saber snapshot](applications-alternative-review.json) covers all
 22 queries in both modes: 84 selected paths share 51 distinct routes and 634
 classified transitions. Nine represented source files retain pinned hashes.
-Full call bindings, caller stacks, callback targets, output/visibility flags and
-empty demand sets are reconstructed against the saved four-witness reports.
+Full call bindings, caller stacks, callback targets, output/visibility flags,
+field demands and empty storage-demand sets are reconstructed against the saved four-witness reports.
 Together with Sass, all 33 application queries have transition dispositions.
 
 Certificate paths retain the known stock callback-selection approximation.
@@ -1607,3 +1607,64 @@ verifier rejection checks and the previous fifty checks. Missing args, collectio
 or meta queries, changed positional formals, caller stacks, flags, source/oracle
 hashes and limits are rejected. Summary regeneration is byte-identical and the
 403-file/all-twelve-graph source fingerprint remains unchanged.
+
+
+## Complete bounded package path review
+
+The [path/async/http_parser review](package-flows-alternative-review.json) adds all
+fifteen remaining queries, with 61 selected paths sharing 38 distinct routes and
+941 classified transitions. Fourteen represented method files retain pinned
+hashes. The [analyzer review](analyzer-alternative-review.json) now covers all six
+queries: 28 selected paths, seventeen distinct routes and 535 transitions. Its two
+new routes directly bind the shifted/masked uint32 high byte to _addByte4 and
+assign the fork offset; their search limits remain explicit.
+
+All eighty queries now retain full dispositions for 248 selected paths sharing
+146 distinct routes and 2,499 transitions. The summary requires every project and
+query, verifies all declared review totals, checks represented method-file hashes,
+and reconstructs call slots, contexts, visibility/output flags and field demands
+against the raw reports. Storage-demand sets are empty in these paths. Earlier
+analyzer/application representation text incorrectly described all demand sets as
+empty; field demands were preserved in the data and that wording is corrected.
+
+Path normalization routes select prettyUri/relative callers and readonly helper
+outputs before re-entry. setExtension routes propagate separators through the
+ParsedPath field formal and return, then readonly receiver outputs and external
+builder effects. The retained separators demand does not establish exact character
+provenance or independent fields/allocations. Direct suffix addition and public
+basename forwarding remain separate. Actual pinned calls exercise normalized and
+slow branches, independent paths/suffixes, hidden/multiple extensions and basename.
+
+Async's error-to-argument and value-to-sink source/sink pairs are identities.
+Value alternatives visit delegate/release wrappers and re-enter a whole-result
+receiver, sometimes consuming repeated value demands. They do not establish
+precise wrapper allocation or arbitrary delivery. Stock completeError mixes error
+with trace; the modeled negative removes those paths but retains depth/pruning
+limits, so it remains inconclusive. Its receiver-storage query records a versioned
+state-dependency contract rather than a scalar return. Actual ErrorResult completion
+checks separate error/trace values; explicit delegate/release sinks and fromValue
+operations exercise selected values and independent receivers without scheduler
+qualification.
+
+HTTP chunk stock copy paths follow length, size/header allocation or cursor/start
+positions and setRange effects instead of byte-content provenance. Modeled copy
+binds bytes directly, while buffer-return routes retain repeated add/addSlice
+caller re-entry and temporary variants. These effects do not prove exact destination
+slots or caller order. Empty returns retain depth/storage/initialization limits and
+remain inconclusive. Media-type direct capture and readonly output detours are
+classified separately; wrapper interpolation variants retain external-exception
+limits. Actual chunk encoding checks empty/distinct bytes, copied results, slices,
+empty nonlast/last output and selected sink close; the driver imports the internal
+encoder because it is absent from http_parser's public export. The initial import
+failure is retained as setup evidence, not a semantic defect. Existing parser and
+format-wrapper controls remain linked.
+
+The actual analyzer tests add mixed uint32 bytes in fresh/flush-boundary buffers
+and reader forks sharing bytes while offsets advance independently. Seven focused
+native cases pass; all 119 native tests pass with runtime/Flutter/corpus/holdout/
+application flags, as do analysis and formatting. The prior 63 verifier rejection
+checks and seventeen new checks pass, including missing project queries, source
+hashes, altered field demands and forged totals. Final source provenance remains
+403 files/all twelve graphs, and summary regeneration is byte-identical. Eight
+modeled negative searches, omitted alternatives, historical interrupted searches
+and Gates 2–6 remain open; this completes returned-path review only.

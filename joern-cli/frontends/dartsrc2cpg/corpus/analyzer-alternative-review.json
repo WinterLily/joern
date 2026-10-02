@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "scope": "Four selected analyzer bounded alternative queries; transition mechanisms and approximations, not exhaustive execution traces.",
+  "scope": "All six analyzer bounded alternative queries; transition mechanisms and approximations, not exhaustive execution traces.",
   "transitionClasses": {
     "parameter-read": {
       "kind": "parameter binding",
@@ -233,7 +233,7 @@
         {
           "id": "list-element-callback",
           "expectedFlow": true,
-          "disposition": "Source writeList passes items[i] to writeItem once per loop iteration. Returned routes leave via readonly items/getter outputs, select a typeParameterFragments caller and traverse metadata or bound/type-argument lists before re-entering writeList. Flat-buffer length getter paths also use offset-to-buffer external getUint8 effects. Receiver field demands and selected call frames are preserved. These are conservative output/heap/dispatch/external detours, not exact element provenance, a specific runtime list implementation or general callback delivery. Stock and modeled routes differ despite the same justified endpoint. Stock includes a record positionalFields branch, while modeled includes typeArguments branches; their shared optional models do not certify either runtime branch.",
+          "disposition": "Source writeList passes items[i] to writeItem once per loop iteration. Returned routes leave via readonly items/getter outputs, select a typeParameterFragments caller and traverse metadata or bound/type-argument lists before re-entering writeList. Flat-buffer length getter paths also use offset-to-buffer external getUint8 effects. Receiver field demands and selected call frames are preserved. These are conservative output/heap/dispatch/external detours, not exact element provenance, a specific runtime list implementation or general callback delivery. Stock and modeled routes differ despite the same justified endpoint.",
           "modes": {
             "stock": {
               "outcome": "flow-observed",
@@ -544,6 +544,201 @@
             "branchConditions": "Byte writes may flush when buffer fills; reset uses constant zero. writeList calls callback for indices below items.length. fork assigns requested offset unconditionally.",
             "positiveControl": "write-byte-not-reset-control",
             "negativeProof": "Inconclusive beyond configured search; nearby positive control proves source connectivity only."
+          }
+        },
+        {
+          "id": "uint32-high-byte",
+          "expectedFlow": true,
+          "disposition": "The value formal reads through right shift by 24 and mask 0xFF into _addByte4 byte1 at its exact positional slot. Both modes retain the same direct scalar route; depth/field/pruning and stock external-storage limits remain. Actual writer/readUint32 cases cover zero, one, mixed-byte and maximum uint32 in fresh and flush-boundary buffers; this does not certify omitted alternatives.",
+          "modes": {
+            "stock": {
+              "outcome": "flow-observed",
+              "passed": true,
+              "limitations": [
+                "call-depth",
+                "field-depth-widening",
+                "static-storage-external-effects",
+                "witness-alternatives"
+              ],
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "source": {
+                "file": "src/binary/binary_writer.dart",
+                "method": "writeUint32",
+                "kind": "parameter",
+                "name": "value"
+              },
+              "sink": {
+                "file": "src/binary/binary_writer.dart",
+                "method": "_addByte4",
+                "kind": "parameter",
+                "name": "byte1"
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "pathIndices": [
+                15
+              ]
+            },
+            "modeled": {
+              "outcome": "flow-observed",
+              "passed": true,
+              "limitations": [
+                "call-depth",
+                "field-depth-widening",
+                "witness-alternatives"
+              ],
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "source": {
+                "file": "src/binary/binary_writer.dart",
+                "method": "writeUint32",
+                "kind": "parameter",
+                "name": "value"
+              },
+              "sink": {
+                "file": "src/binary/binary_writer.dart",
+                "method": "_addByte4",
+                "kind": "parameter",
+                "name": "byte1"
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "pathIndices": [
+                15
+              ]
+            }
+          },
+          "sourceEvidence": [
+            {
+              "role": "source",
+              "file": "lib/src/binary/binary_writer.dart",
+              "fileSha256": "2b1df41b69841d3c38d51999ef8e5f5479e62b254b3375815e6154076c7c3508",
+              "declarationLines": [
+                304
+              ]
+            },
+            {
+              "role": "sink",
+              "file": "lib/src/binary/binary_writer.dart",
+              "fileSha256": "2b1df41b69841d3c38d51999ef8e5f5479e62b254b3375815e6154076c7c3508",
+              "declarationLines": [
+                348
+              ]
+            }
+          ],
+          "sourceExpectation": {
+            "disposition": "reviewed-endpoint",
+            "reason": "Bit shifts and masks feed the first byte of the four-byte writer.",
+            "branchConditions": "Byte writes may flush when buffer fills; reset uses constant zero. writeList calls callback for indices below items.length. fork assigns requested offset unconditionally."
+          }
+        },
+        {
+          "id": "fork-offset-field",
+          "expectedFlow": true,
+          "disposition": "The offset formal reads directly into result.offset assignment in BinaryReader.fork. Both modes retain the same direct route with depth/pruning limits. Actual reader forks share bytes while their read offsets advance independently; two forks and the original observe shared byte mutation without conflating offset state. This is exercised allocation/state evidence, not general heap independence.",
+          "modes": {
+            "stock": {
+              "outcome": "flow-observed",
+              "passed": true,
+              "limitations": [
+                "call-depth",
+                "witness-alternatives"
+              ],
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "source": {
+                "file": "src/binary/binary_reader.dart",
+                "method": "fork",
+                "kind": "parameter",
+                "name": "offset"
+              },
+              "sink": {
+                "file": "src/binary/binary_reader.dart",
+                "method": "fork",
+                "kind": "fieldWrite",
+                "name": "offset"
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "pathIndices": [
+                16
+              ]
+            },
+            "modeled": {
+              "outcome": "flow-observed",
+              "passed": true,
+              "limitations": [
+                "call-depth",
+                "witness-alternatives"
+              ],
+              "maxCallDepth": 4,
+              "maxFieldDepth": 4,
+              "maxWitnessesPerEndpoint": 4,
+              "maxHeldTaskIterations": 2,
+              "maxStaticStorageNodes": 10000,
+              "maxArgsToAllow": 1000,
+              "maxOutputArgsExpansion": 1000,
+              "source": {
+                "file": "src/binary/binary_reader.dart",
+                "method": "fork",
+                "kind": "parameter",
+                "name": "offset"
+              },
+              "sink": {
+                "file": "src/binary/binary_reader.dart",
+                "method": "fork",
+                "kind": "fieldWrite",
+                "name": "offset"
+              },
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "pathIndices": [
+                16
+              ]
+            }
+          },
+          "sourceEvidence": [
+            {
+              "role": "source",
+              "file": "lib/src/binary/binary_reader.dart",
+              "fileSha256": "53e9c6325df99ee3ea1ef8f48b4d724b617426e75678d31918d845ce2cf0eba0",
+              "declarationLines": [
+                30
+              ]
+            },
+            {
+              "role": "sink",
+              "file": "lib/src/binary/binary_reader.dart",
+              "fileSha256": "53e9c6325df99ee3ea1ef8f48b4d724b617426e75678d31918d845ce2cf0eba0",
+              "declarationLines": [
+                30
+              ]
+            }
+          ],
+          "sourceExpectation": {
+            "disposition": "reviewed-endpoint",
+            "reason": "fork writes the requested offset to the new reader.",
+            "branchConditions": "Byte writes may flush when buffer fills; reset uses constant zero. writeList calls callback for indices below items.length. fork assigns requested offset unconditionally."
           }
         }
       ],
@@ -1604,6 +1799,84 @@
               1
             ]
           ]
+        },
+        "111669155893": {
+          "label": "METHOD_PARAMETER_IN",
+          "method": "package:analyzer/src/binary/binary_writer.dart#7582:METHOD:writeUint32",
+          "code": "int value",
+          "line": 304,
+          "parameterIndex": 1
+        },
+        "68719486616": {
+          "label": "IDENTIFIER",
+          "method": "package:analyzer/src/binary/binary_writer.dart#7582:METHOD:writeUint32",
+          "code": "value",
+          "line": 306,
+          "argumentsOf": [
+            [
+              "30064780728",
+              1
+            ]
+          ]
+        },
+        "30064780728": {
+          "label": "CALL",
+          "method": "package:analyzer/src/binary/binary_writer.dart#7582:METHOD:writeUint32",
+          "code": "value >> 24",
+          "line": 306,
+          "call": "30064780728",
+          "argumentsOf": [
+            [
+              "30064780727",
+              1
+            ]
+          ]
+        },
+        "30064780727": {
+          "label": "CALL",
+          "method": "package:analyzer/src/binary/binary_writer.dart#7582:METHOD:writeUint32",
+          "code": "(value >> 24) & 0xFF",
+          "line": 306,
+          "call": "30064780727",
+          "argumentsOf": [
+            [
+              "30064780726",
+              1
+            ]
+          ]
+        },
+        "111669155906": {
+          "label": "METHOD_PARAMETER_IN",
+          "method": "package:analyzer/src/binary/binary_writer.dart#8506:METHOD:_addByte4",
+          "code": "int byte1",
+          "line": 349,
+          "parameterIndex": 1
+        },
+        "111669155771": {
+          "label": "METHOD_PARAMETER_IN",
+          "method": "package:analyzer/src/binary/binary_reader.dart#1139:METHOD:fork",
+          "code": "int offset",
+          "line": 32,
+          "parameterIndex": 1
+        },
+        "68719486030": {
+          "label": "IDENTIFIER",
+          "method": "package:analyzer/src/binary/binary_reader.dart#1139:METHOD:fork",
+          "code": "offset",
+          "line": 34,
+          "argumentsOf": [
+            [
+              "30064780103",
+              2
+            ]
+          ]
+        },
+        "30064780103": {
+          "label": "CALL",
+          "method": "package:analyzer/src/binary/binary_reader.dart#1139:METHOD:fork",
+          "code": "result.offset = offset",
+          "line": 34,
+          "call": "30064780103"
         }
       },
       "calls": {
@@ -2856,6 +3129,54 @@
             {
               "fullName": "package:analyzer/src/binary/binary_writer.dart#1356:GETTER:offset",
               "external": false
+            }
+          ]
+        },
+        "30064780728": {
+          "nodeId": "30064780728",
+          "name": "<operator>.arithmeticShiftRight",
+          "target": "<operator>.dart.arithmeticShiftRight",
+          "code": "value >> 24",
+          "callees": [
+            {
+              "fullName": "<operator>.dart.arithmeticShiftRight",
+              "external": true
+            }
+          ]
+        },
+        "30064780727": {
+          "nodeId": "30064780727",
+          "name": "<operator>.and",
+          "target": "<operator>.dart.and",
+          "code": "(value >> 24) & 0xFF",
+          "callees": [
+            {
+              "fullName": "<operator>.dart.and",
+              "external": true
+            }
+          ]
+        },
+        "30064780726": {
+          "nodeId": "30064780726",
+          "name": "_addByte4",
+          "target": "package:analyzer/src/binary/binary_writer.dart#8506:METHOD:_addByte4",
+          "code": "_addByte4(\n      (value >> 24) & 0xFF,\n      (value >> 16) & 0xFF,\n      (value >> 8) & 0xFF,\n      value & 0xFF,\n    )",
+          "callees": [
+            {
+              "fullName": "package:analyzer/src/binary/binary_writer.dart#8506:METHOD:_addByte4",
+              "external": false
+            }
+          ]
+        },
+        "30064780103": {
+          "nodeId": "30064780103",
+          "name": "<operator>.assignment",
+          "target": "<operator>.assignment",
+          "code": "result.offset = offset",
+          "callees": [
+            {
+              "fullName": "<operator>.assignment",
+              "external": true
             }
           ]
         }
@@ -8269,32 +8590,125 @@
               []
             ]
           ]
+        },
+        {
+          "transitions": [
+            "parameter-read",
+            "operator-value",
+            "operator-value",
+            "parameter-binding"
+          ],
+          "elements": [
+            [
+              "111669155893",
+              2,
+              true,
+              false,
+              "value",
+              []
+            ],
+            [
+              "68719486616",
+              2,
+              false,
+              false,
+              "value",
+              []
+            ],
+            [
+              "30064780728",
+              2,
+              false,
+              false,
+              "value >> 24",
+              []
+            ],
+            [
+              "30064780727",
+              2,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "111669155906",
+              2,
+              true,
+              false,
+              "",
+              []
+            ]
+          ]
+        },
+        {
+          "transitions": [
+            "parameter-read",
+            "assignment"
+          ],
+          "elements": [
+            [
+              "111669155771",
+              2,
+              true,
+              false,
+              "offset",
+              []
+            ],
+            [
+              "68719486030",
+              2,
+              false,
+              false,
+              "offset",
+              []
+            ],
+            [
+              "30064780103",
+              2,
+              true,
+              false,
+              "",
+              []
+            ]
+          ]
         }
       ],
       "sourceEvidence": [
         {
+          "file": "lib/src/binary/binary_reader.dart",
+          "fileSha256": "53e9c6325df99ee3ea1ef8f48b4d724b617426e75678d31918d845ce2cf0eba0",
+          "role": "represented witness method"
+        },
+        {
           "file": "lib/src/binary/binary_writer.dart",
-          "fileSha256": "2b1df41b69841d3c38d51999ef8e5f5479e62b254b3375815e6154076c7c3508"
+          "fileSha256": "2b1df41b69841d3c38d51999ef8e5f5479e62b254b3375815e6154076c7c3508",
+          "role": "represented witness method"
         },
         {
           "file": "lib/src/dart/ast/ast.dart",
-          "fileSha256": "1d71d308c080bbc9aab3145ab6290dc8e9c802632e86964c6a1ef727fc0cc6bb"
+          "fileSha256": "1d71d308c080bbc9aab3145ab6290dc8e9c802632e86964c6a1ef727fc0cc6bb",
+          "role": "represented witness method"
         },
         {
           "file": "lib/src/dart/element/element.dart",
-          "fileSha256": "634ebff6cfadd8a8f1b186b447a43c5d46a9340c111bc06d9fd072cfdf559ece"
+          "fileSha256": "634ebff6cfadd8a8f1b186b447a43c5d46a9340c111bc06d9fd072cfdf559ece",
+          "role": "represented witness method"
         },
         {
           "file": "lib/src/fine/lookup_name.dart",
-          "fileSha256": "5606a792fdc615f244d53283dd9dad6813b622ce1403d409f98b8ad8ca2e6df1"
+          "fileSha256": "5606a792fdc615f244d53283dd9dad6813b622ce1403d409f98b8ad8ca2e6df1",
+          "role": "represented witness method"
         },
         {
           "file": "lib/src/summary/flat_buffers.dart",
-          "fileSha256": "94c4eeb7d6c8818fcf722516b11e80543134e73b93d7e72fa5a66b5f275e0f06"
+          "fileSha256": "94c4eeb7d6c8818fcf722516b11e80543134e73b93d7e72fa5a66b5f275e0f06",
+          "role": "represented witness method"
         },
         {
           "file": "lib/src/summary2/bundle_writer.dart",
-          "fileSha256": "0ff2080a3f0ef1c3fb8ecaa84d3cabc906bbff2ea88629f2e914d5c9757db1e7"
+          "fileSha256": "0ff2080a3f0ef1c3fb8ecaa84d3cabc906bbff2ea88629f2e914d5c9757db1e7",
+          "role": "represented witness method"
         }
       ]
     }
@@ -8303,8 +8717,8 @@
   "executionOracles": [
     {
       "file": "astgen/test/binary_writer_test.dart",
-      "sha256": "6e500e22642ef4124e48f5b95ae49e555f9d9cb5e866c047f19875ab3f775d20",
-      "scope": "Analyzer 8.4.1 actual BinaryWriter: bytes 0/1/255 across the 128 KiB flush boundary, independent writers, empty/single/three-element immutable lists, exact callback order and output bytes. No runtime internal getter/dispatch route is certified."
+      "sha256": "fe27188fe29f473652da1e8a76c2157d9acb0050faddea84318472b8fb8c68f4",
+      "scope": "Analyzer 8.4.1 actual BinaryWriter: bytes 0/1/255 across the 128 KiB flush boundary, independent writers, empty/single/three-element immutable lists, exact callback order and output bytes. Mixed-byte uint32 values in fresh and flush-boundary buffers; reader forks sharing bytes with independent offsets. No runtime internal getter/dispatch route is certified."
     }
   ],
   "elementColumns": [
@@ -8315,18 +8729,18 @@
     "outEdgeLabel",
     "fieldDemand"
   ],
-  "representation": "Node/call IDs and context/path indices are project-local. transitions[i] classifies elements[i] to elements[i+1]. All retained demand sets in this review are empty. Equivalent stock/modeled paths are shared; full path flags and selected caller contexts are preserved.",
+  "representation": "Node/call IDs and context/path indices are project-local. transitions[i] classifies elements[i] to elements[i+1]. Field demands are preserved; retained storage-demand sets are empty. Equivalent stock/modeled paths are shared; full path flags and selected caller contexts are preserved.",
   "reviewMethod": "Each selected displayed route was read against its pinned source expectation. Formal argument positions, resolved return targets and available selected frames were checked. Argument-output return evidence already in a caller frame has a separate category. This is a mechanism/approximation review, not branch feasibility, general scheduling or heap qualification.",
-  "analysisBaseCommit": "6030a9b44",
+  "analysisBaseCommit": "cb0256c33",
   "limitations": [
-    "Only these four analyzer query families and their returned bounded paths are reviewed; other corpus alternatives and larger searches remain pending.",
+    "All six analyzer query families and their returned bounded paths are reviewed; other corpus alternatives and larger searches remain pending.",
     "An endpoint identity is recorded separately from independent forwarding; conservative argument outputs, aggregate projections and external effects do not prove mutation, allocation identity, callback delivery or branch feasibility.",
     "Negative observations retain their same-budget positive controls and explicit query limitations; no absence proof follows from an unfinished search."
   ],
   "totals": {
-    "queries": 4,
-    "selectedPaths": 24,
-    "distinctPaths": 15,
-    "distinctTransitions": 529
+    "queries": 6,
+    "selectedPaths": 28,
+    "distinctPaths": 17,
+    "distinctTransitions": 535
   }
 }

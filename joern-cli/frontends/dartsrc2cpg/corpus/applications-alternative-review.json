@@ -11564,7 +11564,7 @@
     "outEdgeLabel",
     "fieldDemand"
   ],
-  "representation": "Node/call IDs and context/path indices are project-local. transitions[i] classifies elements[i] to elements[i+1]. All retained demand sets in this review are empty. Equivalent stock/modeled paths are shared; full path flags and selected caller contexts are preserved.",
+  "representation": "Node/call IDs and context/path indices are project-local. transitions[i] classifies elements[i] to elements[i+1]. Field demands are preserved; retained storage-demand sets are empty. Equivalent stock/modeled paths are shared; full path flags and selected caller contexts are preserved.",
   "reviewMethod": "Each selected displayed route was read against its pinned source expectation. Formal argument positions, resolved return targets and available selected frames were checked. Argument-output return evidence already in a caller frame has a separate category. This is a mechanism/approximation review, not branch feasibility, general scheduling or heap qualification.",
   "analysisBaseCommit": "e9d0ce92a",
   "limitations": [

@@ -13,7 +13,7 @@ LIMITS = (
 REVIEW = "holdout-witness-review.json"
 REVIEW_FILES = (
     REVIEW, "analyzer-alternative-review.json", "sass-alternative-review.json", "applications-alternative-review.json",
-    "package-bindings-alternative-review.json",
+    "package-bindings-alternative-review.json", "package-flows-alternative-review.json",
 )
 
 
@@ -37,8 +37,15 @@ def summarize(audit_root, resource_file):
     for review_file in REVIEW_FILES:
         review = read(FRONTEND / "corpus" / review_file)
         require(review["schemaVersion"] == 2, "Unsupported transition review schema")
-        require(sum(len(p["queries"]) for p in review["projects"]) == review["totals"]["queries"],
-                "Incomplete transition review")
+        totals = {
+            "queries": sum(len(p["queries"]) for p in review["projects"]),
+            "selectedPaths": sum(len(m["pathIndices"]) for p in review["projects"]
+                                 for q in p["queries"] for m in q["modes"].values()),
+            "distinctPaths": sum(len(p["paths"]) for p in review["projects"]),
+            "distinctTransitions": sum(len(path["transitions"]) for p in review["projects"]
+                                       for path in p["paths"]),
+        }
+        require(totals == review["totals"], "Incomplete transition review")
         for oracle in review["executionOracles"]:
             require(hashlib.sha256((FRONTEND / oracle["file"]).read_bytes()).hexdigest() == oracle["sha256"],
                     "Changed execution oracle")
@@ -70,6 +77,7 @@ def summarize(audit_root, resource_file):
                     and audit["modelFiles"] == two["modelFiles"] == ordinary["modelFiles"],
                     f"Changed source, exporter or models: {name}")
             proof, review_file = reviewed.get(name, (None, None))
+            require(proof is not None, f"Missing project review: {name}")
             if proof:
                 require(proof["source"] == audit["source"] and proof["analysisSources"] == fingerprint
                         and proof["exporter"] == audit["exporter"] and proof["modelFilesSha256"] == models,
@@ -78,19 +86,22 @@ def summarize(audit_root, resource_file):
                     ROOT / "agents/application-corpus" / source["checkout"]
                     if category == "applications" else scratch / name
                 )
+                represented_files = {
+                    "lib/" + node["method"].split("/", 1)[1].split("#", 1)[0]
+                    for node in proof["nodes"].values()
+                    if node["method"].startswith(f"package:{source['name']}/")
+                }
+                require(represented_files <= {e["file"] for e in proof["sourceEvidence"]},
+                        f"Missing reviewed source evidence: {name}")
                 for evidence in proof["sourceEvidence"]:
                     file = directory / evidence["file"]
                     require(hashlib.sha256(file.read_bytes()).hexdigest() == evidence["fileSha256"],
                             f"Changed reviewed source: {file}")
             checks = []
-            if proof:
-                require({q["id"] for q in proof["queries"]} <= {q["id"] for q in audit["defaultSemantics"]},
-                        f"Missing reviewed query: {name}")
             for key in ["defaultSemantics", "dartSummaries"]:
                 require([q["id"] for q in audit[key]] == [q["id"] for q in two[key]]
                         == [q["id"] for q in ordinary[key]], f"Incomplete query set: {name}")
-                if proof and (category in ["holdout", "applications"]
-                              or review_file == "package-bindings-alternative-review.json"):
+                if proof:
                     require({q["id"] for q in proof["queries"]} == {q["id"] for q in audit[key]},
                             f"Incomplete project review: {name}")
             for stock, modeled in zip(audit["defaultSemantics"], audit["dartSummaries"], strict=True):
@@ -149,7 +160,7 @@ def summarize(audit_root, resource_file):
             "Intermediate pruning, depth and held-round budgets exclude routes; negative searches with limits remain inconclusive.",
             "New sequences may differ only in temporary/context details; larger bounds need not retain all smaller-bound sequences.",
             "Memory values are sampled process-family sums, not measured peak RSS or the heap of one process.",
-            "All four holdout and thirty-three application queries, plus twenty-two args/collection/meta and four analyzer query families, have full transition reviews; other package routes remain pending.",
+            "All eighty query families have full transition dispositions for the returned four-witness/two-round paths; omitted routes, limited negatives and broader semantic qualification remain open.",
         ], projects=projects,
     )
 
