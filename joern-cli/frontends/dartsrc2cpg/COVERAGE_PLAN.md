@@ -114,6 +114,12 @@ on all twelve graphs under explicit worker heap/CPU and wall-clock budgets.
 All returned paths have complete transition dispositions and pinned source
 evidence, with library or pure helper execution controls. These controls qualify
 exercised behavior rather than every retained detour or omitted route.
+Equivalent Dart recursive task states now stop when a previous state had at
+least as much remaining call depth. Sink, call stack, exception channel, field
+and pending-exit identities remain distinct. Reduced mutually recursive caller
+controls cover connected/unrelated inputs, shared caches and foreign-language
+boundaries. Corpus requalification is pending for this shared prerequisite;
+limited negatives and general recursion remain open.
 Held-task combination rounds now have an optional Dart-only budget with explicit
 inconclusive diagnostics; default and foreign-language searches retain their
 previous behavior. A four-witness package audit exceeded its seven-minute worker
@@ -305,7 +311,7 @@ remain references; separately adapted manifest cases have explicit valid/diagnos
 classifications and bounded execution tests. Existing
 per-stage semantic qualifications are unchanged. The [qualification matrix](conformance/qualification-matrix.json)
 now assigns all visitor, base-section and feature-document rows seven explicit
-stage cells, with 118 named test links and stale-evidence checks. Shared profiles
+stage cells, with 120 named test links and stale-evidence checks. Shared profiles
 describe selected assertions; complete specification rules retain unqualified
 obligations. Rule-specific test mapping and broader executable traces remain unfinished.
 The asynchronous for-in rule now has a partial cancellation contract, with native

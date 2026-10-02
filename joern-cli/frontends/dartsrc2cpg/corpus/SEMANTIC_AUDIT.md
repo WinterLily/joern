@@ -2624,3 +2624,40 @@ controls pass. Complete pattern CFG, implicit payloads, runtime type/receiver
 checks, arbitrary callable values, representation storage aliasing, callback
 delivery, omitted alternatives and negative search completeness remain
 unqualified. All Gates 1–6 remain open.
+
+## Recursive caller task prerequisite
+
+Both Args negative searches still report call-depth at depths four, eight and
+sixteen on the preceding `ae35e62f7` graphs, despite their positive controls
+passing at each budget. Scratch cutoff instrumentation reveals repeated Parser
+caller/receiver states at increasing depths. Increasing the limit alone does not
+settle these negatives. The source parser includes command recursion and receiver
+reads through `_current`, `_validate` and child Parser construction; the selected
+cutoffs include these conservative field/caller detours.
+
+Dart task creation now stops a repeated fingerprint when its previous depth was
+no greater: the previous task had at least as much budget available. All other
+fingerprint fields remain equal, including selected call contexts, output channels,
+field demands and pending storage exits. A later task with more depth available
+still expands. Equivalent-state elimination occurs before depth reporting;
+genuine unexplored depth cutoffs remain visible. Foreign-language filtering keeps
+its preceding behavior. This is a directly required shared query-engine change,
+with its regressions kept inside the Dart frontend.
+
+Two reduced regressions fail against the previous engine and pass after the fix.
+They exercise a mutually recursive caller cycle with connected/unrelated parameters,
+depths four/eight, shared caches enabled/disabled and C/Java/JavaScript/Kotlin
+boundaries. Generated-task controls preserve distinct calls, field demands,
+exception channels, pending storage exits and increasing available budgets.
+All twelve focused checks pass. The normal frontend suite passes 181 tests across
+21 suites with nine opt-in cancellations; the separately enabled Flutter check
+also passes. All 36 shared-engine tests and formatting checks pass. The matrix
+links 120 named tests; its six tests/sixteen rejection controls pass.
+
+Corpus and witness requalification for this prerequisite is pending. The preceding
+source-pinned reports remain historical evidence. A scratch cycle-elimination
+variant removed the two Args depth diagnostics at depths eight, sixteen and
+thirty-two, retaining their positive controls, but that result is not promoted to
+a fresh corpus or runtime absence claim. Cyclic witness enumeration, omitted
+alternatives, general recursion, heap/callback boundaries and remaining limited
+negatives stay open. All Gates 1–6 remain open.

@@ -36,6 +36,15 @@ any absent result under that limit is inconclusive. It does not bound the runtim
 of one round or qualify unreturned routes. Foreign and mixed-language held-task
 sets retain their previous behavior.
 
+Dart task expansion stops an equivalent state previously searched with at least
+as much remaining call depth before applying the depth cutoff. State identity
+includes the sink, selected call stack, exception channel, field demand and pending
+storage exits. A shallower later state can still expand because it has more depth
+available. Foreign-language expansion retains its prior cycle/depth behavior.
+This avoids redundant recursive caller work; it does not enumerate cyclic
+witnesses or establish complete runtime recursion or heap analysis. Genuine
+unexplored depth cutoffs remain inconclusive.
+
 ## Names, libraries and types
 
 The analyzer's declaration IDs are authoritative, including library-private names

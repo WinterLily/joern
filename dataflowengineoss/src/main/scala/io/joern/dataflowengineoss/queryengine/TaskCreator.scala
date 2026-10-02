@@ -82,10 +82,16 @@ class TaskCreator(context: EngineContext) {
   }
 
   private def removeTasksWithLoopsAndTooHighCallDepth(tasks: Vector[ReachableByTask]): Vector[ReachableByTask] = {
+    // Repeating a Dart task state with less remaining depth cannot discover a new dependency.
+    val loopFree = tasks.filterNot { task =>
+      io.joern.dataflowengineoss.isDart(task.sink) && task.taskStack.dropRight(1).exists { previous =>
+        previous.callDepth <= task.callDepth && previous.copy(callDepth = task.callDepth) == task.fingerprint
+      }
+    }
     val tasksWithValidCallDepth = if (context.config.maxCallDepth == -1) {
-      tasks
+      loopFree
     } else {
-      tasks.filter { task =>
+      loopFree.filter { task =>
         val withinLimit = task.callDepth <= context.config.maxCallDepth
         if (!withinLimit) context.config.diagnostics.foreach(_.record("call-depth"))
         withinLimit

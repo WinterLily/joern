@@ -1159,6 +1159,28 @@
         "interaction"
       ],
       "scope": "Two independent inputs, successful cast/assert/alias constructors and omitted nonnull defaults. An incompatible function cast throws TypeError before argument evaluation or constructor events in the pinned VM."
+    },
+    "recursive-task-cycle": {
+      "file": "src/test/scala/io/joern/dartsrc2cpg/queryengine/RecursiveTaskTests.scala",
+      "selector": "finish a Dart caller cycle while retaining connected sources and foreign depth limits",
+      "sha256": "097549f04b1b9f598173a51f4f661601a10015d128d77b74de3b36294e13a71a",
+      "stages": [
+        "valueFlow",
+        "negative",
+        "interaction"
+      ],
+      "scope": "Mutually recursive caller-argument graphs at depths four/eight, shared cache enabled/disabled, connected and unrelated parameters, and C/Java/JavaScript/Kotlin boundaries. No complete runtime recursion, heap or dispatch claim."
+    },
+    "recursive-task-isolation": {
+      "file": "src/test/scala/io/joern/dartsrc2cpg/queryengine/RecursiveTaskTests.scala",
+      "selector": "prune only equivalent states previously searched with at least as much depth",
+      "sha256": "097549f04b1b9f598173a51f4f661601a10015d128d77b74de3b36294e13a71a",
+      "stages": [
+        "valueFlow",
+        "negative",
+        "interaction"
+      ],
+      "scope": "Generated caller tasks retain distinct selected contexts, fields, exception channels and pending storage exits; a larger remaining budget and genuine depth cutoffs still expand/report separately."
     }
   },
   "profiles": {
@@ -6774,6 +6796,62 @@
             "callable-refinements-constructor-values"
           ],
           "obligation": "astgen/test/generic_tearoffs_test.dart: String/int type tests, bounded values/branches and receiver traces; static_dispatch_test.dart: bound super/extension and static shadow controls; runtime bound checks unqualified"
+        }
+      }
+    },
+    {
+      "id": "recursive-caller-tasks",
+      "constructs": [
+        "MethodInvocation"
+      ],
+      "sections": [
+        "methodInvocation"
+      ],
+      "scope": "Dart-only termination of equivalent recursive caller task states without increasing the remaining call budget. Synthetic graph controls isolate the shared query prerequisite; general recursion and source-level call semantics remain open.",
+      "stages": {
+        "exporter": {
+          "status": "unqualified",
+          "evidence": [],
+          "obligation": "This engine-state regression does not qualify exporter, lowering, resolution or CFG semantics."
+        },
+        "lowering": {
+          "status": "unqualified",
+          "evidence": [],
+          "obligation": "This engine-state regression does not qualify exporter, lowering, resolution or CFG semantics."
+        },
+        "resolution": {
+          "status": "unqualified",
+          "evidence": [],
+          "obligation": "This engine-state regression does not qualify exporter, lowering, resolution or CFG semantics."
+        },
+        "cfg": {
+          "status": "unqualified",
+          "evidence": [],
+          "obligation": "This engine-state regression does not qualify exporter, lowering, resolution or CFG semantics."
+        },
+        "valueFlow": {
+          "status": "tested-conservative",
+          "evidence": [
+            "recursive-task-cycle",
+            "recursive-task-isolation"
+          ],
+          "obligation": "Equivalent Dart task-state cycle termination only; call contexts, output channels, fields and pending exits remain distinct. Unreturned cyclic witnesses, runtime recursion, heap correlation and complete searches remain unqualified."
+        },
+        "negative": {
+          "status": "tested-conservative",
+          "evidence": [
+            "recursive-task-cycle",
+            "recursive-task-isolation"
+          ],
+          "obligation": "Equivalent Dart task-state cycle termination only; call contexts, output channels, fields and pending exits remain distinct. Unreturned cyclic witnesses, runtime recursion, heap correlation and complete searches remain unqualified."
+        },
+        "interaction": {
+          "status": "tested-conservative",
+          "evidence": [
+            "recursive-task-cycle",
+            "recursive-task-isolation"
+          ],
+          "obligation": "Equivalent Dart task-state cycle termination only; call contexts, output channels, fields and pending exits remain distinct. Unreturned cyclic witnesses, runtime recursion, heap correlation and complete searches remain unqualified."
         }
       }
     }
