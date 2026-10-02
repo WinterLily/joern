@@ -274,6 +274,11 @@ The complete audit retains 248 selected paths sharing 149 distinct routes and
 2,694 classified transitions across all eighty queries. Endpoint identities,
 caller re-entry, size/control detours and external effects retain their limitations;
 eight modeled negatives and omitted alternatives remain unqualified.
+The [Async depth follow-up](corpus/async-negative-depth-review.json) keeps the
+error/stack-trace negative inconclusive at depths four/eight/sixteen. Its independent
+receiver-storage control stays connected, but all searches retain call-depth and
+witness-pruning limits; sixteen also widens fields. Sampled stream-queue caller
+contexts have distinct field demands and do not satisfy equivalent-task pruning.
 
 Bounded alternative reporting is now available through `DartWitnessAuditTests`
 on saved corpus graphs. It preserves intermediate call contexts and reports

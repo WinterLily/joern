@@ -2731,3 +2731,37 @@ full cached verification and two upstream-case tests/nine rejection controls
 pass. General recursion, omitted alternatives, remaining limited negatives,
 heap/type/callback/runtime and release qualification remain open. All Gates 1–6
 remain open.
+
+
+### Async negative depth follow-up
+
+The [depth review](async-negative-depth-review.json) records eighteen observations
+against the current frozen graph/source fingerprint `1f040f4a93ab7bb9c69a7f145f56c16ec34cf13454d624ff6743689178a27839`
+(416 source files, exporter 0.3.27), with stock and the four optional model files,
+call depths four/eight/sixteen, field depth four, four witnesses and two held rounds.
+Every endpoint is unique and reporting omits no returned witnesses. Stock retains
+the two known DART-FLOW-001 cross-argument/receiver alternatives. Modeled searches
+return zero paths, but call-depth and witness-pruning limitations remain at every
+depth; sixteen also reports field-depth widening. The negative remains inconclusive.
+
+The independent error-to-completer-receiver control retains a path at every budget
+and in both model sets. The error-to-first-argument route is an endpoint identity,
+recorded separately. It does not supply the independent control. At depth sixteen,
+individual queries took about 6.3–7.1 seconds, compared with roughly 30–54
+milliseconds at eight; these query times exclude graph loading and JVM startup.
+
+A separate bounded diagnostic run sampled eight call-depth cutoffs for the modeled
+negative at eight. The saved sample traverses stream-queue caller fields and selected
+constructor calls; the field and selected-call identities change. These tasks do not
+meet the equivalent-state pruning precondition. The trace is diagnostic task evidence,
+not an additional qualified returned witness or a justification to collapse distinct
+heap demands.
+
+`ErrorResult.complete` binds its existing error and stack-trace fields separately.
+Its constructor may derive an omitted trace from `AsyncError.defaultStackTrace(error)`;
+the pinned SDK reads `Error.stackTrace` when available. Existing execution controls
+with separately supplied fields therefore do not establish independence for every
+constructor input or default-trace case. General runtime heap, callback delivery,
+omitted alternatives and all completion gates remain open. The scratch depth and
+cutoff runs each passed one test; the recorded observation contract and source/model
+hashes were checked before saving this review. No graph, model or search default changed.

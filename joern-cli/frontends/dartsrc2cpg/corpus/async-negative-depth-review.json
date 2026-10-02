@@ -1,0 +1,649 @@
+{
+  "schemaVersion": 1,
+  "analysisBaseCommit": "ec32189df",
+  "source": {
+    "name": "async",
+    "version": "2.13.0",
+    "sha256": "758e6d74e971c3e5aceb4110bfd6698efc7f501675bcfe0c775459a8140750eb",
+    "librarySha256": "66ec6547216be12ef9b4b4d79ca9c09724c9d12148e29f9ea2ef52cf53e7686c",
+    "probe": "addStream"
+  },
+  "analysisSources": {
+    "algorithm": "sha256-path-nul-content-nul",
+    "sha256": "1f040f4a93ab7bb9c69a7f145f56c16ec34cf13454d624ff6743689178a27839",
+    "files": 416,
+    "roots": [
+      "joern-cli/frontends/dartsrc2cpg/src",
+      "joern-cli/frontends/dartsrc2cpg/astgen/lib",
+      "joern-cli/frontends/dartsrc2cpg/astgen/bin",
+      "joern-cli/frontends/x2cpg/src/main",
+      "dataflowengineoss/src/main",
+      "semanticcpg/src/main",
+      "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.lock",
+      "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.yaml",
+      "joern-cli/frontends/dartsrc2cpg/build.sbt",
+      "joern-cli/frontends/x2cpg/build.sbt",
+      "joern-cli/build.sbt",
+      "dataflowengineoss/build.sbt",
+      "semanticcpg/build.sbt",
+      "build.sbt",
+      "project/Versions.scala",
+      "project/Projects.scala"
+    ]
+  },
+  "exporter": {
+    "record": "header",
+    "protocolVersion": 1,
+    "exporterVersion": "0.3.27",
+    "analyzerVersion": "8.4.1",
+    "sdkVersion": "3.9.2",
+    "offsetEncoding": "utf-16",
+    "conditionalEnvironment": "analyzer-default"
+  },
+  "modelFiles": {
+    "async": "c482e7bc9300c13523e5a921d43d67952fffa69290b0cf7ca6ba48e55cb2f48c",
+    "worker_manager": "972688de95dc40d77a055b86cb3c3422ac6242bcb18379cacb1d6fe4fde82c13",
+    "iterable": "f557cbefb4e70574ec692d069c90d1d3fb812e3e09511816c6af62fe82f6b4d3",
+    "bytes": "868e7d0918ddb0761370255754488290d5c6d9a175951a3b76cc88ad2bc95ad4"
+  },
+  "queries": {
+    "error-not-stacktrace": {
+      "expected": false,
+      "source": {
+        "file": "src/result/error.dart",
+        "method": "complete",
+        "kind": "call",
+        "field": "error",
+        "name": "<operator>.fieldAccess"
+      },
+      "sink": {
+        "file": "src/result/error.dart",
+        "method": "complete",
+        "kind": "call",
+        "argument": 2,
+        "name": "completeError"
+      },
+      "distinctEndpoints": true,
+      "maxFieldDepth": 4,
+      "maxWitnessesPerEndpoint": 4,
+      "maxHeldTaskIterations": 2,
+      "maxStaticStorageNodes": 10000,
+      "maxArgsToAllow": 1000,
+      "maxOutputArgsExpansion": 1000,
+      "pathSelection": "bounded-alternatives-per-endpoint-pair",
+      "alternativeRoutes": "retained-within-engine-bound",
+      "witnessLimit": null
+    },
+    "error-to-error-argument": {
+      "expected": true,
+      "source": {
+        "file": "src/result/error.dart",
+        "method": "complete",
+        "kind": "call",
+        "field": "error",
+        "name": "<operator>.fieldAccess"
+      },
+      "sink": {
+        "file": "src/result/error.dart",
+        "method": "complete",
+        "kind": "call",
+        "argument": 1,
+        "name": "completeError"
+      },
+      "distinctEndpoints": false,
+      "maxFieldDepth": 4,
+      "maxWitnessesPerEndpoint": 4,
+      "maxHeldTaskIterations": 2,
+      "maxStaticStorageNodes": 10000,
+      "maxArgsToAllow": 1000,
+      "maxOutputArgsExpansion": 1000,
+      "pathSelection": "bounded-alternatives-per-endpoint-pair",
+      "alternativeRoutes": "retained-within-engine-bound",
+      "witnessLimit": null
+    },
+    "error-stored-in-completer": {
+      "expected": true,
+      "source": {
+        "file": "src/result/error.dart",
+        "method": "complete",
+        "kind": "call",
+        "field": "error",
+        "name": "<operator>.fieldAccess"
+      },
+      "sink": {
+        "file": "src/result/error.dart",
+        "method": "complete",
+        "kind": "call",
+        "argument": 0,
+        "name": "completeError"
+      },
+      "distinctEndpoints": true,
+      "maxFieldDepth": 4,
+      "maxWitnessesPerEndpoint": 4,
+      "maxHeldTaskIterations": 2,
+      "maxStaticStorageNodes": 10000,
+      "maxArgsToAllow": 1000,
+      "maxOutputArgsExpansion": 1000,
+      "pathSelection": "bounded-alternatives-per-endpoint-pair",
+      "alternativeRoutes": "retained-within-engine-bound",
+      "witnessLimit": null
+    }
+  },
+  "observations": [
+    {
+      "mode": "stock",
+      "maxCallDepth": 4,
+      "query": "error-not-stacktrace",
+      "sources": 1,
+      "sinks": 1,
+      "paths": 2,
+      "detailedPaths": 2,
+      "omittedWitnesses": 0,
+      "omittedDetailedWitnesses": 0,
+      "outcome": "flow-observed",
+      "passed": false,
+      "searchComplete": false,
+      "limitations": [
+        "call-depth",
+        "witness-alternatives"
+      ],
+      "elapsedMillis": 120.757134
+    },
+    {
+      "mode": "stock",
+      "maxCallDepth": 4,
+      "query": "error-to-error-argument",
+      "sources": 1,
+      "sinks": 1,
+      "paths": 1,
+      "detailedPaths": 1,
+      "omittedWitnesses": 0,
+      "omittedDetailedWitnesses": 0,
+      "outcome": "flow-observed",
+      "passed": true,
+      "searchComplete": false,
+      "limitations": [
+        "call-depth",
+        "witness-alternatives"
+      ],
+      "elapsedMillis": 29.186473
+    },
+    {
+      "mode": "stock",
+      "maxCallDepth": 4,
+      "query": "error-stored-in-completer",
+      "sources": 1,
+      "sinks": 1,
+      "paths": 1,
+      "detailedPaths": 1,
+      "omittedWitnesses": 0,
+      "omittedDetailedWitnesses": 0,
+      "outcome": "flow-observed",
+      "passed": true,
+      "searchComplete": false,
+      "limitations": [
+        "call-depth",
+        "witness-alternatives"
+      ],
+      "elapsedMillis": 24.221709
+    },
+    {
+      "mode": "modeled",
+      "maxCallDepth": 4,
+      "query": "error-not-stacktrace",
+      "sources": 1,
+      "sinks": 1,
+      "paths": 0,
+      "detailedPaths": 0,
+      "omittedWitnesses": 0,
+      "omittedDetailedWitnesses": 0,
+      "outcome": "inconclusive-query-limits",
+      "passed": true,
+      "searchComplete": false,
+      "limitations": [
+        "call-depth",
+        "witness-alternatives"
+      ],
+      "elapsedMillis": 17.539144
+    },
+    {
+      "mode": "modeled",
+      "maxCallDepth": 4,
+      "query": "error-to-error-argument",
+      "sources": 1,
+      "sinks": 1,
+      "paths": 1,
+      "detailedPaths": 1,
+      "omittedWitnesses": 0,
+      "omittedDetailedWitnesses": 0,
+      "outcome": "flow-observed",
+      "passed": true,
+      "searchComplete": false,
+      "limitations": [
+        "call-depth",
+        "witness-alternatives"
+      ],
+      "elapsedMillis": 16.203148
+    },
+    {
+      "mode": "modeled",
+      "maxCallDepth": 4,
+      "query": "error-stored-in-completer",
+      "sources": 1,
+      "sinks": 1,
+      "paths": 1,
+      "detailedPaths": 1,
+      "omittedWitnesses": 0,
+      "omittedDetailedWitnesses": 0,
+      "outcome": "flow-observed",
+      "passed": true,
+      "searchComplete": false,
+      "limitations": [
+        "call-depth",
+        "witness-alternatives"
+      ],
+      "elapsedMillis": 17.695716
+    },
+    {
+      "mode": "stock",
+      "maxCallDepth": 8,
+      "query": "error-not-stacktrace",
+      "sources": 1,
+      "sinks": 1,
+      "paths": 2,
+      "detailedPaths": 2,
+      "omittedWitnesses": 0,
+      "omittedDetailedWitnesses": 0,
+      "outcome": "flow-observed",
+      "passed": false,
+      "searchComplete": false,
+      "limitations": [
+        "call-depth",
+        "witness-alternatives"
+      ],
+      "elapsedMillis": 53.954849
+    },
+    {
+      "mode": "stock",
+      "maxCallDepth": 8,
+      "query": "error-to-error-argument",
+      "sources": 1,
+      "sinks": 1,
+      "paths": 1,
+      "detailedPaths": 1,
+      "omittedWitnesses": 0,
+      "omittedDetailedWitnesses": 0,
+      "outcome": "flow-observed",
+      "passed": true,
+      "searchComplete": false,
+      "limitations": [
+        "call-depth",
+        "witness-alternatives"
+      ],
+      "elapsedMillis": 41.913266
+    },
+    {
+      "mode": "stock",
+      "maxCallDepth": 8,
+      "query": "error-stored-in-completer",
+      "sources": 1,
+      "sinks": 1,
+      "paths": 1,
+      "detailedPaths": 1,
+      "omittedWitnesses": 0,
+      "omittedDetailedWitnesses": 0,
+      "outcome": "flow-observed",
+      "passed": true,
+      "searchComplete": false,
+      "limitations": [
+        "call-depth",
+        "witness-alternatives"
+      ],
+      "elapsedMillis": 40.577929
+    },
+    {
+      "mode": "modeled",
+      "maxCallDepth": 8,
+      "query": "error-not-stacktrace",
+      "sources": 1,
+      "sinks": 1,
+      "paths": 0,
+      "detailedPaths": 0,
+      "omittedWitnesses": 0,
+      "omittedDetailedWitnesses": 0,
+      "outcome": "inconclusive-query-limits",
+      "passed": true,
+      "searchComplete": false,
+      "limitations": [
+        "call-depth",
+        "witness-alternatives"
+      ],
+      "elapsedMillis": 34.518771
+    },
+    {
+      "mode": "modeled",
+      "maxCallDepth": 8,
+      "query": "error-to-error-argument",
+      "sources": 1,
+      "sinks": 1,
+      "paths": 1,
+      "detailedPaths": 1,
+      "omittedWitnesses": 0,
+      "omittedDetailedWitnesses": 0,
+      "outcome": "flow-observed",
+      "passed": true,
+      "searchComplete": false,
+      "limitations": [
+        "call-depth",
+        "witness-alternatives"
+      ],
+      "elapsedMillis": 30.389749
+    },
+    {
+      "mode": "modeled",
+      "maxCallDepth": 8,
+      "query": "error-stored-in-completer",
+      "sources": 1,
+      "sinks": 1,
+      "paths": 1,
+      "detailedPaths": 1,
+      "omittedWitnesses": 0,
+      "omittedDetailedWitnesses": 0,
+      "outcome": "flow-observed",
+      "passed": true,
+      "searchComplete": false,
+      "limitations": [
+        "call-depth",
+        "witness-alternatives"
+      ],
+      "elapsedMillis": 31.194919
+    },
+    {
+      "mode": "stock",
+      "maxCallDepth": 16,
+      "query": "error-not-stacktrace",
+      "sources": 1,
+      "sinks": 1,
+      "paths": 2,
+      "detailedPaths": 2,
+      "omittedWitnesses": 0,
+      "omittedDetailedWitnesses": 0,
+      "outcome": "flow-observed",
+      "passed": false,
+      "searchComplete": false,
+      "limitations": [
+        "call-depth",
+        "field-depth-widening",
+        "witness-alternatives"
+      ],
+      "elapsedMillis": 7061.618946
+    },
+    {
+      "mode": "stock",
+      "maxCallDepth": 16,
+      "query": "error-to-error-argument",
+      "sources": 1,
+      "sinks": 1,
+      "paths": 1,
+      "detailedPaths": 1,
+      "omittedWitnesses": 0,
+      "omittedDetailedWitnesses": 0,
+      "outcome": "flow-observed",
+      "passed": true,
+      "searchComplete": false,
+      "limitations": [
+        "call-depth",
+        "field-depth-widening",
+        "witness-alternatives"
+      ],
+      "elapsedMillis": 6438.106139
+    },
+    {
+      "mode": "stock",
+      "maxCallDepth": 16,
+      "query": "error-stored-in-completer",
+      "sources": 1,
+      "sinks": 1,
+      "paths": 1,
+      "detailedPaths": 1,
+      "omittedWitnesses": 0,
+      "omittedDetailedWitnesses": 0,
+      "outcome": "flow-observed",
+      "passed": true,
+      "searchComplete": false,
+      "limitations": [
+        "call-depth",
+        "field-depth-widening",
+        "witness-alternatives"
+      ],
+      "elapsedMillis": 6435.330199
+    },
+    {
+      "mode": "modeled",
+      "maxCallDepth": 16,
+      "query": "error-not-stacktrace",
+      "sources": 1,
+      "sinks": 1,
+      "paths": 0,
+      "detailedPaths": 0,
+      "omittedWitnesses": 0,
+      "omittedDetailedWitnesses": 0,
+      "outcome": "inconclusive-query-limits",
+      "passed": true,
+      "searchComplete": false,
+      "limitations": [
+        "call-depth",
+        "field-depth-widening",
+        "witness-alternatives"
+      ],
+      "elapsedMillis": 6329.833476
+    },
+    {
+      "mode": "modeled",
+      "maxCallDepth": 16,
+      "query": "error-to-error-argument",
+      "sources": 1,
+      "sinks": 1,
+      "paths": 1,
+      "detailedPaths": 1,
+      "omittedWitnesses": 0,
+      "omittedDetailedWitnesses": 0,
+      "outcome": "flow-observed",
+      "passed": true,
+      "searchComplete": false,
+      "limitations": [
+        "call-depth",
+        "field-depth-widening",
+        "witness-alternatives"
+      ],
+      "elapsedMillis": 6385.466772
+    },
+    {
+      "mode": "modeled",
+      "maxCallDepth": 16,
+      "query": "error-stored-in-completer",
+      "sources": 1,
+      "sinks": 1,
+      "paths": 1,
+      "detailedPaths": 1,
+      "omittedWitnesses": 0,
+      "omittedDetailedWitnesses": 0,
+      "outcome": "flow-observed",
+      "passed": true,
+      "searchComplete": false,
+      "limitations": [
+        "call-depth",
+        "field-depth-widening",
+        "witness-alternatives"
+      ],
+      "elapsedMillis": 6396.397578
+    }
+  ],
+  "disposition": {
+    "error-not-stacktrace": "Stock semantics retains the known DART-FLOW-001 cross-argument/receiver alternatives. The optional completeError model returns no paths at 4/8/16, but every search has call-depth and witness-pruning limits; depth16 also widens fields. Absence remains inconclusive.",
+    "error-stored-in-completer": "Independent receiver-storage endpoint remains connected in both model sets at every exercised depth; it validates this modeled dependency, not callback delivery or runtime heap isolation.",
+    "error-to-error-argument": "The source is the sink argument itself. This identity route is recorded separately and is not the independent positive control."
+  },
+  "cutoffSample": {
+    "mode": "modeled",
+    "maxCallDepth": 8,
+    "sampledStacks": 8,
+    "stack": [
+      {
+        "nodeId": "30064772123",
+        "method": "package:async/src/result/error.dart#858:METHOD:complete",
+        "code": "stackTrace",
+        "depth": 0,
+        "calls": [],
+        "fieldDemand": [],
+        "channel": "Normal",
+        "storage": "List()"
+      },
+      {
+        "nodeId": "30064773370",
+        "method": "package:async/src/stream_queue.dart#24046:METHOD:update",
+        "code": "events.removeFirst()",
+        "depth": 1,
+        "calls": [],
+        "fieldDemand": [
+          "stackTrace"
+        ],
+        "channel": "Normal",
+        "storage": "List()"
+      },
+      {
+        "nodeId": "30064773190",
+        "method": "package:async/src/stream_queue.dart#15207:METHOD:_updateRequests",
+        "code": "_eventQueue",
+        "depth": 2,
+        "calls": [],
+        "fieldDemand": [],
+        "channel": "Normal",
+        "storage": "List()"
+      },
+      {
+        "nodeId": "68719478831",
+        "method": "package:async/src/stream_queue.dart#17855:METHOD:_close",
+        "code": "this",
+        "depth": 3,
+        "calls": [],
+        "fieldDemand": [
+          "_eventQueue"
+        ],
+        "channel": "Normal",
+        "storage": "List()"
+      },
+      {
+        "nodeId": "68719478824",
+        "method": "package:async/src/stream_queue.dart#17196:METHOD:_cancel",
+        "code": "this",
+        "depth": 4,
+        "calls": [],
+        "fieldDemand": [
+          "_eventQueue"
+        ],
+        "channel": "Normal",
+        "storage": "List()"
+      },
+      {
+        "nodeId": "68719478897",
+        "method": "package:async/src/stream_queue.dart#21328:METHOD:_done",
+        "code": "queue",
+        "depth": 5,
+        "calls": [],
+        "fieldDemand": [
+          "_eventQueue"
+        ],
+        "channel": "Normal",
+        "storage": "List()"
+      },
+      {
+        "nodeId": "68719478887",
+        "method": "package:async/src/stream_queue.dart#20198:METHOD:commit",
+        "code": "this",
+        "depth": 6,
+        "calls": [],
+        "fieldDemand": [
+          "_queues"
+        ],
+        "channel": "Normal",
+        "storage": "List()"
+      },
+      {
+        "nodeId": "68719478746",
+        "method": "package:async/src/stream_queue.dart#11884:METHOD:withTransaction",
+        "code": "queue",
+        "depth": 7,
+        "calls": [],
+        "fieldDemand": [],
+        "channel": "Normal",
+        "storage": "List()"
+      },
+      {
+        "nodeId": "141733921122",
+        "method": "package:async/src/stream_queue.dart#19654:METHOD:newQueue",
+        "code": "return queue;",
+        "depth": 8,
+        "calls": [
+          {
+            "nodeId": "30064773144",
+            "code": "transaction.newQueue()"
+          }
+        ],
+        "fieldDemand": [],
+        "channel": "Normal",
+        "storage": "List()"
+      },
+      {
+        "nodeId": "141733921093",
+        "method": "package:async/src/stream_queue.dart#4620:CONSTRUCTOR:new",
+        "code": "=> StreamQueue._(source);",
+        "depth": 9,
+        "calls": [
+          {
+            "nodeId": "30064773291",
+            "code": "StreamQueue(_splitter.split())"
+          },
+          {
+            "nodeId": "30064773144",
+            "code": "transaction.newQueue()"
+          }
+        ],
+        "fieldDemand": [],
+        "channel": "Normal",
+        "storage": "List()"
+      }
+    ],
+    "interpretation": "Backward receiver/field tasks enter stream-queue callers and then selected StreamQueue constructor contexts. Field demands and selected call stacks differ, so equivalent-state recursive pruning cannot eliminate these sampled cutoffs. This is diagnostic evidence, not a returned-witness qualification."
+  },
+  "sourcePins": [
+    {
+      "path": "agents/dart-corpus/async-2.13.0/lib/src/result/error.dart",
+      "sha256": "03009a1138da6bdbbd9e35761d606d88f7a51798e45c191838729218bc4a13fe",
+      "scope": "Separate error/stackTrace fields and completeError argument binding; omitted trace can be derived from error during construction.",
+      "lines": [
+        [
+          12,
+          33
+        ]
+      ]
+    },
+    {
+      "path": "agents/dart-corpus/async-2.13.0/lib/src/stream_queue.dart",
+      "sha256": "5371aa7768f63028b0ae212faf99d259940dc021249d7111c89e324303e0e55d",
+      "scope": "Offset-based method identities in the diagnostic task stacks; sampled states only, not returned witnesses."
+    },
+    {
+      "path": "agents/toolchains/dart-sdk/lib/async/async_error.dart",
+      "sha256": "233aa93d734b677af6a06d70357de9487e0db719e70cd43bde485d0919c967ca",
+      "scope": "Default trace reads Error.stackTrace when available; supplied independent traces are a narrower contract.",
+      "lines": [
+        [
+          15,
+          33
+        ]
+      ]
+    }
+  ],
+  "scope": "Fixed endpoints, graph, model set and exercised budgets. No exhaustive negative-search, omitted-route, runtime heap, future/stream delivery or absent default-stack-trace dependency claim."
+}
