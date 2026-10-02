@@ -26,7 +26,7 @@ complete language-rule matrix or executable-oracle obligations.
 
 [qualification-matrix.json](qualification-matrix.json) assigns seven stage cells
 to all 175 visitors, 195 base sections and thirty feature documents. Shared visitor
-profiles and partial case contracts link 124 named graph, exporter and native tests, with file hashes and
+profiles and partial case contracts link 129 named graph, exporter and native tests, with file hashes and
 explicit assertion scopes. `tested-conservative` describes those selected tests;
 it does not qualify every visitor using the profile. Generic declaration/bound
 checks remain `structural-only`, and untested CFG cells remain `unqualified`.

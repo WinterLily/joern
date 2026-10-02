@@ -50,8 +50,8 @@
   {
     "project": "analyzer-8.4.1",
     "files": 458,
-    "methods": 28397,
-    "calls": 225671,
+    "methods": 28753,
+    "calls": 233126,
     "unknown": 0,
     "unknownKinds": {}
   }

@@ -128,6 +128,12 @@ previous behavior. A four-witness package audit exceeded its seven-minute worker
 budget at the analyzer callback query and remains an inconclusive resource case.
 The new four-witness/two-round result does not qualify that historical unbounded
 search or the fifty-round interruption.
+Requested noSuchMethod forwarders now retain concrete handler calls, effective
+interface signatures/defaults and Invocation operand/shape fields. Reduced direct
+and bound forwarding stays connected while constant-handler input flow is rejected.
+Inherited handlers and concrete overrides have selected graph/native controls.
+Forced privacy, super/dynamic missing-member invocation, runtime generic checks
+and collection/heap isolation remain open.
 Runtime receiver contexts, runtime
 type environments and bound checks remain open. Mixin superclass operations now include preceding implementations from
 observed applications, with private lookup, cross-file and bound-operation
@@ -335,7 +341,7 @@ remain references; separately adapted manifest cases have explicit valid/diagnos
 classifications and bounded execution tests. Existing
 per-stage semantic qualifications are unchanged. The [qualification matrix](conformance/qualification-matrix.json)
 now assigns all visitor, base-section and feature-document rows seven explicit
-stage cells, with 124 named test links and stale-evidence checks. Shared profiles
+stage cells, with 129 named test links and stale-evidence checks. Shared profiles
 describe selected assertions; complete specification rules retain unqualified
 obligations. Rule-specific test mapping and broader executable traces remain unfinished.
 The asynchronous for-in rule now has a partial cancellation contract, with native

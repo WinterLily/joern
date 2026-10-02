@@ -2,8 +2,8 @@
   "scope": "Twelve pinned corpora; graph representation counts, not runtime precision/recall",
   "analysisSources": {
     "algorithm": "sha256-path-nul-content-nul",
-    "sha256": "6f52050025bd8a3d26a97ec9c086f4ce76e818dbf6a4dda679583d022a0f5193",
-    "files": 417,
+    "sha256": "206b4dc000496c3ce0f60b57de02ad1e48f04fd7b7a32e0428bda36c5cf9d074",
+    "files": 418,
     "roots": [
       "joern-cli/frontends/dartsrc2cpg/src",
       "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -24,7 +24,7 @@
     ]
   },
   "qualification": "DartCorpusTests: one delegate per unique annotated adapter, exact resolved target identity, source named slot binding, call-to-adapter links and bound entry-point capture edges; external generic pN slots remain opaque. override_arguments_test.dart and default_argument_interactions_test.dart independently execute direct, bound and mixin defaults, repeated invocation/receiver controls, cross-file positional/named defaults and evaluation traces.",
-  "baselineMeaning": "Graph representation baselines excluding per-target default adapters; each adapter adds one method and one call. Iteration representation changes are accounted separately by synchronous-iteration-count-review.json and the historical async-iteration-count-review.json.",
+  "baselineMeaning": "Graph representation baselines excluding per-target default adapters; each adapter adds one method and one call. Iteration representation changes are accounted separately by synchronous-iteration-count-review.json and the historical async-iteration-count-review.json. Requested noSuchMethod forwarder bodies are included in graph baselines; their separate source/graph review accounts for 356 methods and 7,455 calls in analyzer. Fifteen new default adapters remain excluded, following the same one-method/one-call accounting.",
   "projects": [
     {
       "project": "path-1.9.1",
@@ -113,16 +113,16 @@
     {
       "project": "analyzer-8.4.1",
       "category": "packages",
-      "baselineMethods": 28397,
-      "baselineCalls": 225671,
+      "baselineMethods": 28753,
+      "baselineCalls": 233126,
       "defaultArguments": {
         "adaptedCalls": 182,
-        "targetAdapters": 1966,
+        "targetAdapters": 1981,
         "externalTargetAdapters": 0,
-        "adapterLinks": 2006
+        "adapterLinks": 2024
       },
-      "methods": 30363,
-      "calls": 227637
+      "methods": 30734,
+      "calls": 235107
     },
     {
       "project": "localsend-1.17.0",

@@ -7,7 +7,7 @@ unsupported protocol versions, and unsupported analyzer/exporter versions before
 constructing a graph. The Scala consumer validates the protocol, analyzer, SDK and offset encoding
 before constructing a graph. Exporter 0.3 adds modern-language fields to protocol 1.
 
-The header declares `protocolVersion` (1), `exporterVersion` (0.3.28),
+The header declares `protocolVersion` (1), `exporterVersion` (0.3.29),
 `analyzerVersion` (8.4.1), `sdkVersion` (3.9.2), and `offsetEncoding` (`utf-16`).
 No timestamps or checkout root are emitted. The exporter builds records one file
 at a time; the analyzer may retain project state internally.
@@ -361,3 +361,23 @@ its result once, reads `current` once per iteration and awaits `moveNext` and
 a graph representation of the SDK iterator protocol, not a claim that compilers
 emit those literal calls. It does not model stream subscription delivery, scheduling,
 implicit dynamic type-check payloads or runtime instance/generic environments.
+
+
+## Requested noSuchMethod forwarders (0.3.29)
+
+Virtual target entries for requested implicit forwarders additionally identify
+`noSuchMethod` (the handler declaration) and `invocationName` (including the setter
+suffix). Their `implementation` symbol belongs to the concrete class, retains the
+effective instantiated interface signature and defaults, and has scoped parameter
+and method type-parameter identities. The pinned analyzer's forwarder set is
+checked against concrete source lookup; a concrete override takes precedence.
+Abstract classes do not receive generated methods. Implementation symbols also
+identify the SDK `invocationTypeId` and their `typeParameters`.
+
+The frontend creates a method body that initializes Invocation fields, packages
+positional/named operands separately, and calls the receiver's handler. Invocation
+flags and member symbol are explicit; non-void results have a declared return cast.
+Type argument references remain symbolic. This does not certify runtime generic
+substitutions, mutation guards, implicit check payloads or collection/heap identity.
+Forced private forwarders, super invocations and arbitrary dynamic missing-member
+shapes require separate qualification.

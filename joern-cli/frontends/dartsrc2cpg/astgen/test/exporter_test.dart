@@ -36,6 +36,69 @@ void main() {
   tearDown(() => project.deleteSync(recursive: true));
 
   test(
+    'noSuchMethod forwarders retain effective signatures and concrete handlers',
+    () async {
+      write(
+        'forwarders.dart',
+        File(
+          '../src/test/resources/semantics/no_such_method_forwarders.dart',
+        ).readAsStringSync(),
+      );
+      final unit = units(await export()).single;
+      expect(unit['status'], 'resolved');
+      final symbols = {
+        for (final symbol in entries(unit, 'symbols')) symbol['id']: symbol,
+      };
+      final classes = {
+        for (final node in entries(
+          unit,
+          'nodes',
+        ).where((n) => n['kind'] == 'ClassDeclaration'))
+          node['name']: node,
+      };
+      List<Map<String, Object?>> forwarders(String name) =>
+          (classes[name]!['virtualTargets'] as List)
+              .cast<Map<String, Object?>>()
+              .where((target) => target.containsKey('noSuchMethod'))
+              .toList();
+      expect(forwarders('Forwarding'), hasLength(1));
+      expect(forwarders('Constant'), hasLength(1));
+      expect(forwarders('Handler'), isEmpty);
+      expect(forwarders('Inherited'), hasLength(4));
+      expect(forwarders('Concrete'), hasLength(3));
+      final picked = forwarders(
+        'Inherited',
+      ).singleWhere((target) => symbols[target['member']]!['name'] == 'pick');
+      final signature = symbols[picked['implementation']]!;
+      expect(signature['owner'], classes['Inherited']!['declaration']);
+      expect(signature['abstract'], isNot(isTrue));
+      expect(signature['returnType'], 'String');
+      final parameters = (signature['parameters'] as List)
+          .map((id) => symbols[id]!)
+          .toList();
+      expect(parameters.map((p) => p['type']), ['String', 'String']);
+      expect(parameters[1]['name'], 'label');
+      expect(parameters[1]['named'], isTrue);
+      expect(parameters[1]['defaultValue'], "'interface'");
+      expect(
+        symbols[picked['noSuchMethod']]!['owner'],
+        classes['Handler']!['declaration'],
+      );
+      final echoed = forwarders(
+        'Inherited',
+      ).singleWhere((target) => symbols[target['member']]!['name'] == 'echo');
+      final echo = symbols[echoed['implementation']]!;
+      final parameter = symbols[echo['returnTypeId']]!;
+      expect(parameter['name'], 'E');
+      expect(parameter['owner'], echo['id']);
+      expect(
+        symbols[(echo['parameters'] as List).single]!['typeId'],
+        parameter['id'],
+      );
+    },
+  );
+
+  test(
     'async loops retain SDK protocol targets and instantiated current types',
     () async {
       write(

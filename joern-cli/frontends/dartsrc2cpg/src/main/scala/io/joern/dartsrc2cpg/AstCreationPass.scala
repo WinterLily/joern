@@ -2467,6 +2467,162 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
       }
       storage ++ accessors
     }
+    def noSuchMethodForwarders(syntax: Value): Seq[Ast] = syntax.obj
+      .get("virtualTargets")
+      .toSeq
+      .flatMap(_.arr)
+      .filter(target => string(target, "noSuchMethod").nonEmpty)
+      .groupBy(target => string(target, "implementation"))
+      .toSeq
+      .sortBy(_._1)
+      .map { case (id, targets) =>
+        val target         = targets.head
+        val signature      = sym(id)
+        val name           = string(target, "invocationName")
+        val resultType     = string(signature, "returnTypeId", "ANY")
+        val invocationType = string(signature, "invocationTypeId", "ANY")
+        val previous       = declarations.toMap
+        val parameters     = strings(signature, "parameters").map(sym)
+        val inputs = (Seq(("this", "this", currentType, 0)) ++ parameters.zipWithIndex.map { case (parameter, index) =>
+          (string(parameter, "id"), string(parameter, "name"), tpe(parameter), index + 1)
+        }).map { case (key, parameterName, typ, index) =>
+          val parameter = NewMethodParameterIn()
+            .name(parameterName)
+            .code(parameterName)
+            .index(index)
+            .order(index)
+            .typeFullName(typ)
+            .evaluationStrategy(if (index == 0) EvaluationStrategies.BY_REFERENCE else EvaluationStrategies.BY_VALUE)
+            .isVariadic(false)
+          declarations(key) = parameter
+          parameter
+        }
+        val invocation = NewLocal().name("<invocation>").code("<invocation>").typeFullName(invocationType)
+        declarations(invocation.name) = invocation
+        def reference(): Ast             = identifier(syntax, invocation.name, invocation.name, invocationType)
+        def value(parameter: Value): Ast =
+          identifier(syntax, string(parameter, "name"), string(parameter, "id"), tpe(parameter))
+        def generatedOperator(operatorName: String, operands: Seq[Ast], generatedCode: String, typ: String): Ast = {
+          val ast = operator(syntax, operatorName, operands)
+          ast.root.collect { case call: NewCall => call.code(generatedCode).typeFullName(typ) }
+          ast
+        }
+        def collection(name: String, operands: Seq[Ast]): Ast =
+          generatedOperator(Operators.arrayInitializer, operands, s"<invocation $name>", "ANY")
+        def store(name: String, value: Ast): Ast = {
+          val access = generatedOperator(
+            Operators.fieldAccess,
+            Seq(reference(), Ast(NewFieldIdentifier().canonicalName(name).code(name))),
+            s"<invocation>.$name",
+            "ANY"
+          )
+          generatedOperator(Operators.assignment, Seq(access, value), s"<invocation>.$name = <forwarded $name>", "ANY")
+        }
+        val allocation = generatedOperator(Operators.alloc, Nil, "<Invocation allocation>", invocationType)
+        val initialize = generatedOperator(
+          Operators.assignment,
+          Seq(reference(), allocation),
+          "<invocation> = <Invocation allocation>",
+          invocationType
+        )
+        val kind   = string(signature, "kind")
+        val fields = Seq(
+          store("memberName", literal(syntax, s"#$name", "Symbol")),
+          store("isMethod", literal(syntax, (kind == "METHOD").toString, "bool")),
+          store("isGetter", literal(syntax, (kind == "GETTER").toString, "bool")),
+          store("isSetter", literal(syntax, (kind == "SETTER").toString, "bool")),
+          store(
+            "positionalArguments",
+            collection("positionalArguments", parameters.filterNot(bool(_, "named")).map(value))
+          ),
+          store(
+            "namedArguments",
+            collection(
+              "namedArguments",
+              parameters.filter(bool(_, "named")).map { parameter =>
+                generatedOperator(
+                  "<operator>.keyValueAssociation",
+                  Seq(literal(syntax, s"#${string(parameter, "name")}", "Symbol"), value(parameter)),
+                  s"#${string(parameter, "name")}: ${string(parameter, "name")}",
+                  "ANY"
+                )
+              }
+            )
+          ),
+          store(
+            "typeArguments",
+            collection(
+              "typeArguments",
+              strings(signature, "typeParameters").map { parameterId =>
+                Ast(NewTypeRef().code(string(sym(parameterId), "name")).typeFullName(parameterId))
+              }
+            )
+          )
+        )
+        val handlerId = string(target, "noSuchMethod")
+        val handler   = NewCall()
+          .name("noSuchMethod")
+          .methodFullName(handlerId)
+          .code("this.noSuchMethod(<invocation>)")
+          .typeFullName(string(sym(handlerId), "returnTypeId", "ANY"))
+          .dispatchType(DispatchTypes.DYNAMIC_DISPATCH)
+        val receiver = thisAst(syntax)
+        val delegate = args(handler, Seq(receiver, reference()), Seq(0, 1)).withReceiverEdge(handler, receiver.root.get)
+        val result   =
+          if (string(signature, "returnType") == "void") delegate
+          else {
+            val checked = generatedOperator(
+              Operators.cast,
+              Seq(delegate, Ast(NewTypeRef().code(string(signature, "returnType")).typeFullName(resultType))),
+              "<checked noSuchMethod result>",
+              resultType
+            )
+            args(NewReturn().code("return <checked noSuchMethod result>"), Seq(checked))
+          }
+        val typeParameters = strings(signature, "typeParameters").map { parameterId =>
+          val parameter = sym(parameterId)
+          Ast(
+            NewTypeDecl()
+              .name(string(parameter, "name"))
+              .fullName(parameterId)
+              .code(string(parameter, "name"))
+              .filename(filename)
+              .isExternal(false)
+              .astParentType("METHOD")
+              .astParentFullName(id)
+              .inheritsFromTypeFullName(Seq(string(parameter, "boundTypeId")).filter(_.nonEmpty))
+              .genericSignature(s"${string(parameter, "name")} extends ${string(parameter, "boundType", "Object?")}")
+          )
+            .withChild(Ast(NewAnnotation().name("typeParameter").fullName("dart.typeParameter").code("typeParameter")))
+        }
+        val method = NewMethod()
+          .name(s"<noSuchMethod:$name>")
+          .fullName(id)
+          .code(s"<noSuchMethod forwarder for $name>")
+          .filename(filename)
+          .isExternal(false)
+          .signature(s"${string(signature, "returnType")}(${parameters.size})")
+          .genericSignature(string(signature, "genericSignature"))
+          .astParentType("TYPE_DECL")
+          .astParentFullName(currentType)
+        val ast = Ast(method)
+          .withChildren(inputs.map(Ast(_)))
+          .withChildren(typeParameters)
+          .withChild(
+            Ast(NewBlock().code("<noSuchMethod forwarder>").typeFullName(resultType))
+              .withChildren(Seq(Ast(invocation), initialize) ++ fields :+ result)
+          )
+          .withChild(
+            Ast(
+              NewMethodReturn().code("RET").typeFullName(resultType).evaluationStrategy(EvaluationStrategies.BY_VALUE)
+            )
+          )
+          .withChild(
+            Ast(NewAnnotation().name("noSuchMethodForwarder").fullName("dart.noSuchMethodForwarder").code(name))
+          )
+        declarations.clear(); declarations ++= previous
+        ast
+      }
     def member(syntax: Value): Ast = {
       val out =
         located(
@@ -2838,6 +2994,7 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
         val representation = children(syntax, "representation")
         val constants      = children(syntax, "constant")
         val generatedEnums = if (string(syntax, "kind") == "EnumDeclaration") enumMembers(syntax) else Nil
+        val forwarders     = noSuchMethodForwarders(syntax)
         val variables      = members
           .filter(memberSyntax => string(memberSyntax, "kind") == "FieldDeclaration")
           .flatMap(memberSyntax => children(child(memberSyntax, "variables"), "variable"))
@@ -2895,9 +3052,10 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
         Seq(
           Ast(out).withChildren(
             typeParameters(syntax, "TYPE_DECL", out.fullName) ++
-              signatureDeclarations(string(syntax, "declaration"), "TYPE_DECL", out.fullName) ++ fields ++ constants.map(
-                member
-              ) ++ generatedEnums ++ representationAsts ++ methods ++ initializers ++ forwardingConstructors ++ standard ++ annotations
+              signatureDeclarations(string(syntax, "declaration"), "TYPE_DECL", out.fullName) ++ fields ++ constants
+                .map(
+                  member
+                ) ++ generatedEnums ++ forwarders ++ representationAsts ++ methods ++ initializers ++ forwardingConstructors ++ standard ++ annotations
           )
         )
       case _ => Seq(unknown(syntax))

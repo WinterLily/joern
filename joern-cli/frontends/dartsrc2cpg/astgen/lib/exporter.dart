@@ -14,16 +14,17 @@ import 'package:analyzer/dart/element/nullability_suffix.dart';
 // Pattern elements omit inferred extension arguments; reuse the pinned analyzer's inference.
 // ignore: implementation_imports
 import 'package:analyzer/src/dart/element/type.dart';
-// Mixin super-invoked names are exposed only by the pinned implementation.
+// Mixin super-invoked names and requested forwarders require the pinned implementation.
 // ignore: implementation_imports
-import 'package:analyzer/src/dart/element/element.dart' show MixinElementImpl;
+import 'package:analyzer/src/dart/element/element.dart'
+    show InterfaceElementImpl, MixinElementImpl;
 // ignore: implementation_imports
 import 'package:analyzer/src/dart/resolver/applicable_extensions.dart';
 import 'package:analyzer/source/line_info.dart';
 import 'package:path/path.dart' as p;
 
 const protocolVersion = 1;
-const exporterVersion = '0.3.28';
+const exporterVersion = '0.3.29';
 const analyzerVersion = '8.4.1';
 const supportedSdkVersion = '3.9.2';
 
@@ -523,10 +524,82 @@ class _UnitEncoder {
     _ => false,
   };
 
+  String forwarderSymbol(
+    InterfaceElement owner,
+    ExecutableElement signature,
+    Name name,
+  ) {
+    final ownerId = symbol(owner)!;
+    final id = '$ownerId:<noSuchMethod:${signature.kind.name}:$name>';
+    if (symbols.containsKey(id)) return id;
+    final declaration = symbol(signature)!;
+    final parameters = <String, String>{};
+    for (final parameter in signature.typeParameters) {
+      parameters[symbol(parameter)!] = '$id:TYPE_PARAMETER:${parameter.name}';
+    }
+    String? scopedType(DartType? type) {
+      final result = typeId(type);
+      return parameters[result] ?? result;
+    }
+
+    symbols[id] = {
+      ...symbols[declaration]!,
+      'id': id,
+      'owner': ownerId,
+      'file': symbols[ownerId]!['file'],
+      'library': symbols[ownerId]!['library'],
+      'offset': symbols[ownerId]!['offset'],
+      'signatureDeclaration': declaration,
+      'abstract': false,
+      'synthetic': true,
+      'returnType': signature.returnType.getDisplayString(),
+      'returnTypeId': scopedType(signature.returnType),
+      'genericSignature': signature.type.getDisplayString(),
+      'typeParameters': parameters.values.toList(),
+      'invocationTypeId': symbol(
+        analysisLibrary!.typeProvider.objectType.element.library.getClass(
+          'Invocation',
+        ),
+      ),
+    };
+    for (final parameter in signature.typeParameters) {
+      final original = symbol(parameter)!;
+      final parameterId = parameters[original]!;
+      symbols[parameterId] = {
+        ...symbols[original]!,
+        'id': parameterId,
+        'owner': id,
+        if (parameter.bound != null) 'boundTypeId': scopedType(parameter.bound),
+      };
+    }
+    final inputs = <String>[];
+    for (final (index, parameter) in signature.formalParameters.indexed) {
+      final parameterId = '$id:PARAMETER:$index';
+      final original = symbol(parameter)!;
+      symbols[parameterId] = {
+        ...symbols[original]!,
+        'id': parameterId,
+        'owner': id,
+        'type': parameter.type.getDisplayString(),
+        'typeId': scopedType(parameter.type),
+      };
+      inputs.add(parameterId);
+    }
+    symbols[id]!['parameters'] = inputs;
+    return id;
+  }
+
   List<Map<String, Object?>> virtualTargets(InterfaceElement? element) {
     if (element == null) return [];
     final result = <Map<String, Object?>>[];
     final seen = <Element>{};
+    final isAbstract = element is ClassElement && element.isAbstract;
+    final internal = element as InterfaceElementImpl;
+    final interface = internal.inheritanceManager.getInterface(internal);
+    final handler = element.lookUpMethod(
+      name: 'noSuchMethod',
+      library: element.library,
+    );
     for (final owner in [
       element,
       ...element.allSupertypes.map((type) => type.element),
@@ -552,6 +625,22 @@ class _UnitEncoder {
           ),
           _ => null,
         };
+        final name = Name.forElement(member);
+        if (handler != null &&
+            (target == null || target.isAbstract) &&
+            !isAbstract &&
+            interface.noSuchMethodForwarders.contains(name)) {
+          final signature = interface.map[name];
+          if (signature != null) {
+            result.add({
+              'member': symbol(member),
+              'implementation': forwarderSymbol(element, signature, name!),
+              'noSuchMethod': symbol(handler),
+              'invocationName': name.name,
+            });
+            continue;
+          }
+        }
         if (target != null && !target.isStatic && !target.isAbstract) {
           final memberId = symbol(member, details: false);
           final implementation = symbol(target, details: false);

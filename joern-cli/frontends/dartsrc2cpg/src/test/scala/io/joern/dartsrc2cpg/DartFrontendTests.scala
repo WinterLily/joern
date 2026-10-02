@@ -86,6 +86,101 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
   }
 
   "Dart frontend" should {
+    "resolve requested noSuchMethod forwarders with inherited signatures and invocation slots" in {
+      fixture(
+        Files.readString(frontend.resolve("src/test/resources/semantics/no_such_method_forwarders.dart")),
+        "void main() {}",
+        dataflow = false
+      ) { (cpg, _) =>
+        for (
+          (name, member) <- Seq(
+            "forwarding" -> "transform",
+            "constant"   -> "transform",
+            "picked"     -> "pick",
+            "supplied"   -> "pick",
+            "generic"    -> "echo"
+          )
+        ) {
+          val call    = cpg.method.nameExact(name).head.call.nameExact(member).head
+          val targets = call.callee.toList.flatMap { target =>
+            if (target.name == "<defaultArguments>") target.call.callee.toList else List(target)
+          }
+          withClue(name) {
+            targets should not be empty
+            targets.forall(!_.isExternal) shouldBe true
+            targets.map(_.name).toSet shouldBe
+              (if (Set("picked", "supplied").contains(name)) Set("<noSuchMethod:pick>", "pick")
+               else Set(s"<noSuchMethod:$member>"))
+            targets.filter(_.name.startsWith("<noSuchMethod:")).foreach { target =>
+              val handler = target.call.nameExact("noSuchMethod").head
+              handler.argument.argumentIndex(0).isIdentifier.name.toSet shouldBe Set("this")
+              handler.argument.argumentIndex(1).isIdentifier.name.toSet shouldBe Set("<invocation>")
+              handler.callee.toList should not be empty
+              target.parameter.index.toSet should contain(0)
+            }
+          }
+        }
+        cpg.method.nameExact("concrete").head.call.nameExact("pick").head.callee.name.toSet shouldBe Set("pick")
+        val generated = cpg.method.name("<noSuchMethod:.*>").toList
+        generated should have size 9
+        generated.filter(_.astParentFullName.endsWith(":CLASS:Handler")) shouldBe empty
+        val picked =
+          generated.find(m => m.name == "<noSuchMethod:pick>" && m.astParentFullName.endsWith(":CLASS:Inherited")).get
+        picked.parameter.nameExact("label").head.index shouldBe 2
+        picked.ast.isLiteral.codeExact("#pick").size shouldBe 1
+        picked.ast.isFieldIdentifier.canonicalName.toSet should contain allOf (
+          "memberName",
+          "positionalArguments",
+          "namedArguments",
+          "isMethod",
+          "isGetter",
+          "isSetter",
+          "typeArguments"
+        )
+        picked.call.codeExact("<invocation positionalArguments>").argument.isIdentifier.name.toList shouldBe List(
+          "value"
+        )
+        picked.call
+          .codeExact("<invocation namedArguments>")
+          .argument
+          .isCall
+          .argument
+          .isIdentifier
+          .name
+          .toList shouldBe List("label")
+        val getter =
+          generated.find(m => m.name == "<noSuchMethod:title>" && m.astParentFullName.endsWith(":CLASS:Inherited")).get
+        getter.call.codeExact("<invocation positionalArguments>").argument.size shouldBe 0
+        val setter =
+          generated.find(m => m.name == "<noSuchMethod:title=>" && m.astParentFullName.endsWith(":CLASS:Inherited")).get
+        setter.call.codeExact("<invocation positionalArguments>").argument.isIdentifier.name.toList shouldBe List(
+          "value"
+        )
+        setter.ast.isLiteral.codeExact("#title=").size shouldBe 1
+        val echo =
+          generated.find(m => m.name == "<noSuchMethod:echo>" && m.astParentFullName.endsWith(":CLASS:Inherited")).get
+        echo.methodReturn.typeFullName should startWith(echo.fullName)
+        echo.parameter.index(1).head.typeFullName shouldBe echo.methodReturn.typeFullName
+      }
+    }
+    "reject noSuchMethod constant-handler input dependencies while preserving forwarding controls" in {
+      fixture(
+        Files.readString(frontend.resolve("src/test/resources/semantics/no_such_method_forwarders.dart")),
+        "void main() {}"
+      ) { (cpg, _) =>
+        for ((name, expected) <- Seq("forwarding" -> true, "bound" -> true, "constant" -> false, "concrete" -> false)) {
+          val method = cpg.method.nameExact(name).head
+          withClue(name) {
+            method.ast.isReturn.reachableByFlows(method.parameter.nameExact("input")).nonEmpty shouldBe expected
+            val argument = method.call
+              .filter(call => Set("transform", "callback", "pick").contains(call.name))
+              .argument
+              .argumentIndex(1)
+            argument.reachableByFlows(method.parameter.nameExact("input")).nonEmpty shouldBe true
+          }
+        }
+      }
+    }
     "route static effects through exceptions, cleanup and selected calls" in {
       fixture(
         Files.readString(frontend.resolve("src/test/resources/semantics/static_exception_storage.dart")),
@@ -4053,7 +4148,7 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         val coverage = ujson.read(Files.readString(report))
         coverage("includedFiles").num shouldBe 0
         coverage("stringConversionOrder").str shouldBe "after-expression-evaluation"
-        coverage("exporter")("exporterVersion").str shouldBe "0.3.28"
+        coverage("exporter")("exporterVersion").str shouldBe "0.3.29"
         coverage("exporter")("sdkVersion").str shouldBe "3.9.2"
         coverage("exporter")("analyzerVersion").str shouldBe "8.4.1"
         Files.writeString(dir.resolve("excluded.dart"), "void excluded() {}")
@@ -4073,7 +4168,7 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         "offsetEncoding"  -> "utf-16",
         "analyzerVersion" -> "8.4.1",
         "sdkVersion"      -> "3.9.2",
-        "exporterVersion" -> "0.3.28"
+        "exporterVersion" -> "0.3.29"
       )
       intercept[IllegalArgumentException](ExportProtocol.units(Seq(valid)))
       intercept[IllegalArgumentException](

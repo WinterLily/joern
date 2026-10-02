@@ -339,6 +339,16 @@ override can change the selected member; otherwise they use direct storage.
 Constructor initializing formals and field initializers always write storage
 directly. Super accessor calls select the lexical storage implementation. Lazy
 accessor increments retain both their read and write operations.
+Requested noSuchMethod forwarders now have generated method bodies for observed
+concrete classes, using effective interface signatures, defaults and scoped generic
+parameters. Concrete source overrides take precedence. The body initializes
+Invocation member/shape flags and positional/named argument fields, then calls
+its receiver's handler and checks non-void result types. Type arguments remain
+symbolic references. Reduced constant-handler isolation and direct/bound forwarding
+have graph and native controls. Collection and receiver heap identity, runtime
+generic environments, mutation guards, implicit checks, forced privacy and
+super/dynamic missing-member invocation remain unqualified.
+
 Static storage across separate setter/getter calls remains an interprocedural
 heap limitation: `lazyIncrement` in the implicit-accessor fixture has a runtime
 input-to-return dependency that the current dataflow engine does not recover.
