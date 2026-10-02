@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "analysisSources": {
     "algorithm": "sha256-path-nul-content-nul",
-    "sha256": "5d91a08c4e2b4d47e123e1c664dc2ba15552afd24636dec2488bca49fb379858",
-    "files": 409,
+    "sha256": "87f52ad214fa9b743ef6333513ba3d760879f0aee4ce75fff1caa8b0517623e1",
+    "files": 410,
     "roots": [
       "joern-cli/frontends/dartsrc2cpg/src",
       "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -28,33 +28,33 @@
   "resources": [
     {
       "category": "packages",
-      "elapsedMillis": 419402,
+      "elapsedMillis": 389278,
       "exitCode": 0,
       "outcome": "completed",
       "budgetMillis": 600000,
-      "peakSampledFamilyRssKiB": 6126636,
+      "peakSampledFamilyRssKiB": 6617488,
       "workerHeapBytes": 8589934592,
       "workerProcessors": 4,
       "budgetScope": "Whole sbt subprocess including startup, graph loading and queries; process family sampled once per second."
     },
     {
       "category": "applications",
-      "elapsedMillis": 50288,
+      "elapsedMillis": 51297,
       "exitCode": 0,
       "outcome": "completed",
       "budgetMillis": 600000,
-      "peakSampledFamilyRssKiB": 5073420,
+      "peakSampledFamilyRssKiB": 5075404,
       "workerHeapBytes": 8589934592,
       "workerProcessors": 4,
       "budgetScope": "Whole sbt subprocess including startup, graph loading and queries; process family sampled once per second."
     },
     {
       "category": "holdout",
-      "elapsedMillis": 32184,
+      "elapsedMillis": 34187,
       "exitCode": 0,
       "outcome": "completed",
       "budgetMillis": 600000,
-      "peakSampledFamilyRssKiB": 2267060,
+      "peakSampledFamilyRssKiB": 2476392,
       "workerHeapBytes": 8589934592,
       "workerProcessors": 4,
       "budgetScope": "Whole sbt subprocess including startup, graph loading and queries; process family sampled once per second."
@@ -89,8 +89,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "5d91a08c4e2b4d47e123e1c664dc2ba15552afd24636dec2488bca49fb379858",
-        "files": 409,
+        "sha256": "87f52ad214fa9b743ef6333513ba3d760879f0aee4ce75fff1caa8b0517623e1",
+        "files": 410,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -171,7 +171,7 @@
               "twoWitnessDetailedPaths": 2,
               "newDetailedSequences": 2,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "686115f47d2aa0eb78a35af4e930cc0642d07302fcf5b6c6fa2d28648e3447c1"
+              "detailedWitnessesSha256": "f240d05480a791dab69ffa12c86819361601017a612102dc555370e2ebec7dec"
             },
             "modeled": {
               "paths": 4,
@@ -199,9 +199,9 @@
                 28
               ],
               "twoWitnessDetailedPaths": 2,
-              "newDetailedSequences": 3,
-              "twoWitnessSequencesNotRetained": 1,
-              "detailedWitnessesSha256": "6208988110de038ffdb9e7388bbba58d1e8a1d4713cdfd6f16c5134f0684f899"
+              "newDetailedSequences": 2,
+              "twoWitnessSequencesNotRetained": 0,
+              "detailedWitnessesSha256": "bc1fe3703e669832e2b40e750e9606b6d51ad07904d0a0cbffcd0a0fd6c6ad24"
             }
           },
           "semanticReview": "see package-flows-alternative-review.json; The source fast branch returns path unchanged. All four alternatives first leave readonly _needsNormalization outputs, select prettyUri normalize(fromUri(typedUri)), traverse relative/isRelative and re-enter normalize/rootLength. Alternatives change rootLength selected implementation, intermediate path reads or helper output visits. Full selected callers and output flags are retained. DART-FLOW-004 caller/output detours are not immutable String mutation or proven caller order; depth/held-round/pruning limits remain."
@@ -525,8 +525,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "5d91a08c4e2b4d47e123e1c664dc2ba15552afd24636dec2488bca49fb379858",
-        "files": 409,
+        "sha256": "87f52ad214fa9b743ef6333513ba3d760879f0aee4ce75fff1caa8b0517623e1",
+        "files": 410,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -1061,8 +1061,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "5d91a08c4e2b4d47e123e1c664dc2ba15552afd24636dec2488bca49fb379858",
-        "files": 409,
+        "sha256": "87f52ad214fa9b743ef6333513ba3d760879f0aee4ce75fff1caa8b0517623e1",
+        "files": 410,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -1727,8 +1727,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "5d91a08c4e2b4d47e123e1c664dc2ba15552afd24636dec2488bca49fb379858",
-        "files": 409,
+        "sha256": "87f52ad214fa9b743ef6333513ba3d760879f0aee4ce75fff1caa8b0517623e1",
+        "files": 410,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -2194,8 +2194,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "5d91a08c4e2b4d47e123e1c664dc2ba15552afd24636dec2488bca49fb379858",
-        "files": 409,
+        "sha256": "87f52ad214fa9b743ef6333513ba3d760879f0aee4ce75fff1caa8b0517623e1",
+        "files": 410,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -2635,8 +2635,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "5d91a08c4e2b4d47e123e1c664dc2ba15552afd24636dec2488bca49fb379858",
-        "files": 409,
+        "sha256": "87f52ad214fa9b743ef6333513ba3d760879f0aee4ce75fff1caa8b0517623e1",
+        "files": 410,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -2706,21 +2706,21 @@
                 "witness-alternatives"
               ],
               "visibleLengths": [
-                24,
-                22,
-                22,
-                22
+                25,
+                23,
+                23,
+                23
               ],
               "detailedLengths": [
+                30,
                 29,
-                28,
-                28,
-                28
+                29,
+                29
               ],
               "twoWitnessDetailedPaths": 2,
               "newDetailedSequences": 2,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "685cb0daeadff868c97473a095009c6eb0341223202182f2e358564e1c452cb4"
+              "detailedWitnessesSha256": "4c1c3c094cd7f2b93c7fbd8f006099862adc8d7f86890e4b8a86088e273ef7a5"
             },
             "modeled": {
               "paths": 1,
@@ -2797,15 +2797,15 @@
                 56
               ],
               "detailedLengths": [
-                58,
-                58,
-                57,
-                57
+                61,
+                61,
+                60,
+                60
               ],
               "twoWitnessDetailedPaths": 2,
               "newDetailedSequences": 4,
               "twoWitnessSequencesNotRetained": 2,
-              "detailedWitnessesSha256": "0fc89b4fcce5834b54660ce7b27f525b9b244b6a4fe912152a393dfcb48e9837"
+              "detailedWitnessesSha256": "cc1fe9ffc9762b44ff2cc77201e9278699a8a4d03125f291f93ffaa7aa68b9e5"
             },
             "modeled": {
               "paths": 4,
@@ -3099,8 +3099,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "5d91a08c4e2b4d47e123e1c664dc2ba15552afd24636dec2488bca49fb379858",
-        "files": 409,
+        "sha256": "87f52ad214fa9b743ef6333513ba3d760879f0aee4ce75fff1caa8b0517623e1",
+        "files": 410,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -3450,8 +3450,8 @@
                 60
               ],
               "twoWitnessDetailedPaths": 2,
-              "newDetailedSequences": 4,
-              "twoWitnessSequencesNotRetained": 2,
+              "newDetailedSequences": 2,
+              "twoWitnessSequencesNotRetained": 0,
               "detailedWitnessesSha256": "04685a1d5fbadab78fa98cc7a4009e369ee31c890e9926a93147de994b037839"
             }
           },
@@ -3656,8 +3656,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "5d91a08c4e2b4d47e123e1c664dc2ba15552afd24636dec2488bca49fb379858",
-        "files": 409,
+        "sha256": "87f52ad214fa9b743ef6333513ba3d760879f0aee4ce75fff1caa8b0517623e1",
+        "files": 410,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -4586,8 +4586,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "5d91a08c4e2b4d47e123e1c664dc2ba15552afd24636dec2488bca49fb379858",
-        "files": 409,
+        "sha256": "87f52ad214fa9b743ef6333513ba3d760879f0aee4ce75fff1caa8b0517623e1",
+        "files": 410,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -5497,8 +5497,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "5d91a08c4e2b4d47e123e1c664dc2ba15552afd24636dec2488bca49fb379858",
-        "files": 409,
+        "sha256": "87f52ad214fa9b743ef6333513ba3d760879f0aee4ce75fff1caa8b0517623e1",
+        "files": 410,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -5950,7 +5950,7 @@
           },
           "modes": {
             "stock": {
-              "paths": 4,
+              "paths": 2,
               "detailedPaths": 4,
               "outcome": "flow-observed",
               "passed": true,
@@ -5964,8 +5964,6 @@
               ],
               "visibleLengths": [
                 21,
-                20,
-                20,
                 21
               ],
               "detailedLengths": [
@@ -5977,10 +5975,10 @@
               "twoWitnessDetailedPaths": 2,
               "newDetailedSequences": 2,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "8850f3f1f895b68448f80a3c451dd59c72178a5b88f4b0159938d06f77f8b1ca"
+              "detailedWitnessesSha256": "562ad85650af9858a94b810567e1a02517e6bf01192ab03fe85f3ebdd0ecaef1"
             },
             "modeled": {
-              "paths": 4,
+              "paths": 2,
               "detailedPaths": 4,
               "outcome": "flow-observed",
               "passed": true,
@@ -5994,8 +5992,6 @@
               ],
               "visibleLengths": [
                 21,
-                20,
-                20,
                 21
               ],
               "detailedLengths": [
@@ -6007,7 +6003,7 @@
               "twoWitnessDetailedPaths": 2,
               "newDetailedSequences": 2,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "8850f3f1f895b68448f80a3c451dd59c72178a5b88f4b0159938d06f77f8b1ca"
+              "detailedWitnessesSha256": "562ad85650af9858a94b810567e1a02517e6bf01192ab03fe85f3ebdd0ecaef1"
             }
           },
           "semanticReview": "see sass-alternative-review.json; The source returns empty text for all-whitespace input or a substring between independently computed first/last bounds. The four returned paths traverse a readonly _firstNonWhitespace argument-output slot, _lastNonWhitespace length/index/return evidence, then external substring cross-argument effects from end to start to receiver. Those effects do not establish mutation of immutable String or integer arguments; the runtime preserves content and exercised ASCII/escape boundaries. Alternatives differ in local index visits or end-return branch. Call-depth, held-round and pruning diagnostics remain; empty-result feasibility is not inferred from the witness."
@@ -6257,20 +6253,20 @@
                 "witness-alternatives"
               ],
               "visibleLengths": [
-                39,
-                37,
-                37
+                42,
+                40,
+                41
               ],
               "detailedLengths": [
-                41,
-                41,
-                40,
-                40
+                45,
+                45,
+                44,
+                44
               ],
               "twoWitnessDetailedPaths": 2,
               "newDetailedSequences": 2,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "87ed956d787dc5b32b781fdbd75b0d27d6bf3f7cb567faffc9a32d31fc25df88"
+              "detailedWitnessesSha256": "0976f4dbe31d0ae27d883b079cf4daef182067845d3d75db867e89e2b66c8007"
             },
             "modeled": {
               "paths": 1,
@@ -6427,8 +6423,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "5d91a08c4e2b4d47e123e1c664dc2ba15552afd24636dec2488bca49fb379858",
-        "files": 409,
+        "sha256": "87f52ad214fa9b743ef6333513ba3d760879f0aee4ce75fff1caa8b0517623e1",
+        "files": 410,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -6621,8 +6617,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "5d91a08c4e2b4d47e123e1c664dc2ba15552afd24636dec2488bca49fb379858",
-        "files": 409,
+        "sha256": "87f52ad214fa9b743ef6333513ba3d760879f0aee4ce75fff1caa8b0517623e1",
+        "files": 410,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",

@@ -26,7 +26,7 @@ complete language-rule matrix or executable-oracle obligations.
 
 [qualification-matrix.json](qualification-matrix.json) assigns seven stage cells
 to all 175 visitors, 195 base sections and thirty feature documents. Shared visitor
-profiles and partial case contracts link 84 named graph, exporter and native tests, with file hashes and
+profiles and partial case contracts link 90 named graph, exporter and native tests, with file hashes and
 explicit assertion scopes. `tested-conservative` describes those selected tests;
 it does not qualify every visitor using the profile. Generic declaration/bound
 checks remain `structural-only`, and untested CFG cells remain `unqualified`.
@@ -215,3 +215,9 @@ results, child-test separation, caller generic identities and nested wrapper
 erasures. Independent native values and cached getter-once traces supplement
 static controls. Full CFG/payload/heap and runtime generic environments remain
 unqualified.
+
+The `list-pattern-rest-defaults` case distinguishes omitted slice end arguments
+from explicit null and computed tail bounds. Graph adapters retain each target's
+default; five native controls cover virtual defaults, caching, wildcard skipping
+and short-list failure. Complete CFG/payload effects, implicit runtime exceptions
+and receiver environments remain unqualified.

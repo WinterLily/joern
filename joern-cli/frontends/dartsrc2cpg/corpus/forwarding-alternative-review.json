@@ -100,8 +100,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "5d91a08c4e2b4d47e123e1c664dc2ba15552afd24636dec2488bca49fb379858",
-        "files": 409,
+        "sha256": "87f52ad214fa9b743ef6333513ba3d760879f0aee4ce75fff1caa8b0517623e1",
+        "files": 410,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -229,7 +229,7 @@
             "issue": "DART-FLOW-004",
             "owner": "shared dataflow query engine / Dart library models"
           },
-          "refreshDisposition": "Fresh two-witness modeled 31-node routes retain readonly normalization outputs and prettyUri -> relative caller re-entry, selecting isRelative or isAbsolute before a second normalize call. The selected POSIX rootLength body uses path.isNotEmpty/codeUnitAt; the observed POSIX/URL/Windows callee union remains explicit. Exact call frames, slots and output flags are preserved, with empty field/storage demands. These readonly/external/dispatch/caller effects do not establish String mutation, branch feasibility, runtime style identity or caller order. Native POSIX controls do not execute the prettyUri re-entry. No causal claim ties selected route differences to extension-type dispatch. Fresh four-witness modeled 30-node selection reaches the POSIX rootLength body under isAbsolute before the subsequent normalization output; all style candidates remain in its call metadata."
+          "refreshDisposition": "Fresh two/four-witness stock 30-node alternatives select unchanged _needsNormalization parameter output, return into prettyUri, relative caller re-entry and readonly isRelative or isAbsolute parameter output. Each then re-enters normalize -> _needsNormalization and selects the URL rootLength path.isEmpty body, while the call retains POSIX/URL/Windows candidates. Exact slots, visibility, output flags and call frames are preserved; field/storage demands are empty. These external/readonly/caller and style-dispatch approximations do not establish String mutation, branch feasibility, actual runtime style or caller order. POSIX native normalization controls do not execute the selected URL/prettyUri detours. No causal claim connects this selection to rest argument omission."
         },
         {
           "id": "set-extension-path",
@@ -490,28 +490,28 @@
             ]
           ]
         },
-        "111669150087": {
+        "111669150060": {
           "label": "METHOD_PARAMETER_IN",
-          "method": "package:path/src/style/windows.dart#1324:METHOD:rootLength",
+          "method": "package:path/src/style/url.dart#1348:METHOD:rootLength",
           "code": "String path",
           "line": 47,
           "parameterIndex": 1
         },
-        "68719478428": {
+        "68719478351": {
           "label": "IDENTIFIER",
-          "method": "package:path/src/style/windows.dart#1324:METHOD:rootLength",
+          "method": "package:path/src/style/url.dart#1348:METHOD:rootLength",
           "code": "path",
           "line": 48,
           "argumentsOf": [
             [
-              "30064772876",
+              "30064772791",
               0
             ]
           ]
         },
-        "115964117383": {
+        "115964117356": {
           "label": "METHOD_PARAMETER_OUT",
-          "method": "package:path/src/style/windows.dart#1324:METHOD:rootLength",
+          "method": "package:path/src/style/url.dart#1348:METHOD:rootLength",
           "code": "String path",
           "line": 47,
           "parameterIndex": 1
@@ -1351,8 +1351,8 @@
             }
           ]
         },
-        "30064772876": {
-          "nodeId": "30064772876",
+        "30064772791": {
+          "nodeId": "30064772791",
           "name": "isEmpty",
           "target": "dart:core/string.dart#13494:GETTER:isEmpty",
           "code": "path.isEmpty",
@@ -2062,7 +2062,7 @@
               []
             ],
             [
-              "111669150087",
+              "111669150060",
               5,
               true,
               false,
@@ -2070,7 +2070,7 @@
               []
             ],
             [
-              "68719478428",
+              "68719478351",
               5,
               true,
               false,
@@ -2078,7 +2078,7 @@
               []
             ],
             [
-              "115964117383",
+              "115964117356",
               5,
               true,
               false,
@@ -2337,7 +2337,7 @@
               []
             ],
             [
-              "111669150087",
+              "111669150060",
               5,
               true,
               false,
@@ -2345,7 +2345,7 @@
               []
             ],
             [
-              "68719478428",
+              "68719478351",
               5,
               true,
               false,
@@ -2353,7 +2353,7 @@
               []
             ],
             [
-              "115964117383",
+              "115964117356",
               5,
               true,
               false,
@@ -4349,8 +4349,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "5d91a08c4e2b4d47e123e1c664dc2ba15552afd24636dec2488bca49fb379858",
-        "files": 409,
+        "sha256": "87f52ad214fa9b743ef6333513ba3d760879f0aee4ce75fff1caa8b0517623e1",
+        "files": 410,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -5142,8 +5142,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "5d91a08c4e2b4d47e123e1c664dc2ba15552afd24636dec2488bca49fb379858",
-        "files": 409,
+        "sha256": "87f52ad214fa9b743ef6333513ba3d760879f0aee4ce75fff1caa8b0517623e1",
+        "files": 410,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -5276,7 +5276,7 @@
             "issue": "DART-FLOW-003",
             "owner": "shared dataflow query engine / Dart library models"
           },
-          "refreshDisposition": "Fresh two-witness stock 29/28-node variants retain input.length -> end slot 3 -> size/header/allocation and saved Uint8List receivers, then conservative setRange receiver 0 -> cursor slot 1 -> start/skipCount slot 4 -> bytes slot 3. The shorter variant omits the saved allocation identifier and retains invisible constructor evidence. Exact slots, visibility/output flags and frames remain explicit, with empty field/storage demands. These readonly, range, allocation and cross-argument effects are approximations, not direct byte copying or allocation identity. Native whole/slice/empty controls and modeled direct-byte effects keep their separate scopes; no causal claim ties route selections to list result types. Fresh four-witness 29/28-node variants retain the same 0 -> 1 -> 4 -> 3 range order; shorter variants omit the saved allocation identifier or one CR/LF alias, with corresponding invisible receiver evidence retained."
+          "refreshDisposition": "Fresh two-witness stock 30/29-node and four-witness stock 30/29/29/29-node selections follow convert input.length -> _convert end slot 3 -> end/start size computation -> hexadecimal header length and Uint8List allocation -> saved receivers. The copy call's cross-argument route is receiver 0 -> cursor slot 1 -> skipCount/start slot 4 -> computed end slot 2 -> bytes slot 3. The shorter allocation variant omits <tmp>4 and keeps the constructor result detail-only; other four-witness variants omit the saved CR or LF alias and preserve the corresponding hidden receiver node. Exact flags, arguments and frames are preserved; field/storage demands are empty. These size/header/allocation and range/receiver effects are conservative approximations, not direct original-byte element copying. Direct modeled byte effects and bounded whole/slice/empty native observations remain separate. No causal claim ties these choices to rest omission."
         },
         {
           "id": "chunk-return-buffer",
@@ -5381,7 +5381,7 @@
             "issue": "DART-FLOW-003",
             "owner": "shared dataflow query engine / Dart library models"
           },
-          "refreshDisposition": "Fresh two-witness stock 76-node variants retain conservative setRange bytes 3 -> cursor 1 -> start/skipCount 4 -> receiver 0, CR/LF saved aliases and footer range/length effects before returned whole buffers. Output-marked _convert results enter candidate _Sink.add. The first re-entry selects chunk.length -> end slot 3 -> size/header/allocation; the later re-entry selects chunk -> bytes slot 1. Initial add and addSlice invocation identities remain distinct from later add frames; all slots, flags and contexts are retained, with empty field/storage demands. These external receiver/range, readonly/header, caller, allocation and dispatch effects do not establish actual sink/array instances, repeated-call order, allocation identity or precise byte provenance. Native copy controls do not certify those detours; larger witness bounds need not retain smaller-bound choices. No causal claim connects these selections to list result instantiation. Fresh four-witness stock 58/57-node variants instead retain two bytes-slot-1 re-entries, with 3 -> 1 -> 4 -> 0 range effects. The 58-node paths retain initial add/addSlice identities. One 57-node initial add route omits the first skipCount slot-4 detour (3 -> 1 -> 0); the other omits one CR saved alias while preserving its invisible receiver evidence. Both later byte re-entries retain skipCount, aliases and footer/return effects. Model-specific direct-byte effects remain separately replayed."
+          "refreshDisposition": "Fresh two-witness stock 78-node selections retain bytes slot 3 -> cursor slot 1 -> skipCount/start slot 4 -> computed end slot 2 -> setRange receiver 0, saved CR/LF receivers and footer setRange start slot 1 -> end slot 2 -> receiver 0 before return. The initial add or addSlice frame is retained separately. An output-marked _convert result enters the conservative Sink.add candidate union; the first re-entry selects chunk.length -> end slot 3 -> size/header/allocation and saved buffer effects, while the second selects chunk -> bytes slot 1. Fresh four-witness stock 61/60-node alternatives retain two byte-slot re-entries instead. One shorter four-witness route omits only the first skipCount slot 4 detour; another omits a saved CR alias and retains its detail-only receiver. All later end-slot 2 effects, output flags, exact frames and empty field/storage demands are preserved. The Sink.add union includes external Sink plus decoder/encoder implementations. These whole-buffer, readonly/receiver, range/footer, dispatch, allocation and caller approximations do not establish actual sinks, repeated-call ordering, object identity or precise byte provenance. Model-specific direct byte effects and bounded native controls remain distinct; larger bounds do not include every smaller-bound route. No causal claim ties this selection to rest omission."
         },
         {
           "id": "error-message-value",
@@ -5821,6 +5821,19 @@
             ]
           ]
         },
+        "30064771631": {
+          "label": "CALL",
+          "method": "package:http_parser/src/chunked_coding/encoder.dart#1792:FUNCTION:_convert",
+          "code": "cursor + end - start",
+          "line": 74,
+          "call": "30064771631",
+          "argumentsOf": [
+            [
+              "30064771630",
+              2
+            ]
+          ]
+        },
         "68719477251": {
           "label": "IDENTIFIER",
           "method": "package:http_parser/src/chunked_coding/encoder.dart#1792:FUNCTION:_convert",
@@ -5912,28 +5925,16 @@
             ]
           ]
         },
-        "68719477275": {
-          "label": "IDENTIFIER",
-          "method": "package:http_parser/src/chunked_coding/encoder.dart#1792:FUNCTION:_convert",
-          "code": "list",
-          "line": 80,
-          "argumentsOf": [
-            [
-              "30064771651",
-              0
-            ]
-          ]
-        },
-        "30064771651": {
+        "30064771650": {
           "label": "CALL",
           "method": "package:http_parser/src/chunked_coding/encoder.dart#1792:FUNCTION:_convert",
           "code": "list.length",
           "line": 80,
-          "call": "30064771651",
+          "call": "30064771650",
           "argumentsOf": [
             [
-              "30064771648",
-              2
+              "30064771649",
+              1
             ]
           ]
         },
@@ -5947,6 +5948,19 @@
             [
               "30064771648",
               1
+            ]
+          ]
+        },
+        "30064771651": {
+          "label": "CALL",
+          "method": "package:http_parser/src/chunked_coding/encoder.dart#1792:FUNCTION:_convert",
+          "code": "list.length",
+          "line": 80,
+          "call": "30064771651",
+          "argumentsOf": [
+            [
+              "30064771648",
+              2
             ]
           ]
         },
@@ -6047,6 +6061,18 @@
             [
               "30064771584",
               1
+            ]
+          ]
+        },
+        "68719477275": {
+          "label": "IDENTIFIER",
+          "method": "package:http_parser/src/chunked_coding/encoder.dart#1792:FUNCTION:_convert",
+          "code": "list",
+          "line": 80,
+          "argumentsOf": [
+            [
+              "30064771651",
+              0
             ]
           ]
         },
@@ -6405,6 +6431,18 @@
             }
           ]
         },
+        "30064771631": {
+          "nodeId": "30064771631",
+          "name": "<operator>.subtraction",
+          "target": "<operator>.dart.subtraction",
+          "code": "cursor + end - start",
+          "callees": [
+            {
+              "fullName": "<operator>.dart.subtraction",
+              "external": true
+            }
+          ]
+        },
         "30064771580": {
           "nodeId": "30064771580",
           "name": "_convert",
@@ -6453,14 +6491,14 @@
             }
           ]
         },
-        "30064771651": {
-          "nodeId": "30064771651",
-          "name": "length",
-          "target": "dart:core/list.dart#15331:GETTER:length",
-          "code": "list.length",
+        "30064771649": {
+          "nodeId": "30064771649",
+          "name": "<operator>.subtraction",
+          "target": "<operator>.dart.subtraction",
+          "code": "list.length - footerSize",
           "callees": [
             {
-              "fullName": "dart:core/list.dart#15331:GETTER:length",
+              "fullName": "<operator>.dart.subtraction",
               "external": true
             }
           ]
@@ -6477,14 +6515,14 @@
             }
           ]
         },
-        "30064771649": {
-          "nodeId": "30064771649",
-          "name": "<operator>.subtraction",
-          "target": "<operator>.dart.subtraction",
-          "code": "list.length - footerSize",
+        "30064771651": {
+          "nodeId": "30064771651",
+          "name": "length",
+          "target": "dart:core/list.dart#15331:GETTER:length",
+          "code": "list.length",
           "callees": [
             {
-              "fullName": "<operator>.dart.subtraction",
+              "fullName": "dart:core/list.dart#15331:GETTER:length",
               "external": true
             }
           ]
@@ -6875,6 +6913,14 @@
               []
             ],
             [
+              "30064771631",
+              0,
+              true,
+              false,
+              "cursor + end - start",
+              []
+            ],
+            [
               "68719477251",
               0,
               true,
@@ -6909,6 +6955,7 @@
             "alias",
             "assignment",
             "alias",
+            "external-write",
             "external-write",
             "external-write",
             "external-write"
@@ -7133,6 +7180,14 @@
               []
             ],
             [
+              "30064771631",
+              0,
+              true,
+              false,
+              "cursor + end - start",
+              []
+            ],
+            [
               "68719477251",
               0,
               true,
@@ -7166,6 +7221,7 @@
             "alias",
             "assignment",
             "alias",
+            "external-write",
             "external-write",
             "external-write",
             "external-write"
@@ -7256,6 +7312,14 @@
               []
             ],
             [
+              "30064771631",
+              1,
+              true,
+              false,
+              "cursor + end - start",
+              []
+            ],
+            [
               "68719477246",
               1,
               true,
@@ -7304,17 +7368,9 @@
               []
             ],
             [
-              "68719477275",
+              "30064771650",
               1,
-              true,
               false,
-              "list",
-              []
-            ],
-            [
-              "30064771651",
-              1,
-              true,
               false,
               "list.length",
               []
@@ -7325,6 +7381,14 @@
               true,
               false,
               "list.length - footerSize",
+              []
+            ],
+            [
+              "30064771651",
+              1,
+              true,
+              false,
+              "list.length",
               []
             ],
             [
@@ -7616,17 +7680,9 @@
               []
             ],
             [
-              "68719477275",
+              "30064771650",
               1,
-              true,
               false,
-              "list",
-              []
-            ],
-            [
-              "30064771651",
-              1,
-              true,
               false,
               "list.length",
               []
@@ -7637,6 +7693,14 @@
               true,
               false,
               "list.length - footerSize",
+              []
+            ],
+            [
+              "30064771651",
+              1,
+              true,
+              false,
+              "list.length",
               []
             ],
             [
@@ -7736,6 +7800,14 @@
               []
             ],
             [
+              "30064771631",
+              0,
+              true,
+              false,
+              "cursor + end - start",
+              []
+            ],
+            [
               "68719477246",
               0,
               true,
@@ -7784,17 +7856,9 @@
               []
             ],
             [
-              "68719477275",
+              "30064771650",
               0,
-              true,
               false,
-              "list",
-              []
-            ],
-            [
-              "30064771651",
-              0,
-              true,
               false,
               "list.length",
               []
@@ -7805,6 +7869,14 @@
               true,
               false,
               "list.length - footerSize",
+              []
+            ],
+            [
+              "30064771651",
+              0,
+              true,
+              false,
+              "list.length",
               []
             ],
             [
@@ -7837,13 +7909,14 @@
             "external-write",
             "external-write",
             "external-write",
+            "external-write",
             "local-read",
             "assignment",
             "alias",
             "assignment",
             "alias",
-            "local-read",
             "external-return",
+            "operator-value",
             "external-write",
             "external-write",
             "local-read",
@@ -7881,8 +7954,8 @@
             "alias",
             "assignment",
             "alias",
-            "local-read",
             "external-return",
+            "operator-value",
             "external-write",
             "external-write",
             "local-read",
@@ -7897,13 +7970,14 @@
             "external-write",
             "external-write",
             "external-write",
+            "external-write",
             "local-read",
             "assignment",
             "alias",
             "assignment",
             "alias",
-            "local-read",
             "external-return",
+            "operator-value",
             "external-write",
             "external-write",
             "local-read",
@@ -7945,6 +8019,14 @@
               []
             ],
             [
+              "30064771631",
+              2,
+              true,
+              false,
+              "cursor + end - start",
+              []
+            ],
+            [
               "68719477246",
               2,
               true,
@@ -7993,17 +8075,9 @@
               []
             ],
             [
-              "68719477275",
+              "30064771650",
               2,
-              true,
               false,
-              "list",
-              []
-            ],
-            [
-              "30064771651",
-              2,
-              true,
               false,
               "list.length",
               []
@@ -8014,6 +8088,14 @@
               true,
               false,
               "list.length - footerSize",
+              []
+            ],
+            [
+              "30064771651",
+              2,
+              true,
+              false,
+              "list.length",
               []
             ],
             [
@@ -8305,17 +8387,9 @@
               []
             ],
             [
-              "68719477275",
+              "30064771650",
               1,
-              true,
               false,
-              "list",
-              []
-            ],
-            [
-              "30064771651",
-              1,
-              true,
               false,
               "list.length",
               []
@@ -8326,6 +8400,14 @@
               true,
               false,
               "list.length - footerSize",
+              []
+            ],
+            [
+              "30064771651",
+              1,
+              true,
+              false,
+              "list.length",
               []
             ],
             [
@@ -8425,6 +8507,14 @@
               []
             ],
             [
+              "30064771631",
+              0,
+              true,
+              false,
+              "cursor + end - start",
+              []
+            ],
+            [
               "68719477246",
               0,
               true,
@@ -8473,17 +8563,9 @@
               []
             ],
             [
-              "68719477275",
+              "30064771650",
               0,
-              true,
               false,
-              "list",
-              []
-            ],
-            [
-              "30064771651",
-              0,
-              true,
               false,
               "list.length",
               []
@@ -8494,6 +8576,14 @@
               true,
               false,
               "list.length - footerSize",
+              []
+            ],
+            [
+              "30064771651",
+              0,
+              true,
+              false,
+              "list.length",
               []
             ],
             [
@@ -8526,13 +8616,14 @@
             "external-write",
             "external-write",
             "external-write",
+            "external-write",
             "local-read",
             "assignment",
             "alias",
             "assignment",
             "alias",
-            "local-read",
             "external-return",
+            "operator-value",
             "external-write",
             "external-write",
             "local-read",
@@ -8570,8 +8661,8 @@
             "alias",
             "assignment",
             "alias",
-            "local-read",
             "external-return",
+            "operator-value",
             "external-write",
             "external-write",
             "local-read",
@@ -8586,13 +8677,14 @@
             "external-write",
             "external-write",
             "external-write",
+            "external-write",
             "local-read",
             "assignment",
             "alias",
             "assignment",
             "alias",
-            "local-read",
             "external-return",
+            "operator-value",
             "external-write",
             "external-write",
             "local-read",
@@ -9921,7 +10013,7 @@
   ],
   "representation": "Node/call IDs and context/path indices are project-local. transitions[i] classifies elements[i] to elements[i+1]. All retained demand sets in this review are empty. Equivalent stock/modeled paths are shared; full path flags and selected caller contexts are preserved.",
   "reviewMethod": "Each selected displayed route was read against its pinned source expectation. Formal argument positions, resolved return targets and available selected frames were checked. Argument-output return evidence already in a caller frame has a separate category. This is a mechanism/approximation review, not branch feasibility, general scheduling or heap qualification.",
-  "analysisBaseCommit": "53e2352f6",
+  "analysisBaseCommit": "33c4e802b",
   "limitations": [
     "Only these seven query families and their returned bounded paths are reviewed; other corpus alternatives and larger searches remain pending.",
     "An endpoint identity is recorded separately from independent forwarding; conservative argument outputs, aggregate projections and external effects do not prove mutation, allocation identity, callback delivery or branch feasibility.",
@@ -9931,14 +10023,14 @@
     "queries": 7,
     "selectedPaths": 25,
     "distinctPaths": 19,
-    "distinctTransitions": 617
+    "distinctTransitions": 623
   },
   "refresh": {
-    "previousBaseCommit": "53e2352f6",
+    "previousBaseCommit": "33c4e802b",
     "previousAnalysisSources": {
       "algorithm": "sha256-path-nul-content-nul",
-      "sha256": "c860f38644b091fcd88fc4f962d7efeac3085766620c43f34ed22dcaeb326c52",
-      "files": 408,
+      "sha256": "5d91a08c4e2b4d47e123e1c664dc2ba15552afd24636dec2488bca49fb379858",
+      "files": 409,
       "roots": [
         "joern-cli/frontends/dartsrc2cpg/src",
         "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -9964,7 +10056,7 @@
       "distinctPaths": 19,
       "distinctTransitions": 617
     },
-    "method": "Replayed after retaining list-pattern element and slice static types and instantiated element erasures, preserving per-use cached result views and original generic declaration identities. Unchanged routes are matched against previous two/four-witness reviewed paths after removing node IDs only; all other node/call/context/flag/demand facts are retained. Changed variants have separate source-grounded refresh dispositions and checked argument/return/output bindings. All new graph IDs are reconstructed from fresh raw audits. Native observations do not certify caller re-entry, allocation, heap/dispatch precision or route feasibility."
+    "method": "Replayed after omitting the end argument on list-pattern rest calls without tail elements, enabling per-target default adapters while retaining explicit computed ends for tail patterns. Unchanged routes are matched against previous two/four-witness reviewed paths after removing node IDs only; all other node/call/context/flag/demand facts are retained. Changed variants have separate source-grounded refresh dispositions and checked argument/return/output bindings. All new graph IDs are reconstructed from fresh raw audits. Native observations do not certify caller re-entry, allocation, heap/dispatch precision or route feasibility."
   },
   "nativeRefreshScope": "Existing native oracle contracts remain unchanged."
 }

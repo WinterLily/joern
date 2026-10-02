@@ -1116,13 +1116,14 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
               val trailing = elements.size - index - 1
               val key      = parent :+ s"rest:$index:$trailing"
               val end      =
-                if (trailing == 0) literal(entry, "null", "Null")
-                else operator(entry, Operators.subtraction, Seq(length(), literal(entry, trailing.toString, "int")))
+                if (trailing == 0) Nil
+                else
+                  Seq(operator(entry, Operators.subtraction, Seq(length(), literal(entry, trailing.toString, "int"))))
               val slice = patternMember(
                 entry,
                 string(syntax, "sublistTarget"),
                 "sublist",
-                Seq(value(), literal(entry, index.toString, "int"), end),
+                Seq(value(), literal(entry, index.toString, "int")) ++ end,
                 string(syntax, "requiredTypeId")
               )
               saved(entry, patternAccess(entry, key, slice))(ref => pattern(inner, ref, key))

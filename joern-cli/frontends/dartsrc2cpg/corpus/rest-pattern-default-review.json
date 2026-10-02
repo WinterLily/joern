@@ -1,0 +1,899 @@
+{
+  "schemaVersion": 1,
+  "previousBaseCommit": "33c4e802b",
+  "previousAnalysisSources": {
+    "algorithm": "sha256-path-nul-content-nul",
+    "sha256": "5d91a08c4e2b4d47e123e1c664dc2ba15552afd24636dec2488bca49fb379858",
+    "files": 409,
+    "roots": [
+      "joern-cli/frontends/dartsrc2cpg/src",
+      "joern-cli/frontends/dartsrc2cpg/astgen/lib",
+      "joern-cli/frontends/dartsrc2cpg/astgen/bin",
+      "joern-cli/frontends/x2cpg/src/main",
+      "dataflowengineoss/src/main",
+      "semanticcpg/src/main",
+      "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.lock",
+      "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.yaml",
+      "joern-cli/frontends/dartsrc2cpg/build.sbt",
+      "joern-cli/frontends/x2cpg/build.sbt",
+      "joern-cli/build.sbt",
+      "dataflowengineoss/build.sbt",
+      "semanticcpg/build.sbt",
+      "build.sbt",
+      "project/Versions.scala",
+      "project/Projects.scala"
+    ]
+  },
+  "analysisSources": {
+    "algorithm": "sha256-path-nul-content-nul",
+    "sha256": "87f52ad214fa9b743ef6333513ba3d760879f0aee4ce75fff1caa8b0517623e1",
+    "files": 410,
+    "roots": [
+      "joern-cli/frontends/dartsrc2cpg/src",
+      "joern-cli/frontends/dartsrc2cpg/astgen/lib",
+      "joern-cli/frontends/dartsrc2cpg/astgen/bin",
+      "joern-cli/frontends/x2cpg/src/main",
+      "dataflowengineoss/src/main",
+      "semanticcpg/src/main",
+      "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.lock",
+      "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.yaml",
+      "joern-cli/frontends/dartsrc2cpg/build.sbt",
+      "joern-cli/frontends/x2cpg/build.sbt",
+      "joern-cli/build.sbt",
+      "dataflowengineoss/build.sbt",
+      "semanticcpg/build.sbt",
+      "build.sbt",
+      "project/Versions.scala",
+      "project/Projects.scala"
+    ]
+  },
+  "exporterVersion": "0.3.25",
+  "scope": "Rest extraction call omission and per-target default adapters on twelve pinned graphs. No complete pattern, CFG/payload, heap, runtime receiver/generic or release qualification.",
+  "reducedRegression": {
+    "fixture": "src/test/resources/semantics/list_pattern_defaults.dart",
+    "sha256": "2e2f4f7a532a00959b5f6945666e889946b3cf36b51ca422d27df8d11fb51f5e",
+    "before": "No-tail rest extraction supplies explicit null, overriding a source implementation default of 2 and retaining all items instead of two.",
+    "after": "No-tail rest extraction omits end and uses each selected target default adapter; tail patterns supply computed end and explicit null stays supplied.",
+    "graph": "omit list rest end arguments and adapt each target default",
+    "nativeFile": "astgen/test/list_pattern_defaults_test.dart",
+    "nativeTests": 5,
+    "controls": [
+      "Independent receivers and differing virtual defaults 2/1; ordinary List retains its null default.",
+      "Head extraction preserves its start; equivalent default adapters share bodies without merging input values.",
+      "Tail extraction passes the computed end, independent of the override default.",
+      "Failed/satisfied guards retain one actual slice read; unneeded wildcards skip length and slice.",
+      "A one-element input throws RangeError under omitted default 2 while explicit null retains the element."
+    ]
+  },
+  "sdkSliceDeclarations": [
+    {
+      "path": "lib/core/list.dart",
+      "sha256": "f6952108a8a3e0da37e9bb9b1653bede6314a22a2541c1885b9117ab7b184186",
+      "contract": "Optional nullable end has implicit null default; corpus targets remain external."
+    },
+    {
+      "path": "lib/collection/list.dart",
+      "sha256": "1f8c22e3305fd4934ace2be6af82eda7a716736f03df6f7753a1e8bb0bfef442",
+      "contract": "Optional nullable end has implicit null default; corpus targets remain external."
+    }
+  ],
+  "specification": {
+    "path": "accepted/3.0/patterns/feature-specification.md",
+    "sha256": "ab7790aae831202df5a2fd663a9534b73fb2e7affd3f2bb66c86d93ccbb68608",
+    "lines": [
+      3032,
+      3044
+    ],
+    "rule": "Matching rest: tail > 0 calls v.sublist(h, l - t); otherwise calls v.sublist(h). Non-matching rest skips sublist."
+  },
+  "projects": [
+    {
+      "project": "path-1.9.1",
+      "category": "packages",
+      "listPatterns": 0,
+      "restPatterns": 0,
+      "omittedEndExtractions": 0,
+      "explicitEndExtractions": 0,
+      "skippedRestPatterns": 0,
+      "observations": [],
+      "previousDefaultArguments": {
+        "adaptedCalls": 0,
+        "targetAdapters": 0,
+        "externalTargetAdapters": 0,
+        "adapterLinks": 0
+      },
+      "defaultArguments": {
+        "adaptedCalls": 0,
+        "targetAdapters": 0,
+        "externalTargetAdapters": 0,
+        "adapterLinks": 0
+      },
+      "previousMethods": 236,
+      "methods": 236,
+      "previousCalls": 2026,
+      "calls": 2026,
+      "addedAdapters": 0
+    },
+    {
+      "project": "collection-1.19.1",
+      "category": "packages",
+      "listPatterns": 0,
+      "restPatterns": 0,
+      "omittedEndExtractions": 0,
+      "explicitEndExtractions": 0,
+      "skippedRestPatterns": 0,
+      "observations": [],
+      "previousDefaultArguments": {
+        "adaptedCalls": 0,
+        "targetAdapters": 0,
+        "externalTargetAdapters": 0,
+        "adapterLinks": 0
+      },
+      "defaultArguments": {
+        "adaptedCalls": 0,
+        "targetAdapters": 0,
+        "externalTargetAdapters": 0,
+        "adapterLinks": 0
+      },
+      "previousMethods": 760,
+      "methods": 760,
+      "previousCalls": 4610,
+      "calls": 4610,
+      "addedAdapters": 0
+    },
+    {
+      "project": "meta-1.17.0",
+      "category": "packages",
+      "listPatterns": 0,
+      "restPatterns": 0,
+      "omittedEndExtractions": 0,
+      "explicitEndExtractions": 0,
+      "skippedRestPatterns": 0,
+      "observations": [],
+      "previousDefaultArguments": {
+        "adaptedCalls": 0,
+        "targetAdapters": 0,
+        "externalTargetAdapters": 0,
+        "adapterLinks": 0
+      },
+      "defaultArguments": {
+        "adaptedCalls": 0,
+        "targetAdapters": 0,
+        "externalTargetAdapters": 0,
+        "adapterLinks": 0
+      },
+      "previousMethods": 42,
+      "methods": 42,
+      "previousCalls": 327,
+      "calls": 327,
+      "addedAdapters": 0
+    },
+    {
+      "project": "args-2.7.0",
+      "category": "packages",
+      "listPatterns": 0,
+      "restPatterns": 0,
+      "omittedEndExtractions": 0,
+      "explicitEndExtractions": 0,
+      "skippedRestPatterns": 0,
+      "observations": [],
+      "previousDefaultArguments": {
+        "adaptedCalls": 0,
+        "targetAdapters": 0,
+        "externalTargetAdapters": 0,
+        "adapterLinks": 0
+      },
+      "defaultArguments": {
+        "adaptedCalls": 0,
+        "targetAdapters": 0,
+        "externalTargetAdapters": 0,
+        "adapterLinks": 0
+      },
+      "previousMethods": 219,
+      "methods": 219,
+      "previousCalls": 2290,
+      "calls": 2290,
+      "addedAdapters": 0
+    },
+    {
+      "project": "async-2.13.0",
+      "category": "packages",
+      "listPatterns": 0,
+      "restPatterns": 0,
+      "omittedEndExtractions": 0,
+      "explicitEndExtractions": 0,
+      "skippedRestPatterns": 0,
+      "observations": [],
+      "previousDefaultArguments": {
+        "adaptedCalls": 0,
+        "targetAdapters": 0,
+        "externalTargetAdapters": 0,
+        "adapterLinks": 0
+      },
+      "defaultArguments": {
+        "adaptedCalls": 0,
+        "targetAdapters": 0,
+        "externalTargetAdapters": 0,
+        "adapterLinks": 0
+      },
+      "previousMethods": 700,
+      "methods": 700,
+      "previousCalls": 3422,
+      "calls": 3422,
+      "addedAdapters": 0
+    },
+    {
+      "project": "http_parser-4.1.2",
+      "category": "packages",
+      "listPatterns": 0,
+      "restPatterns": 0,
+      "omittedEndExtractions": 0,
+      "explicitEndExtractions": 0,
+      "skippedRestPatterns": 0,
+      "observations": [],
+      "previousDefaultArguments": {
+        "adaptedCalls": 0,
+        "targetAdapters": 0,
+        "externalTargetAdapters": 0,
+        "adapterLinks": 0
+      },
+      "defaultArguments": {
+        "adaptedCalls": 0,
+        "targetAdapters": 0,
+        "externalTargetAdapters": 0,
+        "adapterLinks": 0
+      },
+      "previousMethods": 91,
+      "methods": 91,
+      "previousCalls": 1135,
+      "calls": 1135,
+      "addedAdapters": 0
+    },
+    {
+      "project": "analyzer-8.4.1",
+      "category": "packages",
+      "listPatterns": 3,
+      "restPatterns": 0,
+      "omittedEndExtractions": 0,
+      "explicitEndExtractions": 0,
+      "skippedRestPatterns": 0,
+      "observations": [],
+      "previousDefaultArguments": {
+        "adaptedCalls": 182,
+        "targetAdapters": 1966,
+        "externalTargetAdapters": 0,
+        "adapterLinks": 2006
+      },
+      "defaultArguments": {
+        "adaptedCalls": 182,
+        "targetAdapters": 1966,
+        "externalTargetAdapters": 0,
+        "adapterLinks": 2006
+      },
+      "previousMethods": 30363,
+      "methods": 30363,
+      "previousCalls": 227637,
+      "calls": 227637,
+      "addedAdapters": 0
+    },
+    {
+      "project": "localsend-1.17.0",
+      "category": "applications",
+      "listPatterns": 2,
+      "restPatterns": 0,
+      "omittedEndExtractions": 0,
+      "explicitEndExtractions": 0,
+      "skippedRestPatterns": 0,
+      "observations": [],
+      "previousDefaultArguments": {
+        "adaptedCalls": 967,
+        "targetAdapters": 2747,
+        "externalTargetAdapters": 335,
+        "adapterLinks": 39647
+      },
+      "defaultArguments": {
+        "adaptedCalls": 967,
+        "targetAdapters": 2747,
+        "externalTargetAdapters": 335,
+        "adapterLinks": 39647
+      },
+      "previousMethods": 31358,
+      "methods": 31358,
+      "previousCalls": 106237,
+      "calls": 106237,
+      "addedAdapters": 0
+    },
+    {
+      "project": "saber-0.26.0",
+      "category": "applications",
+      "listPatterns": 0,
+      "restPatterns": 0,
+      "omittedEndExtractions": 0,
+      "explicitEndExtractions": 0,
+      "skippedRestPatterns": 0,
+      "observations": [],
+      "previousDefaultArguments": {
+        "adaptedCalls": 258,
+        "targetAdapters": 493,
+        "externalTargetAdapters": 92,
+        "adapterLinks": 5344
+      },
+      "defaultArguments": {
+        "adaptedCalls": 258,
+        "targetAdapters": 493,
+        "externalTargetAdapters": 92,
+        "adapterLinks": 5344
+      },
+      "previousMethods": 10428,
+      "methods": 10428,
+      "previousCalls": 53890,
+      "calls": 53890,
+      "addedAdapters": 0
+    },
+    {
+      "project": "dart-sass-1.89.2",
+      "category": "applications",
+      "listPatterns": 117,
+      "restPatterns": 39,
+      "omittedEndExtractions": 10,
+      "explicitEndExtractions": 6,
+      "skippedRestPatterns": 23,
+      "observations": [
+        {
+          "file": "src/ast/sass/argument_list.dart",
+          "sourceSha256": "27de85ba6e02e5829b7ee02c0d6c62cad67f23b8ce868b38fdfbcfd1c43cc799",
+          "line": 69,
+          "column": 21,
+          "source": "[_, _, ...]",
+          "headElements": 2,
+          "tailElements": 0,
+          "childKind": null,
+          "extracts": false,
+          "sublistTarget": "dart:core/list.dart#27126:METHOD:sublist"
+        },
+        {
+          "file": "src/ast/sass/expression/binary_operation.dart",
+          "sourceSha256": "987599af34323a3f5c58fc9be6d493cd809fb96d74802eac119d9d5e965255f3",
+          "line": 83,
+          "column": 52,
+          "source": "[_, _, ...]",
+          "headElements": 2,
+          "tailElements": 0,
+          "childKind": null,
+          "extracts": false,
+          "sublistTarget": "dart:core/list.dart#27126:METHOD:sublist"
+        },
+        {
+          "file": "src/ast/sass/expression/binary_operation.dart",
+          "sourceSha256": "987599af34323a3f5c58fc9be6d493cd809fb96d74802eac119d9d5e965255f3",
+          "line": 99,
+          "column": 52,
+          "source": "[_, _, ...]",
+          "headElements": 2,
+          "tailElements": 0,
+          "childKind": null,
+          "extracts": false,
+          "sublistTarget": "dart:core/list.dart#27126:METHOD:sublist"
+        },
+        {
+          "file": "src/ast/sass/expression/list.dart",
+          "sourceSha256": "cca1d5bf713d20cead238c59ecf410588a163751edb1550ff7803c392a093242",
+          "line": 73,
+          "column": 21,
+          "source": "[_, _, ...]",
+          "headElements": 2,
+          "tailElements": 0,
+          "childKind": null,
+          "extracts": false,
+          "sublistTarget": "dart:core/list.dart#27126:METHOD:sublist"
+        },
+        {
+          "file": "src/ast/sass/expression/unary_operation.dart",
+          "sourceSha256": "4fcb5b09c4b196c040c3c5e7919f31d6c28c2fb2ba541dc5fc130b0183f6fa13",
+          "line": 37,
+          "column": 52,
+          "source": "[_, _, ...]",
+          "headElements": 2,
+          "tailElements": 0,
+          "childKind": null,
+          "extracts": false,
+          "sublistTarget": "dart:core/list.dart#27126:METHOD:sublist"
+        },
+        {
+          "file": "src/ast/sass/interpolation.dart",
+          "sourceSha256": "5c5f83fcf985c439c374350840bd44267034f2fde991c4d494749a4fbde16621",
+          "line": 49,
+          "column": 9,
+          "source": "[String first, ...]",
+          "headElements": 1,
+          "tailElements": 0,
+          "childKind": null,
+          "extracts": false,
+          "sublistTarget": "dart:core/list.dart#27126:METHOD:sublist"
+        },
+        {
+          "file": "src/ast/selector/complex.dart",
+          "sourceSha256": "5bf4343c926753b4b4aab4b83dab1259814cf14260a3a6313acd04180e09f640",
+          "line": 130,
+          "column": 7,
+          "source": "[...var initial, var last]",
+          "headElements": 0,
+          "tailElements": 1,
+          "childKind": "DeclaredVariablePattern",
+          "extracts": true,
+          "sublistTarget": "dart:core/list.dart#27126:METHOD:sublist"
+        },
+        {
+          "file": "src/ast/selector/complex.dart",
+          "sourceSha256": "5bf4343c926753b4b4aab4b83dab1259814cf14260a3a6313acd04180e09f640",
+          "line": 190,
+          "column": 32,
+          "source": "[...var initial, var last]",
+          "headElements": 0,
+          "tailElements": 1,
+          "childKind": "DeclaredVariablePattern",
+          "extracts": true,
+          "sublistTarget": "dart:core/list.dart#27126:METHOD:sublist"
+        },
+        {
+          "file": "src/ast/selector/universal.dart",
+          "sourceSha256": "9dda1ac47b132ff244e98b4c26d3a6d558c7a0f58cbb553db90e5919e992c96e",
+          "line": 34,
+          "column": 12,
+          "source": "[UniversalSelector() || TypeSelector(), ...var rest]",
+          "headElements": 1,
+          "tailElements": 0,
+          "childKind": "DeclaredVariablePattern",
+          "extracts": true,
+          "sublistTarget": "dart:core/list.dart#27126:METHOD:sublist"
+        },
+        {
+          "file": "src/embedded/executable.dart",
+          "sourceSha256": "a2932ae80a6fee307b33ebf92885e8451500184328bf14865d47e93d19ca4de6",
+          "line": 15,
+          "column": 10,
+          "source": "[\"--version\", ...]",
+          "headElements": 1,
+          "tailElements": 0,
+          "childKind": null,
+          "extracts": false,
+          "sublistTarget": "dart:core/list.dart#27126:METHOD:sublist"
+        },
+        {
+          "file": "src/embedded/executable.dart",
+          "sourceSha256": "a2932ae80a6fee307b33ebf92885e8451500184328bf14865d47e93d19ca4de6",
+          "line": 23,
+          "column": 10,
+          "source": "[_, ...]",
+          "headElements": 1,
+          "tailElements": 0,
+          "childKind": null,
+          "extracts": false,
+          "sublistTarget": "dart:core/list.dart#27126:METHOD:sublist"
+        },
+        {
+          "file": "src/embedded/protofier.dart",
+          "sourceSha256": "e4f50353e28984c2c48ea04777c2a7d97b93ddd6836da805963e60608dbb2a59",
+          "line": 388,
+          "column": 22,
+          "source": "[var arg1, ...var rest]",
+          "headElements": 1,
+          "tailElements": 0,
+          "childKind": "DeclaredVariablePattern",
+          "extracts": true,
+          "sublistTarget": "dart:collection/list.dart#9662:METHOD:sublist"
+        },
+        {
+          "file": "src/extend/functions.dart",
+          "sourceSha256": "58d2963f43f2c7862f7959ed69fa2e4697e63e4ebe9ed6d4a448696ff32de7f6",
+          "line": 393,
+          "column": 18,
+          "source": "[var first, ...]",
+          "headElements": 1,
+          "tailElements": 0,
+          "childKind": null,
+          "extracts": false,
+          "sublistTarget": "dart:collection/list.dart#9662:METHOD:sublist"
+        },
+        {
+          "file": "src/extend/functions.dart",
+          "sourceSha256": "58d2963f43f2c7862f7959ed69fa2e4697e63e4ebe9ed6d4a448696ff32de7f6",
+          "line": 447,
+          "column": 5,
+          "source": "[..., var last]",
+          "headElements": 0,
+          "tailElements": 1,
+          "childKind": null,
+          "extracts": false,
+          "sublistTarget": "dart:collection/list.dart#9662:METHOD:sublist"
+        },
+        {
+          "file": "src/extend/functions.dart",
+          "sourceSha256": "58d2963f43f2c7862f7959ed69fa2e4697e63e4ebe9ed6d4a448696ff32de7f6",
+          "line": 451,
+          "column": 5,
+          "source": "[..., var last]",
+          "headElements": 0,
+          "tailElements": 1,
+          "childKind": null,
+          "extracts": false,
+          "sublistTarget": "dart:collection/list.dart#9662:METHOD:sublist"
+        },
+        {
+          "file": "src/functions/color.dart",
+          "sourceSha256": "14dd79d7d927f4a581e1ea5efa8927758f8ae7abe8f66c1bebf8834dbbb5d7bd",
+          "line": 1683,
+          "column": 10,
+          "source": "[SassString(:var text, hasQuotes: false), ...]",
+          "headElements": 1,
+          "tailElements": 0,
+          "childKind": null,
+          "extracts": false,
+          "sublistTarget": "dart:core/list.dart#27126:METHOD:sublist"
+        },
+        {
+          "file": "src/functions/color.dart",
+          "sourceSha256": "14dd79d7d927f4a581e1ea5efa8927758f8ae7abe8f66c1bebf8834dbbb5d7bd",
+          "line": 1690,
+          "column": 10,
+          "source": "[var first, ...var rest]",
+          "headElements": 1,
+          "tailElements": 0,
+          "childKind": "DeclaredVariablePattern",
+          "extracts": true,
+          "sublistTarget": "dart:core/list.dart#27126:METHOD:sublist"
+        },
+        {
+          "file": "src/functions/color.dart",
+          "sourceSha256": "14dd79d7d927f4a581e1ea5efa8927758f8ae7abe8f66c1bebf8834dbbb5d7bd",
+          "line": 1809,
+          "column": 7,
+          "source": "[...var initial, SassString(hasQuotes: false, :var text)]",
+          "headElements": 0,
+          "tailElements": 1,
+          "childKind": "DeclaredVariablePattern",
+          "extracts": true,
+          "sublistTarget": "dart:core/list.dart#27126:METHOD:sublist"
+        },
+        {
+          "file": "src/functions/color.dart",
+          "sourceSha256": "14dd79d7d927f4a581e1ea5efa8927758f8ae7abe8f66c1bebf8834dbbb5d7bd",
+          "line": 1821,
+          "column": 7,
+          "source": "[...var initial, SassNumber(asSlash: (var before, var after))]",
+          "headElements": 0,
+          "tailElements": 1,
+          "childKind": "DeclaredVariablePattern",
+          "extracts": true,
+          "sublistTarget": "dart:core/list.dart#27126:METHOD:sublist"
+        },
+        {
+          "file": "src/functions/map.dart",
+          "sourceSha256": "cc389174bf054bdbd0f441d0347b6a3888fc0a1937a5ed20ab7621ce782c2a2e",
+          "line": 65,
+          "column": 12,
+          "source": "[...var keys, var value]",
+          "headElements": 0,
+          "tailElements": 1,
+          "childKind": "DeclaredVariablePattern",
+          "extracts": true,
+          "sublistTarget": "dart:core/list.dart#27126:METHOD:sublist"
+        },
+        {
+          "file": "src/functions/map.dart",
+          "sourceSha256": "cc389174bf054bdbd0f441d0347b6a3888fc0a1937a5ed20ab7621ce782c2a2e",
+          "line": 94,
+          "column": 12,
+          "source": "[...var keys, var last]",
+          "headElements": 0,
+          "tailElements": 1,
+          "childKind": "DeclaredVariablePattern",
+          "extracts": true,
+          "sublistTarget": "dart:core/list.dart#27126:METHOD:sublist"
+        },
+        {
+          "file": "src/functions/selector.dart",
+          "sourceSha256": "d1389dfdebe621bbf49d81e53093ab97ca4550d3f1f3cdb9103fa29283272bdd",
+          "line": 82,
+          "column": 13,
+          "source": "[component, ...rest]",
+          "headElements": 1,
+          "tailElements": 0,
+          "childKind": "DeclaredVariablePattern",
+          "extracts": true,
+          "sublistTarget": "dart:core/list.dart#27126:METHOD:sublist"
+        },
+        {
+          "file": "src/functions/selector.dart",
+          "sourceSha256": "d1389dfdebe621bbf49d81e53093ab97ca4550d3f1f3cdb9103fa29283272bdd",
+          "line": 178,
+          "column": 5,
+          "source": "[UniversalSelector(), ...]",
+          "headElements": 1,
+          "tailElements": 0,
+          "childKind": null,
+          "extracts": false,
+          "sublistTarget": "dart:core/list.dart#27126:METHOD:sublist"
+        },
+        {
+          "file": "src/functions/selector.dart",
+          "sourceSha256": "d1389dfdebe621bbf49d81e53093ab97ca4550d3f1f3cdb9103fa29283272bdd",
+          "line": 179,
+          "column": 5,
+          "source": "[TypeSelector type, ...]",
+          "headElements": 1,
+          "tailElements": 0,
+          "childKind": null,
+          "extracts": false,
+          "sublistTarget": "dart:core/list.dart#27126:METHOD:sublist"
+        },
+        {
+          "file": "src/functions/selector.dart",
+          "sourceSha256": "d1389dfdebe621bbf49d81e53093ab97ca4550d3f1f3cdb9103fa29283272bdd",
+          "line": 180,
+          "column": 5,
+          "source": "[TypeSelector type, ...var rest]",
+          "headElements": 1,
+          "tailElements": 0,
+          "childKind": "DeclaredVariablePattern",
+          "extracts": true,
+          "sublistTarget": "dart:core/list.dart#27126:METHOD:sublist"
+        },
+        {
+          "file": "src/interpolation_buffer.dart",
+          "sourceSha256": "e1548c0706123e6b120e9a4feeb06daad626f074db25164792e6e828b5cc6986",
+          "line": 62,
+          "column": 37,
+          "source": "[String first, ...var rest]",
+          "headElements": 1,
+          "tailElements": 0,
+          "childKind": "DeclaredVariablePattern",
+          "extracts": true,
+          "sublistTarget": "dart:core/list.dart#27126:METHOD:sublist"
+        },
+        {
+          "file": "src/js/utils.dart",
+          "sourceSha256": "6548b5d0930d0bad60fa61e1befab7ff09fe246829ef88aae4777a8ef6088b33",
+          "line": 278,
+          "column": 32,
+          "source": "[_, String path, ...]",
+          "headElements": 2,
+          "tailElements": 0,
+          "childKind": null,
+          "extracts": false,
+          "sublistTarget": "dart:core/list.dart#27126:METHOD:sublist"
+        },
+        {
+          "file": "src/utils.dart",
+          "sourceSha256": "00b72f1d8befe8bd8567a9b53e733de79b030e9891509900376767480567c7f9",
+          "line": 58,
+          "column": 13,
+          "source": "[_, ...var rest]",
+          "headElements": 1,
+          "tailElements": 0,
+          "childKind": "DeclaredVariablePattern",
+          "extracts": true,
+          "sublistTarget": "dart:core/list.dart#27126:METHOD:sublist"
+        },
+        {
+          "file": "src/visitor/async_evaluate.dart",
+          "sourceSha256": "8cb247055ced430db6f5917f6063798ac97ddee7275dbc2a9479abdf203ff921",
+          "line": 1174,
+          "column": 23,
+          "source": "[var first, ...var rest]",
+          "headElements": 1,
+          "tailElements": 0,
+          "childKind": "DeclaredVariablePattern",
+          "extracts": true,
+          "sublistTarget": "dart:core/list.dart#27126:METHOD:sublist"
+        },
+        {
+          "file": "src/visitor/async_evaluate.dart",
+          "sourceSha256": "8cb247055ced430db6f5917f6063798ac97ddee7275dbc2a9479abdf203ff921",
+          "line": 2393,
+          "column": 20,
+          "source": "[\n                var first,\n                ...,\n              ]",
+          "headElements": 1,
+          "tailElements": 0,
+          "childKind": null,
+          "extracts": false,
+          "sublistTarget": "dart:core/list.dart#27126:METHOD:sublist"
+        },
+        {
+          "file": "src/visitor/async_evaluate.dart",
+          "sourceSha256": "8cb247055ced430db6f5917f6063798ac97ddee7275dbc2a9479abdf203ff921",
+          "line": 3252,
+          "column": 21,
+          "source": "[_, _, ...]",
+          "headElements": 2,
+          "tailElements": 0,
+          "childKind": null,
+          "extracts": false,
+          "sublistTarget": "dart:core/list.dart#27126:METHOD:sublist"
+        },
+        {
+          "file": "src/visitor/async_evaluate.dart",
+          "sourceSha256": "8cb247055ced430db6f5917f6063798ac97ddee7275dbc2a9479abdf203ff921",
+          "line": 4118,
+          "column": 31,
+          "source": "[..., var lastChild]",
+          "headElements": 0,
+          "tailElements": 1,
+          "childKind": null,
+          "extracts": false,
+          "sublistTarget": "dart:core/list.dart#27126:METHOD:sublist"
+        },
+        {
+          "file": "src/visitor/evaluate.dart",
+          "sourceSha256": "822951329588ac0bd53ec87d87b8f356adf2a9d60a8fc1f6f15569b585aa7d41",
+          "line": 1182,
+          "column": 23,
+          "source": "[var first, ...var rest]",
+          "headElements": 1,
+          "tailElements": 0,
+          "childKind": "DeclaredVariablePattern",
+          "extracts": true,
+          "sublistTarget": "dart:core/list.dart#27126:METHOD:sublist"
+        },
+        {
+          "file": "src/visitor/evaluate.dart",
+          "sourceSha256": "822951329588ac0bd53ec87d87b8f356adf2a9d60a8fc1f6f15569b585aa7d41",
+          "line": 2400,
+          "column": 20,
+          "source": "[\n                var first,\n                ...,\n              ]",
+          "headElements": 1,
+          "tailElements": 0,
+          "childKind": null,
+          "extracts": false,
+          "sublistTarget": "dart:core/list.dart#27126:METHOD:sublist"
+        },
+        {
+          "file": "src/visitor/evaluate.dart",
+          "sourceSha256": "822951329588ac0bd53ec87d87b8f356adf2a9d60a8fc1f6f15569b585aa7d41",
+          "line": 3253,
+          "column": 21,
+          "source": "[_, _, ...]",
+          "headElements": 2,
+          "tailElements": 0,
+          "childKind": null,
+          "extracts": false,
+          "sublistTarget": "dart:core/list.dart#27126:METHOD:sublist"
+        },
+        {
+          "file": "src/visitor/evaluate.dart",
+          "sourceSha256": "822951329588ac0bd53ec87d87b8f356adf2a9d60a8fc1f6f15569b585aa7d41",
+          "line": 4119,
+          "column": 31,
+          "source": "[..., var lastChild]",
+          "headElements": 0,
+          "tailElements": 1,
+          "childKind": null,
+          "extracts": false,
+          "sublistTarget": "dart:core/list.dart#27126:METHOD:sublist"
+        },
+        {
+          "file": "src/visitor/serialize.dart",
+          "sourceSha256": "e208e022be8fc35ab1131ba339d4324acc8a630bb0ed3f67f02c0244ae8069fc",
+          "line": 589,
+          "column": 39,
+          "source": "[var first, ...var rest]",
+          "headElements": 1,
+          "tailElements": 0,
+          "childKind": "DeclaredVariablePattern",
+          "extracts": true,
+          "sublistTarget": "dart:core/list.dart#27126:METHOD:sublist"
+        },
+        {
+          "file": "src/visitor/serialize.dart",
+          "sourceSha256": "e208e022be8fc35ab1131ba339d4324acc8a630bb0ed3f67f02c0244ae8069fc",
+          "line": 1604,
+          "column": 31,
+          "source": "[_, ...]",
+          "headElements": 1,
+          "tailElements": 0,
+          "childKind": null,
+          "extracts": false,
+          "sublistTarget": "dart:core/list.dart#27126:METHOD:sublist"
+        },
+        {
+          "file": "src/visitor/serialize.dart",
+          "sourceSha256": "e208e022be8fc35ab1131ba339d4324acc8a630bb0ed3f67f02c0244ae8069fc",
+          "line": 1605,
+          "column": 23,
+          "source": "[_, ...]",
+          "headElements": 1,
+          "tailElements": 0,
+          "childKind": null,
+          "extracts": false,
+          "sublistTarget": "dart:core/list.dart#27126:METHOD:sublist"
+        }
+      ],
+      "previousDefaultArguments": {
+        "adaptedCalls": 58,
+        "targetAdapters": 2372,
+        "externalTargetAdapters": 90,
+        "adapterLinks": 3904
+      },
+      "defaultArguments": {
+        "adaptedCalls": 68,
+        "targetAdapters": 2381,
+        "externalTargetAdapters": 99,
+        "adapterLinks": 3914
+      },
+      "previousMethods": 9581,
+      "methods": 9590,
+      "previousCalls": 87933,
+      "calls": 87942,
+      "addedAdapters": 9
+    },
+    {
+      "project": "shelf-1.4.2",
+      "category": "holdout",
+      "listPatterns": 0,
+      "restPatterns": 0,
+      "omittedEndExtractions": 0,
+      "explicitEndExtractions": 0,
+      "skippedRestPatterns": 0,
+      "observations": [],
+      "previousDefaultArguments": {
+        "adaptedCalls": 0,
+        "targetAdapters": 0,
+        "externalTargetAdapters": 0,
+        "adapterLinks": 0
+      },
+      "defaultArguments": {
+        "adaptedCalls": 0,
+        "targetAdapters": 0,
+        "externalTargetAdapters": 0,
+        "adapterLinks": 0
+      },
+      "previousMethods": 214,
+      "methods": 214,
+      "previousCalls": 1682,
+      "calls": 1682,
+      "addedAdapters": 0
+    },
+    {
+      "project": "yaml-3.1.3",
+      "category": "holdout",
+      "listPatterns": 0,
+      "restPatterns": 0,
+      "omittedEndExtractions": 0,
+      "explicitEndExtractions": 0,
+      "skippedRestPatterns": 0,
+      "observations": [],
+      "previousDefaultArguments": {
+        "adaptedCalls": 1,
+        "targetAdapters": 28,
+        "externalTargetAdapters": 5,
+        "adapterLinks": 28
+      },
+      "defaultArguments": {
+        "adaptedCalls": 1,
+        "targetAdapters": 28,
+        "externalTargetAdapters": 5,
+        "adapterLinks": 28
+      },
+      "previousMethods": 411,
+      "methods": 411,
+      "previousCalls": 5346,
+      "calls": 5346,
+      "addedAdapters": 0
+    }
+  ],
+  "totals": {
+    "listPatterns": 122,
+    "restPatterns": 39,
+    "omittedEndExtractions": 10,
+    "explicitEndExtractions": 6,
+    "skippedRestPatterns": 23,
+    "addedAdapters": 9
+  },
+  "limitations": [
+    "Native exporter metadata is unchanged; the independent census records source rest patterns, not executed calls.",
+    "The corpus contains no source rest-slice target with a nonnull default; the reduced fixture supplies this behavior.",
+    "Each adapter adds one method and one delegate call; body sharing means source extraction counts do not equal adapter counts.",
+    "External SDK calls remain conservative; implicit RangeError payloads, precise list storage, runtime receiver/type environments and complete pattern CFG/value-flow remain open.",
+    "Returned alternatives and limited negative searches do not establish exhaustive route or absence claims."
+  ]
+}

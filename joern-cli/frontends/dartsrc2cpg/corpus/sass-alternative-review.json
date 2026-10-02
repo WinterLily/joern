@@ -66,6 +66,10 @@
       "kind": "parameter binding",
       "meaning": "Reading the formal value within its method; this does not establish which invocation supplied it."
     },
+    "receiver-binding": {
+      "kind": "parameter binding",
+      "meaning": "Receiver argument zero to the target method receiver. The saved argument index and resolved callee were checked; allocation identity is not proved."
+    },
     "return-value": {
       "kind": "return",
       "meaning": "Displayed value to the method return expression; no claim about feasibility of all preceding transitions."
@@ -104,8 +108,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "5d91a08c4e2b4d47e123e1c664dc2ba15552afd24636dec2488bca49fb379858",
-        "files": 409,
+        "sha256": "87f52ad214fa9b743ef6333513ba3d760879f0aee4ce75fff1caa8b0517623e1",
+        "files": 410,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -743,7 +747,7 @@
             "reason": "The compiler trims the source string using computed bounds.",
             "branchConditions": "Stylesheet syntax selects Sass/SCSS/CSS parser. trimAscii returns empty if no non-whitespace exists. pluralize returns name for count one, supplied plural when nonnull, otherwise appends s. Compilation forwarding does not prove evaluation."
           },
-          "refreshDisposition": "Fresh four-witness stock and modeled 28-node variants retain _firstNonWhitespace readonly argument output, then _lastNonWhitespace string.length -> i -> codeUnitAt index -> return i+1. The output-marked call return flows through null assertion and end+1 into substring end slot 2, then either receiver slot 0 or start slot 1 before the conditional return. This is the selected escape-end return branch; both helper invocation identities, hidden arithmetic/condition evidence and all output/visibility flags remain explicit. Field/storage demands are empty. External length/codeUnitAt/substring and readonly/cross-argument effects do not establish mutation of immutable String or character provenance; the native oracle exercises ASCII/escape boundaries but does not certify this detour, index values or empty-branch feasibility. No causal claim ties selections to pattern receiver constraints."
+          "refreshDisposition": "Fresh four-witness stock and modeled 28-node selections retain _firstNonWhitespace readonly String receiver length/codeUnitAt uses and unchanged parameter output, then _lastNonWhitespace length -> i -> codeUnitAt index -> comparison -> i + 1 -> return. Alternatives select hidden i != 0 or i != string.length - 1 nodes. The returned index supplies substring end slot 2, then start slot 1 and String receiver slot 0 before the conditional result. Exact edge labels, hidden comparison/arithmetic nodes, output flags and frames remain; field/storage demands are empty. These readonly/output, bound/receiver and conditional approximations do not establish actual trim bounds, branch feasibility or String mutation. The pure trim native control qualifies observed output rather than this detour, and no causal claim ties these selections to rest omission."
         },
         {
           "id": "trim-scan-input",
@@ -1120,7 +1124,8 @@
             "branchConditions": "Stylesheet syntax selects Sass/SCSS/CSS parser. trimAscii returns empty if no non-whitespace exists. pluralize returns name for count one, supplied plural when nonnull, otherwise appends s. Compilation forwarding does not prove evaluation.",
             "issue": "DART-FLOW-001",
             "owner": "shared dataflow query engine / Dart library models"
-          }
+          },
+          "refreshDisposition": "Fresh four-witness stock 45/44-node routes begin at indent string in its captured caller frame, then split -> map receiver -> join -> return. An output-marked indent call returns into bulletedList callback addition/switch/return, followed by an output-marked callback METHOD_REF -> map receiver and callback parameter re-entry -> element.split -> lines -> saved switch receiver -> type/length/rest reads. The omitted-end rest call now binds receiver slot 0 to the new shared default adapter p0, enters p0.sublist(p1, null) with its external List target and returns through the adapter to the output-marked original rest call. The cached extraction binds rest, then rest.join -> indent string -> split/map/join result. This explicitly supplies the SDK null default only inside the adapter; start remains an input parameter. One variant changes the switch outEdgeLabel from empty to its exact source expression. Shorter variants omit the saved switch temporary with a hidden receiver, or omit the length receiver detour. Exact edge labels, slots, frames and visibility/output flags are retained; field/storage demands are empty. External slice/string/collection receivers, callback registration/re-entry and whole-collection effects are conservative; they do not qualify actual callback delivery, element identity, branch feasibility, storage aliases or invocation order. The native pure indent control does not execute this bulletedList callback path. The added adapter is caused by rest omission; no claim attributes every ranking difference to that change."
         },
         {
           "id": "plural-count-not-name-control",
@@ -1970,6 +1975,44 @@
             ]
           ]
         },
+        "111669163533": {
+          "label": "METHOD_PARAMETER_IN",
+          "method": "src/utils.dart:<global>:<defaults:1945:dart:core/list.dart#27126:METHOD:sublist:dart:core/list.dart#27126:METHOD:sublist>",
+          "code": "p0",
+          "line": -1,
+          "parameterIndex": 0
+        },
+        "68719555308": {
+          "label": "IDENTIFIER",
+          "method": "src/utils.dart:<global>:<defaults:1945:dart:core/list.dart#27126:METHOD:sublist:dart:core/list.dart#27126:METHOD:sublist>",
+          "code": "p0",
+          "line": -1,
+          "argumentsOf": [
+            [
+              "30064858578",
+              0
+            ]
+          ]
+        },
+        "30064858578": {
+          "label": "CALL",
+          "method": "src/utils.dart:<global>:<defaults:1945:dart:core/list.dart#27126:METHOD:sublist:dart:core/list.dart#27126:METHOD:sublist>",
+          "code": "p0.sublist(p1, null)",
+          "line": -1,
+          "call": "30064858578"
+        },
+        "141733929706": {
+          "label": "RETURN",
+          "method": "src/utils.dart:<global>:<defaults:1945:dart:core/list.dart#27126:METHOD:sublist:dart:core/list.dart#27126:METHOD:sublist>",
+          "code": "return p0.sublist(p1, null)",
+          "line": -1
+        },
+        "124554061161": {
+          "label": "METHOD_RETURN",
+          "method": "src/utils.dart:<global>:<defaults:1945:dart:core/list.dart#27126:METHOD:sublist:dart:core/list.dart#27126:METHOD:sublist>",
+          "code": "RET",
+          "line": -1
+        },
         "30064827070": {
           "label": "CALL",
           "method": "package:sass/src/utils.dart#2022:FUNCTION:null",
@@ -1980,18 +2023,6 @@
             [
               "30064827069",
               2
-            ]
-          ]
-        },
-        "68719526093": {
-          "label": "IDENTIFIER",
-          "method": "package:sass/src/utils.dart#2022:FUNCTION:null",
-          "code": "<pattern>15",
-          "line": 58,
-          "argumentsOf": [
-            [
-              "30064827069",
-              1
             ]
           ]
         },
@@ -2662,6 +2693,22 @@
           "code": "...var rest",
           "callees": [
             {
+              "fullName": "src/utils.dart:<global>:<defaults:1945:dart:core/list.dart#27126:METHOD:sublist:dart:core/list.dart#27126:METHOD:sublist>",
+              "external": false
+            }
+          ]
+        },
+        "30064858578": {
+          "nodeId": "30064858578",
+          "name": "sublist",
+          "target": "dart:core/list.dart#27126:METHOD:sublist",
+          "code": "p0.sublist(p1, null)",
+          "callees": [
+            {
+              "fullName": "dart:core/list.dart#27126:METHOD:sublist",
+              "external": true
+            },
+            {
               "fullName": "dart:core/list.dart#27126:METHOD:sublist",
               "external": true
             }
@@ -2868,6 +2915,9 @@
         ],
         [
           "30064827074"
+        ],
+        [
+          "30064827070"
         ],
         [
           "30064841940"
@@ -3652,520 +3702,6 @@
               []
             ],
             [
-              "68719525636",
-              4,
-              false,
-              false,
-              "i",
-              []
-            ],
-            [
-              "30064826614",
-              4,
-              true,
-              false,
-              "i + 1",
-              []
-            ],
-            [
-              "141733925858",
-              4,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "124554056731",
-              0,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "30064826577",
-              0,
-              false,
-              true,
-              "_lastNonWhitespace(string, excludeEscape: excludeEscape)",
-              []
-            ],
-            [
-              "30064826576",
-              0,
-              false,
-              false,
-              "_lastNonWhitespace(string, excludeEscape: excludeEscape)!",
-              []
-            ],
-            [
-              "30064826575",
-              0,
-              true,
-              false,
-              "_lastNonWhitespace(string, excludeEscape: excludeEscape)! + 1",
-              []
-            ],
-            [
-              "68719525600",
-              0,
-              true,
-              false,
-              "string",
-              []
-            ],
-            [
-              "30064826574",
-              0,
-              false,
-              false,
-              "string.substring(\n          start,\n          _lastNonWhitespace(string, excludeEscape: excludeEscape)! + 1,\n        )",
-              []
-            ],
-            [
-              "30064826572",
-              0,
-              true,
-              false,
-              "start == null\n      ? \"\"\n      : string.substring(\n          start,\n          _lastNonWhitespace(string, excludeEscape: excludeEscape)! + 1,\n        )",
-              []
-            ],
-            [
-              "141733925853",
-              0,
-              true,
-              false,
-              "",
-              []
-            ]
-          ],
-          "transitions": [
-            "parameter-read",
-            "parameter-binding",
-            "parameter-read",
-            "local-read",
-            "parameter-output",
-            "caller-output",
-            "local-read",
-            "parameter-binding",
-            "parameter-read",
-            "external-return",
-            "operator-value",
-            "assignment",
-            "local-read",
-            "local-read",
-            "local-read",
-            "local-read",
-            "local-read",
-            "operator-value",
-            "return-value",
-            "method-return",
-            "call-return",
-            "operator-value",
-            "operator-value",
-            "external-write",
-            "external-return",
-            "selection",
-            "return-value"
-          ]
-        },
-        {
-          "elements": [
-            [
-              "111669157158",
-              0,
-              true,
-              false,
-              "string",
-              []
-            ],
-            [
-              "68719525598",
-              0,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "111669157163",
-              3,
-              true,
-              false,
-              "string",
-              []
-            ],
-            [
-              "68719525617",
-              3,
-              true,
-              false,
-              "string",
-              []
-            ],
-            [
-              "68719525619",
-              3,
-              true,
-              false,
-              "string",
-              []
-            ],
-            [
-              "115964124459",
-              3,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "68719525598",
-              0,
-              true,
-              true,
-              "string",
-              []
-            ],
-            [
-              "68719525602",
-              0,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "111669157164",
-              4,
-              true,
-              false,
-              "string",
-              []
-            ],
-            [
-              "68719525623",
-              4,
-              true,
-              false,
-              "string",
-              []
-            ],
-            [
-              "30064826598",
-              4,
-              false,
-              false,
-              "string.length",
-              []
-            ],
-            [
-              "30064826597",
-              4,
-              true,
-              false,
-              "string.length - 1",
-              []
-            ],
-            [
-              "68719525622",
-              4,
-              true,
-              false,
-              "i",
-              []
-            ],
-            [
-              "68719525624",
-              4,
-              false,
-              false,
-              "i",
-              []
-            ],
-            [
-              "68719525628",
-              4,
-              true,
-              false,
-              "i",
-              []
-            ],
-            [
-              "68719525631",
-              4,
-              false,
-              false,
-              "i",
-              []
-            ],
-            [
-              "68719525632",
-              4,
-              false,
-              false,
-              "i",
-              []
-            ],
-            [
-              "68719525636",
-              4,
-              false,
-              false,
-              "i",
-              []
-            ],
-            [
-              "30064826614",
-              4,
-              true,
-              false,
-              "i + 1",
-              []
-            ],
-            [
-              "141733925858",
-              4,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "124554056731",
-              0,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "30064826577",
-              0,
-              false,
-              true,
-              "_lastNonWhitespace(string, excludeEscape: excludeEscape)",
-              []
-            ],
-            [
-              "30064826576",
-              0,
-              false,
-              false,
-              "_lastNonWhitespace(string, excludeEscape: excludeEscape)!",
-              []
-            ],
-            [
-              "30064826575",
-              0,
-              true,
-              false,
-              "_lastNonWhitespace(string, excludeEscape: excludeEscape)! + 1",
-              []
-            ],
-            [
-              "68719525601",
-              0,
-              true,
-              false,
-              "start",
-              []
-            ],
-            [
-              "30064826574",
-              0,
-              false,
-              false,
-              "string.substring(\n          start,\n          _lastNonWhitespace(string, excludeEscape: excludeEscape)! + 1,\n        )",
-              []
-            ],
-            [
-              "30064826572",
-              0,
-              true,
-              false,
-              "start == null\n      ? \"\"\n      : string.substring(\n          start,\n          _lastNonWhitespace(string, excludeEscape: excludeEscape)! + 1,\n        )",
-              []
-            ],
-            [
-              "141733925853",
-              0,
-              true,
-              false,
-              "",
-              []
-            ]
-          ],
-          "transitions": [
-            "parameter-read",
-            "parameter-binding",
-            "parameter-read",
-            "local-read",
-            "parameter-output",
-            "caller-output",
-            "local-read",
-            "parameter-binding",
-            "parameter-read",
-            "external-return",
-            "operator-value",
-            "assignment",
-            "local-read",
-            "local-read",
-            "local-read",
-            "local-read",
-            "local-read",
-            "operator-value",
-            "return-value",
-            "method-return",
-            "call-return",
-            "operator-value",
-            "operator-value",
-            "external-write",
-            "external-return",
-            "selection",
-            "return-value"
-          ]
-        },
-        {
-          "elements": [
-            [
-              "111669157158",
-              0,
-              true,
-              false,
-              "string",
-              []
-            ],
-            [
-              "68719525598",
-              0,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "111669157163",
-              3,
-              true,
-              false,
-              "string",
-              []
-            ],
-            [
-              "68719525617",
-              3,
-              true,
-              false,
-              "string",
-              []
-            ],
-            [
-              "68719525619",
-              3,
-              true,
-              false,
-              "string",
-              []
-            ],
-            [
-              "115964124459",
-              3,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "68719525598",
-              0,
-              true,
-              true,
-              "string",
-              []
-            ],
-            [
-              "68719525602",
-              0,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "111669157164",
-              4,
-              true,
-              false,
-              "string",
-              []
-            ],
-            [
-              "68719525623",
-              4,
-              true,
-              false,
-              "string",
-              []
-            ],
-            [
-              "30064826598",
-              4,
-              false,
-              false,
-              "string.length",
-              []
-            ],
-            [
-              "30064826597",
-              4,
-              true,
-              false,
-              "string.length - 1",
-              []
-            ],
-            [
-              "68719525622",
-              4,
-              true,
-              false,
-              "i",
-              []
-            ],
-            [
-              "68719525624",
-              4,
-              false,
-              false,
-              "i",
-              []
-            ],
-            [
-              "68719525628",
-              4,
-              true,
-              false,
-              "i",
-              []
-            ],
-            [
-              "68719525631",
-              4,
-              false,
-              false,
-              "i",
-              []
-            ],
-            [
-              "68719525632",
-              4,
-              false,
-              false,
-              "i",
-              []
-            ],
-            [
               "68719525637",
               4,
               true,
@@ -4272,6 +3808,520 @@
             "local-read",
             "local-read",
             "local-read",
+            "return-value",
+            "method-return",
+            "call-return",
+            "operator-value",
+            "operator-value",
+            "external-write",
+            "external-write",
+            "external-return",
+            "selection",
+            "return-value"
+          ]
+        },
+        {
+          "elements": [
+            [
+              "111669157158",
+              0,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "68719525598",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "111669157163",
+              3,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "68719525617",
+              3,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "68719525619",
+              3,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "115964124459",
+              3,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "68719525598",
+              0,
+              true,
+              true,
+              "string",
+              []
+            ],
+            [
+              "68719525602",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "111669157164",
+              4,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "68719525623",
+              4,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "30064826598",
+              4,
+              false,
+              false,
+              "string.length",
+              []
+            ],
+            [
+              "30064826597",
+              4,
+              true,
+              false,
+              "string.length - 1",
+              []
+            ],
+            [
+              "68719525622",
+              4,
+              true,
+              false,
+              "i",
+              []
+            ],
+            [
+              "68719525624",
+              4,
+              false,
+              false,
+              "i",
+              []
+            ],
+            [
+              "68719525628",
+              4,
+              true,
+              false,
+              "i",
+              []
+            ],
+            [
+              "68719525631",
+              4,
+              false,
+              false,
+              "i",
+              []
+            ],
+            [
+              "68719525636",
+              4,
+              false,
+              false,
+              "i",
+              []
+            ],
+            [
+              "30064826614",
+              4,
+              true,
+              false,
+              "i + 1",
+              []
+            ],
+            [
+              "141733925858",
+              4,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "124554056731",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "30064826577",
+              0,
+              false,
+              true,
+              "_lastNonWhitespace(string, excludeEscape: excludeEscape)",
+              []
+            ],
+            [
+              "30064826576",
+              0,
+              false,
+              false,
+              "_lastNonWhitespace(string, excludeEscape: excludeEscape)!",
+              []
+            ],
+            [
+              "30064826575",
+              0,
+              true,
+              false,
+              "_lastNonWhitespace(string, excludeEscape: excludeEscape)! + 1",
+              []
+            ],
+            [
+              "68719525601",
+              0,
+              true,
+              false,
+              "start",
+              []
+            ],
+            [
+              "68719525600",
+              0,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "30064826574",
+              0,
+              false,
+              false,
+              "string.substring(\n          start,\n          _lastNonWhitespace(string, excludeEscape: excludeEscape)! + 1,\n        )",
+              []
+            ],
+            [
+              "30064826572",
+              0,
+              true,
+              false,
+              "start == null\n      ? \"\"\n      : string.substring(\n          start,\n          _lastNonWhitespace(string, excludeEscape: excludeEscape)! + 1,\n        )",
+              []
+            ],
+            [
+              "141733925853",
+              0,
+              true,
+              false,
+              "",
+              []
+            ]
+          ],
+          "transitions": [
+            "parameter-read",
+            "parameter-binding",
+            "parameter-read",
+            "local-read",
+            "parameter-output",
+            "caller-output",
+            "local-read",
+            "parameter-binding",
+            "parameter-read",
+            "external-return",
+            "operator-value",
+            "assignment",
+            "local-read",
+            "local-read",
+            "local-read",
+            "local-read",
+            "operator-value",
+            "return-value",
+            "method-return",
+            "call-return",
+            "operator-value",
+            "operator-value",
+            "external-write",
+            "external-write",
+            "external-return",
+            "selection",
+            "return-value"
+          ]
+        },
+        {
+          "elements": [
+            [
+              "111669157158",
+              0,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "68719525598",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "111669157163",
+              3,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "68719525617",
+              3,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "68719525619",
+              3,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "115964124459",
+              3,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "68719525598",
+              0,
+              true,
+              true,
+              "string",
+              []
+            ],
+            [
+              "68719525602",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "111669157164",
+              4,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "68719525623",
+              4,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "30064826598",
+              4,
+              false,
+              false,
+              "string.length",
+              []
+            ],
+            [
+              "30064826597",
+              4,
+              true,
+              false,
+              "string.length - 1",
+              []
+            ],
+            [
+              "68719525622",
+              4,
+              true,
+              false,
+              "i",
+              []
+            ],
+            [
+              "68719525624",
+              4,
+              false,
+              false,
+              "i",
+              []
+            ],
+            [
+              "68719525628",
+              4,
+              true,
+              false,
+              "i",
+              []
+            ],
+            [
+              "68719525632",
+              4,
+              false,
+              false,
+              "i",
+              []
+            ],
+            [
+              "68719525636",
+              4,
+              false,
+              false,
+              "i",
+              []
+            ],
+            [
+              "30064826614",
+              4,
+              true,
+              false,
+              "i + 1",
+              []
+            ],
+            [
+              "141733925858",
+              4,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "124554056731",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "30064826577",
+              0,
+              false,
+              true,
+              "_lastNonWhitespace(string, excludeEscape: excludeEscape)",
+              []
+            ],
+            [
+              "30064826576",
+              0,
+              false,
+              false,
+              "_lastNonWhitespace(string, excludeEscape: excludeEscape)!",
+              []
+            ],
+            [
+              "30064826575",
+              0,
+              true,
+              false,
+              "_lastNonWhitespace(string, excludeEscape: excludeEscape)! + 1",
+              []
+            ],
+            [
+              "68719525601",
+              0,
+              true,
+              false,
+              "start",
+              []
+            ],
+            [
+              "68719525600",
+              0,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "30064826574",
+              0,
+              false,
+              false,
+              "string.substring(\n          start,\n          _lastNonWhitespace(string, excludeEscape: excludeEscape)! + 1,\n        )",
+              []
+            ],
+            [
+              "30064826572",
+              0,
+              true,
+              false,
+              "start == null\n      ? \"\"\n      : string.substring(\n          start,\n          _lastNonWhitespace(string, excludeEscape: excludeEscape)! + 1,\n        )",
+              []
+            ],
+            [
+              "141733925853",
+              0,
+              true,
+              false,
+              "",
+              []
+            ]
+          ],
+          "transitions": [
+            "parameter-read",
+            "parameter-binding",
+            "parameter-read",
+            "local-read",
+            "parameter-output",
+            "caller-output",
+            "local-read",
+            "parameter-binding",
+            "parameter-read",
+            "external-return",
+            "operator-value",
+            "assignment",
+            "local-read",
+            "local-read",
+            "local-read",
+            "local-read",
+            "operator-value",
             "return-value",
             "method-return",
             "call-return",
@@ -4563,23 +4613,55 @@
               0,
               true,
               false,
-              "<tmp>13",
+              "",
+              []
+            ],
+            [
+              "111669163533",
+              6,
+              true,
+              false,
+              "p0",
+              []
+            ],
+            [
+              "68719555308",
+              6,
+              true,
+              false,
+              "p0",
+              []
+            ],
+            [
+              "30064858578",
+              6,
+              true,
+              false,
+              "p0.sublist(p1, null)",
+              []
+            ],
+            [
+              "141733929706",
+              6,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "124554061161",
+              0,
+              true,
+              false,
+              "",
               []
             ],
             [
               "30064827070",
               0,
-              true,
               false,
+              true,
               "...var rest",
-              []
-            ],
-            [
-              "68719526093",
-              0,
-              true,
-              false,
-              "<pattern>15",
               []
             ],
             [
@@ -4706,8 +4788,12 @@
             "local-read",
             "local-read",
             "local-read",
+            "receiver-binding",
+            "parameter-read",
             "external-return",
-            "assignment",
+            "return-value",
+            "method-return",
+            "call-return",
             "block-result",
             "assignment",
             "local-read",
@@ -4937,23 +5023,55 @@
               0,
               true,
               false,
-              "<tmp>13",
+              "",
+              []
+            ],
+            [
+              "111669163533",
+              6,
+              true,
+              false,
+              "p0",
+              []
+            ],
+            [
+              "68719555308",
+              6,
+              true,
+              false,
+              "p0",
+              []
+            ],
+            [
+              "30064858578",
+              6,
+              true,
+              false,
+              "p0.sublist(p1, null)",
+              []
+            ],
+            [
+              "141733929706",
+              6,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "124554061161",
+              0,
+              true,
+              false,
+              "",
               []
             ],
             [
               "30064827070",
               0,
-              true,
               false,
+              true,
               "...var rest",
-              []
-            ],
-            [
-              "68719526093",
-              0,
-              true,
-              false,
-              "<pattern>15",
               []
             ],
             [
@@ -5080,8 +5198,12 @@
             "local-read",
             "local-read",
             "local-read",
+            "receiver-binding",
+            "parameter-read",
             "external-return",
-            "assignment",
+            "return-value",
+            "method-return",
+            "call-return",
             "block-result",
             "assignment",
             "local-read",
@@ -5303,23 +5425,55 @@
               0,
               true,
               false,
-              "<tmp>13",
+              "",
+              []
+            ],
+            [
+              "111669163533",
+              6,
+              true,
+              false,
+              "p0",
+              []
+            ],
+            [
+              "68719555308",
+              6,
+              true,
+              false,
+              "p0",
+              []
+            ],
+            [
+              "30064858578",
+              6,
+              true,
+              false,
+              "p0.sublist(p1, null)",
+              []
+            ],
+            [
+              "141733929706",
+              6,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "124554061161",
+              0,
+              true,
+              false,
+              "",
               []
             ],
             [
               "30064827070",
               0,
-              true,
               false,
+              true,
               "...var rest",
-              []
-            ],
-            [
-              "68719526093",
-              0,
-              true,
-              false,
-              "<pattern>15",
               []
             ],
             [
@@ -5445,8 +5599,12 @@
             "alias",
             "local-read",
             "local-read",
+            "receiver-binding",
+            "parameter-read",
             "external-return",
-            "assignment",
+            "return-value",
+            "method-return",
+            "call-return",
             "block-result",
             "assignment",
             "local-read",
@@ -5664,26 +5822,58 @@
               []
             ],
             [
-              "68719526089",
-              0,
-              true,
-              false,
-              "<tmp>13",
-              []
-            ],
-            [
               "68719526094",
               0,
               true,
               false,
-              "<tmp>13",
+              "",
+              []
+            ],
+            [
+              "111669163533",
+              6,
+              true,
+              false,
+              "p0",
+              []
+            ],
+            [
+              "68719555308",
+              6,
+              true,
+              false,
+              "p0",
+              []
+            ],
+            [
+              "30064858578",
+              6,
+              true,
+              false,
+              "p0.sublist(p1, null)",
+              []
+            ],
+            [
+              "141733929706",
+              6,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "124554061161",
+              0,
+              true,
+              false,
+              "",
               []
             ],
             [
               "30064827070",
               0,
               false,
-              false,
+              true,
               "...var rest",
               []
             ],
@@ -5810,8 +6000,12 @@
             "assignment",
             "local-read",
             "local-read",
-            "local-read",
+            "receiver-binding",
+            "parameter-read",
             "external-return",
+            "return-value",
+            "method-return",
+            "call-return",
             "block-result",
             "assignment",
             "local-read",
@@ -5943,7 +6137,7 @@
           "elements": [
             [
               "111669157152",
-              6,
+              7,
               true,
               false,
               "number",
@@ -5951,7 +6145,7 @@
             ],
             [
               "68719525567",
-              6,
+              7,
               true,
               false,
               "number",
@@ -5959,7 +6153,7 @@
             ],
             [
               "115964124448",
-              6,
+              7,
               true,
               false,
               "",
@@ -6002,7 +6196,7 @@
           "elements": [
             [
               "111669157152",
-              7,
+              8,
               true,
               false,
               "number",
@@ -6010,7 +6204,7 @@
             ],
             [
               "68719525567",
-              7,
+              8,
               true,
               false,
               "number",
@@ -6018,7 +6212,7 @@
             ],
             [
               "115964124448",
-              7,
+              8,
               true,
               false,
               "",
@@ -6061,7 +6255,7 @@
           "elements": [
             [
               "111669157152",
-              8,
+              9,
               true,
               false,
               "number",
@@ -6069,7 +6263,7 @@
             ],
             [
               "68719525567",
-              8,
+              9,
               true,
               false,
               "number",
@@ -6077,7 +6271,7 @@
             ],
             [
               "115964124448",
-              8,
+              9,
               true,
               false,
               "",
@@ -6120,7 +6314,7 @@
           "elements": [
             [
               "111669157152",
-              9,
+              10,
               true,
               false,
               "number",
@@ -6128,7 +6322,7 @@
             ],
             [
               "68719525567",
-              9,
+              10,
               true,
               false,
               "number",
@@ -6136,7 +6330,7 @@
             ],
             [
               "115964124448",
-              9,
+              10,
               true,
               false,
               "",
@@ -6226,7 +6420,7 @@
   ],
   "representation": "Node/call IDs and context/path indices are project-local. transitions[i] classifies elements[i] to elements[i+1]. All retained demand sets in this review are empty. Equivalent stock/modeled paths are shared; full path flags and selected caller contexts are preserved.",
   "reviewMethod": "Each selected displayed route was read against its pinned source expectation. Formal argument positions, resolved return targets and available selected frames were checked. Argument-output return evidence already in a caller frame has a separate category. This is a mechanism/approximation review, not branch feasibility, general scheduling or heap qualification.",
-  "analysisBaseCommit": "53e2352f6",
+  "analysisBaseCommit": "33c4e802b",
   "limitations": [
     "Only these eleven Sass query families and their returned bounded paths are reviewed; other corpus alternatives and larger searches remain pending.",
     "An endpoint identity is recorded separately from independent forwarding; conservative argument outputs, aggregate projections and external effects do not prove mutation, allocation identity, callback delivery or branch feasibility.",
@@ -6236,14 +6430,14 @@
     "queries": 11,
     "selectedPaths": 41,
     "distinctPaths": 23,
-    "distinctTransitions": 330
+    "distinctTransitions": 346
   },
   "refresh": {
-    "previousBaseCommit": "53e2352f6",
+    "previousBaseCommit": "33c4e802b",
     "previousAnalysisSources": {
       "algorithm": "sha256-path-nul-content-nul",
-      "sha256": "c860f38644b091fcd88fc4f962d7efeac3085766620c43f34ed22dcaeb326c52",
-      "files": 408,
+      "sha256": "5d91a08c4e2b4d47e123e1c664dc2ba15552afd24636dec2488bca49fb379858",
+      "files": 409,
       "roots": [
         "joern-cli/frontends/dartsrc2cpg/src",
         "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -6269,7 +6463,7 @@
       "distinctPaths": 23,
       "distinctTransitions": 330
     },
-    "method": "Replayed after retaining list-pattern element and slice static types and instantiated element erasures, preserving per-use cached result views and original generic declaration identities. Unchanged routes are matched against previous two/four-witness reviewed paths after removing node IDs only; all other node/call/context/flag/demand facts are retained. Changed variants have separate source-grounded refresh dispositions and checked argument/return/output bindings. All new graph IDs are reconstructed from fresh raw audits. Native observations do not certify caller re-entry, allocation, heap/dispatch precision or route feasibility."
+    "method": "Replayed after omitting the end argument on list-pattern rest calls without tail elements, enabling per-target default adapters while retaining explicit computed ends for tail patterns. Unchanged routes are matched against previous two/four-witness reviewed paths after removing node IDs only; all other node/call/context/flag/demand facts are retained. Changed variants have separate source-grounded refresh dispositions and checked argument/return/output bindings. All new graph IDs are reconstructed from fresh raw audits. Native observations do not certify caller re-entry, allocation, heap/dispatch precision or route feasibility."
   },
   "nativeRefreshScope": "Existing native oracle contracts remain unchanged."
 }

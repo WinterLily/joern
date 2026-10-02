@@ -621,3 +621,11 @@ Known extension-wrapper element erasures survive saved/cached extraction and
 nested list patterns. Cached uses keep their own static views; this does not
 qualify runtime type environments, representation storage aliases or complete
 pattern CFG/payload effects.
+
+List rest extraction omits the slice end argument when no elements follow the
+rest pattern. Per-target adapters then supply the selected implementation's
+default. Tail patterns pass their computed end, and explicit null remains a
+supplied argument. Native and graph controls cover differing override defaults,
+shared adapters, cached getter-once alternatives, skipped wildcards and a
+short-list RangeError. Complete implicit exception payloads and runtime receiver
+qualification remain open.

@@ -2278,6 +2278,80 @@ confirm that omission matters. Map index results still retain a declaration's
 scoped V instead of its instantiated type. A broad Contract object pattern over
 known Store also widens accessor lookup to unrelated OtherStore because its
 required receiver tag replaces the narrower static constraint. These remain
-open implementation obligations. Full pattern CFG/payload effects, runtime
+open implementation obligations at that checkpoint; rest omission is addressed
+below. Full pattern CFG/payload effects, runtime
 generic environments, representation storage aliasing, structured/function
 results, omitted alternatives and limited negative searches remain unqualified.
+
+## Rest-pattern slice defaults
+
+Rest extraction now omits the end argument when no elements follow the rest
+pattern. The old lowering supplied null even when an override's default was 2,
+retaining all items instead of the two returned by the VM. Existing per-target
+adapters now supply each implementation's default. Computed tail ends and
+explicit null stay supplied; shared adapter bodies retain distinct start inputs.
+Five native controls cover independent receivers, defaults 2/1, ordinary List,
+head/tail extraction, cached guard alternatives, skipped wildcards and short-list
+RangeError. The old lowering fails the new graph regression. Native exporter
+metadata and version 0.3.25 are unchanged.
+
+The native suite passes 153 tests with all opt-ins, Dart analysis reports no
+issues, and the forced frontend suite passes 172 tests across twenty suites
+with eight opt-in cancellations. All seven packages, three applications and
+two holdout projects pass, alongside four staged CLI and fourteen console checks.
+All twelve graphs share analysis-source SHA-256
+`87f52ad214fa9b743ef6333513ba3d760879f0aee4ce75fff1caa8b0517623e1`
+over 410 files. Fresh storage/local-exit checks retain six paths/123 transitions
+and eleven paths/199 transitions; formatting and compilation pass.
+
+An independent source-pinned census retains 122 list patterns and 39 rest
+patterns. All rests are in Sass: ten extractions omit end, six supply a tail end,
+and 23 bare rests skip extraction. Sass gains nine shared external SDK adapters,
+nine methods and nine delegate calls for ten newly adapted source calls/links.
+The other eleven graphs' counts and default-adapter observations are unchanged.
+The [rest default review](rest-pattern-default-review.json) records each graph's
+before/after counts, source observations and pinned specification/SDK declarations.
+Corpus slice targets have implicit null defaults; the reduced overrides supply
+the nonnull-default behavior evidence. Source extraction counts do not identify
+actual calls, elements or storage instances.
+
+Two-witness/two-round audits complete in 199184/48278/32177 ms for packages,
+applications and holdout, with sampled family RSS 6327268/4898920/1914384 KiB.
+Four-witness/two-round audits complete in 389278/51297/34187 ms, with RSS
+6617488/5075404/2476392 KiB. Every category passes its 600000 ms budget with
+8 GiB/four-processor workers. RSS is a once-per-second process-family sample.
+
+Fresh four-witness reviews retain 248 selected paths, 148 distinct routes and
+2,588 transitions across eighty queries. Stock/model endpoint outcomes remain
+78/80 and 80/80, with 120/131 and 109/117 visible/detailed paths, 42/41 limited
+queries and seven/eight inconclusive negatives. Two-witness summaries retain
+86/89 and 81/83 paths with 43/42 limited queries. Forwarding retains nineteen
+distinct paths/623 transitions, Sass 23/346 and package flows 41/1,071. MediaType
+retains two paths/six transitions. Both summaries reproduce byte-for-byte, and
+all 87 review rejection controls pass. The matrix links ninety named tests;
+six matrix tests/sixteen rejection controls, thirteen source-index rejection
+controls, full cached source verification and two upstream-case tests/nine
+rejection controls pass.
+
+Twenty-four changed selections have separate source-grounded dispositions.
+Sass indent routes now enter the new slice default adapter, with receiver-slot
+binding, an external delegate supplying null, adapter return and cached rest
+binding. Callback/caller re-entry and whole-collection effects remain conservative;
+the pure indent oracle does not execute this bulletedList callback route. Shorter
+routes omit a saved switch receiver or length detour, and another retains a
+different switch edge label. Trim routes retain readonly parameter output and
+substring bound/receiver detours. Path routes re-enter normalize through relative
+and select the URL rootLength body while retaining all style candidates. HTTP
+copy order is receiver 0 -> cursor 1 -> skipCount 4 -> computed end 2 -> bytes 3;
+buffer order is 3 -> 1 -> 4 -> 2 -> 0, with footer bounds 1 -> 2 -> 0.
+Two-witness buffer re-entry selects end then bytes; four-witness selects bytes
+twice. Allocation/CR/LF alias omissions, hidden receivers, initial add/addSlice
+frames and output flags remain explicit. These dispositions do not establish
+actual receivers, callback delivery, invocation order, branch feasibility,
+allocation identity or precise byte/element provenance.
+
+Map index result instantiation and intersecting known/required object-pattern
+receiver constraints remain implementation obligations. Complete pattern CFG and
+implicit exception payloads, runtime receiver/generic environments, heap/alias
+effects, omitted alternatives and limited negative searches remain unqualified.
+All Gates 1–6 remain open.

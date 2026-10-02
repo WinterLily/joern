@@ -2,8 +2,8 @@
   "scope": "Twelve pinned corpora; graph representation counts, not runtime precision/recall",
   "analysisSources": {
     "algorithm": "sha256-path-nul-content-nul",
-    "sha256": "5d91a08c4e2b4d47e123e1c664dc2ba15552afd24636dec2488bca49fb379858",
-    "files": 409,
+    "sha256": "87f52ad214fa9b743ef6333513ba3d760879f0aee4ce75fff1caa8b0517623e1",
+    "files": 410,
     "roots": [
       "joern-cli/frontends/dartsrc2cpg/src",
       "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -158,13 +158,13 @@
       "baselineMethods": 7209,
       "baselineCalls": 85561,
       "defaultArguments": {
-        "adaptedCalls": 58,
-        "targetAdapters": 2372,
-        "externalTargetAdapters": 90,
-        "adapterLinks": 3904
+        "adaptedCalls": 68,
+        "targetAdapters": 2381,
+        "externalTargetAdapters": 99,
+        "adapterLinks": 3914
       },
-      "methods": 9581,
-      "calls": 87933
+      "methods": 9590,
+      "calls": 87942
     },
     {
       "project": "shelf-1.4.2",

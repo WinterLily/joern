@@ -2844,6 +2844,40 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         cpg.call.nameExact("<operator>.isInitialized").size shouldBe 2
       }
     }
+    "omit list rest end arguments and adapt each target default" in {
+      fixture(
+        Files.readString(frontend.resolve("src/test/resources/semantics/list_pattern_defaults.dart")),
+        "void main() {}",
+        dataflow = false
+      ) { (cpg, _) =>
+        cpg.unknown.size shouldBe 0
+        var shared = Set.empty[String]
+        for (name <- Seq("allConcrete", "head", "cached")) {
+          val calls = cpg.method.nameExact(name).ast.isCall.nameExact("sublist").l
+          calls.size shouldBe (if (name == "cached") 2 else 1)
+          calls.foreach { call =>
+            call.argument.filter(_.argumentIndex > 0).size shouldBe 1
+            val adapters = call.callee.l
+            adapters.map(_.name).toSet shouldBe Set("<defaultArguments>")
+            adapters.flatMap(_.call.nameExact("sublist").argument(2).isLiteral.code.l).toSet shouldBe Set("1", "2")
+            if (shared.isEmpty) shared = adapters.map(_.fullName).toSet
+            else adapters.map(_.fullName).toSet shouldBe shared
+          }
+        }
+        val virtual = cpg.method.nameExact("allInterface").ast.isCall.nameExact("sublist").head
+        virtual.argument.filter(_.argumentIndex > 0).size shouldBe 1
+        virtual.callee.name.toSet shouldBe Set("<defaultArguments>")
+        virtual.callee.call.nameExact("sublist").argument(2).isLiteral.code.toSet shouldBe Set("1", "2", "null")
+        val tail = cpg.method.nameExact("tail").ast.isCall.nameExact("sublist").head
+        tail.argument(2).start.isCall.name.head shouldBe "<operator>.subtraction"
+        tail.callee.name.toSet shouldBe Set("sublist")
+        val explicit = cpg.method.nameExact("explicitNull").ast.isCall.nameExact("sublist").head
+        explicit.argument(2).start.isLiteral.code.head shouldBe "null"
+        explicit.callee.name.toSet shouldBe Set("sublist")
+        cpg.method.nameExact("allConcrete").ast.isCall.nameExact("length").size shouldBe 0
+        cpg.method.nameExact("wildcard").ast.isCall.nameExact("length", "sublist").size shouldBe 0
+      }
+    }
     "preserve list-pattern instantiated results without changing generic declarations" in {
       fixture(
         Files.readString(frontend.resolve("src/test/resources/semantics/list_pattern_results.dart")),
@@ -3390,8 +3424,11 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
           }
           cpg.method.nameExact("restWildcard").call.nameExact("length", "[]", "sublist").size shouldBe 0
           cpg.method.nameExact("all").call.nameExact("length", "[]").size shouldBe 0
-          cpg.method.nameExact("all").call.nameExact("sublist").argument(2).code.l shouldBe List("null")
-          cpg.method.nameExact("prefixRest").call.nameExact("sublist").argument(2).code.l shouldBe List("null")
+          for (name <- Seq("all", "prefixRest")) {
+            val slice = cpg.method.nameExact(name).call.nameExact("sublist").head
+            slice.argument.filter(_.argumentIndex > 0).size shouldBe 1
+            slice.callee.call.nameExact("sublist").argument(2).isLiteral.code.l shouldBe List("null")
+          }
           val rest = cpg.method.nameExact("rest").call.nameExact("sublist").head
           rest.callee.isExternal.toSet shouldBe Set(false)
           rest.argument(1).code shouldBe "1"
