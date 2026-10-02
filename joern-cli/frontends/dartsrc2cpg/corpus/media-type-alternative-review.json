@@ -9,7 +9,7 @@
   },
   "analysisSources": {
     "algorithm": "sha256-path-nul-content-nul",
-    "sha256": "067ae48b90f8f891485eedfc142d904ce8069cd5fd5b82a3dff90ca521385e7c",
+    "sha256": "6a92ea4bf560d1c655b02efcb3b34bf999e1aab8fc5db39f6deebceba02685f9",
     "files": 403,
     "roots": [
       "joern-cli/frontends/dartsrc2cpg/src",

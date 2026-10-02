@@ -1708,6 +1708,67 @@ full 119-test native suite, analysis, formatting and the matrix verifier pass.
 This supplies explicit stage accounting, not complete-rule qualification or an
 execution certificate for every linked Scala test.
 
+## Await-for cancellation and refreshed corpus evidence
+
+The reduced graph regression initially found zero cancellation calls for two
+asynchronous loops. Lowering now wraps the saved iterator's loop in `try/finally`
+with an awaited `cancel` call. Body break/return/throw and an outward labeled
+continue enter that cleanup; a local continue stays in the loop. Throwing
+collection elements also enter cleanup. The iterator is created before the
+protected body; synchronous loops retain their previous lowering. StreamIterator
+already closes on completion/error, so its final cancellation is a no-op after
+normal completion. The generated moveNext/cancel calls remain unresolved SDK
+boundaries; this change does not qualify subscription state or event delivery.
+
+Five native tests cover delayed cancellation across an event turn, body exit
+identity, local continue, cancellation failure replacing a pending exit and
+throwing collection elements. A deliberately unawaited-cleanup mutation verifies
+that the completion observer detects early exit. The full 124-test native suite,
+analysis and formatting pass. The frontend run passes 167 checks, including an
+additional saved-graph count check; eight opt-in tests are canceled in that run.
+All twelve corpus graph tests then pass, together with the after-count check,
+staged CLI checks and language selection checks. The first corpus invocation
+omitted DART_SDK and failed before exporting; the corrected run uses the pinned
+SDK. A formatting check that included ignored scratch review tests reported those
+scratch files; the final check of repository sources passes.
+
+The [count review](async-iteration-count-review.json) accounts for seventeen
+existing stream iterators: async 1, LocalSend app 8, Saber 6 and Sass 2. Each adds
+exactly two calls and no internal methods or UNKNOWNs. Permanent corpus checks
+require the cleanup receiver to reference the same saved iterator declaration
+and require an await successor. All twelve refreshed graphs share source hash
+`6a92ea4bf560d1c655b02efcb3b34bf999e1aab8fc5db39f6deebceba02685f9`
+(403 files); exporter 0.3.19 and the library model files are unchanged.
+
+Both two-witness/two-held-round and four-witness/two-held-round audits pass under
+separate ten-minute category budgets with explicit 8 GiB/four-CPU workers. The
+four-witness package/application/holdout subprocesses take 399078/43216/28137 ms,
+including startup and graph loading. Sampled process-family RSS is
+6344160/5488968/2304644 KiB, not an exact peak or a single worker's heap.
+Current four-witness outcomes are stock 78/80 and modeled 80/80, with
+122 visible/131 detailed stock paths and 111 visible/117 detailed modeled paths.
+There are 42/41 limited queries, seven/eight inconclusive negatives and five
+held-round limits in each mode. LocalSend's modeled certificate hash search now
+reports pruning; selected Saber searches also retain exception-state limits.
+
+All eighty returned-path dispositions are refreshed: 248 selected paths share
+144 distinct paths and 2426 transitions. Unchanged routes match previously
+reviewed node/call/context/flag/demand facts after removing graph IDs only. New
+variants have separate refresh dispositions: analyzer record named/positional
+fields and flat-buffer getUint32 effects, two Sass substring shortcuts and HTTP
+setRange/header/return detours. The two-witness HTTP buffer routes are longer
+than the four-witness selections (95 stock and 76 modeled nodes), so larger bounds
+do not imply inclusion of smaller-bound routes. Exact binding/context checks and
+full reconstruction retain those approximations; no real repeated-call order,
+allocation identity or callback delivery is inferred. All 87 review-verifier
+rejection checks pass. Ordinary static-storage and pending-local-exit reviews are
+also rebuilt (6 paths/123 transitions and 11 paths/199 transitions).
+
+The qualification matrix now has 53 named links, sixteen rejection controls and
+a partial asynchronous for-in cancellation contract for ForStatement/ForElement.
+That section now has construct references; 67 semantic-rule sections still lack
+them. Complete rules, stream resolution/value flow and Gates 1–6 remain open.
+
 
 Validation passes the 119-test native suite and final focused inventory check,
 analysis/formatting and thirteen source-verifier rejection checks. Full cached

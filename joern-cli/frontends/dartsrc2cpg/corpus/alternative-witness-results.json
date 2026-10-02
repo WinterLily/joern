@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "analysisSources": {
     "algorithm": "sha256-path-nul-content-nul",
-    "sha256": "067ae48b90f8f891485eedfc142d904ce8069cd5fd5b82a3dff90ca521385e7c",
+    "sha256": "6a92ea4bf560d1c655b02efcb3b34bf999e1aab8fc5db39f6deebceba02685f9",
     "files": 403,
     "roots": [
       "joern-cli/frontends/dartsrc2cpg/src",
@@ -101,8 +101,8 @@
               "distinctEndpoints": true,
               "viaSatisfied": true,
               "positiveControlSatisfied": null,
-              "witnessesSha256": "cfee1e4e6f12ce06dba2f6dc2ef1f2d0c926321a3b2aeb7d49154707a3e13abf",
-              "detailedWitnessesSha256": "6738c763f68b67de2b67da0a8212065e11f78175cc57ad4c9c3235ece22eeb49"
+              "witnessesSha256": "57af24058c8b1c81e8282155c73580659ea9b00852f1dc8f4bd45d2656230a8e",
+              "detailedWitnessesSha256": "623e6d6c829350a7501972d07da262c1d48d695dd8a60f483b2d9cd25da1b993"
             },
             "modeled": {
               "paths": 2,
@@ -162,12 +162,12 @@
               "detailedPaths": 2,
               "legacyPaths": 1,
               "visibleLengths": [
-                66,
-                64
+                68,
+                66
               ],
               "detailedLengths": [
-                67,
-                65
+                69,
+                67
               ],
               "outcome": "flow-observed",
               "limitations": [
@@ -181,20 +181,20 @@
               "distinctEndpoints": true,
               "viaSatisfied": true,
               "positiveControlSatisfied": null,
-              "witnessesSha256": "7e19d378ed8d0d282e111af5e94118b959ce72af83b36cb8ddb916f3b0d20dd8",
-              "detailedWitnessesSha256": "cdb0eaec91e0d4c160331904c06d18a3cfe3c5dbf534dcbe761c6c6bdcabf09c"
+              "witnessesSha256": "a434a82f04f04a650a4121c31416c96e322833969b862735e980cb3ba8165b93",
+              "detailedWitnessesSha256": "222effa569bca00456772dbefb0ffeb9c973419aac03041c50296fe7731cf15d"
             },
             "modeled": {
               "paths": 2,
               "detailedPaths": 2,
               "legacyPaths": 1,
               "visibleLengths": [
-                66,
-                64
+                68,
+                66
               ],
               "detailedLengths": [
-                67,
-                65
+                69,
+                67
               ],
               "outcome": "flow-observed",
               "limitations": [
@@ -208,8 +208,8 @@
               "distinctEndpoints": true,
               "viaSatisfied": true,
               "positiveControlSatisfied": null,
-              "witnessesSha256": "7e19d378ed8d0d282e111af5e94118b959ce72af83b36cb8ddb916f3b0d20dd8",
-              "detailedWitnessesSha256": "cdb0eaec91e0d4c160331904c06d18a3cfe3c5dbf534dcbe761c6c6bdcabf09c"
+              "witnessesSha256": "a434a82f04f04a650a4121c31416c96e322833969b862735e980cb3ba8165b93",
+              "detailedWitnessesSha256": "222effa569bca00456772dbefb0ffeb9c973419aac03041c50296fe7731cf15d"
             }
           },
           "maxHeldTaskIterations": 2,
@@ -2087,8 +2087,8 @@
               "distinctEndpoints": true,
               "viaSatisfied": true,
               "positiveControlSatisfied": true,
-              "witnessesSha256": "14e8a9f8abab4e96459bcf4273f8194d8fc0491bb56975f7412c7f976c572906",
-              "detailedWitnessesSha256": "0751e06898cf3cf9d268019fcbfb02a31a53e541d0df85a25e4cc60e2c8fa6d9"
+              "witnessesSha256": "9ee9b306ce76a6650e1bed0095eea2fa748d8b2ddd90ddfe969b19c7e39c631c",
+              "detailedWitnessesSha256": "59b6ca68fe81e526744ac30f8551e7a07e83897a33022848a1763f5c5784fe2a"
             },
             "modeled": {
               "paths": 0,
@@ -2160,8 +2160,8 @@
               "distinctEndpoints": false,
               "viaSatisfied": true,
               "positiveControlSatisfied": null,
-              "witnessesSha256": "10a66cf9f7cc56584b51eb93bb4adfff12007eb88d916adc44fdff4382f0f91b",
-              "detailedWitnessesSha256": "9fd8603fdad2d40fcdbe388532d227733a488f380f23013f3f19ade11ce33cb0"
+              "witnessesSha256": "d0c09772c94b4f9eb234a8393aa4e184524597aac8a54b8be440ad8699a7b4f5",
+              "detailedWitnessesSha256": "6392a8a4d145d88dabbfe48fb777318aca4242759510d90abc19a97c1637f4f5"
             },
             "modeled": {
               "paths": 1,
@@ -2184,8 +2184,8 @@
               "distinctEndpoints": false,
               "viaSatisfied": true,
               "positiveControlSatisfied": null,
-              "witnessesSha256": "10a66cf9f7cc56584b51eb93bb4adfff12007eb88d916adc44fdff4382f0f91b",
-              "detailedWitnessesSha256": "9fd8603fdad2d40fcdbe388532d227733a488f380f23013f3f19ade11ce33cb0"
+              "witnessesSha256": "d0c09772c94b4f9eb234a8393aa4e184524597aac8a54b8be440ad8699a7b4f5",
+              "detailedWitnessesSha256": "6392a8a4d145d88dabbfe48fb777318aca4242759510d90abc19a97c1637f4f5"
             }
           },
           "maxHeldTaskIterations": 2,
@@ -2239,8 +2239,8 @@
               "distinctEndpoints": false,
               "viaSatisfied": true,
               "positiveControlSatisfied": null,
-              "witnessesSha256": "5b942b22a4e584ecae45e6f059d80f1b1a4c19200b9f6ab06555e8478b6e715b",
-              "detailedWitnessesSha256": "84c1c7f44bc958bf019ab042239848762e79ff5c4b79ae602184b876ec3e8121"
+              "witnessesSha256": "0dcef383648cddd907460df0a9f571b0ed707134d8af5e070be67f323eb4bfb9",
+              "detailedWitnessesSha256": "8ac7f299da16cea926b4e5fdea3ce4f393ca817cffada5198b9c229a0694b3ec"
             },
             "modeled": {
               "paths": 2,
@@ -2265,8 +2265,8 @@
               "distinctEndpoints": false,
               "viaSatisfied": true,
               "positiveControlSatisfied": null,
-              "witnessesSha256": "5b942b22a4e584ecae45e6f059d80f1b1a4c19200b9f6ab06555e8478b6e715b",
-              "detailedWitnessesSha256": "84c1c7f44bc958bf019ab042239848762e79ff5c4b79ae602184b876ec3e8121"
+              "witnessesSha256": "0dcef383648cddd907460df0a9f571b0ed707134d8af5e070be67f323eb4bfb9",
+              "detailedWitnessesSha256": "8ac7f299da16cea926b4e5fdea3ce4f393ca817cffada5198b9c229a0694b3ec"
             }
           },
           "maxHeldTaskIterations": 2,
@@ -2388,8 +2388,8 @@
               "distinctEndpoints": true,
               "viaSatisfied": true,
               "positiveControlSatisfied": null,
-              "witnessesSha256": "21ae409090cd4697808448dfed632858cf509d98cd75d3ad758a21927928da91",
-              "detailedWitnessesSha256": "3482c7f7a56d0367d92e7eb167a44d326480b6a921d26fa2f1672ed31803c6c1"
+              "witnessesSha256": "0a21af5fea92bd24e15fb02a7a62d90b39b03e484d9ee24f927f6c63a305cf79",
+              "detailedWitnessesSha256": "ec4e612454b601cff6b78c31178d15a75e7186eaf65046b242fb89aa5970a978"
             },
             "modeled": {
               "paths": 1,
@@ -2412,8 +2412,8 @@
               "distinctEndpoints": true,
               "viaSatisfied": true,
               "positiveControlSatisfied": null,
-              "witnessesSha256": "21ae409090cd4697808448dfed632858cf509d98cd75d3ad758a21927928da91",
-              "detailedWitnessesSha256": "3482c7f7a56d0367d92e7eb167a44d326480b6a921d26fa2f1672ed31803c6c1"
+              "witnessesSha256": "0a21af5fea92bd24e15fb02a7a62d90b39b03e484d9ee24f927f6c63a305cf79",
+              "detailedWitnessesSha256": "ec4e612454b601cff6b78c31178d15a75e7186eaf65046b242fb89aa5970a978"
             }
           },
           "maxHeldTaskIterations": 2,
@@ -2477,12 +2477,12 @@
               "detailedPaths": 2,
               "legacyPaths": 1,
               "visibleLengths": [
-                22,
-                20
+                25,
+                23
               ],
               "detailedLengths": [
-                27,
-                26
+                30,
+                29
               ],
               "outcome": "flow-observed",
               "limitations": [
@@ -2497,8 +2497,8 @@
               "distinctEndpoints": true,
               "viaSatisfied": true,
               "positiveControlSatisfied": null,
-              "witnessesSha256": "dff4feda4fa93ab5499db139fc54d737ed300fd7e4e0e5b4ec15ea6457461710",
-              "detailedWitnessesSha256": "f332c4a5f63dae813dfe5b5181a3784a174ec23d43643f0316f3f37b56ce9041"
+              "witnessesSha256": "1839e224bdbc1bc09764f789bf3bec105605dd68c65f08a89e919e592342e23d",
+              "detailedWitnessesSha256": "1d061004a6b102c32b4c9d9bf5779019d1379480703f6bfa57ddef639401fedf"
             },
             "modeled": {
               "paths": 1,
@@ -2558,12 +2558,12 @@
               "detailedPaths": 2,
               "legacyPaths": 1,
               "visibleLengths": [
-                46,
-                47
+                85,
+                85
               ],
               "detailedLengths": [
-                53,
-                53
+                95,
+                95
               ],
               "outcome": "flow-observed",
               "limitations": [
@@ -2578,20 +2578,20 @@
               "distinctEndpoints": true,
               "viaSatisfied": true,
               "positiveControlSatisfied": null,
-              "witnessesSha256": "8bf686a1ecf9968157a3fd564eb56f79c797bfd429356fca29b6b31a93b09902",
-              "detailedWitnessesSha256": "c928abd9ce157e60e2f2374298cb39eb1e8667709d0488e389326ac260f95d24"
+              "witnessesSha256": "db704e13a978be4aaced637b9951111144c22a1c6be6e45d486b3a2907b47ec9",
+              "detailedWitnessesSha256": "3e2a896c5b65c74e5476b0c70dbb920e79646ca28be0da7ba7589f2a5c303af5"
             },
             "modeled": {
               "paths": 2,
               "detailedPaths": 2,
               "legacyPaths": 1,
               "visibleLengths": [
-                46,
-                46
+                72,
+                72
               ],
               "detailedLengths": [
-                46,
-                46
+                76,
+                76
               ],
               "outcome": "flow-observed",
               "limitations": [
@@ -2606,8 +2606,8 @@
               "distinctEndpoints": true,
               "viaSatisfied": true,
               "positiveControlSatisfied": null,
-              "witnessesSha256": "23215aa7a361c2a3e0c636829cfa8e6b24631e9e2c8c9874b405ff816f68f8b6",
-              "detailedWitnessesSha256": "b915b86444ceef51df3ba8c83626b0a6a1031bfa5d90741ec974edccfb35543d"
+              "witnessesSha256": "29527d6bc94ba72a8e33c3daa0c71a634ca66adc375d50d6e50363457b9b9320",
+              "detailedWitnessesSha256": "bf7bed03e279a1b9c6306643ddbddc8e18613700472b4f2677d1c9d6dad15c62"
             }
           },
           "maxHeldTaskIterations": 2,
@@ -3141,8 +3141,8 @@
               "distinctEndpoints": true,
               "viaSatisfied": true,
               "positiveControlSatisfied": null,
-              "witnessesSha256": "464d0f8cc0a228a77f15117e56833ac7537390faffeb2b9d38c6b4789e6912bf",
-              "detailedWitnessesSha256": "8956d145823e25235cf64d04724cbf016fac53535bb98639a6365161585a0d91"
+              "witnessesSha256": "2b5d65751f8cbb35ba701575020d080845698c0fdd673b1e0d8e2fcc813f7650",
+              "detailedWitnessesSha256": "a37de8ae87e48823c667a4eff44e434da6377aaaed3b6e7000ae0c3478d2b3a0"
             },
             "modeled": {
               "paths": 2,
@@ -3150,11 +3150,11 @@
               "legacyPaths": 1,
               "visibleLengths": [
                 58,
-                59
+                58
               ],
               "detailedLengths": [
-                62,
-                62
+                61,
+                61
               ],
               "outcome": "flow-observed",
               "limitations": [
@@ -3171,8 +3171,8 @@
               "distinctEndpoints": true,
               "viaSatisfied": true,
               "positiveControlSatisfied": null,
-              "witnessesSha256": "2df098606da322af1b9ed3e536600f0dc254a27418edba64b8264cdcd372ac26",
-              "detailedWitnessesSha256": "32156f979afeb37c7c0a900adc67b976b66dbaa8a97a2abc02f119b822090eed"
+              "witnessesSha256": "79a9e0bfebb943e2088541e90ae7c9686374356694fecef5836f9dbc0d85a6e2",
+              "detailedWitnessesSha256": "c68e2ebda546f3e9f87228f8f16c9dd5ab1dc1bf8eaa4c4bedaeb677ad159199"
             }
           },
           "maxHeldTaskIterations": 2,
@@ -3421,8 +3421,8 @@
               "distinctEndpoints": true,
               "viaSatisfied": true,
               "positiveControlSatisfied": null,
-              "witnessesSha256": "d4a4661bcb64d604967cf1c5be7631cacc5fcb3f00c095c031ac25c246a368b3",
-              "detailedWitnessesSha256": "8d99458a3eaad880d1030fd67808f692bfa604a2d61ee767ec86d917cf2ade17"
+              "witnessesSha256": "91e2dde350863de47861ba4286344d49a25a4c7e746eec428c9c822a3c697e86",
+              "detailedWitnessesSha256": "f19753fc9f19734c603ece88b97ad387663b2505f757c26b849293cff873ef8f"
             },
             "modeled": {
               "paths": 2,
@@ -3446,8 +3446,8 @@
               "distinctEndpoints": true,
               "viaSatisfied": true,
               "positiveControlSatisfied": null,
-              "witnessesSha256": "77646dd63454f6e10ca0ceaceef8bac9d0086878db9c51b59630a8cac8def2a5",
-              "detailedWitnessesSha256": "0928700ca43a0a43c26124f0ba5cdd2bf0ff29c75d5ce03515ea37142f31b6b5"
+              "witnessesSha256": "6ba85db75de5276f7718c86de774b96d5bcd5bd6c4e4a1175f2e3d16f8631482",
+              "detailedWitnessesSha256": "9803b51f981a937463e059fe8888147e70c274b5d7832a838c9ba4508127c688"
             }
           },
           "maxHeldTaskIterations": 2,
@@ -3567,8 +3567,8 @@
               "distinctEndpoints": true,
               "viaSatisfied": true,
               "positiveControlSatisfied": null,
-              "witnessesSha256": "93f1a4384bbc21407066b2fc08f0e46e9825c860cf7d79e967906622a6ce4d43",
-              "detailedWitnessesSha256": "d286fc779e63e6f1f9864a5fffa8a8534f2e7718704922c26d1156cc4a316faf"
+              "witnessesSha256": "4d7faf6ce7b4bc6bcc3d5c100843157dfd5d759dbb21fef749d23c6ecf71cd63",
+              "detailedWitnessesSha256": "e5e4494d15b01edc77b4a1567287b0dde105cf11690f9ab5dba8facdf624369e"
             },
             "modeled": {
               "paths": 2,
@@ -3597,8 +3597,8 @@
               "distinctEndpoints": true,
               "viaSatisfied": true,
               "positiveControlSatisfied": null,
-              "witnessesSha256": "93f1a4384bbc21407066b2fc08f0e46e9825c860cf7d79e967906622a6ce4d43",
-              "detailedWitnessesSha256": "d286fc779e63e6f1f9864a5fffa8a8534f2e7718704922c26d1156cc4a316faf"
+              "witnessesSha256": "4d7faf6ce7b4bc6bcc3d5c100843157dfd5d759dbb21fef749d23c6ecf71cd63",
+              "detailedWitnessesSha256": "e5e4494d15b01edc77b4a1567287b0dde105cf11690f9ab5dba8facdf624369e"
             }
           },
           "maxHeldTaskIterations": 2,
@@ -3654,8 +3654,8 @@
               "distinctEndpoints": true,
               "viaSatisfied": true,
               "positiveControlSatisfied": null,
-              "witnessesSha256": "40b4e4cbc2fba1cd1cf48d1b40a6babe9a1c1f10bcd07c4a0f79f0fba262369d",
-              "detailedWitnessesSha256": "03ba41a0cea3f361052f6e7317c11e2f0c838a3ff7876cf5ffde3a74ff99a703"
+              "witnessesSha256": "9117562881cd5affc881994096cfb102226d081ce2d292a96f6682f33aa6bb02",
+              "detailedWitnessesSha256": "96ee2d3c390b719f04af3aff6acc2fdefb3e537d588b84d68e20b928bdc6e825"
             },
             "modeled": {
               "paths": 2,
@@ -3684,8 +3684,8 @@
               "distinctEndpoints": true,
               "viaSatisfied": true,
               "positiveControlSatisfied": null,
-              "witnessesSha256": "40b4e4cbc2fba1cd1cf48d1b40a6babe9a1c1f10bcd07c4a0f79f0fba262369d",
-              "detailedWitnessesSha256": "03ba41a0cea3f361052f6e7317c11e2f0c838a3ff7876cf5ffde3a74ff99a703"
+              "witnessesSha256": "9117562881cd5affc881994096cfb102226d081ce2d292a96f6682f33aa6bb02",
+              "detailedWitnessesSha256": "96ee2d3c390b719f04af3aff6acc2fdefb3e537d588b84d68e20b928bdc6e825"
             }
           },
           "maxHeldTaskIterations": 2,
@@ -3802,8 +3802,8 @@
               "distinctEndpoints": true,
               "viaSatisfied": true,
               "positiveControlSatisfied": null,
-              "witnessesSha256": "08a405fe63058c31e9351ce2e99f4714d1e0636cc978782212ee5100c9a110ba",
-              "detailedWitnessesSha256": "0409b8de39b254802374db6d67bf60450321a4cf45101accc0444595b43e83b0"
+              "witnessesSha256": "387927fa99deeb13afbda4267f562abed35fb4c05dcbb806c2188982f7b8ad89",
+              "detailedWitnessesSha256": "9374e3ba930a1fcc9b34b86ef36c94695e73182e1828d8a9226185e319311425"
             },
             "modeled": {
               "paths": 2,
@@ -3827,8 +3827,8 @@
               "distinctEndpoints": true,
               "viaSatisfied": true,
               "positiveControlSatisfied": null,
-              "witnessesSha256": "08a405fe63058c31e9351ce2e99f4714d1e0636cc978782212ee5100c9a110ba",
-              "detailedWitnessesSha256": "0409b8de39b254802374db6d67bf60450321a4cf45101accc0444595b43e83b0"
+              "witnessesSha256": "387927fa99deeb13afbda4267f562abed35fb4c05dcbb806c2188982f7b8ad89",
+              "detailedWitnessesSha256": "9374e3ba930a1fcc9b34b86ef36c94695e73182e1828d8a9226185e319311425"
             }
           },
           "maxHeldTaskIterations": 2,
@@ -3945,8 +3945,8 @@
               "distinctEndpoints": true,
               "viaSatisfied": true,
               "positiveControlSatisfied": null,
-              "witnessesSha256": "289476fa1ee987bddc113984114aa9c5ae44964e7ce933eddd7c7f39894a5fcf",
-              "detailedWitnessesSha256": "f15cf706a7f0dac0e7c37d3496d1850c2cb9c7ef98ba260945b9ccb8d35f9323"
+              "witnessesSha256": "4e7aa42c49027532650b0fe975d11c36f52a3685ef42ef2dd8dcf03b16812e6a",
+              "detailedWitnessesSha256": "a5023828fe6f3238e4f7f8bde24942ac01a2573eb9e2f5bc5efd0670c1f9a23e"
             },
             "modeled": {
               "paths": 2,
@@ -3970,8 +3970,8 @@
               "distinctEndpoints": true,
               "viaSatisfied": true,
               "positiveControlSatisfied": null,
-              "witnessesSha256": "289476fa1ee987bddc113984114aa9c5ae44964e7ce933eddd7c7f39894a5fcf",
-              "detailedWitnessesSha256": "f15cf706a7f0dac0e7c37d3496d1850c2cb9c7ef98ba260945b9ccb8d35f9323"
+              "witnessesSha256": "4e7aa42c49027532650b0fe975d11c36f52a3685ef42ef2dd8dcf03b16812e6a",
+              "detailedWitnessesSha256": "a5023828fe6f3238e4f7f8bde24942ac01a2573eb9e2f5bc5efd0670c1f9a23e"
             }
           },
           "maxHeldTaskIterations": 2,
@@ -4085,8 +4085,8 @@
               "distinctEndpoints": true,
               "viaSatisfied": true,
               "positiveControlSatisfied": null,
-              "witnessesSha256": "25bee3c098f73c25cc59dea2d47bc1bd42480bf4553d054f7a668885bddf82cf",
-              "detailedWitnessesSha256": "6a5983150c79720938a0a9d473d68d8a8361114d682f4342b470bd1f4be95bc2"
+              "witnessesSha256": "fa449c96f0b1a8b9cd0842ca0e8c0587f0d70041e5c5b47f22318ecb4fea4adb",
+              "detailedWitnessesSha256": "95b91f640c4a77336a247eda196fa3dc2588347622f83f05e2dbd565a6741b62"
             },
             "modeled": {
               "paths": 1,
@@ -4113,8 +4113,8 @@
               "distinctEndpoints": true,
               "viaSatisfied": true,
               "positiveControlSatisfied": null,
-              "witnessesSha256": "25bee3c098f73c25cc59dea2d47bc1bd42480bf4553d054f7a668885bddf82cf",
-              "detailedWitnessesSha256": "6a5983150c79720938a0a9d473d68d8a8361114d682f4342b470bd1f4be95bc2"
+              "witnessesSha256": "fa449c96f0b1a8b9cd0842ca0e8c0587f0d70041e5c5b47f22318ecb4fea4adb",
+              "detailedWitnessesSha256": "95b91f640c4a77336a247eda196fa3dc2588347622f83f05e2dbd565a6741b62"
             }
           },
           "maxHeldTaskIterations": 2,
@@ -4172,8 +4172,8 @@
               "distinctEndpoints": true,
               "viaSatisfied": true,
               "positiveControlSatisfied": null,
-              "witnessesSha256": "30d586081d2d9a58c0b602278d108e87b745ba8e9a3a1e9b751edcebed0e405e",
-              "detailedWitnessesSha256": "24fa006bf70c6e55f596cb0d79a611a1bd3369d5a3231fac913f11d4056f9647"
+              "witnessesSha256": "1dcb9433d410d12b108a93c5218a215c1a268d9580739c200f81beb9511ef1ed",
+              "detailedWitnessesSha256": "df819b8bfc544ebaab442cdae1e83cc2f65ef5b9306edb7b7895a73f0be448dd"
             },
             "modeled": {
               "paths": 2,
@@ -4201,8 +4201,8 @@
               "distinctEndpoints": true,
               "viaSatisfied": true,
               "positiveControlSatisfied": null,
-              "witnessesSha256": "30d586081d2d9a58c0b602278d108e87b745ba8e9a3a1e9b751edcebed0e405e",
-              "detailedWitnessesSha256": "24fa006bf70c6e55f596cb0d79a611a1bd3369d5a3231fac913f11d4056f9647"
+              "witnessesSha256": "1dcb9433d410d12b108a93c5218a215c1a268d9580739c200f81beb9511ef1ed",
+              "detailedWitnessesSha256": "df819b8bfc544ebaab442cdae1e83cc2f65ef5b9306edb7b7895a73f0be448dd"
             }
           },
           "maxHeldTaskIterations": 2,
@@ -4577,8 +4577,8 @@
               "distinctEndpoints": true,
               "viaSatisfied": true,
               "positiveControlSatisfied": null,
-              "witnessesSha256": "8a087d3ca6f39ad97d058148ae3e5dd07e33c96d41c44baa01bfa74af037e1db",
-              "detailedWitnessesSha256": "e762855744b273b8845b8ffb9633b08e0994065bf803a34d2ebbc9012352739b"
+              "witnessesSha256": "e584f61421cbb8f2fac59925ecc01cfb7b2fe78048b841704dbf1dec619172ec",
+              "detailedWitnessesSha256": "24250d266125ff9d773ab6cbd286b2d71295dff5ad67af8fdefd2d5d108c22ae"
             },
             "modeled": {
               "paths": 2,
@@ -4607,8 +4607,8 @@
               "distinctEndpoints": true,
               "viaSatisfied": true,
               "positiveControlSatisfied": null,
-              "witnessesSha256": "8a087d3ca6f39ad97d058148ae3e5dd07e33c96d41c44baa01bfa74af037e1db",
-              "detailedWitnessesSha256": "e762855744b273b8845b8ffb9633b08e0994065bf803a34d2ebbc9012352739b"
+              "witnessesSha256": "e584f61421cbb8f2fac59925ecc01cfb7b2fe78048b841704dbf1dec619172ec",
+              "detailedWitnessesSha256": "24250d266125ff9d773ab6cbd286b2d71295dff5ad67af8fdefd2d5d108c22ae"
             }
           },
           "maxHeldTaskIterations": 2,
@@ -4736,8 +4736,8 @@
               "distinctEndpoints": true,
               "viaSatisfied": true,
               "positiveControlSatisfied": null,
-              "witnessesSha256": "9b58154537b328eaafc044279b1282949980455d8fc44c8d08c460d4f5a8b8c5",
-              "detailedWitnessesSha256": "01a6316c169d2dac1836e4d40ea61f2538c53fb0089456f53c6306e88434e8ac"
+              "witnessesSha256": "b7d3888a211c706c6e69828626c7876dc02b9fdb922c7974f55b70b35bdc8c1d",
+              "detailedWitnessesSha256": "b012789b0172979589186ac1723aed0a8788b04f78b9065b5c441c5530926c7f"
             },
             "modeled": {
               "paths": 1,
@@ -4764,8 +4764,8 @@
               "distinctEndpoints": true,
               "viaSatisfied": true,
               "positiveControlSatisfied": null,
-              "witnessesSha256": "9b58154537b328eaafc044279b1282949980455d8fc44c8d08c460d4f5a8b8c5",
-              "detailedWitnessesSha256": "01a6316c169d2dac1836e4d40ea61f2538c53fb0089456f53c6306e88434e8ac"
+              "witnessesSha256": "b7d3888a211c706c6e69828626c7876dc02b9fdb922c7974f55b70b35bdc8c1d",
+              "detailedWitnessesSha256": "b012789b0172979589186ac1723aed0a8788b04f78b9065b5c441c5530926c7f"
             }
           },
           "maxHeldTaskIterations": 2,
@@ -4810,6 +4810,7 @@
               "outcome": "flow-observed",
               "limitations": [
                 "call-depth",
+                "static-storage-exception-state",
                 "static-storage-external-effects",
                 "static-storage-initialization-state",
                 "witness-alternatives"
@@ -4820,8 +4821,8 @@
               "distinctEndpoints": true,
               "viaSatisfied": true,
               "positiveControlSatisfied": true,
-              "witnessesSha256": "c3805bdf2b5fc9079b92f76bc5beeb1647f1f2c8efd9acd8c47b495f0939ec66",
-              "detailedWitnessesSha256": "f0f63af7ba87f432f9467a2bb6313f51d1fc8872cd4c02a4b53bfb63e18253f5"
+              "witnessesSha256": "b93993666ef21c54217bea7c49607968515ad28464e96541bdfebdd40ea06d3a",
+              "detailedWitnessesSha256": "be6275a8ae7e0f1da585010330fed90ca29399dd3d9d52c813cadbb933435437"
             },
             "modeled": {
               "paths": 0,
@@ -5029,6 +5030,7 @@
               "outcome": "flow-observed",
               "limitations": [
                 "call-depth",
+                "static-storage-exception-state",
                 "static-storage-external-effects",
                 "static-storage-initialization-state",
                 "witness-alternatives"
@@ -5039,8 +5041,8 @@
               "distinctEndpoints": true,
               "viaSatisfied": true,
               "positiveControlSatisfied": null,
-              "witnessesSha256": "6eddf4de1d311ca8630b5edea19da55a3c2873573de3de3a1c9dcf570cc6ccdf",
-              "detailedWitnessesSha256": "9967b5cc1739b1a555c67b1bc4904b1a70f90179b77744b6cc5c50cf14bd7a9c"
+              "witnessesSha256": "a1c8b5e4cdf638c4c8e9a55d14e144f0314b150ec736de7be3c3cca00d87964f",
+              "detailedWitnessesSha256": "c0693a97e3aa0d7ea095be9bafce66eb9be9c0c267cc4cf7884c59c6898c9ab8"
             },
             "modeled": {
               "paths": 2,
@@ -5057,6 +5059,7 @@
               "outcome": "flow-observed",
               "limitations": [
                 "call-depth",
+                "static-storage-exception-state",
                 "static-storage-external-effects",
                 "static-storage-initialization-state",
                 "witness-alternatives"
@@ -5067,8 +5070,8 @@
               "distinctEndpoints": true,
               "viaSatisfied": true,
               "positiveControlSatisfied": null,
-              "witnessesSha256": "87041467d729e13ec2e7f47c69d36bcbbc769f6de96aa26fb72a71664871de22",
-              "detailedWitnessesSha256": "dd0a4732550234f66efeae411746906c958456717f87100786961c70644dd74a"
+              "witnessesSha256": "4e8cb1d38c83c8df31ff143d93977051d8320e6ab99c864f5638dbc055c3f96b",
+              "detailedWitnessesSha256": "55104722d9655acb8b876f34305d71ad2f889c17bc0d8cad04eeefb5d8c1ac37"
             }
           },
           "maxHeldTaskIterations": 2,
@@ -5527,33 +5530,6 @@
               "legacyPaths": 1,
               "visibleLengths": [
                 21,
-                20
-              ],
-              "detailedLengths": [
-                29,
-                28
-              ],
-              "outcome": "flow-observed",
-              "limitations": [
-                "call-depth",
-                "held-task-iterations",
-                "witness-alternatives"
-              ],
-              "passed": true,
-              "sources": 1,
-              "sinks": 1,
-              "distinctEndpoints": true,
-              "viaSatisfied": true,
-              "positiveControlSatisfied": null,
-              "witnessesSha256": "079a375dc639528998af577e120c69230860271bcd5b21fada1b9906f6b9dbc1",
-              "detailedWitnessesSha256": "c55da4fd148472fb86cf32a2e965d344615d2cd40085a144d9a574bca95226e5"
-            },
-            "modeled": {
-              "paths": 2,
-              "detailedPaths": 2,
-              "legacyPaths": 1,
-              "visibleLengths": [
-                21,
                 21
               ],
               "detailedLengths": [
@@ -5572,8 +5548,35 @@
               "distinctEndpoints": true,
               "viaSatisfied": true,
               "positiveControlSatisfied": null,
-              "witnessesSha256": "3e746f1b95e73712647ca2477b3774f9662ee751e05730e0d41621817b85df4c",
-              "detailedWitnessesSha256": "5fb75a57ad16e4cb1ce75868ad767a2620ea74cd49ffbc9a9ea16df014be4274"
+              "witnessesSha256": "db6a2918314e6457d1d78e7948a5b10554a4fb9489924b03fb45d4c915ca1710",
+              "detailedWitnessesSha256": "e4be279c23862e64eeb2665056a2ff06513cace600dd34bac43cecaa7944d542"
+            },
+            "modeled": {
+              "paths": 2,
+              "detailedPaths": 2,
+              "legacyPaths": 1,
+              "visibleLengths": [
+                21,
+                20
+              ],
+              "detailedLengths": [
+                29,
+                28
+              ],
+              "outcome": "flow-observed",
+              "limitations": [
+                "call-depth",
+                "held-task-iterations",
+                "witness-alternatives"
+              ],
+              "passed": true,
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "viaSatisfied": true,
+              "positiveControlSatisfied": null,
+              "witnessesSha256": "60d5522e964a94503c25cf12d3ac011445385d0be22556a15cb73abc1d190ff6",
+              "detailedWitnessesSha256": "cb67504e4dadc2bbfda5837171a8c1e755c6ec6e26710ebbd9cc73bf9754fe0c"
             }
           },
           "maxHeldTaskIterations": 2,
@@ -5623,8 +5626,8 @@
               "distinctEndpoints": true,
               "viaSatisfied": true,
               "positiveControlSatisfied": null,
-              "witnessesSha256": "3786e5484a3f57604f13ea1e9de105488a8795db09818b0f890b29f7ed0c8895",
-              "detailedWitnessesSha256": "579b36a86caf23d0fbb44ebcea7e599c81cc3b3d58d14deedeb4c5d87fd66ffb"
+              "witnessesSha256": "a657aa908764fe94edccc8a21d7b20d32480b335c1f6eeafc3a492445da26366",
+              "detailedWitnessesSha256": "a4acc9743ccadc6408e1900a6b52f415b5af82185669303ecdc377204932bbb7"
             },
             "modeled": {
               "paths": 1,
@@ -5647,8 +5650,8 @@
               "distinctEndpoints": true,
               "viaSatisfied": true,
               "positiveControlSatisfied": null,
-              "witnessesSha256": "3786e5484a3f57604f13ea1e9de105488a8795db09818b0f890b29f7ed0c8895",
-              "detailedWitnessesSha256": "579b36a86caf23d0fbb44ebcea7e599c81cc3b3d58d14deedeb4c5d87fd66ffb"
+              "witnessesSha256": "a657aa908764fe94edccc8a21d7b20d32480b335c1f6eeafc3a492445da26366",
+              "detailedWitnessesSha256": "a4acc9743ccadc6408e1900a6b52f415b5af82185669303ecdc377204932bbb7"
             }
           },
           "maxHeldTaskIterations": 2,
@@ -5756,8 +5759,8 @@
               "distinctEndpoints": true,
               "viaSatisfied": true,
               "positiveControlSatisfied": null,
-              "witnessesSha256": "d299fda3814c2e49a6dd2a7ab84845931509267e520c8f9745d20f812d0a83ac",
-              "detailedWitnessesSha256": "59fea99dc773fd3789a357b330ae86e5f72185ad3bd4d6ae18c258a975bfb09d"
+              "witnessesSha256": "8db636d5096b24a45d04f65190d55cab2227102f519443884bce6976a6b72e1a",
+              "detailedWitnessesSha256": "8389f67208423065f979bcfe5224160b6c5b750a178adcb3ab4b1041fc40f411"
             },
             "modeled": {
               "paths": 1,
@@ -5777,8 +5780,8 @@
               "distinctEndpoints": true,
               "viaSatisfied": true,
               "positiveControlSatisfied": null,
-              "witnessesSha256": "d299fda3814c2e49a6dd2a7ab84845931509267e520c8f9745d20f812d0a83ac",
-              "detailedWitnessesSha256": "59fea99dc773fd3789a357b330ae86e5f72185ad3bd4d6ae18c258a975bfb09d"
+              "witnessesSha256": "8db636d5096b24a45d04f65190d55cab2227102f519443884bce6976a6b72e1a",
+              "detailedWitnessesSha256": "8389f67208423065f979bcfe5224160b6c5b750a178adcb3ab4b1041fc40f411"
             }
           },
           "maxHeldTaskIterations": 2,
@@ -5828,8 +5831,8 @@
               "distinctEndpoints": true,
               "viaSatisfied": true,
               "positiveControlSatisfied": null,
-              "witnessesSha256": "08bf9003f94fb9398dfbd579659aa91cdc6ebf586ca3fd5c3ebd18d267578eba",
-              "detailedWitnessesSha256": "dca781e559c0e33dd3662ded06a280d4138f364adfad8435d51f4540bca3aa76"
+              "witnessesSha256": "8e6ba6cb301f2463767c4769408518085ea16aae490b21f6d08f850b2483c840",
+              "detailedWitnessesSha256": "402f5a4213eab926556bb84ae157de814a9a6fabef81caec594c42f31efc0f66"
             },
             "modeled": {
               "paths": 1,
@@ -5852,8 +5855,8 @@
               "distinctEndpoints": true,
               "viaSatisfied": true,
               "positiveControlSatisfied": null,
-              "witnessesSha256": "4fc62e7e29c97d851b117646caea92f32fda906c37f6fde4e7cd1b4879a57ff5",
-              "detailedWitnessesSha256": "2d5d03516028fea459ad4da9c0ad2dc3b270243fb4e471d0a3f54401acb3e983"
+              "witnessesSha256": "646da80b00fdffc440b80bc1b29ed10af1b38d1fac699f4b5a98491a3eb9a1a4",
+              "detailedWitnessesSha256": "9ca752fd3202a10f3f8849c877c27a245ce7aedb89c00b9aefbd9fad70bf62ac"
             }
           },
           "maxHeldTaskIterations": 2,
@@ -5913,8 +5916,8 @@
               "distinctEndpoints": true,
               "viaSatisfied": true,
               "positiveControlSatisfied": null,
-              "witnessesSha256": "e907193da2f072099be11394b0ba7fbe2b4411dfb4a43fe467cd2afb1b15f557",
-              "detailedWitnessesSha256": "55e16707044bb728bf85c32f7f6be51f071091b65151546878cff9acb6e0762b"
+              "witnessesSha256": "0537a6afda8a7a532de49f043476b83747df2f46181c171dbc6dd6185925e200",
+              "detailedWitnessesSha256": "1458678035fc5363daddaf2b7e6feda785906357926cd8848a9ded691f65d04e"
             },
             "modeled": {
               "paths": 2,
@@ -5945,8 +5948,8 @@
               "distinctEndpoints": true,
               "viaSatisfied": true,
               "positiveControlSatisfied": null,
-              "witnessesSha256": "e907193da2f072099be11394b0ba7fbe2b4411dfb4a43fe467cd2afb1b15f557",
-              "detailedWitnessesSha256": "55e16707044bb728bf85c32f7f6be51f071091b65151546878cff9acb6e0762b"
+              "witnessesSha256": "0537a6afda8a7a532de49f043476b83747df2f46181c171dbc6dd6185925e200",
+              "detailedWitnessesSha256": "1458678035fc5363daddaf2b7e6feda785906357926cd8848a9ded691f65d04e"
             }
           },
           "maxHeldTaskIterations": 2,

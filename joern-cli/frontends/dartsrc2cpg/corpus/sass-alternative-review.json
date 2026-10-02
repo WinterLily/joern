@@ -2,57 +2,25 @@
   "schemaVersion": 2,
   "scope": "All eleven Sass bounded alternative queries; transition mechanisms and approximations, not exhaustive execution traces.",
   "transitionClasses": {
-    "parameter-read": {
-      "kind": "parameter binding",
-      "meaning": "Reading the formal value within its method; this does not establish which invocation supplied it."
-    },
-    "local-read": {
-      "kind": "assignment",
-      "meaning": "Reaching-definition propagation between reads of the same local or receiver. Branch/path feasibility is not established."
+    "alias": {
+      "kind": "alias",
+      "meaning": "Aggregate/element or local alias propagation without an explicit copied-value assignment in the displayed path. Conservative, not a runtime mutation claim."
     },
     "assignment": {
       "kind": "assignment",
       "meaning": "Assignment, temporary binding, constructor field-formal storage, or an indexed/member write represented by assignment."
     },
-    "parameter-binding": {
-      "kind": "parameter binding",
-      "meaning": "Actual argument to formal parameter. The saved call context, argument index and resolved callee were checked."
-    },
-    "parameter-output": {
+    "block-result": {
       "kind": "alias",
-      "meaning": "Read/formal to METHOD_PARAMETER_OUT under shared output-parameter analysis. This is not evidence of a runtime write to immutable arguments."
-    },
-    "caller-output": {
-      "kind": "alias",
-      "meaning": "Output formal to an actual in a calling context. Re-entry and unrelated-caller detours are conservative; not an execution trace."
-    },
-    "alias": {
-      "kind": "alias",
-      "meaning": "Aggregate/element or local alias propagation without an explicit copied-value assignment in the displayed path. Conservative, not a runtime mutation claim."
-    },
-    "operator-value": {
-      "kind": "value transformation",
-      "meaning": "Explicit scalar/string/operator result dependency. Boolean predicates, sizes and positions are values but are not necessarily copied element contents."
-    },
-    "selection": {
-      "kind": "control/selection",
-      "meaning": "Conditional expression selects its result. This classification does not turn a guard or selected position into an explicit element value."
-    },
-    "return-value": {
-      "kind": "return",
-      "meaning": "Displayed value to the method return expression; no claim about feasibility of all preceding transitions."
-    },
-    "method-return": {
-      "kind": "return",
-      "meaning": "Return expression to the method return node."
+      "meaning": "Value of a generated expression block, including saved allocation and interpolation results."
     },
     "call-return": {
       "kind": "return",
       "meaning": "Method return to its call result. The recorded call has the returning method among its resolved callees."
     },
-    "block-result": {
-      "kind": "alias",
-      "meaning": "Value of a generated expression block, including saved allocation and interpolation results."
+    "callback-effect": {
+      "kind": "external summary",
+      "meaning": "METHOD_REF result abstraction to an external-call receiver/result under stock or explicitly selected summary semantics. Callback side effects and delivery remain outside the path proof."
     },
     "callback-parameter": {
       "kind": "callback invocation approximation",
@@ -62,9 +30,9 @@
       "kind": "callback invocation approximation",
       "meaning": "Callback method return to METHOD_REF. The engine abstracts callable identity and its possible result; this is not runtime invocation proof."
     },
-    "callback-effect": {
-      "kind": "external summary",
-      "meaning": "METHOD_REF result abstraction to an external-call receiver/result under stock or explicitly selected summary semantics. Callback side effects and delivery remain outside the path proof."
+    "caller-output": {
+      "kind": "alias",
+      "meaning": "Output formal to an actual in a calling context. Re-entry and unrelated-caller detours are conservative; not an execution trace."
     },
     "external-return": {
       "kind": "external summary",
@@ -73,6 +41,38 @@
     "external-write": {
       "kind": "external summary",
       "meaning": "Cross-argument or argument/receiver effect at one external call. Saved call identities and positions identify the effect; stock all-argument propagation is conservative. Optional modeled writes apply only within their documented contract."
+    },
+    "local-read": {
+      "kind": "assignment",
+      "meaning": "Reaching-definition propagation between reads of the same local or receiver. Branch/path feasibility is not established."
+    },
+    "method-return": {
+      "kind": "return",
+      "meaning": "Return expression to the method return node."
+    },
+    "operator-value": {
+      "kind": "value transformation",
+      "meaning": "Explicit scalar/string/operator result dependency. Boolean predicates, sizes and positions are values but are not necessarily copied element contents."
+    },
+    "parameter-binding": {
+      "kind": "parameter binding",
+      "meaning": "Actual argument to formal parameter. The saved call context, argument index and resolved callee were checked."
+    },
+    "parameter-output": {
+      "kind": "alias",
+      "meaning": "Read/formal to METHOD_PARAMETER_OUT under shared output-parameter analysis. This is not evidence of a runtime write to immutable arguments."
+    },
+    "parameter-read": {
+      "kind": "parameter binding",
+      "meaning": "Reading the formal value within its method; this does not establish which invocation supplied it."
+    },
+    "return-value": {
+      "kind": "return",
+      "meaning": "Displayed value to the method return expression; no claim about feasibility of all preceding transitions."
+    },
+    "selection": {
+      "kind": "control/selection",
+      "meaning": "Conditional expression selects its result. This classification does not turn a guard or selected position into an explicit element value."
     }
   },
   "projects": [
@@ -104,7 +104,7 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "067ae48b90f8f891485eedfc142d904ce8069cd5fd5b82a3dff90ca521385e7c",
+        "sha256": "6a92ea4bf560d1c655b02efcb3b34bf999e1aab8fc5db39f6deebceba02685f9",
         "files": 403,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
@@ -742,7 +742,8 @@
             "disposition": "external-summary",
             "reason": "The compiler trims the source string using computed bounds.",
             "branchConditions": "Stylesheet syntax selects Sass/SCSS/CSS parser. trimAscii returns empty if no non-whitespace exists. pluralize returns name for count one, supplied plural when nonnull, otherwise appends s. Compilation forwarding does not prove evaluation."
-          }
+          },
+          "refreshDisposition": "Two refreshed 28-node variants omit the substring start or receiver detour from the retained 29-node route. They retain the same _firstNonWhitespace/_lastNonWhitespace helpers and external substring selection. The source does not mutate its String arguments; index/argument effects remain conservative, not character provenance or branch feasibility."
         },
         {
           "id": "trim-scan-input",
@@ -1371,14 +1372,14 @@
           "line": 76,
           "parameterIndex": 1
         },
-        "68719525516": {
+        "68719525518": {
           "label": "IDENTIFIER",
           "method": "package:sass/src/utils.dart#2681:FUNCTION:trimAscii",
           "code": "string",
           "line": 77,
           "argumentsOf": [
             [
-              "30064826608",
+              "30064826612",
               1
             ]
           ]
@@ -1390,26 +1391,26 @@
           "line": 103,
           "parameterIndex": 1
         },
-        "68719525535": {
+        "68719525537": {
           "label": "IDENTIFIER",
           "method": "package:sass/src/utils.dart#3641:FUNCTION:_firstNonWhitespace",
           "code": "string",
           "line": 104,
           "argumentsOf": [
             [
-              "30064826628",
+              "30064826632",
               0
             ]
           ]
         },
-        "68719525537": {
+        "68719525539": {
           "label": "IDENTIFIER",
           "method": "package:sass/src/utils.dart#3641:FUNCTION:_firstNonWhitespace",
           "code": "string",
           "line": 105,
           "argumentsOf": [
             [
-              "30064826632",
+              "30064826636",
               0
             ]
           ]
@@ -1421,14 +1422,14 @@
           "line": 103,
           "parameterIndex": 1
         },
-        "68719525520": {
+        "68719525522": {
           "label": "IDENTIFIER",
           "method": "package:sass/src/utils.dart#2681:FUNCTION:trimAscii",
           "code": "string",
           "line": 82,
           "argumentsOf": [
             [
-              "30064826614",
+              "30064826618",
               1
             ]
           ]
@@ -1440,53 +1441,41 @@
           "line": 115,
           "parameterIndex": 1
         },
-        "68719525541": {
+        "68719525543": {
           "label": "IDENTIFIER",
           "method": "package:sass/src/utils.dart#4043:FUNCTION:_lastNonWhitespace",
           "code": "string",
           "line": 116,
           "argumentsOf": [
             [
-              "30064826635",
+              "30064826639",
               0
             ]
           ]
         },
-        "30064826635": {
+        "30064826639": {
           "label": "CALL",
           "method": "package:sass/src/utils.dart#4043:FUNCTION:_lastNonWhitespace",
           "code": "string.length",
           "line": 116,
-          "call": "30064826635",
+          "call": "30064826639",
           "argumentsOf": [
             [
-              "30064826634",
+              "30064826638",
               1
             ]
           ]
         },
-        "30064826634": {
+        "30064826638": {
           "label": "CALL",
           "method": "package:sass/src/utils.dart#4043:FUNCTION:_lastNonWhitespace",
           "code": "string.length - 1",
           "line": 116,
-          "call": "30064826634",
+          "call": "30064826638",
           "argumentsOf": [
             [
-              "30064826633",
+              "30064826637",
               2
-            ]
-          ]
-        },
-        "68719525540": {
-          "label": "IDENTIFIER",
-          "method": "package:sass/src/utils.dart#4043:FUNCTION:_lastNonWhitespace",
-          "code": "i",
-          "line": 116,
-          "argumentsOf": [
-            [
-              "30064826633",
-              1
             ]
           ]
         },
@@ -1497,65 +1486,77 @@
           "line": 116,
           "argumentsOf": [
             [
-              "30064826636",
+              "30064826637",
               1
             ]
           ]
         },
-        "68719525546": {
+        "68719525544": {
+          "label": "IDENTIFIER",
+          "method": "package:sass/src/utils.dart#4043:FUNCTION:_lastNonWhitespace",
+          "code": "i",
+          "line": 116,
+          "argumentsOf": [
+            [
+              "30064826640",
+              1
+            ]
+          ]
+        },
+        "68719525548": {
           "label": "IDENTIFIER",
           "method": "package:sass/src/utils.dart#4043:FUNCTION:_lastNonWhitespace",
           "code": "i",
           "line": 117,
           "argumentsOf": [
             [
-              "30064826639",
+              "30064826643",
               1
             ]
           ]
         },
-        "68719525549": {
+        "68719525551": {
           "label": "IDENTIFIER",
           "method": "package:sass/src/utils.dart#4043:FUNCTION:_lastNonWhitespace",
           "code": "i",
           "line": 120,
           "argumentsOf": [
             [
-              "30064826645",
+              "30064826649",
               1
             ]
           ]
         },
-        "68719525550": {
+        "68719525552": {
           "label": "IDENTIFIER",
           "method": "package:sass/src/utils.dart#4043:FUNCTION:_lastNonWhitespace",
           "code": "i",
           "line": 121,
           "argumentsOf": [
             [
-              "30064826646",
+              "30064826650",
               1
             ]
           ]
         },
-        "68719525554": {
+        "68719525556": {
           "label": "IDENTIFIER",
           "method": "package:sass/src/utils.dart#4043:FUNCTION:_lastNonWhitespace",
           "code": "i",
           "line": 123,
           "argumentsOf": [
             [
-              "30064826651",
+              "30064826655",
               1
             ]
           ]
         },
-        "30064826651": {
+        "30064826655": {
           "label": "CALL",
           "method": "package:sass/src/utils.dart#4043:FUNCTION:_lastNonWhitespace",
           "code": "i + 1",
           "line": 123,
-          "call": "30064826651"
+          "call": "30064826655"
         },
         "141733925858": {
           "label": "RETURN",
@@ -1569,88 +1570,88 @@
           "code": "RET",
           "line": -1
         },
-        "30064826614": {
+        "30064826618": {
           "label": "CALL",
           "method": "package:sass/src/utils.dart#2681:FUNCTION:trimAscii",
           "code": "_lastNonWhitespace(string, excludeEscape: excludeEscape)",
           "line": 82,
-          "call": "30064826614",
+          "call": "30064826618",
           "argumentsOf": [
             [
-              "30064826613",
+              "30064826617",
               1
             ]
           ]
         },
-        "30064826613": {
+        "30064826617": {
           "label": "CALL",
           "method": "package:sass/src/utils.dart#2681:FUNCTION:trimAscii",
           "code": "_lastNonWhitespace(string, excludeEscape: excludeEscape)!",
           "line": 82,
-          "call": "30064826613",
+          "call": "30064826617",
           "argumentsOf": [
             [
-              "30064826612",
+              "30064826616",
               1
             ]
           ]
         },
-        "30064826612": {
+        "30064826616": {
           "label": "CALL",
           "method": "package:sass/src/utils.dart#2681:FUNCTION:trimAscii",
           "code": "_lastNonWhitespace(string, excludeEscape: excludeEscape)! + 1",
           "line": 82,
-          "call": "30064826612",
+          "call": "30064826616",
           "argumentsOf": [
             [
-              "30064826611",
+              "30064826615",
               2
             ]
           ]
         },
-        "68719525519": {
+        "68719525521": {
           "label": "IDENTIFIER",
           "method": "package:sass/src/utils.dart#2681:FUNCTION:trimAscii",
           "code": "start",
           "line": 81,
           "argumentsOf": [
             [
-              "30064826611",
+              "30064826615",
               1
             ]
           ]
         },
-        "68719525518": {
+        "68719525520": {
           "label": "IDENTIFIER",
           "method": "package:sass/src/utils.dart#2681:FUNCTION:trimAscii",
           "code": "string",
           "line": 80,
           "argumentsOf": [
             [
-              "30064826611",
+              "30064826615",
               0
             ]
           ]
         },
-        "30064826611": {
+        "30064826615": {
           "label": "CALL",
           "method": "package:sass/src/utils.dart#2681:FUNCTION:trimAscii",
           "code": "string.substring(\n          start,\n          _lastNonWhitespace(string, excludeEscape: excludeEscape)! + 1,\n        )",
           "line": 80,
-          "call": "30064826611",
+          "call": "30064826615",
           "argumentsOf": [
             [
-              "30064826609",
+              "30064826613",
               3
             ]
           ]
         },
-        "30064826609": {
+        "30064826613": {
           "label": "CALL",
           "method": "package:sass/src/utils.dart#2681:FUNCTION:trimAscii",
           "code": "start == null\n      ? \"\"\n      : string.substring(\n          start,\n          _lastNonWhitespace(string, excludeEscape: excludeEscape)! + 1,\n        )",
           "line": 78,
-          "call": "30064826609"
+          "call": "30064826613"
         },
         "141733925853": {
           "label": "RETURN",
@@ -1658,7 +1659,7 @@
           "code": "return start == null\n      ? \"\"\n      : string.substring(\n          start,\n          _lastNonWhitespace(string, excludeEscape: excludeEscape)! + 1,\n        );",
           "line": 78
         },
-        "68719525555": {
+        "68719525557": {
           "label": "IDENTIFIER",
           "method": "package:sass/src/utils.dart#4043:FUNCTION:_lastNonWhitespace",
           "code": "i",
@@ -1677,7 +1678,7 @@
           "line": 42,
           "parameterIndex": 1
         },
-        "68719525486": {
+        "68719525488": {
           "label": "IDENTIFIER",
           "method": "package:sass/src/utils.dart#1567:FUNCTION:pluralize",
           "code": "name",
@@ -1696,50 +1697,50 @@
           "line": 35,
           "parameterIndex": 1
         },
-        "68719525484": {
+        "68719525486": {
           "label": "IDENTIFIER",
           "method": "package:sass/src/utils.dart#1241:FUNCTION:indent",
           "code": "string",
           "line": 36,
           "argumentsOf": [
             [
-              "30064826579",
+              "30064826583",
               0
             ]
           ]
         },
-        "30064826579": {
+        "30064826583": {
           "label": "CALL",
           "method": "package:sass/src/utils.dart#1241:FUNCTION:indent",
           "code": "string.split(\"\\n\")",
           "line": 36,
-          "call": "30064826579",
+          "call": "30064826583",
           "argumentsOf": [
             [
-              "30064826578",
+              "30064826582",
               0
             ]
           ]
         },
-        "30064826578": {
+        "30064826582": {
           "label": "CALL",
           "method": "package:sass/src/utils.dart#1241:FUNCTION:indent",
           "code": "string.split(\"\\n\").map((line) => (\" \" * indentation) + line)",
           "line": 36,
-          "call": "30064826578",
+          "call": "30064826582",
           "argumentsOf": [
             [
-              "30064826577",
+              "30064826581",
               0
             ]
           ]
         },
-        "30064826577": {
+        "30064826581": {
           "label": "CALL",
           "method": "package:sass/src/utils.dart#1241:FUNCTION:indent",
           "code": "string.split(\"\\n\").map((line) => (\" \" * indentation) + line).join(\"\\n\")",
           "line": 36,
-          "call": "30064826577"
+          "call": "30064826581"
         },
         "141733925846": {
           "label": "RETURN",
@@ -1753,68 +1754,68 @@
           "code": "RET",
           "line": -1
         },
-        "30064827113": {
+        "30064827117": {
           "label": "CALL",
           "method": "package:sass/src/utils.dart#2022:FUNCTION:null",
           "code": "indent(rest.join(\"\\n\"), 2)",
           "line": 58,
-          "call": "30064827113",
+          "call": "30064827117",
           "argumentsOf": [
             [
-              "30064827112",
+              "30064827116",
               2
             ]
           ]
         },
-        "30064827112": {
+        "30064827116": {
           "label": "CALL",
           "method": "package:sass/src/utils.dart#2022:FUNCTION:null",
           "code": "\"\\n\" + indent(rest.join(\"\\n\"), 2)",
           "line": 58,
-          "call": "30064827112",
+          "call": "30064827116",
           "argumentsOf": [
             [
-              "30064827111",
+              "30064827115",
               2
             ]
           ]
         },
-        "68719526012": {
+        "68719526014": {
           "label": "IDENTIFIER",
           "method": "package:sass/src/utils.dart#2022:FUNCTION:null",
           "code": "<tmp>12",
           "line": 57,
           "argumentsOf": [
             [
-              "30064827111",
+              "30064827115",
               1
             ]
           ]
         },
-        "25769823057": {
+        "25769823061": {
           "label": "BLOCK",
           "method": "package:sass/src/utils.dart#2022:FUNCTION:null",
           "code": "switch (lines) {\n            [_, ...var rest] => \"\\n\" + indent(rest.join(\"\\n\"), 2),\n            _ => \"\",\n          }",
           "line": 57
         },
-        "25769823056": {
+        "25769823060": {
           "label": "BLOCK",
           "method": "package:sass/src/utils.dart#2022:FUNCTION:null",
           "code": "switch (lines) {\n            [_, ...var rest] => \"\\n\" + indent(rest.join(\"\\n\"), 2),\n            _ => \"\",\n          }",
           "line": 57,
           "argumentsOf": [
             [
-              "30064827088",
+              "30064827092",
               2
             ]
           ]
         },
-        "30064827088": {
+        "30064827092": {
           "label": "CALL",
           "method": "package:sass/src/utils.dart#2022:FUNCTION:null",
           "code": "\"${glyph.bullet} ${lines.first}\" +\n          switch (lines) {\n            [_, ...var rest] => \"\\n\" + indent(rest.join(\"\\n\"), 2),\n            _ => \"\",\n          }",
           "line": 56,
-          "call": "30064827088"
+          "call": "30064827092"
         },
         "141733925903": {
           "label": "RETURN",
@@ -1836,19 +1837,19 @@
           "referencedMethod": "package:sass/src/utils.dart#2022:FUNCTION:null",
           "argumentsOf": [
             [
-              "30064826598",
+              "30064826602",
               1
             ]
           ]
         },
-        "68719525504": {
+        "68719525506": {
           "label": "IDENTIFIER",
           "method": "package:sass/src/utils.dart#1968:FUNCTION:bulletedList",
           "code": "bullets",
           "line": 54,
           "argumentsOf": [
             [
-              "30064826598",
+              "30064826602",
               0
             ]
           ]
@@ -1860,76 +1861,64 @@
           "line": 54,
           "parameterIndex": 1
         },
-        "68719525991": {
+        "68719525993": {
           "label": "IDENTIFIER",
           "method": "package:sass/src/utils.dart#2022:FUNCTION:null",
           "code": "element",
           "line": 55,
           "argumentsOf": [
             [
-              "30064827087",
+              "30064827091",
               0
             ]
           ]
         },
-        "30064827087": {
+        "30064827091": {
           "label": "CALL",
           "method": "package:sass/src/utils.dart#2022:FUNCTION:null",
           "code": "element.split(\"\\n\")",
           "line": 55,
-          "call": "30064827087",
+          "call": "30064827091",
           "argumentsOf": [
             [
-              "30064827086",
+              "30064827090",
               2
             ]
           ]
         },
-        "68719525990": {
+        "68719525992": {
           "label": "IDENTIFIER",
           "method": "package:sass/src/utils.dart#2022:FUNCTION:null",
           "code": "lines",
           "line": 55,
           "argumentsOf": [
             [
-              "30064827086",
+              "30064827090",
               1
             ]
           ]
         },
-        "68719525994": {
+        "68719525996": {
           "label": "IDENTIFIER",
           "method": "package:sass/src/utils.dart#2022:FUNCTION:null",
           "code": "lines",
           "line": 56,
           "argumentsOf": [
             [
-              "30064827092",
+              "30064827096",
               0
             ]
           ]
         },
-        "68719525999": {
+        "68719526001": {
           "label": "IDENTIFIER",
           "method": "package:sass/src/utils.dart#2022:FUNCTION:null",
           "code": "lines",
           "line": 57,
           "argumentsOf": [
             [
-              "30064827096",
+              "30064827100",
               2
-            ]
-          ]
-        },
-        "68719525998": {
-          "label": "IDENTIFIER",
-          "method": "package:sass/src/utils.dart#2022:FUNCTION:null",
-          "code": "<tmp>13",
-          "line": 57,
-          "argumentsOf": [
-            [
-              "30064827096",
-              1
             ]
           ]
         },
@@ -1940,44 +1929,80 @@
           "line": 57,
           "argumentsOf": [
             [
-              "30064827099",
+              "30064827100",
               1
             ]
           ]
         },
-        "68719526003": {
+        "68719526002": {
           "label": "IDENTIFIER",
           "method": "package:sass/src/utils.dart#2022:FUNCTION:null",
           "code": "<tmp>13",
           "line": 57,
           "argumentsOf": [
             [
-              "30064827104",
-              0
+              "30064827103",
+              1
             ]
           ]
         },
-        "68719526008": {
+        "68719526005": {
           "label": "IDENTIFIER",
           "method": "package:sass/src/utils.dart#2022:FUNCTION:null",
           "code": "<tmp>13",
           "line": 57,
           "argumentsOf": [
             [
-              "30064827109",
+              "30064827108",
               0
             ]
           ]
         },
-        "30064827109": {
+        "68719526010": {
+          "label": "IDENTIFIER",
+          "method": "package:sass/src/utils.dart#2022:FUNCTION:null",
+          "code": "<tmp>13",
+          "line": 57,
+          "argumentsOf": [
+            [
+              "30064827113",
+              0
+            ]
+          ]
+        },
+        "30064827113": {
           "label": "CALL",
           "method": "package:sass/src/utils.dart#2022:FUNCTION:null",
           "code": "...var rest",
           "line": 58,
-          "call": "30064827109",
+          "call": "30064827113",
           "argumentsOf": [
             [
-              "30064827108",
+              "30064827112",
+              2
+            ]
+          ]
+        },
+        "68719526009": {
+          "label": "IDENTIFIER",
+          "method": "package:sass/src/utils.dart#2022:FUNCTION:null",
+          "code": "<pattern>15",
+          "line": 58,
+          "argumentsOf": [
+            [
+              "30064827112",
+              1
+            ]
+          ]
+        },
+        "25769823066": {
+          "label": "BLOCK",
+          "method": "package:sass/src/utils.dart#2022:FUNCTION:null",
+          "code": "...var rest",
+          "line": 58,
+          "argumentsOf": [
+            [
+              "30064827109",
               2
             ]
           ]
@@ -1985,59 +2010,11 @@
         "68719526007": {
           "label": "IDENTIFIER",
           "method": "package:sass/src/utils.dart#2022:FUNCTION:null",
-          "code": "<pattern>15",
-          "line": 58,
-          "argumentsOf": [
-            [
-              "30064827108",
-              1
-            ]
-          ]
-        },
-        "25769823062": {
-          "label": "BLOCK",
-          "method": "package:sass/src/utils.dart#2022:FUNCTION:null",
-          "code": "...var rest",
-          "line": 58,
-          "argumentsOf": [
-            [
-              "30064827105",
-              2
-            ]
-          ]
-        },
-        "68719526005": {
-          "label": "IDENTIFIER",
-          "method": "package:sass/src/utils.dart#2022:FUNCTION:null",
           "code": "<tmp>16",
           "line": 58,
           "argumentsOf": [
             [
-              "30064827105",
-              1
-            ]
-          ]
-        },
-        "68719526011": {
-          "label": "IDENTIFIER",
-          "method": "package:sass/src/utils.dart#2022:FUNCTION:null",
-          "code": "<tmp>16",
-          "line": 58,
-          "argumentsOf": [
-            [
-              "30064827110",
-              2
-            ]
-          ]
-        },
-        "68719526010": {
-          "label": "IDENTIFIER",
-          "method": "package:sass/src/utils.dart#2022:FUNCTION:null",
-          "code": "rest",
-          "line": 58,
-          "argumentsOf": [
-            [
-              "30064827110",
+              "30064827109",
               1
             ]
           ]
@@ -2045,24 +2022,48 @@
         "68719526013": {
           "label": "IDENTIFIER",
           "method": "package:sass/src/utils.dart#2022:FUNCTION:null",
+          "code": "<tmp>16",
+          "line": 58,
+          "argumentsOf": [
+            [
+              "30064827114",
+              2
+            ]
+          ]
+        },
+        "68719526012": {
+          "label": "IDENTIFIER",
+          "method": "package:sass/src/utils.dart#2022:FUNCTION:null",
           "code": "rest",
           "line": 58,
           "argumentsOf": [
             [
               "30064827114",
+              1
+            ]
+          ]
+        },
+        "68719526015": {
+          "label": "IDENTIFIER",
+          "method": "package:sass/src/utils.dart#2022:FUNCTION:null",
+          "code": "rest",
+          "line": 58,
+          "argumentsOf": [
+            [
+              "30064827118",
               0
             ]
           ]
         },
-        "30064827114": {
+        "30064827118": {
           "label": "CALL",
           "method": "package:sass/src/utils.dart#2022:FUNCTION:null",
           "code": "rest.join(\"\\n\")",
           "line": 58,
-          "call": "30064827114",
+          "call": "30064827118",
           "argumentsOf": [
             [
-              "30064827113",
+              "30064827117",
               1
             ]
           ]
@@ -2074,24 +2075,24 @@
           "line": 36,
           "parameterIndex": 1
         },
-        "68719525989": {
+        "68719525991": {
           "label": "IDENTIFIER",
           "method": "package:sass/src/utils.dart#1310:FUNCTION:null",
           "code": "line",
           "line": 36,
           "argumentsOf": [
             [
-              "30064827084",
+              "30064827088",
               2
             ]
           ]
         },
-        "30064827084": {
+        "30064827088": {
           "label": "CALL",
           "method": "package:sass/src/utils.dart#1310:FUNCTION:null",
           "code": "(\" \" * indentation) + line",
           "line": 36,
-          "call": "30064827084"
+          "call": "30064827088"
         },
         "141733925902": {
           "label": "RETURN",
@@ -2113,7 +2114,7 @@
           "referencedMethod": "package:sass/src/utils.dart#1310:FUNCTION:null",
           "argumentsOf": [
             [
-              "30064826578",
+              "30064826582",
               1
             ]
           ]
@@ -2125,14 +2126,14 @@
           "line": 42,
           "parameterIndex": 2
         },
-        "68719525485": {
+        "68719525487": {
           "label": "IDENTIFIER",
           "method": "package:sass/src/utils.dart#1567:FUNCTION:pluralize",
           "code": "number",
           "line": 43,
           "argumentsOf": [
             [
-              "30064826580",
+              "30064826584",
               1
             ]
           ]
@@ -2144,54 +2145,54 @@
           "line": 42,
           "parameterIndex": 2
         },
-        "30064841984": {
+        "30064841988": {
           "label": "CALL",
           "method": "package:sass/src/visitor/async_evaluate.dart#120604:METHOD:_runBuiltInCallable",
           "code": "evaluated.named.keys.length",
           "line": 3636,
-          "call": "30064841984",
+          "call": "30064841988",
           "argumentsOf": [
             [
-              "30064841983",
+              "30064841987",
               2
             ]
           ]
         },
-        "30064844980": {
+        "30064844984": {
           "label": "CALL",
           "method": "package:sass/src/visitor/async_evaluate.dart#115401:FUNCTION:null",
           "code": "evaluated.named.keys.length",
           "line": 3466,
-          "call": "30064844980",
+          "call": "30064844984",
           "argumentsOf": [
             [
-              "30064844979",
+              "30064844983",
               2
             ]
           ]
         },
-        "30064849255": {
+        "30064849259": {
           "label": "CALL",
           "method": "package:sass/src/visitor/evaluate.dart#118537:METHOD:_runBuiltInCallable",
           "code": "evaluated.named.keys.length",
           "line": 3637,
-          "call": "30064849255",
+          "call": "30064849259",
           "argumentsOf": [
             [
-              "30064849254",
+              "30064849258",
               2
             ]
           ]
         },
-        "30064852142": {
+        "30064852146": {
           "label": "CALL",
           "method": "package:sass/src/visitor/evaluate.dart#113433:FUNCTION:null",
           "code": "evaluated.named.keys.length",
           "line": 3467,
-          "call": "30064852142",
+          "call": "30064852146",
           "argumentsOf": [
             [
-              "30064852141",
+              "30064852145",
               2
             ]
           ]
@@ -2294,8 +2295,8 @@
             }
           ]
         },
-        "30064826608": {
-          "nodeId": "30064826608",
+        "30064826612": {
+          "nodeId": "30064826612",
           "name": "_firstNonWhitespace",
           "target": "package:sass/src/utils.dart#3641:FUNCTION:_firstNonWhitespace",
           "code": "_firstNonWhitespace(string)",
@@ -2306,8 +2307,8 @@
             }
           ]
         },
-        "30064826628": {
-          "nodeId": "30064826628",
+        "30064826632": {
+          "nodeId": "30064826632",
           "name": "length",
           "target": "dart:core/string.dart#9096:GETTER:length",
           "code": "string.length",
@@ -2318,8 +2319,8 @@
             }
           ]
         },
-        "30064826632": {
-          "nodeId": "30064826632",
+        "30064826636": {
+          "nodeId": "30064826636",
           "name": "codeUnitAt",
           "target": "dart:core/string.dart#8631:METHOD:codeUnitAt",
           "code": "string.codeUnitAt(i)",
@@ -2330,8 +2331,8 @@
             }
           ]
         },
-        "30064826614": {
-          "nodeId": "30064826614",
+        "30064826618": {
+          "nodeId": "30064826618",
           "name": "_lastNonWhitespace",
           "target": "package:sass/src/utils.dart#4043:FUNCTION:_lastNonWhitespace",
           "code": "_lastNonWhitespace(string, excludeEscape: excludeEscape)",
@@ -2342,8 +2343,8 @@
             }
           ]
         },
-        "30064826635": {
-          "nodeId": "30064826635",
+        "30064826639": {
+          "nodeId": "30064826639",
           "name": "length",
           "target": "dart:core/string.dart#9096:GETTER:length",
           "code": "string.length",
@@ -2354,8 +2355,8 @@
             }
           ]
         },
-        "30064826634": {
-          "nodeId": "30064826634",
+        "30064826638": {
+          "nodeId": "30064826638",
           "name": "<operator>.subtraction",
           "target": "<operator>.dart.subtraction",
           "code": "string.length - 1",
@@ -2366,8 +2367,8 @@
             }
           ]
         },
-        "30064826633": {
-          "nodeId": "30064826633",
+        "30064826637": {
+          "nodeId": "30064826637",
           "name": "<operator>.assignment",
           "target": "<operator>.assignment",
           "code": "i = string.length - 1",
@@ -2378,8 +2379,8 @@
             }
           ]
         },
-        "30064826636": {
-          "nodeId": "30064826636",
+        "30064826640": {
+          "nodeId": "30064826640",
           "name": "<operator>.greaterEqualsThan",
           "target": "<operator>.dart.greaterEqualsThan",
           "code": "i >= 0",
@@ -2390,8 +2391,8 @@
             }
           ]
         },
-        "30064826639": {
-          "nodeId": "30064826639",
+        "30064826643": {
+          "nodeId": "30064826643",
           "name": "codeUnitAt",
           "target": "dart:core/string.dart#8631:METHOD:codeUnitAt",
           "code": "string.codeUnitAt(i)",
@@ -2402,8 +2403,8 @@
             }
           ]
         },
-        "30064826645": {
-          "nodeId": "30064826645",
+        "30064826649": {
+          "nodeId": "30064826649",
           "name": "<operator>.notEquals",
           "target": "<operator>.dart.notEquals",
           "code": "i != 0",
@@ -2414,8 +2415,8 @@
             }
           ]
         },
-        "30064826646": {
-          "nodeId": "30064826646",
+        "30064826650": {
+          "nodeId": "30064826650",
           "name": "<operator>.notEquals",
           "target": "<operator>.dart.notEquals",
           "code": "i != string.length - 1",
@@ -2426,8 +2427,8 @@
             }
           ]
         },
-        "30064826651": {
-          "nodeId": "30064826651",
+        "30064826655": {
+          "nodeId": "30064826655",
           "name": "<operator>.addition",
           "target": "<operator>.addition",
           "code": "i + 1",
@@ -2438,8 +2439,8 @@
             }
           ]
         },
-        "30064826613": {
-          "nodeId": "30064826613",
+        "30064826617": {
+          "nodeId": "30064826617",
           "name": "<operator>.notNullAssert",
           "target": "<operator>.notNullAssert",
           "code": "_lastNonWhitespace(string, excludeEscape: excludeEscape)!",
@@ -2450,8 +2451,8 @@
             }
           ]
         },
-        "30064826612": {
-          "nodeId": "30064826612",
+        "30064826616": {
+          "nodeId": "30064826616",
           "name": "<operator>.addition",
           "target": "<operator>.addition",
           "code": "_lastNonWhitespace(string, excludeEscape: excludeEscape)! + 1",
@@ -2462,8 +2463,8 @@
             }
           ]
         },
-        "30064826611": {
-          "nodeId": "30064826611",
+        "30064826615": {
+          "nodeId": "30064826615",
           "name": "substring",
           "target": "dart:core/string.dart#14194:METHOD:substring",
           "code": "string.substring(\n          start,\n          _lastNonWhitespace(string, excludeEscape: excludeEscape)! + 1,\n        )",
@@ -2474,8 +2475,8 @@
             }
           ]
         },
-        "30064826609": {
-          "nodeId": "30064826609",
+        "30064826613": {
+          "nodeId": "30064826613",
           "name": "<operator>.conditional",
           "target": "<operator>.conditional",
           "code": "start == null\n      ? \"\"\n      : string.substring(\n          start,\n          _lastNonWhitespace(string, excludeEscape: excludeEscape)! + 1,\n        )",
@@ -2486,8 +2487,8 @@
             }
           ]
         },
-        "30064827113": {
-          "nodeId": "30064827113",
+        "30064827117": {
+          "nodeId": "30064827117",
           "name": "indent",
           "target": "package:sass/src/utils.dart#1241:FUNCTION:indent",
           "code": "indent(rest.join(\"\\n\"), 2)",
@@ -2498,8 +2499,8 @@
             }
           ]
         },
-        "30064826579": {
-          "nodeId": "30064826579",
+        "30064826583": {
+          "nodeId": "30064826583",
           "name": "split",
           "target": "dart:core/string.dart#26577:METHOD:split",
           "code": "string.split(\"\\n\")",
@@ -2510,8 +2511,8 @@
             }
           ]
         },
-        "30064826578": {
-          "nodeId": "30064826578",
+        "30064826582": {
+          "nodeId": "30064826582",
           "name": "map",
           "target": "dart:core/iterable.dart#11471:METHOD:map",
           "code": "string.split(\"\\n\").map((line) => (\" \" * indentation) + line)",
@@ -2522,8 +2523,8 @@
             }
           ]
         },
-        "30064826577": {
-          "nodeId": "30064826577",
+        "30064826581": {
+          "nodeId": "30064826581",
           "name": "join",
           "target": "dart:core/iterable.dart#18872:METHOD:join",
           "code": "string.split(\"\\n\").map((line) => (\" \" * indentation) + line).join(\"\\n\")",
@@ -2534,8 +2535,8 @@
             }
           ]
         },
-        "30064827112": {
-          "nodeId": "30064827112",
+        "30064827116": {
+          "nodeId": "30064827116",
           "name": "<operator>.addition",
           "target": "<operator>.addition",
           "code": "\"\\n\" + indent(rest.join(\"\\n\"), 2)",
@@ -2546,8 +2547,8 @@
             }
           ]
         },
-        "30064827111": {
-          "nodeId": "30064827111",
+        "30064827115": {
+          "nodeId": "30064827115",
           "name": "<operator>.assignment",
           "target": "<operator>.assignment",
           "code": "[_, ...var rest] => \"\\n\" + indent(rest.join(\"\\n\"), 2)",
@@ -2558,8 +2559,8 @@
             }
           ]
         },
-        "30064827088": {
-          "nodeId": "30064827088",
+        "30064827092": {
+          "nodeId": "30064827092",
           "name": "<operator>.addition",
           "target": "<operator>.addition",
           "code": "\"${glyph.bullet} ${lines.first}\" +\n          switch (lines) {\n            [_, ...var rest] => \"\\n\" + indent(rest.join(\"\\n\"), 2),\n            _ => \"\",\n          }",
@@ -2570,8 +2571,8 @@
             }
           ]
         },
-        "30064826598": {
-          "nodeId": "30064826598",
+        "30064826602": {
+          "nodeId": "30064826602",
           "name": "map",
           "target": "dart:core/iterable.dart#11471:METHOD:map",
           "code": "bullets.map((element) {\n      var lines = element.split(\"\\n\");\n      return \"${glyph.bullet} ${lines.first}\" +\n          switch (lines) {\n            [_, ...var rest] => \"\\n\" + indent(rest.join(\"\\n\"), 2),\n            _ => \"\",\n          };\n    })",
@@ -2582,8 +2583,8 @@
             }
           ]
         },
-        "30064827087": {
-          "nodeId": "30064827087",
+        "30064827091": {
+          "nodeId": "30064827091",
           "name": "split",
           "target": "dart:core/string.dart#26577:METHOD:split",
           "code": "element.split(\"\\n\")",
@@ -2594,8 +2595,8 @@
             }
           ]
         },
-        "30064827086": {
-          "nodeId": "30064827086",
+        "30064827090": {
+          "nodeId": "30064827090",
           "name": "<operator>.assignment",
           "target": "<operator>.assignment",
           "code": "lines = element.split(\"\\n\")",
@@ -2606,8 +2607,8 @@
             }
           ]
         },
-        "30064827092": {
-          "nodeId": "30064827092",
+        "30064827096": {
+          "nodeId": "30064827096",
           "name": "first",
           "target": "dart:core/iterable.dart#26154:GETTER:first",
           "code": "lines.first",
@@ -2618,8 +2619,8 @@
             }
           ]
         },
-        "30064827096": {
-          "nodeId": "30064827096",
+        "30064827100": {
+          "nodeId": "30064827100",
           "name": "<operator>.assignment",
           "target": "<operator>.assignment",
           "code": "<tmp>13 = switch (lines) {\n            [_, ...var rest] => \"\\n\" + indent(rest.join(\"\\n\"), 2),\n            _ => \"\",\n          }",
@@ -2630,8 +2631,8 @@
             }
           ]
         },
-        "30064827099": {
-          "nodeId": "30064827099",
+        "30064827103": {
+          "nodeId": "30064827103",
           "name": "<operator>.instanceOf",
           "target": "<operator>.instanceOf",
           "code": "[_, ...var rest]",
@@ -2642,8 +2643,8 @@
             }
           ]
         },
-        "30064827104": {
-          "nodeId": "30064827104",
+        "30064827108": {
+          "nodeId": "30064827108",
           "name": "length",
           "target": "dart:core/list.dart#15331:GETTER:length",
           "code": "[_, ...var rest]",
@@ -2654,8 +2655,8 @@
             }
           ]
         },
-        "30064827109": {
-          "nodeId": "30064827109",
+        "30064827113": {
+          "nodeId": "30064827113",
           "name": "sublist",
           "target": "dart:core/list.dart#27126:METHOD:sublist",
           "code": "...var rest",
@@ -2666,8 +2667,8 @@
             }
           ]
         },
-        "30064827108": {
-          "nodeId": "30064827108",
+        "30064827112": {
+          "nodeId": "30064827112",
           "name": "<operator>.assignment",
           "target": "<operator>.assignment",
           "code": "<pattern>15 = ...var rest",
@@ -2678,8 +2679,8 @@
             }
           ]
         },
-        "30064827105": {
-          "nodeId": "30064827105",
+        "30064827109": {
+          "nodeId": "30064827109",
           "name": "<operator>.assignment",
           "target": "<operator>.assignment",
           "code": "<tmp>16 = ...var rest",
@@ -2690,8 +2691,8 @@
             }
           ]
         },
-        "30064827110": {
-          "nodeId": "30064827110",
+        "30064827114": {
+          "nodeId": "30064827114",
           "name": "<operator>.assignment",
           "target": "<operator>.assignment",
           "code": "var rest",
@@ -2702,8 +2703,8 @@
             }
           ]
         },
-        "30064827114": {
-          "nodeId": "30064827114",
+        "30064827118": {
+          "nodeId": "30064827118",
           "name": "join",
           "target": "dart:core/iterable.dart#18872:METHOD:join",
           "code": "rest.join(\"\\n\")",
@@ -2714,8 +2715,8 @@
             }
           ]
         },
-        "30064827084": {
-          "nodeId": "30064827084",
+        "30064827088": {
+          "nodeId": "30064827088",
           "name": "<operator>.addition",
           "target": "<operator>.addition",
           "code": "(\" \" * indentation) + line",
@@ -2726,8 +2727,8 @@
             }
           ]
         },
-        "30064841983": {
-          "nodeId": "30064841983",
+        "30064841987": {
+          "nodeId": "30064841987",
           "name": "pluralize",
           "target": "package:sass/src/utils.dart#1567:FUNCTION:pluralize",
           "code": "pluralize('parameter', evaluated.named.keys.length)",
@@ -2738,8 +2739,8 @@
             }
           ]
         },
-        "30064826580": {
-          "nodeId": "30064826580",
+        "30064826584": {
+          "nodeId": "30064826584",
           "name": "<operator>.equals",
           "target": "<operator>.dart.equals",
           "code": "number == 1",
@@ -2750,8 +2751,8 @@
             }
           ]
         },
-        "30064841984": {
-          "nodeId": "30064841984",
+        "30064841988": {
+          "nodeId": "30064841988",
           "name": "length",
           "target": "dart:core/iterable.dart#21600:GETTER:length",
           "code": "evaluated.named.keys.length",
@@ -2766,8 +2767,8 @@
             }
           ]
         },
-        "30064844979": {
-          "nodeId": "30064844979",
+        "30064844983": {
+          "nodeId": "30064844983",
           "name": "pluralize",
           "target": "package:sass/src/utils.dart#1567:FUNCTION:pluralize",
           "code": "pluralize(\n            'parameter',\n            evaluated.named.keys.length,\n          )",
@@ -2778,8 +2779,8 @@
             }
           ]
         },
-        "30064844980": {
-          "nodeId": "30064844980",
+        "30064844984": {
+          "nodeId": "30064844984",
           "name": "length",
           "target": "dart:core/iterable.dart#21600:GETTER:length",
           "code": "evaluated.named.keys.length",
@@ -2794,8 +2795,8 @@
             }
           ]
         },
-        "30064849254": {
-          "nodeId": "30064849254",
+        "30064849258": {
+          "nodeId": "30064849258",
           "name": "pluralize",
           "target": "package:sass/src/utils.dart#1567:FUNCTION:pluralize",
           "code": "pluralize('parameter', evaluated.named.keys.length)",
@@ -2806,8 +2807,8 @@
             }
           ]
         },
-        "30064849255": {
-          "nodeId": "30064849255",
+        "30064849259": {
+          "nodeId": "30064849259",
           "name": "length",
           "target": "dart:core/iterable.dart#21600:GETTER:length",
           "code": "evaluated.named.keys.length",
@@ -2822,8 +2823,8 @@
             }
           ]
         },
-        "30064852141": {
-          "nodeId": "30064852141",
+        "30064852145": {
+          "nodeId": "30064852145",
           "name": "pluralize",
           "target": "package:sass/src/utils.dart#1567:FUNCTION:pluralize",
           "code": "pluralize(\n            'parameter',\n            evaluated.named.keys.length,\n          )",
@@ -2834,8 +2835,8 @@
             }
           ]
         },
-        "30064852142": {
-          "nodeId": "30064852142",
+        "30064852146": {
+          "nodeId": "30064852146",
           "name": "length",
           "target": "dart:core/iterable.dart#21600:GETTER:length",
           "code": "evaluated.named.keys.length",
@@ -2860,33 +2861,29 @@
           "30064780234"
         ],
         [
-          "30064826608"
+          "30064826612"
         ],
         [
-          "30064826614"
+          "30064826618"
         ],
         [
-          "30064827113"
+          "30064827117"
         ],
         [
-          "30064841983"
+          "30064841987"
         ],
         [
-          "30064844979"
+          "30064844983"
         ],
         [
-          "30064849254"
+          "30064849258"
         ],
         [
-          "30064852141"
+          "30064852145"
         ]
       ],
       "paths": [
         {
-          "transitions": [
-            "parameter-read",
-            "parameter-binding"
-          ],
           "elements": [
             [
               "111669151569",
@@ -2912,13 +2909,13 @@
               "",
               []
             ]
-          ]
-        },
-        {
+          ],
           "transitions": [
             "parameter-read",
             "parameter-binding"
-          ],
+          ]
+        },
+        {
           "elements": [
             [
               "111669149774",
@@ -2944,16 +2941,13 @@
               "",
               []
             ]
+          ],
+          "transitions": [
+            "parameter-read",
+            "parameter-binding"
           ]
         },
         {
-          "transitions": [
-            "parameter-output",
-            "caller-output",
-            "parameter-binding",
-            "parameter-read",
-            "parameter-binding"
-          ],
           "elements": [
             [
               "111669150689",
@@ -3003,16 +2997,16 @@
               "",
               []
             ]
-          ]
-        },
-        {
+          ],
           "transitions": [
             "parameter-output",
             "caller-output",
             "parameter-binding",
             "parameter-read",
             "parameter-binding"
-          ],
+          ]
+        },
+        {
           "elements": [
             [
               "111669150689",
@@ -3062,13 +3056,16 @@
               "",
               []
             ]
+          ],
+          "transitions": [
+            "parameter-output",
+            "caller-output",
+            "parameter-binding",
+            "parameter-read",
+            "parameter-binding"
           ]
         },
         {
-          "transitions": [
-            "parameter-read",
-            "parameter-binding"
-          ],
           "elements": [
             [
               "111669150689",
@@ -3094,16 +3091,13 @@
               "",
               []
             ]
+          ],
+          "transitions": [
+            "parameter-read",
+            "parameter-binding"
           ]
         },
         {
-          "transitions": [
-            "parameter-output",
-            "caller-output",
-            "parameter-binding",
-            "parameter-read",
-            "parameter-binding"
-          ],
           "elements": [
             [
               "111669150689",
@@ -3153,16 +3147,16 @@
               "",
               []
             ]
-          ]
-        },
-        {
+          ],
           "transitions": [
             "parameter-output",
             "caller-output",
             "parameter-binding",
             "parameter-read",
             "parameter-binding"
-          ],
+          ]
+        },
+        {
           "elements": [
             [
               "111669150689",
@@ -3212,13 +3206,16 @@
               "",
               []
             ]
+          ],
+          "transitions": [
+            "parameter-output",
+            "caller-output",
+            "parameter-binding",
+            "parameter-read",
+            "parameter-binding"
           ]
         },
         {
-          "transitions": [
-            "parameter-read",
-            "parameter-binding"
-          ],
           "elements": [
             [
               "111669150689",
@@ -3244,39 +3241,13 @@
               "",
               []
             ]
+          ],
+          "transitions": [
+            "parameter-read",
+            "parameter-binding"
           ]
         },
         {
-          "transitions": [
-            "parameter-read",
-            "parameter-binding",
-            "parameter-read",
-            "local-read",
-            "parameter-output",
-            "caller-output",
-            "local-read",
-            "parameter-binding",
-            "parameter-read",
-            "external-return",
-            "operator-value",
-            "assignment",
-            "local-read",
-            "local-read",
-            "local-read",
-            "local-read",
-            "local-read",
-            "operator-value",
-            "return-value",
-            "method-return",
-            "call-return",
-            "operator-value",
-            "operator-value",
-            "external-write",
-            "external-write",
-            "external-return",
-            "selection",
-            "return-value"
-          ],
           "elements": [
             [
               "111669157158",
@@ -3287,7 +3258,7 @@
               []
             ],
             [
-              "68719525516",
+              "68719525518",
               0,
               true,
               false,
@@ -3303,7 +3274,7 @@
               []
             ],
             [
-              "68719525535",
+              "68719525537",
               3,
               true,
               false,
@@ -3311,7 +3282,7 @@
               []
             ],
             [
-              "68719525537",
+              "68719525539",
               3,
               true,
               false,
@@ -3327,7 +3298,7 @@
               []
             ],
             [
-              "68719525516",
+              "68719525518",
               0,
               true,
               true,
@@ -3335,7 +3306,7 @@
               []
             ],
             [
-              "68719525520",
+              "68719525522",
               0,
               true,
               false,
@@ -3351,7 +3322,7 @@
               []
             ],
             [
-              "68719525541",
+              "68719525543",
               4,
               true,
               false,
@@ -3359,7 +3330,7 @@
               []
             ],
             [
-              "30064826635",
+              "30064826639",
               4,
               false,
               false,
@@ -3367,7 +3338,7 @@
               []
             ],
             [
-              "30064826634",
+              "30064826638",
               4,
               true,
               false,
@@ -3375,23 +3346,23 @@
               []
             ],
             [
-              "68719525540",
-              4,
-              true,
-              false,
-              "i",
-              []
-            ],
-            [
               "68719525542",
               4,
+              true,
+              false,
+              "i",
+              []
+            ],
+            [
+              "68719525544",
+              4,
               false,
               false,
               "i",
               []
             ],
             [
-              "68719525546",
+              "68719525548",
               4,
               true,
               false,
@@ -3399,7 +3370,7 @@
               []
             ],
             [
-              "68719525549",
+              "68719525551",
               4,
               false,
               false,
@@ -3407,7 +3378,7 @@
               []
             ],
             [
-              "68719525550",
+              "68719525552",
               4,
               false,
               false,
@@ -3415,7 +3386,7 @@
               []
             ],
             [
-              "68719525554",
+              "68719525556",
               4,
               false,
               false,
@@ -3423,7 +3394,7 @@
               []
             ],
             [
-              "30064826651",
+              "30064826655",
               4,
               true,
               false,
@@ -3447,7 +3418,7 @@
               []
             ],
             [
-              "30064826614",
+              "30064826618",
               0,
               false,
               true,
@@ -3455,7 +3426,7 @@
               []
             ],
             [
-              "30064826613",
+              "30064826617",
               0,
               false,
               false,
@@ -3463,7 +3434,7 @@
               []
             ],
             [
-              "30064826612",
+              "30064826616",
               0,
               true,
               false,
@@ -3471,7 +3442,7 @@
               []
             ],
             [
-              "68719525519",
+              "68719525521",
               0,
               true,
               false,
@@ -3479,7 +3450,7 @@
               []
             ],
             [
-              "68719525518",
+              "68719525520",
               0,
               true,
               false,
@@ -3487,7 +3458,7 @@
               []
             ],
             [
-              "30064826611",
+              "30064826615",
               0,
               false,
               false,
@@ -3495,7 +3466,7 @@
               []
             ],
             [
-              "30064826609",
+              "30064826613",
               0,
               true,
               false,
@@ -3510,9 +3481,7 @@
               "",
               []
             ]
-          ]
-        },
-        {
+          ],
           "transitions": [
             "parameter-read",
             "parameter-binding",
@@ -3531,6 +3500,7 @@
             "local-read",
             "local-read",
             "local-read",
+            "operator-value",
             "return-value",
             "method-return",
             "call-return",
@@ -3541,7 +3511,9 @@
             "external-return",
             "selection",
             "return-value"
-          ],
+          ]
+        },
+        {
           "elements": [
             [
               "111669157158",
@@ -3552,7 +3524,7 @@
               []
             ],
             [
-              "68719525516",
+              "68719525518",
               0,
               true,
               false,
@@ -3568,7 +3540,7 @@
               []
             ],
             [
-              "68719525535",
+              "68719525537",
               3,
               true,
               false,
@@ -3576,7 +3548,7 @@
               []
             ],
             [
-              "68719525537",
+              "68719525539",
               3,
               true,
               false,
@@ -3592,7 +3564,7 @@
               []
             ],
             [
-              "68719525516",
+              "68719525518",
               0,
               true,
               true,
@@ -3600,7 +3572,7 @@
               []
             ],
             [
-              "68719525520",
+              "68719525522",
               0,
               true,
               false,
@@ -3616,7 +3588,7 @@
               []
             ],
             [
-              "68719525541",
+              "68719525543",
               4,
               true,
               false,
@@ -3624,7 +3596,7 @@
               []
             ],
             [
-              "30064826635",
+              "30064826639",
               4,
               false,
               false,
@@ -3632,7 +3604,7 @@
               []
             ],
             [
-              "30064826634",
+              "30064826638",
               4,
               true,
               false,
@@ -3640,23 +3612,280 @@
               []
             ],
             [
-              "68719525540",
+              "68719525542",
               4,
               true,
               false,
               "i",
+              []
+            ],
+            [
+              "68719525544",
+              4,
+              false,
+              false,
+              "i",
+              []
+            ],
+            [
+              "68719525548",
+              4,
+              true,
+              false,
+              "i",
+              []
+            ],
+            [
+              "68719525551",
+              4,
+              false,
+              false,
+              "i",
+              []
+            ],
+            [
+              "68719525552",
+              4,
+              false,
+              false,
+              "i",
+              []
+            ],
+            [
+              "68719525556",
+              4,
+              false,
+              false,
+              "i",
+              []
+            ],
+            [
+              "30064826655",
+              4,
+              true,
+              false,
+              "i + 1",
+              []
+            ],
+            [
+              "141733925858",
+              4,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "124554056731",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "30064826618",
+              0,
+              false,
+              true,
+              "_lastNonWhitespace(string, excludeEscape: excludeEscape)",
+              []
+            ],
+            [
+              "30064826617",
+              0,
+              false,
+              false,
+              "_lastNonWhitespace(string, excludeEscape: excludeEscape)!",
+              []
+            ],
+            [
+              "30064826616",
+              0,
+              true,
+              false,
+              "_lastNonWhitespace(string, excludeEscape: excludeEscape)! + 1",
+              []
+            ],
+            [
+              "68719525520",
+              0,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "30064826615",
+              0,
+              false,
+              false,
+              "string.substring(\n          start,\n          _lastNonWhitespace(string, excludeEscape: excludeEscape)! + 1,\n        )",
+              []
+            ],
+            [
+              "30064826613",
+              0,
+              true,
+              false,
+              "start == null\n      ? \"\"\n      : string.substring(\n          start,\n          _lastNonWhitespace(string, excludeEscape: excludeEscape)! + 1,\n        )",
+              []
+            ],
+            [
+              "141733925853",
+              0,
+              true,
+              false,
+              "",
+              []
+            ]
+          ],
+          "transitions": [
+            "parameter-read",
+            "parameter-binding",
+            "parameter-read",
+            "local-read",
+            "parameter-output",
+            "caller-output",
+            "local-read",
+            "parameter-binding",
+            "parameter-read",
+            "external-return",
+            "operator-value",
+            "assignment",
+            "local-read",
+            "local-read",
+            "local-read",
+            "local-read",
+            "local-read",
+            "operator-value",
+            "return-value",
+            "method-return",
+            "call-return",
+            "operator-value",
+            "operator-value",
+            "external-write",
+            "external-return",
+            "selection",
+            "return-value"
+          ]
+        },
+        {
+          "elements": [
+            [
+              "111669157158",
+              0,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "68719525518",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "111669157163",
+              3,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "68719525537",
+              3,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "68719525539",
+              3,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "115964124459",
+              3,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "68719525518",
+              0,
+              true,
+              true,
+              "string",
+              []
+            ],
+            [
+              "68719525522",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "111669157164",
+              4,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "68719525543",
+              4,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "30064826639",
+              4,
+              false,
+              false,
+              "string.length",
+              []
+            ],
+            [
+              "30064826638",
+              4,
+              true,
+              false,
+              "string.length - 1",
               []
             ],
             [
               "68719525542",
               4,
+              true,
+              false,
+              "i",
+              []
+            ],
+            [
+              "68719525544",
+              4,
               false,
               false,
               "i",
               []
             ],
             [
-              "68719525546",
+              "68719525548",
               4,
               true,
               false,
@@ -3664,7 +3893,7 @@
               []
             ],
             [
-              "68719525549",
+              "68719525551",
               4,
               false,
               false,
@@ -3672,7 +3901,7 @@
               []
             ],
             [
-              "68719525550",
+              "68719525552",
               4,
               false,
               false,
@@ -3680,7 +3909,264 @@
               []
             ],
             [
-              "68719525555",
+              "68719525556",
+              4,
+              false,
+              false,
+              "i",
+              []
+            ],
+            [
+              "30064826655",
+              4,
+              true,
+              false,
+              "i + 1",
+              []
+            ],
+            [
+              "141733925858",
+              4,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "124554056731",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "30064826618",
+              0,
+              false,
+              true,
+              "_lastNonWhitespace(string, excludeEscape: excludeEscape)",
+              []
+            ],
+            [
+              "30064826617",
+              0,
+              false,
+              false,
+              "_lastNonWhitespace(string, excludeEscape: excludeEscape)!",
+              []
+            ],
+            [
+              "30064826616",
+              0,
+              true,
+              false,
+              "_lastNonWhitespace(string, excludeEscape: excludeEscape)! + 1",
+              []
+            ],
+            [
+              "68719525521",
+              0,
+              true,
+              false,
+              "start",
+              []
+            ],
+            [
+              "30064826615",
+              0,
+              false,
+              false,
+              "string.substring(\n          start,\n          _lastNonWhitespace(string, excludeEscape: excludeEscape)! + 1,\n        )",
+              []
+            ],
+            [
+              "30064826613",
+              0,
+              true,
+              false,
+              "start == null\n      ? \"\"\n      : string.substring(\n          start,\n          _lastNonWhitespace(string, excludeEscape: excludeEscape)! + 1,\n        )",
+              []
+            ],
+            [
+              "141733925853",
+              0,
+              true,
+              false,
+              "",
+              []
+            ]
+          ],
+          "transitions": [
+            "parameter-read",
+            "parameter-binding",
+            "parameter-read",
+            "local-read",
+            "parameter-output",
+            "caller-output",
+            "local-read",
+            "parameter-binding",
+            "parameter-read",
+            "external-return",
+            "operator-value",
+            "assignment",
+            "local-read",
+            "local-read",
+            "local-read",
+            "local-read",
+            "local-read",
+            "operator-value",
+            "return-value",
+            "method-return",
+            "call-return",
+            "operator-value",
+            "operator-value",
+            "external-write",
+            "external-return",
+            "selection",
+            "return-value"
+          ]
+        },
+        {
+          "elements": [
+            [
+              "111669157158",
+              0,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "68719525518",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "111669157163",
+              3,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "68719525537",
+              3,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "68719525539",
+              3,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "115964124459",
+              3,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "68719525518",
+              0,
+              true,
+              true,
+              "string",
+              []
+            ],
+            [
+              "68719525522",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "111669157164",
+              4,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "68719525543",
+              4,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "30064826639",
+              4,
+              false,
+              false,
+              "string.length",
+              []
+            ],
+            [
+              "30064826638",
+              4,
+              true,
+              false,
+              "string.length - 1",
+              []
+            ],
+            [
+              "68719525542",
+              4,
+              true,
+              false,
+              "i",
+              []
+            ],
+            [
+              "68719525544",
+              4,
+              false,
+              false,
+              "i",
+              []
+            ],
+            [
+              "68719525548",
+              4,
+              true,
+              false,
+              "i",
+              []
+            ],
+            [
+              "68719525551",
+              4,
+              false,
+              false,
+              "i",
+              []
+            ],
+            [
+              "68719525552",
+              4,
+              false,
+              false,
+              "i",
+              []
+            ],
+            [
+              "68719525557",
               4,
               true,
               false,
@@ -3704,7 +4190,7 @@
               []
             ],
             [
-              "30064826614",
+              "30064826618",
               0,
               false,
               true,
@@ -3712,7 +4198,7 @@
               []
             ],
             [
-              "30064826613",
+              "30064826617",
               0,
               false,
               false,
@@ -3720,7 +4206,7 @@
               []
             ],
             [
-              "30064826612",
+              "30064826616",
               0,
               true,
               false,
@@ -3728,7 +4214,7 @@
               []
             ],
             [
-              "68719525519",
+              "68719525521",
               0,
               true,
               false,
@@ -3736,7 +4222,7 @@
               []
             ],
             [
-              "68719525518",
+              "68719525520",
               0,
               true,
               false,
@@ -3744,7 +4230,7 @@
               []
             ],
             [
-              "30064826611",
+              "30064826615",
               0,
               false,
               false,
@@ -3752,7 +4238,7 @@
               []
             ],
             [
-              "30064826609",
+              "30064826613",
               0,
               true,
               false,
@@ -3767,9 +4253,7 @@
               "",
               []
             ]
-          ]
-        },
-        {
+          ],
           "transitions": [
             "parameter-read",
             "parameter-binding",
@@ -3787,7 +4271,7 @@
             "local-read",
             "local-read",
             "local-read",
-            "operator-value",
+            "local-read",
             "return-value",
             "method-return",
             "call-return",
@@ -3798,7 +4282,9 @@
             "external-return",
             "selection",
             "return-value"
-          ],
+          ]
+        },
+        {
           "elements": [
             [
               "111669157158",
@@ -3809,7 +4295,7 @@
               []
             ],
             [
-              "68719525516",
+              "68719525518",
               0,
               true,
               false,
@@ -3818,508 +4304,19 @@
             ],
             [
               "111669157163",
-              3,
-              true,
-              false,
-              "string",
-              []
-            ],
-            [
-              "68719525535",
-              3,
-              true,
-              false,
-              "string",
-              []
-            ],
-            [
-              "68719525537",
-              3,
-              true,
-              false,
-              "string",
-              []
-            ],
-            [
-              "115964124459",
-              3,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "68719525516",
-              0,
-              true,
-              true,
-              "string",
-              []
-            ],
-            [
-              "68719525520",
-              0,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "111669157164",
-              4,
-              true,
-              false,
-              "string",
-              []
-            ],
-            [
-              "68719525541",
-              4,
-              true,
-              false,
-              "string",
-              []
-            ],
-            [
-              "30064826635",
-              4,
-              false,
-              false,
-              "string.length",
-              []
-            ],
-            [
-              "30064826634",
-              4,
-              true,
-              false,
-              "string.length - 1",
-              []
-            ],
-            [
-              "68719525540",
-              4,
-              true,
-              false,
-              "i",
-              []
-            ],
-            [
-              "68719525542",
-              4,
-              false,
-              false,
-              "i",
-              []
-            ],
-            [
-              "68719525546",
-              4,
-              true,
-              false,
-              "i",
-              []
-            ],
-            [
-              "68719525549",
-              4,
-              false,
-              false,
-              "i",
-              []
-            ],
-            [
-              "68719525554",
-              4,
-              false,
-              false,
-              "i",
-              []
-            ],
-            [
-              "30064826651",
-              4,
-              true,
-              false,
-              "i + 1",
-              []
-            ],
-            [
-              "141733925858",
-              4,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "124554056731",
-              0,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "30064826614",
-              0,
-              false,
-              true,
-              "_lastNonWhitespace(string, excludeEscape: excludeEscape)",
-              []
-            ],
-            [
-              "30064826613",
-              0,
-              false,
-              false,
-              "_lastNonWhitespace(string, excludeEscape: excludeEscape)!",
-              []
-            ],
-            [
-              "30064826612",
-              0,
-              true,
-              false,
-              "_lastNonWhitespace(string, excludeEscape: excludeEscape)! + 1",
-              []
-            ],
-            [
-              "68719525519",
-              0,
-              true,
-              false,
-              "start",
-              []
-            ],
-            [
-              "68719525518",
-              0,
-              true,
-              false,
-              "string",
-              []
-            ],
-            [
-              "30064826611",
-              0,
-              false,
-              false,
-              "string.substring(\n          start,\n          _lastNonWhitespace(string, excludeEscape: excludeEscape)! + 1,\n        )",
-              []
-            ],
-            [
-              "30064826609",
-              0,
-              true,
-              false,
-              "start == null\n      ? \"\"\n      : string.substring(\n          start,\n          _lastNonWhitespace(string, excludeEscape: excludeEscape)! + 1,\n        )",
-              []
-            ],
-            [
-              "141733925853",
               0,
               true,
               false,
               "",
               []
             ]
-          ]
-        },
-        {
-          "transitions": [
-            "parameter-read",
-            "parameter-binding",
-            "parameter-read",
-            "local-read",
-            "parameter-output",
-            "caller-output",
-            "local-read",
-            "parameter-binding",
-            "parameter-read",
-            "external-return",
-            "operator-value",
-            "assignment",
-            "local-read",
-            "local-read",
-            "local-read",
-            "local-read",
-            "operator-value",
-            "return-value",
-            "method-return",
-            "call-return",
-            "operator-value",
-            "operator-value",
-            "external-write",
-            "external-write",
-            "external-return",
-            "selection",
-            "return-value"
           ],
-          "elements": [
-            [
-              "111669157158",
-              0,
-              true,
-              false,
-              "string",
-              []
-            ],
-            [
-              "68719525516",
-              0,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "111669157163",
-              3,
-              true,
-              false,
-              "string",
-              []
-            ],
-            [
-              "68719525535",
-              3,
-              true,
-              false,
-              "string",
-              []
-            ],
-            [
-              "68719525537",
-              3,
-              true,
-              false,
-              "string",
-              []
-            ],
-            [
-              "115964124459",
-              3,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "68719525516",
-              0,
-              true,
-              true,
-              "string",
-              []
-            ],
-            [
-              "68719525520",
-              0,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "111669157164",
-              4,
-              true,
-              false,
-              "string",
-              []
-            ],
-            [
-              "68719525541",
-              4,
-              true,
-              false,
-              "string",
-              []
-            ],
-            [
-              "30064826635",
-              4,
-              false,
-              false,
-              "string.length",
-              []
-            ],
-            [
-              "30064826634",
-              4,
-              true,
-              false,
-              "string.length - 1",
-              []
-            ],
-            [
-              "68719525540",
-              4,
-              true,
-              false,
-              "i",
-              []
-            ],
-            [
-              "68719525542",
-              4,
-              false,
-              false,
-              "i",
-              []
-            ],
-            [
-              "68719525546",
-              4,
-              true,
-              false,
-              "i",
-              []
-            ],
-            [
-              "68719525550",
-              4,
-              false,
-              false,
-              "i",
-              []
-            ],
-            [
-              "68719525554",
-              4,
-              false,
-              false,
-              "i",
-              []
-            ],
-            [
-              "30064826651",
-              4,
-              true,
-              false,
-              "i + 1",
-              []
-            ],
-            [
-              "141733925858",
-              4,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "124554056731",
-              0,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "30064826614",
-              0,
-              false,
-              true,
-              "_lastNonWhitespace(string, excludeEscape: excludeEscape)",
-              []
-            ],
-            [
-              "30064826613",
-              0,
-              false,
-              false,
-              "_lastNonWhitespace(string, excludeEscape: excludeEscape)!",
-              []
-            ],
-            [
-              "30064826612",
-              0,
-              true,
-              false,
-              "_lastNonWhitespace(string, excludeEscape: excludeEscape)! + 1",
-              []
-            ],
-            [
-              "68719525519",
-              0,
-              true,
-              false,
-              "start",
-              []
-            ],
-            [
-              "68719525518",
-              0,
-              true,
-              false,
-              "string",
-              []
-            ],
-            [
-              "30064826611",
-              0,
-              false,
-              false,
-              "string.substring(\n          start,\n          _lastNonWhitespace(string, excludeEscape: excludeEscape)! + 1,\n        )",
-              []
-            ],
-            [
-              "30064826609",
-              0,
-              true,
-              false,
-              "start == null\n      ? \"\"\n      : string.substring(\n          start,\n          _lastNonWhitespace(string, excludeEscape: excludeEscape)! + 1,\n        )",
-              []
-            ],
-            [
-              "141733925853",
-              0,
-              true,
-              false,
-              "",
-              []
-            ]
-          ]
-        },
-        {
           "transitions": [
             "parameter-read",
             "parameter-binding"
-          ],
-          "elements": [
-            [
-              "111669157158",
-              0,
-              true,
-              false,
-              "string",
-              []
-            ],
-            [
-              "68719525516",
-              0,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "111669157163",
-              0,
-              true,
-              false,
-              "",
-              []
-            ]
           ]
         },
         {
-          "transitions": [
-            "parameter-read",
-            "return-value"
-          ],
           "elements": [
             [
               "111669157151",
@@ -4330,7 +4327,7 @@
               []
             ],
             [
-              "68719525486",
+              "68719525488",
               0,
               true,
               false,
@@ -4345,51 +4342,13 @@
               "",
               []
             ]
+          ],
+          "transitions": [
+            "parameter-read",
+            "return-value"
           ]
         },
         {
-          "transitions": [
-            "parameter-read",
-            "external-return",
-            "external-return",
-            "external-return",
-            "return-value",
-            "method-return",
-            "call-return",
-            "operator-value",
-            "assignment",
-            "block-result",
-            "block-result",
-            "operator-value",
-            "return-value",
-            "method-return",
-            "callback-result",
-            "callback-effect",
-            "callback-parameter",
-            "parameter-read",
-            "external-return",
-            "assignment",
-            "local-read",
-            "local-read",
-            "assignment",
-            "local-read",
-            "local-read",
-            "local-read",
-            "external-return",
-            "assignment",
-            "block-result",
-            "assignment",
-            "local-read",
-            "assignment",
-            "local-read",
-            "external-return",
-            "parameter-binding",
-            "parameter-read",
-            "external-return",
-            "external-return",
-            "external-return",
-            "return-value"
-          ],
           "elements": [
             [
               "111669157149",
@@ -4400,7 +4359,7 @@
               []
             ],
             [
-              "68719525484",
+              "68719525486",
               5,
               true,
               false,
@@ -4408,7 +4367,7 @@
               []
             ],
             [
-              "30064826579",
+              "30064826583",
               5,
               true,
               false,
@@ -4416,7 +4375,7 @@
               []
             ],
             [
-              "30064826578",
+              "30064826582",
               5,
               true,
               false,
@@ -4424,7 +4383,7 @@
               []
             ],
             [
-              "30064826577",
+              "30064826581",
               5,
               true,
               false,
@@ -4448,7 +4407,7 @@
               []
             ],
             [
-              "30064827113",
+              "30064827117",
               0,
               false,
               true,
@@ -4456,7 +4415,7 @@
               []
             ],
             [
-              "30064827112",
+              "30064827116",
               0,
               true,
               false,
@@ -4464,7 +4423,7 @@
               []
             ],
             [
-              "68719526012",
+              "68719526014",
               0,
               true,
               false,
@@ -4472,7 +4431,7 @@
               []
             ],
             [
-              "25769823057",
+              "25769823061",
               0,
               true,
               false,
@@ -4480,7 +4439,7 @@
               []
             ],
             [
-              "25769823056",
+              "25769823060",
               0,
               false,
               false,
@@ -4488,7 +4447,7 @@
               []
             ],
             [
-              "30064827088",
+              "30064827092",
               0,
               true,
               false,
@@ -4520,7 +4479,7 @@
               []
             ],
             [
-              "68719525504",
+              "68719525506",
               0,
               true,
               false,
@@ -4536,7 +4495,7 @@
               []
             ],
             [
-              "68719525991",
+              "68719525993",
               0,
               true,
               false,
@@ -4544,7 +4503,7 @@
               []
             ],
             [
-              "30064827087",
+              "30064827091",
               0,
               true,
               false,
@@ -4552,7 +4511,7 @@
               []
             ],
             [
-              "68719525990",
+              "68719525992",
               0,
               true,
               false,
@@ -4560,7 +4519,7 @@
               []
             ],
             [
-              "68719525994",
+              "68719525996",
               0,
               true,
               false,
@@ -4568,19 +4527,11 @@
               []
             ],
             [
-              "68719525999",
+              "68719526001",
               0,
               true,
               false,
               "lines",
-              []
-            ],
-            [
-              "68719525998",
-              0,
-              true,
-              false,
-              "<tmp>13",
               []
             ],
             [
@@ -4592,7 +4543,7 @@
               []
             ],
             [
-              "68719526003",
+              "68719526002",
               0,
               true,
               false,
@@ -4600,7 +4551,7 @@
               []
             ],
             [
-              "68719526008",
+              "68719526005",
               0,
               true,
               false,
@@ -4608,7 +4559,31 @@
               []
             ],
             [
-              "30064827109",
+              "68719526010",
+              0,
+              true,
+              false,
+              "<tmp>13",
+              []
+            ],
+            [
+              "30064827113",
+              0,
+              true,
+              false,
+              "...var rest",
+              []
+            ],
+            [
+              "68719526009",
+              0,
+              true,
+              false,
+              "<pattern>15",
+              []
+            ],
+            [
+              "25769823066",
               0,
               true,
               false,
@@ -4620,39 +4595,7 @@
               0,
               true,
               false,
-              "<pattern>15",
-              []
-            ],
-            [
-              "25769823062",
-              0,
-              true,
-              false,
-              "...var rest",
-              []
-            ],
-            [
-              "68719526005",
-              0,
-              true,
-              false,
               "<tmp>16",
-              []
-            ],
-            [
-              "68719526011",
-              0,
-              true,
-              false,
-              "<tmp>16",
-              []
-            ],
-            [
-              "68719526010",
-              0,
-              true,
-              false,
-              "rest",
               []
             ],
             [
@@ -4660,11 +4603,27 @@
               0,
               true,
               false,
+              "<tmp>16",
+              []
+            ],
+            [
+              "68719526012",
+              0,
+              true,
+              false,
               "rest",
               []
             ],
             [
-              "30064827114",
+              "68719526015",
+              0,
+              true,
+              false,
+              "rest",
+              []
+            ],
+            [
+              "30064827118",
               0,
               true,
               false,
@@ -4680,7 +4639,7 @@
               []
             ],
             [
-              "68719525484",
+              "68719525486",
               0,
               true,
               false,
@@ -4688,7 +4647,7 @@
               []
             ],
             [
-              "30064826579",
+              "30064826583",
               0,
               true,
               false,
@@ -4696,7 +4655,7 @@
               []
             ],
             [
-              "30064826578",
+              "30064826582",
               0,
               true,
               false,
@@ -4704,7 +4663,7 @@
               []
             ],
             [
-              "30064826577",
+              "30064826581",
               0,
               true,
               false,
@@ -4719,9 +4678,7 @@
               "",
               []
             ]
-          ]
-        },
-        {
+          ],
           "transitions": [
             "parameter-read",
             "external-return",
@@ -4763,7 +4720,9 @@
             "external-return",
             "external-return",
             "return-value"
-          ],
+          ]
+        },
+        {
           "elements": [
             [
               "111669157149",
@@ -4774,7 +4733,7 @@
               []
             ],
             [
-              "68719525484",
+              "68719525486",
               5,
               true,
               false,
@@ -4782,7 +4741,7 @@
               []
             ],
             [
-              "30064826579",
+              "30064826583",
               5,
               true,
               false,
@@ -4790,7 +4749,7 @@
               []
             ],
             [
-              "30064826578",
+              "30064826582",
               5,
               true,
               false,
@@ -4798,7 +4757,7 @@
               []
             ],
             [
-              "30064826577",
+              "30064826581",
               5,
               true,
               false,
@@ -4822,7 +4781,7 @@
               []
             ],
             [
-              "30064827113",
+              "30064827117",
               0,
               false,
               true,
@@ -4830,7 +4789,7 @@
               []
             ],
             [
-              "30064827112",
+              "30064827116",
               0,
               true,
               false,
@@ -4838,7 +4797,7 @@
               []
             ],
             [
-              "68719526012",
+              "68719526014",
               0,
               true,
               false,
@@ -4846,7 +4805,7 @@
               []
             ],
             [
-              "25769823057",
+              "25769823061",
               0,
               true,
               false,
@@ -4854,7 +4813,7 @@
               []
             ],
             [
-              "25769823056",
+              "25769823060",
               0,
               false,
               false,
@@ -4862,7 +4821,7 @@
               []
             ],
             [
-              "30064827088",
+              "30064827092",
               0,
               true,
               false,
@@ -4894,7 +4853,7 @@
               []
             ],
             [
-              "68719525504",
+              "68719525506",
               0,
               true,
               false,
@@ -4910,7 +4869,7 @@
               []
             ],
             [
-              "68719525991",
+              "68719525993",
               0,
               true,
               false,
@@ -4918,7 +4877,7 @@
               []
             ],
             [
-              "30064827087",
+              "30064827091",
               0,
               true,
               false,
@@ -4926,7 +4885,7 @@
               []
             ],
             [
-              "68719525990",
+              "68719525992",
               0,
               true,
               false,
@@ -4934,7 +4893,7 @@
               []
             ],
             [
-              "68719525994",
+              "68719525996",
               0,
               true,
               false,
@@ -4942,19 +4901,11 @@
               []
             ],
             [
-              "68719525999",
+              "68719526001",
               0,
               true,
               false,
               "lines",
-              []
-            ],
-            [
-              "68719525998",
-              0,
-              true,
-              false,
-              "<tmp>13",
               []
             ],
             [
@@ -4966,7 +4917,7 @@
               []
             ],
             [
-              "68719526003",
+              "68719526002",
               0,
               true,
               false,
@@ -4974,7 +4925,7 @@
               []
             ],
             [
-              "68719526008",
+              "68719526005",
               0,
               true,
               false,
@@ -4982,7 +4933,31 @@
               []
             ],
             [
-              "30064827109",
+              "68719526010",
+              0,
+              true,
+              false,
+              "<tmp>13",
+              []
+            ],
+            [
+              "30064827113",
+              0,
+              true,
+              false,
+              "...var rest",
+              []
+            ],
+            [
+              "68719526009",
+              0,
+              true,
+              false,
+              "<pattern>15",
+              []
+            ],
+            [
+              "25769823066",
               0,
               true,
               false,
@@ -4994,39 +4969,7 @@
               0,
               true,
               false,
-              "<pattern>15",
-              []
-            ],
-            [
-              "25769823062",
-              0,
-              true,
-              false,
-              "...var rest",
-              []
-            ],
-            [
-              "68719526005",
-              0,
-              true,
-              false,
               "<tmp>16",
-              []
-            ],
-            [
-              "68719526011",
-              0,
-              true,
-              false,
-              "<tmp>16",
-              []
-            ],
-            [
-              "68719526010",
-              0,
-              true,
-              false,
-              "rest",
               []
             ],
             [
@@ -5034,11 +4977,27 @@
               0,
               true,
               false,
+              "<tmp>16",
+              []
+            ],
+            [
+              "68719526012",
+              0,
+              true,
+              false,
               "rest",
               []
             ],
             [
-              "30064827114",
+              "68719526015",
+              0,
+              true,
+              false,
+              "rest",
+              []
+            ],
+            [
+              "30064827118",
               0,
               true,
               false,
@@ -5054,7 +5013,7 @@
               []
             ],
             [
-              "68719525484",
+              "68719525486",
               0,
               true,
               false,
@@ -5062,7 +5021,7 @@
               []
             ],
             [
-              "30064826579",
+              "30064826583",
               0,
               true,
               false,
@@ -5070,7 +5029,7 @@
               []
             ],
             [
-              "30064826578",
+              "30064826582",
               0,
               true,
               false,
@@ -5078,7 +5037,7 @@
               []
             ],
             [
-              "30064826577",
+              "30064826581",
               0,
               true,
               false,
@@ -5093,9 +5052,373 @@
               "",
               []
             ]
+          ],
+          "transitions": [
+            "parameter-read",
+            "external-return",
+            "external-return",
+            "external-return",
+            "return-value",
+            "method-return",
+            "call-return",
+            "operator-value",
+            "assignment",
+            "block-result",
+            "block-result",
+            "operator-value",
+            "return-value",
+            "method-return",
+            "callback-result",
+            "callback-effect",
+            "callback-parameter",
+            "parameter-read",
+            "external-return",
+            "assignment",
+            "local-read",
+            "local-read",
+            "assignment",
+            "local-read",
+            "local-read",
+            "local-read",
+            "external-return",
+            "assignment",
+            "block-result",
+            "assignment",
+            "local-read",
+            "assignment",
+            "local-read",
+            "external-return",
+            "parameter-binding",
+            "parameter-read",
+            "external-return",
+            "external-return",
+            "external-return",
+            "return-value"
           ]
         },
         {
+          "elements": [
+            [
+              "111669157149",
+              5,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "68719525486",
+              5,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "30064826583",
+              5,
+              true,
+              false,
+              "string.split(\"\\n\")",
+              []
+            ],
+            [
+              "30064826582",
+              5,
+              true,
+              false,
+              "string.split(\"\\n\").map((line) => (\" \" * indentation) + line)",
+              []
+            ],
+            [
+              "30064826581",
+              5,
+              true,
+              false,
+              "string.split(\"\\n\").map((line) => (\" \" * indentation) + line).join(\"\\n\")",
+              []
+            ],
+            [
+              "141733925846",
+              5,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "124554056722",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "30064827117",
+              0,
+              false,
+              true,
+              "indent(rest.join(\"\\n\"), 2)",
+              []
+            ],
+            [
+              "30064827116",
+              0,
+              true,
+              false,
+              "\"\\n\" + indent(rest.join(\"\\n\"), 2)",
+              []
+            ],
+            [
+              "68719526014",
+              0,
+              true,
+              false,
+              "<tmp>12",
+              []
+            ],
+            [
+              "25769823061",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "25769823060",
+              0,
+              false,
+              false,
+              "",
+              []
+            ],
+            [
+              "30064827092",
+              0,
+              true,
+              false,
+              "\"${glyph.bullet} ${lines.first}\" +\n          switch (lines) {\n            [_, ...var rest] => \"\\n\" + indent(rest.join(\"\\n\"), 2),\n            _ => \"\",\n          }",
+              []
+            ],
+            [
+              "141733925903",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "124554056765",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "120259085299",
+              0,
+              true,
+              true,
+              "(element) {\n      var lines = element.split(\"\\n\");\n      return \"${glyph.bullet} ${lines.first}\" +\n          switch (lines) {\n            [_, ...var rest] => \"\\n\" + indent(rest.join(\"\\n\"), 2),\n            _ => \"\",\n          };\n    }",
+              []
+            ],
+            [
+              "68719525506",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "111669157224",
+              0,
+              true,
+              false,
+              "element",
+              []
+            ],
+            [
+              "68719525993",
+              0,
+              true,
+              false,
+              "element",
+              []
+            ],
+            [
+              "30064827091",
+              0,
+              true,
+              false,
+              "element.split(\"\\n\")",
+              []
+            ],
+            [
+              "68719525992",
+              0,
+              true,
+              false,
+              "lines",
+              []
+            ],
+            [
+              "68719525996",
+              0,
+              true,
+              false,
+              "lines",
+              []
+            ],
+            [
+              "68719526001",
+              0,
+              false,
+              false,
+              "lines",
+              []
+            ],
+            [
+              "68719526002",
+              0,
+              true,
+              false,
+              "<tmp>13",
+              []
+            ],
+            [
+              "68719526005",
+              0,
+              true,
+              false,
+              "<tmp>13",
+              []
+            ],
+            [
+              "68719526010",
+              0,
+              true,
+              false,
+              "<tmp>13",
+              []
+            ],
+            [
+              "30064827113",
+              0,
+              true,
+              false,
+              "...var rest",
+              []
+            ],
+            [
+              "68719526009",
+              0,
+              true,
+              false,
+              "<pattern>15",
+              []
+            ],
+            [
+              "25769823066",
+              0,
+              true,
+              false,
+              "...var rest",
+              []
+            ],
+            [
+              "68719526007",
+              0,
+              true,
+              false,
+              "<tmp>16",
+              []
+            ],
+            [
+              "68719526013",
+              0,
+              true,
+              false,
+              "<tmp>16",
+              []
+            ],
+            [
+              "68719526012",
+              0,
+              true,
+              false,
+              "rest",
+              []
+            ],
+            [
+              "68719526015",
+              0,
+              true,
+              false,
+              "rest",
+              []
+            ],
+            [
+              "30064827118",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "111669157149",
+              0,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "68719525486",
+              0,
+              true,
+              false,
+              "string",
+              []
+            ],
+            [
+              "30064826583",
+              0,
+              true,
+              false,
+              "string.split(\"\\n\")",
+              []
+            ],
+            [
+              "30064826582",
+              0,
+              true,
+              false,
+              "string.split(\"\\n\").map((line) => (\" \" * indentation) + line)",
+              []
+            ],
+            [
+              "30064826581",
+              0,
+              true,
+              false,
+              "string.split(\"\\n\").map((line) => (\" \" * indentation) + line).join(\"\\n\")",
+              []
+            ],
+            [
+              "141733925846",
+              0,
+              true,
+              false,
+              "",
+              []
+            ]
+          ],
           "transitions": [
             "parameter-read",
             "external-return",
@@ -5136,7 +5459,9 @@
             "external-return",
             "external-return",
             "return-value"
-          ],
+          ]
+        },
+        {
           "elements": [
             [
               "111669157149",
@@ -5147,7 +5472,7 @@
               []
             ],
             [
-              "68719525484",
+              "68719525486",
               5,
               true,
               false,
@@ -5155,7 +5480,7 @@
               []
             ],
             [
-              "30064826579",
+              "30064826583",
               5,
               true,
               false,
@@ -5163,7 +5488,7 @@
               []
             ],
             [
-              "30064826578",
+              "30064826582",
               5,
               true,
               false,
@@ -5171,7 +5496,7 @@
               []
             ],
             [
-              "30064826577",
+              "30064826581",
               5,
               true,
               false,
@@ -5195,7 +5520,7 @@
               []
             ],
             [
-              "30064827113",
+              "30064827117",
               0,
               false,
               true,
@@ -5203,7 +5528,7 @@
               []
             ],
             [
-              "30064827112",
+              "30064827116",
               0,
               true,
               false,
@@ -5211,7 +5536,7 @@
               []
             ],
             [
-              "68719526012",
+              "68719526014",
               0,
               true,
               false,
@@ -5219,7 +5544,7 @@
               []
             ],
             [
-              "25769823057",
+              "25769823061",
               0,
               true,
               false,
@@ -5227,7 +5552,7 @@
               []
             ],
             [
-              "25769823056",
+              "25769823060",
               0,
               false,
               false,
@@ -5235,7 +5560,7 @@
               []
             ],
             [
-              "30064827088",
+              "30064827092",
               0,
               true,
               false,
@@ -5267,7 +5592,7 @@
               []
             ],
             [
-              "68719525504",
+              "68719525506",
               0,
               true,
               false,
@@ -5283,7 +5608,7 @@
               []
             ],
             [
-              "68719525991",
+              "68719525993",
               0,
               true,
               false,
@@ -5291,7 +5616,7 @@
               []
             ],
             [
-              "30064827087",
+              "30064827091",
               0,
               true,
               false,
@@ -5299,7 +5624,7 @@
               []
             ],
             [
-              "68719525990",
+              "68719525992",
               0,
               true,
               false,
@@ -5307,7 +5632,7 @@
               []
             ],
             [
-              "68719525994",
+              "68719525996",
               0,
               true,
               false,
@@ -5315,9 +5640,9 @@
               []
             ],
             [
-              "68719525999",
+              "68719526001",
               0,
-              false,
+              true,
               false,
               "lines",
               []
@@ -5331,7 +5656,7 @@
               []
             ],
             [
-              "68719526003",
+              "68719526002",
               0,
               true,
               false,
@@ -5339,7 +5664,7 @@
               []
             ],
             [
-              "68719526008",
+              "68719526005",
               0,
               true,
               false,
@@ -5347,7 +5672,23 @@
               []
             ],
             [
-              "30064827109",
+              "68719526010",
+              0,
+              true,
+              false,
+              "<tmp>13",
+              []
+            ],
+            [
+              "30064827113",
+              0,
+              false,
+              false,
+              "...var rest",
+              []
+            ],
+            [
+              "25769823066",
               0,
               true,
               false,
@@ -5359,39 +5700,7 @@
               0,
               true,
               false,
-              "<pattern>15",
-              []
-            ],
-            [
-              "25769823062",
-              0,
-              true,
-              false,
-              "...var rest",
-              []
-            ],
-            [
-              "68719526005",
-              0,
-              true,
-              false,
               "<tmp>16",
-              []
-            ],
-            [
-              "68719526011",
-              0,
-              true,
-              false,
-              "<tmp>16",
-              []
-            ],
-            [
-              "68719526010",
-              0,
-              true,
-              false,
-              "rest",
               []
             ],
             [
@@ -5399,11 +5708,27 @@
               0,
               true,
               false,
+              "<tmp>16",
+              []
+            ],
+            [
+              "68719526012",
+              0,
+              true,
+              false,
               "rest",
               []
             ],
             [
-              "30064827114",
+              "68719526015",
+              0,
+              true,
+              false,
+              "rest",
+              []
+            ],
+            [
+              "30064827118",
               0,
               true,
               false,
@@ -5419,7 +5744,7 @@
               []
             ],
             [
-              "68719525484",
+              "68719525486",
               0,
               true,
               false,
@@ -5427,7 +5752,7 @@
               []
             ],
             [
-              "30064826579",
+              "30064826583",
               0,
               true,
               false,
@@ -5435,7 +5760,7 @@
               []
             ],
             [
-              "30064826578",
+              "30064826582",
               0,
               true,
               false,
@@ -5443,7 +5768,7 @@
               []
             ],
             [
-              "30064826577",
+              "30064826581",
               0,
               true,
               false,
@@ -5458,9 +5783,7 @@
               "",
               []
             ]
-          ]
-        },
-        {
+          ],
           "transitions": [
             "parameter-read",
             "external-return",
@@ -5501,344 +5824,9 @@
             "external-return",
             "external-return",
             "return-value"
-          ],
-          "elements": [
-            [
-              "111669157149",
-              5,
-              true,
-              false,
-              "string",
-              []
-            ],
-            [
-              "68719525484",
-              5,
-              true,
-              false,
-              "string",
-              []
-            ],
-            [
-              "30064826579",
-              5,
-              true,
-              false,
-              "string.split(\"\\n\")",
-              []
-            ],
-            [
-              "30064826578",
-              5,
-              true,
-              false,
-              "string.split(\"\\n\").map((line) => (\" \" * indentation) + line)",
-              []
-            ],
-            [
-              "30064826577",
-              5,
-              true,
-              false,
-              "string.split(\"\\n\").map((line) => (\" \" * indentation) + line).join(\"\\n\")",
-              []
-            ],
-            [
-              "141733925846",
-              5,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "124554056722",
-              0,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "30064827113",
-              0,
-              false,
-              true,
-              "indent(rest.join(\"\\n\"), 2)",
-              []
-            ],
-            [
-              "30064827112",
-              0,
-              true,
-              false,
-              "\"\\n\" + indent(rest.join(\"\\n\"), 2)",
-              []
-            ],
-            [
-              "68719526012",
-              0,
-              true,
-              false,
-              "<tmp>12",
-              []
-            ],
-            [
-              "25769823057",
-              0,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "25769823056",
-              0,
-              false,
-              false,
-              "",
-              []
-            ],
-            [
-              "30064827088",
-              0,
-              true,
-              false,
-              "\"${glyph.bullet} ${lines.first}\" +\n          switch (lines) {\n            [_, ...var rest] => \"\\n\" + indent(rest.join(\"\\n\"), 2),\n            _ => \"\",\n          }",
-              []
-            ],
-            [
-              "141733925903",
-              0,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "124554056765",
-              0,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "120259085299",
-              0,
-              true,
-              true,
-              "(element) {\n      var lines = element.split(\"\\n\");\n      return \"${glyph.bullet} ${lines.first}\" +\n          switch (lines) {\n            [_, ...var rest] => \"\\n\" + indent(rest.join(\"\\n\"), 2),\n            _ => \"\",\n          };\n    }",
-              []
-            ],
-            [
-              "68719525504",
-              0,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "111669157224",
-              0,
-              true,
-              false,
-              "element",
-              []
-            ],
-            [
-              "68719525991",
-              0,
-              true,
-              false,
-              "element",
-              []
-            ],
-            [
-              "30064827087",
-              0,
-              true,
-              false,
-              "element.split(\"\\n\")",
-              []
-            ],
-            [
-              "68719525990",
-              0,
-              true,
-              false,
-              "lines",
-              []
-            ],
-            [
-              "68719525994",
-              0,
-              true,
-              false,
-              "lines",
-              []
-            ],
-            [
-              "68719525999",
-              0,
-              true,
-              false,
-              "lines",
-              []
-            ],
-            [
-              "68719525998",
-              0,
-              true,
-              false,
-              "<tmp>13",
-              []
-            ],
-            [
-              "68719526000",
-              0,
-              true,
-              false,
-              "<tmp>13",
-              []
-            ],
-            [
-              "68719526003",
-              0,
-              true,
-              false,
-              "<tmp>13",
-              []
-            ],
-            [
-              "68719526008",
-              0,
-              true,
-              false,
-              "<tmp>13",
-              []
-            ],
-            [
-              "30064827109",
-              0,
-              false,
-              false,
-              "...var rest",
-              []
-            ],
-            [
-              "25769823062",
-              0,
-              true,
-              false,
-              "...var rest",
-              []
-            ],
-            [
-              "68719526005",
-              0,
-              true,
-              false,
-              "<tmp>16",
-              []
-            ],
-            [
-              "68719526011",
-              0,
-              true,
-              false,
-              "<tmp>16",
-              []
-            ],
-            [
-              "68719526010",
-              0,
-              true,
-              false,
-              "rest",
-              []
-            ],
-            [
-              "68719526013",
-              0,
-              true,
-              false,
-              "rest",
-              []
-            ],
-            [
-              "30064827114",
-              0,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "111669157149",
-              0,
-              true,
-              false,
-              "string",
-              []
-            ],
-            [
-              "68719525484",
-              0,
-              true,
-              false,
-              "string",
-              []
-            ],
-            [
-              "30064826579",
-              0,
-              true,
-              false,
-              "string.split(\"\\n\")",
-              []
-            ],
-            [
-              "30064826578",
-              0,
-              true,
-              false,
-              "string.split(\"\\n\").map((line) => (\" \" * indentation) + line)",
-              []
-            ],
-            [
-              "30064826577",
-              0,
-              true,
-              false,
-              "string.split(\"\\n\").map((line) => (\" \" * indentation) + line).join(\"\\n\")",
-              []
-            ],
-            [
-              "141733925846",
-              0,
-              true,
-              false,
-              "",
-              []
-            ]
           ]
         },
         {
-          "transitions": [
-            "parameter-read",
-            "external-return",
-            "callback-parameter",
-            "parameter-read",
-            "operator-value",
-            "return-value",
-            "method-return",
-            "callback-result",
-            "callback-effect",
-            "external-return",
-            "return-value"
-          ],
           "elements": [
             [
               "111669157149",
@@ -5849,7 +5837,7 @@
               []
             ],
             [
-              "68719525484",
+              "68719525486",
               0,
               true,
               false,
@@ -5857,7 +5845,7 @@
               []
             ],
             [
-              "30064826579",
+              "30064826583",
               0,
               true,
               false,
@@ -5873,7 +5861,7 @@
               []
             ],
             [
-              "68719525989",
+              "68719525991",
               0,
               false,
               false,
@@ -5881,7 +5869,7 @@
               []
             ],
             [
-              "30064827084",
+              "30064827088",
               0,
               true,
               false,
@@ -5913,7 +5901,7 @@
               []
             ],
             [
-              "30064826578",
+              "30064826582",
               0,
               true,
               false,
@@ -5921,7 +5909,7 @@
               []
             ],
             [
-              "30064826577",
+              "30064826581",
               0,
               true,
               false,
@@ -5936,16 +5924,22 @@
               "",
               []
             ]
+          ],
+          "transitions": [
+            "parameter-read",
+            "external-return",
+            "callback-parameter",
+            "parameter-read",
+            "operator-value",
+            "return-value",
+            "method-return",
+            "callback-result",
+            "callback-effect",
+            "external-return",
+            "return-value"
           ]
         },
         {
-          "transitions": [
-            "parameter-read",
-            "parameter-output",
-            "caller-output",
-            "parameter-binding",
-            "parameter-read"
-          ],
           "elements": [
             [
               "111669157152",
@@ -5956,7 +5950,7 @@
               []
             ],
             [
-              "68719525485",
+              "68719525487",
               6,
               true,
               false,
@@ -5972,7 +5966,7 @@
               []
             ],
             [
-              "30064841984",
+              "30064841988",
               0,
               true,
               true,
@@ -5988,23 +5982,23 @@
               []
             ],
             [
-              "68719525485",
+              "68719525487",
               0,
               true,
               false,
               "",
               []
             ]
-          ]
-        },
-        {
+          ],
           "transitions": [
             "parameter-read",
             "parameter-output",
             "caller-output",
             "parameter-binding",
             "parameter-read"
-          ],
+          ]
+        },
+        {
           "elements": [
             [
               "111669157152",
@@ -6015,7 +6009,7 @@
               []
             ],
             [
-              "68719525485",
+              "68719525487",
               7,
               true,
               false,
@@ -6031,7 +6025,7 @@
               []
             ],
             [
-              "30064844980",
+              "30064844984",
               0,
               true,
               true,
@@ -6047,23 +6041,23 @@
               []
             ],
             [
-              "68719525485",
+              "68719525487",
               0,
               true,
               false,
               "",
               []
             ]
-          ]
-        },
-        {
+          ],
           "transitions": [
             "parameter-read",
             "parameter-output",
             "caller-output",
             "parameter-binding",
             "parameter-read"
-          ],
+          ]
+        },
+        {
           "elements": [
             [
               "111669157152",
@@ -6074,7 +6068,7 @@
               []
             ],
             [
-              "68719525485",
+              "68719525487",
               8,
               true,
               false,
@@ -6090,7 +6084,7 @@
               []
             ],
             [
-              "30064849255",
+              "30064849259",
               0,
               true,
               true,
@@ -6106,23 +6100,23 @@
               []
             ],
             [
-              "68719525485",
+              "68719525487",
               0,
               true,
               false,
               "",
               []
             ]
-          ]
-        },
-        {
+          ],
           "transitions": [
             "parameter-read",
             "parameter-output",
             "caller-output",
             "parameter-binding",
             "parameter-read"
-          ],
+          ]
+        },
+        {
           "elements": [
             [
               "111669157152",
@@ -6133,7 +6127,7 @@
               []
             ],
             [
-              "68719525485",
+              "68719525487",
               9,
               true,
               false,
@@ -6149,7 +6143,7 @@
               []
             ],
             [
-              "30064852142",
+              "30064852146",
               0,
               true,
               true,
@@ -6165,13 +6159,20 @@
               []
             ],
             [
-              "68719525485",
+              "68719525487",
               0,
               true,
               false,
               "",
               []
             ]
+          ],
+          "transitions": [
+            "parameter-read",
+            "parameter-output",
+            "caller-output",
+            "parameter-binding",
+            "parameter-read"
           ]
         }
       ],
@@ -6225,7 +6226,7 @@
   ],
   "representation": "Node/call IDs and context/path indices are project-local. transitions[i] classifies elements[i] to elements[i+1]. All retained demand sets in this review are empty. Equivalent stock/modeled paths are shared; full path flags and selected caller contexts are preserved.",
   "reviewMethod": "Each selected displayed route was read against its pinned source expectation. Formal argument positions, resolved return targets and available selected frames were checked. Argument-output return evidence already in a caller frame has a separate category. This is a mechanism/approximation review, not branch feasibility, general scheduling or heap qualification.",
-  "analysisBaseCommit": "a581b147b",
+  "analysisBaseCommit": "304dff99c",
   "limitations": [
     "Only these eleven Sass query families and their returned bounded paths are reviewed; other corpus alternatives and larger searches remain pending.",
     "An endpoint identity is recorded separately from independent forwarding; conservative argument outputs, aggregate projections and external effects do not prove mutation, allocation identity, callback delivery or branch feasibility.",
@@ -6236,5 +6237,38 @@
     "selectedPaths": 41,
     "distinctPaths": 23,
     "distinctTransitions": 330
+  },
+  "refresh": {
+    "previousBaseCommit": "304dff99c",
+    "previousAnalysisSources": {
+      "algorithm": "sha256-path-nul-content-nul",
+      "sha256": "067ae48b90f8f891485eedfc142d904ce8069cd5fd5b82a3dff90ca521385e7c",
+      "files": 403,
+      "roots": [
+        "joern-cli/frontends/dartsrc2cpg/src",
+        "joern-cli/frontends/dartsrc2cpg/astgen/lib",
+        "joern-cli/frontends/dartsrc2cpg/astgen/bin",
+        "joern-cli/frontends/x2cpg/src/main",
+        "dataflowengineoss/src/main",
+        "semanticcpg/src/main",
+        "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.lock",
+        "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.yaml",
+        "joern-cli/frontends/dartsrc2cpg/build.sbt",
+        "joern-cli/frontends/x2cpg/build.sbt",
+        "joern-cli/build.sbt",
+        "dataflowengineoss/build.sbt",
+        "semanticcpg/build.sbt",
+        "build.sbt",
+        "project/Versions.scala",
+        "project/Projects.scala"
+      ]
+    },
+    "previousTotals": {
+      "queries": 11,
+      "selectedPaths": 41,
+      "distinctPaths": 23,
+      "distinctTransitions": 330
+    },
+    "method": "Replayed after awaited iterator cleanup. Unchanged routes are matched against previous two/four-witness reviewed paths after removing node IDs only; all other node/call/context/flag/demand facts are retained. Changed variants have separate source-grounded refresh dispositions and checked argument/return/output bindings. All new graph IDs are reconstructed from fresh raw audits. Native observations do not certify caller re-entry, allocation, heap/dispatch precision or route feasibility."
   }
 }

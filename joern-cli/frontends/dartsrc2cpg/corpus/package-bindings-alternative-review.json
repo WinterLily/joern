@@ -2,33 +2,33 @@
   "schemaVersion": 2,
   "scope": "All twenty-two args/collection/meta bounded alternative queries; transition mechanisms and approximations, not exhaustive execution traces.",
   "transitionClasses": {
-    "parameter-read": {
-      "kind": "parameter binding",
-      "meaning": "Reading the formal value within its method; this does not establish which invocation supplied it."
+    "assignment": {
+      "kind": "assignment",
+      "meaning": "Assignment, temporary binding, constructor field-formal storage, or an indexed/member write represented by assignment."
+    },
+    "call-return": {
+      "kind": "return",
+      "meaning": "Method return to its call result. The recorded call has the returning method among its resolved callees."
     },
     "local-read": {
       "kind": "assignment",
       "meaning": "Reaching-definition propagation between reads of the same local or receiver. Branch/path feasibility is not established."
     },
-    "assignment": {
-      "kind": "assignment",
-      "meaning": "Assignment, temporary binding, constructor field-formal storage, or an indexed/member write represented by assignment."
+    "method-return": {
+      "kind": "return",
+      "meaning": "Return expression to the method return node."
     },
     "parameter-binding": {
       "kind": "parameter binding",
       "meaning": "Actual argument to formal parameter. The saved call context, argument index and resolved callee were checked."
     },
+    "parameter-read": {
+      "kind": "parameter binding",
+      "meaning": "Reading the formal value within its method; this does not establish which invocation supplied it."
+    },
     "return-value": {
       "kind": "return",
       "meaning": "Displayed value to the method return expression; no claim about feasibility of all preceding transitions."
-    },
-    "method-return": {
-      "kind": "return",
-      "meaning": "Return expression to the method return node."
-    },
-    "call-return": {
-      "kind": "return",
-      "meaning": "Method return to its call result. The recorded call has the returning method among its resolved callees."
     }
   },
   "projects": [
@@ -52,7 +52,7 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "067ae48b90f8f891485eedfc142d904ce8069cd5fd5b82a3dff90ca521385e7c",
+        "sha256": "6a92ea4bf560d1c655b02efcb3b34bf999e1aab8fc5db39f6deebceba02685f9",
         "files": 403,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
@@ -872,11 +872,6 @@
       ],
       "paths": [
         {
-          "transitions": [
-            "parameter-read",
-            "local-read",
-            "return-value"
-          ],
           "elements": [
             [
               "111669150022",
@@ -910,19 +905,14 @@
               "",
               []
             ]
+          ],
+          "transitions": [
+            "parameter-read",
+            "local-read",
+            "return-value"
           ]
         },
         {
-          "transitions": [
-            "parameter-read",
-            "parameter-binding",
-            "parameter-read",
-            "local-read",
-            "return-value",
-            "method-return",
-            "call-return",
-            "return-value"
-          ],
           "elements": [
             [
               "111669150024",
@@ -996,15 +986,19 @@
               "",
               []
             ]
-          ]
-        },
-        {
+          ],
           "transitions": [
             "parameter-read",
             "parameter-binding",
             "parameter-read",
-            "assignment"
-          ],
+            "local-read",
+            "return-value",
+            "method-return",
+            "call-return",
+            "return-value"
+          ]
+        },
+        {
           "elements": [
             [
               "111669149936",
@@ -1046,15 +1040,15 @@
               "",
               []
             ]
-          ]
-        },
-        {
+          ],
           "transitions": [
             "parameter-read",
             "parameter-binding",
             "parameter-read",
             "assignment"
-          ],
+          ]
+        },
+        {
           "elements": [
             [
               "111669149935",
@@ -1096,6 +1090,12 @@
               "",
               []
             ]
+          ],
+          "transitions": [
+            "parameter-read",
+            "parameter-binding",
+            "parameter-read",
+            "assignment"
           ]
         }
       ],
@@ -1132,7 +1132,7 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "067ae48b90f8f891485eedfc142d904ce8069cd5fd5b82a3dff90ca521385e7c",
+        "sha256": "6a92ea4bf560d1c655b02efcb3b34bf999e1aab8fc5db39f6deebceba02685f9",
         "files": 403,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
@@ -2013,10 +2013,6 @@
       ],
       "paths": [
         {
-          "transitions": [
-            "parameter-read",
-            "return-value"
-          ],
           "elements": [
             [
               "111669150768",
@@ -2042,14 +2038,13 @@
               "",
               []
             ]
+          ],
+          "transitions": [
+            "parameter-read",
+            "return-value"
           ]
         },
         {
-          "transitions": [
-            "parameter-read",
-            "parameter-binding",
-            "parameter-read"
-          ],
           "elements": [
             [
               "111669149697",
@@ -2083,14 +2078,14 @@
               "",
               []
             ]
+          ],
+          "transitions": [
+            "parameter-read",
+            "parameter-binding",
+            "parameter-read"
           ]
         },
         {
-          "transitions": [
-            "assignment",
-            "local-read",
-            "assignment"
-          ],
           "elements": [
             [
               "30064771169",
@@ -2124,13 +2119,14 @@
               "",
               []
             ]
+          ],
+          "transitions": [
+            "assignment",
+            "local-read",
+            "assignment"
           ]
         },
         {
-          "transitions": [
-            "parameter-read",
-            "parameter-binding"
-          ],
           "elements": [
             [
               "111669149696",
@@ -2156,12 +2152,13 @@
               "",
               []
             ]
+          ],
+          "transitions": [
+            "parameter-read",
+            "parameter-binding"
           ]
         },
         {
-          "transitions": [
-            "parameter-read"
-          ],
           "elements": [
             [
               "111669149702",
@@ -2179,6 +2176,9 @@
               "",
               []
             ]
+          ],
+          "transitions": [
+            "parameter-read"
           ]
         }
       ],
@@ -2215,7 +2215,7 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "067ae48b90f8f891485eedfc142d904ce8069cd5fd5b82a3dff90ca521385e7c",
+        "sha256": "6a92ea4bf560d1c655b02efcb3b34bf999e1aab8fc5db39f6deebceba02685f9",
         "files": 403,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
@@ -3297,10 +3297,6 @@
       ],
       "paths": [
         {
-          "transitions": [
-            "parameter-read",
-            "assignment"
-          ],
           "elements": [
             [
               "111669149709",
@@ -3326,13 +3322,13 @@
               "",
               []
             ]
-          ]
-        },
-        {
+          ],
           "transitions": [
             "parameter-read",
             "assignment"
-          ],
+          ]
+        },
+        {
           "elements": [
             [
               "111669149708",
@@ -3358,13 +3354,13 @@
               "",
               []
             ]
-          ]
-        },
-        {
+          ],
           "transitions": [
             "parameter-read",
             "assignment"
-          ],
+          ]
+        },
+        {
           "elements": [
             [
               "111669149740",
@@ -3390,13 +3386,13 @@
               "",
               []
             ]
-          ]
-        },
-        {
+          ],
           "transitions": [
             "parameter-read",
             "assignment"
-          ],
+          ]
+        },
+        {
           "elements": [
             [
               "111669149706",
@@ -3422,13 +3418,13 @@
               "",
               []
             ]
-          ]
-        },
-        {
+          ],
           "transitions": [
             "parameter-read",
             "assignment"
-          ],
+          ]
+        },
+        {
           "elements": [
             [
               "111669149739",
@@ -3454,6 +3450,10 @@
               "",
               []
             ]
+          ],
+          "transitions": [
+            "parameter-read",
+            "assignment"
           ]
         }
       ],
@@ -3489,7 +3489,7 @@
   ],
   "representation": "Node/call IDs and context/path indices are project-local. transitions[i] classifies elements[i] to elements[i+1]. All retained demand sets in this review are empty. Equivalent stock/modeled paths are shared; full path flags and selected caller contexts are preserved.",
   "reviewMethod": "Each selected displayed route was read against its pinned source expectation. Formal argument positions, resolved return targets and available selected frames were checked. Argument-output return evidence already in a caller frame has a separate category. This is a mechanism/approximation review, not branch feasibility, general scheduling or heap qualification.",
-  "analysisBaseCommit": "d8f6ee435",
+  "analysisBaseCommit": "304dff99c",
   "limitations": [
     "Only these twenty-two args/collection/meta query families and their returned bounded paths are reviewed; other corpus alternatives and larger searches remain pending.",
     "An endpoint identity is recorded separately from independent forwarding; conservative argument outputs, aggregate projections and external effects do not prove mutation, allocation identity, callback delivery or branch feasibility.",
@@ -3500,5 +3500,38 @@
     "selectedPaths": 28,
     "distinctPaths": 14,
     "distinctTransitions": 40
+  },
+  "refresh": {
+    "previousBaseCommit": "304dff99c",
+    "previousAnalysisSources": {
+      "algorithm": "sha256-path-nul-content-nul",
+      "sha256": "067ae48b90f8f891485eedfc142d904ce8069cd5fd5b82a3dff90ca521385e7c",
+      "files": 403,
+      "roots": [
+        "joern-cli/frontends/dartsrc2cpg/src",
+        "joern-cli/frontends/dartsrc2cpg/astgen/lib",
+        "joern-cli/frontends/dartsrc2cpg/astgen/bin",
+        "joern-cli/frontends/x2cpg/src/main",
+        "dataflowengineoss/src/main",
+        "semanticcpg/src/main",
+        "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.lock",
+        "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.yaml",
+        "joern-cli/frontends/dartsrc2cpg/build.sbt",
+        "joern-cli/frontends/x2cpg/build.sbt",
+        "joern-cli/build.sbt",
+        "dataflowengineoss/build.sbt",
+        "semanticcpg/build.sbt",
+        "build.sbt",
+        "project/Versions.scala",
+        "project/Projects.scala"
+      ]
+    },
+    "previousTotals": {
+      "queries": 22,
+      "selectedPaths": 28,
+      "distinctPaths": 14,
+      "distinctTransitions": 40
+    },
+    "method": "Replayed after awaited iterator cleanup. Unchanged routes are matched against previous two/four-witness reviewed paths after removing node IDs only; all other node/call/context/flag/demand facts are retained. Changed variants have separate source-grounded refresh dispositions and checked argument/return/output bindings. All new graph IDs are reconstructed from fresh raw audits. Native observations do not certify caller re-entry, allocation, heap/dispatch precision or route feasibility."
   }
 }

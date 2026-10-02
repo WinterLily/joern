@@ -3,7 +3,7 @@
   "sdk": "3.9.2",
   "sdkRevision": "a29e08c72e2ce21813c1edf50cbcdfcac7a7acdd",
   "analyzer": "8.4.1",
-  "inventorySha256": "f004a6583484b2f958bb7fcfb512409b2a1762ef199fb0ceaece8f41627dd665",
+  "inventorySha256": "cb47c529232144691c07c5d666afec1b8595b8e619d225122304a8d5a6ed8e85",
   "sourceIndexSha256": "15f1eef77dd2791eee383c3952c97d7c5e16e1da893bfc200d0e313474211afe",
   "scope": "Per-stage declared test evidence and remaining obligations. This is not a test execution report, whole-rule conformance proof or release readiness claim. Shared profiles qualify only their named assertions and bounded oracle cases.",
   "stages": [
@@ -26,7 +26,7 @@
     "records-graph": {
       "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
       "selector": "\"isolate record fields through calls, nested records and destructuring\" in {",
-      "sha256": "2bffcb9144ad53061beb7c41954f33fac4f06b54e6bb1425c856ced1c3769a56",
+      "sha256": "1e30050eaacafd4b3dea56ad7925d8bc4cf385f63b7a35f6035c5d55e24f98b7",
       "stages": [
         "lowering",
         "resolution",
@@ -48,7 +48,7 @@
     "captures-graph": {
       "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
       "selector": "\"preserve captured binding identity and exclude replaced capture values\" in {",
-      "sha256": "2bffcb9144ad53061beb7c41954f33fac4f06b54e6bb1425c856ced1c3769a56",
+      "sha256": "1e30050eaacafd4b3dea56ad7925d8bc4cf385f63b7a35f6035c5d55e24f98b7",
       "stages": [
         "lowering",
         "valueFlow",
@@ -68,7 +68,7 @@
     "operators-graph": {
       "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
       "selector": "\"yield the assigned value independently of setter and index-setter returns\" in {",
-      "sha256": "2bffcb9144ad53061beb7c41954f33fac4f06b54e6bb1425c856ced1c3769a56",
+      "sha256": "1e30050eaacafd4b3dea56ad7925d8bc4cf385f63b7a35f6035c5d55e24f98b7",
       "stages": [
         "lowering",
         "resolution",
@@ -89,7 +89,7 @@
     "collections-graph": {
       "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
       "selector": "\"accumulate values across nested collection loops without treating conditions as elements\" in {",
-      "sha256": "2bffcb9144ad53061beb7c41954f33fac4f06b54e6bb1425c856ced1c3769a56",
+      "sha256": "1e30050eaacafd4b3dea56ad7925d8bc4cf385f63b7a35f6035c5d55e24f98b7",
       "stages": [
         "lowering",
         "valueFlow",
@@ -109,7 +109,7 @@
     "pattern-joins-graph": {
       "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
       "selector": "\"preserve SDK shared-case guard captures separately from the body variable\" in {",
-      "sha256": "2bffcb9144ad53061beb7c41954f33fac4f06b54e6bb1425c856ced1c3769a56",
+      "sha256": "1e30050eaacafd4b3dea56ad7925d8bc4cf385f63b7a35f6035c5d55e24f98b7",
       "stages": [
         "lowering",
         "resolution",
@@ -129,7 +129,7 @@
     "initialization-graph": {
       "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
       "selector": "\"defer ordinary static and top-level initialization until a getter is read\" in {",
-      "sha256": "2bffcb9144ad53061beb7c41954f33fac4f06b54e6bb1425c856ced1c3769a56",
+      "sha256": "1e30050eaacafd4b3dea56ad7925d8bc4cf385f63b7a35f6035c5d55e24f98b7",
       "stages": [
         "lowering",
         "resolution",
@@ -150,7 +150,7 @@
     "strings-graph": {
       "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
       "selector": "\"preserve interpolation results without writing independent fragments\" in {",
-      "sha256": "2bffcb9144ad53061beb7c41954f33fac4f06b54e6bb1425c856ced1c3769a56",
+      "sha256": "1e30050eaacafd4b3dea56ad7925d8bc4cf385f63b7a35f6035c5d55e24f98b7",
       "stages": [
         "lowering",
         "valueFlow",
@@ -170,7 +170,7 @@
     "enum-graph": {
       "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
       "selector": "\"represent generated enum storage and concrete enum accessors\" in {",
-      "sha256": "2bffcb9144ad53061beb7c41954f33fac4f06b54e6bb1425c856ced1c3769a56",
+      "sha256": "1e30050eaacafd4b3dea56ad7925d8bc4cf385f63b7a35f6035c5d55e24f98b7",
       "stages": [
         "lowering",
         "resolution",
@@ -190,7 +190,7 @@
     "heap-graph": {
       "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
       "selector": "\"retain selected fields through wrappers, read aliases and exceptions\" in {",
-      "sha256": "2bffcb9144ad53061beb7c41954f33fac4f06b54e6bb1425c856ced1c3769a56",
+      "sha256": "1e30050eaacafd4b3dea56ad7925d8bc4cf385f63b7a35f6035c5d55e24f98b7",
       "stages": [
         "lowering",
         "valueFlow",
@@ -210,7 +210,7 @@
     "exceptions-graph": {
       "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
       "selector": "\"separate exception payloads from normal values across method calls\" in {",
-      "sha256": "2bffcb9144ad53061beb7c41954f33fac4f06b54e6bb1425c856ced1c3769a56",
+      "sha256": "1e30050eaacafd4b3dea56ad7925d8bc4cf385f63b7a35f6035c5d55e24f98b7",
       "stages": [
         "lowering",
         "valueFlow",
@@ -230,7 +230,7 @@
     "pattern-comparisons-graph": {
       "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
       "selector": "\"resolve pattern comparison operators with the correct receiver\" in {",
-      "sha256": "2bffcb9144ad53061beb7c41954f33fac4f06b54e6bb1425c856ced1c3769a56",
+      "sha256": "1e30050eaacafd4b3dea56ad7925d8bc4cf385f63b7a35f6035c5d55e24f98b7",
       "stages": [
         "lowering",
         "resolution",
@@ -251,7 +251,7 @@
     "pattern-fields-graph": {
       "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
       "selector": "\"share lazy pattern getter storage across cases and separate nested paths\" in {",
-      "sha256": "2bffcb9144ad53061beb7c41954f33fac4f06b54e6bb1425c856ced1c3769a56",
+      "sha256": "1e30050eaacafd4b3dea56ad7925d8bc4cf385f63b7a35f6035c5d55e24f98b7",
       "stages": [
         "lowering",
         "resolution",
@@ -271,7 +271,7 @@
     "list-patterns-graph": {
       "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
       "selector": "\"resolve and cache list pattern members while skipping untyped wildcards\" in {",
-      "sha256": "2bffcb9144ad53061beb7c41954f33fac4f06b54e6bb1425c856ced1c3769a56",
+      "sha256": "1e30050eaacafd4b3dea56ad7925d8bc4cf385f63b7a35f6035c5d55e24f98b7",
       "stages": [
         "lowering",
         "resolution",
@@ -291,7 +291,7 @@
     "map-patterns-graph": {
       "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
       "selector": "\"resolve map pattern calls and share lazy storage by constant key\" in {",
-      "sha256": "2bffcb9144ad53061beb7c41954f33fac4f06b54e6bb1425c856ced1c3769a56",
+      "sha256": "1e30050eaacafd4b3dea56ad7925d8bc4cf385f63b7a35f6035c5d55e24f98b7",
       "stages": [
         "lowering",
         "resolution",
@@ -312,7 +312,7 @@
     "generic-scopes-graph": {
       "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
       "selector": "\"preserve generic parameter scopes and bound relationships\" in {",
-      "sha256": "2bffcb9144ad53061beb7c41954f33fac4f06b54e6bb1425c856ced1c3769a56",
+      "sha256": "1e30050eaacafd4b3dea56ad7925d8bc4cf385f63b7a35f6035c5d55e24f98b7",
       "stages": [
         "lowering",
         "resolution",
@@ -332,7 +332,7 @@
     "function-values-graph": {
       "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
       "selector": "\"retain instantiated generic tear-off types, source and stable aliases\" in {",
-      "sha256": "2bffcb9144ad53061beb7c41954f33fac4f06b54e6bb1425c856ced1c3769a56",
+      "sha256": "1e30050eaacafd4b3dea56ad7925d8bc4cf385f63b7a35f6035c5d55e24f98b7",
       "stages": [
         "lowering",
         "resolution",
@@ -353,7 +353,7 @@
     "dispatch-graph": {
       "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
       "selector": "\"bind reordered override arguments and preserve independent output receivers\" in {",
-      "sha256": "2bffcb9144ad53061beb7c41954f33fac4f06b54e6bb1425c856ced1c3769a56",
+      "sha256": "1e30050eaacafd4b3dea56ad7925d8bc4cf385f63b7a35f6035c5d55e24f98b7",
       "stages": [
         "lowering",
         "resolution",
@@ -487,6 +487,61 @@
         "exporter"
       ],
       "scope": "Selected resolved exporter facts in this named test; executable/value-flow behavior is assessed separately."
+    },
+    "async-iteration-graph": {
+      "file": "src/test/scala/io/joern/dartsrc2cpg/DartFrontendTests.scala",
+      "selector": "\"cancel await-for iterators through abrupt exits and retain local continues\" in {",
+      "sha256": "1e30050eaacafd4b3dea56ad7925d8bc4cf385f63b7a35f6035c5d55e24f98b7",
+      "stages": [
+        "lowering",
+        "cfg"
+      ],
+      "scope": "Direct CFG edges into awaited iterator cleanup for break, return, throw, outward labeled continue and throwing collection elements; local continue and synchronous-loop isolation controls."
+    },
+    "async-iteration-body-exits": {
+      "file": "astgen/test/async_iteration_test.dart",
+      "selector": "await for waits for cancellation on abrupt body exits",
+      "sha256": "9ae5fd274ad1c530c78ae6de8e595926b6fed1188e0a6ce51b62ed0d02574ab5",
+      "stages": [
+        "interaction"
+      ],
+      "scope": "Independent Dart 3.9.2 VM oracle: bounded exits and controlled cancellation futures; not arbitrary stream delivery or static value-flow absence."
+    },
+    "async-iteration-local-continue": {
+      "file": "astgen/test/async_iteration_test.dart",
+      "selector": "local continue retains the await for subscription",
+      "sha256": "9ae5fd274ad1c530c78ae6de8e595926b6fed1188e0a6ce51b62ed0d02574ab5",
+      "stages": [
+        "interaction"
+      ],
+      "scope": "Independent Dart 3.9.2 VM oracle: bounded exits and controlled cancellation futures; not arbitrary stream delivery or static value-flow absence."
+    },
+    "async-iteration-cancel-failure": {
+      "file": "astgen/test/async_iteration_test.dart",
+      "selector": "cancellation failure replaces the pending body exit",
+      "sha256": "9ae5fd274ad1c530c78ae6de8e595926b6fed1188e0a6ce51b62ed0d02574ab5",
+      "stages": [
+        "interaction"
+      ],
+      "scope": "Independent Dart 3.9.2 VM oracle: bounded exits and controlled cancellation futures; not arbitrary stream delivery or static value-flow absence."
+    },
+    "async-iteration-collection-failure": {
+      "file": "astgen/test/async_iteration_test.dart",
+      "selector": "await for collection elements cancel before propagating failure",
+      "sha256": "9ae5fd274ad1c530c78ae6de8e595926b6fed1188e0a6ce51b62ed0d02574ab5",
+      "stages": [
+        "interaction"
+      ],
+      "scope": "Independent Dart 3.9.2 VM oracle: bounded exits and controlled cancellation futures; not arbitrary stream delivery or static value-flow absence."
+    },
+    "async-iteration-observer-control": {
+      "file": "astgen/test/async_iteration_test.dart",
+      "selector": "the cancellation observer detects an unawaited cleanup",
+      "sha256": "9ae5fd274ad1c530c78ae6de8e595926b6fed1188e0a6ce51b62ed0d02574ab5",
+      "stages": [
+        "interaction"
+      ],
+      "scope": "Independent Dart 3.9.2 VM oracle: bounded exits and controlled cancellation futures; not arbitrary stream delivery or static value-flow absence."
     }
   },
   "profiles": {
@@ -4248,9 +4303,12 @@
       "profile": "rule-obligations",
       "relatedConstructs": [
         "ForEachPartsWithDeclaration",
-        "ForEachPartsWithIdentifier"
+        "ForEachPartsWithIdentifier",
+        "ForElement",
+        "ForStatement"
       ],
       "relatedProfiles": [
+        "collections",
         "syntax"
       ],
       "scope": "Related visitor tests do not qualify every static/dynamic rule in this section."
@@ -5285,6 +5343,66 @@
         "syntax"
       ],
       "scope": "Related visitor tests do not qualify the full accepted feature specification."
+    }
+  ],
+  "cases": [
+    {
+      "id": "await-for-cancellation",
+      "constructs": [
+        "ForStatement",
+        "ForElement"
+      ],
+      "sections": [
+        "asynchronousFor-in"
+      ],
+      "scope": "Await-for statements and collection elements retain awaited iterator cleanup. This partial contract does not qualify complete loop rules, library effects, callback scheduling or payload/heap dataflow.",
+      "stages": {
+        "exporter": {
+          "status": "unqualified",
+          "evidence": [],
+          "obligation": "Identify and retain analyzer facts for this rule, including diagnostics and explicit unsupported cases."
+        },
+        "lowering": {
+          "status": "tested-conservative",
+          "evidence": [
+            "async-iteration-graph"
+          ],
+          "obligation": "Selected iterator cleanup and jump-routing assertions only; no general stream state or scheduling model."
+        },
+        "resolution": {
+          "status": "unqualified",
+          "evidence": [],
+          "obligation": "Check declarations and targets against pinned analyzer facts; distinguish symbolic types from runtime instances."
+        },
+        "cfg": {
+          "status": "tested-conservative",
+          "evidence": [
+            "async-iteration-graph"
+          ],
+          "obligation": "Selected iterator cleanup and jump-routing assertions only; no general stream state or scheduling model."
+        },
+        "valueFlow": {
+          "status": "unqualified",
+          "evidence": [],
+          "obligation": "Verify payload and state dependencies across the relevant calls/locations with visible search budgets."
+        },
+        "negative": {
+          "status": "unqualified",
+          "evidence": [],
+          "obligation": "Use nearby positive controls and demonstrate that absence is not missing code, targets or exhausted search."
+        },
+        "interaction": {
+          "status": "tested-conservative",
+          "evidence": [
+            "async-iteration-body-exits",
+            "async-iteration-local-continue",
+            "async-iteration-cancel-failure",
+            "async-iteration-collection-failure",
+            "async-iteration-observer-control"
+          ],
+          "obligation": "Selected body exits, local continue, cancellation failure and throwing collection elements with controlled native futures; broader stream interactions remain open."
+        }
+      }
     }
   ]
 }

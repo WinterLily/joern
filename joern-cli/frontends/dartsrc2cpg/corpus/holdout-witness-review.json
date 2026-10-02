@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "analysisBaseCommit": "c4e2523dc",
+  "analysisBaseCommit": "304dff99c",
   "scope": "All four initial holdout queries at witness bound four/two held rounds, both model sets; complete review of returned paths and source-grounded bounded absence controls.",
   "elementColumns": [
     "nodeId",
@@ -12,29 +12,29 @@
   ],
   "representation": "Project-local dictionaries preserve complete detailed node metadata, flags, field demands and empty caller stacks. All storage demand sets are empty. Stock/modeled paths are shared.",
   "transitionClasses": {
-    "field-projection": {
-      "meaning": "Request.url selects the URI field; the source demand is url."
-    },
     "assignment": {
       "meaning": "The projected URI is stored in an interpolation temporary."
-    },
-    "local-read": {
-      "meaning": "Read of the same saved interpolation temporary."
-    },
-    "external-return": {
-      "meaning": "Resolved external Uri.toString return approximation; its body is outside the graph."
-    },
-    "operator-value": {
-      "meaning": "String concatenation depends on the converted URI text."
     },
     "block-result": {
       "meaning": "Generated interpolation block supplies the Response.ok body argument."
     },
-    "parameter-read": {
-      "meaning": "Read of the selected source parameter in the same method."
+    "external-return": {
+      "meaning": "Resolved external Uri.toString return approximation; its body is outside the graph."
+    },
+    "field-projection": {
+      "meaning": "Request.url selects the URI field; the source demand is url."
+    },
+    "local-read": {
+      "meaning": "Read of the same saved interpolation temporary."
+    },
+    "operator-value": {
+      "meaning": "String concatenation depends on the converted URI text."
     },
     "parameter-binding": {
       "meaning": "Argument slot one binds the resolved internal callee source parameter."
+    },
+    "parameter-read": {
+      "meaning": "Read of the selected source parameter in the same method."
     }
   },
   "executionOracles": [
@@ -72,7 +72,7 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "067ae48b90f8f891485eedfc142d904ce8069cd5fd5b82a3dff90ca521385e7c",
+        "sha256": "6a92ea4bf560d1c655b02efcb3b34bf999e1aab8fc5db39f6deebceba02685f9",
         "files": 403,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
@@ -610,7 +610,7 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "067ae48b90f8f891485eedfc142d904ce8069cd5fd5b82a3dff90ca521385e7c",
+        "sha256": "6a92ea4bf560d1c655b02efcb3b34bf999e1aab8fc5db39f6deebceba02685f9",
         "files": 403,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
@@ -994,5 +994,38 @@
         }
       ]
     }
-  ]
+  ],
+  "refresh": {
+    "previousBaseCommit": "304dff99c",
+    "previousAnalysisSources": {
+      "algorithm": "sha256-path-nul-content-nul",
+      "sha256": "067ae48b90f8f891485eedfc142d904ce8069cd5fd5b82a3dff90ca521385e7c",
+      "files": 403,
+      "roots": [
+        "joern-cli/frontends/dartsrc2cpg/src",
+        "joern-cli/frontends/dartsrc2cpg/astgen/lib",
+        "joern-cli/frontends/dartsrc2cpg/astgen/bin",
+        "joern-cli/frontends/x2cpg/src/main",
+        "dataflowengineoss/src/main",
+        "semanticcpg/src/main",
+        "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.lock",
+        "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.yaml",
+        "joern-cli/frontends/dartsrc2cpg/build.sbt",
+        "joern-cli/frontends/x2cpg/build.sbt",
+        "joern-cli/build.sbt",
+        "dataflowengineoss/build.sbt",
+        "semanticcpg/build.sbt",
+        "build.sbt",
+        "project/Versions.scala",
+        "project/Projects.scala"
+      ]
+    },
+    "previousTotals": {
+      "queries": 4,
+      "selectedPaths": 6,
+      "distinctPaths": 3,
+      "distinctTransitions": 19
+    },
+    "method": "Replayed after awaited iterator cleanup. Unchanged routes are matched against previous two/four-witness reviewed paths after removing node IDs only; all other node/call/context/flag/demand facts are retained. Changed variants have separate source-grounded refresh dispositions and checked argument/return/output bindings. All new graph IDs are reconstructed from fresh raw audits. Native observations do not certify caller re-entry, allocation, heap/dispatch precision or route feasibility."
+  }
 }

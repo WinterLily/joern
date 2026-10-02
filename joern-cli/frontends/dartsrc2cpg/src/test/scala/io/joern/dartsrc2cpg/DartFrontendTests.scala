@@ -2844,6 +2844,52 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         cpg.call.nameExact("<operator>.isInitialized").size shouldBe 2
       }
     }
+    "cancel await-for iterators through abrupt exits and retain local continues" in {
+      fixture(
+        """Future<String> early(Stream<String> stream, int mode) async {
+          |  await for (final value in stream) {
+          |    if (mode == 0) break;
+          |    if (mode == 1) return value;
+          |    if (mode == 2) throw value;
+          |    if (mode == 3) continue;
+          |  }
+          |  return 'done';
+          |}
+          |Future<void> outer(Stream<String> stream) async {
+          |  label: while (true) {
+          |    await for (final value in stream) { continue label; }
+          |    break;
+          |  }
+          |}
+          |Future<List<String>> collected(Stream<String> stream) async =>
+          |    [await for (final value in stream) throw value];
+          |void synchronous(Iterable<String> values) { for (final value in values) { break; } }
+          |""".stripMargin,
+        "void main() {}",
+        dataflow = false
+      ) { (cpg, _) =>
+        cpg.unknown.size shouldBe 0
+        cpg.call.nameExact("cancel").size shouldBe 3
+        cpg.method.nameExact("synchronous").ast.isCall.nameExact("cancel").size shouldBe 0
+        val early        = cpg.method.nameExact("early").head
+        val cancel       = early.ast.isCall.nameExact("cancel").head
+        val cleanupEntry = cancel.argument(0)
+        val awaited      = cancel.cfgNext.head
+        awaited.asInstanceOf[io.shiftleft.codepropertygraph.generated.nodes.Call].name shouldBe "<operator>.await"
+        for (code <- Seq("break;", "return value;", "throw value")) {
+          withClue(s"$code: ") { early.ast.isCfgNode.codeExact(code).cfgNext.l shouldBe List(cleanupEntry) }
+        }
+        val moveNext = early.ast.isCall.nameExact("moveNext").head
+        early.ast.isControlStructure.codeExact("continue;").cfgNext.l shouldBe List(moveNext.argument(0))
+        val outer = cpg.method.nameExact("outer").head
+        outer.ast.isControlStructure.codeExact("continue label;").cfgNext.l shouldBe
+          List(outer.ast.isCall.nameExact("cancel").argument(0).head)
+        awaited.cfgNext.isBlock.cfgNext.code.l should contain("'done'")
+        val collected = cpg.method.nameExact("collected").head
+        collected.ast.isControlStructure.codeExact("throw value").cfgNext.l shouldBe
+          List(collected.ast.isCall.nameExact("cancel").argument(0).head)
+      }
+    }
     "mark async functions, await, yields and stream iteration" in {
       fixture(
         """
@@ -2859,7 +2905,7 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         cpg.unknown.size shouldBe 0
         cpg.annotation.nameExact("async").size shouldBe 3
         cpg.annotation.nameExact("generator").size shouldBe 2
-        cpg.call.nameExact("<operator>.await").size shouldBe 2
+        cpg.call.nameExact("<operator>.await").size shouldBe 3
         cpg.call.nameExact("<operator>.yield", "<operator>.yieldAll").size shouldBe 3
         cpg.call.nameExact("<operator>.streamIterator").size shouldBe 1
         cpg.controlStructure.controlStructureTypeExact("WHILE").size shouldBe 1

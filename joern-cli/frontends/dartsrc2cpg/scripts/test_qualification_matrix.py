@@ -35,7 +35,7 @@ class QualificationMatrixTests(unittest.TestCase):
             return qualification.verify()
 
     def test_current_declared_evidence(self):
-        self.assertEqual(self.verify(self.original), (175, 195, 30, 47))
+        self.assertEqual(self.verify(self.original), (175, 195, 30, 53))
 
     def test_rejects_stale_or_missing_test_evidence(self):
         for field, value in [("sha256", "0" * 64), ("selector", "missing test title"),
@@ -80,6 +80,14 @@ class QualificationMatrixTests(unittest.TestCase):
             with self.subTest(field=field):
                 matrix = copy.deepcopy(self.original)
                 matrix[field] = "0" * 64
+                with self.assertRaises(ValueError):
+                    self.verify(matrix)
+
+    def test_rejects_unlinked_partial_contracts(self):
+        for field, value in [("constructs", ["UnknownLoop"]), ("sections", ["unrelated-rule"])]:
+            with self.subTest(field=field):
+                matrix = copy.deepcopy(self.original)
+                matrix["cases"][0][field] = value
                 with self.assertRaises(ValueError):
                     self.verify(matrix)
 

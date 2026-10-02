@@ -2,7 +2,7 @@
   "scope": "Twelve pinned corpora; graph representation counts, not runtime precision/recall",
   "analysisSources": {
     "algorithm": "sha256-path-nul-content-nul",
-    "sha256": "067ae48b90f8f891485eedfc142d904ce8069cd5fd5b82a3dff90ca521385e7c",
+    "sha256": "6a92ea4bf560d1c655b02efcb3b34bf999e1aab8fc5db39f6deebceba02685f9",
     "files": 403,
     "roots": [
       "joern-cli/frontends/dartsrc2cpg/src",
@@ -86,7 +86,7 @@
       "project": "async-2.13.0",
       "category": "packages",
       "baselineMethods": 700,
-      "baselineCalls": 3420,
+      "baselineCalls": 3422,
       "defaultArguments": {
         "adaptedCalls": 0,
         "targetAdapters": 0,
@@ -94,7 +94,7 @@
         "adapterLinks": 0
       },
       "methods": 700,
-      "calls": 3420
+      "calls": 3422
     },
     {
       "project": "http_parser-4.1.2",
@@ -128,7 +128,7 @@
       "project": "localsend-1.17.0",
       "category": "applications",
       "baselineMethods": 28611,
-      "baselineCalls": 103474,
+      "baselineCalls": 103490,
       "defaultArguments": {
         "adaptedCalls": 967,
         "targetAdapters": 2747,
@@ -136,13 +136,13 @@
         "adapterLinks": 39647
       },
       "methods": 31358,
-      "calls": 106221
+      "calls": 106237
     },
     {
       "project": "saber-0.26.0",
       "category": "applications",
       "baselineMethods": 9935,
-      "baselineCalls": 53385,
+      "baselineCalls": 53397,
       "defaultArguments": {
         "adaptedCalls": 258,
         "targetAdapters": 493,
@@ -150,13 +150,13 @@
         "adapterLinks": 5344
       },
       "methods": 10428,
-      "calls": 53878
+      "calls": 53890
     },
     {
       "project": "dart-sass-1.89.2",
       "category": "applications",
       "baselineMethods": 7209,
-      "baselineCalls": 85621,
+      "baselineCalls": 85625,
       "defaultArguments": {
         "adaptedCalls": 58,
         "targetAdapters": 2372,
@@ -164,7 +164,7 @@
         "adapterLinks": 3904
       },
       "methods": 9581,
-      "calls": 87993
+      "calls": 87997
     },
     {
       "project": "shelf-1.4.2",

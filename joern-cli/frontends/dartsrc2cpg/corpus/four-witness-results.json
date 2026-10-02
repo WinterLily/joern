@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "analysisSources": {
     "algorithm": "sha256-path-nul-content-nul",
-    "sha256": "067ae48b90f8f891485eedfc142d904ce8069cd5fd5b82a3dff90ca521385e7c",
+    "sha256": "6a92ea4bf560d1c655b02efcb3b34bf999e1aab8fc5db39f6deebceba02685f9",
     "files": 403,
     "roots": [
       "joern-cli/frontends/dartsrc2cpg/src",
@@ -28,33 +28,33 @@
   "resources": [
     {
       "category": "packages",
-      "elapsedMillis": 396421,
+      "elapsedMillis": 399078,
       "exitCode": 0,
       "outcome": "completed",
       "budgetMillis": 600000,
-      "peakSampledFamilyRssKiB": 5965540,
+      "peakSampledFamilyRssKiB": 6344160,
       "workerHeapBytes": 8589934592,
       "workerProcessors": 4,
       "budgetScope": "Whole sbt subprocess including startup, graph loading and queries; process family sampled once per second."
     },
     {
       "category": "applications",
-      "elapsedMillis": 43259,
+      "elapsedMillis": 43216,
       "exitCode": 0,
       "outcome": "completed",
       "budgetMillis": 600000,
-      "peakSampledFamilyRssKiB": 5213700,
+      "peakSampledFamilyRssKiB": 5488968,
       "workerHeapBytes": 8589934592,
       "workerProcessors": 4,
       "budgetScope": "Whole sbt subprocess including startup, graph loading and queries; process family sampled once per second."
     },
     {
       "category": "holdout",
-      "elapsedMillis": 27156,
+      "elapsedMillis": 28137,
       "exitCode": 0,
       "outcome": "completed",
       "budgetMillis": 600000,
-      "peakSampledFamilyRssKiB": 2279068,
+      "peakSampledFamilyRssKiB": 2304644,
       "workerHeapBytes": 8589934592,
       "workerProcessors": 4,
       "budgetScope": "Whole sbt subprocess including startup, graph loading and queries; process family sampled once per second."
@@ -89,7 +89,7 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "067ae48b90f8f891485eedfc142d904ce8069cd5fd5b82a3dff90ca521385e7c",
+        "sha256": "6a92ea4bf560d1c655b02efcb3b34bf999e1aab8fc5db39f6deebceba02685f9",
         "files": 403,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
@@ -169,8 +169,8 @@
                 28
               ],
               "twoWitnessDetailedPaths": 2,
-              "newDetailedSequences": 4,
-              "twoWitnessSequencesNotRetained": 2,
+              "newDetailedSequences": 2,
+              "twoWitnessSequencesNotRetained": 0,
               "detailedWitnessesSha256": "b0592e779bb5b3e41fb64bda5525c059842e766bf92d63deacd9fe6912e9e3eb"
             },
             "modeled": {
@@ -257,8 +257,8 @@
                 65
               ],
               "twoWitnessDetailedPaths": 2,
-              "newDetailedSequences": 3,
-              "twoWitnessSequencesNotRetained": 1,
+              "newDetailedSequences": 2,
+              "twoWitnessSequencesNotRetained": 0,
               "detailedWitnessesSha256": "9f5439d57b7a488749714abf4d279448cd526a32b6b6e1ee96c2e83f310e0047"
             },
             "modeled": {
@@ -287,8 +287,8 @@
                 65
               ],
               "twoWitnessDetailedPaths": 2,
-              "newDetailedSequences": 3,
-              "twoWitnessSequencesNotRetained": 1,
+              "newDetailedSequences": 2,
+              "twoWitnessSequencesNotRetained": 0,
               "detailedWitnessesSha256": "9f5439d57b7a488749714abf4d279448cd526a32b6b6e1ee96c2e83f310e0047"
             }
           },
@@ -525,7 +525,7 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "067ae48b90f8f891485eedfc142d904ce8069cd5fd5b82a3dff90ca521385e7c",
+        "sha256": "6a92ea4bf560d1c655b02efcb3b34bf999e1aab8fc5db39f6deebceba02685f9",
         "files": 403,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
@@ -1061,7 +1061,7 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "067ae48b90f8f891485eedfc142d904ce8069cd5fd5b82a3dff90ca521385e7c",
+        "sha256": "6a92ea4bf560d1c655b02efcb3b34bf999e1aab8fc5db39f6deebceba02685f9",
         "files": 403,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
@@ -1727,7 +1727,7 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "067ae48b90f8f891485eedfc142d904ce8069cd5fd5b82a3dff90ca521385e7c",
+        "sha256": "6a92ea4bf560d1c655b02efcb3b34bf999e1aab8fc5db39f6deebceba02685f9",
         "files": 403,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
@@ -2194,7 +2194,7 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "067ae48b90f8f891485eedfc142d904ce8069cd5fd5b82a3dff90ca521385e7c",
+        "sha256": "6a92ea4bf560d1c655b02efcb3b34bf999e1aab8fc5db39f6deebceba02685f9",
         "files": 403,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
@@ -2274,7 +2274,7 @@
               "twoWitnessDetailedPaths": 2,
               "newDetailedSequences": 0,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "0751e06898cf3cf9d268019fcbfb02a31a53e541d0df85a25e4cc60e2c8fa6d9"
+              "detailedWitnessesSha256": "59b6ca68fe81e526744ac30f8551e7a07e83897a33022848a1763f5c5784fe2a"
             },
             "modeled": {
               "paths": 0,
@@ -2348,7 +2348,7 @@
               "twoWitnessDetailedPaths": 1,
               "newDetailedSequences": 0,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "9fd8603fdad2d40fcdbe388532d227733a488f380f23013f3f19ade11ce33cb0"
+              "detailedWitnessesSha256": "6392a8a4d145d88dabbfe48fb777318aca4242759510d90abc19a97c1637f4f5"
             },
             "modeled": {
               "paths": 1,
@@ -2371,7 +2371,7 @@
               "twoWitnessDetailedPaths": 1,
               "newDetailedSequences": 0,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "9fd8603fdad2d40fcdbe388532d227733a488f380f23013f3f19ade11ce33cb0"
+              "detailedWitnessesSha256": "6392a8a4d145d88dabbfe48fb777318aca4242759510d90abc19a97c1637f4f5"
             }
           },
           "semanticReview": "see package-flows-alternative-review.json; The error field source and completeError argument-one sink are the same graph node. The one-node path is endpoint identity, not independent forwarding or completer storage evidence. Depth/pruning limits remain. Pinned ErrorResult.complete execution independently checks selected delivered error/trace."
@@ -2431,7 +2431,7 @@
               "twoWitnessDetailedPaths": 2,
               "newDetailedSequences": 2,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "e5bdc016c7aca7bc515b26beb68316df8671d830964b27982a4a01b3e39afa33"
+              "detailedWitnessesSha256": "067a39004f7cea7d77a2baee6babacef944630466f57ea8f77e1669bb82de2c3"
             },
             "modeled": {
               "paths": 4,
@@ -2460,7 +2460,7 @@
               "twoWitnessDetailedPaths": 2,
               "newDetailedSequences": 2,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "e5bdc016c7aca7bc515b26beb68316df8671d830964b27982a4a01b3e39afa33"
+              "detailedWitnessesSha256": "067a39004f7cea7d77a2baee6babacef944630466f57ea8f77e1669bb82de2c3"
             }
           },
           "semanticReview": "see package-flows-alternative-review.json; The value field source is already the EventSink.add actual endpoint. Four selected identity-ending detours traverse DelegatingEventSink.add and/or ReleaseSink.add, re-enter ValueResult.addTo through whole-result receiver projection and consume value or repeated value field demands. One route repeats ReleaseSink and another repeats the delegate; all exact slots and demands are retained. Those aggregate/receiver/caller approximations are not precise wrapper allocation or arbitrary event delivery. Native explicit delegate/release-sink calls check selected independent receivers; depth/pruning remain."
@@ -2584,7 +2584,7 @@
               "twoWitnessDetailedPaths": 1,
               "newDetailedSequences": 0,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "3482c7f7a56d0367d92e7eb167a44d326480b6a921d26fa2f1672ed31803c6c1"
+              "detailedWitnessesSha256": "ec4e612454b601cff6b78c31178d15a75e7186eaf65046b242fb89aa5970a978"
             },
             "modeled": {
               "paths": 1,
@@ -2607,7 +2607,7 @@
               "twoWitnessDetailedPaths": 1,
               "newDetailedSequences": 0,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "3482c7f7a56d0367d92e7eb167a44d326480b6a921d26fa2f1672ed31803c6c1"
+              "detailedWitnessesSha256": "ec4e612454b601cff6b78c31178d15a75e7186eaf65046b242fb89aa5970a978"
             }
           },
           "semanticReview": "see package-flows-alternative-review.json; The selected ErrorResult error field crosses to completeError receiver under external write effects. The modeled completeError summary deliberately preserves receiver storage dependence while excluding stack-trace mixing. This is a payload/state contract, not a scalar return or scheduling proof; depth/pruning limits remain. Native completion observes exercised error delivery."
@@ -2635,7 +2635,7 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "067ae48b90f8f891485eedfc142d904ce8069cd5fd5b82a3dff90ca521385e7c",
+        "sha256": "6a92ea4bf560d1c655b02efcb3b34bf999e1aab8fc5db39f6deebceba02685f9",
         "files": 403,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
@@ -2706,21 +2706,21 @@
                 "witness-alternatives"
               ],
               "visibleLengths": [
-                22,
-                20,
-                20,
-                20
+                25,
+                23,
+                23,
+                23
               ],
               "detailedLengths": [
-                27,
-                26,
-                26,
-                26
+                30,
+                29,
+                29,
+                29
               ],
               "twoWitnessDetailedPaths": 2,
               "newDetailedSequences": 2,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "c447257106ff24b131b876307d58d7c7b2cb0f5b8d7f010252009255abcdf68c"
+              "detailedWitnessesSha256": "0f2483c8ea81b3c5f798a86d5c6d89a7fb8b919406cce64dbf2b5f9d7ef5e960"
             },
             "modeled": {
               "paths": 1,
@@ -2791,21 +2791,21 @@
                 "witness-alternatives"
               ],
               "visibleLengths": [
-                46,
-                47,
-                46,
-                47
+                61,
+                61,
+                60,
+                60
               ],
               "detailedLengths": [
-                53,
-                53,
-                53,
-                53
+                61,
+                61,
+                60,
+                60
               ],
               "twoWitnessDetailedPaths": 2,
-              "newDetailedSequences": 2,
-              "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "b1020d3ce73eb2d1460643403380522d1fe372914934e36eb9dc4eecdc91d0fc"
+              "newDetailedSequences": 4,
+              "twoWitnessSequencesNotRetained": 2,
+              "detailedWitnessesSha256": "1e197a374ebe0401fcd3b2ced5476b0a700f0c7ac965ca54a1a945e1b8c3def1"
             },
             "modeled": {
               "paths": 4,
@@ -2834,8 +2834,8 @@
                 45
               ],
               "twoWitnessDetailedPaths": 2,
-              "newDetailedSequences": 2,
-              "twoWitnessSequencesNotRetained": 0,
+              "newDetailedSequences": 4,
+              "twoWitnessSequencesNotRetained": 2,
               "detailedWitnessesSha256": "80ead5ca9097953d6ce07aca40b531382f99d7e403279e1eb1ecddf3c0b1305c"
             }
           },
@@ -3099,7 +3099,7 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "067ae48b90f8f891485eedfc142d904ce8069cd5fd5b82a3dff90ca521385e7c",
+        "sha256": "6a92ea4bf560d1c655b02efcb3b34bf999e1aab8fc5db39f6deebceba02685f9",
         "files": 403,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
@@ -3406,20 +3406,20 @@
               ],
               "visibleLengths": [
                 58,
+                58,
                 53,
-                57,
-                57
+                53
               ],
               "detailedLengths": [
                 61,
+                61,
                 60,
-                60,
-                58
+                60
               ],
               "twoWitnessDetailedPaths": 2,
               "newDetailedSequences": 4,
               "twoWitnessSequencesNotRetained": 2,
-              "detailedWitnessesSha256": "63e4c61da8f8f5181e2189b3c774be3a59e334bd9294da7a438082b8dfb490e7"
+              "detailedWitnessesSha256": "4bf8664d641c8b4004e937d6bd46ab0cb6ccea5a8912db92ee6c68591c63dc6d"
             },
             "modeled": {
               "paths": 4,
@@ -3440,22 +3440,22 @@
               "visibleLengths": [
                 58,
                 58,
-                53,
+                58,
                 53
               ],
               "detailedLengths": [
                 61,
                 61,
-                60,
+                61,
                 60
               ],
               "twoWitnessDetailedPaths": 2,
-              "newDetailedSequences": 4,
-              "twoWitnessSequencesNotRetained": 2,
-              "detailedWitnessesSha256": "7384f63f020e1c755e7326d5026b2b155e64515745f8454e34238eca64f4645c"
+              "newDetailedSequences": 2,
+              "twoWitnessSequencesNotRetained": 0,
+              "detailedWitnessesSha256": "f0820ebb2554f9e9ce09ea2acfa9115bb74796ae23af4c54fdfc413f887467be"
             }
           },
-          "semanticReview": "see analyzer-alternative-review.json; Source writeList passes items[i] to writeItem once per loop iteration. Returned routes leave via readonly items/getter outputs, select a typeParameterFragments caller and traverse metadata or bound/type-argument lists before re-entering writeList. Flat-buffer length getter paths also use offset-to-buffer external getUint8 effects. Receiver field demands and selected call frames are preserved. These are conservative output/heap/dispatch/external detours, not exact element provenance, a specific runtime list implementation or general callback delivery. Stock and modeled routes differ despite the same justified endpoint."
+          "semanticReview": "see analyzer-alternative-review.json; Source writeList passes items[i] to writeItem once per loop iteration. Returned routes leave readonly items/getter outputs, select a typeParameterFragments caller and traverse metadata or bound record named/positional-field lists before re-entering writeList. Flat-buffer length getter paths also use getUint8/getUint32 offset-to-buffer external effects. Receiver field demands and selected call frames are preserved. These are conservative output/heap/dispatch/external detours, not exact element provenance, a specific runtime list implementation or general callback delivery. Actual writer/readback oracles do not execute these selected metadata/record/flat-buffer getter routes."
         },
         {
           "id": "fork-offset-field",
@@ -3656,7 +3656,7 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "067ae48b90f8f891485eedfc142d904ce8069cd5fd5b82a3dff90ca521385e7c",
+        "sha256": "6a92ea4bf560d1c655b02efcb3b34bf999e1aab8fc5db39f6deebceba02685f9",
         "files": 403,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
@@ -3738,7 +3738,7 @@
               "twoWitnessDetailedPaths": 2,
               "newDetailedSequences": 2,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "5b6db2eaaaf37ff404f1dcfe57b07b66b2cd96fbe4cf415ffb91e39e12422bee"
+              "detailedWitnessesSha256": "0e5645a74aeda63f41d6eefc6e77605d77f21e9e2c5a72d3a86780ce3010cf49"
             },
             "modeled": {
               "paths": 2,
@@ -3748,7 +3748,9 @@
               "sources": 1,
               "sinks": 1,
               "distinctEndpoints": true,
-              "limitations": [],
+              "limitations": [
+                "witness-alternatives"
+              ],
               "visibleLengths": [
                 14,
                 12
@@ -3760,7 +3762,7 @@
               "twoWitnessDetailedPaths": 2,
               "newDetailedSequences": 0,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "0928700ca43a0a43c26124f0ba5cdd2bf0ff29c75d5ce03515ea37142f31b6b5"
+              "detailedWitnessesSha256": "9803b51f981a937463e059fe8888147e70c274b5d7832a838c9ba4508127c688"
             }
           },
           "semanticReview": "see applications-alternative-review.json; Pinned source decodes PEM lines to DER and passes copied bytes to getHash. Stock routes traverse predicate boolean/return/METHOD_REF and receiver feedback, including repeated predicate visits; these DART-FLOW-002 selection/callback approximations are not byte-value paths. The iterable model retains direct transformed-element flow. Both modes retain external string/base64/copy effects; saved temporary alternatives are classified, not certified hash implementations."
@@ -3888,7 +3890,7 @@
               "twoWitnessDetailedPaths": 2,
               "newDetailedSequences": 2,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "23c4ce85a2ae35004899af1c1ff6cecfe32d841dfc35a60b76b731365184fe0b"
+              "detailedWitnessesSha256": "d1446fc0e9688add4098a0dae7f6071d4db4d502b75efd023070f063ee1c58a5"
             },
             "modeled": {
               "paths": 4,
@@ -3921,7 +3923,7 @@
               "twoWitnessDetailedPaths": 2,
               "newDetailedSequences": 2,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "23c4ce85a2ae35004899af1c1ff6cecfe32d841dfc35a60b76b731365184fe0b"
+              "detailedWitnessesSha256": "d1446fc0e9688add4098a0dae7f6071d4db4d502b75efd023070f063ee1c58a5"
             }
           },
           "semanticReview": "see applications-alternative-review.json; The selected File constructor receives destinationPath directly. All four returned routes first enter readonly getSdCardPath and return its unchanged path output, then read destinationPath at File construction. They differ in local path visits. The DART-FLOW-004 output detour is not String mutation; static-storage/depth/pruning/exception limitations remain and no file delivery is executed by this query."
@@ -3983,7 +3985,7 @@
               "twoWitnessDetailedPaths": 2,
               "newDetailedSequences": 2,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "7a0fd5c034f5a60dd9b88afec61e5a274316df608e1d7a58e72e58b0e86fc59c"
+              "detailedWitnessesSha256": "51ac7b14c6a98993777009c77edce163327020aa382a3d5ab59dda189f1d1c61"
             },
             "modeled": {
               "paths": 4,
@@ -4016,7 +4018,7 @@
               "twoWitnessDetailedPaths": 2,
               "newDetailedSequences": 2,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "7a0fd5c034f5a60dd9b88afec61e5a274316df608e1d7a58e72e58b0e86fc59c"
+              "detailedWitnessesSha256": "51ac7b14c6a98993777009c77edce163327020aa382a3d5ab59dda189f1d1c61"
             }
           },
           "semanticReview": "see applications-alternative-review.json; Both relevant source branches bind destinationPath by name to _saveFile. All returned routes include readonly getSdCardPath output detours before the selected forwarding argument. Formal slots and targets are checked; data binding does not prove platform choice, stream delivery, gallery effects or callback timing. Recorded query limitations remain."
@@ -4139,7 +4141,7 @@
               "twoWitnessDetailedPaths": 2,
               "newDetailedSequences": 1,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "cb94ae22c732c4b70c9d56dcdd2d931adf1598bfb2fdedb67c7b9ea8f0813de4"
+              "detailedWitnessesSha256": "8ff8e0bc6b2cf1018dc219350348d97f3958ad46cd053bc5c4f0866beea50090"
             },
             "modeled": {
               "paths": 3,
@@ -4165,7 +4167,7 @@
               "twoWitnessDetailedPaths": 2,
               "newDetailedSequences": 1,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "cb94ae22c732c4b70c9d56dcdd2d931adf1598bfb2fdedb67c7b9ea8f0813de4"
+              "detailedWitnessesSha256": "8ff8e0bc6b2cf1018dc219350348d97f3958ad46cd053bc5c4f0866beea50090"
             }
           },
           "semanticReview": "see applications-alternative-review.json; The nonnull branch passes suffix to Uri.encodeComponent. One route is direct; two readonly suffix-output detours leave convertTreeUriToDocumentUri, select digestFilePathAndPrepareDirectory fileName.parentPath(), and re-enter. These caller paths do not establish String mutation, directory operations or tree-prefix dependence. Witness pruning remains explicit."
@@ -4286,7 +4288,7 @@
               "twoWitnessDetailedPaths": 2,
               "newDetailedSequences": 1,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "61dc5cc32061d234b7bc52f5fcad9c009d85fd06e9a63c2bbde4c66575fee3c5"
+              "detailedWitnessesSha256": "6a00840152ebd8bab64fc5d2f64b19fca6fd1acaf48ffef0af8be93c41665da4"
             },
             "modeled": {
               "paths": 3,
@@ -4310,7 +4312,7 @@
               "twoWitnessDetailedPaths": 2,
               "newDetailedSequences": 1,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "61dc5cc32061d234b7bc52f5fcad9c009d85fd06e9a63c2bbde4c66575fee3c5"
+              "detailedWitnessesSha256": "6a00840152ebd8bab64fc5d2f64b19fca6fd1acaf48ffef0af8be93c41665da4"
             }
           },
           "semanticReview": "see applications-alternative-review.json; The valid tree branch slices uri after /tree/ and decodes it. One route carries the URI receiver directly; two use indexOf/index arithmetic and external substring return effects, including an index-to-receiver effect in one. These are position/selection and conservative external effects, not exact character provenance or runtime String writes. No query limitation is recorded; native inputs cover valid and missing markers."
@@ -4430,7 +4432,7 @@
               "twoWitnessDetailedPaths": 2,
               "newDetailedSequences": 2,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "8a0dae57b958a39a8b796806740af167b215a0192fcdff5210d365a1444a9569"
+              "detailedWitnessesSha256": "25e39a31850ac82e2ed8cc6616851929a0f99f13fd7d85c72a7f722af2519f9b"
             },
             "modeled": {
               "paths": 1,
@@ -4459,7 +4461,7 @@
               "twoWitnessDetailedPaths": 2,
               "newDetailedSequences": 2,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "8a0dae57b958a39a8b796806740af167b215a0192fcdff5210d365a1444a9569"
+              "detailedWitnessesSha256": "25e39a31850ac82e2ed8cc6616851929a0f99f13fd7d85c72a7f722af2519f9b"
             }
           },
           "semanticReview": "see applications-alternative-review.json; The source interpolates the supplied name with the receiver extension. Four routes leave its scalar return to applyCounter, cross MapEntry value/key effects and callback METHOD_REF/collection feedback, then re-enter via element.value receiver and extension getter. External lastIndexOf/substring effects and callback/aggregate projections are conservative; different output-edge labels are retained. They do not prove MapEntry key independence, String mutation, exact map allocation or runtime caller order (DART-FLOW-004 / DART-FLOW-006 approximations)."
@@ -4519,7 +4521,7 @@
               "twoWitnessDetailedPaths": 2,
               "newDetailedSequences": 0,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "24fa006bf70c6e55f596cb0d79a611a1bd3369d5a3231fac913f11d4056f9647"
+              "detailedWitnessesSha256": "df819b8bfc544ebaab442cdae1e83cc2f65ef5b9306edb7b7895a73f0be448dd"
             },
             "modeled": {
               "paths": 2,
@@ -4547,7 +4549,7 @@
               "twoWitnessDetailedPaths": 2,
               "newDetailedSequences": 0,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "24fa006bf70c6e55f596cb0d79a611a1bd3369d5a3231fac913f11d4056f9647"
+              "detailedWitnessesSha256": "df819b8bfc544ebaab442cdae1e83cc2f65ef5b9306edb7b7895a73f0be448dd"
             }
           },
           "semanticReview": "see applications-alternative-review.json; The name source reaches the selected lookupMimeType argument through the saved conditional/logging interpolation temporary. Two routes differ by one saved-name read. This is a positive endpoint control, with its own storage/exception/pruning limits retained; it does not prove MIME implementation correctness."
@@ -4584,7 +4586,7 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "067ae48b90f8f891485eedfc142d904ce8069cd5fd5b82a3dff90ca521385e7c",
+        "sha256": "6a92ea4bf560d1c655b02efcb3b34bf999e1aab8fc5db39f6deebceba02685f9",
         "files": 403,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
@@ -4949,7 +4951,7 @@
               "twoWitnessDetailedPaths": 2,
               "newDetailedSequences": 0,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "e762855744b273b8845b8ffb9633b08e0994065bf803a34d2ebbc9012352739b"
+              "detailedWitnessesSha256": "24250d266125ff9d773ab6cbd286b2d71295dff5ad67af8fdefd2d5d108c22ae"
             },
             "modeled": {
               "paths": 2,
@@ -4978,7 +4980,7 @@
               "twoWitnessDetailedPaths": 2,
               "newDetailedSequences": 0,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "e762855744b273b8845b8ffb9633b08e0994065bf803a34d2ebbc9012352739b"
+              "detailedWitnessesSha256": "24250d266125ff9d773ab6cbd286b2d71295dff5ad67af8fdefd2d5d108c22ae"
             }
           },
           "semanticReview": "see applications-alternative-review.json; setConfig JSON-encodes config, reads string codeUnits, copies them to Uint8List and forwards file to webdav.put. The two routes differ by a constructor temporary. JSON/string/byte-copy effects are external approximations; codeUnits are UTF-16 values, so this does not certify arbitrary Unicode serialization bytes or HTTP delivery. Query storage/depth/pruning/exception limitations remain."
@@ -5113,7 +5115,7 @@
               "twoWitnessDetailedPaths": 2,
               "newDetailedSequences": 2,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "5e0de1ddfedd35904b68a56c6dcf6d0fa6b51a2f49fad19707f19fb73c7f7662"
+              "detailedWitnessesSha256": "f27fa31575f860f4bff7a94bd6aca2727ed707ec5468838b66512fc47b0abc9b"
             },
             "modeled": {
               "paths": 2,
@@ -5143,7 +5145,7 @@
               "twoWitnessDetailedPaths": 2,
               "newDetailedSequences": 2,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "5e0de1ddfedd35904b68a56c6dcf6d0fa6b51a2f49fad19707f19fb73c7f7662"
+              "detailedWitnessesSha256": "f27fa31575f860f4bff7a94bd6aca2727ed707ec5468838b66512fc47b0abc9b"
             }
           },
           "semanticReview": "see applications-alternative-review.json; The worker closure reads captured path as encrypt argument one. Four paths differ in enclosing same-parameter reads; lexical capture is checked, not scheduling, cache feasibility, IV/key independence or encryption implementation. Recorded storage/depth/pruning limitations remain."
@@ -5185,6 +5187,7 @@
               "distinctEndpoints": true,
               "limitations": [
                 "call-depth",
+                "static-storage-exception-state",
                 "static-storage-external-effects",
                 "static-storage-initialization-state",
                 "witness-alternatives"
@@ -5203,7 +5206,7 @@
               "twoWitnessDetailedPaths": 2,
               "newDetailedSequences": 2,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "283c30201dd1cc40126052ca74aefccf44d301626e247139db2af81e6ee9247c"
+              "detailedWitnessesSha256": "24bed932a771c3a3c6c8165ef07273edb551b7210de90b275e2e0aef26e8136f"
             },
             "modeled": {
               "paths": 0,
@@ -5408,6 +5411,7 @@
               "distinctEndpoints": true,
               "limitations": [
                 "call-depth",
+                "static-storage-exception-state",
                 "static-storage-external-effects",
                 "static-storage-initialization-state",
                 "witness-alternatives"
@@ -5426,7 +5430,7 @@
               "twoWitnessDetailedPaths": 2,
               "newDetailedSequences": 2,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "cf0785b39b8872e6af23e1b82574d7db8eb4ee248693435abc04cbd22172987c"
+              "detailedWitnessesSha256": "6dd9460df5b4f4031ca6ae6f49d24e2a6ef8342f9744734d1b98915b82159e41"
             },
             "modeled": {
               "paths": 3,
@@ -5438,6 +5442,7 @@
               "distinctEndpoints": true,
               "limitations": [
                 "call-depth",
+                "static-storage-exception-state",
                 "static-storage-external-effects",
                 "static-storage-initialization-state",
                 "witness-alternatives"
@@ -5456,7 +5461,7 @@
               "twoWitnessDetailedPaths": 2,
               "newDetailedSequences": 2,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "061ccd8c8206dbe5d94aeae172a241ced3d132a49731a8fa48d50606009202a0"
+              "detailedWitnessesSha256": "ae97e3e6df62f1222b8b3325a16357e928c32b06608180c69843e040cbd4ba2f"
             }
           },
           "semanticReview": "see applications-alternative-review.json; Captured path enters external encrypt and base16, closure return/METHOD_REF, execute summary, await and saved encrypted result. Stock also traverses workerManager receiver feedback; modeled paths keep task-to-result. Alternatives differ in encrypter receiver effects and cache-assignment temporary/read choices. Those are conservative external/aggregate effects, not mutation of the encrypter, proven worker delivery, cache-state correlation or cryptographic correctness. Explicit storage/depth/pruning limits remain."
@@ -5492,7 +5497,7 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "067ae48b90f8f891485eedfc142d904ce8069cd5fd5b82a3dff90ca521385e7c",
+        "sha256": "6a92ea4bf560d1c655b02efcb3b34bf999e1aab8fc5db39f6deebceba02685f9",
         "files": 403,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
@@ -5945,7 +5950,7 @@
           },
           "modes": {
             "stock": {
-              "paths": 2,
+              "paths": 4,
               "detailedPaths": 4,
               "outcome": "flow-observed",
               "passed": true,
@@ -5959,34 +5964,8 @@
               ],
               "visibleLengths": [
                 21,
-                21
-              ],
-              "detailedLengths": [
-                29,
-                28,
-                28,
-                28
-              ],
-              "twoWitnessDetailedPaths": 2,
-              "newDetailedSequences": 3,
-              "twoWitnessSequencesNotRetained": 1,
-              "detailedWitnessesSha256": "cb6265bb7a24afd4b0b76cf3e4f658c967261f229ac80276cad7aa4c81bca2e9"
-            },
-            "modeled": {
-              "paths": 2,
-              "detailedPaths": 4,
-              "outcome": "flow-observed",
-              "passed": true,
-              "sources": 1,
-              "sinks": 1,
-              "distinctEndpoints": true,
-              "limitations": [
-                "call-depth",
-                "held-task-iterations",
-                "witness-alternatives"
-              ],
-              "visibleLengths": [
-                21,
+                20,
+                20,
                 21
               ],
               "detailedLengths": [
@@ -5998,7 +5977,37 @@
               "twoWitnessDetailedPaths": 2,
               "newDetailedSequences": 2,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "cb6265bb7a24afd4b0b76cf3e4f658c967261f229ac80276cad7aa4c81bca2e9"
+              "detailedWitnessesSha256": "e045cc9124e486c8f793ef770d3c8a54bb42a283ba0b50acce38911bf2934cbe"
+            },
+            "modeled": {
+              "paths": 4,
+              "detailedPaths": 4,
+              "outcome": "flow-observed",
+              "passed": true,
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "limitations": [
+                "call-depth",
+                "held-task-iterations",
+                "witness-alternatives"
+              ],
+              "visibleLengths": [
+                21,
+                20,
+                20,
+                21
+              ],
+              "detailedLengths": [
+                29,
+                28,
+                28,
+                28
+              ],
+              "twoWitnessDetailedPaths": 2,
+              "newDetailedSequences": 2,
+              "twoWitnessSequencesNotRetained": 0,
+              "detailedWitnessesSha256": "e045cc9124e486c8f793ef770d3c8a54bb42a283ba0b50acce38911bf2934cbe"
             }
           },
           "semanticReview": "see sass-alternative-review.json; The source returns empty text for all-whitespace input or a substring between independently computed first/last bounds. The four returned paths traverse a readonly _firstNonWhitespace argument-output slot, _lastNonWhitespace length/index/return evidence, then external substring cross-argument effects from end to start to receiver. Those effects do not establish mutation of immutable String or integer arguments; the runtime preserves content and exercised ASCII/escape boundaries. Alternatives differ in local index visits or end-return branch. Call-depth, held-round and pruning diagnostics remain; empty-result feasibility is not inferred from the witness."
@@ -6050,7 +6059,7 @@
               "twoWitnessDetailedPaths": 1,
               "newDetailedSequences": 0,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "579b36a86caf23d0fbb44ebcea7e599c81cc3b3d58d14deedeb4c5d87fd66ffb"
+              "detailedWitnessesSha256": "a4acc9743ccadc6408e1900a6b52f415b5af82185669303ecdc377204932bbb7"
             },
             "modeled": {
               "paths": 1,
@@ -6073,7 +6082,7 @@
               "twoWitnessDetailedPaths": 1,
               "newDetailedSequences": 0,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "579b36a86caf23d0fbb44ebcea7e599c81cc3b3d58d14deedeb4c5d87fd66ffb"
+              "detailedWitnessesSha256": "a4acc9743ccadc6408e1900a6b52f415b5af82185669303ecdc377204932bbb7"
             }
           },
           "semanticReview": "see sass-alternative-review.json; trimAscii passes string slot one to _firstNonWhitespace. Direct three-node formal-root forwarding retains depth/pruning limits; this is input delivery to the scanner, not complete index correctness."
@@ -6185,7 +6194,7 @@
               "twoWitnessDetailedPaths": 1,
               "newDetailedSequences": 0,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "59fea99dc773fd3789a357b330ae86e5f72185ad3bd4d6ae18c258a975bfb09d"
+              "detailedWitnessesSha256": "8389f67208423065f979bcfe5224160b6c5b750a178adcb3ab4b1041fc40f411"
             },
             "modeled": {
               "paths": 1,
@@ -6205,7 +6214,7 @@
               "twoWitnessDetailedPaths": 1,
               "newDetailedSequences": 0,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "59fea99dc773fd3789a357b330ae86e5f72185ad3bd4d6ae18c258a975bfb09d"
+              "detailedWitnessesSha256": "8389f67208423065f979bcfe5224160b6c5b750a178adcb3ab4b1041fc40f411"
             }
           },
           "semanticReview": "see sass-alternative-review.json; The singular branch returns its supplied name. The three-node parameter-read/return path has no recorded query limitation; source-grounded count==1 is required for runtime selection."
@@ -6261,7 +6270,7 @@
               "twoWitnessDetailedPaths": 2,
               "newDetailedSequences": 2,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "a5d6678095322b5922f90a3d0d90c51768447a5c206e91201b430b8389bf9f34"
+              "detailedWitnessesSha256": "6af113e6614f547a8e8689238aa9755eebb8c37c64457be9eba1b41e36e33238"
             },
             "modeled": {
               "paths": 1,
@@ -6284,7 +6293,7 @@
               "twoWitnessDetailedPaths": 1,
               "newDetailedSequences": 0,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "2d5d03516028fea459ad4da9c0ad2dc3b270243fb4e471d0a3f54401acb3e983"
+              "detailedWitnessesSha256": "9ca752fd3202a10f3f8849c877c27a245ce7aedb89c00b9aefbd9fad70bf62ac"
             }
           },
           "semanticReview": "see sass-alternative-review.json; The implementation splits lines, maps prefix plus line, then joins. The modeled path carries mapped lambda parameter/return through its METHOD_REF and join, under the opt-in iterable contract. Stock instead exits through an indent scalar return into bulletedList, propagates through its callback METHOD_REF to the collection receiver, then re-enters the lambda and indent via a rest pattern. This is a conservative callback/receiver/caller detour, not a mutation or general delivery proof. The native controls exercise direct indent and bulletedList on bounded lines; query depth/pruning limits remain."
@@ -6350,7 +6359,7 @@
               "twoWitnessDetailedPaths": 2,
               "newDetailedSequences": 2,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "dac11495e116b1ed882cebe18c44cead76168fdac4c7634b3ce820da9c176ead"
+              "detailedWitnessesSha256": "fea3bd020281e87c3d4343e643accc9d896dbc883a576ad8dbeb85c95c5f120b"
             },
             "modeled": {
               "paths": 4,
@@ -6385,7 +6394,7 @@
               "twoWitnessDetailedPaths": 2,
               "newDetailedSequences": 2,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "dac11495e116b1ed882cebe18c44cead76168fdac4c7634b3ce820da9c176ead"
+              "detailedWitnessesSha256": "fea3bd020281e87c3d4343e643accc9d896dbc883a576ad8dbeb85c95c5f120b"
             }
           },
           "semanticReview": "see sass-alternative-review.json; The sink is the input argument of number==1. Four retained routes leave pluralize readonly number output, select built-in evaluator named-key length callers, then re-enter pluralize and read number. They are conservative unchanged-integer/caller detours, not mutation or evaluator order; explicit query limitations remain."
@@ -6418,7 +6427,7 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "067ae48b90f8f891485eedfc142d904ce8069cd5fd5b82a3dff90ca521385e7c",
+        "sha256": "6a92ea4bf560d1c655b02efcb3b34bf999e1aab8fc5db39f6deebceba02685f9",
         "files": 403,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
@@ -6612,7 +6621,7 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "067ae48b90f8f891485eedfc142d904ce8069cd5fd5b82a3dff90ca521385e7c",
+        "sha256": "6a92ea4bf560d1c655b02efcb3b34bf999e1aab8fc5db39f6deebceba02685f9",
         "files": 403,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",

@@ -18,21 +18,30 @@ is unfinished, so accepted feature documents supplement the older base draft.
 Diagnostic, VM and experimental SDK tests are included in the candidate index;
 their presence does not establish valid Dart 3.9 syntax or a passing oracle.
 
-Seventy-six base sections have no construct-specific cross-reference yet and
+Seventy-five base sections have no construct-specific cross-reference yet and
 remain explicit `specificationGaps`: eight document-context sections are not
-standalone constructs, while 68 semantic-rule sections remain unqualified. Existing per-stage contracts and semantic
+standalone constructs, while 67 semantic-rule sections remain unqualified. Existing per-stage contracts and semantic
 qualifications are unchanged. The source inventory does not close Gate 2's
 complete language-rule matrix or executable-oracle obligations.
 
 [qualification-matrix.json](qualification-matrix.json) assigns seven stage cells
 to all 175 visitors, 195 base sections and thirty feature documents. Shared visitor
-profiles link 47 named graph, exporter and native tests, with file hashes and
+profiles and partial case contracts link 53 named graph, exporter and native tests, with file hashes and
 explicit assertion scopes. `tested-conservative` describes those selected tests;
 it does not qualify every visitor using the profile. Generic declaration/bound
 checks remain `structural-only`, and untested CFG cells remain `unqualified`.
 Specification sections and feature documents retain complete-rule obligations;
 their related visitor links do not imply complete rule coverage. The matrix is
 declared evidence, not an execution report or a release qualification.
+
+The `await-for-cancellation` partial contract links `ForStatement` and `ForElement`
+to the pinned asynchronous for-in rule. It checks CFG routing through awaited
+iterator cleanup and four independent native tests: abrupt body exits, local
+continue, cancellation errors and throwing collection elements. The oracle holds
+cancellation pending across an event turn to verify completion order. A deliberately
+unawaited-cleanup mutation confirms that the completion observer detects early exit. Resolution, stream delivery and
+payload/heap dataflow remain unqualified for this case; the complete loop rules
+retain their separate obligations.
 
 Check committed references without network access:
 

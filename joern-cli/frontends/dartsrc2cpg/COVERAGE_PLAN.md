@@ -258,13 +258,16 @@ coverage wording if any positive exists only through an unjustified shortcut.
 Progress: the 175-row analyzer inventory now links each in-scope visitor to
 pinned formal/feature sources and candidate SDK cases. The [source index](conformance/source-index.json)
 accounts for 195 base sections, thirty accepted feature documents and all 4,172
-pinned SDK language test candidates. Of 76 unmapped base sections, eight are
-document context and 68 retain semantic-rule obligations. Candidates are unreviewed/unexecuted, and existing
+pinned SDK language test candidates. Of 75 unmapped base sections, eight are
+document context and 67 retain semantic-rule obligations. Candidates are unreviewed/unexecuted, and existing
 per-stage semantic qualifications are unchanged. The [qualification matrix](conformance/qualification-matrix.json)
 now assigns all visitor, base-section and feature-document rows seven explicit
-stage cells, with 47 named test links and stale-evidence checks. Shared profiles
+stage cells, with 53 named test links and stale-evidence checks. Shared profiles
 describe selected assertions; complete specification rules retain unqualified
 obligations. Rule-specific test mapping and broader executable traces remain unfinished.
+The asynchronous for-in rule now has a partial cancellation contract, with native
+completion-order/error controls and CFG cleanup checks; its broader stream and
+value-flow obligations stay open.
 
 - [ ] Inventory Dart 3.9.2 constructs from the language specification, analyzer
       AST surface and pinned SDK language tests. Do not infer coverage solely
@@ -291,6 +294,13 @@ The oracle does not use the frontend's own output as its expected semantics.
 ## Gate 3 — Complete declarations, expressions and control flow
 
 Prioritize issues found by Gates 1–2, then close known gaps:
+
+Await-for lowering now places iteration inside awaited iterator cancellation
+cleanup. Body break/return/throw, an outward labeled continue and throwing
+collection elements enter cleanup; a local continue remains in the loop.
+Cancellation failures and delayed completion have independent VM controls.
+This does not establish general stream delivery, subscription state or async
+payload/heap qualification.
 
 - [ ] Generic type aliases, generic function instantiation, variance/bounds,
       nullability and promoted types: preserve identity and relationships without

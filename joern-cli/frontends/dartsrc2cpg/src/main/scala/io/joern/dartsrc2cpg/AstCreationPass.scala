@@ -1759,7 +1759,7 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
                       field(syntax, ref(), "current")
                     )
                   )
-              control(
+              val iteration = control(
                 syntax,
                 ControlStructureTypes.WHILE,
                 if (bool(syntax, "await"))
@@ -1771,6 +1771,28 @@ class AstCreationPass(cpg: Cpg, units: Seq[Value], config: Config) extends CpgPa
                 else call(syntax, "<unresolved>.moveNext", "moveNext", None, Some(ref())),
                 block(syntax, Seq(assign) ++ loopBody(syntax))
               )
+              if (bool(syntax, "await")) {
+                val out = located(
+                  NewControlStructure().controlStructureType(ControlStructureTypes.TRY).code(code(syntax)),
+                  syntax
+                )
+                val body    = block(syntax, Seq(iteration))
+                val cleanup = block(
+                  syntax,
+                  Seq(
+                    operator(
+                      syntax,
+                      "<operator>.await",
+                      Seq(call(syntax, "<unresolved>.cancel", "cancel", None, Some(ref())))
+                    )
+                  )
+                )
+                Ast(out)
+                  .withChild(body)
+                  .withTryBodyEdge(out, body.root.get)
+                  .withChild(cleanup)
+                  .withFinallyBodyEdge(out, cleanup.root.get)
+              } else iteration
             })
           declaration :+ loop
         } else {

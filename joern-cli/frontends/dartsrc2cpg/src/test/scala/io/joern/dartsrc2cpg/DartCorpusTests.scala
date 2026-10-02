@@ -300,6 +300,19 @@ class DartCorpusTests extends AnyWordSpec with Matchers {
             "externalTargetAdapters"
           ).num.toInt
           val expected = baseline.find(_("project").str == name).get
+          reloaded.call.nameExact("<operator>.streamIterator").foreach { iterator =>
+            val cleanup = iterator.parentBlock.ast.isCall.nameExact("cancel").codeExact(iterator.code).l
+            cleanup.size shouldBe 1
+            val assigned =
+              iterator.astParent.asInstanceOf[io.shiftleft.codepropertygraph.generated.nodes.Call].argument(1)
+            cleanup.head
+              .argument(0)
+              .asInstanceOf[io.shiftleft.codepropertygraph.generated.nodes.Identifier]
+              .refsTo
+              .l shouldBe
+              assigned.asInstanceOf[io.shiftleft.codepropertygraph.generated.nodes.Identifier].refsTo.l
+            cleanup.head.cfgNext.isCall.nameExact("<operator>.await").size shouldBe 1
+          }
           expected.obj.foreach { case (key, value) =>
             val adjusted = if (Set("methods", "calls")(key)) ujson.Num(value.num + adapters.size) else value
             withClue(s"$name: $key (including ${adapters.size} default adapters): ") { report(key) shouldBe adjusted }

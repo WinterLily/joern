@@ -32,7 +32,9 @@ def verify():
     profiles = matrix["profiles"]
     require(set(profiles) == set(inventory["contracts"]) | {"rule-obligations", "document-context"},
             "Missing contract profile")
-    for name, profile in profiles.items():
+    cases = matrix["cases"]
+    require(len({case["id"] for case in cases}) == len(cases), "Duplicate partial contract")
+    for name, profile in list(profiles.items()) + [(case["id"], case["stages"]) for case in cases]:
         require(set(profile) == STAGES, f"Missing profile stage: {name}")
         for stage, cell in profile.items():
             require(cell["status"] in STATUSES and cell["obligation"], f"Missing stage disposition: {name}/{stage}")
@@ -43,6 +45,13 @@ def verify():
                 require(cell["evidence"], f"Untested stage promoted: {name}/{stage}")
     visitors = matrix["visitors"]
     expected = {r["construct"]: r for r in inventory["constructs"]}
+    for case in cases:
+        require(case["scope"] and case["constructs"] and set(case["constructs"]) <= expected.keys(),
+                f"Unknown partial contract construct: {case['id']}")
+        related_sections = {section for construct in case["constructs"]
+                            for section in expected[construct]["references"]["sections"]}
+        require(case["sections"] and set(case["sections"]) <= related_sections,
+                f"Unlinked partial contract rule: {case['id']}")
     require({r["construct"] for r in visitors} == expected.keys() and len(visitors) == len(expected),
             "Missing visitor matrix row")
     for row in visitors:

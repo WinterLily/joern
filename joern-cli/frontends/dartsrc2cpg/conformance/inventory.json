@@ -1496,7 +1496,8 @@
       "reason": "Accumulator element-value flow and evaluation order tested; exact membership, multiplicity and slot/overwrite precision are outside the shared heap contract.",
       "references": {
         "sections": [
-          "collectionLiteralElementEvaluation"
+          "collectionLiteralElementEvaluation",
+          "asynchronousFor-in"
         ],
         "features": [
           "accepted/2.3/control-flow-collections/feature-specification.md"
@@ -1598,7 +1599,8 @@
       "reason": "Explicit exporter representation; semantic obligations tracked independently.",
       "references": {
         "sections": [
-          "forLoop"
+          "forLoop",
+          "asynchronousFor-in"
         ],
         "features": [],
         "sdkCandidateCases": [
