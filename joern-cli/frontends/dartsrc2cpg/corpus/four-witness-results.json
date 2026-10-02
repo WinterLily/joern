@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "analysisSources": {
     "algorithm": "sha256-path-nul-content-nul",
-    "sha256": "fd6a6a8215cf5d7d63c58415c5c25d246071ed89f0f3113d8aa0b9f80cc29eaa",
-    "files": 415,
+    "sha256": "1f040f4a93ab7bb9c69a7f145f56c16ec34cf13454d624ff6743689178a27839",
+    "files": 416,
     "roots": [
       "joern-cli/frontends/dartsrc2cpg/src",
       "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -28,33 +28,33 @@
   "resources": [
     {
       "category": "packages",
-      "elapsedMillis": 399332,
+      "elapsedMillis": 426511,
       "exitCode": 0,
       "outcome": "completed",
       "budgetMillis": 600000,
-      "peakSampledFamilyRssKiB": 6328824,
+      "peakSampledFamilyRssKiB": 6440032,
       "workerHeapBytes": 8589934592,
       "workerProcessors": 4,
       "budgetScope": "Whole sbt subprocess including startup, graph loading and queries; process family sampled once per second."
     },
     {
       "category": "applications",
-      "elapsedMillis": 53308,
+      "elapsedMillis": 53315,
       "exitCode": 0,
       "outcome": "completed",
       "budgetMillis": 600000,
-      "peakSampledFamilyRssKiB": 4685464,
+      "peakSampledFamilyRssKiB": 5735804,
       "workerHeapBytes": 8589934592,
       "workerProcessors": 4,
       "budgetScope": "Whole sbt subprocess including startup, graph loading and queries; process family sampled once per second."
     },
     {
       "category": "holdout",
-      "elapsedMillis": 35198,
+      "elapsedMillis": 37208,
       "exitCode": 0,
       "outcome": "completed",
       "budgetMillis": 600000,
-      "peakSampledFamilyRssKiB": 2263748,
+      "peakSampledFamilyRssKiB": 2188068,
       "workerHeapBytes": 8589934592,
       "workerProcessors": 4,
       "budgetScope": "Whole sbt subprocess including startup, graph loading and queries; process family sampled once per second."
@@ -89,8 +89,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "fd6a6a8215cf5d7d63c58415c5c25d246071ed89f0f3113d8aa0b9f80cc29eaa",
-        "files": 415,
+        "sha256": "1f040f4a93ab7bb9c69a7f145f56c16ec34cf13454d624ff6743689178a27839",
+        "files": 416,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -525,8 +525,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "fd6a6a8215cf5d7d63c58415c5c25d246071ed89f0f3113d8aa0b9f80cc29eaa",
-        "files": 415,
+        "sha256": "1f040f4a93ab7bb9c69a7f145f56c16ec34cf13454d624ff6743689178a27839",
+        "files": 416,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -1061,8 +1061,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "fd6a6a8215cf5d7d63c58415c5c25d246071ed89f0f3113d8aa0b9f80cc29eaa",
-        "files": 415,
+        "sha256": "1f040f4a93ab7bb9c69a7f145f56c16ec34cf13454d624ff6743689178a27839",
+        "files": 416,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -1727,8 +1727,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "fd6a6a8215cf5d7d63c58415c5c25d246071ed89f0f3113d8aa0b9f80cc29eaa",
-        "files": 415,
+        "sha256": "1f040f4a93ab7bb9c69a7f145f56c16ec34cf13454d624ff6743689178a27839",
+        "files": 416,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -2194,8 +2194,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "fd6a6a8215cf5d7d63c58415c5c25d246071ed89f0f3113d8aa0b9f80cc29eaa",
-        "files": 415,
+        "sha256": "1f040f4a93ab7bb9c69a7f145f56c16ec34cf13454d624ff6743689178a27839",
+        "files": 416,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -2418,20 +2418,20 @@
               ],
               "visibleLengths": [
                 9,
-                9,
                 7,
-                5
+                5,
+                1
               ],
               "detailedLengths": [
                 9,
-                9,
                 7,
-                5
+                5,
+                1
               ],
               "twoWitnessDetailedPaths": 2,
               "newDetailedSequences": 2,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "067a39004f7cea7d77a2baee6babacef944630466f57ea8f77e1669bb82de2c3"
+              "detailedWitnessesSha256": "48a6c1e8f75a1b0c050a0bd5d96cc82f44eb76d6911f33646776370f2e71b262"
             },
             "modeled": {
               "paths": 4,
@@ -2447,20 +2447,20 @@
               ],
               "visibleLengths": [
                 9,
-                9,
                 7,
-                5
+                5,
+                1
               ],
               "detailedLengths": [
                 9,
-                9,
                 7,
-                5
+                5,
+                1
               ],
               "twoWitnessDetailedPaths": 2,
               "newDetailedSequences": 2,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "067a39004f7cea7d77a2baee6babacef944630466f57ea8f77e1669bb82de2c3"
+              "detailedWitnessesSha256": "48a6c1e8f75a1b0c050a0bd5d96cc82f44eb76d6911f33646776370f2e71b262"
             }
           },
           "semanticReview": "see package-flows-alternative-review.json; The value field source is already the EventSink.add actual endpoint. Four selected identity-ending detours traverse DelegatingEventSink.add and/or ReleaseSink.add, re-enter ValueResult.addTo through whole-result receiver projection and consume value or repeated value field demands. One route repeats ReleaseSink and another repeats the delegate; all exact slots and demands are retained. Those aggregate/receiver/caller approximations are not precise wrapper allocation or arbitrary event delivery. Native explicit delegate/release-sink calls check selected independent receivers; depth/pruning remain."
@@ -2635,8 +2635,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "fd6a6a8215cf5d7d63c58415c5c25d246071ed89f0f3113d8aa0b9f80cc29eaa",
-        "files": 415,
+        "sha256": "1f040f4a93ab7bb9c69a7f145f56c16ec34cf13454d624ff6743689178a27839",
+        "files": 416,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -2706,21 +2706,21 @@
                 "witness-alternatives"
               ],
               "visibleLengths": [
-                24,
-                22,
-                22,
-                22
+                23,
+                21,
+                21,
+                21
               ],
               "detailedLengths": [
-                29,
                 28,
-                28,
-                28
+                27,
+                27,
+                27
               ],
               "twoWitnessDetailedPaths": 2,
               "newDetailedSequences": 2,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "c06672c7ba8688d1f3af473ec57c848f9638294954c1620a71e4c7572d5a384b"
+              "detailedWitnessesSha256": "ce6432b8266c16715d0b44164636064fc496a19c1d247fa0b8cd3a9a7ec21573"
             },
             "modeled": {
               "paths": 1,
@@ -2791,21 +2791,21 @@
                 "witness-alternatives"
               ],
               "visibleLengths": [
-                55,
-                55,
-                54,
-                54
+                69,
+                68,
+                67,
+                67
               ],
               "detailedLengths": [
-                58,
-                58,
-                57,
-                57
+                74,
+                73,
+                73,
+                73
               ],
               "twoWitnessDetailedPaths": 2,
-              "newDetailedSequences": 4,
-              "twoWitnessSequencesNotRetained": 2,
-              "detailedWitnessesSha256": "53b00aafb0175629bac90d8ce6d624db23f61050f00624d076b12a6e3b0bc4c7"
+              "newDetailedSequences": 2,
+              "twoWitnessSequencesNotRetained": 0,
+              "detailedWitnessesSha256": "71af38746c505840e9ce49084193b25d1a088b1d6ffe647ae3e469ddc54f3ca1"
             },
             "modeled": {
               "paths": 4,
@@ -2823,20 +2823,20 @@
               ],
               "visibleLengths": [
                 59,
-                59,
                 57,
-                57
+                57,
+                55
               ],
               "detailedLengths": [
                 61,
-                61,
                 60,
-                60
+                60,
+                59
               ],
               "twoWitnessDetailedPaths": 2,
-              "newDetailedSequences": 4,
-              "twoWitnessSequencesNotRetained": 2,
-              "detailedWitnessesSha256": "8b73bdfa8e16bb9aae2ab7904f46ca27747cf0a12d08b0a761368b2ae9f6e461"
+              "newDetailedSequences": 2,
+              "twoWitnessSequencesNotRetained": 0,
+              "detailedWitnessesSha256": "eaf6b4553f13a70d75fb9c865a4b09199f03faa7cb7946f0caa9d35844b26d5f"
             }
           },
           "semanticReview": "see package-flows-alternative-review.json; The source copies bytes into the returned list. Stock routes first use setRange byte-to-list effects, exit to selected add or addSlice caller and re-enter _convert through chunk length/header allocation or cursor/start effects. Modeled routes preserve bytes-to-list dependence but retain repeated _convert/add re-entry, add/addSlice choices and temporary variants. Full output flags and caller contexts are retained. None proves arbitrary caller order, allocation identity or exact destination slots; DART-FLOW-003/external/output approximations and depth/storage/pruning limits remain. Native whole/sliced/empty chunks check actual bytes, not these detours."
@@ -3099,8 +3099,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "fd6a6a8215cf5d7d63c58415c5c25d246071ed89f0f3113d8aa0b9f80cc29eaa",
-        "files": 415,
+        "sha256": "1f040f4a93ab7bb9c69a7f145f56c16ec34cf13454d624ff6743689178a27839",
+        "files": 416,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -3417,9 +3417,9 @@
                 60
               ],
               "twoWitnessDetailedPaths": 2,
-              "newDetailedSequences": 4,
-              "twoWitnessSequencesNotRetained": 2,
-              "detailedWitnessesSha256": "ca557e51a195a611a4da629456365647d963bc8c3d9a2b74864227edd45c6050"
+              "newDetailedSequences": 2,
+              "twoWitnessSequencesNotRetained": 0,
+              "detailedWitnessesSha256": "04685a1d5fbadab78fa98cc7a4009e369ee31c890e9926a93147de994b037839"
             },
             "modeled": {
               "paths": 4,
@@ -3656,8 +3656,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "fd6a6a8215cf5d7d63c58415c5c25d246071ed89f0f3113d8aa0b9f80cc29eaa",
-        "files": 415,
+        "sha256": "1f040f4a93ab7bb9c69a7f145f56c16ec34cf13454d624ff6743689178a27839",
+        "files": 416,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -3720,25 +3720,24 @@
               "sinks": 1,
               "distinctEndpoints": true,
               "limitations": [
-                "call-depth",
                 "witness-alternatives"
               ],
               "visibleLengths": [
-                32,
                 23,
                 21,
-                21
+                21,
+                19
               ],
               "detailedLengths": [
-                34,
                 24,
                 23,
-                22
+                22,
+                21
               ],
               "twoWitnessDetailedPaths": 2,
               "newDetailedSequences": 2,
               "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "0e5645a74aeda63f41d6eefc6e77605d77f21e9e2c5a72d3a86780ce3010cf49"
+              "detailedWitnessesSha256": "0e7bef7416c295cb24abeda8a26a484319a630aae6aea658cec1ab7fdc325987"
             },
             "modeled": {
               "paths": 2,
@@ -4586,8 +4585,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "fd6a6a8215cf5d7d63c58415c5c25d246071ed89f0f3113d8aa0b9f80cc29eaa",
-        "files": 415,
+        "sha256": "1f040f4a93ab7bb9c69a7f145f56c16ec34cf13454d624ff6743689178a27839",
+        "files": 416,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -5497,8 +5496,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "fd6a6a8215cf5d7d63c58415c5c25d246071ed89f0f3113d8aa0b9f80cc29eaa",
-        "files": 415,
+        "sha256": "1f040f4a93ab7bb9c69a7f145f56c16ec34cf13454d624ff6743689178a27839",
+        "files": 416,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -5950,6 +5949,34 @@
           },
           "modes": {
             "stock": {
+              "paths": 2,
+              "detailedPaths": 4,
+              "outcome": "flow-observed",
+              "passed": true,
+              "sources": 1,
+              "sinks": 1,
+              "distinctEndpoints": true,
+              "limitations": [
+                "call-depth",
+                "held-task-iterations",
+                "witness-alternatives"
+              ],
+              "visibleLengths": [
+                21,
+                21
+              ],
+              "detailedLengths": [
+                29,
+                28,
+                28,
+                28
+              ],
+              "twoWitnessDetailedPaths": 2,
+              "newDetailedSequences": 3,
+              "twoWitnessSequencesNotRetained": 1,
+              "detailedWitnessesSha256": "562ad85650af9858a94b810567e1a02517e6bf01192ab03fe85f3ebdd0ecaef1"
+            },
+            "modeled": {
               "paths": 4,
               "detailedPaths": 4,
               "outcome": "flow-observed",
@@ -5978,34 +6005,6 @@
               "newDetailedSequences": 2,
               "twoWitnessSequencesNotRetained": 0,
               "detailedWitnessesSha256": "8850f3f1f895b68448f80a3c451dd59c72178a5b88f4b0159938d06f77f8b1ca"
-            },
-            "modeled": {
-              "paths": 2,
-              "detailedPaths": 4,
-              "outcome": "flow-observed",
-              "passed": true,
-              "sources": 1,
-              "sinks": 1,
-              "distinctEndpoints": true,
-              "limitations": [
-                "call-depth",
-                "held-task-iterations",
-                "witness-alternatives"
-              ],
-              "visibleLengths": [
-                21,
-                21
-              ],
-              "detailedLengths": [
-                29,
-                28,
-                28,
-                28
-              ],
-              "twoWitnessDetailedPaths": 2,
-              "newDetailedSequences": 2,
-              "twoWitnessSequencesNotRetained": 0,
-              "detailedWitnessesSha256": "562ad85650af9858a94b810567e1a02517e6bf01192ab03fe85f3ebdd0ecaef1"
             }
           },
           "semanticReview": "see sass-alternative-review.json; The source returns empty text for all-whitespace input or a substring between independently computed first/last bounds. The four returned paths traverse a readonly _firstNonWhitespace argument-output slot, _lastNonWhitespace length/index/return evidence, then external substring cross-argument effects from end to start to receiver. Those effects do not establish mutation of immutable String or integer arguments; the runtime preserves content and exercised ASCII/escape boundaries. Alternatives differ in local index visits or end-return branch. Call-depth, held-round and pruning diagnostics remain; empty-result feasibility is not inferred from the witness."
@@ -6425,8 +6424,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "fd6a6a8215cf5d7d63c58415c5c25d246071ed89f0f3113d8aa0b9f80cc29eaa",
-        "files": 415,
+        "sha256": "1f040f4a93ab7bb9c69a7f145f56c16ec34cf13454d624ff6743689178a27839",
+        "files": 416,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -6619,8 +6618,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "fd6a6a8215cf5d7d63c58415c5c25d246071ed89f0f3113d8aa0b9f80cc29eaa",
-        "files": 415,
+        "sha256": "1f040f4a93ab7bb9c69a7f145f56c16ec34cf13454d624ff6743689178a27839",
+        "files": 416,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",

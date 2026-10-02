@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "analysisBaseCommit": "928c52844",
+  "analysisBaseCommit": "26106d895",
   "scope": "All four initial holdout queries at witness bound four/two held rounds, both model sets; complete review of returned paths and source-grounded bounded absence controls.",
   "elementColumns": [
     "nodeId",
@@ -72,8 +72,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "fd6a6a8215cf5d7d63c58415c5c25d246071ed89f0f3113d8aa0b9f80cc29eaa",
-        "files": 415,
+        "sha256": "1f040f4a93ab7bb9c69a7f145f56c16ec34cf13454d624ff6743689178a27839",
+        "files": 416,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -610,8 +610,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "fd6a6a8215cf5d7d63c58415c5c25d246071ed89f0f3113d8aa0b9f80cc29eaa",
-        "files": 415,
+        "sha256": "1f040f4a93ab7bb9c69a7f145f56c16ec34cf13454d624ff6743689178a27839",
+        "files": 416,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -996,11 +996,11 @@
     }
   ],
   "refresh": {
-    "previousBaseCommit": "928c52844",
+    "previousBaseCommit": "ae35e62f7",
     "previousAnalysisSources": {
       "algorithm": "sha256-path-nul-content-nul",
-      "sha256": "22d474c7d4ac73cf90fcce403c1cc72bce73dd0720c1336f9be99d4158f29692",
-      "files": 414,
+      "sha256": "fd6a6a8215cf5d7d63c58415c5c25d246071ed89f0f3113d8aa0b9f80cc29eaa",
+      "files": 415,
       "roots": [
         "joern-cli/frontends/dartsrc2cpg/src",
         "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -1026,7 +1026,7 @@
       "distinctPaths": 3,
       "distinctTransitions": 19
     },
-    "method": "Replayed after preserving known immutable callable targets through casts/assertions, saved values and final pattern bindings, with bound receiver captures and corrected positional fallback binding after named arguments. Unknown and changing callables remain unresolved. Unchanged routes are matched against previous two/four-witness reviewed paths after removing node IDs only; all other node/call/context/flag/demand facts are retained. Changed variants have separate source-grounded refresh dispositions and checked argument/return/output bindings. All new graph IDs are reconstructed from fresh raw audits. Native observations do not certify caller re-entry, allocation, heap/dispatch precision or route feasibility."
+    "method": "Replayed after stopping equivalent Dart recursive task states when the preceding state had at least as much remaining depth. Sink, selected call stack, output channel, field demand and pending storage exits remain distinct; foreign behavior is unchanged. Previous two/four-witness routes match after removing graph node IDs only; all other node/call/context/flag/demand facts remain intact. Changed variants have separate pinned-source dispositions and checked argument/return/output bindings. Cyclic routes are not enumerated. Fresh graph IDs and exact query limitations are retained. Runtime recursion, heap identity, callback delivery, omitted alternatives and limited negatives remain unqualified"
   },
   "nativeRefreshScope": "Existing native oracle contracts remain unchanged."
 }

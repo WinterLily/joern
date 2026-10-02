@@ -1,0 +1,1446 @@
+{
+  "schemaVersion": 1,
+  "scope": "Two Args negative queries and their independent positive controls under fixed graph/model budgets at depths four/eight/sixteen/thirty-two. No complete runtime or heap absence claim.",
+  "analysisBaseCommit": "26106d895",
+  "source": {
+    "name": "args",
+    "version": "2.7.0",
+    "sha256": "d0481093c50b1da8910eb0bb301626d4d8eb7284aa739614d2b394ee09e3ea04",
+    "librarySha256": "0943c9c27ee7c773b0736c480e6db08b752b7ca7148f580786905f55d360c432",
+    "probe": "parse"
+  },
+  "exporter": {
+    "record": "header",
+    "protocolVersion": 1,
+    "exporterVersion": "0.3.27",
+    "analyzerVersion": "8.4.1",
+    "sdkVersion": "3.9.2",
+    "offsetEncoding": "utf-16",
+    "conditionalEnvironment": "analyzer-default"
+  },
+  "beforeAnalysisSources": {
+    "algorithm": "sha256-path-nul-content-nul",
+    "sha256": "fd6a6a8215cf5d7d63c58415c5c25d246071ed89f0f3113d8aa0b9f80cc29eaa",
+    "files": 415,
+    "roots": [
+      "joern-cli/frontends/dartsrc2cpg/src",
+      "joern-cli/frontends/dartsrc2cpg/astgen/lib",
+      "joern-cli/frontends/dartsrc2cpg/astgen/bin",
+      "joern-cli/frontends/x2cpg/src/main",
+      "dataflowengineoss/src/main",
+      "semanticcpg/src/main",
+      "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.lock",
+      "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.yaml",
+      "joern-cli/frontends/dartsrc2cpg/build.sbt",
+      "joern-cli/frontends/x2cpg/build.sbt",
+      "joern-cli/build.sbt",
+      "dataflowengineoss/build.sbt",
+      "semanticcpg/build.sbt",
+      "build.sbt",
+      "project/Versions.scala",
+      "project/Projects.scala"
+    ]
+  },
+  "analysisSources": {
+    "algorithm": "sha256-path-nul-content-nul",
+    "sha256": "1f040f4a93ab7bb9c69a7f145f56c16ec34cf13454d624ff6743689178a27839",
+    "files": 416,
+    "roots": [
+      "joern-cli/frontends/dartsrc2cpg/src",
+      "joern-cli/frontends/dartsrc2cpg/astgen/lib",
+      "joern-cli/frontends/dartsrc2cpg/astgen/bin",
+      "joern-cli/frontends/x2cpg/src/main",
+      "dataflowengineoss/src/main",
+      "semanticcpg/src/main",
+      "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.lock",
+      "joern-cli/frontends/dartsrc2cpg/astgen/pubspec.yaml",
+      "joern-cli/frontends/dartsrc2cpg/build.sbt",
+      "joern-cli/frontends/x2cpg/build.sbt",
+      "joern-cli/build.sbt",
+      "dataflowengineoss/build.sbt",
+      "semanticcpg/build.sbt",
+      "build.sbt",
+      "project/Versions.scala",
+      "project/Projects.scala"
+    ]
+  },
+  "modelFilesSha256": {
+    "async": "c482e7bc9300c13523e5a921d43d67952fffa69290b0cf7ca6ba48e55cb2f48c",
+    "worker_manager": "972688de95dc40d77a055b86cb3c3422ac6242bcb18379cacb1d6fe4fde82c13",
+    "iterable": "f557cbefb4e70574ec692d069c90d1d3fb812e3e09511816c6af62fe82f6b4d3",
+    "bytes": "868e7d0918ddb0761370255754488290d5c6d9a175951a3b76cc88ad2bc95ad4"
+  },
+  "sourceEvidence": [
+    {
+      "file": "lib/src/option.dart",
+      "sha256": "65eb28decde419b4a178a2524bcc027dd9ff058b46fc064e00af7252220a8d6a",
+      "reviewedLineRanges": [
+        [
+          151,
+          162
+        ]
+      ]
+    },
+    {
+      "file": "lib/src/arg_results.dart",
+      "sha256": "e05aa1739d805de20c10e08f543dcd0ffd9686c01aa7e5c5331453aa158220be",
+      "reviewedLineRanges": [
+        [
+          13,
+          22
+        ],
+        [
+          56,
+          59
+        ]
+      ]
+    },
+    {
+      "file": "lib/src/parser.dart",
+      "sha256": "e74e22cb59f87394064461e953a0dd92b2418434ec62e5ebe7cc266c3ee19a6d",
+      "reviewedLineRanges": [
+        [
+          37,
+          74
+        ],
+        [
+          100,
+          121
+        ]
+      ]
+    }
+  ],
+  "reducedEvidence": {
+    "file": "src/test/scala/io/joern/dartsrc2cpg/queryengine/RecursiveTaskTests.scala",
+    "sha256": "097549f04b1b9f598173a51f4f661601a10015d128d77b74de3b36294e13a71a",
+    "tests": [
+      "finish a Dart caller cycle while retaining connected sources and foreign depth limits",
+      "prune only equivalent states previously searched with at least as much depth"
+    ]
+  },
+  "before": {
+    "mode": "stock",
+    "runs": [
+      {
+        "maxCallDepth": 4,
+        "results": [
+          {
+            "id": "option-value-return",
+            "outcome": "flow-observed",
+            "passed": true,
+            "sources": 1,
+            "sinks": 1,
+            "distinctEndpoints": true,
+            "paths": 1,
+            "detailedPaths": 1,
+            "limitations": [],
+            "searchComplete": true,
+            "omittedWitnesses": 0,
+            "omittedDetailedWitnesses": 0,
+            "elapsedMillis": 62.725221,
+            "pathIndices": [
+              0
+            ]
+          },
+          {
+            "id": "value-not-default",
+            "outcome": "inconclusive-query-limits",
+            "passed": true,
+            "sources": 1,
+            "sinks": 1,
+            "distinctEndpoints": true,
+            "paths": 0,
+            "detailedPaths": 0,
+            "limitations": [
+              "call-depth"
+            ],
+            "searchComplete": false,
+            "omittedWitnesses": 0,
+            "omittedDetailedWitnesses": 0,
+            "elapsedMillis": 113.78256,
+            "pathIndices": [],
+            "positiveControlSatisfied": true
+          },
+          {
+            "id": "forwarded-constructor-parsed",
+            "outcome": "inconclusive-query-limits",
+            "passed": true,
+            "sources": 1,
+            "sinks": 1,
+            "distinctEndpoints": true,
+            "paths": 0,
+            "detailedPaths": 0,
+            "limitations": [
+              "call-depth"
+            ],
+            "searchComplete": false,
+            "omittedWitnesses": 0,
+            "omittedDetailedWitnesses": 0,
+            "elapsedMillis": 14.262965,
+            "pathIndices": [],
+            "positiveControlSatisfied": true
+          },
+          {
+            "id": "forwarded-constructor-parsed-control",
+            "outcome": "flow-observed",
+            "passed": true,
+            "sources": 1,
+            "sinks": 1,
+            "distinctEndpoints": true,
+            "paths": 1,
+            "detailedPaths": 1,
+            "limitations": [],
+            "searchComplete": true,
+            "omittedWitnesses": 0,
+            "omittedDetailedWitnesses": 0,
+            "elapsedMillis": 8.92222,
+            "pathIndices": [
+              1
+            ]
+          }
+        ]
+      },
+      {
+        "maxCallDepth": 8,
+        "results": [
+          {
+            "id": "option-value-return",
+            "outcome": "flow-observed",
+            "passed": true,
+            "sources": 1,
+            "sinks": 1,
+            "distinctEndpoints": true,
+            "paths": 1,
+            "detailedPaths": 1,
+            "limitations": [],
+            "searchComplete": true,
+            "omittedWitnesses": 0,
+            "omittedDetailedWitnesses": 0,
+            "elapsedMillis": 4.571766,
+            "pathIndices": [
+              0
+            ]
+          },
+          {
+            "id": "value-not-default",
+            "outcome": "inconclusive-query-limits",
+            "passed": true,
+            "sources": 1,
+            "sinks": 1,
+            "distinctEndpoints": true,
+            "paths": 0,
+            "detailedPaths": 0,
+            "limitations": [
+              "call-depth"
+            ],
+            "searchComplete": false,
+            "omittedWitnesses": 0,
+            "omittedDetailedWitnesses": 0,
+            "elapsedMillis": 111.976368,
+            "pathIndices": [],
+            "positiveControlSatisfied": true
+          },
+          {
+            "id": "forwarded-constructor-parsed",
+            "outcome": "inconclusive-query-limits",
+            "passed": true,
+            "sources": 1,
+            "sinks": 1,
+            "distinctEndpoints": true,
+            "paths": 0,
+            "detailedPaths": 0,
+            "limitations": [
+              "call-depth"
+            ],
+            "searchComplete": false,
+            "omittedWitnesses": 0,
+            "omittedDetailedWitnesses": 0,
+            "elapsedMillis": 27.225014,
+            "pathIndices": [],
+            "positiveControlSatisfied": true
+          },
+          {
+            "id": "forwarded-constructor-parsed-control",
+            "outcome": "flow-observed",
+            "passed": true,
+            "sources": 1,
+            "sinks": 1,
+            "distinctEndpoints": true,
+            "paths": 1,
+            "detailedPaths": 1,
+            "limitations": [],
+            "searchComplete": true,
+            "omittedWitnesses": 0,
+            "omittedDetailedWitnesses": 0,
+            "elapsedMillis": 6.211016,
+            "pathIndices": [
+              1
+            ]
+          }
+        ]
+      },
+      {
+        "maxCallDepth": 16,
+        "results": [
+          {
+            "id": "option-value-return",
+            "outcome": "flow-observed",
+            "passed": true,
+            "sources": 1,
+            "sinks": 1,
+            "distinctEndpoints": true,
+            "paths": 1,
+            "detailedPaths": 1,
+            "limitations": [],
+            "searchComplete": true,
+            "omittedWitnesses": 0,
+            "omittedDetailedWitnesses": 0,
+            "elapsedMillis": 3.228459,
+            "pathIndices": [
+              0
+            ]
+          },
+          {
+            "id": "value-not-default",
+            "outcome": "inconclusive-query-limits",
+            "passed": true,
+            "sources": 1,
+            "sinks": 1,
+            "distinctEndpoints": true,
+            "paths": 0,
+            "detailedPaths": 0,
+            "limitations": [
+              "call-depth"
+            ],
+            "searchComplete": false,
+            "omittedWitnesses": 0,
+            "omittedDetailedWitnesses": 0,
+            "elapsedMillis": 197.177566,
+            "pathIndices": [],
+            "positiveControlSatisfied": true
+          },
+          {
+            "id": "forwarded-constructor-parsed",
+            "outcome": "inconclusive-query-limits",
+            "passed": true,
+            "sources": 1,
+            "sinks": 1,
+            "distinctEndpoints": true,
+            "paths": 0,
+            "detailedPaths": 0,
+            "limitations": [
+              "call-depth"
+            ],
+            "searchComplete": false,
+            "omittedWitnesses": 0,
+            "omittedDetailedWitnesses": 0,
+            "elapsedMillis": 51.600335,
+            "pathIndices": [],
+            "positiveControlSatisfied": true
+          },
+          {
+            "id": "forwarded-constructor-parsed-control",
+            "outcome": "flow-observed",
+            "passed": true,
+            "sources": 1,
+            "sinks": 1,
+            "distinctEndpoints": true,
+            "paths": 1,
+            "detailedPaths": 1,
+            "limitations": [],
+            "searchComplete": true,
+            "omittedWitnesses": 0,
+            "omittedDetailedWitnesses": 0,
+            "elapsedMillis": 5.624789,
+            "pathIndices": [
+              1
+            ]
+          }
+        ]
+      }
+    ],
+    "disposition": "Both negatives retain depth cutoffs at four/eight/sixteen despite connected independent controls. Diagnostic scratch traces contain repeated Parser caller/receiver states at increasing depths.",
+    "paths": [
+      [
+        {
+          "nodeId": "111669150022",
+          "label": "METHOD_PARAMETER_IN",
+          "method": "package:args/src/option.dart#5002:METHOD:valueOrDefault",
+          "code": "Object? value",
+          "line": 157,
+          "parameterIndex": 1,
+          "callSiteStack": [],
+          "visible": true,
+          "isOutputArg": false,
+          "outEdgeLabel": "value",
+          "fieldDemand": [],
+          "storageDemands": []
+        },
+        {
+          "nodeId": "68719477968",
+          "label": "IDENTIFIER",
+          "method": "package:args/src/option.dart#5002:METHOD:valueOrDefault",
+          "code": "value",
+          "line": 158,
+          "argumentsOf": [
+            {
+              "nodeId": "30064772344",
+              "name": "<operator>.notEquals",
+              "target": "<operator>.dart.notEquals",
+              "code": "value != null",
+              "callees": [
+                {
+                  "fullName": "<operator>.dart.notEquals",
+                  "external": true
+                }
+              ],
+              "argumentIndex": 1
+            }
+          ],
+          "callSiteStack": [],
+          "visible": false,
+          "isOutputArg": false,
+          "outEdgeLabel": "value",
+          "fieldDemand": [],
+          "storageDemands": []
+        },
+        {
+          "nodeId": "68719477969",
+          "label": "IDENTIFIER",
+          "method": "package:args/src/option.dart#5002:METHOD:valueOrDefault",
+          "code": "value",
+          "line": 158,
+          "callSiteStack": [],
+          "visible": true,
+          "isOutputArg": false,
+          "outEdgeLabel": "value",
+          "fieldDemand": [],
+          "storageDemands": []
+        },
+        {
+          "nodeId": "141733920906",
+          "label": "RETURN",
+          "method": "package:args/src/option.dart#5002:METHOD:valueOrDefault",
+          "code": "return value;",
+          "line": 158,
+          "callSiteStack": [],
+          "visible": true,
+          "isOutputArg": false,
+          "outEdgeLabel": "",
+          "fieldDemand": [],
+          "storageDemands": []
+        }
+      ],
+      [
+        {
+          "nodeId": "111669149935",
+          "label": "METHOD_PARAMETER_IN",
+          "method": "package:args/src/arg_results.dart#476:FUNCTION:newArgResults",
+          "code": "Map<String, dynamic> parsed",
+          "line": 15,
+          "parameterIndex": 2,
+          "callSiteStack": [],
+          "visible": true,
+          "isOutputArg": false,
+          "outEdgeLabel": "parsed",
+          "fieldDemand": [],
+          "storageDemands": []
+        },
+        {
+          "nodeId": "68719477621",
+          "label": "IDENTIFIER",
+          "method": "package:args/src/arg_results.dart#476:FUNCTION:newArgResults",
+          "code": "parsed",
+          "line": 20,
+          "argumentsOf": [
+            {
+              "nodeId": "30064771964",
+              "name": "_",
+              "target": "package:args/src/arg_results.dart#1814:CONSTRUCTOR:_",
+              "code": "ArgResults._(parser, parsed, name, command, rest, arguments)",
+              "callees": [
+                {
+                  "fullName": "package:args/src/arg_results.dart#1814:CONSTRUCTOR:_",
+                  "external": false
+                }
+              ],
+              "argumentIndex": 2
+            }
+          ],
+          "callSiteStack": [],
+          "visible": true,
+          "isOutputArg": false,
+          "outEdgeLabel": "",
+          "fieldDemand": [],
+          "storageDemands": []
+        },
+        {
+          "nodeId": "111669149948",
+          "label": "METHOD_PARAMETER_IN",
+          "method": "package:args/src/arg_results.dart#1814:CONSTRUCTOR:_",
+          "code": "this._parsed",
+          "line": 55,
+          "parameterIndex": 2,
+          "callSiteStack": [],
+          "visible": true,
+          "isOutputArg": false,
+          "outEdgeLabel": "_parsed",
+          "fieldDemand": [],
+          "storageDemands": []
+        },
+        {
+          "nodeId": "68719477636",
+          "label": "IDENTIFIER",
+          "method": "package:args/src/arg_results.dart#1814:CONSTRUCTOR:_",
+          "code": "_parsed",
+          "line": 55,
+          "argumentsOf": [
+            {
+              "nodeId": "30064771973",
+              "name": "<operator>.assignment",
+              "target": "<operator>.assignment",
+              "code": "this._parsed",
+              "callees": [
+                {
+                  "fullName": "<operator>.assignment",
+                  "external": true
+                }
+              ],
+              "argumentIndex": 2
+            }
+          ],
+          "callSiteStack": [],
+          "visible": false,
+          "isOutputArg": false,
+          "outEdgeLabel": "_parsed",
+          "fieldDemand": [],
+          "storageDemands": []
+        },
+        {
+          "nodeId": "30064771973",
+          "label": "CALL",
+          "method": "package:args/src/arg_results.dart#1814:CONSTRUCTOR:_",
+          "code": "this._parsed",
+          "line": 55,
+          "call": {
+            "nodeId": "30064771973",
+            "name": "<operator>.assignment",
+            "target": "<operator>.assignment",
+            "code": "this._parsed",
+            "callees": [
+              {
+                "fullName": "<operator>.assignment",
+                "external": true
+              }
+            ]
+          },
+          "callSiteStack": [],
+          "visible": true,
+          "isOutputArg": false,
+          "outEdgeLabel": "",
+          "fieldDemand": [],
+          "storageDemands": []
+        }
+      ]
+    ]
+  },
+  "after": {
+    "runs": [
+      {
+        "mode": "stock",
+        "maxCallDepth": 4,
+        "results": [
+          {
+            "id": "option-value-return",
+            "outcome": "flow-observed",
+            "passed": true,
+            "sources": 1,
+            "sinks": 1,
+            "distinctEndpoints": true,
+            "paths": 1,
+            "detailedPaths": 1,
+            "limitations": [],
+            "searchComplete": true,
+            "omittedWitnesses": 0,
+            "omittedDetailedWitnesses": 0,
+            "elapsedMillis": 63.205267,
+            "pathIndices": [
+              0
+            ]
+          },
+          {
+            "id": "value-not-default",
+            "outcome": "inconclusive-query-limits",
+            "passed": true,
+            "sources": 1,
+            "sinks": 1,
+            "distinctEndpoints": true,
+            "paths": 0,
+            "detailedPaths": 0,
+            "limitations": [
+              "call-depth"
+            ],
+            "searchComplete": false,
+            "omittedWitnesses": 0,
+            "omittedDetailedWitnesses": 0,
+            "elapsedMillis": 111.182089,
+            "pathIndices": [],
+            "positiveControlSatisfied": true
+          },
+          {
+            "id": "forwarded-constructor-parsed",
+            "outcome": "inconclusive-query-limits",
+            "passed": true,
+            "sources": 1,
+            "sinks": 1,
+            "distinctEndpoints": true,
+            "paths": 0,
+            "detailedPaths": 0,
+            "limitations": [
+              "call-depth"
+            ],
+            "searchComplete": false,
+            "omittedWitnesses": 0,
+            "omittedDetailedWitnesses": 0,
+            "elapsedMillis": 14.339254,
+            "pathIndices": [],
+            "positiveControlSatisfied": true
+          },
+          {
+            "id": "forwarded-constructor-parsed-control",
+            "outcome": "flow-observed",
+            "passed": true,
+            "sources": 1,
+            "sinks": 1,
+            "distinctEndpoints": true,
+            "paths": 1,
+            "detailedPaths": 1,
+            "limitations": [],
+            "searchComplete": true,
+            "omittedWitnesses": 0,
+            "omittedDetailedWitnesses": 0,
+            "elapsedMillis": 8.795056,
+            "pathIndices": [
+              1
+            ]
+          }
+        ]
+      },
+      {
+        "mode": "modeled",
+        "maxCallDepth": 4,
+        "results": [
+          {
+            "id": "option-value-return",
+            "outcome": "flow-observed",
+            "passed": true,
+            "sources": 1,
+            "sinks": 1,
+            "distinctEndpoints": true,
+            "paths": 1,
+            "detailedPaths": 1,
+            "limitations": [],
+            "searchComplete": true,
+            "omittedWitnesses": 0,
+            "omittedDetailedWitnesses": 0,
+            "elapsedMillis": 4.08465,
+            "pathIndices": [
+              0
+            ]
+          },
+          {
+            "id": "value-not-default",
+            "outcome": "inconclusive-query-limits",
+            "passed": true,
+            "sources": 1,
+            "sinks": 1,
+            "distinctEndpoints": true,
+            "paths": 0,
+            "detailedPaths": 0,
+            "limitations": [
+              "call-depth"
+            ],
+            "searchComplete": false,
+            "omittedWitnesses": 0,
+            "omittedDetailedWitnesses": 0,
+            "elapsedMillis": 37.314862,
+            "pathIndices": [],
+            "positiveControlSatisfied": true
+          },
+          {
+            "id": "forwarded-constructor-parsed",
+            "outcome": "inconclusive-query-limits",
+            "passed": true,
+            "sources": 1,
+            "sinks": 1,
+            "distinctEndpoints": true,
+            "paths": 0,
+            "detailedPaths": 0,
+            "limitations": [
+              "call-depth"
+            ],
+            "searchComplete": false,
+            "omittedWitnesses": 0,
+            "omittedDetailedWitnesses": 0,
+            "elapsedMillis": 14.406475,
+            "pathIndices": [],
+            "positiveControlSatisfied": true
+          },
+          {
+            "id": "forwarded-constructor-parsed-control",
+            "outcome": "flow-observed",
+            "passed": true,
+            "sources": 1,
+            "sinks": 1,
+            "distinctEndpoints": true,
+            "paths": 1,
+            "detailedPaths": 1,
+            "limitations": [],
+            "searchComplete": true,
+            "omittedWitnesses": 0,
+            "omittedDetailedWitnesses": 0,
+            "elapsedMillis": 8.025648,
+            "pathIndices": [
+              1
+            ]
+          }
+        ]
+      },
+      {
+        "mode": "stock",
+        "maxCallDepth": 8,
+        "results": [
+          {
+            "id": "option-value-return",
+            "outcome": "flow-observed",
+            "passed": true,
+            "sources": 1,
+            "sinks": 1,
+            "distinctEndpoints": true,
+            "paths": 1,
+            "detailedPaths": 1,
+            "limitations": [],
+            "searchComplete": true,
+            "omittedWitnesses": 0,
+            "omittedDetailedWitnesses": 0,
+            "elapsedMillis": 3.851787,
+            "pathIndices": [
+              0
+            ]
+          },
+          {
+            "id": "value-not-default",
+            "outcome": "no-flow-observed-within-limits",
+            "passed": true,
+            "sources": 1,
+            "sinks": 1,
+            "distinctEndpoints": true,
+            "paths": 0,
+            "detailedPaths": 0,
+            "limitations": [],
+            "searchComplete": true,
+            "omittedWitnesses": 0,
+            "omittedDetailedWitnesses": 0,
+            "elapsedMillis": 41.846437,
+            "pathIndices": [],
+            "positiveControlSatisfied": true
+          },
+          {
+            "id": "forwarded-constructor-parsed",
+            "outcome": "no-flow-observed-within-limits",
+            "passed": true,
+            "sources": 1,
+            "sinks": 1,
+            "distinctEndpoints": true,
+            "paths": 0,
+            "detailedPaths": 0,
+            "limitations": [],
+            "searchComplete": true,
+            "omittedWitnesses": 0,
+            "omittedDetailedWitnesses": 0,
+            "elapsedMillis": 10.747661,
+            "pathIndices": [],
+            "positiveControlSatisfied": true
+          },
+          {
+            "id": "forwarded-constructor-parsed-control",
+            "outcome": "flow-observed",
+            "passed": true,
+            "sources": 1,
+            "sinks": 1,
+            "distinctEndpoints": true,
+            "paths": 1,
+            "detailedPaths": 1,
+            "limitations": [],
+            "searchComplete": true,
+            "omittedWitnesses": 0,
+            "omittedDetailedWitnesses": 0,
+            "elapsedMillis": 6.56551,
+            "pathIndices": [
+              1
+            ]
+          }
+        ]
+      },
+      {
+        "mode": "modeled",
+        "maxCallDepth": 8,
+        "results": [
+          {
+            "id": "option-value-return",
+            "outcome": "flow-observed",
+            "passed": true,
+            "sources": 1,
+            "sinks": 1,
+            "distinctEndpoints": true,
+            "paths": 1,
+            "detailedPaths": 1,
+            "limitations": [],
+            "searchComplete": true,
+            "omittedWitnesses": 0,
+            "omittedDetailedWitnesses": 0,
+            "elapsedMillis": 3.690435,
+            "pathIndices": [
+              0
+            ]
+          },
+          {
+            "id": "value-not-default",
+            "outcome": "no-flow-observed-within-limits",
+            "passed": true,
+            "sources": 1,
+            "sinks": 1,
+            "distinctEndpoints": true,
+            "paths": 0,
+            "detailedPaths": 0,
+            "limitations": [],
+            "searchComplete": true,
+            "omittedWitnesses": 0,
+            "omittedDetailedWitnesses": 0,
+            "elapsedMillis": 33.099522,
+            "pathIndices": [],
+            "positiveControlSatisfied": true
+          },
+          {
+            "id": "forwarded-constructor-parsed",
+            "outcome": "no-flow-observed-within-limits",
+            "passed": true,
+            "sources": 1,
+            "sinks": 1,
+            "distinctEndpoints": true,
+            "paths": 0,
+            "detailedPaths": 0,
+            "limitations": [],
+            "searchComplete": true,
+            "omittedWitnesses": 0,
+            "omittedDetailedWitnesses": 0,
+            "elapsedMillis": 8.498473,
+            "pathIndices": [],
+            "positiveControlSatisfied": true
+          },
+          {
+            "id": "forwarded-constructor-parsed-control",
+            "outcome": "flow-observed",
+            "passed": true,
+            "sources": 1,
+            "sinks": 1,
+            "distinctEndpoints": true,
+            "paths": 1,
+            "detailedPaths": 1,
+            "limitations": [],
+            "searchComplete": true,
+            "omittedWitnesses": 0,
+            "omittedDetailedWitnesses": 0,
+            "elapsedMillis": 6.034403,
+            "pathIndices": [
+              1
+            ]
+          }
+        ]
+      },
+      {
+        "mode": "stock",
+        "maxCallDepth": 16,
+        "results": [
+          {
+            "id": "option-value-return",
+            "outcome": "flow-observed",
+            "passed": true,
+            "sources": 1,
+            "sinks": 1,
+            "distinctEndpoints": true,
+            "paths": 1,
+            "detailedPaths": 1,
+            "limitations": [],
+            "searchComplete": true,
+            "omittedWitnesses": 0,
+            "omittedDetailedWitnesses": 0,
+            "elapsedMillis": 3.219549,
+            "pathIndices": [
+              0
+            ]
+          },
+          {
+            "id": "value-not-default",
+            "outcome": "no-flow-observed-within-limits",
+            "passed": true,
+            "sources": 1,
+            "sinks": 1,
+            "distinctEndpoints": true,
+            "paths": 0,
+            "detailedPaths": 0,
+            "limitations": [],
+            "searchComplete": true,
+            "omittedWitnesses": 0,
+            "omittedDetailedWitnesses": 0,
+            "elapsedMillis": 31.158918,
+            "pathIndices": [],
+            "positiveControlSatisfied": true
+          },
+          {
+            "id": "forwarded-constructor-parsed",
+            "outcome": "no-flow-observed-within-limits",
+            "passed": true,
+            "sources": 1,
+            "sinks": 1,
+            "distinctEndpoints": true,
+            "paths": 0,
+            "detailedPaths": 0,
+            "limitations": [],
+            "searchComplete": true,
+            "omittedWitnesses": 0,
+            "omittedDetailedWitnesses": 0,
+            "elapsedMillis": 8.001677,
+            "pathIndices": [],
+            "positiveControlSatisfied": true
+          },
+          {
+            "id": "forwarded-constructor-parsed-control",
+            "outcome": "flow-observed",
+            "passed": true,
+            "sources": 1,
+            "sinks": 1,
+            "distinctEndpoints": true,
+            "paths": 1,
+            "detailedPaths": 1,
+            "limitations": [],
+            "searchComplete": true,
+            "omittedWitnesses": 0,
+            "omittedDetailedWitnesses": 0,
+            "elapsedMillis": 6.361477,
+            "pathIndices": [
+              1
+            ]
+          }
+        ]
+      },
+      {
+        "mode": "modeled",
+        "maxCallDepth": 16,
+        "results": [
+          {
+            "id": "option-value-return",
+            "outcome": "flow-observed",
+            "passed": true,
+            "sources": 1,
+            "sinks": 1,
+            "distinctEndpoints": true,
+            "paths": 1,
+            "detailedPaths": 1,
+            "limitations": [],
+            "searchComplete": true,
+            "omittedWitnesses": 0,
+            "omittedDetailedWitnesses": 0,
+            "elapsedMillis": 3.106437,
+            "pathIndices": [
+              0
+            ]
+          },
+          {
+            "id": "value-not-default",
+            "outcome": "no-flow-observed-within-limits",
+            "passed": true,
+            "sources": 1,
+            "sinks": 1,
+            "distinctEndpoints": true,
+            "paths": 0,
+            "detailedPaths": 0,
+            "limitations": [],
+            "searchComplete": true,
+            "omittedWitnesses": 0,
+            "omittedDetailedWitnesses": 0,
+            "elapsedMillis": 28.124011,
+            "pathIndices": [],
+            "positiveControlSatisfied": true
+          },
+          {
+            "id": "forwarded-constructor-parsed",
+            "outcome": "no-flow-observed-within-limits",
+            "passed": true,
+            "sources": 1,
+            "sinks": 1,
+            "distinctEndpoints": true,
+            "paths": 0,
+            "detailedPaths": 0,
+            "limitations": [],
+            "searchComplete": true,
+            "omittedWitnesses": 0,
+            "omittedDetailedWitnesses": 0,
+            "elapsedMillis": 7.869665,
+            "pathIndices": [],
+            "positiveControlSatisfied": true
+          },
+          {
+            "id": "forwarded-constructor-parsed-control",
+            "outcome": "flow-observed",
+            "passed": true,
+            "sources": 1,
+            "sinks": 1,
+            "distinctEndpoints": true,
+            "paths": 1,
+            "detailedPaths": 1,
+            "limitations": [],
+            "searchComplete": true,
+            "omittedWitnesses": 0,
+            "omittedDetailedWitnesses": 0,
+            "elapsedMillis": 5.113472,
+            "pathIndices": [
+              1
+            ]
+          }
+        ]
+      },
+      {
+        "mode": "stock",
+        "maxCallDepth": 32,
+        "results": [
+          {
+            "id": "option-value-return",
+            "outcome": "flow-observed",
+            "passed": true,
+            "sources": 1,
+            "sinks": 1,
+            "distinctEndpoints": true,
+            "paths": 1,
+            "detailedPaths": 1,
+            "limitations": [],
+            "searchComplete": true,
+            "omittedWitnesses": 0,
+            "omittedDetailedWitnesses": 0,
+            "elapsedMillis": 3.073768,
+            "pathIndices": [
+              0
+            ]
+          },
+          {
+            "id": "value-not-default",
+            "outcome": "no-flow-observed-within-limits",
+            "passed": true,
+            "sources": 1,
+            "sinks": 1,
+            "distinctEndpoints": true,
+            "paths": 0,
+            "detailedPaths": 0,
+            "limitations": [],
+            "searchComplete": true,
+            "omittedWitnesses": 0,
+            "omittedDetailedWitnesses": 0,
+            "elapsedMillis": 28.081141,
+            "pathIndices": [],
+            "positiveControlSatisfied": true
+          },
+          {
+            "id": "forwarded-constructor-parsed",
+            "outcome": "no-flow-observed-within-limits",
+            "passed": true,
+            "sources": 1,
+            "sinks": 1,
+            "distinctEndpoints": true,
+            "paths": 0,
+            "detailedPaths": 0,
+            "limitations": [],
+            "searchComplete": true,
+            "omittedWitnesses": 0,
+            "omittedDetailedWitnesses": 0,
+            "elapsedMillis": 8.114549,
+            "pathIndices": [],
+            "positiveControlSatisfied": true
+          },
+          {
+            "id": "forwarded-constructor-parsed-control",
+            "outcome": "flow-observed",
+            "passed": true,
+            "sources": 1,
+            "sinks": 1,
+            "distinctEndpoints": true,
+            "paths": 1,
+            "detailedPaths": 1,
+            "limitations": [],
+            "searchComplete": true,
+            "omittedWitnesses": 0,
+            "omittedDetailedWitnesses": 0,
+            "elapsedMillis": 5.475916,
+            "pathIndices": [
+              1
+            ]
+          }
+        ]
+      },
+      {
+        "mode": "modeled",
+        "maxCallDepth": 32,
+        "results": [
+          {
+            "id": "option-value-return",
+            "outcome": "flow-observed",
+            "passed": true,
+            "sources": 1,
+            "sinks": 1,
+            "distinctEndpoints": true,
+            "paths": 1,
+            "detailedPaths": 1,
+            "limitations": [],
+            "searchComplete": true,
+            "omittedWitnesses": 0,
+            "omittedDetailedWitnesses": 0,
+            "elapsedMillis": 3.038067,
+            "pathIndices": [
+              0
+            ]
+          },
+          {
+            "id": "value-not-default",
+            "outcome": "no-flow-observed-within-limits",
+            "passed": true,
+            "sources": 1,
+            "sinks": 1,
+            "distinctEndpoints": true,
+            "paths": 0,
+            "detailedPaths": 0,
+            "limitations": [],
+            "searchComplete": true,
+            "omittedWitnesses": 0,
+            "omittedDetailedWitnesses": 0,
+            "elapsedMillis": 28.008469,
+            "pathIndices": [],
+            "positiveControlSatisfied": true
+          },
+          {
+            "id": "forwarded-constructor-parsed",
+            "outcome": "no-flow-observed-within-limits",
+            "passed": true,
+            "sources": 1,
+            "sinks": 1,
+            "distinctEndpoints": true,
+            "paths": 0,
+            "detailedPaths": 0,
+            "limitations": [],
+            "searchComplete": true,
+            "omittedWitnesses": 0,
+            "omittedDetailedWitnesses": 0,
+            "elapsedMillis": 8.387402,
+            "pathIndices": [],
+            "positiveControlSatisfied": true
+          },
+          {
+            "id": "forwarded-constructor-parsed-control",
+            "outcome": "flow-observed",
+            "passed": true,
+            "sources": 1,
+            "sinks": 1,
+            "distinctEndpoints": true,
+            "paths": 1,
+            "detailedPaths": 1,
+            "limitations": [],
+            "searchComplete": true,
+            "omittedWitnesses": 0,
+            "omittedDetailedWitnesses": 0,
+            "elapsedMillis": 5.310084,
+            "pathIndices": [
+              1
+            ]
+          }
+        ]
+      }
+    ],
+    "disposition": "Both model sets retain depth cutoffs at four. Depths eight/sixteen/thirty-two return no negative paths and no diagnosed query limits, while each independent positive control returns one fully retained path. Equivalent-state elimination does not guess new callees or alter arguments/fields.",
+    "paths": [
+      [
+        {
+          "nodeId": "111669150022",
+          "label": "METHOD_PARAMETER_IN",
+          "method": "package:args/src/option.dart#5002:METHOD:valueOrDefault",
+          "code": "Object? value",
+          "line": 157,
+          "parameterIndex": 1,
+          "callSiteStack": [],
+          "visible": true,
+          "isOutputArg": false,
+          "outEdgeLabel": "value",
+          "fieldDemand": [],
+          "storageDemands": []
+        },
+        {
+          "nodeId": "68719477968",
+          "label": "IDENTIFIER",
+          "method": "package:args/src/option.dart#5002:METHOD:valueOrDefault",
+          "code": "value",
+          "line": 158,
+          "argumentsOf": [
+            {
+              "nodeId": "30064772344",
+              "name": "<operator>.notEquals",
+              "target": "<operator>.dart.notEquals",
+              "code": "value != null",
+              "callees": [
+                {
+                  "fullName": "<operator>.dart.notEquals",
+                  "external": true
+                }
+              ],
+              "argumentIndex": 1
+            }
+          ],
+          "callSiteStack": [],
+          "visible": false,
+          "isOutputArg": false,
+          "outEdgeLabel": "value",
+          "fieldDemand": [],
+          "storageDemands": []
+        },
+        {
+          "nodeId": "68719477969",
+          "label": "IDENTIFIER",
+          "method": "package:args/src/option.dart#5002:METHOD:valueOrDefault",
+          "code": "value",
+          "line": 158,
+          "callSiteStack": [],
+          "visible": true,
+          "isOutputArg": false,
+          "outEdgeLabel": "value",
+          "fieldDemand": [],
+          "storageDemands": []
+        },
+        {
+          "nodeId": "141733920906",
+          "label": "RETURN",
+          "method": "package:args/src/option.dart#5002:METHOD:valueOrDefault",
+          "code": "return value;",
+          "line": 158,
+          "callSiteStack": [],
+          "visible": true,
+          "isOutputArg": false,
+          "outEdgeLabel": "",
+          "fieldDemand": [],
+          "storageDemands": []
+        }
+      ],
+      [
+        {
+          "nodeId": "111669149935",
+          "label": "METHOD_PARAMETER_IN",
+          "method": "package:args/src/arg_results.dart#476:FUNCTION:newArgResults",
+          "code": "Map<String, dynamic> parsed",
+          "line": 15,
+          "parameterIndex": 2,
+          "callSiteStack": [],
+          "visible": true,
+          "isOutputArg": false,
+          "outEdgeLabel": "parsed",
+          "fieldDemand": [],
+          "storageDemands": []
+        },
+        {
+          "nodeId": "68719477621",
+          "label": "IDENTIFIER",
+          "method": "package:args/src/arg_results.dart#476:FUNCTION:newArgResults",
+          "code": "parsed",
+          "line": 20,
+          "argumentsOf": [
+            {
+              "nodeId": "30064771964",
+              "name": "_",
+              "target": "package:args/src/arg_results.dart#1814:CONSTRUCTOR:_",
+              "code": "ArgResults._(parser, parsed, name, command, rest, arguments)",
+              "callees": [
+                {
+                  "fullName": "package:args/src/arg_results.dart#1814:CONSTRUCTOR:_",
+                  "external": false
+                }
+              ],
+              "argumentIndex": 2
+            }
+          ],
+          "callSiteStack": [],
+          "visible": true,
+          "isOutputArg": false,
+          "outEdgeLabel": "",
+          "fieldDemand": [],
+          "storageDemands": []
+        },
+        {
+          "nodeId": "111669149948",
+          "label": "METHOD_PARAMETER_IN",
+          "method": "package:args/src/arg_results.dart#1814:CONSTRUCTOR:_",
+          "code": "this._parsed",
+          "line": 55,
+          "parameterIndex": 2,
+          "callSiteStack": [],
+          "visible": true,
+          "isOutputArg": false,
+          "outEdgeLabel": "_parsed",
+          "fieldDemand": [],
+          "storageDemands": []
+        },
+        {
+          "nodeId": "68719477636",
+          "label": "IDENTIFIER",
+          "method": "package:args/src/arg_results.dart#1814:CONSTRUCTOR:_",
+          "code": "_parsed",
+          "line": 55,
+          "argumentsOf": [
+            {
+              "nodeId": "30064771973",
+              "name": "<operator>.assignment",
+              "target": "<operator>.assignment",
+              "code": "this._parsed",
+              "callees": [
+                {
+                  "fullName": "<operator>.assignment",
+                  "external": true
+                }
+              ],
+              "argumentIndex": 2
+            }
+          ],
+          "callSiteStack": [],
+          "visible": false,
+          "isOutputArg": false,
+          "outEdgeLabel": "_parsed",
+          "fieldDemand": [],
+          "storageDemands": []
+        },
+        {
+          "nodeId": "30064771973",
+          "label": "CALL",
+          "method": "package:args/src/arg_results.dart#1814:CONSTRUCTOR:_",
+          "code": "this._parsed",
+          "line": 55,
+          "call": {
+            "nodeId": "30064771973",
+            "name": "<operator>.assignment",
+            "target": "<operator>.assignment",
+            "code": "this._parsed",
+            "callees": [
+              {
+                "fullName": "<operator>.assignment",
+                "external": true
+              }
+            ]
+          },
+          "callSiteStack": [],
+          "visible": true,
+          "isOutputArg": false,
+          "outEdgeLabel": "",
+          "fieldDemand": [],
+          "storageDemands": []
+        }
+      ]
+    ]
+  },
+  "negativeContracts": [
+    {
+      "id": "value-not-default",
+      "positiveControl": "option-value-return",
+      "minimumExercisedDepthWithoutDiagnosedLimits": 8,
+      "scope": "Graph/model query limits only. Default depth-four corpus results remain inconclusive; these higher-depth observations do not change the configured baseline budgets."
+    },
+    {
+      "id": "forwarded-constructor-parsed",
+      "positiveControl": "forwarded-constructor-parsed-control",
+      "minimumExercisedDepthWithoutDiagnosedLimits": 8,
+      "scope": "Graph/model query limits only. Default depth-four corpus results remain inconclusive; these higher-depth observations do not change the configured baseline budgets."
+    }
+  ],
+  "limitations": [
+    "No reported query limit is not proof of complete language, runtime or heap modeling; external/native behavior and arbitrary alias/callback environments remain outside this evidence.",
+    "Equivalent repeated task states are eliminated; cyclic witness sequences are not enumerated.",
+    "Only these two negative endpoint families and four depth settings are covered. Other limited negatives and omitted alternative routes remain open.",
+    "Bounded SDK branch/constructor observations in package_boundaries_test.dart remain separately scoped; executions are not static absence proofs."
+  ],
+  "queryContracts": {
+    "option-value-return": {
+      "source": {
+        "file": "src/option.dart",
+        "method": "valueOrDefault",
+        "kind": "parameter",
+        "name": "value"
+      },
+      "sink": {
+        "file": "src/option.dart",
+        "method": "valueOrDefault",
+        "kind": "return",
+        "code": "return value;"
+      },
+      "expected": true
+    },
+    "value-not-default": {
+      "source": {
+        "file": "src/option.dart",
+        "method": "valueOrDefault",
+        "kind": "parameter",
+        "name": "value"
+      },
+      "sink": {
+        "file": "src/option.dart",
+        "method": "valueOrDefault",
+        "kind": "return",
+        "code": "return defaultsTo;"
+      },
+      "expected": false,
+      "positiveControl": "option-value-return"
+    },
+    "forwarded-constructor-parsed": {
+      "source": {
+        "file": "src/arg_results.dart",
+        "method": "newArgResults",
+        "kind": "parameter",
+        "name": "parsed"
+      },
+      "sink": {
+        "file": "src/arg_results.dart",
+        "method": "_",
+        "kind": "fieldWrite",
+        "owner": "ArgResults",
+        "name": "name"
+      },
+      "expected": false,
+      "positiveControl": "forwarded-constructor-parsed-control"
+    },
+    "forwarded-constructor-parsed-control": {
+      "source": {
+        "file": "src/arg_results.dart",
+        "method": "newArgResults",
+        "kind": "parameter",
+        "name": "parsed"
+      },
+      "sink": {
+        "file": "src/arg_results.dart",
+        "method": "_",
+        "kind": "fieldWrite",
+        "owner": "ArgResults",
+        "name": "_parsed"
+      },
+      "expected": true
+    }
+  },
+  "sharedQueryLimits": {
+    "maxFieldDepth": 4,
+    "maxWitnessesPerEndpoint": 4,
+    "maxHeldTaskIterations": 2,
+    "maxStaticStorageNodes": 10000,
+    "maxArgsToAllow": 1000,
+    "maxOutputArgsExpansion": 1000
+  },
+  "representation": "Full distinct detailed paths per before/after graph; each result selects indices into its phase paths. Endpoint contracts and invariant query limits are shared; depth and model set are explicit for every run."
+}

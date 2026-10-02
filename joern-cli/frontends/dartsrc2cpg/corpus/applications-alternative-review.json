@@ -121,8 +121,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "fd6a6a8215cf5d7d63c58415c5c25d246071ed89f0f3113d8aa0b9f80cc29eaa",
-        "files": 415,
+        "sha256": "1f040f4a93ab7bb9c69a7f145f56c16ec34cf13454d624ff6743689178a27839",
+        "files": 416,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -158,7 +158,6 @@
               "outcome": "flow-observed",
               "passed": true,
               "limitations": [
-                "call-depth",
                 "witness-alternatives"
               ],
               "maxCallDepth": 4,
@@ -259,8 +258,20 @@
                   "witness-alternatives"
                 ]
               }
+            },
+            "stock": {
+              "limitations": {
+                "previous": [
+                  "call-depth",
+                  "witness-alternatives"
+                ],
+                "current": [
+                  "witness-alternatives"
+                ]
+              }
             }
-          }
+          },
+          "refreshDisposition": "The fresh four-witness stock 21-node route retains CRLF replacement/split into where receiver 0, then callback line parameter and isNotEmpty/logicalAnd predicate result. Its output-marked METHOD_REF returns to the collection receiver, followed by join, pemContent assignment, base64Decode, der and Uint8List.fromList. The saved allocation identifier is omitted while the constructor call remains hidden; the final block supplies getHash argument 1. Exact targets, flags, edge labels and empty stacks/field/storage demands are retained. This predicate/result/callback-reference detour is a filter-selection and external-call approximation, not direct original-element copying or a callback delivery proof. SDK/core transforms and external CryptoUtils.getHash remain boundaries. Existing bounded PEM/DER/hash controls are separate evidence; no precise byte provenance, allocation identity or path-feasibility claim follows."
         },
         {
           "id": "certificate-not-algorithm",
@@ -2991,317 +3002,6 @@
               0,
               true,
               false,
-              "",
-              []
-            ],
-            [
-              "111669183067",
-              0,
-              true,
-              false,
-              "line",
-              []
-            ],
-            [
-              "68719558890",
-              0,
-              true,
-              false,
-              "line",
-              []
-            ],
-            [
-              "68719558891",
-              0,
-              true,
-              false,
-              "line",
-              []
-            ],
-            [
-              "30064868433",
-              0,
-              true,
-              false,
-              "line.startsWith('---')",
-              []
-            ],
-            [
-              "30064868432",
-              0,
-              false,
-              false,
-              "!line.startsWith('---')",
-              []
-            ],
-            [
-              "30064868430",
-              0,
-              true,
-              false,
-              "line.isNotEmpty && !line.startsWith('---')",
-              []
-            ],
-            [
-              "141733948460",
-              0,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "124554079495",
-              0,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "120259085220",
-              0,
-              true,
-              true,
-              "(line) => line.isNotEmpty && !line.startsWith('---')",
-              []
-            ],
-            [
-              "30064868423",
-              0,
-              true,
-              false,
-              "certificate.replaceAll('\\r\\n', '\\n').split('\\n')",
-              []
-            ],
-            [
-              "30064868422",
-              0,
-              true,
-              false,
-              "certificate.replaceAll('\\r\\n', '\\n').split('\\n').where((line) => line.isNotEmpty && !line.startsWith('---'))",
-              []
-            ],
-            [
-              "30064868421",
-              0,
-              true,
-              false,
-              "certificate.replaceAll('\\r\\n', '\\n').split('\\n').where((line) => line.isNotEmpty && !line.startsWith('---')).join()",
-              []
-            ],
-            [
-              "68719558883",
-              0,
-              true,
-              false,
-              "pemContent",
-              []
-            ],
-            [
-              "68719558886",
-              0,
-              true,
-              false,
-              "pemContent",
-              []
-            ],
-            [
-              "30064868426",
-              0,
-              true,
-              false,
-              "base64Decode(pemContent)",
-              []
-            ],
-            [
-              "68719558885",
-              0,
-              true,
-              false,
-              "der",
-              []
-            ],
-            [
-              "68719558888",
-              0,
-              true,
-              false,
-              "der",
-              []
-            ],
-            [
-              "30064868429",
-              0,
-              true,
-              false,
-              "Uint8List.fromList(der)",
-              []
-            ],
-            [
-              "68719558887",
-              0,
-              true,
-              false,
-              "<tmp>3",
-              []
-            ],
-            [
-              "25769851601",
-              0,
-              true,
-              false,
-              "",
-              []
-            ]
-          ],
-          "transitions": [
-            "parameter-read",
-            "external-return",
-            "external-return",
-            "callback-parameter",
-            "parameter-read",
-            "local-read",
-            "external-return",
-            "operator-value",
-            "operator-value",
-            "return-value",
-            "method-return",
-            "callback-result",
-            "callback-effect",
-            "callback-parameter",
-            "parameter-read",
-            "local-read",
-            "external-return",
-            "operator-value",
-            "operator-value",
-            "return-value",
-            "method-return",
-            "callback-result",
-            "callback-effect",
-            "external-return",
-            "external-return",
-            "assignment",
-            "local-read",
-            "external-return",
-            "assignment",
-            "local-read",
-            "external-return",
-            "assignment",
-            "block-result"
-          ]
-        },
-        {
-          "elements": [
-            [
-              "111669183066",
-              0,
-              true,
-              false,
-              "certificate",
-              []
-            ],
-            [
-              "68719558884",
-              0,
-              true,
-              false,
-              "certificate",
-              []
-            ],
-            [
-              "30064868424",
-              0,
-              true,
-              false,
-              "certificate.replaceAll('\\r\\n', '\\n')",
-              []
-            ],
-            [
-              "30064868423",
-              0,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "111669183067",
-              0,
-              true,
-              false,
-              "line",
-              []
-            ],
-            [
-              "68719558890",
-              0,
-              true,
-              false,
-              "line",
-              []
-            ],
-            [
-              "68719558891",
-              0,
-              true,
-              false,
-              "line",
-              []
-            ],
-            [
-              "30064868433",
-              0,
-              true,
-              false,
-              "line.startsWith('---')",
-              []
-            ],
-            [
-              "30064868432",
-              0,
-              false,
-              false,
-              "!line.startsWith('---')",
-              []
-            ],
-            [
-              "30064868430",
-              0,
-              true,
-              false,
-              "line.isNotEmpty && !line.startsWith('---')",
-              []
-            ],
-            [
-              "141733948460",
-              0,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "124554079495",
-              0,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "120259085220",
-              0,
-              true,
-              true,
-              "(line) => line.isNotEmpty && !line.startsWith('---')",
-              []
-            ],
-            [
-              "30064868423",
-              0,
-              true,
-              false,
               "certificate.replaceAll('\\r\\n', '\\n').split('\\n')",
               []
             ],
@@ -3824,6 +3524,200 @@
             "local-read",
             "external-return",
             "assignment",
+            "block-result"
+          ]
+        },
+        {
+          "elements": [
+            [
+              "111669183066",
+              0,
+              true,
+              false,
+              "certificate",
+              []
+            ],
+            [
+              "68719558884",
+              0,
+              true,
+              false,
+              "certificate",
+              []
+            ],
+            [
+              "30064868424",
+              0,
+              true,
+              false,
+              "certificate.replaceAll('\\r\\n', '\\n')",
+              []
+            ],
+            [
+              "30064868423",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "111669183067",
+              0,
+              true,
+              false,
+              "line",
+              []
+            ],
+            [
+              "68719558890",
+              0,
+              true,
+              false,
+              "line",
+              []
+            ],
+            [
+              "30064868431",
+              0,
+              false,
+              false,
+              "line.isNotEmpty",
+              []
+            ],
+            [
+              "30064868430",
+              0,
+              true,
+              false,
+              "line.isNotEmpty && !line.startsWith('---')",
+              []
+            ],
+            [
+              "141733948460",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "124554079495",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "120259085220",
+              0,
+              true,
+              true,
+              "(line) => line.isNotEmpty && !line.startsWith('---')",
+              []
+            ],
+            [
+              "30064868423",
+              0,
+              true,
+              false,
+              "certificate.replaceAll('\\r\\n', '\\n').split('\\n')",
+              []
+            ],
+            [
+              "30064868422",
+              0,
+              true,
+              false,
+              "certificate.replaceAll('\\r\\n', '\\n').split('\\n').where((line) => line.isNotEmpty && !line.startsWith('---'))",
+              []
+            ],
+            [
+              "30064868421",
+              0,
+              true,
+              false,
+              "certificate.replaceAll('\\r\\n', '\\n').split('\\n').where((line) => line.isNotEmpty && !line.startsWith('---')).join()",
+              []
+            ],
+            [
+              "68719558883",
+              0,
+              true,
+              false,
+              "pemContent",
+              []
+            ],
+            [
+              "68719558886",
+              0,
+              true,
+              false,
+              "pemContent",
+              []
+            ],
+            [
+              "30064868426",
+              0,
+              true,
+              false,
+              "base64Decode(pemContent)",
+              []
+            ],
+            [
+              "68719558885",
+              0,
+              true,
+              false,
+              "der",
+              []
+            ],
+            [
+              "68719558888",
+              0,
+              true,
+              false,
+              "der",
+              []
+            ],
+            [
+              "30064868429",
+              0,
+              false,
+              false,
+              "Uint8List.fromList(der)",
+              []
+            ],
+            [
+              "25769851601",
+              0,
+              true,
+              false,
+              "",
+              []
+            ]
+          ],
+          "transitions": [
+            "parameter-read",
+            "external-return",
+            "external-return",
+            "callback-parameter",
+            "parameter-read",
+            "external-return",
+            "operator-value",
+            "return-value",
+            "method-return",
+            "callback-result",
+            "callback-effect",
+            "external-return",
+            "external-return",
+            "assignment",
+            "local-read",
+            "external-return",
+            "assignment",
+            "local-read",
+            "external-return",
             "block-result"
           ]
         },
@@ -6814,8 +6708,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "fd6a6a8215cf5d7d63c58415c5c25d246071ed89f0f3113d8aa0b9f80cc29eaa",
-        "files": 415,
+        "sha256": "1f040f4a93ab7bb9c69a7f145f56c16ec34cf13454d624ff6743689178a27839",
+        "files": 416,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -11637,7 +11531,7 @@
   ],
   "representation": "Node/call IDs and context/path indices are project-local. transitions[i] classifies elements[i] to elements[i+1]. Field demands are preserved; retained storage-demand sets are empty. Equivalent stock/modeled paths are shared; full path flags and selected caller contexts are preserved.",
   "reviewMethod": "Each selected displayed route was read against its pinned source expectation. Formal argument positions, resolved return targets and available selected frames were checked. Argument-output return evidence already in a caller frame has a separate category. This is a mechanism/approximation review, not branch feasibility, general scheduling or heap qualification.",
-  "analysisBaseCommit": "928c52844",
+  "analysisBaseCommit": "26106d895",
   "limitations": [
     "Only these twenty-two LocalSend/Saber query families and their returned bounded paths are reviewed; other corpus alternatives and larger searches remain pending.",
     "An endpoint identity is recorded separately from independent forwarding; conservative argument outputs, aggregate projections and external effects do not prove mutation, allocation identity, callback delivery or branch feasibility.",
@@ -11647,14 +11541,14 @@
     "queries": 22,
     "selectedPaths": 84,
     "distinctPaths": 51,
-    "distinctTransitions": 634
+    "distinctTransitions": 621
   },
   "refresh": {
-    "previousBaseCommit": "928c52844",
+    "previousBaseCommit": "ae35e62f7",
     "previousAnalysisSources": {
       "algorithm": "sha256-path-nul-content-nul",
-      "sha256": "22d474c7d4ac73cf90fcce403c1cc72bce73dd0720c1336f9be99d4158f29692",
-      "files": 414,
+      "sha256": "fd6a6a8215cf5d7d63c58415c5c25d246071ed89f0f3113d8aa0b9f80cc29eaa",
+      "files": 415,
       "roots": [
         "joern-cli/frontends/dartsrc2cpg/src",
         "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -11677,10 +11571,10 @@
     "previousTotals": {
       "queries": 22,
       "selectedPaths": 84,
-      "distinctPaths": 52,
-      "distinctTransitions": 675
+      "distinctPaths": 51,
+      "distinctTransitions": 634
     },
-    "method": "Replayed after preserving known immutable callable targets through casts/assertions, saved values and final pattern bindings, with bound receiver captures and corrected positional fallback binding after named arguments. Unknown and changing callables remain unresolved. Unchanged routes are matched against previous two/four-witness reviewed paths after removing node IDs only; all other node/call/context/flag/demand facts are retained. Changed variants have separate source-grounded refresh dispositions and checked argument/return/output bindings. All new graph IDs are reconstructed from fresh raw audits. Native observations do not certify caller re-entry, allocation, heap/dispatch precision or route feasibility."
+    "method": "Replayed after stopping equivalent Dart recursive task states when the preceding state had at least as much remaining depth. Sink, selected call stack, output channel, field demand and pending storage exits remain distinct; foreign behavior is unchanged. Previous two/four-witness routes match after removing graph node IDs only; all other node/call/context/flag/demand facts remain intact. Changed variants have separate pinned-source dispositions and checked argument/return/output bindings. Cyclic routes are not enumerated. Fresh graph IDs and exact query limitations are retained. Runtime recursion, heap identity, callback delivery, omitted alternatives and limited negatives remain unqualified"
   },
   "nativeRefreshScope": "Existing native oracle contracts remain unchanged."
 }

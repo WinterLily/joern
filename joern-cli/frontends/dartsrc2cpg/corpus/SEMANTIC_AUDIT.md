@@ -2654,10 +2654,80 @@ All twelve focused checks pass. The normal frontend suite passes 181 tests acros
 also passes. All 36 shared-engine tests and formatting checks pass. The matrix
 links 120 named tests; its six tests/sixteen rejection controls pass.
 
-Corpus and witness requalification for this prerequisite is pending. The preceding
-source-pinned reports remain historical evidence. A scratch cycle-elimination
+Corpus and witness requalification for this prerequisite is recorded below. The
+preceding source-pinned reports remain historical evidence. A scratch cycle-elimination
 variant removed the two Args depth diagnostics at depths eight, sixteen and
 thirty-two, retaining their positive controls, but that result is not promoted to
 a fresh corpus or runtime absence claim. Cyclic witness enumeration, omitted
 alternatives, general recursion, heap/callback boundaries and remaining limited
 negatives stay open. All Gates 1–6 remain open.
+
+
+## Recursive task corpus qualification
+
+All seven packages, three applications and two holdouts pass, alongside four
+staged CLI and fourteen console checks. The twelve graphs share analysis-source
+SHA-256 `1f040f4a93ab7bb9c69a7f145f56c16ec34cf13454d624ff6743689178a27839`
+over 416 files. Exporter metadata/protocol remain at 0.3.27; representation and
+default-adapter counts are unchanged. Two focused static checks pass, and the
+storage/local-exit reviews retain six paths/123 transitions and eleven/199.
+
+The [recursive task depth review](recursive-task-depth-review.json) records 32
+fresh observations across both model sets and four depths, with exact endpoint,
+source, exporter, model and query-budget evidence. Both Args negatives remain
+inconclusive at four. At eight, sixteen and thirty-two, they return no paths and
+no diagnosed query limits while each independent positive control retains one
+fully reported path. Default corpus budgets and outcomes are unchanged. These
+observations qualify exercised graph/model searches; they do not prove complete
+runtime/heap absence, cyclic witness enumeration or arbitrary callbacks.
+
+Two-witness package/application/holdout audits complete in
+189,153/52,309/35,198 ms, with sampled family peak RSS
+5,697,940/4,488,012/2,046,404 KiB. Four-witness audits complete in
+426,511/53,315/37,208 ms, with peaks 6,440,032/5,735,804/2,188,068 KiB.
+Every category stays inside its ten-minute whole-process budget; workers use
+8 GiB heaps and four CPUs, with startup/loading included and family RSS sampled
+once per second. Other budgets and unbounded searches remain unqualified.
+
+Four-witness outcomes remain stock 78/80 and modeled 80/80. Stock retains
+120 visible/131 detailed paths and 42 limited queries; modeled retains 111/117
+and 41. All 248 selections have dispositions, sharing 149 routes and 2,694
+transitions: Analyzer 16/478, Sass 25/400, LocalSend/Saber 51/621,
+args/collection/meta 14/40, Path/async/HTTP 40/1,136 and holdouts 3/19.
+Two-witness forwarding retains 25 selections, 19 routes and 607 transitions.
+The full two-witness summary retains stock 86 visible/89 detailed paths with
+43 limited queries and modeled 81/83 with 42. Both summaries reproduce byte
+for byte. All eight default modeled negative searches remain inconclusive;
+the higher-depth Args follow-up is separate evidence.
+
+Twenty-three changed selections (seventeen four-witness/six two-witness) receive
+separate source-grounded dispositions. Analyzer's stock variants carry cached
+_element/bound/positionalFields demands through writeType/_writeRecordType,
+then NodeList and _FbBoolList readonly length detours in either order. All
+length/iterator candidates remain explicit; unresolved writeItem is not promoted
+to an executed callback. LocalSend's stock predicate/METHOD_REF/filter detour
+omits the saved Uint8List allocation identifier while retaining hidden evidence.
+The new one-node Async route is endpoint identity at sink.add argument one;
+it does not independently establish delivery or a selected sink implementation.
+
+HTTP stock copy now selects range receiver 0 -> skipCount 4 -> bytes 3,
+omitting cursor/start 1 and computed end 2. Stock buffer copies select
+3 -> 4 -> 0 and readonly footer end 2 -> computed start 1 -> receiver 0.
+The initial addSlice context is retained; subsequent output-marked add re-entries
+select end/header/allocation then bytes. Modeled copies retain direct 3 -> 0;
+re-entry selects end/header.codeUnits then bytes. Two-witness variants match the
+first two four-witness variants exactly. Shorter routes omit a saved allocation,
+CR/LF identifier, both CR/LF identifiers or an initial range operand while retaining
+hidden receiver evidence. All slots, targets, contexts, flags, edge labels and
+demands are preserved. These field, iterator, readonly output, range, external,
+dispatch and caller effects remain conservative; they do not establish actual
+instances, feasible branches, repeated-call order, allocation identity or exact
+original-element provenance. Bounded native helper observations remain separate.
+
+The seven validators pass all 87 rejection controls; the direct media capture
+review retains two paths/six transitions. The matrix links 120 named tests.
+Its six tests/sixteen rejection controls, thirteen source-index controls,
+full cached verification and two upstream-case tests/nine rejection controls
+pass. General recursion, omitted alternatives, remaining limited negatives,
+heap/type/callback/runtime and release qualification remain open. All Gates 1–6
+remain open.

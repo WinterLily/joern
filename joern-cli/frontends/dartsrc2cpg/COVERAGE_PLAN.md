@@ -118,8 +118,10 @@ Equivalent Dart recursive task states now stop when a previous state had at
 least as much remaining call depth. Sink, call stack, exception channel, field
 and pending-exit identities remain distinct. Reduced mutually recursive caller
 controls cover connected/unrelated inputs, shared caches and foreign-language
-boundaries. Corpus requalification is pending for this shared prerequisite;
-limited negatives and general recursion remain open.
+boundaries. All twelve corpus graphs and their bounded witness audits now pass against this
+prerequisite. Higher-depth Args follow-ups retain their controls without diagnosed
+limits at eight/sixteen/thirty-two; default depth-four negatives and general
+recursion remain open.
 Held-task combination rounds now have an optional Dart-only budget with explicit
 inconclusive diagnostics; default and foreign-language searches retain their
 previous behavior. A four-witness package audit exceeded its seven-minute worker
@@ -238,8 +240,8 @@ stock paths and 117 modeled paths with unchanged endpoint outcomes. The
 in the three distinct Shelf/YAML paths, with same-budget positive controls for
 both isolation queries. Eight modeled negative searches elsewhere remain
 inconclusive. Additional sequences are not necessarily new semantic route families.
-The [analyzer review](corpus/analyzer-alternative-review.json) classifies 360
-transitions across 14 distinct paths, retaining readonly argument-output,
+The [analyzer review](corpus/analyzer-alternative-review.json) classifies 478
+transitions across 16 distinct paths, retaining readonly argument-output,
 receiver/field, external-read and caller detours as approximations rather than
 exact runtime provenance. Direct uint32 high-byte binding and fork offset
 assignment now have mixed-byte/flush-boundary and shared-byte/independent-offset
@@ -250,7 +252,7 @@ forwarding, readonly output detours, substring argument effects and callback
 approximations have separate dispositions; limited negative searches remain
 inconclusive.
 The [LocalSend/Saber review](corpus/applications-alternative-review.json)
-classifies 634 transitions across 51 distinct paths for all twenty-two queries.
+classifies 621 transitions across 51 distinct paths for all twenty-two queries.
 Certificate/callback, readonly caller-output, MapEntry/collection and worker
 receiver detours retain their approximation status. Native controls exercise the
 pinned URI helper class, filename extension and Base64 codec; they do not execute
@@ -259,13 +261,17 @@ Flutter delivery, file saving, encryption or worker scheduling.
 The [args/collection/meta review](corpus/package-bindings-alternative-review.json)
 classifies all 40 transitions in fourteen distinct paths for twenty-two queries.
 Direct forwarding, matching field-formal stores and the reverse-loop temporary
-have pinned execution controls. Both args negative searches retain call-depth
-limits; no exhaustive absence claim follows from passing endpoint controls.
+have pinned execution controls. Both default args negative searches retain call-depth limits. The separate
+[recursive task depth review](corpus/recursive-task-depth-review.json) covers both
+model sets and fixed depths four/eight/sixteen/thirty-two: limits disappear at
+eight and above while independent controls remain connected. This qualifies
+those exercised graph/model budgets, with runtime/heap absence and omitted
+cyclic witnesses still outside the claim.
 
 The [path/async/http_parser review](corpus/package-flows-alternative-review.json)
-classifies all 1,087 transitions in 40 distinct paths for its fifteen queries.
-The complete audit retains 248 selected paths sharing 147 distinct routes and
-2,540 classified transitions across all eighty queries. Endpoint identities,
+classifies all 1,136 transitions in 40 distinct paths for its fifteen queries.
+The complete audit retains 248 selected paths sharing 149 distinct routes and
+2,694 classified transitions across all eighty queries. Endpoint identities,
 caller re-entry, size/control detours and external effects retain their limitations;
 eight modeled negatives and omitted alternatives remain unqualified.
 

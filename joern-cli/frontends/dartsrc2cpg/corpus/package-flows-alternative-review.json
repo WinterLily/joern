@@ -104,8 +104,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "fd6a6a8215cf5d7d63c58415c5c25d246071ed89f0f3113d8aa0b9f80cc29eaa",
-        "files": 415,
+        "sha256": "1f040f4a93ab7bb9c69a7f145f56c16ec34cf13454d624ff6743689178a27839",
+        "files": 416,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -6682,8 +6682,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "fd6a6a8215cf5d7d63c58415c5c25d246071ed89f0f3113d8aa0b9f80cc29eaa",
-        "files": 415,
+        "sha256": "1f040f4a93ab7bb9c69a7f145f56c16ec34cf13454d624ff6743689178a27839",
+        "files": 416,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -7019,7 +7019,8 @@
             "disposition": "reviewed-endpoint",
             "reason": "ValueResult forwards the stored value to EventSink.add.",
             "branchConditions": "These probes select call arguments or stored-field reads, not future completion or scheduling. No source branch in selected methods."
-          }
+          },
+          "refreshDisposition": "The new four-witness stock/modeled one-node route is endpoint identity: ValueResult.addTo reads value as sink.add argument one, and source and sink are that exact graph node. The retained sink union includes core and ten internal sink candidates. Empty stacks/demands and all flags/edge labels remain explicit. This zero-transition route establishes source availability at the selected argument, not an independent invocation, selected receiver or callback/event delivery. Bounded native delegate/release observations remain separate."
         },
         {
           "id": "cancellation-cascade",
@@ -7266,25 +7267,6 @@
             ]
           ]
         },
-        "111669149864": {
-          "label": "METHOD_PARAMETER_IN",
-          "method": "package:async/src/delegate/event_sink.dart#1199:METHOD:add",
-          "code": "T data",
-          "line": 31,
-          "parameterIndex": 1
-        },
-        "68719477404": {
-          "label": "IDENTIFIER",
-          "method": "package:async/src/delegate/event_sink.dart#1199:METHOD:add",
-          "code": "data",
-          "line": 32,
-          "argumentsOf": [
-            [
-              "30064771793",
-              1
-            ]
-          ]
-        },
         "111669150048": {
           "label": "METHOD_PARAMETER_IN",
           "method": "package:async/src/result/release_sink.dart#427:METHOD:add",
@@ -7310,6 +7292,25 @@
           "code": "this",
           "line": -1,
           "parameterIndex": 0
+        },
+        "111669149864": {
+          "label": "METHOD_PARAMETER_IN",
+          "method": "package:async/src/delegate/event_sink.dart#1199:METHOD:add",
+          "code": "T data",
+          "line": 31,
+          "parameterIndex": 1
+        },
+        "68719477404": {
+          "label": "IDENTIFIER",
+          "method": "package:async/src/delegate/event_sink.dart#1199:METHOD:add",
+          "code": "data",
+          "line": 32,
+          "argumentsOf": [
+            [
+              "30064771793",
+              1
+            ]
+          ]
         },
         "111669149740": {
           "label": "METHOD_PARAMETER_IN",
@@ -7432,6 +7433,22 @@
             }
           ]
         },
+        "30064772185": {
+          "nodeId": "30064772185",
+          "name": "addTo",
+          "target": "package:async/src/result/result.dart#8056:METHOD:addTo",
+          "code": "result.addTo(_sink)",
+          "callees": [
+            {
+              "fullName": "package:async/src/result/error.dart#962:METHOD:addTo",
+              "external": false
+            },
+            {
+              "fullName": "package:async/src/result/value.dart#752:METHOD:addTo",
+              "external": false
+            }
+          ]
+        },
         "30064771793": {
           "nodeId": "30064771793",
           "name": "add",
@@ -7480,22 +7497,6 @@
             },
             {
               "fullName": "package:async/src/stream_sink_transformer/stream_transformer_wrapper.dart#1649:METHOD:add",
-              "external": false
-            }
-          ]
-        },
-        "30064772185": {
-          "nodeId": "30064772185",
-          "name": "addTo",
-          "target": "package:async/src/result/result.dart#8056:METHOD:addTo",
-          "code": "result.addTo(_sink)",
-          "callees": [
-            {
-              "fullName": "package:async/src/result/error.dart#962:METHOD:addTo",
-              "external": false
-            },
-            {
-              "fullName": "package:async/src/result/value.dart#752:METHOD:addTo",
               "external": false
             }
           ]
@@ -7584,108 +7585,6 @@
             ]
           ],
           "transitions": []
-        },
-        {
-          "elements": [
-            [
-              "30064772330",
-              0,
-              true,
-              false,
-              "",
-              [
-                "value"
-              ]
-            ],
-            [
-              "111669149864",
-              0,
-              true,
-              false,
-              "data",
-              [
-                "value"
-              ]
-            ],
-            [
-              "68719477404",
-              0,
-              true,
-              false,
-              "",
-              [
-                "value"
-              ]
-            ],
-            [
-              "111669149864",
-              0,
-              true,
-              false,
-              "data",
-              [
-                "value"
-              ]
-            ],
-            [
-              "68719477404",
-              0,
-              true,
-              false,
-              "",
-              [
-                "value"
-              ]
-            ],
-            [
-              "111669150048",
-              0,
-              true,
-              false,
-              "result",
-              [
-                "value"
-              ]
-            ],
-            [
-              "68719477779",
-              0,
-              true,
-              false,
-              "",
-              [
-                "value"
-              ]
-            ],
-            [
-              "111669150090",
-              0,
-              true,
-              false,
-              "this",
-              [
-                "value"
-              ]
-            ],
-            [
-              "30064772330",
-              0,
-              true,
-              false,
-              "",
-              []
-            ]
-          ],
-          "transitions": [
-            "parameter-binding",
-            "parameter-read",
-            "parameter-binding",
-            "parameter-read",
-            "parameter-binding",
-            "parameter-read",
-            "receiver-binding",
-            "field-projection"
-          ]
         },
         {
           "elements": [
@@ -7934,6 +7833,19 @@
         {
           "elements": [
             [
+              "30064772330",
+              0,
+              true,
+              false,
+              "",
+              []
+            ]
+          ],
+          "transitions": []
+        },
+        {
+          "elements": [
+            [
               "111669149740",
               0,
               true,
@@ -8026,8 +7938,8 @@
       },
       "analysisSources": {
         "algorithm": "sha256-path-nul-content-nul",
-        "sha256": "fd6a6a8215cf5d7d63c58415c5c25d246071ed89f0f3113d8aa0b9f80cc29eaa",
-        "files": 415,
+        "sha256": "1f040f4a93ab7bb9c69a7f145f56c16ec34cf13454d624ff6743689178a27839",
+        "files": 416,
         "roots": [
           "joern-cli/frontends/dartsrc2cpg/src",
           "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -8162,7 +8074,7 @@
             "issue": "DART-FLOW-003",
             "owner": "shared dataflow query engine / Dart library models"
           },
-          "refreshDisposition": "The fresh two-witness stock 29/28-node paths follow input.length into _convert end slot 3, size/header arithmetic and Uint8List allocation, then saved CR/LF receiver aliases. The range chain now selects receiver slot 0 -> skipCount/start slot 4 -> cursor/start slot 1 -> bytes slot 3, omitting computed end slot 2. The shorter variant omits the saved allocation identifier but retains hidden allocation evidence. Slots, flags, frames and empty field/storage demands are retained. These readonly length, size/header, external allocation and cross-argument range effects do not establish direct original-byte copying, byte-element provenance, allocation identity or feasible branches. Model-specific byte effects and bounded native executions remain separately scoped. No causal relation to callable refinement changes is asserted. Four-witness stock variants retain the same 0 -> 4 -> 1 -> 3 range order. Their 28-node variants separately omit the saved allocation, CR alias or LF alias while retaining hidden receiver evidence."
+          "refreshDisposition": "Fresh stock two/four-witness 28/27-node paths carry input.length to _convert end slot 3, size/header arithmetic and Uint8List allocation, then saved CR/LF receiver aliases. Their range effects now select receiver 0 -> skipCount/start 4 -> bytes 3, omitting cursor/start 1 and computed end 2. Shorter variants omit the saved allocation, CR or LF identifier while preserving hidden receiver evidence; the two-witness paths exactly match the first two four-witness paths including metadata. Slots, targets, visibility/output flags, edge labels and empty stacks/field/storage demands are retained. Readonly length, allocation-size and cross-argument range effects are conservative; they do not establish original-byte copying, byte-element provenance, allocation identity or branch feasibility. Model-specific byte effects and bounded native content observations remain separate."
         },
         {
           "id": "chunk-return-buffer",
@@ -8271,7 +8183,7 @@
             "issue": "DART-FLOW-003",
             "owner": "shared dataflow query engine / Dart library models"
           },
-          "refreshDisposition": "The fresh two-witness stock 76/76-node variants retain bytes slot 3 -> skipCount/start slot 4 -> cursor/start slot 1 -> setRange receiver slot 0 in the initial and final copies; footer bounds select slot 1 -> slot 2 -> receiver slot 0. Saved CR/LF aliases, readonly length effects and _convert return enter candidate _Sink.add: the first output-marked re-entry selects chunk.length/end slot 3 through size/header/allocation; the second selects chunk/bytes slot 1. Initial add/addSlice frames are distinct. Modeled 76/76-node variants instead use direct modeled byte slot 3 -> receiver slot 0 and readonly footer receiver effects, then select end/header.codeUnits at both output-marked add re-entries. Their header code-unit copies are modeled byte slot 3 -> receiver slot 0, and allocation-size propagation is omitted. All sink calls retain core/decoder/encoder candidates; slots, hidden/output flags, edge labels, frames and empty field/storage demands remain explicit. Whole-buffer size/header, readonly/external, dispatch and caller effects do not establish actual sink instances, repeated-call order, branch feasibility, allocation identity or original byte-element provenance. Independent native whole/slice/empty observations remain separate; no causal relation to callable refinement changes is asserted. Four-witness stock 58/58/57/57-node paths choose bytes slot 1 at both output-marked add re-entries, retaining 3 -> 4 -> 1 -> 0 copies and footer 1 -> 2 -> 0. The shorter variants omit the initial copy skipCount/start slot 4 or cursor/start slot 1 independently. Four-witness modeled 61/61/60/60-node paths retain direct byte slot 3 -> receiver 0, choose bytes on first re-entry and end/header.codeUnits on second, and omit allocation-size propagation. Shorter modeled variants omit the initial saved CR or LF identifier while retaining hidden receiver evidence. Initial add/addSlice contexts and later add contexts remain distinct; all core/decoder/encoder candidates and exact output/visibility/edge/demand metadata are retained."
+          "refreshDisposition": "Fresh stock two/four-witness 74/73-node paths start in the addSlice _convert frame, retain byte slot 3 -> skipCount/start 4 -> setRange receiver 0, then readonly footer length/end 2 -> computed start 1 -> receiver 0. The output-marked return enters candidate _Sink.add: first re-entry selects chunk.length/end 3 with the _convert(chunk,0,chunk.length) frame through size/header/allocation; second selects chunk/bytes 1 and a final 3 -> 4 -> 0 copy. Cursor/start 1 and computed end 2 are omitted from byte copies. Shorter initial variants omit skipCount/start 4 or a saved CR/LF identifier while retaining hidden receivers. Modeled 61/60/59-node paths use direct byte 3 -> receiver 0, readonly footer receiver effects and header.codeUnits byte 3 -> receiver 0; first re-entry chooses end/header with its exact nested frame, second chooses bytes. Shorter modeled variants omit initial CR, LF or both identifiers with hidden receivers retained. Two-witness selections exactly match the first two four-witness paths including metadata. All core/decoder/encoder sink candidates, slots, targets, visibility/output flags, edge labels and empty field/storage demands remain explicit. These readonly, allocation, whole-buffer size/header, dispatch and caller effects do not establish actual sink instances, repeated-call order, feasible branches, allocation identity or original byte-element provenance. Independent native whole/slice/empty observations remain separately scoped."
         },
         {
           "id": "chunk-empty-return",
@@ -8899,18 +8811,6 @@
             ]
           ]
         },
-        "68719477247": {
-          "label": "IDENTIFIER",
-          "method": "package:http_parser/src/chunked_coding/encoder.dart#1792:FUNCTION:_convert",
-          "code": "cursor",
-          "line": 74,
-          "argumentsOf": [
-            [
-              "30064771630",
-              1
-            ]
-          ]
-        },
         "68719477251": {
           "label": "IDENTIFIER",
           "method": "package:http_parser/src/chunked_coding/encoder.dart#1792:FUNCTION:_convert",
@@ -9002,29 +8902,15 @@
             ]
           ]
         },
-        "30064771650": {
-          "label": "CALL",
+        "68719477275": {
+          "label": "IDENTIFIER",
           "method": "package:http_parser/src/chunked_coding/encoder.dart#1792:FUNCTION:_convert",
-          "code": "list.length",
+          "code": "list",
           "line": 80,
-          "call": "30064771650",
           "argumentsOf": [
             [
-              "30064771649",
-              1
-            ]
-          ]
-        },
-        "30064771649": {
-          "label": "CALL",
-          "method": "package:http_parser/src/chunked_coding/encoder.dart#1792:FUNCTION:_convert",
-          "code": "list.length - footerSize",
-          "line": 80,
-          "call": "30064771649",
-          "argumentsOf": [
-            [
-              "30064771648",
-              1
+              "30064771651",
+              0
             ]
           ]
         },
@@ -9038,6 +8924,19 @@
             [
               "30064771648",
               2
+            ]
+          ]
+        },
+        "30064771649": {
+          "label": "CALL",
+          "method": "package:http_parser/src/chunked_coding/encoder.dart#1792:FUNCTION:_convert",
+          "code": "list.length - footerSize",
+          "line": 80,
+          "call": "30064771649",
+          "argumentsOf": [
+            [
+              "30064771648",
+              1
             ]
           ]
         },
@@ -9071,15 +8970,15 @@
           "code": "RET",
           "line": -1
         },
-        "30064771580": {
+        "30064771586": {
           "label": "CALL",
-          "method": "package:http_parser/src/chunked_coding/encoder.dart#1162:METHOD:add",
-          "code": "_convert(chunk, 0, chunk.length)",
-          "line": 38,
-          "call": "30064771580",
+          "method": "package:http_parser/src/chunked_coding/encoder.dart#1258:METHOD:addSlice",
+          "code": "_convert(chunk, start, end, isLast: isLast)",
+          "line": 44,
+          "call": "30064771586",
           "argumentsOf": [
             [
-              "30064771578",
+              "30064771584",
               1
             ]
           ]
@@ -9103,43 +9002,6 @@
             ]
           ]
         },
-        "68719477197": {
-          "label": "IDENTIFIER",
-          "method": "package:http_parser/src/chunked_coding/encoder.dart#1162:METHOD:add",
-          "code": "chunk",
-          "line": 38,
-          "argumentsOf": [
-            [
-              "30064771580",
-              1
-            ]
-          ]
-        },
-        "30064771586": {
-          "label": "CALL",
-          "method": "package:http_parser/src/chunked_coding/encoder.dart#1258:METHOD:addSlice",
-          "code": "_convert(chunk, start, end, isLast: isLast)",
-          "line": 44,
-          "call": "30064771586",
-          "argumentsOf": [
-            [
-              "30064771584",
-              1
-            ]
-          ]
-        },
-        "68719477275": {
-          "label": "IDENTIFIER",
-          "method": "package:http_parser/src/chunked_coding/encoder.dart#1792:FUNCTION:_convert",
-          "code": "list",
-          "line": 80,
-          "argumentsOf": [
-            [
-              "30064771651",
-              0
-            ]
-          ]
-        },
         "30064771581": {
           "label": "CALL",
           "method": "package:http_parser/src/chunked_coding/encoder.dart#1162:METHOD:add",
@@ -9150,6 +9012,31 @@
             [
               "30064771580",
               3
+            ]
+          ]
+        },
+        "30064771580": {
+          "label": "CALL",
+          "method": "package:http_parser/src/chunked_coding/encoder.dart#1162:METHOD:add",
+          "code": "_convert(chunk, 0, chunk.length)",
+          "line": 38,
+          "call": "30064771580",
+          "argumentsOf": [
+            [
+              "30064771578",
+              1
+            ]
+          ]
+        },
+        "68719477197": {
+          "label": "IDENTIFIER",
+          "method": "package:http_parser/src/chunked_coding/encoder.dart#1162:METHOD:add",
+          "code": "chunk",
+          "line": 38,
+          "argumentsOf": [
+            [
+              "30064771580",
+              1
             ]
           ]
         },
@@ -9546,11 +9433,11 @@
             }
           ]
         },
-        "30064771580": {
-          "nodeId": "30064771580",
+        "30064771586": {
+          "nodeId": "30064771586",
           "name": "_convert",
           "target": "package:http_parser/src/chunked_coding/encoder.dart#1792:FUNCTION:_convert",
-          "code": "_convert(chunk, 0, chunk.length)",
+          "code": "_convert(chunk, start, end, isLast: isLast)",
           "callees": [
             {
               "fullName": "package:http_parser/src/chunked_coding/encoder.dart#1792:FUNCTION:_convert",
@@ -9594,14 +9481,14 @@
             }
           ]
         },
-        "30064771649": {
-          "nodeId": "30064771649",
-          "name": "<operator>.subtraction",
-          "target": "<operator>.dart.subtraction",
-          "code": "list.length - footerSize",
+        "30064771651": {
+          "nodeId": "30064771651",
+          "name": "length",
+          "target": "dart:core/list.dart#15331:GETTER:length",
+          "code": "list.length",
           "callees": [
             {
-              "fullName": "<operator>.dart.subtraction",
+              "fullName": "dart:core/list.dart#15331:GETTER:length",
               "external": true
             }
           ]
@@ -9618,23 +9505,23 @@
             }
           ]
         },
-        "30064771651": {
-          "nodeId": "30064771651",
-          "name": "length",
-          "target": "dart:core/list.dart#15331:GETTER:length",
-          "code": "list.length",
+        "30064771649": {
+          "nodeId": "30064771649",
+          "name": "<operator>.subtraction",
+          "target": "<operator>.dart.subtraction",
+          "code": "list.length - footerSize",
           "callees": [
             {
-              "fullName": "dart:core/list.dart#15331:GETTER:length",
+              "fullName": "<operator>.dart.subtraction",
               "external": true
             }
           ]
         },
-        "30064771578": {
-          "nodeId": "30064771578",
+        "30064771584": {
+          "nodeId": "30064771584",
           "name": "add",
           "target": "dart:core/sink.dart#599:METHOD:add",
-          "code": "_sink.add(_convert(chunk, 0, chunk.length))",
+          "code": "_sink.add(_convert(chunk, start, end, isLast: isLast))",
           "callees": [
             {
               "fullName": "dart:core/sink.dart#599:METHOD:add",
@@ -9662,11 +9549,11 @@
             }
           ]
         },
-        "30064771586": {
-          "nodeId": "30064771586",
+        "30064771580": {
+          "nodeId": "30064771580",
           "name": "_convert",
           "target": "package:http_parser/src/chunked_coding/encoder.dart#1792:FUNCTION:_convert",
-          "code": "_convert(chunk, start, end, isLast: isLast)",
+          "code": "_convert(chunk, 0, chunk.length)",
           "callees": [
             {
               "fullName": "package:http_parser/src/chunked_coding/encoder.dart#1792:FUNCTION:_convert",
@@ -9674,11 +9561,11 @@
             }
           ]
         },
-        "30064771584": {
-          "nodeId": "30064771584",
+        "30064771578": {
+          "nodeId": "30064771578",
           "name": "add",
           "target": "dart:core/sink.dart#599:METHOD:add",
-          "code": "_sink.add(_convert(chunk, start, end, isLast: isLast))",
+          "code": "_sink.add(_convert(chunk, 0, chunk.length))",
           "callees": [
             {
               "fullName": "dart:core/sink.dart#599:METHOD:add",
@@ -9806,10 +9693,10 @@
       "contexts": [
         [],
         [
-          "30064771580"
+          "30064771586"
         ],
         [
-          "30064771586"
+          "30064771580"
         ],
         [
           "30064771907"
@@ -10035,14 +9922,6 @@
               []
             ],
             [
-              "68719477247",
-              0,
-              true,
-              false,
-              "cursor",
-              []
-            ],
-            [
               "68719477251",
               0,
               true,
@@ -10077,7 +9956,6 @@
             "alias",
             "assignment",
             "alias",
-            "external-write",
             "external-write",
             "external-write"
           ]
@@ -10293,14 +10171,6 @@
               []
             ],
             [
-              "68719477247",
-              0,
-              true,
-              false,
-              "cursor",
-              []
-            ],
-            [
               "68719477251",
               0,
               true,
@@ -10334,7 +10204,6 @@
             "alias",
             "assignment",
             "alias",
-            "external-write",
             "external-write",
             "external-write"
           ]
@@ -10550,14 +10419,6 @@
               []
             ],
             [
-              "68719477247",
-              0,
-              true,
-              false,
-              "cursor",
-              []
-            ],
-            [
               "68719477251",
               0,
               true,
@@ -10591,7 +10452,6 @@
             "local-read",
             "assignment",
             "alias",
-            "external-write",
             "external-write",
             "external-write"
           ]
@@ -10807,14 +10667,6 @@
               []
             ],
             [
-              "68719477247",
-              0,
-              true,
-              false,
-              "cursor",
-              []
-            ],
-            [
               "68719477251",
               0,
               true,
@@ -10848,7 +10700,6 @@
             "assignment",
             "alias",
             "local-read",
-            "external-write",
             "external-write",
             "external-write"
           ]
@@ -10930,14 +10781,6 @@
               []
             ],
             [
-              "68719477247",
-              1,
-              true,
-              false,
-              "cursor",
-              []
-            ],
-            [
               "68719477246",
               1,
               true,
@@ -10986,9 +10829,17 @@
               []
             ],
             [
-              "30064771650",
+              "68719477275",
               1,
+              true,
               false,
+              "list",
+              []
+            ],
+            [
+              "30064771651",
+              1,
+              true,
               false,
               "list.length",
               []
@@ -10999,14 +10850,6 @@
               true,
               false,
               "list.length - footerSize",
-              []
-            ],
-            [
-              "30064771651",
-              1,
-              true,
-              false,
-              "list.length",
               []
             ],
             [
@@ -11028,533 +10871,6 @@
             [
               "141733920810",
               1,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "124554051637",
-              0,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "30064771580",
-              0,
-              true,
-              true,
-              "",
-              []
-            ],
-            [
-              "111669149766",
-              0,
-              true,
-              false,
-              "chunk",
-              []
-            ],
-            [
-              "68719477198",
-              0,
-              true,
-              false,
-              "chunk",
-              []
-            ],
-            [
-              "68719477197",
-              0,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "111669149773",
-              1,
-              true,
-              false,
-              "bytes",
-              []
-            ],
-            [
-              "68719477251",
-              1,
-              true,
-              false,
-              "bytes",
-              []
-            ],
-            [
-              "68719477252",
-              1,
-              true,
-              false,
-              "start",
-              []
-            ],
-            [
-              "68719477247",
-              1,
-              true,
-              false,
-              "cursor",
-              []
-            ],
-            [
-              "68719477246",
-              1,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477258",
-              1,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477257",
-              1,
-              true,
-              false,
-              "<tmp>9",
-              []
-            ],
-            [
-              "68719477265",
-              1,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477264",
-              1,
-              true,
-              false,
-              "<tmp>11",
-              []
-            ],
-            [
-              "68719477273",
-              1,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "30064771650",
-              1,
-              false,
-              false,
-              "list.length",
-              []
-            ],
-            [
-              "30064771649",
-              1,
-              true,
-              false,
-              "list.length - footerSize",
-              []
-            ],
-            [
-              "30064771651",
-              1,
-              true,
-              false,
-              "list.length",
-              []
-            ],
-            [
-              "68719477272",
-              1,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477276",
-              1,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "141733920810",
-              1,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "124554051637",
-              0,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "30064771580",
-              0,
-              true,
-              true,
-              "",
-              []
-            ],
-            [
-              "111669149766",
-              0,
-              true,
-              false,
-              "chunk",
-              []
-            ],
-            [
-              "68719477198",
-              0,
-              true,
-              false,
-              "chunk",
-              []
-            ],
-            [
-              "68719477197",
-              0,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "111669149773",
-              0,
-              true,
-              false,
-              "bytes",
-              []
-            ],
-            [
-              "68719477251",
-              0,
-              true,
-              false,
-              "bytes",
-              []
-            ],
-            [
-              "68719477252",
-              0,
-              true,
-              false,
-              "start",
-              []
-            ],
-            [
-              "68719477247",
-              0,
-              true,
-              false,
-              "cursor",
-              []
-            ],
-            [
-              "68719477246",
-              0,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477258",
-              0,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477257",
-              0,
-              true,
-              false,
-              "<tmp>9",
-              []
-            ],
-            [
-              "68719477265",
-              0,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477264",
-              0,
-              true,
-              false,
-              "<tmp>11",
-              []
-            ],
-            [
-              "68719477273",
-              0,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "30064771650",
-              0,
-              false,
-              false,
-              "list.length",
-              []
-            ],
-            [
-              "30064771649",
-              0,
-              true,
-              false,
-              "list.length - footerSize",
-              []
-            ],
-            [
-              "30064771651",
-              0,
-              true,
-              false,
-              "list.length",
-              []
-            ],
-            [
-              "68719477272",
-              0,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477276",
-              0,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "141733920810",
-              0,
-              true,
-              false,
-              "",
-              []
-            ]
-          ],
-          "transitions": [
-            "parameter-read",
-            "external-write",
-            "external-write",
-            "external-write",
-            "local-read",
-            "assignment",
-            "alias",
-            "assignment",
-            "alias",
-            "external-return",
-            "operator-value",
-            "external-write",
-            "external-write",
-            "local-read",
-            "return-value",
-            "method-return",
-            "call-return",
-            "parameter-binding",
-            "parameter-read",
-            "local-read",
-            "parameter-binding",
-            "parameter-read",
-            "external-write",
-            "external-write",
-            "external-write",
-            "local-read",
-            "assignment",
-            "alias",
-            "assignment",
-            "alias",
-            "external-return",
-            "operator-value",
-            "external-write",
-            "external-write",
-            "local-read",
-            "return-value",
-            "method-return",
-            "call-return",
-            "parameter-binding",
-            "parameter-read",
-            "local-read",
-            "parameter-binding",
-            "parameter-read",
-            "external-write",
-            "external-write",
-            "external-write",
-            "local-read",
-            "assignment",
-            "alias",
-            "assignment",
-            "alias",
-            "external-return",
-            "operator-value",
-            "external-write",
-            "external-write",
-            "local-read",
-            "return-value"
-          ]
-        },
-        {
-          "elements": [
-            [
-              "111669149773",
-              2,
-              true,
-              false,
-              "bytes",
-              []
-            ],
-            [
-              "68719477251",
-              2,
-              true,
-              false,
-              "bytes",
-              []
-            ],
-            [
-              "68719477252",
-              2,
-              true,
-              false,
-              "start",
-              []
-            ],
-            [
-              "68719477247",
-              2,
-              true,
-              false,
-              "cursor",
-              []
-            ],
-            [
-              "68719477246",
-              2,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477258",
-              2,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477257",
-              2,
-              true,
-              false,
-              "<tmp>9",
-              []
-            ],
-            [
-              "68719477265",
-              2,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477264",
-              2,
-              true,
-              false,
-              "<tmp>11",
-              []
-            ],
-            [
-              "68719477273",
-              2,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "30064771650",
-              2,
-              false,
-              false,
-              "list.length",
-              []
-            ],
-            [
-              "30064771649",
-              2,
-              true,
-              false,
-              "list.length - footerSize",
-              []
-            ],
-            [
-              "30064771651",
-              2,
-              true,
-              false,
-              "list.length",
-              []
-            ],
-            [
-              "68719477272",
-              2,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477276",
-              2,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "141733920810",
-              2,
               true,
               false,
               "",
@@ -11593,1673 +10909,6 @@
               []
             ],
             [
-              "68719477197",
-              0,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "111669149773",
-              1,
-              true,
-              false,
-              "bytes",
-              []
-            ],
-            [
-              "68719477251",
-              1,
-              true,
-              false,
-              "bytes",
-              []
-            ],
-            [
-              "68719477252",
-              1,
-              true,
-              false,
-              "start",
-              []
-            ],
-            [
-              "68719477247",
-              1,
-              true,
-              false,
-              "cursor",
-              []
-            ],
-            [
-              "68719477246",
-              1,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477258",
-              1,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477257",
-              1,
-              true,
-              false,
-              "<tmp>9",
-              []
-            ],
-            [
-              "68719477265",
-              1,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477264",
-              1,
-              true,
-              false,
-              "<tmp>11",
-              []
-            ],
-            [
-              "68719477273",
-              1,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "30064771650",
-              1,
-              false,
-              false,
-              "list.length",
-              []
-            ],
-            [
-              "30064771649",
-              1,
-              true,
-              false,
-              "list.length - footerSize",
-              []
-            ],
-            [
-              "30064771651",
-              1,
-              true,
-              false,
-              "list.length",
-              []
-            ],
-            [
-              "68719477272",
-              1,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477276",
-              1,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "141733920810",
-              1,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "124554051637",
-              0,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "30064771580",
-              0,
-              true,
-              true,
-              "",
-              []
-            ],
-            [
-              "111669149766",
-              0,
-              true,
-              false,
-              "chunk",
-              []
-            ],
-            [
-              "68719477198",
-              0,
-              true,
-              false,
-              "chunk",
-              []
-            ],
-            [
-              "68719477197",
-              0,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "111669149773",
-              0,
-              true,
-              false,
-              "bytes",
-              []
-            ],
-            [
-              "68719477251",
-              0,
-              true,
-              false,
-              "bytes",
-              []
-            ],
-            [
-              "68719477252",
-              0,
-              true,
-              false,
-              "start",
-              []
-            ],
-            [
-              "68719477247",
-              0,
-              true,
-              false,
-              "cursor",
-              []
-            ],
-            [
-              "68719477246",
-              0,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477258",
-              0,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477257",
-              0,
-              true,
-              false,
-              "<tmp>9",
-              []
-            ],
-            [
-              "68719477265",
-              0,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477264",
-              0,
-              true,
-              false,
-              "<tmp>11",
-              []
-            ],
-            [
-              "68719477273",
-              0,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "30064771650",
-              0,
-              false,
-              false,
-              "list.length",
-              []
-            ],
-            [
-              "30064771649",
-              0,
-              true,
-              false,
-              "list.length - footerSize",
-              []
-            ],
-            [
-              "30064771651",
-              0,
-              true,
-              false,
-              "list.length",
-              []
-            ],
-            [
-              "68719477272",
-              0,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477276",
-              0,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "141733920810",
-              0,
-              true,
-              false,
-              "",
-              []
-            ]
-          ],
-          "transitions": [
-            "parameter-read",
-            "external-write",
-            "external-write",
-            "external-write",
-            "local-read",
-            "assignment",
-            "alias",
-            "assignment",
-            "alias",
-            "external-return",
-            "operator-value",
-            "external-write",
-            "external-write",
-            "local-read",
-            "return-value",
-            "method-return",
-            "call-return",
-            "parameter-binding",
-            "parameter-read",
-            "local-read",
-            "parameter-binding",
-            "parameter-read",
-            "external-write",
-            "external-write",
-            "external-write",
-            "local-read",
-            "assignment",
-            "alias",
-            "assignment",
-            "alias",
-            "external-return",
-            "operator-value",
-            "external-write",
-            "external-write",
-            "local-read",
-            "return-value",
-            "method-return",
-            "call-return",
-            "parameter-binding",
-            "parameter-read",
-            "local-read",
-            "parameter-binding",
-            "parameter-read",
-            "external-write",
-            "external-write",
-            "external-write",
-            "local-read",
-            "assignment",
-            "alias",
-            "assignment",
-            "alias",
-            "external-return",
-            "operator-value",
-            "external-write",
-            "external-write",
-            "local-read",
-            "return-value"
-          ]
-        },
-        {
-          "elements": [
-            [
-              "111669149773",
-              1,
-              true,
-              false,
-              "bytes",
-              []
-            ],
-            [
-              "68719477251",
-              1,
-              true,
-              false,
-              "bytes",
-              []
-            ],
-            [
-              "68719477247",
-              1,
-              true,
-              false,
-              "cursor",
-              []
-            ],
-            [
-              "68719477246",
-              1,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477258",
-              1,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477257",
-              1,
-              true,
-              false,
-              "<tmp>9",
-              []
-            ],
-            [
-              "68719477265",
-              1,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477264",
-              1,
-              true,
-              false,
-              "<tmp>11",
-              []
-            ],
-            [
-              "68719477273",
-              1,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "30064771650",
-              1,
-              false,
-              false,
-              "list.length",
-              []
-            ],
-            [
-              "30064771649",
-              1,
-              true,
-              false,
-              "list.length - footerSize",
-              []
-            ],
-            [
-              "30064771651",
-              1,
-              true,
-              false,
-              "list.length",
-              []
-            ],
-            [
-              "68719477272",
-              1,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477276",
-              1,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "141733920810",
-              1,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "124554051637",
-              0,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "30064771580",
-              0,
-              true,
-              true,
-              "",
-              []
-            ],
-            [
-              "111669149766",
-              0,
-              true,
-              false,
-              "chunk",
-              []
-            ],
-            [
-              "68719477198",
-              0,
-              true,
-              false,
-              "chunk",
-              []
-            ],
-            [
-              "68719477197",
-              0,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "111669149773",
-              1,
-              true,
-              false,
-              "bytes",
-              []
-            ],
-            [
-              "68719477251",
-              1,
-              true,
-              false,
-              "bytes",
-              []
-            ],
-            [
-              "68719477252",
-              1,
-              true,
-              false,
-              "start",
-              []
-            ],
-            [
-              "68719477247",
-              1,
-              true,
-              false,
-              "cursor",
-              []
-            ],
-            [
-              "68719477246",
-              1,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477258",
-              1,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477257",
-              1,
-              true,
-              false,
-              "<tmp>9",
-              []
-            ],
-            [
-              "68719477265",
-              1,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477264",
-              1,
-              true,
-              false,
-              "<tmp>11",
-              []
-            ],
-            [
-              "68719477273",
-              1,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "30064771650",
-              1,
-              false,
-              false,
-              "list.length",
-              []
-            ],
-            [
-              "30064771649",
-              1,
-              true,
-              false,
-              "list.length - footerSize",
-              []
-            ],
-            [
-              "30064771651",
-              1,
-              true,
-              false,
-              "list.length",
-              []
-            ],
-            [
-              "68719477272",
-              1,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477276",
-              1,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "141733920810",
-              1,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "124554051637",
-              0,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "30064771580",
-              0,
-              true,
-              true,
-              "",
-              []
-            ],
-            [
-              "111669149766",
-              0,
-              true,
-              false,
-              "chunk",
-              []
-            ],
-            [
-              "68719477198",
-              0,
-              true,
-              false,
-              "chunk",
-              []
-            ],
-            [
-              "68719477197",
-              0,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "111669149773",
-              0,
-              true,
-              false,
-              "bytes",
-              []
-            ],
-            [
-              "68719477251",
-              0,
-              true,
-              false,
-              "bytes",
-              []
-            ],
-            [
-              "68719477252",
-              0,
-              true,
-              false,
-              "start",
-              []
-            ],
-            [
-              "68719477247",
-              0,
-              true,
-              false,
-              "cursor",
-              []
-            ],
-            [
-              "68719477246",
-              0,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477258",
-              0,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477257",
-              0,
-              true,
-              false,
-              "<tmp>9",
-              []
-            ],
-            [
-              "68719477265",
-              0,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477264",
-              0,
-              true,
-              false,
-              "<tmp>11",
-              []
-            ],
-            [
-              "68719477273",
-              0,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "30064771650",
-              0,
-              false,
-              false,
-              "list.length",
-              []
-            ],
-            [
-              "30064771649",
-              0,
-              true,
-              false,
-              "list.length - footerSize",
-              []
-            ],
-            [
-              "30064771651",
-              0,
-              true,
-              false,
-              "list.length",
-              []
-            ],
-            [
-              "68719477272",
-              0,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477276",
-              0,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "141733920810",
-              0,
-              true,
-              false,
-              "",
-              []
-            ]
-          ],
-          "transitions": [
-            "parameter-read",
-            "external-write",
-            "external-write",
-            "local-read",
-            "assignment",
-            "alias",
-            "assignment",
-            "alias",
-            "external-return",
-            "operator-value",
-            "external-write",
-            "external-write",
-            "local-read",
-            "return-value",
-            "method-return",
-            "call-return",
-            "parameter-binding",
-            "parameter-read",
-            "local-read",
-            "parameter-binding",
-            "parameter-read",
-            "external-write",
-            "external-write",
-            "external-write",
-            "local-read",
-            "assignment",
-            "alias",
-            "assignment",
-            "alias",
-            "external-return",
-            "operator-value",
-            "external-write",
-            "external-write",
-            "local-read",
-            "return-value",
-            "method-return",
-            "call-return",
-            "parameter-binding",
-            "parameter-read",
-            "local-read",
-            "parameter-binding",
-            "parameter-read",
-            "external-write",
-            "external-write",
-            "external-write",
-            "local-read",
-            "assignment",
-            "alias",
-            "assignment",
-            "alias",
-            "external-return",
-            "operator-value",
-            "external-write",
-            "external-write",
-            "local-read",
-            "return-value"
-          ]
-        },
-        {
-          "elements": [
-            [
-              "111669149773",
-              1,
-              true,
-              false,
-              "bytes",
-              []
-            ],
-            [
-              "68719477251",
-              1,
-              true,
-              false,
-              "bytes",
-              []
-            ],
-            [
-              "68719477252",
-              1,
-              true,
-              false,
-              "start",
-              []
-            ],
-            [
-              "68719477246",
-              1,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477258",
-              1,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477257",
-              1,
-              true,
-              false,
-              "<tmp>9",
-              []
-            ],
-            [
-              "68719477265",
-              1,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477264",
-              1,
-              true,
-              false,
-              "<tmp>11",
-              []
-            ],
-            [
-              "68719477273",
-              1,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "30064771650",
-              1,
-              false,
-              false,
-              "list.length",
-              []
-            ],
-            [
-              "30064771649",
-              1,
-              true,
-              false,
-              "list.length - footerSize",
-              []
-            ],
-            [
-              "30064771651",
-              1,
-              true,
-              false,
-              "list.length",
-              []
-            ],
-            [
-              "68719477272",
-              1,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477276",
-              1,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "141733920810",
-              1,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "124554051637",
-              0,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "30064771580",
-              0,
-              true,
-              true,
-              "",
-              []
-            ],
-            [
-              "111669149766",
-              0,
-              true,
-              false,
-              "chunk",
-              []
-            ],
-            [
-              "68719477198",
-              0,
-              true,
-              false,
-              "chunk",
-              []
-            ],
-            [
-              "68719477197",
-              0,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "111669149773",
-              1,
-              true,
-              false,
-              "bytes",
-              []
-            ],
-            [
-              "68719477251",
-              1,
-              true,
-              false,
-              "bytes",
-              []
-            ],
-            [
-              "68719477252",
-              1,
-              true,
-              false,
-              "start",
-              []
-            ],
-            [
-              "68719477247",
-              1,
-              true,
-              false,
-              "cursor",
-              []
-            ],
-            [
-              "68719477246",
-              1,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477258",
-              1,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477257",
-              1,
-              true,
-              false,
-              "<tmp>9",
-              []
-            ],
-            [
-              "68719477265",
-              1,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477264",
-              1,
-              true,
-              false,
-              "<tmp>11",
-              []
-            ],
-            [
-              "68719477273",
-              1,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "30064771650",
-              1,
-              false,
-              false,
-              "list.length",
-              []
-            ],
-            [
-              "30064771649",
-              1,
-              true,
-              false,
-              "list.length - footerSize",
-              []
-            ],
-            [
-              "30064771651",
-              1,
-              true,
-              false,
-              "list.length",
-              []
-            ],
-            [
-              "68719477272",
-              1,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477276",
-              1,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "141733920810",
-              1,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "124554051637",
-              0,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "30064771580",
-              0,
-              true,
-              true,
-              "",
-              []
-            ],
-            [
-              "111669149766",
-              0,
-              true,
-              false,
-              "chunk",
-              []
-            ],
-            [
-              "68719477198",
-              0,
-              true,
-              false,
-              "chunk",
-              []
-            ],
-            [
-              "68719477197",
-              0,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "111669149773",
-              0,
-              true,
-              false,
-              "bytes",
-              []
-            ],
-            [
-              "68719477251",
-              0,
-              true,
-              false,
-              "bytes",
-              []
-            ],
-            [
-              "68719477252",
-              0,
-              true,
-              false,
-              "start",
-              []
-            ],
-            [
-              "68719477247",
-              0,
-              true,
-              false,
-              "cursor",
-              []
-            ],
-            [
-              "68719477246",
-              0,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477258",
-              0,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477257",
-              0,
-              true,
-              false,
-              "<tmp>9",
-              []
-            ],
-            [
-              "68719477265",
-              0,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477264",
-              0,
-              true,
-              false,
-              "<tmp>11",
-              []
-            ],
-            [
-              "68719477273",
-              0,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "30064771650",
-              0,
-              false,
-              false,
-              "list.length",
-              []
-            ],
-            [
-              "30064771649",
-              0,
-              true,
-              false,
-              "list.length - footerSize",
-              []
-            ],
-            [
-              "30064771651",
-              0,
-              true,
-              false,
-              "list.length",
-              []
-            ],
-            [
-              "68719477272",
-              0,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477276",
-              0,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "141733920810",
-              0,
-              true,
-              false,
-              "",
-              []
-            ]
-          ],
-          "transitions": [
-            "parameter-read",
-            "external-write",
-            "external-write",
-            "local-read",
-            "assignment",
-            "alias",
-            "assignment",
-            "alias",
-            "external-return",
-            "operator-value",
-            "external-write",
-            "external-write",
-            "local-read",
-            "return-value",
-            "method-return",
-            "call-return",
-            "parameter-binding",
-            "parameter-read",
-            "local-read",
-            "parameter-binding",
-            "parameter-read",
-            "external-write",
-            "external-write",
-            "external-write",
-            "local-read",
-            "assignment",
-            "alias",
-            "assignment",
-            "alias",
-            "external-return",
-            "operator-value",
-            "external-write",
-            "external-write",
-            "local-read",
-            "return-value",
-            "method-return",
-            "call-return",
-            "parameter-binding",
-            "parameter-read",
-            "local-read",
-            "parameter-binding",
-            "parameter-read",
-            "external-write",
-            "external-write",
-            "external-write",
-            "local-read",
-            "assignment",
-            "alias",
-            "assignment",
-            "alias",
-            "external-return",
-            "operator-value",
-            "external-write",
-            "external-write",
-            "local-read",
-            "return-value"
-          ]
-        },
-        {
-          "elements": [
-            [
-              "111669149773",
-              1,
-              true,
-              false,
-              "bytes",
-              []
-            ],
-            [
-              "68719477251",
-              1,
-              true,
-              false,
-              "bytes",
-              []
-            ],
-            [
-              "68719477246",
-              1,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477258",
-              1,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477257",
-              1,
-              true,
-              false,
-              "<tmp>9",
-              []
-            ],
-            [
-              "68719477265",
-              1,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477264",
-              1,
-              true,
-              false,
-              "<tmp>11",
-              []
-            ],
-            [
-              "68719477273",
-              1,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477275",
-              1,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477272",
-              1,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477276",
-              1,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "141733920810",
-              1,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "124554051637",
-              0,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "30064771580",
-              0,
-              true,
-              true,
-              "",
-              []
-            ],
-            [
-              "111669149766",
-              0,
-              true,
-              false,
-              "chunk",
-              []
-            ],
-            [
-              "68719477198",
-              0,
-              true,
-              false,
-              "chunk",
-              []
-            ],
-            [
-              "68719477197",
-              0,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "111669149773",
-              1,
-              true,
-              false,
-              "bytes",
-              []
-            ],
-            [
-              "68719477251",
-              1,
-              true,
-              false,
-              "bytes",
-              []
-            ],
-            [
-              "68719477246",
-              1,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477258",
-              1,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477257",
-              1,
-              true,
-              false,
-              "<tmp>9",
-              []
-            ],
-            [
-              "68719477265",
-              1,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477264",
-              1,
-              true,
-              false,
-              "<tmp>11",
-              []
-            ],
-            [
-              "68719477273",
-              1,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477275",
-              1,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477272",
-              1,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477276",
-              1,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "141733920810",
-              1,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "124554051637",
-              0,
-              true,
-              false,
-              "",
-              []
-            ],
-            [
-              "30064771580",
-              0,
-              true,
-              true,
-              "",
-              []
-            ],
-            [
-              "111669149766",
-              0,
-              true,
-              false,
-              "chunk",
-              []
-            ],
-            [
-              "68719477198",
-              0,
-              true,
-              false,
-              "chunk",
-              []
-            ],
-            [
               "30064771581",
               0,
               true,
@@ -13269,7 +10918,7 @@
             ],
             [
               "111669149775",
-              0,
+              2,
               true,
               false,
               "end",
@@ -13277,7 +10926,7 @@
             ],
             [
               "68719477211",
-              0,
+              2,
               false,
               false,
               "end",
@@ -13285,7 +10934,7 @@
             ],
             [
               "68719477215",
-              0,
+              2,
               false,
               false,
               "end",
@@ -13293,7 +10942,7 @@
             ],
             [
               "30064771599",
-              0,
+              2,
               true,
               false,
               "end - start",
@@ -13301,7 +10950,7 @@
             ],
             [
               "68719477214",
-              0,
+              2,
               true,
               false,
               "size",
@@ -13309,7 +10958,7 @@
             ],
             [
               "68719477218",
-              0,
+              2,
               true,
               false,
               "size",
@@ -13317,7 +10966,7 @@
             ],
             [
               "30064771601",
-              0,
+              2,
               true,
               false,
               "size.toRadixString(16)",
@@ -13325,7 +10974,7 @@
             ],
             [
               "68719477217",
-              0,
+              2,
               true,
               false,
               "sizeInHex",
@@ -13333,39 +10982,79 @@
             ],
             [
               "68719477223",
-              0,
+              2,
               true,
               false,
               "sizeInHex",
               []
             ],
             [
-              "68719477228",
-              0,
-              true,
+              "30064771612",
+              2,
               false,
-              "sizeInHex",
+              false,
+              "sizeInHex.length",
               []
             ],
             [
-              "68719477229",
-              0,
-              true,
+              "30064771611",
+              2,
               false,
-              "sizeInHex",
+              false,
+              "sizeInHex.length + 4",
               []
             ],
             [
-              "30064771615",
-              0,
+              "30064771610",
+              2,
+              false,
+              false,
+              "sizeInHex.length + 4 + size",
+              []
+            ],
+            [
+              "30064771609",
+              2,
               true,
               false,
-              "sizeInHex.codeUnits",
+              "sizeInHex.length + 4 + size + footerSize",
+              []
+            ],
+            [
+              "30064771608",
+              2,
+              true,
+              false,
+              "Uint8List(sizeInHex.length + 4 + size + footerSize)",
+              []
+            ],
+            [
+              "68719477222",
+              2,
+              true,
+              false,
+              "<tmp>4",
+              []
+            ],
+            [
+              "25769803906",
+              2,
+              true,
+              false,
+              "Uint8List(sizeInHex.length + 4 + size + footerSize)",
+              []
+            ],
+            [
+              "68719477221",
+              2,
+              true,
+              false,
+              "list",
               []
             ],
             [
               "68719477227",
-              0,
+              2,
               true,
               false,
               "list",
@@ -13373,7 +11062,7 @@
             ],
             [
               "68719477233",
-              0,
+              2,
               true,
               false,
               "list",
@@ -13381,7 +11070,7 @@
             ],
             [
               "68719477232",
-              0,
+              2,
               true,
               false,
               "<tmp>5",
@@ -13389,7 +11078,7 @@
             ],
             [
               "68719477240",
-              0,
+              2,
               true,
               false,
               "list",
@@ -13397,10 +11086,170 @@
             ],
             [
               "68719477239",
-              0,
+              2,
               true,
               false,
               "<tmp>7",
+              []
+            ],
+            [
+              "68719477246",
+              2,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477258",
+              2,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477257",
+              2,
+              true,
+              false,
+              "<tmp>9",
+              []
+            ],
+            [
+              "68719477265",
+              2,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477264",
+              2,
+              true,
+              false,
+              "<tmp>11",
+              []
+            ],
+            [
+              "68719477273",
+              2,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477275",
+              2,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "30064771651",
+              2,
+              true,
+              false,
+              "list.length",
+              []
+            ],
+            [
+              "30064771649",
+              2,
+              true,
+              false,
+              "list.length - footerSize",
+              []
+            ],
+            [
+              "68719477272",
+              2,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477276",
+              2,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "141733920810",
+              2,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "124554051637",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "30064771580",
+              0,
+              true,
+              true,
+              "",
+              []
+            ],
+            [
+              "111669149766",
+              0,
+              true,
+              false,
+              "chunk",
+              []
+            ],
+            [
+              "68719477198",
+              0,
+              true,
+              false,
+              "chunk",
+              []
+            ],
+            [
+              "68719477197",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "111669149773",
+              0,
+              true,
+              false,
+              "bytes",
+              []
+            ],
+            [
+              "68719477251",
+              0,
+              true,
+              false,
+              "bytes",
+              []
+            ],
+            [
+              "68719477252",
+              0,
+              true,
+              false,
+              "start",
               []
             ],
             [
@@ -13457,6 +11306,22 @@
               true,
               false,
               "list",
+              []
+            ],
+            [
+              "30064771651",
+              0,
+              true,
+              false,
+              "list.length",
+              []
+            ],
+            [
+              "30064771649",
+              0,
+              true,
+              false,
+              "list.length - footerSize",
               []
             ],
             [
@@ -13487,22 +11352,6 @@
           "transitions": [
             "parameter-read",
             "external-write",
-            "local-read",
-            "assignment",
-            "alias",
-            "assignment",
-            "alias",
-            "local-read",
-            "local-read",
-            "local-read",
-            "return-value",
-            "method-return",
-            "call-return",
-            "parameter-binding",
-            "parameter-read",
-            "local-read",
-            "parameter-binding",
-            "parameter-read",
             "external-write",
             "local-read",
             "assignment",
@@ -13510,7 +11359,9 @@
             "assignment",
             "alias",
             "local-read",
-            "local-read",
+            "external-return",
+            "external-write",
+            "external-write",
             "local-read",
             "return-value",
             "method-return",
@@ -13527,9 +11378,39 @@
             "external-return",
             "assignment",
             "local-read",
+            "external-return",
+            "operator-value",
+            "operator-value",
+            "operator-value",
+            "external-return",
+            "assignment",
+            "block-result",
+            "assignment",
             "local-read",
+            "local-read",
+            "assignment",
+            "alias",
+            "assignment",
+            "alias",
+            "local-read",
+            "assignment",
+            "alias",
+            "assignment",
+            "alias",
             "local-read",
             "external-return",
+            "external-write",
+            "external-write",
+            "local-read",
+            "return-value",
+            "method-return",
+            "call-return",
+            "parameter-binding",
+            "parameter-read",
+            "local-read",
+            "parameter-binding",
+            "parameter-read",
+            "external-write",
             "external-write",
             "local-read",
             "assignment",
@@ -13537,12 +11418,9 @@
             "assignment",
             "alias",
             "local-read",
-            "assignment",
-            "alias",
-            "assignment",
-            "alias",
-            "local-read",
-            "local-read",
+            "external-return",
+            "external-write",
+            "external-write",
             "local-read",
             "return-value"
           ]
@@ -13551,7 +11429,7 @@
           "elements": [
             [
               "111669149773",
-              2,
+              1,
               true,
               false,
               "bytes",
@@ -13559,7 +11437,7 @@
             ],
             [
               "68719477251",
-              2,
+              1,
               true,
               false,
               "bytes",
@@ -13567,7 +11445,7 @@
             ],
             [
               "68719477246",
-              2,
+              1,
               true,
               false,
               "list",
@@ -13575,7 +11453,7 @@
             ],
             [
               "68719477258",
-              2,
+              1,
               true,
               false,
               "list",
@@ -13583,7 +11461,7 @@
             ],
             [
               "68719477257",
-              2,
+              1,
               true,
               false,
               "<tmp>9",
@@ -13591,7 +11469,7 @@
             ],
             [
               "68719477265",
-              2,
+              1,
               true,
               false,
               "list",
@@ -13599,7 +11477,7 @@
             ],
             [
               "68719477264",
-              2,
+              1,
               true,
               false,
               "<tmp>11",
@@ -13607,7 +11485,7 @@
             ],
             [
               "68719477273",
-              2,
+              1,
               true,
               false,
               "list",
@@ -13615,15 +11493,31 @@
             ],
             [
               "68719477275",
-              2,
+              1,
               true,
               false,
               "list",
               []
             ],
             [
+              "30064771651",
+              1,
+              true,
+              false,
+              "list.length",
+              []
+            ],
+            [
+              "30064771649",
+              1,
+              true,
+              false,
+              "list.length - footerSize",
+              []
+            ],
+            [
               "68719477272",
-              2,
+              1,
               true,
               false,
               "list",
@@ -13631,7 +11525,7 @@
             ],
             [
               "68719477276",
-              2,
+              1,
               true,
               false,
               "list",
@@ -13639,7 +11533,7 @@
             ],
             [
               "141733920810",
-              2,
+              1,
               true,
               false,
               "",
@@ -13678,6 +11572,318 @@
               []
             ],
             [
+              "30064771581",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "111669149775",
+              2,
+              true,
+              false,
+              "end",
+              []
+            ],
+            [
+              "68719477211",
+              2,
+              false,
+              false,
+              "end",
+              []
+            ],
+            [
+              "68719477215",
+              2,
+              false,
+              false,
+              "end",
+              []
+            ],
+            [
+              "30064771599",
+              2,
+              true,
+              false,
+              "end - start",
+              []
+            ],
+            [
+              "68719477214",
+              2,
+              true,
+              false,
+              "size",
+              []
+            ],
+            [
+              "68719477218",
+              2,
+              true,
+              false,
+              "size",
+              []
+            ],
+            [
+              "30064771601",
+              2,
+              true,
+              false,
+              "size.toRadixString(16)",
+              []
+            ],
+            [
+              "68719477217",
+              2,
+              true,
+              false,
+              "sizeInHex",
+              []
+            ],
+            [
+              "68719477223",
+              2,
+              true,
+              false,
+              "sizeInHex",
+              []
+            ],
+            [
+              "30064771612",
+              2,
+              false,
+              false,
+              "sizeInHex.length",
+              []
+            ],
+            [
+              "30064771611",
+              2,
+              false,
+              false,
+              "sizeInHex.length + 4",
+              []
+            ],
+            [
+              "30064771610",
+              2,
+              false,
+              false,
+              "sizeInHex.length + 4 + size",
+              []
+            ],
+            [
+              "30064771609",
+              2,
+              true,
+              false,
+              "sizeInHex.length + 4 + size + footerSize",
+              []
+            ],
+            [
+              "30064771608",
+              2,
+              true,
+              false,
+              "Uint8List(sizeInHex.length + 4 + size + footerSize)",
+              []
+            ],
+            [
+              "68719477222",
+              2,
+              true,
+              false,
+              "<tmp>4",
+              []
+            ],
+            [
+              "25769803906",
+              2,
+              true,
+              false,
+              "Uint8List(sizeInHex.length + 4 + size + footerSize)",
+              []
+            ],
+            [
+              "68719477221",
+              2,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477227",
+              2,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477233",
+              2,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477232",
+              2,
+              true,
+              false,
+              "<tmp>5",
+              []
+            ],
+            [
+              "68719477240",
+              2,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477239",
+              2,
+              true,
+              false,
+              "<tmp>7",
+              []
+            ],
+            [
+              "68719477246",
+              2,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477258",
+              2,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477257",
+              2,
+              true,
+              false,
+              "<tmp>9",
+              []
+            ],
+            [
+              "68719477265",
+              2,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477264",
+              2,
+              true,
+              false,
+              "<tmp>11",
+              []
+            ],
+            [
+              "68719477273",
+              2,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477275",
+              2,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "30064771651",
+              2,
+              true,
+              false,
+              "list.length",
+              []
+            ],
+            [
+              "30064771649",
+              2,
+              true,
+              false,
+              "list.length - footerSize",
+              []
+            ],
+            [
+              "68719477272",
+              2,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477276",
+              2,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "141733920810",
+              2,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "124554051637",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "30064771580",
+              0,
+              true,
+              true,
+              "",
+              []
+            ],
+            [
+              "111669149766",
+              0,
+              true,
+              false,
+              "chunk",
+              []
+            ],
+            [
+              "68719477198",
+              0,
+              true,
+              false,
+              "chunk",
+              []
+            ],
+            [
               "68719477197",
               0,
               true,
@@ -13685,6 +11891,1528 @@
               "",
               []
             ],
+            [
+              "111669149773",
+              0,
+              true,
+              false,
+              "bytes",
+              []
+            ],
+            [
+              "68719477251",
+              0,
+              true,
+              false,
+              "bytes",
+              []
+            ],
+            [
+              "68719477252",
+              0,
+              true,
+              false,
+              "start",
+              []
+            ],
+            [
+              "68719477246",
+              0,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477258",
+              0,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477257",
+              0,
+              true,
+              false,
+              "<tmp>9",
+              []
+            ],
+            [
+              "68719477265",
+              0,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477264",
+              0,
+              true,
+              false,
+              "<tmp>11",
+              []
+            ],
+            [
+              "68719477273",
+              0,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477275",
+              0,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "30064771651",
+              0,
+              true,
+              false,
+              "list.length",
+              []
+            ],
+            [
+              "30064771649",
+              0,
+              true,
+              false,
+              "list.length - footerSize",
+              []
+            ],
+            [
+              "68719477272",
+              0,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477276",
+              0,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "141733920810",
+              0,
+              true,
+              false,
+              "",
+              []
+            ]
+          ],
+          "transitions": [
+            "parameter-read",
+            "external-write",
+            "local-read",
+            "assignment",
+            "alias",
+            "assignment",
+            "alias",
+            "local-read",
+            "external-return",
+            "external-write",
+            "external-write",
+            "local-read",
+            "return-value",
+            "method-return",
+            "call-return",
+            "parameter-binding",
+            "parameter-read",
+            "external-return",
+            "parameter-binding",
+            "parameter-read",
+            "local-read",
+            "operator-value",
+            "assignment",
+            "local-read",
+            "external-return",
+            "assignment",
+            "local-read",
+            "external-return",
+            "operator-value",
+            "operator-value",
+            "operator-value",
+            "external-return",
+            "assignment",
+            "block-result",
+            "assignment",
+            "local-read",
+            "local-read",
+            "assignment",
+            "alias",
+            "assignment",
+            "alias",
+            "local-read",
+            "assignment",
+            "alias",
+            "assignment",
+            "alias",
+            "local-read",
+            "external-return",
+            "external-write",
+            "external-write",
+            "local-read",
+            "return-value",
+            "method-return",
+            "call-return",
+            "parameter-binding",
+            "parameter-read",
+            "local-read",
+            "parameter-binding",
+            "parameter-read",
+            "external-write",
+            "external-write",
+            "local-read",
+            "assignment",
+            "alias",
+            "assignment",
+            "alias",
+            "local-read",
+            "external-return",
+            "external-write",
+            "external-write",
+            "local-read",
+            "return-value"
+          ]
+        },
+        {
+          "elements": [
+            [
+              "111669149773",
+              1,
+              true,
+              false,
+              "bytes",
+              []
+            ],
+            [
+              "68719477251",
+              1,
+              true,
+              false,
+              "bytes",
+              []
+            ],
+            [
+              "68719477252",
+              1,
+              true,
+              false,
+              "start",
+              []
+            ],
+            [
+              "68719477246",
+              1,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477258",
+              1,
+              false,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477265",
+              1,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477264",
+              1,
+              true,
+              false,
+              "<tmp>11",
+              []
+            ],
+            [
+              "68719477273",
+              1,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477275",
+              1,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "30064771651",
+              1,
+              true,
+              false,
+              "list.length",
+              []
+            ],
+            [
+              "30064771649",
+              1,
+              true,
+              false,
+              "list.length - footerSize",
+              []
+            ],
+            [
+              "68719477272",
+              1,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477276",
+              1,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "141733920810",
+              1,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "124554051637",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "30064771586",
+              0,
+              true,
+              true,
+              "",
+              []
+            ],
+            [
+              "111669149766",
+              0,
+              true,
+              false,
+              "chunk",
+              []
+            ],
+            [
+              "68719477198",
+              0,
+              true,
+              false,
+              "chunk",
+              []
+            ],
+            [
+              "30064771581",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "111669149775",
+              2,
+              true,
+              false,
+              "end",
+              []
+            ],
+            [
+              "68719477211",
+              2,
+              false,
+              false,
+              "end",
+              []
+            ],
+            [
+              "68719477215",
+              2,
+              false,
+              false,
+              "end",
+              []
+            ],
+            [
+              "30064771599",
+              2,
+              true,
+              false,
+              "end - start",
+              []
+            ],
+            [
+              "68719477214",
+              2,
+              true,
+              false,
+              "size",
+              []
+            ],
+            [
+              "68719477218",
+              2,
+              true,
+              false,
+              "size",
+              []
+            ],
+            [
+              "30064771601",
+              2,
+              true,
+              false,
+              "size.toRadixString(16)",
+              []
+            ],
+            [
+              "68719477217",
+              2,
+              true,
+              false,
+              "sizeInHex",
+              []
+            ],
+            [
+              "68719477223",
+              2,
+              true,
+              false,
+              "sizeInHex",
+              []
+            ],
+            [
+              "30064771612",
+              2,
+              false,
+              false,
+              "sizeInHex.length",
+              []
+            ],
+            [
+              "30064771611",
+              2,
+              false,
+              false,
+              "sizeInHex.length + 4",
+              []
+            ],
+            [
+              "30064771610",
+              2,
+              false,
+              false,
+              "sizeInHex.length + 4 + size",
+              []
+            ],
+            [
+              "30064771609",
+              2,
+              true,
+              false,
+              "sizeInHex.length + 4 + size + footerSize",
+              []
+            ],
+            [
+              "30064771608",
+              2,
+              true,
+              false,
+              "Uint8List(sizeInHex.length + 4 + size + footerSize)",
+              []
+            ],
+            [
+              "68719477222",
+              2,
+              true,
+              false,
+              "<tmp>4",
+              []
+            ],
+            [
+              "25769803906",
+              2,
+              true,
+              false,
+              "Uint8List(sizeInHex.length + 4 + size + footerSize)",
+              []
+            ],
+            [
+              "68719477221",
+              2,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477227",
+              2,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477233",
+              2,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477232",
+              2,
+              true,
+              false,
+              "<tmp>5",
+              []
+            ],
+            [
+              "68719477240",
+              2,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477239",
+              2,
+              true,
+              false,
+              "<tmp>7",
+              []
+            ],
+            [
+              "68719477246",
+              2,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477258",
+              2,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477257",
+              2,
+              true,
+              false,
+              "<tmp>9",
+              []
+            ],
+            [
+              "68719477265",
+              2,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477264",
+              2,
+              true,
+              false,
+              "<tmp>11",
+              []
+            ],
+            [
+              "68719477273",
+              2,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477275",
+              2,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "30064771651",
+              2,
+              true,
+              false,
+              "list.length",
+              []
+            ],
+            [
+              "30064771649",
+              2,
+              true,
+              false,
+              "list.length - footerSize",
+              []
+            ],
+            [
+              "68719477272",
+              2,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477276",
+              2,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "141733920810",
+              2,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "124554051637",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "30064771580",
+              0,
+              true,
+              true,
+              "",
+              []
+            ],
+            [
+              "111669149766",
+              0,
+              true,
+              false,
+              "chunk",
+              []
+            ],
+            [
+              "68719477198",
+              0,
+              true,
+              false,
+              "chunk",
+              []
+            ],
+            [
+              "68719477197",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "111669149773",
+              0,
+              true,
+              false,
+              "bytes",
+              []
+            ],
+            [
+              "68719477251",
+              0,
+              true,
+              false,
+              "bytes",
+              []
+            ],
+            [
+              "68719477252",
+              0,
+              true,
+              false,
+              "start",
+              []
+            ],
+            [
+              "68719477246",
+              0,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477258",
+              0,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477257",
+              0,
+              true,
+              false,
+              "<tmp>9",
+              []
+            ],
+            [
+              "68719477265",
+              0,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477264",
+              0,
+              true,
+              false,
+              "<tmp>11",
+              []
+            ],
+            [
+              "68719477273",
+              0,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477275",
+              0,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "30064771651",
+              0,
+              true,
+              false,
+              "list.length",
+              []
+            ],
+            [
+              "30064771649",
+              0,
+              true,
+              false,
+              "list.length - footerSize",
+              []
+            ],
+            [
+              "68719477272",
+              0,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477276",
+              0,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "141733920810",
+              0,
+              true,
+              false,
+              "",
+              []
+            ]
+          ],
+          "transitions": [
+            "parameter-read",
+            "external-write",
+            "external-write",
+            "local-read",
+            "local-read",
+            "assignment",
+            "alias",
+            "local-read",
+            "external-return",
+            "external-write",
+            "external-write",
+            "local-read",
+            "return-value",
+            "method-return",
+            "call-return",
+            "parameter-binding",
+            "parameter-read",
+            "external-return",
+            "parameter-binding",
+            "parameter-read",
+            "local-read",
+            "operator-value",
+            "assignment",
+            "local-read",
+            "external-return",
+            "assignment",
+            "local-read",
+            "external-return",
+            "operator-value",
+            "operator-value",
+            "operator-value",
+            "external-return",
+            "assignment",
+            "block-result",
+            "assignment",
+            "local-read",
+            "local-read",
+            "assignment",
+            "alias",
+            "assignment",
+            "alias",
+            "local-read",
+            "assignment",
+            "alias",
+            "assignment",
+            "alias",
+            "local-read",
+            "external-return",
+            "external-write",
+            "external-write",
+            "local-read",
+            "return-value",
+            "method-return",
+            "call-return",
+            "parameter-binding",
+            "parameter-read",
+            "local-read",
+            "parameter-binding",
+            "parameter-read",
+            "external-write",
+            "external-write",
+            "local-read",
+            "assignment",
+            "alias",
+            "assignment",
+            "alias",
+            "local-read",
+            "external-return",
+            "external-write",
+            "external-write",
+            "local-read",
+            "return-value"
+          ]
+        },
+        {
+          "elements": [
+            [
+              "111669149773",
+              1,
+              true,
+              false,
+              "bytes",
+              []
+            ],
+            [
+              "68719477251",
+              1,
+              true,
+              false,
+              "bytes",
+              []
+            ],
+            [
+              "68719477252",
+              1,
+              true,
+              false,
+              "start",
+              []
+            ],
+            [
+              "68719477246",
+              1,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477258",
+              1,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477257",
+              1,
+              true,
+              false,
+              "<tmp>9",
+              []
+            ],
+            [
+              "68719477265",
+              1,
+              false,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477273",
+              1,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477275",
+              1,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "30064771651",
+              1,
+              true,
+              false,
+              "list.length",
+              []
+            ],
+            [
+              "30064771649",
+              1,
+              true,
+              false,
+              "list.length - footerSize",
+              []
+            ],
+            [
+              "68719477272",
+              1,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477276",
+              1,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "141733920810",
+              1,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "124554051637",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "30064771586",
+              0,
+              true,
+              true,
+              "",
+              []
+            ],
+            [
+              "111669149766",
+              0,
+              true,
+              false,
+              "chunk",
+              []
+            ],
+            [
+              "68719477198",
+              0,
+              true,
+              false,
+              "chunk",
+              []
+            ],
+            [
+              "30064771581",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "111669149775",
+              2,
+              true,
+              false,
+              "end",
+              []
+            ],
+            [
+              "68719477211",
+              2,
+              false,
+              false,
+              "end",
+              []
+            ],
+            [
+              "68719477215",
+              2,
+              false,
+              false,
+              "end",
+              []
+            ],
+            [
+              "30064771599",
+              2,
+              true,
+              false,
+              "end - start",
+              []
+            ],
+            [
+              "68719477214",
+              2,
+              true,
+              false,
+              "size",
+              []
+            ],
+            [
+              "68719477218",
+              2,
+              true,
+              false,
+              "size",
+              []
+            ],
+            [
+              "30064771601",
+              2,
+              true,
+              false,
+              "size.toRadixString(16)",
+              []
+            ],
+            [
+              "68719477217",
+              2,
+              true,
+              false,
+              "sizeInHex",
+              []
+            ],
+            [
+              "68719477223",
+              2,
+              true,
+              false,
+              "sizeInHex",
+              []
+            ],
+            [
+              "30064771612",
+              2,
+              false,
+              false,
+              "sizeInHex.length",
+              []
+            ],
+            [
+              "30064771611",
+              2,
+              false,
+              false,
+              "sizeInHex.length + 4",
+              []
+            ],
+            [
+              "30064771610",
+              2,
+              false,
+              false,
+              "sizeInHex.length + 4 + size",
+              []
+            ],
+            [
+              "30064771609",
+              2,
+              true,
+              false,
+              "sizeInHex.length + 4 + size + footerSize",
+              []
+            ],
+            [
+              "30064771608",
+              2,
+              true,
+              false,
+              "Uint8List(sizeInHex.length + 4 + size + footerSize)",
+              []
+            ],
+            [
+              "68719477222",
+              2,
+              true,
+              false,
+              "<tmp>4",
+              []
+            ],
+            [
+              "25769803906",
+              2,
+              true,
+              false,
+              "Uint8List(sizeInHex.length + 4 + size + footerSize)",
+              []
+            ],
+            [
+              "68719477221",
+              2,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477227",
+              2,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477233",
+              2,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477232",
+              2,
+              true,
+              false,
+              "<tmp>5",
+              []
+            ],
+            [
+              "68719477240",
+              2,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477239",
+              2,
+              true,
+              false,
+              "<tmp>7",
+              []
+            ],
+            [
+              "68719477246",
+              2,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477258",
+              2,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477257",
+              2,
+              true,
+              false,
+              "<tmp>9",
+              []
+            ],
+            [
+              "68719477265",
+              2,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477264",
+              2,
+              true,
+              false,
+              "<tmp>11",
+              []
+            ],
+            [
+              "68719477273",
+              2,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477275",
+              2,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "30064771651",
+              2,
+              true,
+              false,
+              "list.length",
+              []
+            ],
+            [
+              "30064771649",
+              2,
+              true,
+              false,
+              "list.length - footerSize",
+              []
+            ],
+            [
+              "68719477272",
+              2,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477276",
+              2,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "141733920810",
+              2,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "124554051637",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "30064771580",
+              0,
+              true,
+              true,
+              "",
+              []
+            ],
+            [
+              "111669149766",
+              0,
+              true,
+              false,
+              "chunk",
+              []
+            ],
+            [
+              "68719477198",
+              0,
+              true,
+              false,
+              "chunk",
+              []
+            ],
+            [
+              "68719477197",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "111669149773",
+              0,
+              true,
+              false,
+              "bytes",
+              []
+            ],
+            [
+              "68719477251",
+              0,
+              true,
+              false,
+              "bytes",
+              []
+            ],
+            [
+              "68719477252",
+              0,
+              true,
+              false,
+              "start",
+              []
+            ],
+            [
+              "68719477246",
+              0,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477258",
+              0,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477257",
+              0,
+              true,
+              false,
+              "<tmp>9",
+              []
+            ],
+            [
+              "68719477265",
+              0,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477264",
+              0,
+              true,
+              false,
+              "<tmp>11",
+              []
+            ],
+            [
+              "68719477273",
+              0,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477275",
+              0,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "30064771651",
+              0,
+              true,
+              false,
+              "list.length",
+              []
+            ],
+            [
+              "30064771649",
+              0,
+              true,
+              false,
+              "list.length - footerSize",
+              []
+            ],
+            [
+              "68719477272",
+              0,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477276",
+              0,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "141733920810",
+              0,
+              true,
+              false,
+              "",
+              []
+            ]
+          ],
+          "transitions": [
+            "parameter-read",
+            "external-write",
+            "external-write",
+            "local-read",
+            "assignment",
+            "alias",
+            "local-read",
+            "local-read",
+            "external-return",
+            "external-write",
+            "external-write",
+            "local-read",
+            "return-value",
+            "method-return",
+            "call-return",
+            "parameter-binding",
+            "parameter-read",
+            "external-return",
+            "parameter-binding",
+            "parameter-read",
+            "local-read",
+            "operator-value",
+            "assignment",
+            "local-read",
+            "external-return",
+            "assignment",
+            "local-read",
+            "external-return",
+            "operator-value",
+            "operator-value",
+            "operator-value",
+            "external-return",
+            "assignment",
+            "block-result",
+            "assignment",
+            "local-read",
+            "local-read",
+            "assignment",
+            "alias",
+            "assignment",
+            "alias",
+            "local-read",
+            "assignment",
+            "alias",
+            "assignment",
+            "alias",
+            "local-read",
+            "external-return",
+            "external-write",
+            "external-write",
+            "local-read",
+            "return-value",
+            "method-return",
+            "call-return",
+            "parameter-binding",
+            "parameter-read",
+            "local-read",
+            "parameter-binding",
+            "parameter-read",
+            "external-write",
+            "external-write",
+            "local-read",
+            "assignment",
+            "alias",
+            "assignment",
+            "alias",
+            "local-read",
+            "external-return",
+            "external-write",
+            "external-write",
+            "local-read",
+            "return-value"
+          ]
+        },
+        {
+          "elements": [
             [
               "111669149773",
               1,
@@ -13790,7 +13518,7 @@
               []
             ],
             [
-              "30064771580",
+              "30064771586",
               0,
               true,
               true,
@@ -13823,7 +13551,7 @@
             ],
             [
               "111669149775",
-              0,
+              2,
               true,
               false,
               "end",
@@ -13831,7 +13559,7 @@
             ],
             [
               "68719477211",
-              0,
+              2,
               false,
               false,
               "end",
@@ -13839,7 +13567,7 @@
             ],
             [
               "68719477215",
-              0,
+              2,
               false,
               false,
               "end",
@@ -13847,7 +13575,7 @@
             ],
             [
               "30064771599",
-              0,
+              2,
               true,
               false,
               "end - start",
@@ -13855,7 +13583,7 @@
             ],
             [
               "68719477214",
-              0,
+              2,
               true,
               false,
               "size",
@@ -13863,7 +13591,7 @@
             ],
             [
               "68719477218",
-              0,
+              2,
               true,
               false,
               "size",
@@ -13871,7 +13599,7 @@
             ],
             [
               "30064771601",
-              0,
+              2,
               true,
               false,
               "size.toRadixString(16)",
@@ -13879,7 +13607,7 @@
             ],
             [
               "68719477217",
-              0,
+              2,
               true,
               false,
               "sizeInHex",
@@ -13887,7 +13615,7 @@
             ],
             [
               "68719477223",
-              0,
+              2,
               true,
               false,
               "sizeInHex",
@@ -13895,7 +13623,7 @@
             ],
             [
               "68719477228",
-              0,
+              2,
               true,
               false,
               "sizeInHex",
@@ -13903,7 +13631,7 @@
             ],
             [
               "68719477229",
-              0,
+              2,
               true,
               false,
               "sizeInHex",
@@ -13911,7 +13639,7 @@
             ],
             [
               "30064771615",
-              0,
+              2,
               true,
               false,
               "sizeInHex.codeUnits",
@@ -13919,7 +13647,7 @@
             ],
             [
               "68719477227",
-              0,
+              2,
               true,
               false,
               "list",
@@ -13927,7 +13655,7 @@
             ],
             [
               "68719477233",
-              0,
+              2,
               true,
               false,
               "list",
@@ -13935,7 +13663,7 @@
             ],
             [
               "68719477232",
-              0,
+              2,
               true,
               false,
               "<tmp>5",
@@ -13943,7 +13671,7 @@
             ],
             [
               "68719477240",
-              0,
+              2,
               true,
               false,
               "list",
@@ -13951,10 +13679,146 @@
             ],
             [
               "68719477239",
-              0,
+              2,
               true,
               false,
               "<tmp>7",
+              []
+            ],
+            [
+              "68719477246",
+              2,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477258",
+              2,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477257",
+              2,
+              true,
+              false,
+              "<tmp>9",
+              []
+            ],
+            [
+              "68719477265",
+              2,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477264",
+              2,
+              true,
+              false,
+              "<tmp>11",
+              []
+            ],
+            [
+              "68719477273",
+              2,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477275",
+              2,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477272",
+              2,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477276",
+              2,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "141733920810",
+              2,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "124554051637",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "30064771580",
+              0,
+              true,
+              true,
+              "",
+              []
+            ],
+            [
+              "111669149766",
+              0,
+              true,
+              false,
+              "chunk",
+              []
+            ],
+            [
+              "68719477198",
+              0,
+              true,
+              false,
+              "chunk",
+              []
+            ],
+            [
+              "68719477197",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "111669149773",
+              0,
+              true,
+              false,
+              "bytes",
+              []
+            ],
+            [
+              "68719477251",
+              0,
+              true,
+              false,
+              "bytes",
               []
             ],
             [
@@ -14054,23 +13918,6 @@
             "call-return",
             "parameter-binding",
             "parameter-read",
-            "local-read",
-            "parameter-binding",
-            "parameter-read",
-            "external-write",
-            "local-read",
-            "assignment",
-            "alias",
-            "assignment",
-            "alias",
-            "local-read",
-            "local-read",
-            "local-read",
-            "return-value",
-            "method-return",
-            "call-return",
-            "parameter-binding",
-            "parameter-read",
             "external-return",
             "parameter-binding",
             "parameter-read",
@@ -14090,6 +13937,23 @@
             "alias",
             "assignment",
             "alias",
+            "local-read",
+            "assignment",
+            "alias",
+            "assignment",
+            "alias",
+            "local-read",
+            "local-read",
+            "local-read",
+            "return-value",
+            "method-return",
+            "call-return",
+            "parameter-binding",
+            "parameter-read",
+            "local-read",
+            "parameter-binding",
+            "parameter-read",
+            "external-write",
             "local-read",
             "assignment",
             "alias",
@@ -14200,7 +14064,7 @@
               []
             ],
             [
-              "30064771580",
+              "30064771586",
               0,
               true,
               true,
@@ -14224,7 +14088,7 @@
               []
             ],
             [
-              "68719477197",
+              "30064771581",
               0,
               true,
               false,
@@ -14232,24 +14096,144 @@
               []
             ],
             [
-              "111669149773",
-              1,
+              "111669149775",
+              2,
               true,
               false,
-              "bytes",
+              "end",
               []
             ],
             [
-              "68719477251",
-              1,
+              "68719477211",
+              2,
+              false,
+              false,
+              "end",
+              []
+            ],
+            [
+              "68719477215",
+              2,
+              false,
+              false,
+              "end",
+              []
+            ],
+            [
+              "30064771599",
+              2,
               true,
               false,
-              "bytes",
+              "end - start",
+              []
+            ],
+            [
+              "68719477214",
+              2,
+              true,
+              false,
+              "size",
+              []
+            ],
+            [
+              "68719477218",
+              2,
+              true,
+              false,
+              "size",
+              []
+            ],
+            [
+              "30064771601",
+              2,
+              true,
+              false,
+              "size.toRadixString(16)",
+              []
+            ],
+            [
+              "68719477217",
+              2,
+              true,
+              false,
+              "sizeInHex",
+              []
+            ],
+            [
+              "68719477223",
+              2,
+              true,
+              false,
+              "sizeInHex",
+              []
+            ],
+            [
+              "68719477228",
+              2,
+              true,
+              false,
+              "sizeInHex",
+              []
+            ],
+            [
+              "68719477229",
+              2,
+              true,
+              false,
+              "sizeInHex",
+              []
+            ],
+            [
+              "30064771615",
+              2,
+              true,
+              false,
+              "sizeInHex.codeUnits",
+              []
+            ],
+            [
+              "68719477227",
+              2,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477233",
+              2,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477232",
+              2,
+              true,
+              false,
+              "<tmp>5",
+              []
+            ],
+            [
+              "68719477240",
+              2,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477239",
+              2,
+              true,
+              false,
+              "<tmp>7",
               []
             ],
             [
               "68719477246",
-              1,
+              2,
               true,
               false,
               "list",
@@ -14257,7 +14241,7 @@
             ],
             [
               "68719477258",
-              1,
+              2,
               true,
               false,
               "list",
@@ -14265,7 +14249,7 @@
             ],
             [
               "68719477257",
-              1,
+              2,
               true,
               false,
               "<tmp>9",
@@ -14273,7 +14257,7 @@
             ],
             [
               "68719477265",
-              1,
+              2,
               true,
               false,
               "list",
@@ -14281,7 +14265,7 @@
             ],
             [
               "68719477264",
-              1,
+              2,
               true,
               false,
               "<tmp>11",
@@ -14289,7 +14273,7 @@
             ],
             [
               "68719477273",
-              1,
+              2,
               true,
               false,
               "list",
@@ -14297,7 +14281,7 @@
             ],
             [
               "68719477275",
-              1,
+              2,
               true,
               false,
               "list",
@@ -14305,7 +14289,7 @@
             ],
             [
               "68719477272",
-              1,
+              2,
               true,
               false,
               "list",
@@ -14313,7 +14297,7 @@
             ],
             [
               "68719477276",
-              1,
+              2,
               true,
               false,
               "list",
@@ -14321,7 +14305,7 @@
             ],
             [
               "141733920810",
-              1,
+              2,
               true,
               false,
               "",
@@ -14360,7 +14344,7 @@
               []
             ],
             [
-              "30064771581",
+              "68719477197",
               0,
               true,
               false,
@@ -14368,139 +14352,19 @@
               []
             ],
             [
-              "111669149775",
+              "111669149773",
               0,
               true,
               false,
-              "end",
+              "bytes",
               []
             ],
             [
-              "68719477211",
-              0,
-              false,
-              false,
-              "end",
-              []
-            ],
-            [
-              "68719477215",
-              0,
-              false,
-              false,
-              "end",
-              []
-            ],
-            [
-              "30064771599",
+              "68719477251",
               0,
               true,
               false,
-              "end - start",
-              []
-            ],
-            [
-              "68719477214",
-              0,
-              true,
-              false,
-              "size",
-              []
-            ],
-            [
-              "68719477218",
-              0,
-              true,
-              false,
-              "size",
-              []
-            ],
-            [
-              "30064771601",
-              0,
-              true,
-              false,
-              "size.toRadixString(16)",
-              []
-            ],
-            [
-              "68719477217",
-              0,
-              true,
-              false,
-              "sizeInHex",
-              []
-            ],
-            [
-              "68719477223",
-              0,
-              true,
-              false,
-              "sizeInHex",
-              []
-            ],
-            [
-              "68719477228",
-              0,
-              true,
-              false,
-              "sizeInHex",
-              []
-            ],
-            [
-              "68719477229",
-              0,
-              true,
-              false,
-              "sizeInHex",
-              []
-            ],
-            [
-              "30064771615",
-              0,
-              true,
-              false,
-              "sizeInHex.codeUnits",
-              []
-            ],
-            [
-              "68719477227",
-              0,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477233",
-              0,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477232",
-              0,
-              true,
-              false,
-              "<tmp>5",
-              []
-            ],
-            [
-              "68719477240",
-              0,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477239",
-              0,
-              true,
-              false,
-              "<tmp>7",
+              "bytes",
               []
             ],
             [
@@ -14599,23 +14463,6 @@
             "call-return",
             "parameter-binding",
             "parameter-read",
-            "local-read",
-            "parameter-binding",
-            "parameter-read",
-            "external-write",
-            "local-read",
-            "assignment",
-            "alias",
-            "assignment",
-            "alias",
-            "local-read",
-            "local-read",
-            "local-read",
-            "return-value",
-            "method-return",
-            "call-return",
-            "parameter-binding",
-            "parameter-read",
             "external-return",
             "parameter-binding",
             "parameter-read",
@@ -14635,6 +14482,23 @@
             "alias",
             "assignment",
             "alias",
+            "local-read",
+            "assignment",
+            "alias",
+            "assignment",
+            "alias",
+            "local-read",
+            "local-read",
+            "local-read",
+            "return-value",
+            "method-return",
+            "call-return",
+            "parameter-binding",
+            "parameter-read",
+            "local-read",
+            "parameter-binding",
+            "parameter-read",
+            "external-write",
             "local-read",
             "assignment",
             "alias",
@@ -14745,7 +14609,7 @@
               []
             ],
             [
-              "30064771580",
+              "30064771586",
               0,
               true,
               true,
@@ -14769,7 +14633,7 @@
               []
             ],
             [
-              "68719477197",
+              "30064771581",
               0,
               true,
               false,
@@ -14777,24 +14641,144 @@
               []
             ],
             [
-              "111669149773",
-              1,
+              "111669149775",
+              2,
               true,
               false,
-              "bytes",
+              "end",
               []
             ],
             [
-              "68719477251",
-              1,
+              "68719477211",
+              2,
+              false,
+              false,
+              "end",
+              []
+            ],
+            [
+              "68719477215",
+              2,
+              false,
+              false,
+              "end",
+              []
+            ],
+            [
+              "30064771599",
+              2,
               true,
               false,
-              "bytes",
+              "end - start",
+              []
+            ],
+            [
+              "68719477214",
+              2,
+              true,
+              false,
+              "size",
+              []
+            ],
+            [
+              "68719477218",
+              2,
+              true,
+              false,
+              "size",
+              []
+            ],
+            [
+              "30064771601",
+              2,
+              true,
+              false,
+              "size.toRadixString(16)",
+              []
+            ],
+            [
+              "68719477217",
+              2,
+              true,
+              false,
+              "sizeInHex",
+              []
+            ],
+            [
+              "68719477223",
+              2,
+              true,
+              false,
+              "sizeInHex",
+              []
+            ],
+            [
+              "68719477228",
+              2,
+              true,
+              false,
+              "sizeInHex",
+              []
+            ],
+            [
+              "68719477229",
+              2,
+              true,
+              false,
+              "sizeInHex",
+              []
+            ],
+            [
+              "30064771615",
+              2,
+              true,
+              false,
+              "sizeInHex.codeUnits",
+              []
+            ],
+            [
+              "68719477227",
+              2,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477233",
+              2,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477232",
+              2,
+              true,
+              false,
+              "<tmp>5",
+              []
+            ],
+            [
+              "68719477240",
+              2,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477239",
+              2,
+              true,
+              false,
+              "<tmp>7",
               []
             ],
             [
               "68719477246",
-              1,
+              2,
               true,
               false,
               "list",
@@ -14802,7 +14786,7 @@
             ],
             [
               "68719477258",
-              1,
+              2,
               true,
               false,
               "list",
@@ -14810,7 +14794,7 @@
             ],
             [
               "68719477257",
-              1,
+              2,
               true,
               false,
               "<tmp>9",
@@ -14818,7 +14802,7 @@
             ],
             [
               "68719477265",
-              1,
+              2,
               true,
               false,
               "list",
@@ -14826,7 +14810,7 @@
             ],
             [
               "68719477264",
-              1,
+              2,
               true,
               false,
               "<tmp>11",
@@ -14834,7 +14818,7 @@
             ],
             [
               "68719477273",
-              1,
+              2,
               true,
               false,
               "list",
@@ -14842,7 +14826,7 @@
             ],
             [
               "68719477275",
-              1,
+              2,
               true,
               false,
               "list",
@@ -14850,7 +14834,7 @@
             ],
             [
               "68719477272",
-              1,
+              2,
               true,
               false,
               "list",
@@ -14858,7 +14842,7 @@
             ],
             [
               "68719477276",
-              1,
+              2,
               true,
               false,
               "list",
@@ -14866,7 +14850,7 @@
             ],
             [
               "141733920810",
-              1,
+              2,
               true,
               false,
               "",
@@ -14905,7 +14889,7 @@
               []
             ],
             [
-              "30064771581",
+              "68719477197",
               0,
               true,
               false,
@@ -14913,139 +14897,19 @@
               []
             ],
             [
-              "111669149775",
+              "111669149773",
               0,
               true,
               false,
-              "end",
+              "bytes",
               []
             ],
             [
-              "68719477211",
-              0,
-              false,
-              false,
-              "end",
-              []
-            ],
-            [
-              "68719477215",
-              0,
-              false,
-              false,
-              "end",
-              []
-            ],
-            [
-              "30064771599",
+              "68719477251",
               0,
               true,
               false,
-              "end - start",
-              []
-            ],
-            [
-              "68719477214",
-              0,
-              true,
-              false,
-              "size",
-              []
-            ],
-            [
-              "68719477218",
-              0,
-              true,
-              false,
-              "size",
-              []
-            ],
-            [
-              "30064771601",
-              0,
-              true,
-              false,
-              "size.toRadixString(16)",
-              []
-            ],
-            [
-              "68719477217",
-              0,
-              true,
-              false,
-              "sizeInHex",
-              []
-            ],
-            [
-              "68719477223",
-              0,
-              true,
-              false,
-              "sizeInHex",
-              []
-            ],
-            [
-              "68719477228",
-              0,
-              true,
-              false,
-              "sizeInHex",
-              []
-            ],
-            [
-              "68719477229",
-              0,
-              true,
-              false,
-              "sizeInHex",
-              []
-            ],
-            [
-              "30064771615",
-              0,
-              true,
-              false,
-              "sizeInHex.codeUnits",
-              []
-            ],
-            [
-              "68719477227",
-              0,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477233",
-              0,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477232",
-              0,
-              true,
-              false,
-              "<tmp>5",
-              []
-            ],
-            [
-              "68719477240",
-              0,
-              true,
-              false,
-              "list",
-              []
-            ],
-            [
-              "68719477239",
-              0,
-              true,
-              false,
-              "<tmp>7",
+              "bytes",
               []
             ],
             [
@@ -15144,6 +15008,38 @@
             "call-return",
             "parameter-binding",
             "parameter-read",
+            "external-return",
+            "parameter-binding",
+            "parameter-read",
+            "local-read",
+            "operator-value",
+            "assignment",
+            "local-read",
+            "external-return",
+            "assignment",
+            "local-read",
+            "local-read",
+            "local-read",
+            "external-return",
+            "external-write",
+            "local-read",
+            "assignment",
+            "alias",
+            "assignment",
+            "alias",
+            "local-read",
+            "assignment",
+            "alias",
+            "assignment",
+            "alias",
+            "local-read",
+            "local-read",
+            "local-read",
+            "return-value",
+            "method-return",
+            "call-return",
+            "parameter-binding",
+            "parameter-read",
             "local-read",
             "parameter-binding",
             "parameter-read",
@@ -15153,6 +15049,493 @@
             "alias",
             "assignment",
             "alias",
+            "local-read",
+            "local-read",
+            "local-read",
+            "return-value"
+          ]
+        },
+        {
+          "elements": [
+            [
+              "111669149773",
+              1,
+              true,
+              false,
+              "bytes",
+              []
+            ],
+            [
+              "68719477251",
+              1,
+              true,
+              false,
+              "bytes",
+              []
+            ],
+            [
+              "68719477246",
+              1,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477258",
+              1,
+              false,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477265",
+              1,
+              false,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477273",
+              1,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477275",
+              1,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477272",
+              1,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477276",
+              1,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "141733920810",
+              1,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "124554051637",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "30064771586",
+              0,
+              true,
+              true,
+              "",
+              []
+            ],
+            [
+              "111669149766",
+              0,
+              true,
+              false,
+              "chunk",
+              []
+            ],
+            [
+              "68719477198",
+              0,
+              true,
+              false,
+              "chunk",
+              []
+            ],
+            [
+              "30064771581",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "111669149775",
+              2,
+              true,
+              false,
+              "end",
+              []
+            ],
+            [
+              "68719477211",
+              2,
+              false,
+              false,
+              "end",
+              []
+            ],
+            [
+              "68719477215",
+              2,
+              false,
+              false,
+              "end",
+              []
+            ],
+            [
+              "30064771599",
+              2,
+              true,
+              false,
+              "end - start",
+              []
+            ],
+            [
+              "68719477214",
+              2,
+              true,
+              false,
+              "size",
+              []
+            ],
+            [
+              "68719477218",
+              2,
+              true,
+              false,
+              "size",
+              []
+            ],
+            [
+              "30064771601",
+              2,
+              true,
+              false,
+              "size.toRadixString(16)",
+              []
+            ],
+            [
+              "68719477217",
+              2,
+              true,
+              false,
+              "sizeInHex",
+              []
+            ],
+            [
+              "68719477223",
+              2,
+              true,
+              false,
+              "sizeInHex",
+              []
+            ],
+            [
+              "68719477228",
+              2,
+              true,
+              false,
+              "sizeInHex",
+              []
+            ],
+            [
+              "68719477229",
+              2,
+              true,
+              false,
+              "sizeInHex",
+              []
+            ],
+            [
+              "30064771615",
+              2,
+              true,
+              false,
+              "sizeInHex.codeUnits",
+              []
+            ],
+            [
+              "68719477227",
+              2,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477233",
+              2,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477232",
+              2,
+              true,
+              false,
+              "<tmp>5",
+              []
+            ],
+            [
+              "68719477240",
+              2,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477239",
+              2,
+              true,
+              false,
+              "<tmp>7",
+              []
+            ],
+            [
+              "68719477246",
+              2,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477258",
+              2,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477257",
+              2,
+              true,
+              false,
+              "<tmp>9",
+              []
+            ],
+            [
+              "68719477265",
+              2,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477264",
+              2,
+              true,
+              false,
+              "<tmp>11",
+              []
+            ],
+            [
+              "68719477273",
+              2,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477275",
+              2,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477272",
+              2,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477276",
+              2,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "141733920810",
+              2,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "124554051637",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "30064771580",
+              0,
+              true,
+              true,
+              "",
+              []
+            ],
+            [
+              "111669149766",
+              0,
+              true,
+              false,
+              "chunk",
+              []
+            ],
+            [
+              "68719477198",
+              0,
+              true,
+              false,
+              "chunk",
+              []
+            ],
+            [
+              "68719477197",
+              0,
+              true,
+              false,
+              "",
+              []
+            ],
+            [
+              "111669149773",
+              0,
+              true,
+              false,
+              "bytes",
+              []
+            ],
+            [
+              "68719477251",
+              0,
+              true,
+              false,
+              "bytes",
+              []
+            ],
+            [
+              "68719477246",
+              0,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477258",
+              0,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477257",
+              0,
+              true,
+              false,
+              "<tmp>9",
+              []
+            ],
+            [
+              "68719477265",
+              0,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477264",
+              0,
+              true,
+              false,
+              "<tmp>11",
+              []
+            ],
+            [
+              "68719477273",
+              0,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477275",
+              0,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477272",
+              0,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "68719477276",
+              0,
+              true,
+              false,
+              "list",
+              []
+            ],
+            [
+              "141733920810",
+              0,
+              true,
+              false,
+              "",
+              []
+            ]
+          ],
+          "transitions": [
+            "parameter-read",
+            "external-write",
+            "local-read",
+            "local-read",
+            "local-read",
             "local-read",
             "local-read",
             "local-read",
@@ -15180,6 +15563,23 @@
             "alias",
             "assignment",
             "alias",
+            "local-read",
+            "assignment",
+            "alias",
+            "assignment",
+            "alias",
+            "local-read",
+            "local-read",
+            "local-read",
+            "return-value",
+            "method-return",
+            "call-return",
+            "parameter-binding",
+            "parameter-read",
+            "local-read",
+            "parameter-binding",
+            "parameter-read",
+            "external-write",
             "local-read",
             "assignment",
             "alias",
@@ -15642,7 +16042,7 @@
   ],
   "representation": "Node/call IDs and context/path indices are project-local. transitions[i] classifies elements[i] to elements[i+1]. Field demands, including repeated value and separators projections, are preserved. Retained storage-demand sets are empty. Equivalent stock/modeled paths are shared; full path flags and selected caller contexts are preserved.",
   "reviewMethod": "Each selected displayed route was read against its pinned source expectation. Formal argument positions, resolved return targets and available selected frames were checked. Argument-output return evidence already in a caller frame has a separate category. This is a mechanism/approximation review, not branch feasibility, general scheduling or heap qualification.",
-  "analysisBaseCommit": "928c52844",
+  "analysisBaseCommit": "26106d895",
   "limitations": [
     "Only these fifteen path/async/http_parser query families and their returned bounded paths are reviewed; other corpus alternatives and larger searches remain pending.",
     "An endpoint identity is recorded separately from independent forwarding; conservative argument outputs, aggregate projections and external effects do not prove mutation, allocation identity, callback delivery or branch feasibility.",
@@ -15652,14 +16052,14 @@
     "queries": 15,
     "selectedPaths": 61,
     "distinctPaths": 40,
-    "distinctTransitions": 1087
+    "distinctTransitions": 1136
   },
   "refresh": {
-    "previousBaseCommit": "928c52844",
+    "previousBaseCommit": "ae35e62f7",
     "previousAnalysisSources": {
       "algorithm": "sha256-path-nul-content-nul",
-      "sha256": "22d474c7d4ac73cf90fcce403c1cc72bce73dd0720c1336f9be99d4158f29692",
-      "files": 414,
+      "sha256": "fd6a6a8215cf5d7d63c58415c5c25d246071ed89f0f3113d8aa0b9f80cc29eaa",
+      "files": 415,
       "roots": [
         "joern-cli/frontends/dartsrc2cpg/src",
         "joern-cli/frontends/dartsrc2cpg/astgen/lib",
@@ -15683,9 +16083,9 @@
       "queries": 15,
       "selectedPaths": 61,
       "distinctPaths": 40,
-      "distinctTransitions": 1012
+      "distinctTransitions": 1087
     },
-    "method": "Replayed after preserving known immutable callable targets through casts/assertions, saved values and final pattern bindings, with bound receiver captures and corrected positional fallback binding after named arguments. Unknown and changing callables remain unresolved. Unchanged routes are matched against previous two/four-witness reviewed paths after removing node IDs only; all other node/call/context/flag/demand facts are retained. Changed variants have separate source-grounded refresh dispositions and checked argument/return/output bindings. All new graph IDs are reconstructed from fresh raw audits. Native observations do not certify caller re-entry, allocation, heap/dispatch precision or route feasibility."
+    "method": "Replayed after stopping equivalent Dart recursive task states when the preceding state had at least as much remaining depth. Sink, selected call stack, output channel, field demand and pending storage exits remain distinct; foreign behavior is unchanged. Previous two/four-witness routes match after removing graph node IDs only; all other node/call/context/flag/demand facts remain intact. Changed variants have separate pinned-source dispositions and checked argument/return/output bindings. Cyclic routes are not enumerated. Fresh graph IDs and exact query limitations are retained. Runtime recursion, heap identity, callback delivery, omitted alternatives and limited negatives remain unqualified"
   },
   "nativeRefreshScope": "Existing native oracle contracts remain unchanged."
 }
