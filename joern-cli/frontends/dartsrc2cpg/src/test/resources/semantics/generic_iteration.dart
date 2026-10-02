@@ -38,3 +38,26 @@ List<String> nullableBound<T extends Values<String>?>(T values) {
 List<String> boundedInterface<T extends Iterable<String>>(T values) => [
   for (final value in values) value,
 ];
+
+class BoundedIteratorValues<E, I extends Cursor<E>> extends Iterable<E> {
+  final I cursor;
+  BoundedIteratorValues(this.cursor);
+
+  @override
+  I get iterator {
+    trace.add('iterator');
+    return cursor;
+  }
+}
+
+List<E> iteratorBound<E, I extends Cursor<E>>(
+  BoundedIteratorValues<E, I> values,
+) => [for (final value in values) value];
+
+List<E> chainedIteratorBound<E, I extends Cursor<E>, J extends I>(
+  BoundedIteratorValues<E, J> values,
+) => [for (final value in values) value];
+
+List<String> concreteIteratorBound(
+  BoundedIteratorValues<String, Cursor<String>> values,
+) => [for (final value in values) value];

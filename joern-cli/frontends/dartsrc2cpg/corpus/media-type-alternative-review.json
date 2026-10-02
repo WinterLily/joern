@@ -9,7 +9,7 @@
   },
   "analysisSources": {
     "algorithm": "sha256-path-nul-content-nul",
-    "sha256": "8d38cb5a00e2e084f0ca2aafa3ac34c7806d06b38764782aa0704abafa7adb17",
+    "sha256": "5381126986a8bc6c2fa819f56be744fee0f7c656a0de4539d90fb1e1d3c026c4",
     "files": 406,
     "roots": [
       "joern-cli/frontends/dartsrc2cpg/src",
@@ -33,7 +33,7 @@
   "exporter": {
     "record": "header",
     "protocolVersion": 1,
-    "exporterVersion": "0.3.21",
+    "exporterVersion": "0.3.22",
     "analyzerVersion": "8.4.1",
     "sdkVersion": "3.9.2",
     "offsetEncoding": "utf-16",

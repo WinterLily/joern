@@ -23,7 +23,7 @@ import 'package:analyzer/source/line_info.dart';
 import 'package:path/path.dart' as p;
 
 const protocolVersion = 1;
-const exporterVersion = '0.3.21';
+const exporterVersion = '0.3.22';
 const analyzerVersion = '8.4.1';
 const supportedSdkVersion = '3.9.2';
 
@@ -286,6 +286,19 @@ class _UnitEncoder {
     return value == null
         ? null
         : constantKeys.putIfAbsent(value, () => constantKeys.length).toString();
+  }
+
+  InterfaceType? interfaceBound(DartType? type) {
+    final seen = <DartType>{};
+    while (type is TypeParameterType &&
+        type.nullabilitySuffix == NullabilitySuffix.none &&
+        seen.add(type)) {
+      type = type.bound;
+    }
+    return type is InterfaceType &&
+            type.nullabilitySuffix == NullabilitySuffix.none
+        ? type
+        : null;
   }
 
   String? typeId(DartType? type) => switch (type) {
@@ -1466,29 +1479,27 @@ class _UnitEncoder {
         ForStatement(:final awaitKeyword) => awaitKeyword != null,
         ForElement(:final awaitKeyword) => awaitKeyword != null,
       };
-      var iterable = ast.iterable.staticType;
-      final bounds = <DartType>{};
-      while (iterable is TypeParameterType && bounds.add(iterable)) {
-        iterable = iterable.bound;
-      }
-      if (!asynchronous &&
-          iterable is InterfaceType &&
-          iterable.nullabilitySuffix == NullabilitySuffix.none) {
+      final iterable = interfaceBound(ast.iterable.staticType);
+      if (!asynchronous && iterable != null) {
         final iterator = iterable.lookUpGetter(
           'iterator',
           iterable.element.library,
         );
         final iteratorType = iterator?.returnType;
-        if (iterator != null && iteratorType is InterfaceType) {
+        final iteratorInterface = interfaceBound(iteratorType);
+        if (iterator != null && iteratorInterface != null) {
           record['iteratorTarget'] = symbol(iterator);
-          record['iteratorType'] = iteratorType.getDisplayString();
+          record['iteratorType'] = iteratorType!.getDisplayString();
           record['iteratorTypeId'] = typeId(iteratorType);
           record['moveNextTarget'] = symbol(
-            iteratorType.lookUpMethod('moveNext', iteratorType.element.library),
+            iteratorInterface.lookUpMethod(
+              'moveNext',
+              iteratorInterface.element.library,
+            ),
           );
-          final current = iteratorType.lookUpGetter(
+          final current = iteratorInterface.lookUpGetter(
             'current',
-            iteratorType.element.library,
+            iteratorInterface.element.library,
           );
           record['currentTarget'] = symbol(current);
           record['currentType'] = current?.returnType.getDisplayString();

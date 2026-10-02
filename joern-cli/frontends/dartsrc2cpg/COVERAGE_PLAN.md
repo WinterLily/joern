@@ -122,7 +122,9 @@ operators. Declared, assigned, collection and record-pattern forms have resolved
 target, receiver-isolation and native member-order controls. Pattern loops save
 current once before destructuring. Static lookup now follows declared/promoted
 type-parameter bounds and retains instantiated current-result types separately
-from generic declarations. Dynamic and async SDK resolution, generic runtime
+from generic declarations. Iterator getter return bounds now supply member lookup
+without replacing symbolic iterator results or receivers. Dynamic and async SDK
+resolution, generic runtime
 substitutions and iterator element/heap flows remain
 open; this partial qualification does not close the loop rules or any gate.
 
@@ -201,8 +203,8 @@ stock paths and 117 modeled paths with unchanged endpoint outcomes. The
 in the three distinct Shelf/YAML paths, with same-budget positive controls for
 both isolation queries. Eight modeled negative searches elsewhere remain
 inconclusive. Additional sequences are not necessarily new semantic route families.
-The [analyzer review](corpus/analyzer-alternative-review.json) classifies 629
-transitions across 18 distinct paths, retaining readonly argument-output,
+The [analyzer review](corpus/analyzer-alternative-review.json) classifies 478
+transitions across 16 distinct paths, retaining readonly argument-output,
 receiver/field, external-read and caller detours as approximations rather than
 exact runtime provenance. Direct uint32 high-byte binding and fork offset
 assignment now have mixed-byte/flush-boundary and shared-byte/independent-offset
@@ -226,9 +228,9 @@ have pinned execution controls. Both args negative searches retain call-depth
 limits; no exhaustive absence claim follows from passing endpoint controls.
 
 The [path/async/http_parser review](corpus/package-flows-alternative-review.json)
-classifies all 967 transitions in 38 distinct paths for its fifteen queries.
+classifies all 1,076 transitions in 40 distinct paths for its fifteen queries.
 The complete audit retains 248 selected paths sharing 149 distinct routes and
-2,673 classified transitions across all eighty queries. Endpoint identities,
+2,631 classified transitions across all eighty queries. Endpoint identities,
 caller re-entry, size/control detours and external effects retain their limitations;
 eight modeled negatives and omitted alternatives remain unqualified.
 

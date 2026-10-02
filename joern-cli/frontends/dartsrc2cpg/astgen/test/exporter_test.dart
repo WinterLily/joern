@@ -115,7 +115,7 @@ void main() {
           'nodes',
         ).where((node) => node['kind'] == 'ForEachParts'),
       );
-      expect(loops, hasLength(8));
+      expect(loops, hasLength(11));
       for (final loop in loops) {
         for (final (key, name) in [
           ('iteratorTarget', 'iterator'),
@@ -143,10 +143,38 @@ void main() {
           isNot(declaration['returnTypeId']),
         );
       }
-      expect(loops[7]['currentType'], '(String, String)');
-      expect(loops[7]['currentTypeId'], '(String, String)');
-      expect(loops[0]['currentTarget'], loops[7]['currentTarget']);
+      expect(loops[10]['currentType'], '(String, String)');
+      expect(loops[10]['currentTypeId'], '(String, String)');
+      expect(loops[0]['currentTarget'], loops[10]['currentTarget']);
       expect(symbols[loops[0]['currentTarget']]!['returnType'], 'T');
+      for (final (index, name) in [(7, 'I'), (8, 'J')]) {
+        expect(loops[index]['iteratorType'], name);
+        final type = symbols[loops[index]['iteratorTypeId']]!;
+        expect(type['kind'], 'TYPE_PARAMETER');
+        expect(type['name'], name);
+        expect(
+          symbols[type['owner']]!['name'],
+          index == 7 ? 'iteratorBound' : 'chainedIteratorBound',
+        );
+        expect(symbols[loops[index]['currentTypeId']]!['owner'], type['owner']);
+        final declaration = symbols[loops[index]['iteratorTarget']]!;
+        expect(declaration['returnType'], 'I');
+        expect(
+          loops[index]['iteratorTypeId'],
+          isNot(declaration['returnTypeId']),
+        );
+        expect(loops[index]['currentType'], 'E');
+        expect(
+          symbols[loops[index]['currentTypeId']]!['kind'],
+          'TYPE_PARAMETER',
+        );
+        expect(
+          loops[index]['currentTypeId'],
+          isNot(symbols[loops[index]['currentTarget']]!['returnTypeId']),
+        );
+      }
+      expect(loops[9]['iteratorType'], 'Cursor<String>');
+      expect(loops[9]['currentType'], 'String');
     },
   );
 
@@ -164,6 +192,37 @@ import 'synchronous_iteration.dart';
 void unbounded<T>(T values) { for (final value in values) {} }
 void nullable<T extends Values<String>?>(T values) { for (final value in values) {} }
 void dynamicLoop(dynamic values) { for (final value in values) {} }
+void nullableParameter<T extends Iterable<String>>(T? values) {
+  for (final value in values) {}
+}
+class NullableReturn<E, I extends Cursor<E>> extends Iterable<E> {
+  @override
+  I? get iterator => null;
+}
+void nullableReturn<E, I extends Cursor<E>>(NullableReturn<E, I> values) {
+  for (final value in values) {}
+}
+class NullableIterator<E, I extends Cursor<E>?> extends Iterable<E> {
+  @override
+  I get iterator => throw StateError('invalid');
+}
+class UnboundedIterator<E, I> extends Iterable<E> {
+  @override
+  I get iterator => throw StateError('invalid');
+}
+class DynamicIterator<E> extends Iterable<E> {
+  @override
+  dynamic get iterator => throw StateError('unknown');
+}
+void nullableIterator<E, I extends Cursor<E>?>(NullableIterator<E, I> values) {
+  for (final value in values) {}
+}
+void unboundedIterator<E, I>(UnboundedIterator<E, I> values) {
+  for (final value in values) {}
+}
+void dynamicIterator<E>(DynamicIterator<E> values) {
+  for (final value in values) {}
+}
 Future<void> asynchronous<T extends Stream<String>>(T values) async {
   await for (final value in values) {}
 }
@@ -180,13 +239,18 @@ Future<void> asynchronous<T extends Stream<String>>(T values) async {
           'unchecked_use_of_nullable_value',
           'unchecked_use_of_nullable_value',
           'for_in_of_invalid_type',
+          'unchecked_use_of_nullable_value',
+          'invalid_override',
+          'invalid_override',
+          'invalid_override',
+          'invalid_override',
         ]),
       );
       final loops = entries(
         unit,
         'nodes',
       ).where((node) => node['kind'] == 'ForEachParts').toList();
-      expect(loops, hasLength(4));
+      expect(loops, hasLength(9));
       for (final loop in loops) {
         for (final key in [
           'iteratorTarget',

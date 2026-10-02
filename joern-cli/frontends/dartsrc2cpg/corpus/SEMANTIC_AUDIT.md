@@ -1958,3 +1958,89 @@ parameter rather than an interface type. That lookup gap is recorded for the
 next implementation step. Runtime substitutions/bound checks, complete loop CFG
 and payload/heap qualification, omitted alternatives, inconclusive negatives
 and Gates 1–6 remain open.
+
+
+## Iterator getter return bounds and nullable boundaries
+
+Exporter 0.3.22 resolves synchronous iterator getter return type-parameter bounds
+with a shared cycle-checked interface lookup. It retains the original scoped
+`I`/`J` iterator result and saved member receiver types; the bound supplies
+`moveNext`/`current` lookup and the instantiated element type, separately from
+generic callee declarations. Concrete and chained cases have exporter/graph
+controls and pinned native member-order/value execution checks. Exporter controls
+also require the current element and iterator result parameters to belong to the
+same function scope, rather than accepting a similarly named class parameter.
+The reduced valid case previously omitted all three targets despite analyzer and
+kernel acceptance; the focused regression failed before the fix.
+
+An additional reduced negative exposed nullable type-parameter erasure during
+bound lookup: `TypeParameterType.bound` discards an outer `?`, supplying targets
+for invalid `T?` iterable or `I?` getter result types. Lookup now rejects a nullable
+parameter before following it, including intermediate bounds. The existing
+promoted nullable receiver controls continue to pass. Nine invalid/dynamic/async
+loops omit iteration facts, retaining exactly three nullable-use errors, one
+invalid-for-in error and four invalid-override errors from the pinned analyzer.
+These are controls over the named sources, not qualification of every invalid
+source or proof of negative payload-flow absence. The earlier bounded record
+pattern compiler disagreement remains explicitly static-only.
+
+The [return-bound review](iterator-return-review.json) records the reduced cases
+and independently re-exports all twelve selected lib roots. Their complete saved
+iteration observation sets remain identical to the preceding increment: 2,148
+loops with targets, three bound receivers and 2,147 instantiated current IDs
+that differ from generic declaration return IDs. No corpus loop uses the newly
+covered iterator getter return form; the reduced controls directly exercise it.
+All twelve saved method/call counts remain identical. Fresh graphs share source
+hash `5381126986a8bc6c2fa819f56be744fee0f7c656a0de4539d90fb1e1d3c026c4`
+(406 files), independently verified against current source contents.
+
+All 134 native tests pass with runtime/Flutter/corpus/holdout/application opt-ins,
+as do analysis and formatting of the four changed Dart files. A forced frontend
+run executes all 168 tests across twenty suites, with eight opt-in cancellations.
+All twelve corpus tests, four staged CLI tests and fourteen language-selection
+tests pass. The separate storage review run passes both tests and regenerates
+six paths/123 transitions and eleven local-exit paths/199 transitions. Normal
+Scala formatting passes. The matrix retains 67 named links; its six tests/sixteen
+rejection controls pass, along with the source verifier/thirteen rejection
+controls and upstream two tests/nine rejection controls.
+
+Both witness bounds pass under separate ten-minute category budgets including
+startup/graph loading, with explicit 8 GiB/four-CPU workers. Two-witness
+package/application/holdout times are 179993/44234/28144 ms and sampled process
+family RSS 5730652/4693540/1966324 KiB. Four-witness times are
+394160/49277/31162 ms and RSS 6223972/6072740/2548476 KiB. Sampling occurs once
+per second; these measurements are not exact peaks or a single worker heap.
+
+The fresh four-witness audit retains stock 78/80 and modeled 80/80 endpoint
+expectations, 120 visible/131 detailed stock paths and 111/117 modeled paths,
+42/41 limited queries and seven/eight inconclusive negatives. All eighty query
+dispositions cover 248 selected paths, 149 distinct routes and 2,631 transitions.
+Analyzer has sixteen routes/478 transitions; path/async/http_parser has forty
+routes/1,076 transitions. The two-witness forwarding review has nineteen distinct
+paths/605 transitions. Both summaries reproduce byte-identically, and all 87
+review rejection controls pass. The verifier also rejected a missing Windows
+source pin during refresh; that represented body was read and hash-pinned before
+qualification completed.
+
+Twenty changed selections were checked against actual source and full metadata.
+Fresh stock analyzer variants retain `_element -> bound.namedFields` demands,
+external iteration calls, readonly NodeList/BoolList length outputs and a separate
+BoolList offset receiver demand through `_getByte`/`_getUint8`; the length detours
+appear in opposite orders. Two-witness modeled path routes now select Windows
+rootLength; a four-witness stock/modeled variant selects URL rootLength under
+isAbsolute before a later normalization output. Exact method owners and dispatch
+unions remain explicit. HTTP stock copy routes select setRange 0 -> 1 -> 3;
+shorter variants preserve hidden receiver/constructor evidence while omitting
+saved aliases. Stock buffer routes select direct conservative bytes 3 -> receiver
+0 effects: two-witness routes re-enter end before bytes, while fresh four-witness
+routes re-enter bytes before end/header/allocation effects. Output-marked results,
+initial add/addSlice frames, later add frames, visibility and all field demands
+are retained. These selections remain readonly/external/dispatch/field/caller
+approximations, not proof of actual receiver instances, callback delivery,
+repeated-call order, allocation identity or precise byte/element provenance.
+Unchanged iteration observations do not establish the cause of route selection
+changes; larger bounds do not imply inclusion of smaller-bound sequences.
+
+Runtime substitutions and checked bounds, initialization-state correlation,
+precise heap/element flows, complete loop CFG, erased extension receiver contexts,
+omitted alternatives, limited negatives and Gates 1–6 remain open.

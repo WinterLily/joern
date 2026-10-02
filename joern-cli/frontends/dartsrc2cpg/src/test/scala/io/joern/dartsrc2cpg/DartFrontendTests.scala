@@ -2867,6 +2867,9 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
             "inherited",
             "nullableBound",
             "boundedInterface",
+            "iteratorBound",
+            "chainedIteratorBound",
+            "concreteIteratorBound",
             "boundedPattern"
           )
         ) {
@@ -2879,12 +2882,25 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
             }
           }
           val current = method.ast.isCall.nameExact("current").head
+          if (Seq("iteratorBound", "chainedIteratorBound").contains(name)) {
+            val iterator  = method.ast.isCall.nameExact("iterator").head
+            val parameter = if (name == "iteratorBound") "I" else "J"
+            iterator.typeFullName should include(s":TYPE_PARAMETER:$parameter")
+            iterator.typeFullName should not be iterator.callee.isExternal(false).methodReturn.typeFullName.head
+            for (member <- Seq("current", "moveNext")) {
+              method.ast.isCall.nameExact(member).argument(0).isIdentifier.typeFullName.l shouldBe List(
+                iterator.typeFullName
+              )
+            }
+          }
           if (name != "boundedInterface") {
             current.callee.isExternal(false).astParentFullName.l.foreach { owner =>
               owner should endWith(":CLASS:Cursor")
             }
           }
-          if (Seq("bounded", "inherited", "nullableBound", "boundedInterface").contains(name)) {
+          if (
+            Seq("bounded", "inherited", "nullableBound", "boundedInterface", "concreteIteratorBound").contains(name)
+          ) {
             current.typeFullName should endWith(":CLASS:String")
           } else if (name == "boundedPattern") {
             current.typeFullName shouldBe "(String, String)"
@@ -3501,7 +3517,7 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         val coverage = ujson.read(Files.readString(report))
         coverage("includedFiles").num shouldBe 0
         coverage("stringConversionOrder").str shouldBe "after-expression-evaluation"
-        coverage("exporter")("exporterVersion").str shouldBe "0.3.21"
+        coverage("exporter")("exporterVersion").str shouldBe "0.3.22"
         coverage("exporter")("sdkVersion").str shouldBe "3.9.2"
         coverage("exporter")("analyzerVersion").str shouldBe "8.4.1"
         Files.writeString(dir.resolve("excluded.dart"), "void excluded() {}")
@@ -3521,7 +3537,7 @@ class DartFrontendTests extends AnyWordSpec with Matchers {
         "offsetEncoding"  -> "utf-16",
         "analyzerVersion" -> "8.4.1",
         "sdkVersion"      -> "3.9.2",
-        "exporterVersion" -> "0.3.21"
+        "exporterVersion" -> "0.3.22"
       )
       intercept[IllegalArgumentException](ExportProtocol.units(Seq(valid)))
       intercept[IllegalArgumentException](

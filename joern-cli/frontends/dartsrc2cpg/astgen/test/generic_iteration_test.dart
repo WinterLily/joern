@@ -35,6 +35,30 @@ void main() {
           'moveNext',
         ]);
       }
+      for (final collect in [
+        generic.iteratorBound<String, iteration.Cursor<String>>,
+        generic.chainedIteratorBound<
+          String,
+          iteration.Cursor<String>,
+          iteration.Cursor<String>
+        >,
+        generic.concreteIteratorBound,
+      ]) {
+        iteration.trace.clear();
+        final cursor = iteration.Cursor(['first', 'second']);
+        expect(collect(generic.BoundedIteratorValues(cursor)), [
+          'first',
+          'second',
+        ]);
+        expect(iteration.trace, [
+          'iterator',
+          'moveNext',
+          'current',
+          'moveNext',
+          'current',
+          'moveNext',
+        ]);
+      }
       iteration.trace.clear();
       expect(generic.inherited(generic.InheritedValues(['inherited'])), [
         'inherited',

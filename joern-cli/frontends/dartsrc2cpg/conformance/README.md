@@ -189,3 +189,8 @@ observed trace. Run from `astgen` with `DART_RUNTIME_TESTS=1 dart test`; Node.js
 be installed. Temporary binaries and JavaScript go under `agents/` and are removed
 after the check. These checks also cover adjacent/nested strings, a call boundary,
 throwing expressions/conversions and nullable values.
+
+The partial generic iteration case also checks iterator getter return bounds,
+chained `I`/`J` identities, member receiver types and native member order/values.
+Invalid nullable, unbounded and dynamic getter overrides preserve pinned
+diagnostics and omitted target facts. Full rule and runtime qualification remains open.

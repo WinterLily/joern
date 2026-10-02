@@ -7,7 +7,7 @@ unsupported protocol versions, and unsupported analyzer/exporter versions before
 constructing a graph. The Scala consumer validates the protocol, analyzer, SDK and offset encoding
 before constructing a graph. Exporter 0.3 adds modern-language fields to protocol 1.
 
-The header declares `protocolVersion` (1), `exporterVersion` (0.3.21),
+The header declares `protocolVersion` (1), `exporterVersion` (0.3.22),
 `analyzerVersion` (8.4.1), `sdkVersion` (3.9.2), and `offsetEncoding` (`utf-16`).
 No timestamps or checkout root are emitted. The exporter builds records one file
 at a time; the analyzer may retain project state internally.
@@ -285,3 +285,10 @@ unbounded non-iterable receivers omit these facts. Dynamic receivers and
 asynchronous iteration omit these facts; their synthetic SDK operations are
 unresolved. Runtime substitutions and iterator payload/heap effects are outside
 this exported target contract.
+
+Iteration member lookup also follows a type-parameter iterator getter return
+bound. `iteratorType`/`iteratorTypeId` describe the original instantiated return
+type, including scoped `I` or `J`; lookup through `Cursor<E>` does not replace
+that call result or its member receivers with the bound. `currentTypeId` retains
+the bound-instantiated element identity separately from the getter declaration.
+Nullable, unbounded and dynamic getter return boundaries omit iteration facts.

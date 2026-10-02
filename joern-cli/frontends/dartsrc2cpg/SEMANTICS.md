@@ -587,3 +587,12 @@ facts. The pinned analyzer accepts a bounded record-pattern loop that the Dart
 3.9.2 compiler rejects; separate tests retain that disagreement rather than
 qualifying it as executable. Runtime type environments, checked substitutions,
 instance-sensitive dispatch and iterator payload/heap effects remain open.
+
+Synchronous iteration also resolves `moveNext` and `current` through an iterator
+getter return type parameter's bound, including chained bounds. The iterator
+call and saved receiver retain the original scoped type parameter; the bound
+supplies member lookup rather than a replacement runtime type. Concrete and
+symbolic current results remain distinct from generic callee declarations.
+Pinned native values/member-order controls and invalid getter override diagnostics
+cover this reduced boundary. Runtime substitutions, checked bounds, precise
+iterator element storage and full loop CFG/value-flow qualification remain open.
